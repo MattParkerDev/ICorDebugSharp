@@ -5,6 +5,7 @@ using ClangSharp.Interop;
 Console.WriteLine("Hello, World!");
 var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
 var projectDirectory = Environment.GetEnvironmentVariable("ProjectDir");
+var generatedFileHeaderPath = Path.Combine(projectDirectory, "../ClangSharpCliMetadataGenerator", "Header.txt");
 ArgumentNullException.ThrowIfNull(projectDirectory);
 
 var pInvokeGeneratorConfigurationOptions = PInvokeGeneratorConfigurationOptions.None;
@@ -36,7 +37,7 @@ var config = new PInvokeGeneratorConfiguration
     "",
     "ICorDebugSharp.GeneratedMetadata",
     $"{projectDirectory}/../ICorDebugSharp/GeneratedMetadata/",
-    null,
+    generatedFileHeaderPath,
     PInvokeGeneratorOutputMode.CSharp,
     pInvokeGeneratorConfigurationOptions)
 {
