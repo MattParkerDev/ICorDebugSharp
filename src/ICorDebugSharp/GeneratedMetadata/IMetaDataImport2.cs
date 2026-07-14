@@ -8,7 +8,7 @@ using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp.GeneratedMetadata;
 
-[GeneratedComInterface]
+[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FCE5EFA0-8BBA-4F8E-A036-8F2022B08466")]
 public unsafe partial interface IMetaDataImport2 : IMetaDataImport

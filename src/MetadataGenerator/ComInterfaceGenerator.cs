@@ -91,7 +91,7 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			.AppendLine()
 			.Append("namespace ").Append(configuration.Namespace).AppendLine(";")
 			.AppendLine()
-			.AppendLine("[GeneratedComInterface]")
+			.AppendLine("[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]")
 			.AppendLine("[InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]")
 			.Append("[Guid(\"").Append(guid.ToString("D").ToUpperInvariant()).AppendLine("\")]")
 			.Append("public unsafe partial interface ").Append(record.Name).Append(inheritance).AppendLine()
