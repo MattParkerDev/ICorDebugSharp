@@ -128,6 +128,9 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		if (typedefName is not null && InputPointerTypedefs.Contains(typedefName))
 			return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 
+		if (GetArrayElementType(parameter.OriginalType) is { } elementType)
+			return $"out {_typeMapper.Map(elementType)} {EscapeIdentifier(parameter.Name)}";
+
 		if (GetPointerType(parameter.Type) is { } pointer)
 		{
 			if (_typeMapper.Map(pointer.PointeeType) == "void")
@@ -137,6 +140,22 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		}
 
 		return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
+	}
+
+	private static ClangType? GetArrayElementType(ClangType type)
+	{
+		while (true)
+		{
+			type = type switch
+			{
+				AttributedType attributed => attributed.ModifiedType,
+				ElaboratedType elaborated => elaborated.NamedType,
+				AdjustedType adjusted => adjusted.OriginalType,
+				_ => type,
+			};
+			if (type is not AttributedType and not ElaboratedType and not AdjustedType)
+				return (type as ArrayType)?.ElementType;
+		}
 	}
 
 	private static int FindSizeParameterIndex(CXXMethodDecl method, int bufferParameterIndex)

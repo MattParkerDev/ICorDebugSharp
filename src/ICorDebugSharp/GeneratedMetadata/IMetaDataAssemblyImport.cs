@@ -28,16 +28,16 @@ public unsafe partial interface IMetaDataAssemblyImport
 	int GetManifestResourceProps(uint mdmr, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out uint ptkImplementation, out uint pdwOffset, out uint pdwResourceFlags);
 
 	[PreserveSig]
-	int EnumAssemblyRefs(ref nint phEnum, uint* rAssemblyRefs, uint cMax, out uint pcTokens);
+	int EnumAssemblyRefs(ref nint phEnum, out uint rAssemblyRefs, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFiles(ref nint phEnum, uint* rFiles, uint cMax, out uint pcTokens);
+	int EnumFiles(ref nint phEnum, out uint rFiles, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumExportedTypes(ref nint phEnum, uint* rExportedTypes, uint cMax, out uint pcTokens);
+	int EnumExportedTypes(ref nint phEnum, out uint rExportedTypes, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumManifestResources(ref nint phEnum, uint* rManifestResources, uint cMax, out uint pcTokens);
+	int EnumManifestResources(ref nint phEnum, out uint rManifestResources, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int GetAssemblyFromScope(out uint ptkAssembly);
@@ -52,5 +52,5 @@ public unsafe partial interface IMetaDataAssemblyImport
 	void CloseEnum(nint hEnum);
 
 	[PreserveSig]
-	int FindAssembliesByName(char* szAppBase, char* szPrivateBin, char* szAssemblyName, nint* ppIUnk, uint cMax, out uint pcAssemblies);
+	int FindAssembliesByName(char* szAppBase, char* szPrivateBin, char* szAssemblyName, out nint ppIUnk, uint cMax, out uint pcAssemblies);
 }
