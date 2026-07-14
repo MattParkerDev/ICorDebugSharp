@@ -24,6 +24,8 @@ interface ICorDebugModule : IUnknown
         [in] ULONG32 cchName,
         [out] ULONG32 *pcchName,
         [out, size_is(cchName), length_is(*pcchName)] WCHAR szName[]);
+    HRESULT SetName([in] WCHAR *name);
+    HRESULT GetUnknown([out] IUnknown **value);
 };
 
 [
@@ -67,6 +69,8 @@ class CSharpGeneratorTests(unittest.TestCase):
             "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);",
             source,
         )
+        self.assertIn("int SetName(string name);", source)
+        self.assertIn("int GetUnknown(out nint value);", source)
 
     def test_generates_inheritance_and_ref_parameter(self) -> None:
         source = self.generate("ICorDebugAppDomain")

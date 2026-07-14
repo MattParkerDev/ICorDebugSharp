@@ -5,7 +5,7 @@ import re
 import uuid
 from pathlib import Path
 
-from midl_classic import InterfaceDef, MethodParam, MidlFile, TypeAlias, TypeSpec, parse_file
+from midl_classic import InterfaceDef, Method, MethodParam, MidlFile, TypeSpec, parse_file
 
 
 DEFAULT_NAMESPACE = "Microsoft.VisualStudio.CorDebugInterop"
@@ -62,6 +62,7 @@ SPECIAL_TYPES = {
     "GUID": "Guid",
     "HPROCESS": "nint",
     "HTHREAD": "nint",
+    "IUnknown": "nint",
     "LPCVOID": "nint",
     "LPCWSTR": "string",
     "LPDEBUG_EVENT": "nint",
@@ -134,7 +135,7 @@ class CSharpGenerator:
             "}\n"
         )
 
-    def generate_method(self, interface: InterfaceDef, method: object) -> str:
+    def generate_method(self, interface: InterfaceDef, method: Method) -> str:
         return_type = self.map_type(method.return_type)
         if return_type != "int":
             raise GenerationError(
@@ -188,6 +189,8 @@ class CSharpGenerator:
                     interface, method_name, parameter,
                     f"output {base_name} requires an explicit buffer size",
                 )
+        elif base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
+            csharp_type = "string"
         elif parameter.type_spec.is_pointer:
             modifier, csharp_type = self.project_pointer(parameter, csharp_type)
         elif base_name == "REFIID":
@@ -204,13 +207,16 @@ class CSharpGenerator:
 
     def project_pointer(self, parameter: MethodParam, csharp_type: str) -> tuple[str, str]:
         base_name = parameter.type_spec.base_name
-        if base_name == "void" or csharp_type in {"nint", "nuint"}:
+        is_opaque_pointer = base_name == "void" or csharp_type == "nint"
+        if is_opaque_pointer:
             csharp_type = "nint"
 
         if parameter.is_out and not parameter.is_in:
             return "out ", csharp_type
         if parameter.is_in and parameter.is_out:
             return "ref ", csharp_type
+        if is_opaque_pointer:
+            return "", csharp_type
         if csharp_type in self.interfaces and parameter.type_spec.pointer_depth == 1:
             return "", csharp_type
         if csharp_type == "string":
