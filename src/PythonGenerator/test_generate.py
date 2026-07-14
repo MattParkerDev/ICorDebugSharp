@@ -102,7 +102,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("int GetBaseAddress(out ulong pAddress);", source)
         self.assertIn(
             "int GetName(uint cchName, out uint pcchName, "
-            "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);",
+            "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);",
             source,
         )
         self.assertIn("int SetName(string name);", source)
@@ -127,6 +127,45 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertIn("int GetUnknown(out nint value);", source)
+
+    def test_generates_throwing_string_buffer_extension(self) -> None:
+        extensions = dict(self.generator.generate_buffer_extensions())
+
+        source = extensions["CorDebugModuleBufferExtensions"]
+
+        self.assertIn("namespace ICorDebugSharp.Extensions;", source)
+        self.assertIn(
+            "public static string GetName(this ICorDebugModule instance)", source
+        )
+        self.assertIn("instance.GetName(0, out var required, null!)", source)
+        self.assertIn(
+            "instance.GetName(capacity, out var actual, buffer)", source
+        )
+        self.assertIn("Marshal.ThrowExceptionForHR(hr);", source)
+        self.assertIn("return new string(buffer, 0, length);", source)
+
+    def test_generates_throwing_array_buffer_extension(self) -> None:
+        midl = parse_string("""
+            typedef struct CorDebugEHClause { ULONG32 Flags; } CorDebugEHClause;
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface ICorDebugILCode : IUnknown
+            {
+                HRESULT GetEHClauses(
+                    [in] ULONG32 cClauses,
+                    [out] ULONG32 *pcClauses,
+                    [out, size_is(cClauses), length_is(*pcClauses)]
+                    CorDebugEHClause clauses[]);
+            };
+        """)
+
+        extensions = dict(CSharpGenerator(midl).generate_buffer_extensions())
+        source = extensions["CorDebugILCodeBufferExtensions"]
+
+        self.assertIn(
+            "public static CorDebugEHClause[] GetEHClauses(", source
+        )
+        self.assertIn("return [];", source)
+        self.assertIn("Array.Resize(ref buffer, checked((int)actual));", source)
 
     def test_rejects_invalid_iid_selected_output(self) -> None:
         midl = parse_string("""
@@ -214,9 +253,12 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            self.assertEqual((2, 0), (written, unchanged))
-            self.assertEqual((0, 2), (second_written, second_unchanged))
+            self.assertEqual((3, 0), (written, unchanged))
+            self.assertEqual((0, 3), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
+            self.assertTrue(
+                (output / "Extensions" / "CorDebugModuleBufferExtensions.cs").exists()
+            )
 
     def test_writes_every_declaration(self) -> None:
         midl = parse_string(DATA_IDL)

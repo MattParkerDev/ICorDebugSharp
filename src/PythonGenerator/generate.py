@@ -631,19 +631,24 @@ def write_interfaces(
 ) -> tuple[int, int]:
     generator = CSharpGenerator(midl, namespace)
     declarations = [
-        (interface.name, generator.generate_interface(interface))
+        (interface.name, Path(f"{interface.name}.cs"), generator.generate_interface(interface))
         for interface in midl.interfaces
         if interface.uuid
     ]
     declarations.extend(
-        (enum.name, generator.generate_enum(enum)) for enum in generator.enums.values()
+        (enum.name, Path(f"{enum.name}.cs"), generator.generate_enum(enum))
+        for enum in generator.enums.values()
     )
     declarations.extend(
-        (struct.name, generator.generate_struct(struct))
+        (struct.name, Path(f"{struct.name}.cs"), generator.generate_struct(struct))
         for struct in generator.structs.values()
     )
+    declarations.extend(
+        (name, Path("Extensions") / f"{name}.cs", source)
+        for name, source in generator.generate_buffer_extensions()
+    )
 
-    names = [name for name, _ in declarations]
+    names = [name for name, _, _ in declarations]
     duplicates = sorted(name for name in set(names) if names.count(name) > 1)
     if duplicates:
         raise GenerationError(
@@ -654,11 +659,12 @@ def write_interfaces(
 
     written = 0
     unchanged = 0
-    for name, content in sorted(declarations):
-        output_path = output_directory / f"{name}.cs"
+    for _, relative_path, content in sorted(declarations):
+        output_path = output_directory / relative_path
         if output_path.exists() and output_path.read_text(encoding="utf-8") == content:
             unchanged += 1
             continue
+        output_path.parent.mkdir(parents=True, exist_ok=True)
         output_path.write_text(content, encoding="utf-8", newline="\n")
         written += 1
 
@@ -685,11 +691,12 @@ def main() -> int:
     generator = CSharpGenerator(midl, args.namespace)
     written, unchanged = write_interfaces(midl, args.output, args.namespace)
     interface_count = sum(interface.uuid is not None for interface in midl.interfaces)
-    declaration_count = interface_count + len(generator.enums) + len(generator.structs)
+    extension_count = len(generator.generate_buffer_extensions())
+    declaration_count = interface_count + len(generator.enums) + len(generator.structs) + extension_count
     print(
         f"Generated {declaration_count} declarations in {args.output}: "
         f"{interface_count} interfaces, {len(generator.enums)} enums, "
-        f"{len(generator.structs)} structs "
+        f"{len(generator.structs)} structs, {extension_count} extension classes "
         f"({written} written, {unchanged} unchanged)."
     )
     return 0
