@@ -37,7 +37,7 @@ cor.h
 --namespace
 ICorDebugSharp.GeneratedMetadata
 --methodClassName
-libgit2
+Cor
 --output
 ../ICorDebugSharp/GeneratedMetadata
 --headerFile
