@@ -253,10 +253,10 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            self.assertEqual((3, 0), (written, unchanged))
-            self.assertEqual((0, 3), (second_written, second_unchanged))
+            self.assertEqual((2, 0), (written, unchanged))
+            self.assertEqual((0, 2), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
-            self.assertTrue(
+            self.assertFalse(
                 (output / "Extensions" / "CorDebugModuleBufferExtensions.cs").exists()
             )
 
