@@ -1,5 +1,4 @@
 --config
-exclude-com-proxies
 exclude-enum-operators
 generate-aggressive-inlining
 generate-callconv-member-function
@@ -49,6 +48,7 @@ c++
 # --with-type
 # git_status_opt_t=uint
 # git_submodule_status_t=uint
-# --traverse
+--traverse
+C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/annotated_commit.h
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/apply.h
