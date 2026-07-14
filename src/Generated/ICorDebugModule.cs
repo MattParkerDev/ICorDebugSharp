@@ -45,7 +45,7 @@ public partial interface ICorDebugModule
 	int GetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
 
 	[PreserveSig]
-	int GetMetaDataInterface(ref Guid riid, out nint ppObj);
+	int GetMetaDataInterface(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 
 	[PreserveSig]
 	int GetToken(out uint pToken);

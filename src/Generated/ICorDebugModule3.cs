@@ -12,5 +12,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugModule3
 {
 	[PreserveSig]
-	int CreateReaderForInMemorySymbols(ref Guid riid, out nint ppObj);
+	int CreateReaderForInMemorySymbols(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 }
