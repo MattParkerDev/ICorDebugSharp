@@ -124,7 +124,7 @@ public unsafe partial interface IMetaDataImport
 	int GetRVA(uint tk, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetPermissionSetProps(uint pm, out uint pdwAction, out void* ppvPermission, out uint pcbPermission);
+	int GetPermissionSetProps(uint pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
 
 	[PreserveSig]
 	int GetSigFromToken(uint mdSig, out byte* ppvSig, out uint pcbSig);
@@ -166,25 +166,25 @@ public unsafe partial interface IMetaDataImport
 	int EnumCustomAttributes(ref nint phEnum, uint tk, uint tkType, uint* rCustomAttributes, uint cMax, out uint pcCustomAttributes);
 
 	[PreserveSig]
-	int GetCustomAttributeProps(uint cv, out uint ptkObj, out uint ptkType, out void* ppBlob, out uint pcbSize);
+	int GetCustomAttributeProps(uint cv, out uint ptkObj, out uint ptkType, out nint ppBlob, out uint pcbSize);
 
 	[PreserveSig]
 	int FindTypeRef(uint tkResolutionScope, char* szName, out uint ptr);
 
 	[PreserveSig]
-	int GetMemberProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
+	int GetMemberProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetFieldProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
+	int GetFieldProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetPropertyProps(uint prop, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out uint pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out void* ppDefaultValue, out uint pcchDefaultValue, out uint pmdSetter, out uint pmdGetter, uint* rmdOtherMethod, uint cMax, out uint pcOtherMethod);
+	int GetPropertyProps(uint prop, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out uint pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out uint pmdSetter, out uint pmdGetter, uint* rmdOtherMethod, uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int GetParamProps(uint tk, out uint pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out uint pdwAttr, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
+	int GetParamProps(uint tk, out uint pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out uint pdwAttr, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetCustomAttributeByName(uint tkObj, char* szName, out void* ppData, out uint pcbData);
+	int GetCustomAttributeByName(uint tkObj, char* szName, out nint ppData, out uint pcbData);
 
 	[PreserveSig]
 	int IsValidToken(uint tk);
@@ -193,7 +193,7 @@ public unsafe partial interface IMetaDataImport
 	int GetNestedClassProps(uint tdNestedClass, out uint ptdEnclosingClass);
 
 	[PreserveSig]
-	int GetNativeCallConvFromSig(void* pvSig, uint cbSig, out uint pCallConv);
+	int GetNativeCallConvFromSig(nint pvSig, uint cbSig, out uint pCallConv);
 
 	[PreserveSig]
 	int IsGlobal(uint pd, out int pbGlobal);

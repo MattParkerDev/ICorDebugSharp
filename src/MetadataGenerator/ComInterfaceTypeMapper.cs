@@ -52,7 +52,7 @@ internal sealed class ComInterfaceTypeMapper
 			"INT64" or "LONG64" => "long",
 			"HCORENUM" => "nint",
 			"LPWSTR" or "LPCWSTR" => "char*",
-			"LPCVOID" or "LPVOID" or "UVCP_CONSTANT" => "void*",
+			"LPCVOID" or "LPVOID" or "UVCP_CONSTANT" => "nint",
 			"PCOR_SIGNATURE" or "PCCOR_SIGNATURE" => "byte*",
 			"MDUTF8CSTR" => "sbyte*",
 			"GUID" or "IID" or "CLSID" => "Guid",
@@ -64,6 +64,8 @@ internal sealed class ComInterfaceTypeMapper
 	private string MapPointer(ClangType pointee)
 	{
 		var unwrapped = Unwrap(pointee);
+		if (unwrapped is BuiltinType { Kind: CXTypeKind.CXType_Void })
+			return "nint";
 		if (unwrapped is TagType { Decl: CXXRecordDecl record } && IsComInterface(record))
 			return "nint";
 
