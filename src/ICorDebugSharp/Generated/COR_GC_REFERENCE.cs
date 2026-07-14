@@ -4,7 +4,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 
-namespace Microsoft.VisualStudio.CorDebugInterop;
+namespace ICorDebugSharp;
 
 [NativeMarshalling(typeof(CorGcReferenceMarshaller))]
 public struct COR_GC_REFERENCE

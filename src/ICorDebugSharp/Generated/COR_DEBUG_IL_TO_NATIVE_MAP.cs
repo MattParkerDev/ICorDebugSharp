@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace Microsoft.VisualStudio.CorDebugInterop;
+namespace ICorDebugSharp;
 
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_DEBUG_IL_TO_NATIVE_MAP

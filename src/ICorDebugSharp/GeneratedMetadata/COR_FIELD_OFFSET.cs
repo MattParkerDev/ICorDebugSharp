@@ -3,9 +3,9 @@ namespace ICorDebugSharp.GeneratedMetadata;
 
 public partial struct COR_FIELD_OFFSET
 {
-    [NativeTypeName("mdFieldDef")]
-    public uint ridOfField;
+	[NativeTypeName("mdFieldDef")]
+	public uint ridOfField;
 
-    [NativeTypeName("uint32_t")]
-    public uint ulOffset;
+	[NativeTypeName("uint32_t")]
+	public uint ulOffset;
 }

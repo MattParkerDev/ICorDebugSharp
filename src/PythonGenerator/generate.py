@@ -25,7 +25,7 @@ from midl_classic import (
 )
 
 
-DEFAULT_NAMESPACE = "Microsoft.VisualStudio.CorDebugInterop"
+DEFAULT_NAMESPACE = "ICorDebugSharp"
 EXTENSIONS_NAMESPACE = "ICorDebugSharp.Extensions"
 
 # size_is describes marshalling, but not whether a method supports a null/zero

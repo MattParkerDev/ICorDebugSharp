@@ -3,6 +3,6 @@ namespace ICorDebugSharp.GeneratedMetadata;
 
 public enum CorExtendedLayoutKind
 {
-    CStruct = 0,
-    CUnion = 1,
+	CStruct = 0,
+	CUnion = 1,
 }

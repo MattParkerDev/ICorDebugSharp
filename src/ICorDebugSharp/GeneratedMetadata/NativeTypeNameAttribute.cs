@@ -9,15 +9,15 @@ namespace ICorDebugSharp.GeneratedMetadata;
 [Conditional("DEBUG")]
 internal sealed partial class NativeTypeNameAttribute : Attribute
 {
-    private readonly string _name;
+	private readonly string _name;
 
-    /// <summary>Initializes a new instance of the <see cref="NativeTypeNameAttribute" /> class.</summary>
-    /// <param name="name">The name of the type that was used in the native signature.</param>
-    public NativeTypeNameAttribute(string name)
-    {
-        _name = name;
-    }
+	/// <summary>Initializes a new instance of the <see cref="NativeTypeNameAttribute" /> class.</summary>
+	/// <param name="name">The name of the type that was used in the native signature.</param>
+	public NativeTypeNameAttribute(string name)
+	{
+		_name = name;
+	}
 
-    /// <summary>Gets the name of the type that was used in the native signature.</summary>
-    public string Name => _name;
+	/// <summary>Gets the name of the type that was used in the native signature.</summary>
+	public string Name => _name;
 }
