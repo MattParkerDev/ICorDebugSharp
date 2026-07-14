@@ -44,14 +44,14 @@ public unsafe partial interface IMetaDataAssemblyImport
 	int GetAssemblyFromScope(out Token ptkAssembly);
 
 	[PreserveSig]
-	int FindExportedTypeByName(char* szName, Token mdtExportedType, out Token ptkExportedType);
+	int FindExportedTypeByName([MarshalAs(UnmanagedType.LPWStr)] string szName, Token mdtExportedType, out Token ptkExportedType);
 
 	[PreserveSig]
-	int FindManifestResourceByName(char* szName, out Token ptkManifestResource);
+	int FindManifestResourceByName([MarshalAs(UnmanagedType.LPWStr)] string szName, out Token ptkManifestResource);
 
 	[PreserveSig]
 	void CloseEnum(HCorEnum hEnum);
 
 	[PreserveSig]
-	int FindAssembliesByName(char* szAppBase, char* szPrivateBin, char* szAssemblyName, out nint ppIUnk, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcAssemblies);
+	int FindAssembliesByName([MarshalAs(UnmanagedType.LPWStr)] string szAppBase, [MarshalAs(UnmanagedType.LPWStr)] string szPrivateBin, [MarshalAs(UnmanagedType.LPWStr)] string szAssemblyName, out nint ppIUnk, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcAssemblies);
 }

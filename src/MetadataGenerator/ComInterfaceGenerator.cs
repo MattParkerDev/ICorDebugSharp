@@ -16,7 +16,7 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		"struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
 		"unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
 	];
-	private static readonly HashSet<string> InputPointerTypedefs = ["LPCWSTR", "PCCOR_SIGNATURE"];
+	private static readonly HashSet<string> InputPointerTypedefs = ["PCCOR_SIGNATURE"];
 	private static readonly HashSet<string> OutputWideStringOverrides =
 	[
 		"IMetaDataImport.GetEventProps.szEvent",
@@ -125,6 +125,8 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			var sizeParameterIndex = FindSizeParameterIndex(method, parameterIndex);
 			return $"[Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = {sizeParameterIndex})] char[]? {EscapeIdentifier(parameter.Name)}";
 		}
+		if (typedefName == "LPCWSTR")
+			return $"[MarshalAs(UnmanagedType.LPWStr)] string {EscapeIdentifier(parameter.Name)}";
 
 		if (typedefName is not null && InputPointerTypedefs.Contains(typedefName))
 			return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
