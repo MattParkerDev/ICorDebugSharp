@@ -66,7 +66,7 @@ var config = new PInvokeGeneratorConfiguration
 };
 
 var comInterfaceGenerator = new ComInterfaceGenerator(new ComInterfaceGeneratorConfiguration(
-	"Microsoft.VisualStudio.CorDebugInterop",
+	"ICorDebugSharp.GeneratedMetadata",
 	outputDirectory,
 	interfaceMethodCounts,
 	interfaceGuids));

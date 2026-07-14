@@ -5,7 +5,7 @@ using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using ICorDebugSharp.GeneratedMetadata;
 
-namespace Microsoft.VisualStudio.CorDebugInterop;
+namespace ICorDebugSharp.GeneratedMetadata;
 
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
