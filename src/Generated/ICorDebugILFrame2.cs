@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("5D88A994-6C30-479B-890F-BCEF88B129A5")]
 public partial interface ICorDebugILFrame2
 {
-    [PreserveSig]
-    int RemapFunction(uint newILOffset);
+	[PreserveSig]
+	int RemapFunction(uint newILOffset);
 
-    [PreserveSig]
-    int EnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
+	[PreserveSig]
+	int EnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
 }

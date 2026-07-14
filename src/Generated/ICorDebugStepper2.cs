@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("C5B6E9C3-E7D1-4A8E-873B-7F047F0706F7")]
 public partial interface ICorDebugStepper2
 {
-    [PreserveSig]
-    int SetJMC(int fIsJMCStepper);
+	[PreserveSig]
+	int SetJMC(int fIsJMCStepper);
 }

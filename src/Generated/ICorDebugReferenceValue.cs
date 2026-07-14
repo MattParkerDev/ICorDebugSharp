@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF9-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugReferenceValue : ICorDebugValue
 {
-    [PreserveSig]
-    int IsNull(out int pbNull);
+	[PreserveSig]
+	int IsNull(out int pbNull);
 
-    [PreserveSig]
-    int GetValue(out ulong pValue);
+	[PreserveSig]
+	int GetValue(out ulong pValue);
 
-    [PreserveSig]
-    int SetValue(ulong value);
+	[PreserveSig]
+	int SetValue(ulong value);
 
-    [PreserveSig]
-    int Dereference(out ICorDebugValue ppValue);
+	[PreserveSig]
+	int Dereference(out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int DereferenceStrong(out ICorDebugValue ppValue);
+	[PreserveSig]
+	int DereferenceStrong(out ICorDebugValue ppValue);
 }

@@ -11,15 +11,15 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCB01-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugEnum
 {
-    [PreserveSig]
-    int Skip(uint celt);
+	[PreserveSig]
+	int Skip(uint celt);
 
-    [PreserveSig]
-    int Reset();
+	[PreserveSig]
+	int Reset();
 
-    [PreserveSig]
-    int Clone(out ICorDebugEnum ppEnum);
+	[PreserveSig]
+	int Clone(out ICorDebugEnum ppEnum);
 
-    [PreserveSig]
-    int GetCount(out uint pcelt);
+	[PreserveSig]
+	int GetCount(out uint pcelt);
 }

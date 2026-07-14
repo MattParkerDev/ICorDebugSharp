@@ -11,27 +11,27 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("250E5EEA-DB5C-4C76-B6F3-8C46F12E3203")]
 public partial interface ICorDebugManagedCallback2
 {
-    [PreserveSig]
-    int FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset);
+	[PreserveSig]
+	int FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset);
 
-    [PreserveSig]
-    int CreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName);
+	[PreserveSig]
+	int CreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName);
 
-    [PreserveSig]
-    int ChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId);
+	[PreserveSig]
+	int ChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
-    [PreserveSig]
-    int DestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId);
+	[PreserveSig]
+	int DestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
-    [PreserveSig]
-    int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags);
+	[PreserveSig]
+	int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags);
 
-    [PreserveSig]
-    int ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags);
+	[PreserveSig]
+	int ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags);
 
-    [PreserveSig]
-    int FunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction);
+	[PreserveSig]
+	int FunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction);
 
-    [PreserveSig]
-    int MDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA);
+	[PreserveSig]
+	int MDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA);
 }

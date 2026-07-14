@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("426D1F9E-6DD4-44C8-AEC7-26CDBAF4E398")]
 public partial interface ICorDebugAssembly2
 {
-    [PreserveSig]
-    int IsFullyTrusted(out int pbFullyTrusted);
+	[PreserveSig]
+	int IsFullyTrusted(out int pbFullyTrusted);
 }

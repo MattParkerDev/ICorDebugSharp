@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("565005FC-0F8A-4F3E-9EDB-83102B156595")]
 public partial interface ICorDebugValue3
 {
-    [PreserveSig]
-    int GetSize64(out ulong pSize);
+	[PreserveSig]
+	int GetSize64(out ulong pSize);
 }

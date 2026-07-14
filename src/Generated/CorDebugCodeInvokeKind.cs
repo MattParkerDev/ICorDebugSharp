@@ -5,7 +5,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugCodeInvokeKind
 {
-    CODE_INVOKE_KIND_NONE,
-    CODE_INVOKE_KIND_RETURN,
-    CODE_INVOKE_KIND_TAILCALL,
+	CODE_INVOKE_KIND_NONE,
+	CODE_INVOKE_KIND_RETURN,
+	CODE_INVOKE_KIND_TAILCALL,
 }

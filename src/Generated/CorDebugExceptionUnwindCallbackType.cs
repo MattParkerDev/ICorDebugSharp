@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugExceptionUnwindCallbackType
 {
-    DEBUG_EXCEPTION_UNWIND_BEGIN = 1,
-    DEBUG_EXCEPTION_INTERCEPTED = 2,
+	DEBUG_EXCEPTION_UNWIND_BEGIN = 1,
+	DEBUG_EXCEPTION_INTERCEPTED = 2,
 }

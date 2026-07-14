@@ -11,24 +11,24 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("FB0D9CE7-BE66-4683-9D32-A42A04E2FD91")]
 public partial interface ICorDebugEval2
 {
-    [PreserveSig]
-    int CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	[PreserveSig]
+	int CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
-    [PreserveSig]
-    int CreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int CreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	[PreserveSig]
+	int NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
-    [PreserveSig]
-    int NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
+	[PreserveSig]
+	int NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
 
-    [PreserveSig]
-    int NewParameterizedArray(ICorDebugType pElementType, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
+	[PreserveSig]
+	int NewParameterizedArray(ICorDebugType pElementType, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
-    [PreserveSig]
-    int NewStringWithLength(string @string, uint uiLength);
+	[PreserveSig]
+	int NewStringWithLength(string @string, uint uiLength);
 
-    [PreserveSig]
-    int RudeAbort();
+	[PreserveSig]
+	int RudeAbort();
 }

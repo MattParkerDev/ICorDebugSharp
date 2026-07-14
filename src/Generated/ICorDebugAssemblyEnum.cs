@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("4A2A1EC9-85EC-4BFB-9F15-A89FDFE0FE83")]
 public partial interface ICorDebugAssemblyEnum : ICorDebugEnum
 {
-    [PreserveSig]
-    int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugAssembly[] values, out uint pceltFetched);
+	[PreserveSig]
+	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugAssembly[] values, out uint pceltFetched);
 }

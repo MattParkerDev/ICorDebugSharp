@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("76D7DAB8-D044-11DF-9A15-7E29DFD72085")]
 public partial interface ICorDebugHeapEnum : ICorDebugEnum
 {
-    [PreserveSig]
-    int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_HEAPOBJECT[] objects, out uint pceltFetched);
+	[PreserveSig]
+	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_HEAPOBJECT[] objects, out uint pceltFetched);
 }

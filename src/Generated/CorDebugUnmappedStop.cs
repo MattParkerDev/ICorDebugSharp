@@ -5,11 +5,11 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugUnmappedStop
 {
-    STOP_NONE = 0x0,
-    STOP_PROLOG = 0x1,
-    STOP_EPILOG = 0x2,
-    STOP_NO_MAPPING_INFO = 0x4,
-    STOP_OTHER_UNMAPPED = 0x8,
-    STOP_UNMANAGED = 0x10,
-    STOP_ALL = 0xFFFF,
+	STOP_NONE = 0x0,
+	STOP_PROLOG = 0x1,
+	STOP_EPILOG = 0x2,
+	STOP_NO_MAPPING_INFO = 0x4,
+	STOP_OTHER_UNMAPPED = 0x8,
+	STOP_UNMANAGED = 0x10,
+	STOP_ALL = 0xFFFF,
 }

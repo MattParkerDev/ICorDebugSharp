@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("7CEF8BA9-2EF7-42BF-973F-4171474F87D9")]
 public partial interface ICorDebugMetaDataLocator
 {
-    [PreserveSig]
-    int GetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, out uint pcchPathBuffer, [MarshalUsing(CountElementName = nameof(cchPathBuffer))][Out] char[] wszPathBuffer);
+	[PreserveSig]
+	int GetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, out uint pcchPathBuffer, [MarshalUsing(CountElementName = nameof(cchPathBuffer))][Out] char[] wszPathBuffer);
 }

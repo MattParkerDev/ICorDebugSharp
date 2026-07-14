@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("096E81D5-ECDA-4202-83F5-C65980A9EF75")]
 public partial interface ICorDebugAppDomain2
 {
-    [PreserveSig]
-    int GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
+	[PreserveSig]
+	int GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
 
-    [PreserveSig]
-    int GetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
+	[PreserveSig]
+	int GetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 }

@@ -11,15 +11,15 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("8D600D41-F4F6-4CB3-B7EC-7BD164944036")]
 public partial interface ICorDebugEditAndContinueErrorInfo
 {
-    [PreserveSig]
-    int GetModule(out ICorDebugModule ppModule);
+	[PreserveSig]
+	int GetModule(out ICorDebugModule ppModule);
 
-    [PreserveSig]
-    int GetToken(out uint pToken);
+	[PreserveSig]
+	int GetToken(out uint pToken);
 
-    [PreserveSig]
-    int GetErrorCode(out int pHr);
+	[PreserveSig]
+	int GetErrorCode(out int pHr);
 
-    [PreserveSig]
-    int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
+	[PreserveSig]
+	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
 }

@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("AF79EC94-4752-419C-A626-5FB1CC1A5AB7")]
 public partial interface ICorDebugExceptionDebugEvent : ICorDebugDebugEvent
 {
-    [PreserveSig]
-    int GetStackPointer(out ulong pStackPointer);
+	[PreserveSig]
+	int GetStackPointer(out ulong pStackPointer);
 
-    [PreserveSig]
-    int GetNativeIP(out ulong pIP);
+	[PreserveSig]
+	int GetNativeIP(out ulong pIP);
 
-    [PreserveSig]
-    int GetFlags(out CorDebugExceptionFlags pdwFlags);
+	[PreserveSig]
+	int GetFlags(out CorDebugExceptionFlags pdwFlags);
 }

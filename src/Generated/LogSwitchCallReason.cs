@@ -5,7 +5,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum LogSwitchCallReason
 {
-    SWITCH_CREATE,
-    SWITCH_MODIFY,
-    SWITCH_DELETE,
+	SWITCH_CREATE,
+	SWITCH_MODIFY,
+	SWITCH_DELETE,
 }

@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("FF8B8EAF-25CD-4316-8859-84416DE4402E")]
 public partial interface ICorDebugModule4
 {
-    [PreserveSig]
-    int IsMappedLayout(out int pIsMapped);
+	[PreserveSig]
+	int IsMappedLayout(out int pIsMapped);
 }

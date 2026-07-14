@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF5-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugClass
 {
-    [PreserveSig]
-    int GetModule(out ICorDebugModule pModule);
+	[PreserveSig]
+	int GetModule(out ICorDebugModule pModule);
 
-    [PreserveSig]
-    int GetToken(out uint pTypeDef);
+	[PreserveSig]
+	int GetToken(out uint pTypeDef);
 
-    [PreserveSig]
-    int GetStaticFieldValue(uint fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetStaticFieldValue(uint fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 }

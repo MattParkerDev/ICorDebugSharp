@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("677888B3-D160-4B8C-A73B-D79E6AAA1D13")]
 public partial interface ICorDebugMemoryBuffer
 {
-    [PreserveSig]
-    int GetStartAddress(out nint address);
+	[PreserveSig]
+	int GetStartAddress(out nint address);
 
-    [PreserveSig]
-    int GetSize(out uint pcbBufferLength);
+	[PreserveSig]
+	int GetSize(out uint pcbBufferLength);
 }

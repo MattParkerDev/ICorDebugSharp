@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("2E6F28C1-85EB-4141-80AD-0A90944B9639")]
 public partial interface ICorDebugProcess8
 {
-    [PreserveSig]
-    int EnableExceptionCallbacksOutsideOfMyCode(int enableExceptionsOutsideOfJMC);
+	[PreserveSig]
+	int EnableExceptionCallbacksOutsideOfMyCode(int enableExceptionsOutsideOfJMC);
 }

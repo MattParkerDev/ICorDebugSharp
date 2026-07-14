@@ -11,27 +11,27 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("0405B0DF-A660-11D2-BD02-0000F80849BD")]
 public partial interface ICorDebugArrayValue : ICorDebugHeapValue
 {
-    [PreserveSig]
-    int GetElementType(out uint pType);
+	[PreserveSig]
+	int GetElementType(out uint pType);
 
-    [PreserveSig]
-    int GetRank(out uint pnRank);
+	[PreserveSig]
+	int GetRank(out uint pnRank);
 
-    [PreserveSig]
-    int GetCount(out uint pnCount);
+	[PreserveSig]
+	int GetCount(out uint pnCount);
 
-    [PreserveSig]
-    int GetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
+	[PreserveSig]
+	int GetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
 
-    [PreserveSig]
-    int HasBaseIndicies(out int pbHasBaseIndicies);
+	[PreserveSig]
+	int HasBaseIndicies(out int pbHasBaseIndicies);
 
-    [PreserveSig]
-    int GetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);
+	[PreserveSig]
+	int GetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);
 
-    [PreserveSig]
-    int GetElement(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][In] uint[] indices, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetElement(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][In] uint[] indices, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetElementAtPosition(uint nPosition, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetElementAtPosition(uint nPosition, out ICorDebugValue ppValue);
 }

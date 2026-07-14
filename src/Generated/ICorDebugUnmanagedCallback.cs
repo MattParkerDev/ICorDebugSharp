@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("5263E909-8CB5-11D3-BD2F-0000F80849BD")]
 public partial interface ICorDebugUnmanagedCallback
 {
-    [PreserveSig]
-    int DebugEvent(nint pDebugEvent, int fOutOfBand);
+	[PreserveSig]
+	int DebugEvent(nint pDebugEvent, int fOutOfBand);
 }

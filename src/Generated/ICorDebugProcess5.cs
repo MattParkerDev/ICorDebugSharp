@@ -11,39 +11,39 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("21E9D9C0-FCB8-11DF-8CFF-0800200C9A66")]
 public partial interface ICorDebugProcess5
 {
-    [PreserveSig]
-    int GetGCHeapInformation(out COR_HEAPINFO pHeapInfo);
+	[PreserveSig]
+	int GetGCHeapInformation(out COR_HEAPINFO pHeapInfo);
 
-    [PreserveSig]
-    int EnumerateHeap(out ICorDebugHeapEnum ppObjects);
+	[PreserveSig]
+	int EnumerateHeap(out ICorDebugHeapEnum ppObjects);
 
-    [PreserveSig]
-    int EnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
+	[PreserveSig]
+	int EnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
 
-    [PreserveSig]
-    int GetObject(ulong addr, out ICorDebugObjectValue pObject);
+	[PreserveSig]
+	int GetObject(ulong addr, out ICorDebugObjectValue pObject);
 
-    [PreserveSig]
-    int EnumerateGCReferences(int enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
+	[PreserveSig]
+	int EnumerateGCReferences(int enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
 
-    [PreserveSig]
-    int EnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
+	[PreserveSig]
+	int EnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
 
-    [PreserveSig]
-    int GetTypeID(ulong obj, out COR_TYPEID pId);
+	[PreserveSig]
+	int GetTypeID(ulong obj, out COR_TYPEID pId);
 
-    [PreserveSig]
-    int GetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
+	[PreserveSig]
+	int GetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
 
-    [PreserveSig]
-    int GetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout);
+	[PreserveSig]
+	int GetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout);
 
-    [PreserveSig]
-    int GetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
+	[PreserveSig]
+	int GetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
 
-    [PreserveSig]
-    int GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded);
+	[PreserveSig]
+	int GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded);
 
-    [PreserveSig]
-    int EnableNGENPolicy(CorDebugNGENPolicy ePolicy);
+	[PreserveSig]
+	int EnableNGENPolicy(CorDebugNGENPolicy ePolicy);
 }

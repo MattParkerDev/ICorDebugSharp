@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("E3B2F332-CC46-4F1E-AB4E-5400E332195E")]
 public partial interface ICorDebugExceptionObjectValue2
 {
-    [PreserveSig]
-    int ForceCatchHandlerFoundEvents(int enableEvents);
+	[PreserveSig]
+	int ForceCatchHandlerFoundEvents(int enableEvents);
 }

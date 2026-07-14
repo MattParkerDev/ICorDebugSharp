@@ -11,33 +11,33 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF6-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugEval
 {
-    [PreserveSig]
-    int CallFunction(ICorDebugFunction pFunction, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	[PreserveSig]
+	int CallFunction(ICorDebugFunction pFunction, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
-    [PreserveSig]
-    int NewObject(ICorDebugFunction pConstructor, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	[PreserveSig]
+	int NewObject(ICorDebugFunction pConstructor, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
-    [PreserveSig]
-    int NewObjectNoConstructor(ICorDebugClass pClass);
+	[PreserveSig]
+	int NewObjectNoConstructor(ICorDebugClass pClass);
 
-    [PreserveSig]
-    int NewString(string @string);
+	[PreserveSig]
+	int NewString(string @string);
 
-    [PreserveSig]
-    int NewArray(uint elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
+	[PreserveSig]
+	int NewArray(uint elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
-    [PreserveSig]
-    int IsActive(out int pbActive);
+	[PreserveSig]
+	int IsActive(out int pbActive);
 
-    [PreserveSig]
-    int Abort();
+	[PreserveSig]
+	int Abort();
 
-    [PreserveSig]
-    int GetResult(out ICorDebugValue ppResult);
+	[PreserveSig]
+	int GetResult(out ICorDebugValue ppResult);
 
-    [PreserveSig]
-    int GetThread(out ICorDebugThread ppThread);
+	[PreserveSig]
+	int GetThread(out ICorDebugThread ppThread);
 
-    [PreserveSig]
-    int CreateValue(uint elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int CreateValue(uint elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
 }

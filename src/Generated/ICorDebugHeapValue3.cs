@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("A69ACAD8-2374-46E9-9FF8-B1F14120D296")]
 public partial interface ICorDebugHeapValue3
 {
-    [PreserveSig]
-    int GetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount);
+	[PreserveSig]
+	int GetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount);
 
-    [PreserveSig]
-    int GetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum);
+	[PreserveSig]
+	int GetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum);
 }

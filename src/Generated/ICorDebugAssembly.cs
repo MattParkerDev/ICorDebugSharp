@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("DF59507C-D47A-459E-BCE2-6427EAC8FD06")]
 public partial interface ICorDebugAssembly
 {
-    [PreserveSig]
-    int GetProcess(out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int GetProcess(out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int GetAppDomain(out ICorDebugAppDomain ppAppDomain);
+	[PreserveSig]
+	int GetAppDomain(out ICorDebugAppDomain ppAppDomain);
 
-    [PreserveSig]
-    int EnumerateModules(out ICorDebugModuleEnum ppModules);
+	[PreserveSig]
+	int EnumerateModules(out ICorDebugModuleEnum ppModules);
 
-    [PreserveSig]
-    int GetCodeBase(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetCodeBase(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 }

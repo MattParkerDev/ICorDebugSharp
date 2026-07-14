@@ -11,36 +11,36 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3948A999-FD8A-4C38-A708-8A71E9B04DBB")]
 public partial interface ICorDebugSymbolProvider
 {
-    [PreserveSig]
-    int GetStaticFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugStaticFieldSymbol[] pSymbols);
+	[PreserveSig]
+	int GetStaticFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugStaticFieldSymbol[] pSymbols);
 
-    [PreserveSig]
-    int GetInstanceFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugInstanceFieldSymbol[] pSymbols);
+	[PreserveSig]
+	int GetInstanceFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugInstanceFieldSymbol[] pSymbols);
 
-    [PreserveSig]
-    int GetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
+	[PreserveSig]
+	int GetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
-    [PreserveSig]
-    int GetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
+	[PreserveSig]
+	int GetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
-    [PreserveSig]
-    int GetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
+	[PreserveSig]
+	int GetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
 
-    [PreserveSig]
-    int GetMethodProps(uint codeRva, out uint pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
+	[PreserveSig]
+	int GetMethodProps(uint codeRva, out uint pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
-    [PreserveSig]
-    int GetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
+	[PreserveSig]
+	int GetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
-    [PreserveSig]
-    int GetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
+	[PreserveSig]
+	int GetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
 
-    [PreserveSig]
-    int GetAssemblyImageBytes(ulong rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
+	[PreserveSig]
+	int GetAssemblyImageBytes(ulong rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
 
-    [PreserveSig]
-    int GetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);
+	[PreserveSig]
+	int GetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);
 
-    [PreserveSig]
-    int GetAssemblyImageMetadata(out ICorDebugMemoryBuffer ppMemoryBuffer);
+	[PreserveSig]
+	int GetAssemblyImageMetadata(out ICorDebugMemoryBuffer ppMemoryBuffer);
 }

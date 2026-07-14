@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("029596E8-276B-46A1-9821-732E96BBB00B")]
 public partial interface ICorDebugHandleValue : ICorDebugReferenceValue
 {
-    [PreserveSig]
-    int GetHandleType(out CorDebugHandleType pType);
+	[PreserveSig]
+	int GetHandleType(out CorDebugHandleType pType);
 
-    [PreserveSig]
-    int Dispose();
+	[PreserveSig]
+	int Dispose();
 }

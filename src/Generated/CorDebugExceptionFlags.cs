@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugExceptionFlags
 {
-    DEBUG_EXCEPTION_NONE = 0,
-    DEBUG_EXCEPTION_CAN_BE_INTERCEPTED = 0x1,
+	DEBUG_EXCEPTION_NONE = 0,
+	DEBUG_EXCEPTION_CAN_BE_INTERCEPTED = 0x1,
 }

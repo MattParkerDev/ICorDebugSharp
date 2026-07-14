@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("1A1F204B-1C66-4637-823F-3EE6C744A69C")]
 public partial interface ICorDebugThread4
 {
-    [PreserveSig]
-    int HasUnhandledException();
+	[PreserveSig]
+	int HasUnhandledException();
 
-    [PreserveSig]
-    int GetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum);
+	[PreserveSig]
+	int GetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum);
 
-    [PreserveSig]
-    int GetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject);
+	[PreserveSig]
+	int GetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject);
 }

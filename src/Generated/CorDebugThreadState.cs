@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugThreadState
 {
-    THREAD_RUN,
-    THREAD_SUSPEND,
+	THREAD_RUN,
+	THREAD_SUSPEND,
 }

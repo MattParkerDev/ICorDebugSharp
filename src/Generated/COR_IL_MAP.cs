@@ -8,9 +8,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_IL_MAP
 {
-    public uint oldOffset;
+	public uint oldOffset;
 
-    public uint newOffset;
+	public uint newOffset;
 
-    public int fAccurate;
+	public int fAccurate;
 }

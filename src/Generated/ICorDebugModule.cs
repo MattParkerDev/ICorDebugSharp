@@ -11,54 +11,54 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("DBA2D8C1-E5C5-4069-8C13-10A7C6ABF43D")]
 public partial interface ICorDebugModule
 {
-    [PreserveSig]
-    int GetProcess(out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int GetProcess(out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int GetBaseAddress(out ulong pAddress);
+	[PreserveSig]
+	int GetBaseAddress(out ulong pAddress);
 
-    [PreserveSig]
-    int GetAssembly(out ICorDebugAssembly ppAssembly);
+	[PreserveSig]
+	int GetAssembly(out ICorDebugAssembly ppAssembly);
 
-    [PreserveSig]
-    int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int EnableJITDebugging(int bTrackJITInfo, int bAllowJitOpts);
+	[PreserveSig]
+	int EnableJITDebugging(int bTrackJITInfo, int bAllowJitOpts);
 
-    [PreserveSig]
-    int EnableClassLoadCallbacks(int bClassLoadCallbacks);
+	[PreserveSig]
+	int EnableClassLoadCallbacks(int bClassLoadCallbacks);
 
-    [PreserveSig]
-    int GetFunctionFromToken(uint methodDef, out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetFunctionFromToken(uint methodDef, out ICorDebugFunction ppFunction);
 
-    [PreserveSig]
-    int GetFunctionFromRVA(ulong rva, out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetFunctionFromRVA(ulong rva, out ICorDebugFunction ppFunction);
 
-    [PreserveSig]
-    int GetClassFromToken(uint typeDef, out ICorDebugClass ppClass);
+	[PreserveSig]
+	int GetClassFromToken(uint typeDef, out ICorDebugClass ppClass);
 
-    [PreserveSig]
-    int CreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
+	[PreserveSig]
+	int CreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
 
-    [PreserveSig]
-    int GetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
+	[PreserveSig]
+	int GetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
 
-    [PreserveSig]
-    int GetMetaDataInterface(ref Guid riid, out nint ppObj);
+	[PreserveSig]
+	int GetMetaDataInterface(ref Guid riid, out nint ppObj);
 
-    [PreserveSig]
-    int GetToken(out uint pToken);
+	[PreserveSig]
+	int GetToken(out uint pToken);
 
-    [PreserveSig]
-    int IsDynamic(out int pDynamic);
+	[PreserveSig]
+	int IsDynamic(out int pDynamic);
 
-    [PreserveSig]
-    int GetGlobalVariableValue(uint fieldDef, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetGlobalVariableValue(uint fieldDef, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetSize(out uint pcBytes);
+	[PreserveSig]
+	int GetSize(out uint pcBytes);
 
-    [PreserveSig]
-    int IsInMemory(out int pInMemory);
+	[PreserveSig]
+	int IsInMemory(out int pInMemory);
 }

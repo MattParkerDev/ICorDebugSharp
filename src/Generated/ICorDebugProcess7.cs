@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("9B2C54E4-119F-4D6F-B402-527603266D69")]
 public partial interface ICorDebugProcess7
 {
-    [PreserveSig]
-    int SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags);
+	[PreserveSig]
+	int SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags);
 }

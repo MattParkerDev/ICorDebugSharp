@@ -11,24 +11,24 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("6DC3FA01-D7CB-11D2-8A95-0080C792E5D8")]
 public partial interface ICorDebugEditAndContinueSnapshot
 {
-    [PreserveSig]
-    int CopyMetaData(nint pIStream, out Guid pMvid);
+	[PreserveSig]
+	int CopyMetaData(nint pIStream, out Guid pMvid);
 
-    [PreserveSig]
-    int GetMvid(out Guid pMvid);
+	[PreserveSig]
+	int GetMvid(out Guid pMvid);
 
-    [PreserveSig]
-    int GetRoDataRVA(out uint pRoDataRVA);
+	[PreserveSig]
+	int GetRoDataRVA(out uint pRoDataRVA);
 
-    [PreserveSig]
-    int GetRwDataRVA(out uint pRwDataRVA);
+	[PreserveSig]
+	int GetRwDataRVA(out uint pRwDataRVA);
 
-    [PreserveSig]
-    int SetPEBytes(nint pIStream);
+	[PreserveSig]
+	int SetPEBytes(nint pIStream);
 
-    [PreserveSig]
-    int SetILMap(uint mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
+	[PreserveSig]
+	int SetILMap(uint mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
 
-    [PreserveSig]
-    int SetPESymbolBytes(nint pIStream);
+	[PreserveSig]
+	int SetPESymbolBytes(nint pIStream);
 }

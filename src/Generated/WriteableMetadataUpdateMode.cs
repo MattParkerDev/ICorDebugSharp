@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum WriteableMetadataUpdateMode
 {
-    LegacyCompatPolicy,
-    AlwaysShowUpdates,
+	LegacyCompatPolicy,
+	AlwaysShowUpdates,
 }

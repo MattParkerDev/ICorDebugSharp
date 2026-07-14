@@ -11,27 +11,27 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF3-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugFunction
 {
-    [PreserveSig]
-    int GetModule(out ICorDebugModule ppModule);
+	[PreserveSig]
+	int GetModule(out ICorDebugModule ppModule);
 
-    [PreserveSig]
-    int GetClass(out ICorDebugClass ppClass);
+	[PreserveSig]
+	int GetClass(out ICorDebugClass ppClass);
 
-    [PreserveSig]
-    int GetToken(out uint pMethodDef);
+	[PreserveSig]
+	int GetToken(out uint pMethodDef);
 
-    [PreserveSig]
-    int GetILCode(out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetILCode(out ICorDebugCode ppCode);
 
-    [PreserveSig]
-    int GetNativeCode(out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetNativeCode(out ICorDebugCode ppCode);
 
-    [PreserveSig]
-    int CreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
+	[PreserveSig]
+	int CreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
 
-    [PreserveSig]
-    int GetLocalVarSigToken(out uint pmdSig);
+	[PreserveSig]
+	int GetLocalVarSigToken(out uint pmdSig);
 
-    [PreserveSig]
-    int GetCurrentVersionNumber(out uint pnCurrentVersion);
+	[PreserveSig]
+	int GetCurrentVersionNumber(out uint pnCurrentVersion);
 }

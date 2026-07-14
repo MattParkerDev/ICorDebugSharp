@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugGCType
 {
-    CorDebugWorkstationGC,
-    CorDebugServerGC,
+	CorDebugWorkstationGC,
+	CorDebugServerGC,
 }

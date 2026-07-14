@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct CodeChunkInfo
 {
-    public ulong startAddr;
+	public ulong startAddr;
 
-    public uint length;
+	public uint length;
 }

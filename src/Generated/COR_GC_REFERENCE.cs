@@ -9,55 +9,55 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [NativeMarshalling(typeof(CorGcReferenceMarshaller))]
 public struct COR_GC_REFERENCE
 {
-    public ICorDebugAppDomain? Domain;
+	public ICorDebugAppDomain? Domain;
 
-    public ICorDebugValue Location;
+	public ICorDebugValue Location;
 
-    public CorGCReferenceType Type;
+	public CorGCReferenceType Type;
 
-    public ulong ExtraData;
+	public ulong ExtraData;
 }
 
 [CustomMarshaller(typeof(COR_GC_REFERENCE), MarshalMode.Default, typeof(CorGcReferenceMarshaller))]
 internal static class CorGcReferenceMarshaller
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Native
-    {
-        public nint Domain;
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct Native
+	{
+		public nint Domain;
 
-        public nint Location;
+		public nint Location;
 
-        public CorGCReferenceType Type;
+		public CorGCReferenceType Type;
 
-        public ulong ExtraData;
-    }
+		public ulong ExtraData;
+	}
 
-    public static unsafe Native ConvertToUnmanaged(in COR_GC_REFERENCE managed)
-    {
-        return new Native
-        {
-            Domain = (nint)ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToUnmanaged(managed.Domain),
-            Location = (nint)ComInterfaceMarshaller<ICorDebugValue>.ConvertToUnmanaged(managed.Location),
-            Type = managed.Type,
-            ExtraData = managed.ExtraData
-        };
-    }
+	public static unsafe Native ConvertToUnmanaged(in COR_GC_REFERENCE managed)
+	{
+		return new Native
+		{
+			Domain = (nint) ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToUnmanaged(managed.Domain),
+			Location = (nint) ComInterfaceMarshaller<ICorDebugValue>.ConvertToUnmanaged(managed.Location),
+			Type = managed.Type,
+			ExtraData = managed.ExtraData
+		};
+	}
 
-    public static unsafe COR_GC_REFERENCE ConvertToManaged(in Native unmanaged)
-    {
-        return new COR_GC_REFERENCE
-        {
-            Domain = ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToManaged((void*)unmanaged.Domain),
-            Location = ComInterfaceMarshaller<ICorDebugValue>.ConvertToManaged((void*)unmanaged.Location) ?? throw new InvalidOperationException("Native COR_GC_REFERENCE.Location was null."),
-            Type = unmanaged.Type,
-            ExtraData = unmanaged.ExtraData
-        };
-    }
+	public static unsafe COR_GC_REFERENCE ConvertToManaged(in Native unmanaged)
+	{
+		return new COR_GC_REFERENCE
+		{
+			Domain = ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToManaged((void*) unmanaged.Domain),
+			Location = ComInterfaceMarshaller<ICorDebugValue>.ConvertToManaged((void*) unmanaged.Location) ?? throw new InvalidOperationException("Native COR_GC_REFERENCE.Location was null."),
+			Type = unmanaged.Type,
+			ExtraData = unmanaged.ExtraData
+		};
+	}
 
-    public static unsafe void Free(in Native unmanaged)
-    {
-        ComInterfaceMarshaller<ICorDebugAppDomain>.Free((void*)unmanaged.Domain);
-        ComInterfaceMarshaller<ICorDebugValue>.Free((void*)unmanaged.Location);
-    }
+	public static unsafe void Free(in Native unmanaged)
+	{
+		ComInterfaceMarshaller<ICorDebugAppDomain>.Free((void*) unmanaged.Domain);
+		ComInterfaceMarshaller<ICorDebugValue>.Free((void*) unmanaged.Location);
+	}
 }

@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAEA-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugModuleBreakpoint : ICorDebugBreakpoint
 {
-    [PreserveSig]
-    int GetModule(out ICorDebugModule ppModule);
+	[PreserveSig]
+	int GetModule(out ICorDebugModule ppModule);
 }

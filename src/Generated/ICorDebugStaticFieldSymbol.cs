@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CBF9DA63-F68D-4BBB-A21C-15A45EAADF5B")]
 public partial interface ICorDebugStaticFieldSymbol
 {
-    [PreserveSig]
-    int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int GetSize(out uint pcbSize);
+	[PreserveSig]
+	int GetSize(out uint pcbSize);
 
-    [PreserveSig]
-    int GetAddress(out ulong pRVA);
+	[PreserveSig]
+	int GetAddress(out ulong pRVA);
 }

@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("C0815BDC-CFAB-447E-A779-C116B454EB5B")]
 public partial interface ICorDebugInternalFrame2
 {
-    [PreserveSig]
-    int GetAddress(out ulong pAddress);
+	[PreserveSig]
+	int GetAddress(out ulong pAddress);
 
-    [PreserveSig]
-    int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, out int pIsCloser);
+	[PreserveSig]
+	int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, out int pIsCloser);
 }

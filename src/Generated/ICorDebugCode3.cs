@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("D13D3E88-E1F2-4020-AA1D-3D162DCBE966")]
 public partial interface ICorDebugCode3
 {
-    [PreserveSig]
-    int GetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, [MarshalUsing(CountElementName = nameof(bufferSize))][Out] uint[] pOffsets);
+	[PreserveSig]
+	int GetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, [MarshalUsing(CountElementName = nameof(bufferSize))][Out] uint[] pOffsets);
 }

@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("9A9E2ED6-04DF-4FE0-BB50-CAB64126AD24")]
 public partial interface ICorDebugILFrame3
 {
-    [PreserveSig]
-    int GetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue);
+	[PreserveSig]
+	int GetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue);
 }

@@ -9,62 +9,62 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [NativeMarshalling(typeof(CorActiveFunctionMarshaller))]
 public struct COR_ACTIVE_FUNCTION
 {
-    public ICorDebugAppDomain pAppDomain;
+	public ICorDebugAppDomain pAppDomain;
 
-    public ICorDebugModule pModule;
+	public ICorDebugModule pModule;
 
-    public ICorDebugFunction2 pFunction;
+	public ICorDebugFunction2 pFunction;
 
-    public uint ilOffset;
+	public uint ilOffset;
 
-    public uint flags;
+	public uint flags;
 }
 
 [CustomMarshaller(typeof(COR_ACTIVE_FUNCTION), MarshalMode.Default, typeof(CorActiveFunctionMarshaller))]
 internal static class CorActiveFunctionMarshaller
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Native
-    {
-        public nint pAppDomain;
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct Native
+	{
+		public nint pAppDomain;
 
-        public nint pModule;
+		public nint pModule;
 
-        public nint pFunction;
+		public nint pFunction;
 
-        public uint ilOffset;
+		public uint ilOffset;
 
-        public uint flags;
-    }
+		public uint flags;
+	}
 
-    public static unsafe Native ConvertToUnmanaged(in COR_ACTIVE_FUNCTION managed)
-    {
-        return new Native
-        {
-            pAppDomain = (nint)ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToUnmanaged(managed.pAppDomain),
-            pModule = (nint)ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
-            pFunction = (nint)ComInterfaceMarshaller<ICorDebugFunction2>.ConvertToUnmanaged(managed.pFunction),
-            ilOffset = managed.ilOffset,
-            flags = managed.flags
-        };
-    }
+	public static unsafe Native ConvertToUnmanaged(in COR_ACTIVE_FUNCTION managed)
+	{
+		return new Native
+		{
+			pAppDomain = (nint) ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToUnmanaged(managed.pAppDomain),
+			pModule = (nint) ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
+			pFunction = (nint) ComInterfaceMarshaller<ICorDebugFunction2>.ConvertToUnmanaged(managed.pFunction),
+			ilOffset = managed.ilOffset,
+			flags = managed.flags
+		};
+	}
 
-    public static unsafe COR_ACTIVE_FUNCTION ConvertToManaged(in Native unmanaged)
-    {
-        return new COR_ACTIVE_FUNCTION
-        {
-            pAppDomain = ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToManaged((void*)unmanaged.pAppDomain) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pAppDomain was null."),
-            pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*)unmanaged.pModule) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pModule was null."),
-            pFunction = ComInterfaceMarshaller<ICorDebugFunction2>.ConvertToManaged((void*)unmanaged.pFunction) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pFunction was null."),
-            ilOffset = unmanaged.ilOffset,
-            flags = unmanaged.flags
-        };
-    }
+	public static unsafe COR_ACTIVE_FUNCTION ConvertToManaged(in Native unmanaged)
+	{
+		return new COR_ACTIVE_FUNCTION
+		{
+			pAppDomain = ComInterfaceMarshaller<ICorDebugAppDomain>.ConvertToManaged((void*) unmanaged.pAppDomain) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pAppDomain was null."),
+			pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*) unmanaged.pModule) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pModule was null."),
+			pFunction = ComInterfaceMarshaller<ICorDebugFunction2>.ConvertToManaged((void*) unmanaged.pFunction) ?? throw new InvalidOperationException("Native COR_ACTIVE_FUNCTION.pFunction was null."),
+			ilOffset = unmanaged.ilOffset,
+			flags = unmanaged.flags
+		};
+	}
 
-    public static unsafe void Free(in Native unmanaged)
-    {
-        ComInterfaceMarshaller<ICorDebugAppDomain>.Free((void*)unmanaged.pAppDomain);
-        ComInterfaceMarshaller<ICorDebugModule>.Free((void*)unmanaged.pModule);
-        ComInterfaceMarshaller<ICorDebugFunction2>.Free((void*)unmanaged.pFunction);
-    }
+	public static unsafe void Free(in Native unmanaged)
+	{
+		ComInterfaceMarshaller<ICorDebugAppDomain>.Free((void*) unmanaged.pAppDomain);
+		ComInterfaceMarshaller<ICorDebugModule>.Free((void*) unmanaged.pModule);
+		ComInterfaceMarshaller<ICorDebugFunction2>.Free((void*) unmanaged.pFunction);
+	}
 }

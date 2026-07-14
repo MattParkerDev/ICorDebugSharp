@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("35389FF1-3684-4C55-A2EE-210F26C60E5E")]
 public partial interface ICorDebugNativeFrame2
 {
-    [PreserveSig]
-    int IsChild(out int pIsChild);
+	[PreserveSig]
+	int IsChild(out int pIsChild);
 
-    [PreserveSig]
-    int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, out int pIsParent);
+	[PreserveSig]
+	int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, out int pIsParent);
 
-    [PreserveSig]
-    int GetStackParameterSize(out uint pSize);
+	[PreserveSig]
+	int GetStackParameterSize(out uint pSize);
 }

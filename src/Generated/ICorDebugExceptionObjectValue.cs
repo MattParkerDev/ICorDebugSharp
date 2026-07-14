@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("AE4CA65D-59DD-42A2-83A5-57E8A08D8719")]
 public partial interface ICorDebugExceptionObjectValue
 {
-    [PreserveSig]
-    int EnumerateExceptionCallStack(out ICorDebugExceptionObjectCallStackEnum ppCallStackEnum);
+	[PreserveSig]
+	int EnumerateExceptionCallStack(out ICorDebugExceptionObjectCallStackEnum ppCallStackEnum);
 }

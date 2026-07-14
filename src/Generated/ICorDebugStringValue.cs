@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAFD-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugStringValue : ICorDebugHeapValue
 {
-    [PreserveSig]
-    int GetLength(out uint pcchString);
+	[PreserveSig]
+	int GetLength(out uint pcchString);
 
-    [PreserveSig]
-    int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
+	[PreserveSig]
+	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
 }

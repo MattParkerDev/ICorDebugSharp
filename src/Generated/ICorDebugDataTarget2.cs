@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("2EB364DA-605B-4E8D-B333-3394C4828D41")]
 public partial interface ICorDebugDataTarget2
 {
-    [PreserveSig]
-    int GetImageFromPointer(ulong addr, out ulong pImageBase, out uint pSize);
+	[PreserveSig]
+	int GetImageFromPointer(ulong addr, out ulong pImageBase, out uint pSize);
 
-    [PreserveSig]
-    int GetImageLocation(ulong baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetImageLocation(ulong baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int GetSymbolProviderForImage(ulong imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
+	[PreserveSig]
+	int GetSymbolProviderForImage(ulong imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
 
-    [PreserveSig]
-    int EnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);
+	[PreserveSig]
+	int EnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);
 
-    [PreserveSig]
-    int CreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] initialContext, out ICorDebugVirtualUnwinder ppUnwinder);
+	[PreserveSig]
+	int CreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] initialContext, out ICorDebugVirtualUnwinder ppUnwinder);
 }

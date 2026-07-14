@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("264EA0FC-2591-49AA-868E-835E6515323F")]
 public partial interface ICorDebugManagedCallback3
 {
-    [PreserveSig]
-    int CustomNotification(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain);
+	[PreserveSig]
+	int CustomNotification(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain);
 }

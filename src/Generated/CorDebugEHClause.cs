@@ -8,17 +8,17 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct CorDebugEHClause
 {
-    public uint Flags;
+	public uint Flags;
 
-    public uint TryOffset;
+	public uint TryOffset;
 
-    public uint TryLength;
+	public uint TryLength;
 
-    public uint HandlerOffset;
+	public uint HandlerOffset;
 
-    public uint HandlerLength;
+	public uint HandlerLength;
 
-    public uint ClassToken;
+	public uint ClassToken;
 
-    public uint FilterOffset;
+	public uint FilterOffset;
 }

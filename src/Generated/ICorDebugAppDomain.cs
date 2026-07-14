@@ -11,33 +11,33 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3D6F5F63-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugAppDomain : ICorDebugController
 {
-    [PreserveSig]
-    int GetProcess(out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int GetProcess(out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int EnumerateAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
+	[PreserveSig]
+	int EnumerateAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 
-    [PreserveSig]
-    int GetModuleFromMetaDataInterface(nint pIMetaData, out ICorDebugModule ppModule);
+	[PreserveSig]
+	int GetModuleFromMetaDataInterface(nint pIMetaData, out ICorDebugModule ppModule);
 
-    [PreserveSig]
-    int EnumerateBreakpoints(out ICorDebugBreakpointEnum ppBreakpoints);
+	[PreserveSig]
+	int EnumerateBreakpoints(out ICorDebugBreakpointEnum ppBreakpoints);
 
-    [PreserveSig]
-    int EnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
+	[PreserveSig]
+	int EnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
 
-    [PreserveSig]
-    int IsAttached(out int pbAttached);
+	[PreserveSig]
+	int IsAttached(out int pbAttached);
 
-    [PreserveSig]
-    int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int GetObject(out ICorDebugValue ppObject);
+	[PreserveSig]
+	int GetObject(out ICorDebugValue ppObject);
 
-    [PreserveSig]
-    int Attach();
+	[PreserveSig]
+	int Attach();
 
-    [PreserveSig]
-    int GetID(out uint pId);
+	[PreserveSig]
+	int GetID(out uint pId);
 }

@@ -11,33 +11,33 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3D6F5F62-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugController
 {
-    [PreserveSig]
-    int Stop(uint dwTimeoutIgnored);
+	[PreserveSig]
+	int Stop(uint dwTimeoutIgnored);
 
-    [PreserveSig]
-    int Continue(int fIsOutOfBand);
+	[PreserveSig]
+	int Continue(int fIsOutOfBand);
 
-    [PreserveSig]
-    int IsRunning(out int pbRunning);
+	[PreserveSig]
+	int IsRunning(out int pbRunning);
 
-    [PreserveSig]
-    int HasQueuedCallbacks(ICorDebugThread pThread, out int pbQueued);
+	[PreserveSig]
+	int HasQueuedCallbacks(ICorDebugThread pThread, out int pbQueued);
 
-    [PreserveSig]
-    int EnumerateThreads(out ICorDebugThreadEnum ppThreads);
+	[PreserveSig]
+	int EnumerateThreads(out ICorDebugThreadEnum ppThreads);
 
-    [PreserveSig]
-    int SetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread);
+	[PreserveSig]
+	int SetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread);
 
-    [PreserveSig]
-    int Detach();
+	[PreserveSig]
+	int Detach();
 
-    [PreserveSig]
-    int Terminate(uint exitCode);
+	[PreserveSig]
+	int Terminate(uint exitCode);
 
-    [PreserveSig]
-    int CanCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
+	[PreserveSig]
+	int CanCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 
-    [PreserveSig]
-    int CommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
+	[PreserveSig]
+	int CommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 }

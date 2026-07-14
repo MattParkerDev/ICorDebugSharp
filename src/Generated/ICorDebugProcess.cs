@@ -11,54 +11,54 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3D6F5F64-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugProcess : ICorDebugController
 {
-    [PreserveSig]
-    int GetID(out uint pdwProcessId);
+	[PreserveSig]
+	int GetID(out uint pdwProcessId);
 
-    [PreserveSig]
-    int GetHandle(out nint phProcessHandle);
+	[PreserveSig]
+	int GetHandle(out nint phProcessHandle);
 
-    [PreserveSig]
-    int GetThread(uint dwThreadId, out ICorDebugThread ppThread);
+	[PreserveSig]
+	int GetThread(uint dwThreadId, out ICorDebugThread ppThread);
 
-    [PreserveSig]
-    int EnumerateObjects(out ICorDebugObjectEnum ppObjects);
+	[PreserveSig]
+	int EnumerateObjects(out ICorDebugObjectEnum ppObjects);
 
-    [PreserveSig]
-    int IsTransitionStub(ulong address, out int pbTransitionStub);
+	[PreserveSig]
+	int IsTransitionStub(ulong address, out int pbTransitionStub);
 
-    [PreserveSig]
-    int IsOSSuspended(uint threadID, out int pbSuspended);
+	[PreserveSig]
+	int IsOSSuspended(uint threadID, out int pbSuspended);
 
-    [PreserveSig]
-    int GetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
+	[PreserveSig]
+	int GetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
 
-    [PreserveSig]
-    int SetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
+	[PreserveSig]
+	int SetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 
-    [PreserveSig]
-    int ReadMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][Out] byte[] buffer, out nuint read);
+	[PreserveSig]
+	int ReadMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][Out] byte[] buffer, out nuint read);
 
-    [PreserveSig]
-    int WriteMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][In] byte[] buffer, out nuint written);
+	[PreserveSig]
+	int WriteMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][In] byte[] buffer, out nuint written);
 
-    [PreserveSig]
-    int ClearCurrentException(uint threadID);
+	[PreserveSig]
+	int ClearCurrentException(uint threadID);
 
-    [PreserveSig]
-    int EnableLogMessages(int fOnOff);
+	[PreserveSig]
+	int EnableLogMessages(int fOnOff);
 
-    [PreserveSig]
-    int ModifyLogSwitch(string pLogSwitchName, int lLevel);
+	[PreserveSig]
+	int ModifyLogSwitch(string pLogSwitchName, int lLevel);
 
-    [PreserveSig]
-    int EnumerateAppDomains(out ICorDebugAppDomainEnum ppAppDomains);
+	[PreserveSig]
+	int EnumerateAppDomains(out ICorDebugAppDomainEnum ppAppDomains);
 
-    [PreserveSig]
-    int GetObject(out ICorDebugValue ppObject);
+	[PreserveSig]
+	int GetObject(out ICorDebugValue ppObject);
 
-    [PreserveSig]
-    int ThreadForFiberCookie(uint fiberCookie, out ICorDebugThread ppThread);
+	[PreserveSig]
+	int ThreadForFiberCookie(uint fiberCookie, out ICorDebugThread ppThread);
 
-    [PreserveSig]
-    int GetHelperThreadID(out uint pThreadID);
+	[PreserveSig]
+	int GetHelperThreadID(out uint pThreadID);
 }

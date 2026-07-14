@@ -5,5 +5,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugDecodeEventFlagsWindows
 {
-    IS_FIRST_CHANCE = 1,
+	IS_FIRST_CHANCE = 1,
 }

@@ -8,9 +8,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_HEAPOBJECT
 {
-    public ulong address;
+	public ulong address;
 
-    public ulong size;
+	public ulong size;
 
-    public COR_TYPEID type;
+	public COR_TYPEID type;
 }

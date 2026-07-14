@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("09B70F28-E465-482D-99E0-81A165EB0532")]
 public partial interface ICorDebugFunction3
 {
-    [PreserveSig]
-    int GetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode);
+	[PreserveSig]
+	int GetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode);
 }

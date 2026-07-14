@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("FE06DC28-49FB-4636-A4A3-E80DB4AE116C")]
 public partial interface ICorDebugDataTarget
 {
-    [PreserveSig]
-    int GetPlatform(out CorDebugPlatform pTargetPlatform);
+	[PreserveSig]
+	int GetPlatform(out CorDebugPlatform pTargetPlatform);
 
-    [PreserveSig]
-    int ReadVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
+	[PreserveSig]
+	int ReadVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
 
-    [PreserveSig]
-    int GetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);
+	[PreserveSig]
+	int GetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);
 }

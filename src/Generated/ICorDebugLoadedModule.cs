@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("817F343A-6630-4578-96C5-D11BC0EC5EE2")]
 public partial interface ICorDebugLoadedModule
 {
-    [PreserveSig]
-    int GetBaseAddress(out ulong pAddress);
+	[PreserveSig]
+	int GetBaseAddress(out ulong pAddress);
 
-    [PreserveSig]
-    int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	[PreserveSig]
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
 
-    [PreserveSig]
-    int GetSize(out uint pcBytes);
+	[PreserveSig]
+	int GetSize(out uint pcBytes);
 }

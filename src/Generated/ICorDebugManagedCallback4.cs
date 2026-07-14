@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("322911AE-16A5-49BA-84A3-ED69678138A3")]
 public partial interface ICorDebugManagedCallback4
 {
-    [PreserveSig]
-    int BeforeGarbageCollection(ICorDebugProcess pProcess);
+	[PreserveSig]
+	int BeforeGarbageCollection(ICorDebugProcess pProcess);
 
-    [PreserveSig]
-    int AfterGarbageCollection(ICorDebugProcess pProcess);
+	[PreserveSig]
+	int AfterGarbageCollection(ICorDebugProcess pProcess);
 
-    [PreserveSig]
-    int DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, uint contextSize);
+	[PreserveSig]
+	int DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, uint contextSize);
 }

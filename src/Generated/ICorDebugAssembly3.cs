@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("76361AB2-8C86-4FE9-96F2-F73D8843570A")]
 public partial interface ICorDebugAssembly3
 {
-    [PreserveSig]
-    int GetContainerAssembly(out ICorDebugAssembly ppAssembly);
+	[PreserveSig]
+	int GetContainerAssembly(out ICorDebugAssembly ppAssembly);
 
-    [PreserveSig]
-    int EnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
+	[PreserveSig]
+	int EnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 }

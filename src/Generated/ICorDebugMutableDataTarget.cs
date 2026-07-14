@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("A1B8A756-3CB6-4CCB-979F-3DF999673A59")]
 public partial interface ICorDebugMutableDataTarget : ICorDebugDataTarget
 {
-    [PreserveSig]
-    int WriteVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][In] byte[] pBuffer, uint bytesRequested);
+	[PreserveSig]
+	int WriteVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][In] byte[] pBuffer, uint bytesRequested);
 
-    [PreserveSig]
-    int SetThreadContext(uint dwThreadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] pContext);
+	[PreserveSig]
+	int SetThreadContext(uint dwThreadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] pContext);
 
-    [PreserveSig]
-    int ContinueStatusChanged(uint dwThreadId, uint continueStatus);
+	[PreserveSig]
+	int ContinueStatusChanged(uint dwThreadId, uint continueStatus);
 }

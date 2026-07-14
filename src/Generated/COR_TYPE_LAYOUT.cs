@@ -8,13 +8,13 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_TYPE_LAYOUT
 {
-    public COR_TYPEID parentID;
+	public COR_TYPEID parentID;
 
-    public uint objectSize;
+	public uint objectSize;
 
-    public uint numFields;
+	public uint numFields;
 
-    public uint boxOffset;
+	public uint boxOffset;
 
-    public uint type;
+	public uint type;
 }

@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("E3AC4D6C-9CB7-43E6-96CC-B21540E5083C")]
 public partial interface ICorDebugHeapValue2
 {
-    [PreserveSig]
-    int CreateHandle(CorDebugHandleType type, out ICorDebugHandleValue ppHandle);
+	[PreserveSig]
+	int CreateHandle(CorDebugHandleType type, out ICorDebugHandleValue ppHandle);
 }

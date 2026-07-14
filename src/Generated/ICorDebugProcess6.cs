@@ -11,21 +11,21 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("11588775-7205-4CEB-A41A-93753C3153E9")]
 public partial interface ICorDebugProcess6
 {
-    [PreserveSig]
-    int DecodeEvent([MarshalUsing(CountElementName = nameof(countBytes))][In] byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId, out ICorDebugDebugEvent ppEvent);
+	[PreserveSig]
+	int DecodeEvent([MarshalUsing(CountElementName = nameof(countBytes))][In] byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId, out ICorDebugDebugEvent ppEvent);
 
-    [PreserveSig]
-    int ProcessStateChanged(CorDebugStateChange change);
+	[PreserveSig]
+	int ProcessStateChanged(CorDebugStateChange change);
 
-    [PreserveSig]
-    int GetCode(ulong codeAddress, out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetCode(ulong codeAddress, out ICorDebugCode ppCode);
 
-    [PreserveSig]
-    int EnableVirtualModuleSplitting(int enableSplitting);
+	[PreserveSig]
+	int EnableVirtualModuleSplitting(int enableSplitting);
 
-    [PreserveSig]
-    int MarkDebuggerAttached(int fIsAttached);
+	[PreserveSig]
+	int MarkDebuggerAttached(int fIsAttached);
 
-    [PreserveSig]
-    int GetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose);
+	[PreserveSig]
+	int GetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose);
 }

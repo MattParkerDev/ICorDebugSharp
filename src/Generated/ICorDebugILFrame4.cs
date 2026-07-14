@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("AD914A30-C6D1-4AC5-9C5E-577F3BAA8A45")]
 public partial interface ICorDebugILFrame4
 {
-    [PreserveSig]
-    int EnumerateLocalVariablesEx(ILCodeKind flags, out ICorDebugValueEnum ppValueEnum);
+	[PreserveSig]
+	int EnumerateLocalVariablesEx(ILCodeKind flags, out ICorDebugValueEnum ppValueEnum);
 
-    [PreserveSig]
-    int GetLocalVariableEx(ILCodeKind flags, uint dwIndex, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalVariableEx(ILCodeKind flags, uint dwIndex, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetCodeEx(ILCodeKind flags, out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetCodeEx(ILCodeKind flags, out ICorDebugCode ppCode);
 }

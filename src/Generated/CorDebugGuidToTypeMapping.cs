@@ -9,42 +9,42 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [NativeMarshalling(typeof(CorDebugGuidToTypeMappingMarshaller))]
 public struct CorDebugGuidToTypeMapping
 {
-    public Guid iid;
+	public Guid iid;
 
-    public ICorDebugType pType;
+	public ICorDebugType pType;
 }
 
 [CustomMarshaller(typeof(CorDebugGuidToTypeMapping), MarshalMode.Default, typeof(CorDebugGuidToTypeMappingMarshaller))]
 internal static class CorDebugGuidToTypeMappingMarshaller
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Native
-    {
-        public Guid iid;
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct Native
+	{
+		public Guid iid;
 
-        public nint pType;
-    }
+		public nint pType;
+	}
 
-    public static unsafe Native ConvertToUnmanaged(in CorDebugGuidToTypeMapping managed)
-    {
-        return new Native
-        {
-            iid = managed.iid,
-            pType = (nint)ComInterfaceMarshaller<ICorDebugType>.ConvertToUnmanaged(managed.pType)
-        };
-    }
+	public static unsafe Native ConvertToUnmanaged(in CorDebugGuidToTypeMapping managed)
+	{
+		return new Native
+		{
+			iid = managed.iid,
+			pType = (nint) ComInterfaceMarshaller<ICorDebugType>.ConvertToUnmanaged(managed.pType)
+		};
+	}
 
-    public static unsafe CorDebugGuidToTypeMapping ConvertToManaged(in Native unmanaged)
-    {
-        return new CorDebugGuidToTypeMapping
-        {
-            iid = unmanaged.iid,
-            pType = ComInterfaceMarshaller<ICorDebugType>.ConvertToManaged((void*)unmanaged.pType) ?? throw new InvalidOperationException("Native CorDebugGuidToTypeMapping.pType was null.")
-        };
-    }
+	public static unsafe CorDebugGuidToTypeMapping ConvertToManaged(in Native unmanaged)
+	{
+		return new CorDebugGuidToTypeMapping
+		{
+			iid = unmanaged.iid,
+			pType = ComInterfaceMarshaller<ICorDebugType>.ConvertToManaged((void*) unmanaged.pType) ?? throw new InvalidOperationException("Native CorDebugGuidToTypeMapping.pType was null.")
+		};
+	}
 
-    public static unsafe void Free(in Native unmanaged)
-    {
-        ComInterfaceMarshaller<ICorDebugType>.Free((void*)unmanaged.pType);
-    }
+	public static unsafe void Free(in Native unmanaged)
+	{
+		ComInterfaceMarshaller<ICorDebugType>.Free((void*) unmanaged.pType);
+	}
 }

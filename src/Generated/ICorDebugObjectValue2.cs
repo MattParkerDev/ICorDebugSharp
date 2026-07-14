@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("49E4A320-4A9B-4ECA-B105-229FB7D5009F")]
 public partial interface ICorDebugObjectValue2
 {
-    [PreserveSig]
-    int GetVirtualMethodAndType(uint memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType);
+	[PreserveSig]
+	int GetVirtualMethodAndType(uint memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType);
 }

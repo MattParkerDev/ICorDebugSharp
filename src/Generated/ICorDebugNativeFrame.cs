@@ -11,30 +11,30 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("03E26314-4F76-11D3-88C6-006097945418")]
 public partial interface ICorDebugNativeFrame : ICorDebugFrame
 {
-    [PreserveSig]
-    int GetIP(out uint pnOffset);
+	[PreserveSig]
+	int GetIP(out uint pnOffset);
 
-    [PreserveSig]
-    int SetIP(uint nOffset);
+	[PreserveSig]
+	int SetIP(uint nOffset);
 
-    [PreserveSig]
-    int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
+	[PreserveSig]
+	int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
-    [PreserveSig]
-    int GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetLocalMemoryValue(ulong address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalMemoryValue(ulong address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, ulong lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, ulong lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetLocalMemoryRegisterValue(ulong highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalMemoryRegisterValue(ulong highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int CanSetIP(uint nOffset);
+	[PreserveSig]
+	int CanSetIP(uint nOffset);
 }

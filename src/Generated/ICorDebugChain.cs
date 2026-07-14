@@ -11,39 +11,39 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAEE-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugChain
 {
-    [PreserveSig]
-    int GetThread(out ICorDebugThread ppThread);
+	[PreserveSig]
+	int GetThread(out ICorDebugThread ppThread);
 
-    [PreserveSig]
-    int GetStackRange(out ulong pStart, out ulong pEnd);
+	[PreserveSig]
+	int GetStackRange(out ulong pStart, out ulong pEnd);
 
-    [PreserveSig]
-    int GetContext(out ICorDebugContext ppContext);
+	[PreserveSig]
+	int GetContext(out ICorDebugContext ppContext);
 
-    [PreserveSig]
-    int GetCaller(out ICorDebugChain ppChain);
+	[PreserveSig]
+	int GetCaller(out ICorDebugChain ppChain);
 
-    [PreserveSig]
-    int GetCallee(out ICorDebugChain ppChain);
+	[PreserveSig]
+	int GetCallee(out ICorDebugChain ppChain);
 
-    [PreserveSig]
-    int GetPrevious(out ICorDebugChain ppChain);
+	[PreserveSig]
+	int GetPrevious(out ICorDebugChain ppChain);
 
-    [PreserveSig]
-    int GetNext(out ICorDebugChain ppChain);
+	[PreserveSig]
+	int GetNext(out ICorDebugChain ppChain);
 
-    [PreserveSig]
-    int IsManaged(out int pManaged);
+	[PreserveSig]
+	int IsManaged(out int pManaged);
 
-    [PreserveSig]
-    int EnumerateFrames(out ICorDebugFrameEnum ppFrames);
+	[PreserveSig]
+	int EnumerateFrames(out ICorDebugFrameEnum ppFrames);
 
-    [PreserveSig]
-    int GetActiveFrame(out ICorDebugFrame ppFrame);
+	[PreserveSig]
+	int GetActiveFrame(out ICorDebugFrame ppFrame);
 
-    [PreserveSig]
-    int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
+	[PreserveSig]
+	int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
-    [PreserveSig]
-    int GetReason(out CorDebugChainReason pReason);
+	[PreserveSig]
+	int GetReason(out CorDebugChainReason pReason);
 }

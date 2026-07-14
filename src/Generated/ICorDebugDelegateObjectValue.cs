@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3AF70CC7-6047-47F6-A5C5-090A1A622638")]
 public partial interface ICorDebugDelegateObjectValue
 {
-    [PreserveSig]
-    int GetTarget(out ICorDebugReferenceValue ppObject);
+	[PreserveSig]
+	int GetTarget(out ICorDebugReferenceValue ppObject);
 
-    [PreserveSig]
-    int GetFunction(out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetFunction(out ICorDebugFunction ppFunction);
 }

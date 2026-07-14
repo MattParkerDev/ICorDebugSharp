@@ -11,24 +11,24 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("18AD3D6E-B7D2-11D2-BD04-0000F80849BD")]
 public partial interface ICorDebugObjectValue : ICorDebugValue
 {
-    [PreserveSig]
-    int GetClass(out ICorDebugClass ppClass);
+	[PreserveSig]
+	int GetClass(out ICorDebugClass ppClass);
 
-    [PreserveSig]
-    int GetFieldValue(ICorDebugClass pClass, uint fieldDef, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetFieldValue(ICorDebugClass pClass, uint fieldDef, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetVirtualMethod(uint memberRef, out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetVirtualMethod(uint memberRef, out ICorDebugFunction ppFunction);
 
-    [PreserveSig]
-    int GetContext(out ICorDebugContext ppContext);
+	[PreserveSig]
+	int GetContext(out ICorDebugContext ppContext);
 
-    [PreserveSig]
-    int IsValueClass(out int pbIsValueClass);
+	[PreserveSig]
+	int IsValueClass(out int pbIsValueClass);
 
-    [PreserveSig]
-    int GetManagedCopy(out nint ppObject);
+	[PreserveSig]
+	int GetManagedCopy(out nint ppObject);
 
-    [PreserveSig]
-    int SetFromManagedCopy(nint pObject);
+	[PreserveSig]
+	int SetFromManagedCopy(nint pObject);
 }

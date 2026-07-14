@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAFC-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugBoxValue : ICorDebugHeapValue
 {
-    [PreserveSig]
-    int GetObject(out ICorDebugObjectValue ppObject);
+	[PreserveSig]
+	int GetObject(out ICorDebugObjectValue ppObject);
 }

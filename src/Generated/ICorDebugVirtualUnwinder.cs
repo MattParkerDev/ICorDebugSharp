@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("F69126B7-C787-4F6B-AE96-A569786FC670")]
 public partial interface ICorDebugVirtualUnwinder
 {
-    [PreserveSig]
-    int GetContext(uint contextFlags, uint cbContextBuf, out uint contextSize, [MarshalUsing(CountElementName = nameof(cbContextBuf))][Out] byte[] contextBuf);
+	[PreserveSig]
+	int GetContext(uint contextFlags, uint cbContextBuf, out uint contextSize, [MarshalUsing(CountElementName = nameof(cbContextBuf))][Out] byte[] contextBuf);
 
-    [PreserveSig]
-    int Next();
+	[PreserveSig]
+	int Next();
 }

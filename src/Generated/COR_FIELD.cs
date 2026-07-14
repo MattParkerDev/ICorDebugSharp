@@ -8,11 +8,11 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_FIELD
 {
-    public uint token;
+	public uint token;
 
-    public uint offset;
+	public uint offset;
 
-    public COR_TYPEID id;
+	public COR_TYPEID id;
 
-    public uint fieldType;
+	public uint fieldType;
 }

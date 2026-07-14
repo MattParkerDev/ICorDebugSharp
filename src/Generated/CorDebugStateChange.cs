@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugStateChange
 {
-    PROCESS_RUNNING = 0x1,
-    FLUSH_ALL = 0x2,
+	PROCESS_RUNNING = 0x1,
+	FLUSH_ALL = 0x2,
 }

@@ -8,19 +8,19 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_ARRAY_LAYOUT
 {
-    public COR_TYPEID componentID;
+	public COR_TYPEID componentID;
 
-    public uint componentType;
+	public uint componentType;
 
-    public uint firstElementOffset;
+	public uint firstElementOffset;
 
-    public uint elementSize;
+	public uint elementSize;
 
-    public uint countOffset;
+	public uint countOffset;
 
-    public uint rankSize;
+	public uint rankSize;
 
-    public uint numRanks;
+	public uint numRanks;
 
-    public uint rankOffset;
+	public uint rankOffset;
 }

@@ -11,12 +11,12 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("6DC7BA3F-89BA-4459-9EC1-9D60937B468D")]
 public partial interface ICorDebugRegisterSet2
 {
-    [PreserveSig]
-    int GetRegistersAvailable(uint numChunks, [MarshalUsing(CountElementName = nameof(numChunks))][Out] byte[] availableRegChunks);
+	[PreserveSig]
+	int GetRegistersAvailable(uint numChunks, [MarshalUsing(CountElementName = nameof(numChunks))][Out] byte[] availableRegChunks);
 
-    [PreserveSig]
-    int GetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
+	[PreserveSig]
+	int GetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
 
-    [PreserveSig]
-    int SetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
+	[PreserveSig]
+	int SetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
 }

@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAFA-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugHeapValue : ICorDebugValue
 {
-    [PreserveSig]
-    int IsValid(out int pbValid);
+	[PreserveSig]
+	int IsValid(out int pbValid);
 
-    [PreserveSig]
-    int CreateRelocBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
+	[PreserveSig]
+	int CreateRelocBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
 }

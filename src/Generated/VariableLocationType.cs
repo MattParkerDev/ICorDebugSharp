@@ -5,7 +5,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum VariableLocationType
 {
-    VLT_REGISTER,
-    VLT_REGISTER_RELATIVE,
-    VLT_INVALID,
+	VLT_REGISTER,
+	VLT_REGISTER_RELATIVE,
+	VLT_INVALID,
 }

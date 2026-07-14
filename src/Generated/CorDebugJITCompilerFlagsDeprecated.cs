@@ -5,5 +5,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugJITCompilerFlagsDeprecated
 {
-    CORDEBUG_JIT_TRACK_DEBUG_INFO = 0x1,
+	CORDEBUG_JIT_TRACK_DEBUG_INFO = 0x1,
 }

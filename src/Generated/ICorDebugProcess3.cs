@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("2EE06488-C0D4-42B1-B26D-F3795EF606FB")]
 public partial interface ICorDebugProcess3
 {
-    [PreserveSig]
-    int SetEnableCustomNotification(ICorDebugClass pClass, int fEnable);
+	[PreserveSig]
+	int SetEnableCustomNotification(ICorDebugClass pClass, int fEnable);
 }

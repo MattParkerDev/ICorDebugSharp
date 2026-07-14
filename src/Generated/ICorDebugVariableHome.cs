@@ -11,24 +11,24 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("50847B8D-F43F-41B0-924C-6383A5F2278B")]
 public partial interface ICorDebugVariableHome
 {
-    [PreserveSig]
-    int GetCode(out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetCode(out ICorDebugCode ppCode);
 
-    [PreserveSig]
-    int GetSlotIndex(out uint pSlotIndex);
+	[PreserveSig]
+	int GetSlotIndex(out uint pSlotIndex);
 
-    [PreserveSig]
-    int GetArgumentIndex(out uint pArgumentIndex);
+	[PreserveSig]
+	int GetArgumentIndex(out uint pArgumentIndex);
 
-    [PreserveSig]
-    int GetLiveRange(out uint pStartOffset, out uint pEndOffset);
+	[PreserveSig]
+	int GetLiveRange(out uint pStartOffset, out uint pEndOffset);
 
-    [PreserveSig]
-    int GetLocationType(out VariableLocationType pLocationType);
+	[PreserveSig]
+	int GetLocationType(out VariableLocationType pLocationType);
 
-    [PreserveSig]
-    int GetRegister(out CorDebugRegister pRegister);
+	[PreserveSig]
+	int GetRegister(out CorDebugRegister pRegister);
 
-    [PreserveSig]
-    int GetOffset(out int pOffset);
+	[PreserveSig]
+	int GetOffset(out int pOffset);
 }

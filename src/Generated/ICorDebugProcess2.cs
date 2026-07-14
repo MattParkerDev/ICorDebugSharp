@@ -11,24 +11,24 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("AD1B3588-0EF0-4744-A496-AA09A9F80371")]
 public partial interface ICorDebugProcess2
 {
-    [PreserveSig]
-    int GetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread);
+	[PreserveSig]
+	int GetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread);
 
-    [PreserveSig]
-    int GetVersion(out COR_VERSION version);
+	[PreserveSig]
+	int GetVersion(out COR_VERSION version);
 
-    [PreserveSig]
-    int SetUnmanagedBreakpoint(ulong address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
+	[PreserveSig]
+	int SetUnmanagedBreakpoint(ulong address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
 
-    [PreserveSig]
-    int ClearUnmanagedBreakpoint(ulong address);
+	[PreserveSig]
+	int ClearUnmanagedBreakpoint(ulong address);
 
-    [PreserveSig]
-    int SetDesiredNGENCompilerFlags(uint pdwFlags);
+	[PreserveSig]
+	int SetDesiredNGENCompilerFlags(uint pdwFlags);
 
-    [PreserveSig]
-    int GetDesiredNGENCompilerFlags(out uint pdwFlags);
+	[PreserveSig]
+	int GetDesiredNGENCompilerFlags(out uint pdwFlags);
 
-    [PreserveSig]
-    int GetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue);
+	[PreserveSig]
+	int GetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue);
 }

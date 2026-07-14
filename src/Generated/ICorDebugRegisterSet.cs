@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCB0B-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugRegisterSet
 {
-    [PreserveSig]
-    int GetRegistersAvailable(out ulong pAvailable);
+	[PreserveSig]
+	int GetRegistersAvailable(out ulong pAvailable);
 
-    [PreserveSig]
-    int GetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
+	[PreserveSig]
+	int GetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
 
-    [PreserveSig]
-    int SetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
+	[PreserveSig]
+	int SetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
 
-    [PreserveSig]
-    int GetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
+	[PreserveSig]
+	int GetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
 
-    [PreserveSig]
-    int SetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
+	[PreserveSig]
+	int SetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 }

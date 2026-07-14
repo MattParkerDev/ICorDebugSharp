@@ -5,7 +5,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugHandleType
 {
-    HANDLE_STRONG = 1,
-    HANDLE_WEAK_TRACK_RESURRECTION = 2,
-    HANDLE_PINNED = 3,
+	HANDLE_STRONG = 1,
+	HANDLE_WEAK_TRACK_RESURRECTION = 2,
+	HANDLE_PINNED = 3,
 }

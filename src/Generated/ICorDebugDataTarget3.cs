@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("D05E60C3-848C-4E7D-894E-623320FF6AFA")]
 public partial interface ICorDebugDataTarget3
 {
-    [PreserveSig]
-    int GetLoadedModules(uint cRequestedModules, out uint pcFetchedModules, [MarshalUsing(CountElementName = nameof(cRequestedModules))][Out] ICorDebugLoadedModule[] pLoadedModules);
+	[PreserveSig]
+	int GetLoadedModules(uint cRequestedModules, out uint pcFetchedModules, [MarshalUsing(CountElementName = nameof(cRequestedModules))][Out] ICorDebugLoadedModule[] pLoadedModules);
 }

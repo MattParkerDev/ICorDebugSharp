@@ -9,54 +9,54 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [NativeMarshalling(typeof(CorDebugExceptionObjectStackFrameMarshaller))]
 public struct CorDebugExceptionObjectStackFrame
 {
-    public ICorDebugModule pModule;
+	public ICorDebugModule pModule;
 
-    public ulong ip;
+	public ulong ip;
 
-    public uint methodDef;
+	public uint methodDef;
 
-    public int isLastForeignExceptionFrame;
+	public int isLastForeignExceptionFrame;
 }
 
 [CustomMarshaller(typeof(CorDebugExceptionObjectStackFrame), MarshalMode.Default, typeof(CorDebugExceptionObjectStackFrameMarshaller))]
 internal static class CorDebugExceptionObjectStackFrameMarshaller
 {
-    [StructLayout(LayoutKind.Sequential)]
-    internal struct Native
-    {
-        public nint pModule;
+	[StructLayout(LayoutKind.Sequential)]
+	internal struct Native
+	{
+		public nint pModule;
 
-        public ulong ip;
+		public ulong ip;
 
-        public uint methodDef;
+		public uint methodDef;
 
-        public int isLastForeignExceptionFrame;
-    }
+		public int isLastForeignExceptionFrame;
+	}
 
-    public static unsafe Native ConvertToUnmanaged(in CorDebugExceptionObjectStackFrame managed)
-    {
-        return new Native
-        {
-            pModule = (nint)ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
-            ip = managed.ip,
-            methodDef = managed.methodDef,
-            isLastForeignExceptionFrame = managed.isLastForeignExceptionFrame
-        };
-    }
+	public static unsafe Native ConvertToUnmanaged(in CorDebugExceptionObjectStackFrame managed)
+	{
+		return new Native
+		{
+			pModule = (nint) ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
+			ip = managed.ip,
+			methodDef = managed.methodDef,
+			isLastForeignExceptionFrame = managed.isLastForeignExceptionFrame
+		};
+	}
 
-    public static unsafe CorDebugExceptionObjectStackFrame ConvertToManaged(in Native unmanaged)
-    {
-        return new CorDebugExceptionObjectStackFrame
-        {
-            pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*)unmanaged.pModule) ?? throw new InvalidOperationException("Native CorDebugExceptionObjectStackFrame.pModule was null."),
-            ip = unmanaged.ip,
-            methodDef = unmanaged.methodDef,
-            isLastForeignExceptionFrame = unmanaged.isLastForeignExceptionFrame
-        };
-    }
+	public static unsafe CorDebugExceptionObjectStackFrame ConvertToManaged(in Native unmanaged)
+	{
+		return new CorDebugExceptionObjectStackFrame
+		{
+			pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*) unmanaged.pModule) ?? throw new InvalidOperationException("Native CorDebugExceptionObjectStackFrame.pModule was null."),
+			ip = unmanaged.ip,
+			methodDef = unmanaged.methodDef,
+			isLastForeignExceptionFrame = unmanaged.isLastForeignExceptionFrame
+		};
+	}
 
-    public static unsafe void Free(in Native unmanaged)
-    {
-        ComInterfaceMarshaller<ICorDebugModule>.Free((void*)unmanaged.pModule);
-    }
+	public static unsafe void Free(in Native unmanaged)
+	{
+		ComInterfaceMarshaller<ICorDebugModule>.Free((void*) unmanaged.pModule);
+	}
 }

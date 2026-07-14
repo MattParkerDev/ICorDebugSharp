@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("46586093-D3F5-4DB6-ACDB-955BCE228C15")]
 public partial interface ICorDebugILCode2
 {
-    [PreserveSig]
-    int GetLocalVarSigToken(out uint pmdSig);
+	[PreserveSig]
+	int GetLocalVarSigToken(out uint pmdSig);
 
-    [PreserveSig]
-    int GetInstrumentedILMap(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_IL_MAP[] map);
+	[PreserveSig]
+	int GetInstrumentedILMap(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_IL_MAP[] map);
 }

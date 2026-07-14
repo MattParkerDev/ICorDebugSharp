@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("E799DC06-E099-4713-BDD9-906D3CC02CF2")]
 public partial interface ICorDebugDataTarget4
 {
-    [PreserveSig]
-    int VirtualUnwind(uint threadId, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
+	[PreserveSig]
+	int VirtualUnwind(uint threadId, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
 }

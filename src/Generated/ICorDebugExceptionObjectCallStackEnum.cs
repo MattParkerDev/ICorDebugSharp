@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("ED775530-4DC4-41F7-86D0-9E2DEF7DFC66")]
 public partial interface ICorDebugExceptionObjectCallStackEnum : ICorDebugEnum
 {
-    [PreserveSig]
-    int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] CorDebugExceptionObjectStackFrame[] values, out uint pceltFetched);
+	[PreserveSig]
+	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] CorDebugExceptionObjectStackFrame[] values, out uint pceltFetched);
 }

@@ -5,5 +5,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugNGENPolicy
 {
-    DISABLE_LOCAL_NIC = 1,
+	DISABLE_LOCAL_NIC = 1,
 }

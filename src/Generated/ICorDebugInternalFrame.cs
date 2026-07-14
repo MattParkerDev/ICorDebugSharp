@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("B92CC7F7-9D2D-45C4-BC2B-621FCC9DFBF4")]
 public partial interface ICorDebugInternalFrame : ICorDebugFrame
 {
-    [PreserveSig]
-    int GetFrameType(out CorDebugInternalFrameType pType);
+	[PreserveSig]
+	int GetFrameType(out CorDebugInternalFrameType pType);
 }

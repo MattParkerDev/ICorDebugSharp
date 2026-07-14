@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("8CB96A16-B588-42E2-B71C-DD849FC2ECCC")]
 public partial interface ICorDebugAppDomain3
 {
-    [PreserveSig]
-    int GetCachedWinRTTypesForIIDs(uint cReqTypes, [MarshalUsing(CountElementName = nameof(cReqTypes))][In] Guid[] iidsToResolve, out ICorDebugTypeEnum ppTypesEnum);
+	[PreserveSig]
+	int GetCachedWinRTTypesForIIDs(uint cReqTypes, [MarshalUsing(CountElementName = nameof(cReqTypes))][In] Guid[] iidsToResolve, out ICorDebugTypeEnum ppTypesEnum);
 
-    [PreserveSig]
-    int GetCachedWinRTTypes(out ICorDebugGuidToTypeEnum ppGuidToTypeEnum);
+	[PreserveSig]
+	int GetCachedWinRTTypes(out ICorDebugGuidToTypeEnum ppGuidToTypeEnum);
 }

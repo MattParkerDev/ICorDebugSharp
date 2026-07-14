@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("E6E91D79-693D-48BC-B417-8284B4F10FB5")]
 public partial interface ICorDebugType2
 {
-    [PreserveSig]
-    int GetTypeID(out COR_TYPEID id);
+	[PreserveSig]
+	int GetTypeID(out COR_TYPEID id);
 }

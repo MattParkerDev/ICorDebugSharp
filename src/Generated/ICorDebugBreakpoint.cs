@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAE8-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugBreakpoint
 {
-    [PreserveSig]
-    int Activate(int bActive);
+	[PreserveSig]
+	int Activate(int bActive);
 
-    [PreserveSig]
-    int IsActive(out int pbActive);
+	[PreserveSig]
+	int IsActive(out int pbActive);
 }

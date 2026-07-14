@@ -8,13 +8,13 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_HEAPINFO
 {
-    public int areGCStructuresValid;
+	public int areGCStructuresValid;
 
-    public uint pointerSize;
+	public uint pointerSize;
 
-    public uint numHeaps;
+	public uint numHeaps;
 
-    public int concurrent;
+	public int concurrent;
 
-    public CorDebugGCType gcType;
+	public CorDebugGCType gcType;
 }

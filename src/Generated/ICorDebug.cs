@@ -11,30 +11,30 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("3D6F5F61-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebug
 {
-    [PreserveSig]
-    int Initialize();
+	[PreserveSig]
+	int Initialize();
 
-    [PreserveSig]
-    int Terminate();
+	[PreserveSig]
+	int Terminate();
 
-    [PreserveSig]
-    int SetManagedHandler(ICorDebugManagedCallback pCallback);
+	[PreserveSig]
+	int SetManagedHandler(ICorDebugManagedCallback pCallback);
 
-    [PreserveSig]
-    int SetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback);
+	[PreserveSig]
+	int SetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback);
 
-    [PreserveSig]
-    int CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, int bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, int bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int DebugActiveProcess(uint id, int win32Attach, out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int DebugActiveProcess(uint id, int win32Attach, out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int EnumerateProcesses(out ICorDebugProcessEnum ppProcess);
+	[PreserveSig]
+	int EnumerateProcesses(out ICorDebugProcessEnum ppProcess);
 
-    [PreserveSig]
-    int GetProcess(uint dwProcessId, out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int GetProcess(uint dwProcessId, out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int CanLaunchOrAttach(uint dwProcessId, int win32DebuggingEnabled);
+	[PreserveSig]
+	int CanLaunchOrAttach(uint dwProcessId, int win32DebuggingEnabled);
 }

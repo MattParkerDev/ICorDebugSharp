@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("18221FA4-20CB-40FA-B19D-9F91C4FA8C14")]
 public partial interface ICorDebugCode4
 {
-    [PreserveSig]
-    int EnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum);
+	[PreserveSig]
+	int EnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum);
 }

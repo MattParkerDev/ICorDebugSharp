@@ -11,15 +11,15 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("EF0C490B-94C3-4E4D-B629-DDC134C532D8")]
 public partial interface ICorDebugFunction2
 {
-    [PreserveSig]
-    int SetJMCStatus(int bIsJustMyCode);
+	[PreserveSig]
+	int SetJMCStatus(int bIsJustMyCode);
 
-    [PreserveSig]
-    int GetJMCStatus(out int pbIsJustMyCode);
+	[PreserveSig]
+	int GetJMCStatus(out int pbIsJustMyCode);
 
-    [PreserveSig]
-    int EnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum);
+	[PreserveSig]
+	int EnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum);
 
-    [PreserveSig]
-    int GetVersionNumber(out uint pnVersion);
+	[PreserveSig]
+	int GetVersionNumber(out uint pnVersion);
 }

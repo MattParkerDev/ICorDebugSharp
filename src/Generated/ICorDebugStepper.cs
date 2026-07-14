@@ -11,27 +11,27 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAEC-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugStepper
 {
-    [PreserveSig]
-    int IsActive(out int pbActive);
+	[PreserveSig]
+	int IsActive(out int pbActive);
 
-    [PreserveSig]
-    int Deactivate();
+	[PreserveSig]
+	int Deactivate();
 
-    [PreserveSig]
-    int SetInterceptMask(CorDebugIntercept mask);
+	[PreserveSig]
+	int SetInterceptMask(CorDebugIntercept mask);
 
-    [PreserveSig]
-    int SetUnmappedStopMask(CorDebugUnmappedStop mask);
+	[PreserveSig]
+	int SetUnmappedStopMask(CorDebugUnmappedStop mask);
 
-    [PreserveSig]
-    int Step(int bStepIn);
+	[PreserveSig]
+	int Step(int bStepIn);
 
-    [PreserveSig]
-    int StepRange(int bStepIn, [MarshalUsing(CountElementName = nameof(cRangeCount))][In] COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount);
+	[PreserveSig]
+	int StepRange(int bStepIn, [MarshalUsing(CountElementName = nameof(cRangeCount))][In] COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount);
 
-    [PreserveSig]
-    int StepOut();
+	[PreserveSig]
+	int StepOut();
 
-    [PreserveSig]
-    int SetRangeIL(int bIL);
+	[PreserveSig]
+	int SetRangeIL(int bIL);
 }

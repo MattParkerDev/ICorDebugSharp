@@ -11,15 +11,15 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("A0647DE9-55DE-4816-929C-385271C64CF7")]
 public partial interface ICorDebugStackWalk
 {
-    [PreserveSig]
-    int GetContext(uint contextFlags, uint contextBufSize, out uint contextSize, [MarshalUsing(CountElementName = nameof(contextBufSize))][Out] byte[] contextBuf);
+	[PreserveSig]
+	int GetContext(uint contextFlags, uint contextBufSize, out uint contextSize, [MarshalUsing(CountElementName = nameof(contextBufSize))][Out] byte[] contextBuf);
 
-    [PreserveSig]
-    int SetContext(CorDebugSetContextFlag flag, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
+	[PreserveSig]
+	int SetContext(CorDebugSetContextFlag flag, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 
-    [PreserveSig]
-    int Next();
+	[PreserveSig]
+	int Next();
 
-    [PreserveSig]
-    int GetFrame(out ICorDebugFrame pFrame);
+	[PreserveSig]
+	int GetFrame(out ICorDebugFrame pFrame);
 }

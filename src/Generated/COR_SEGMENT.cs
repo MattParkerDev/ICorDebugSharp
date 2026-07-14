@@ -8,11 +8,11 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_SEGMENT
 {
-    public ulong start;
+	public ulong start;
 
-    public ulong end;
+	public ulong end;
 
-    public CorDebugGenerationTypes type;
+	public CorDebugGenerationTypes type;
 
-    public uint heap;
+	public uint heap;
 }

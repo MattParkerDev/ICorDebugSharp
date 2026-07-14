@@ -11,30 +11,30 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF4-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugCode
 {
-    [PreserveSig]
-    int IsIL(out int pbIL);
+	[PreserveSig]
+	int IsIL(out int pbIL);
 
-    [PreserveSig]
-    int GetFunction(out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetFunction(out ICorDebugFunction ppFunction);
 
-    [PreserveSig]
-    int GetAddress(out ulong pStart);
+	[PreserveSig]
+	int GetAddress(out ulong pStart);
 
-    [PreserveSig]
-    int GetSize(out uint pcBytes);
+	[PreserveSig]
+	int GetSize(out uint pcBytes);
 
-    [PreserveSig]
-    int CreateBreakpoint(uint offset, out ICorDebugFunctionBreakpoint ppBreakpoint);
+	[PreserveSig]
+	int CreateBreakpoint(uint offset, out ICorDebugFunctionBreakpoint ppBreakpoint);
 
-    [PreserveSig]
-    int GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, [MarshalUsing(CountElementName = nameof(cBufferAlloc))][Out] byte[] buffer, out uint pcBufferSize);
+	[PreserveSig]
+	int GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, [MarshalUsing(CountElementName = nameof(cBufferAlloc))][Out] byte[] buffer, out uint pcBufferSize);
 
-    [PreserveSig]
-    int GetVersionNumber(out uint nVersion);
+	[PreserveSig]
+	int GetVersionNumber(out uint nVersion);
 
-    [PreserveSig]
-    int GetILToNativeMapping(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_DEBUG_IL_TO_NATIVE_MAP[] map);
+	[PreserveSig]
+	int GetILToNativeMapping(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_DEBUG_IL_TO_NATIVE_MAP[] map);
 
-    [PreserveSig]
-    int GetEnCRemapSequencePoints(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] uint[] offsets);
+	[PreserveSig]
+	int GetEnCRemapSequencePoints(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] uint[] offsets);
 }

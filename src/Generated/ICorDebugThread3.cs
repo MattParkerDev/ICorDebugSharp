@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("F8544EC3-5E4E-46C7-8D3E-A52B8405B1F5")]
 public partial interface ICorDebugThread3
 {
-    [PreserveSig]
-    int CreateStackWalk(out ICorDebugStackWalk ppStackWalk);
+	[PreserveSig]
+	int CreateStackWalk(out ICorDebugStackWalk ppStackWalk);
 
-    [PreserveSig]
-    int GetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, [MarshalUsing(CountElementName = nameof(cInternalFrames))][In][Out] ICorDebugInternalFrame2[] ppInternalFrames);
+	[PreserveSig]
+	int GetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, [MarshalUsing(CountElementName = nameof(cInternalFrames))][In][Out] ICorDebugInternalFrame2[] ppInternalFrames);
 }

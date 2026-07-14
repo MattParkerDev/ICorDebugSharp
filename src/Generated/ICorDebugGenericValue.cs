@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAF8-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugGenericValue : ICorDebugValue
 {
-    [PreserveSig]
-    int GetValue(out nint pTo);
+	[PreserveSig]
+	int GetValue(out nint pTo);
 
-    [PreserveSig]
-    int SetValue(nint pFrom);
+	[PreserveSig]
+	int SetValue(nint pFrom);
 }

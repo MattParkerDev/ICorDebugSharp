@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("5F69C5E5-3E12-42DF-B371-F9D761D6EE24")]
 public partial interface ICorDebugComObjectValue
 {
-    [PreserveSig]
-    int GetCachedInterfaceTypes(int bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
+	[PreserveSig]
+	int GetCachedInterfaceTypes(int bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
 
-    [PreserveSig]
-    int GetCachedInterfacePointers(int bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] ulong[] ptrs);
+	[PreserveSig]
+	int GetCachedInterfacePointers(int bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] ulong[] ptrs);
 }

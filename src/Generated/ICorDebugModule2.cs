@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("7FCC5FB5-49C0-41DE-9938-3B88B5B9ADD7")]
 public partial interface ICorDebugModule2
 {
-    [PreserveSig]
-    int SetJMCStatus(int bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] uint[] pTokens);
+	[PreserveSig]
+	int SetJMCStatus(int bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] uint[] pTokens);
 
-    [PreserveSig]
-    int ApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
+	[PreserveSig]
+	int ApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
 
-    [PreserveSig]
-    int SetJITCompilerFlags(uint dwFlags);
+	[PreserveSig]
+	int SetJITCompilerFlags(uint dwFlags);
 
-    [PreserveSig]
-    int GetJITCompilerFlags(out uint pdwFlags);
+	[PreserveSig]
+	int GetJITCompilerFlags(out uint pdwFlags);
 
-    [PreserveSig]
-    int ResolveAssembly(uint tkAssemblyRef, out ICorDebugAssembly ppAssembly);
+	[PreserveSig]
+	int ResolveAssembly(uint tkAssemblyRef, out ICorDebugAssembly ppAssembly);
 }

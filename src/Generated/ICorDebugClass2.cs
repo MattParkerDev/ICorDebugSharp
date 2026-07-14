@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("B008EA8D-7AB1-43F7-BB20-FBB5A04038AE")]
 public partial interface ICorDebugClass2
 {
-    [PreserveSig]
-    int GetParameterizedType(uint elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
+	[PreserveSig]
+	int GetParameterizedType(uint elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 
-    [PreserveSig]
-    int SetJMCStatus(int bIsJustMyCode);
+	[PreserveSig]
+	int SetJMCStatus(int bIsJustMyCode);
 }

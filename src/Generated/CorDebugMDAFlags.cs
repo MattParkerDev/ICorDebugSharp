@@ -5,5 +5,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugMDAFlags
 {
-    MDA_FLAG_SLIP = 0x2,
+	MDA_FLAG_SLIP = 0x2,
 }

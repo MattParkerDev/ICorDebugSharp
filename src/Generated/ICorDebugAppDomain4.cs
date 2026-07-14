@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("FB99CC40-83BE-4724-AB3B-768E796EBAC2")]
 public partial interface ICorDebugAppDomain4
 {
-    [PreserveSig]
-    int GetObjectForCCW(ulong ccwPointer, out ICorDebugValue ppManagedObject);
+	[PreserveSig]
+	int GetObjectForCCW(ulong ccwPointer, out ICorDebugValue ppManagedObject);
 }

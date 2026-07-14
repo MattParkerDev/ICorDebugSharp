@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_DEBUG_STEP_RANGE
 {
-    public uint startOffset;
+	public uint startOffset;
 
-    public uint endOffset;
+	public uint endOffset;
 }

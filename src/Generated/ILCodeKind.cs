@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum ILCodeKind
 {
-    ILCODE_ORIGINAL_IL = 0x1,
-    ILCODE_REJIT_IL = 0x2,
+	ILCODE_ORIGINAL_IL = 0x1,
+	ILCODE_REJIT_IL = 0x2,
 }

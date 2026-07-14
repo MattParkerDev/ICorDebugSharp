@@ -11,30 +11,30 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("03E26311-4F76-11D3-88C6-006097945418")]
 public partial interface ICorDebugILFrame : ICorDebugFrame
 {
-    [PreserveSig]
-    int GetIP(out uint pnOffset, out CorDebugMappingResult pMappingResult);
+	[PreserveSig]
+	int GetIP(out uint pnOffset, out CorDebugMappingResult pMappingResult);
 
-    [PreserveSig]
-    int SetIP(uint nOffset);
+	[PreserveSig]
+	int SetIP(uint nOffset);
 
-    [PreserveSig]
-    int EnumerateLocalVariables(out ICorDebugValueEnum ppValueEnum);
+	[PreserveSig]
+	int EnumerateLocalVariables(out ICorDebugValueEnum ppValueEnum);
 
-    [PreserveSig]
-    int GetLocalVariable(uint dwIndex, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetLocalVariable(uint dwIndex, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int EnumerateArguments(out ICorDebugValueEnum ppValueEnum);
+	[PreserveSig]
+	int EnumerateArguments(out ICorDebugValueEnum ppValueEnum);
 
-    [PreserveSig]
-    int GetArgument(uint dwIndex, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetArgument(uint dwIndex, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int GetStackDepth(out uint pDepth);
+	[PreserveSig]
+	int GetStackDepth(out uint pDepth);
 
-    [PreserveSig]
-    int GetStackValue(uint dwIndex, out ICorDebugValue ppValue);
+	[PreserveSig]
+	int GetStackValue(uint dwIndex, out ICorDebugValue ppValue);
 
-    [PreserveSig]
-    int CanSetIP(uint nOffset);
+	[PreserveSig]
+	int CanSetIP(uint nOffset);
 }

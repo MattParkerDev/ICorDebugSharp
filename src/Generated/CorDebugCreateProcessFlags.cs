@@ -5,5 +5,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugCreateProcessFlags
 {
-    DEBUG_NO_SPECIAL_OPTIONS = 0x0,
+	DEBUG_NO_SPECIAL_OPTIONS = 0x0,
 }

@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("F9801807-4764-4330-9E67-4F685094165E")]
 public partial interface ICorDebugSymbolProvider2
 {
-    [PreserveSig]
-    int GetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer);
+	[PreserveSig]
+	int GetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer);
 
-    [PreserveSig]
-    int GetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva);
+	[PreserveSig]
+	int GetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva);
 }

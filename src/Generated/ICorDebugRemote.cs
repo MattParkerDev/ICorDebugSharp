@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("D5EBB8E2-7BBE-4C1D-98A6-A3C04CBDEF64")]
 public partial interface ICorDebugRemote
 {
-    [PreserveSig]
-    int CreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, int bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int CreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, int bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
-    [PreserveSig]
-    int DebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, int fWin32Attach, out ICorDebugProcess ppProcess);
+	[PreserveSig]
+	int DebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, int fWin32Attach, out ICorDebugProcess ppProcess);
 }

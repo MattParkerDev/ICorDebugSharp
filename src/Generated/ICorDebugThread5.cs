@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("F98421C4-E506-4D24-916F-0237EE853EC6")]
 public partial interface ICorDebugThread5
 {
-    [PreserveSig]
-    int GetBytesAllocated(out ulong pSohAllocatedBytes, out ulong pUohAllocatedBytes);
+	[PreserveSig]
+	int GetBytesAllocated(out ulong pSohAllocatedBytes, out ulong pUohAllocatedBytes);
 }

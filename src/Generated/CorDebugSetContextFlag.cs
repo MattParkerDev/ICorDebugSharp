@@ -5,6 +5,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 
 public enum CorDebugSetContextFlag
 {
-    SET_CONTEXT_FLAG_ACTIVE_FRAME = 0x1,
-    SET_CONTEXT_FLAG_UNWIND_FRAME = 0x2,
+	SET_CONTEXT_FLAG_ACTIVE_FRAME = 0x1,
+	SET_CONTEXT_FLAG_UNWIND_FRAME = 0x2,
 }

@@ -11,18 +11,18 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("2BD956D9-7B07-4BEF-8A98-12AA862417C5")]
 public partial interface ICorDebugThread2
 {
-    [PreserveSig]
-    int GetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[] pFunctions);
+	[PreserveSig]
+	int GetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[] pFunctions);
 
-    [PreserveSig]
-    int GetConnectionID(out uint pdwConnectionId);
+	[PreserveSig]
+	int GetConnectionID(out uint pdwConnectionId);
 
-    [PreserveSig]
-    int GetTaskID(out ulong pTaskId);
+	[PreserveSig]
+	int GetTaskID(out ulong pTaskId);
 
-    [PreserveSig]
-    int GetVolatileOSThreadID(out uint pdwTid);
+	[PreserveSig]
+	int GetVolatileOSThreadID(out uint pdwTid);
 
-    [PreserveSig]
-    int InterceptCurrentException(ICorDebugFrame pFrame);
+	[PreserveSig]
+	int InterceptCurrentException(ICorDebugFrame pFrame);
 }

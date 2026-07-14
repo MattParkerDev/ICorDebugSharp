@@ -11,6 +11,6 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("C3ED8383-5A49-4CF5-B4B7-01864D9E582D")]
 public partial interface ICorDebugRemoteTarget
 {
-    [PreserveSig]
-    int GetHostName(uint cchHostName, out uint pcchHostName, [MarshalUsing(CountElementName = nameof(cchHostName))][Out] char[]? szHostName);
+	[PreserveSig]
+	int GetHostName(uint cchHostName, out uint pcchHostName, [MarshalUsing(CountElementName = nameof(cchHostName))][Out] char[]? szHostName);
 }

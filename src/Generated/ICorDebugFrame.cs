@@ -11,27 +11,27 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("CC7BCAEF-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugFrame
 {
-    [PreserveSig]
-    int GetChain(out ICorDebugChain ppChain);
+	[PreserveSig]
+	int GetChain(out ICorDebugChain ppChain);
 
-    [PreserveSig]
-    int GetCode(out ICorDebugCode ppCode);
+	[PreserveSig]
+	int GetCode(out ICorDebugCode ppCode);
 
-    [PreserveSig]
-    int GetFunction(out ICorDebugFunction ppFunction);
+	[PreserveSig]
+	int GetFunction(out ICorDebugFunction ppFunction);
 
-    [PreserveSig]
-    int GetFunctionToken(out uint pToken);
+	[PreserveSig]
+	int GetFunctionToken(out uint pToken);
 
-    [PreserveSig]
-    int GetStackRange(out ulong pStart, out ulong pEnd);
+	[PreserveSig]
+	int GetStackRange(out ulong pStart, out ulong pEnd);
 
-    [PreserveSig]
-    int GetCaller(out ICorDebugFrame ppFrame);
+	[PreserveSig]
+	int GetCaller(out ICorDebugFrame ppFrame);
 
-    [PreserveSig]
-    int GetCallee(out ICorDebugFrame ppFrame);
+	[PreserveSig]
+	int GetCallee(out ICorDebugFrame ppFrame);
 
-    [PreserveSig]
-    int CreateStepper(out ICorDebugStepper ppStepper);
+	[PreserveSig]
+	int CreateStepper(out ICorDebugStepper ppStepper);
 }

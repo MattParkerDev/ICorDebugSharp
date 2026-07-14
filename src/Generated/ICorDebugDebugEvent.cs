@@ -11,9 +11,9 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [Guid("41BD395D-DE99-48F1-BF7A-CC0F44A6D281")]
 public partial interface ICorDebugDebugEvent
 {
-    [PreserveSig]
-    int GetEventKind(out CorDebugDebugEventKind pDebugEventKind);
+	[PreserveSig]
+	int GetEventKind(out CorDebugDebugEventKind pDebugEventKind);
 
-    [PreserveSig]
-    int GetThread(out ICorDebugThread ppThread);
+	[PreserveSig]
+	int GetThread(out ICorDebugThread ppThread);
 }

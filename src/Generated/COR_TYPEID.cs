@@ -8,7 +8,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_TYPEID
 {
-    public ulong token1;
+	public ulong token1;
 
-    public ulong token2;
+	public ulong token2;
 }
