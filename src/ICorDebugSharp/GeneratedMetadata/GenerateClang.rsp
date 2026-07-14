@@ -24,6 +24,7 @@ unix-types
 C:/src/dotnet/src/runtime/src/coreclr/inc/
 --include-directory
 C:/src/dotnet/src/runtime/src/coreclr/inc/
+C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc
 C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um
 C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared
 C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt
