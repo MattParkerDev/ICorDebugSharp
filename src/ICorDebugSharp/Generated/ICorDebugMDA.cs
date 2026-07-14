@@ -12,13 +12,13 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugMDA
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
 	int GetFlags(ref CorDebugMDAFlags pFlags);

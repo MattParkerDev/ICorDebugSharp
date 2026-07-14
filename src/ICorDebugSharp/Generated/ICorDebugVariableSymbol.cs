@@ -12,7 +12,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugVariableSymbol
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
 	int GetSize(out uint pcbValue);

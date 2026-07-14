@@ -21,7 +21,7 @@ public partial interface ICorDebugModule
 	int GetAssembly(out ICorDebugAssembly ppAssembly);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
 	int EnableJITDebugging(int bTrackJITInfo, int bAllowJitOpts);

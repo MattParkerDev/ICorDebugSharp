@@ -15,5 +15,5 @@ public partial interface ICorDebugStringValue : ICorDebugHeapValue
 	int GetLength(out uint pcchString);
 
 	[PreserveSig]
-	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
+	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
 }

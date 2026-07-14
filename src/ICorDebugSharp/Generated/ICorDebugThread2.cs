@@ -12,7 +12,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugThread2
 {
 	[PreserveSig]
-	int GetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[] pFunctions);
+	int GetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[]? pFunctions);
 
 	[PreserveSig]
 	int GetConnectionID(out uint pdwConnectionId);

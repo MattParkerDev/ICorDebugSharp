@@ -30,7 +30,7 @@ public partial interface ICorDebugAppDomain : ICorDebugController
 	int IsAttached(out int pbAttached);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
 	int GetObject(out ICorDebugValue ppObject);

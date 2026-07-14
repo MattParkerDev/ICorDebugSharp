@@ -15,7 +15,7 @@ public partial interface ICorDebugDataTarget2
 	int GetImageFromPointer(ulong addr, out ulong pImageBase, out uint pSize);
 
 	[PreserveSig]
-	int GetImageLocation(ulong baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);
+	int GetImageLocation(ulong baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
 	int GetSymbolProviderForImage(ulong imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);

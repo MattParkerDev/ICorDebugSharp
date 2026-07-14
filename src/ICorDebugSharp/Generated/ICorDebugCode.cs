@@ -33,7 +33,7 @@ public partial interface ICorDebugCode
 	int GetVersionNumber(out uint nVersion);
 
 	[PreserveSig]
-	int GetILToNativeMapping(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_DEBUG_IL_TO_NATIVE_MAP[] map);
+	int GetILToNativeMapping(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_DEBUG_IL_TO_NATIVE_MAP[]? map);
 
 	[PreserveSig]
 	int GetEnCRemapSequencePoints(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] uint[] offsets);

@@ -21,5 +21,5 @@ public partial interface ICorDebugEditAndContinueErrorInfo
 	int GetErrorCode(out int pHr);
 
 	[PreserveSig]
-	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[] szString);
+	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
 }

@@ -15,5 +15,5 @@ public partial interface ICorDebugComObjectValue
 	int GetCachedInterfaceTypes(int bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
 
 	[PreserveSig]
-	int GetCachedInterfacePointers(int bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] ulong[] ptrs);
+	int GetCachedInterfacePointers(int bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] ulong[]? ptrs);
 }

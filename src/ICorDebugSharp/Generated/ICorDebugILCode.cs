@@ -12,5 +12,5 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugILCode
 {
 	[PreserveSig]
-	int GetEHClauses(uint cClauses, out uint pcClauses, [MarshalUsing(CountElementName = nameof(cClauses))][Out] CorDebugEHClause[] clauses);
+	int GetEHClauses(uint cClauses, out uint pcClauses, [MarshalUsing(CountElementName = nameof(cClauses))][Out] CorDebugEHClause[]? clauses);
 }

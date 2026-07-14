@@ -12,7 +12,7 @@ namespace Microsoft.VisualStudio.CorDebugInterop;
 public partial interface ICorDebugCode2
 {
 	[PreserveSig]
-	int GetCodeChunks(uint cbufSize, out uint pcnumChunks, [MarshalUsing(CountElementName = nameof(cbufSize))][Out] CodeChunkInfo[] chunks);
+	int GetCodeChunks(uint cbufSize, out uint pcnumChunks, [MarshalUsing(CountElementName = nameof(cbufSize))][Out] CodeChunkInfo[]? chunks);
 
 	[PreserveSig]
 	int GetCompilerFlags(out uint pdwFlags);
