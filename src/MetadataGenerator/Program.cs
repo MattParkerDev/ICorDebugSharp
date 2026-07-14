@@ -35,14 +35,14 @@ var config = new PInvokeGeneratorConfiguration
     "",
     "ICorDebugSharp.GeneratedMetadata",
     $"{projectDirectory}/../ICorDebugSharp/GeneratedMetadata/",
-    "",
+    null,
     PInvokeGeneratorOutputMode.CSharp,
     pInvokeGeneratorConfigurationOptions)
 {
     DefaultClass = "Cor",
     IncludedNames =
     [
-	    "C:/src/dotnet/src/runtime/src/coreclr/inc/",
+	    "C:/src/dotnet/src/runtime/src/coreclr/inc",
 	    "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc",
 	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
 	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared",
