@@ -23,13 +23,13 @@ public unsafe partial interface IMetaDataImport
 	int ResetEnum(HCorEnum hEnum, uint ulPos);
 
 	[PreserveSig]
-	int EnumTypeDefs(ref HCorEnum phEnum, out Token rTypeDefs, uint cMax, out uint pcTypeDefs);
+	int EnumTypeDefs(ref HCorEnum phEnum, out Token rTypeDefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeDefs);
 
 	[PreserveSig]
-	int EnumInterfaceImpls(ref HCorEnum phEnum, Token td, out Token rImpls, uint cMax, out uint pcImpls);
+	int EnumInterfaceImpls(ref HCorEnum phEnum, Token td, out Token rImpls, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcImpls);
 
 	[PreserveSig]
-	int EnumTypeRefs(ref HCorEnum phEnum, out Token rTypeRefs, uint cMax, out uint pcTypeRefs);
+	int EnumTypeRefs(ref HCorEnum phEnum, out Token rTypeRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeRefs);
 
 	[PreserveSig]
 	int FindTypeDefByName(char* szTypeDef, Token tkEnclosingClass, out Token ptd);
@@ -53,34 +53,34 @@ public unsafe partial interface IMetaDataImport
 	int ResolveTypeRef(Token tr, Guid* riid, out nint ppIScope, out Token ptd);
 
 	[PreserveSig]
-	int EnumMembers(ref HCorEnum phEnum, Token cl, out Token rMembers, uint cMax, out uint pcTokens);
+	int EnumMembers(ref HCorEnum phEnum, Token cl, out Token rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMembersWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMembers, uint cMax, out uint pcTokens);
+	int EnumMembersWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethods(ref HCorEnum phEnum, Token cl, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumMethods(ref HCorEnum phEnum, Token cl, out Token rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumMethodsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFields(ref HCorEnum phEnum, Token cl, out Token rFields, uint cMax, out uint pcTokens);
+	int EnumFields(ref HCorEnum phEnum, Token cl, out Token rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFieldsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rFields, uint cMax, out uint pcTokens);
+	int EnumFieldsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumParams(ref HCorEnum phEnum, Token mb, out Token rParams, uint cMax, out uint pcTokens);
+	int EnumParams(ref HCorEnum phEnum, Token mb, out Token rParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMemberRefs(ref HCorEnum phEnum, Token tkParent, out Token rMemberRefs, uint cMax, out uint pcTokens);
+	int EnumMemberRefs(ref HCorEnum phEnum, Token tkParent, out Token rMemberRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodImpls(ref HCorEnum phEnum, Token td, out Token rMethodBody, out Token rMethodDecl, uint cMax, out uint pcTokens);
+	int EnumMethodImpls(ref HCorEnum phEnum, Token td, out Token rMethodBody, out Token rMethodDecl, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumPermissionSets(ref HCorEnum phEnum, Token tk, uint dwActions, out Token rPermission, uint cMax, out uint pcTokens);
+	int EnumPermissionSets(ref HCorEnum phEnum, Token tk, uint dwActions, out Token rPermission, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int FindMember(Token td, char* szName, byte* pvSigBlob, uint cbSigBlob, out Token pmb);
@@ -101,22 +101,22 @@ public unsafe partial interface IMetaDataImport
 	int GetMemberRefProps(Token mr, out Token ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
-	int EnumProperties(ref HCorEnum phEnum, Token td, out Token rProperties, uint cMax, out uint pcProperties);
+	int EnumProperties(ref HCorEnum phEnum, Token td, out Token rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
 
 	[PreserveSig]
-	int EnumEvents(ref HCorEnum phEnum, Token td, out Token rEvents, uint cMax, out uint pcEvents);
+	int EnumEvents(ref HCorEnum phEnum, Token td, out Token rEvents, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEvents);
 
 	[PreserveSig]
-	int GetEventProps(Token ev, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out uint pdwEventFlags, out Token ptkEventType, out Token pmdAddOn, out Token pmdRemoveOn, out Token pmdFire, out Token rmdOtherMethod, uint cMax, out uint pcOtherMethod);
+	int GetEventProps(Token ev, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out uint pdwEventFlags, out Token ptkEventType, out Token pmdAddOn, out Token pmdRemoveOn, out Token pmdFire, out Token rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int EnumMethodSemantics(ref HCorEnum phEnum, Token mb, out Token rEventProp, uint cMax, out uint pcEventProp);
+	int EnumMethodSemantics(ref HCorEnum phEnum, Token mb, out Token rEventProp, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEventProp);
 
 	[PreserveSig]
 	int GetMethodSemantics(Token mb, Token tkEventProp, out uint pdwSemanticsFlags);
 
 	[PreserveSig]
-	int GetClassLayout(Token td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, uint cMax, out uint pcFieldOffset, out uint pulClassSize);
+	int GetClassLayout(Token td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
 	[PreserveSig]
 	int GetFieldMarshal(Token tk, out byte* ppvNativeType, out uint pcbNativeType);
@@ -134,7 +134,7 @@ public unsafe partial interface IMetaDataImport
 	int GetModuleRefProps(Token mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int EnumModuleRefs(ref HCorEnum phEnum, out Token rModuleRefs, uint cmax, out uint pcModuleRefs);
+	int EnumModuleRefs(ref HCorEnum phEnum, out Token rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
 	int GetTypeSpecFromToken(Token typespec, out byte* ppvSig, out uint pcbSig);
@@ -143,7 +143,7 @@ public unsafe partial interface IMetaDataImport
 	int GetNameFromToken(Token tk, out sbyte* pszUtf8NamePtr);
 
 	[PreserveSig]
-	int EnumUnresolvedMethods(ref HCorEnum phEnum, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumUnresolvedMethods(ref HCorEnum phEnum, out Token rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int GetUserString(Token stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
@@ -152,19 +152,19 @@ public unsafe partial interface IMetaDataImport
 	int GetPinvokeMap(Token tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out Token pmrImportDLL);
 
 	[PreserveSig]
-	int EnumSignatures(ref HCorEnum phEnum, out Token rSignatures, uint cmax, out uint pcSignatures);
+	int EnumSignatures(ref HCorEnum phEnum, out Token rSignatures, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcSignatures);
 
 	[PreserveSig]
-	int EnumTypeSpecs(ref HCorEnum phEnum, out Token rTypeSpecs, uint cmax, out uint pcTypeSpecs);
+	int EnumTypeSpecs(ref HCorEnum phEnum, out Token rTypeSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcTypeSpecs);
 
 	[PreserveSig]
-	int EnumUserStrings(ref HCorEnum phEnum, out Token rStrings, uint cmax, out uint pcStrings);
+	int EnumUserStrings(ref HCorEnum phEnum, out Token rStrings, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcStrings);
 
 	[PreserveSig]
 	int GetParamForMethodIndex(Token md, uint ulParamSeq, out Token ppd);
 
 	[PreserveSig]
-	int EnumCustomAttributes(ref HCorEnum phEnum, Token tk, Token tkType, out Token rCustomAttributes, uint cMax, out uint pcCustomAttributes);
+	int EnumCustomAttributes(ref HCorEnum phEnum, Token tk, Token tkType, out Token rCustomAttributes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcCustomAttributes);
 
 	[PreserveSig]
 	int GetCustomAttributeProps(Token cv, out Token ptkObj, out Token ptkType, out nint ppBlob, out uint pcbSize);
@@ -179,7 +179,7 @@ public unsafe partial interface IMetaDataImport
 	int GetFieldProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetPropertyProps(Token prop, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out uint pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out Token pmdSetter, out Token pmdGetter, out Token rmdOtherMethod, uint cMax, out uint pcOtherMethod);
+	int GetPropertyProps(Token prop, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out uint pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out Token pmdSetter, out Token pmdGetter, out Token rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
 	int GetParamProps(Token tk, out Token pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out uint pdwAttr, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);

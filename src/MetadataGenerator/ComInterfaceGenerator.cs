@@ -129,6 +129,9 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		if (typedefName is not null && InputPointerTypedefs.Contains(typedefName))
 			return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 
+		if (RequiresMaxOneMarshaller(method, parameterIndex))
+			return $"[MarshalUsing(typeof(EnumeratorMax1Marshaller))] {_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
+
 		if (GetArrayElementType(parameter.OriginalType) is { } elementType)
 			return $"out {_typeMapper.Map(elementType)} {EscapeIdentifier(parameter.Name)}";
 
@@ -142,6 +145,10 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 
 		return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 	}
+
+	private static bool RequiresMaxOneMarshaller(CXXMethodDecl method, int parameterIndex) =>
+		method.Parameters[parameterIndex].Name.Equals("cMax", StringComparison.OrdinalIgnoreCase) &&
+		method.Parameters.Take(parameterIndex).Any(parameter => GetArrayElementType(parameter.OriginalType) is not null);
 
 	private static ClangType? GetArrayElementType(ClangType type)
 	{

@@ -29,16 +29,16 @@ public unsafe partial interface IMetaDataAssemblyImport
 	int GetManifestResourceProps(Token mdmr, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out Token ptkImplementation, out uint pdwOffset, out uint pdwResourceFlags);
 
 	[PreserveSig]
-	int EnumAssemblyRefs(ref HCorEnum phEnum, out Token rAssemblyRefs, uint cMax, out uint pcTokens);
+	int EnumAssemblyRefs(ref HCorEnum phEnum, out Token rAssemblyRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFiles(ref HCorEnum phEnum, out Token rFiles, uint cMax, out uint pcTokens);
+	int EnumFiles(ref HCorEnum phEnum, out Token rFiles, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumExportedTypes(ref HCorEnum phEnum, out Token rExportedTypes, uint cMax, out uint pcTokens);
+	int EnumExportedTypes(ref HCorEnum phEnum, out Token rExportedTypes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumManifestResources(ref HCorEnum phEnum, out Token rManifestResources, uint cMax, out uint pcTokens);
+	int EnumManifestResources(ref HCorEnum phEnum, out Token rManifestResources, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int GetAssemblyFromScope(out Token ptkAssembly);
@@ -53,5 +53,5 @@ public unsafe partial interface IMetaDataAssemblyImport
 	void CloseEnum(HCorEnum hEnum);
 
 	[PreserveSig]
-	int FindAssembliesByName(char* szAppBase, char* szPrivateBin, char* szAssemblyName, out nint ppIUnk, uint cMax, out uint pcAssemblies);
+	int FindAssembliesByName(char* szAppBase, char* szPrivateBin, char* szAssemblyName, out nint ppIUnk, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcAssemblies);
 }
