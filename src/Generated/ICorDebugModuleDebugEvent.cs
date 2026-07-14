@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Microsoft.VisualStudio.CorDebugInterop;
 
-[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+[GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("51A15E8D-9FFF-4864-9B87-F4FBDEA747A2")]
 public partial interface ICorDebugModuleDebugEvent : ICorDebugDebugEvent

@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace Microsoft.VisualStudio.CorDebugInterop;
 
-[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
+[GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("677888B3-D160-4B8C-A73B-D79E6AAA1D13")]
 public partial interface ICorDebugMemoryBuffer
