@@ -12,19 +12,19 @@ public unsafe partial struct ASSEMBLYMETADATA
     public ushort usRevisionNumber;
 
     [NativeTypeName("LPWSTR")]
-    public uint* szLocale;
+    public char* szLocale;
 
     [NativeTypeName("ULONG")]
-    public nuint cbLocale;
+    public uint cbLocale;
 
     [NativeTypeName("DWORD *")]
-    public nuint* rProcessor;
+    public uint* rProcessor;
 
     [NativeTypeName("ULONG")]
-    public nuint ulProcessor;
+    public uint ulProcessor;
 
     public OSINFO* rOS;
 
     [NativeTypeName("ULONG")]
-    public nuint ulOS;
+    public uint ulOS;
 }

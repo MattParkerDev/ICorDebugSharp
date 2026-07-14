@@ -4,11 +4,11 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public partial struct OSINFO
 {
     [NativeTypeName("DWORD")]
-    public nuint dwOSPlatformId;
+    public uint dwOSPlatformId;
 
     [NativeTypeName("DWORD")]
-    public nuint dwOSMajorVersion;
+    public uint dwOSMajorVersion;
 
     [NativeTypeName("DWORD")]
-    public nuint dwOSMinorVersion;
+    public uint dwOSMinorVersion;
 }
