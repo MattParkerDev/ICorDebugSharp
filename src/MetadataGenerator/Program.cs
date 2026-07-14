@@ -40,16 +40,6 @@ var config = new PInvokeGeneratorConfiguration
     pInvokeGeneratorConfigurationOptions)
 {
     DefaultClass = "Cor",
-    IncludedNames =
-    [
-	    "C:/src/dotnet/src/runtime/src/coreclr/inc",
-	    "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc",
-	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
-	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared",
-	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt",
-	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt",
-	    "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include",
-    ],
     TraversalNames =
     [
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
@@ -70,7 +60,15 @@ List<string> files = [rootFilePath];
 Span<string> clangCommandLineArgs =
 [
     "--language=c++",
-    "-Wno-pragma-once-outside-header"
+    "-Wno-pragma-once-outside-header",
+
+    "-I", "C:/src/dotnet/src/runtime/src/coreclr/inc/",
+    "-I", "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc",
+    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
+    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared",
+    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt",
+    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt",
+    "-I", "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include",
 ];
 
 foreach (string filePath in files)
