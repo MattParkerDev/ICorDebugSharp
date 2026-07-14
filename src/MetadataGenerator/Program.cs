@@ -12,6 +12,11 @@ var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
 	["IMetaDataImport"] = 62,
 	["IMetaDataImport2"] = 8,
 	["IMetaDataAssemblyImport"] = 14,
+	["IMetaDataDispenser"] = 3,
+	["IMetaDataDispenserEx"] = 6,
+	["IMetaDataEmit"] = 49,
+	["IMetaDataEmit2"] = 8,
+	["IMetaDataFilter"] = 3,
 };
 string[] comInterfaceNames =
 [
