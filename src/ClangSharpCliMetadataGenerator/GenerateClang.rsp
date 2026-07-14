@@ -35,15 +35,15 @@ cor.h
 # --libraryPath
 # git2-3f4182d
 --namespace
-LibGit2.Interop
+ICorDebugSharp.GeneratedMetadata
 --methodClassName
 libgit2
 --output
 ../ICorDebugSharp/GeneratedMetadata
 --headerFile
 Header.txt
---prefixStrip
-git_
+# --prefixStrip
+# git_
 --language
 c++
 # --with-type
