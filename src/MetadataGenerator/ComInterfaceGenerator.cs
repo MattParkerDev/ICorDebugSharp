@@ -159,6 +159,9 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		if (GetArrayElementType(parameter.OriginalType) is { } elementType)
 			return $"out {_typeMapper.Map(elementType)} {EscapeIdentifier(parameter.Name)}";
 
+		if (GetReferenceType(parameter.Type) is { } reference)
+			return $"ref {_typeMapper.Map(reference.PointeeType)} {EscapeIdentifier(parameter.Name)}";
+
 		if (GetPointerType(parameter.Type) is { } pointer)
 		{
 			if (_typeMapper.Map(pointer.PointeeType) == "void")
@@ -168,6 +171,21 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		}
 
 		return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
+	}
+
+	private static ReferenceType? GetReferenceType(ClangType type)
+	{
+		while (true)
+		{
+			type = type switch
+			{
+				AttributedType attributed => attributed.ModifiedType,
+				ElaboratedType elaborated => elaborated.NamedType,
+				_ => type,
+			};
+			if (type is not AttributedType and not ElaboratedType)
+				return type as ReferenceType;
+		}
 	}
 
 	private static bool RequiresMaxOneMarshaller(CXXMethodDecl method, int parameterIndex) =>

@@ -51,7 +51,7 @@ public unsafe partial interface IMetaDataImport
 	int GetTypeRefProps(Token tr, out Token ptkResolutionScope, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int ResolveTypeRef(Token tr, Guid* riid, out nint ppIScope, out Token ptd);
+	int ResolveTypeRef(Token tr, ref Guid riid, out nint ppIScope, out Token ptd);
 
 	[PreserveSig]
 	int EnumMembers(ref HCorEnum phEnum, Token cl, out Token rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
