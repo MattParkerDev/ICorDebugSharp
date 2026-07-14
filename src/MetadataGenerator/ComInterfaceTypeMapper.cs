@@ -37,7 +37,7 @@ internal sealed class ComInterfaceTypeMapper
 	{
 		var name = type.Decl.Name;
 		if (MetadataTokens.Contains(name))
-			return "uint";
+			return "Token";
 
 		return name switch
 		{
