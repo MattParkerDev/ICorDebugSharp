@@ -1,4 +1,3 @@
-using Microsoft.VisualStudio.CorDebugInterop;
 
 namespace ICorDebugSharp.Extensions;
 
