@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using ICorDebugSharp;
 using Microsoft.VisualStudio.CorDebugInterop;
 
 namespace ICorDebugSharp.Extensions;
@@ -34,10 +35,10 @@ public static class CorDebugStaticFieldSymbolBufferExtensions
 					}
 
 					var length = checked((int)actual);
-									if (length > 0 && buffer[length - 1] == '\0')
-										length--;
-					
-									return new string(buffer, 0, length);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
 				throw new InvalidOperationException("Native buffer size did not stabilize.");

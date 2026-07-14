@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using ICorDebugSharp;
 using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp.Extensions;
-
-using ICorDebugSharp;
 
 public static class MetaDataImportExtensions
 {

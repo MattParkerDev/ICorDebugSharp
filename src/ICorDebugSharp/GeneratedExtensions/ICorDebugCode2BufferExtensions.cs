@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using ICorDebugSharp;
 using Microsoft.VisualStudio.CorDebugInterop;
 
 namespace ICorDebugSharp.Extensions;
@@ -34,9 +35,9 @@ public static class CorDebugCode2BufferExtensions
 					}
 
 					if (actual != capacity)
-										Array.Resize(ref buffer, checked((int)actual));
-					
-									return buffer;
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
 				}
 
 				throw new InvalidOperationException("Native buffer size did not stabilize.");
