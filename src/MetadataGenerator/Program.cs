@@ -1,12 +1,20 @@
 ﻿using System.Diagnostics;
 using ClangSharp;
 using ClangSharp.Interop;
+using MetadataGenerator;
 
-Console.WriteLine("Hello, World!");
 var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
 var projectDirectory = Environment.GetEnvironmentVariable("ProjectDir");
-var generatedFileHeaderPath = Path.Combine(projectDirectory, "../ClangSharpCliMetadataGenerator", "Header.txt");
 ArgumentNullException.ThrowIfNull(projectDirectory);
+var generatedFileHeaderPath = Path.Combine(projectDirectory, "../ClangSharpCliMetadataGenerator", "Header.txt");
+var outputDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp/GeneratedMetadata"));
+var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
+{
+	["IMetaDataImport"] = 62,
+	["IMetaDataImport2"] = 8,
+	["IMetaDataAssemblyImport"] = 14,
+};
+var interfaceGuids = ExternGuidParser.ParseInterfaceGuids(rootFilePath);
 
 var pInvokeGeneratorConfigurationOptions = PInvokeGeneratorConfigurationOptions.None;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateMultipleFiles;
@@ -29,7 +37,6 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Log
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.StripEnumMemberTypeName;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateLatestCode;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateTrimmableVtbls;
-pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateUnixTypes;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateHelperTypes;
 
 var config = new PInvokeGeneratorConfiguration
@@ -50,8 +57,15 @@ var config = new PInvokeGeneratorConfiguration
     [
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
-    ]
+    ],
+    ExcludedNames = interfaceMethodCounts.Keys.ToArray(),
 };
+
+var comInterfaceGenerator = new ComInterfaceGenerator(new ComInterfaceGeneratorConfiguration(
+	"Microsoft.VisualStudio.CorDebugInterop",
+	outputDirectory,
+	interfaceMethodCounts,
+	interfaceGuids));
 
 var translationFlags = CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes |
                        CXTranslationUnit_Flags.CXTranslationUnit_VisitImplicitAttributes;
@@ -67,6 +81,7 @@ List<string> files = [rootFilePath];
 Span<string> clangCommandLineArgs =
 [
     "--language=c++",
+	"--target=x86_64-pc-windows-msvc",
     "-Wno-pragma-once-outside-header",
 
     "-I", "C:/src/dotnet/src/runtime/src/coreclr/inc/",
@@ -118,6 +133,7 @@ foreach (string filePath in files)
 
         Console.WriteLine($"Processing '{filePath}'");
         pinvokeGenerator.GenerateBindings(translationUnit, filePath, clangCommandLineArgs.ToArray(), translationFlags);
+		comInterfaceGenerator.GenerateBindings(translationUnit);
     }
     catch (Exception e)
     {
