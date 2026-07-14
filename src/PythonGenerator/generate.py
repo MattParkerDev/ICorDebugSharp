@@ -5,7 +5,7 @@ import re
 import uuid
 from pathlib import Path
 
-from midl_classic import InterfaceDef, Method, MethodParam, MidlFile, TypeSpec, parse_file
+from midl_classic import InterfaceDef, Method, MethodParam, MidlFile, TypeSpec, parse_string
 
 
 DEFAULT_NAMESPACE = "Microsoft.VisualStudio.CorDebugInterop"
@@ -78,10 +78,37 @@ SPECIAL_TYPES = {
 
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 NAMESPACE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$")
+INTERFACE_DEFINITION_RE = re.compile(
+    r"\binterface\s+([A-Za-z_]\w*)\s*:\s*[A-Za-z_]\w*"
+)
+COMMA_FIELD_RE = re.compile(
+    r"(?m)^(\s*)([A-Za-z_]\w*(?:\s*\*)?)\s+([A-Za-z_]\w*)\s*,\s*([A-Za-z_]\w*)\s*;"
+)
 
 
 class GenerationError(ValueError):
     pass
+
+
+def parse_midl_file(path: Path) -> MidlFile:
+    source = path.read_text(encoding="utf-8-sig")
+
+    # midl-classic 0.1.0 recovers by dropping the containing interface for
+    # these valid MIDL forms. Normalize them until the parser handles them.
+    normalized = re.sub(r"\]\s*\[", ", ", source)
+    normalized = COMMA_FIELD_RE.sub(r"\1\2 \3;\n\1\2 \4;", normalized)
+    midl = parse_string(normalized, filename=str(path))
+
+    without_comments = re.sub(r"/\*.*?\*/|//[^\r\n]*", "", source, flags=re.DOTALL)
+    expected = set(INTERFACE_DEFINITION_RE.findall(without_comments))
+    actual = {interface.name for interface in midl.interfaces}
+    missing = sorted(expected - actual)
+    if missing:
+        raise GenerationError(
+            "MIDL parser omitted interface definitions: " + ", ".join(missing)
+        )
+
+    return midl
 
 
 class CSharpGenerator:
@@ -306,7 +333,7 @@ def parse_args() -> argparse.Namespace:
 
 def main() -> int:
     args = parse_args()
-    midl = parse_file(str(args.idl))
+    midl = parse_midl_file(args.idl)
     written, unchanged = write_interfaces(midl, args.output, args.namespace)
     print(
         f"Generated {written + unchanged} interfaces in {args.output} "

@@ -4,7 +4,7 @@ from pathlib import Path
 
 from midl_classic import parse_string
 
-from generate import CSharpGenerator, GenerationError, write_interfaces
+from generate import CSharpGenerator, GenerationError, parse_midl_file, write_interfaces
 
 
 IDL = """
@@ -104,6 +104,34 @@ class CSharpGeneratorTests(unittest.TestCase):
 
         with self.assertRaisesRegex(GenerationError, "unsupported size_is expression"):
             CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+    def test_normalizes_valid_midl_forms_dropped_by_parser(self) -> None:
+        source = """
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface ILocalTypes : IUnknown
+            {
+                typedef struct RANGE
+                {
+                    ULONG32 start, end;
+                } RANGE;
+                HRESULT M([in] RANGE value);
+            };
+            [object, uuid(00000000-0000-0000-0000-000000000002)]
+            interface IAdjacentAttributes : IUnknown
+            {
+                HRESULT M([out][iid_is(id)] void **value);
+            };
+        """
+        with tempfile.TemporaryDirectory() as directory:
+            path = Path(directory) / "input.idl"
+            path.write_text(source, encoding="utf-8")
+
+            midl = parse_midl_file(path)
+
+        self.assertEqual(
+            ["ILocalTypes", "IAdjacentAttributes"],
+            [interface.name for interface in midl.interfaces],
+        )
 
 
 if __name__ == "__main__":
