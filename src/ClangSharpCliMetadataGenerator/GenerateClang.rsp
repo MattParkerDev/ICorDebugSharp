@@ -12,6 +12,7 @@ generate-native-inheritance-attribute
 generate-setslastsystemerror-attribute
 generate-unmanaged-constants
 generate-vtbl-index-attribute
+generate-helper-types
 log-potential-typedef-remappings
 log-exclusions
 strip-enum-member-type-name
