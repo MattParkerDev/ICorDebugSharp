@@ -94,7 +94,7 @@ public unsafe partial interface IMetaDataImport
 	int FindMemberRef(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, uint* pmr);
 
 	[PreserveSig]
-	int GetMethodProps(uint mb, uint* pClass, char* szMethod, uint cchMethod, uint* pchMethod, uint* pdwAttr, byte** ppvSigBlob, uint* pcbSigBlob, uint* pulCodeRVA, uint* pdwImplFlags);
+	int GetMethodProps(uint mb, uint* pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, uint* pchMethod, uint* pdwAttr, byte** ppvSigBlob, uint* pcbSigBlob, uint* pulCodeRVA, uint* pdwImplFlags);
 
 	[PreserveSig]
 	int GetMemberRefProps(uint mr, uint* ptk, char* szMember, uint cchMember, uint* pchMember, byte** ppvSigBlob, uint* pbSig);
