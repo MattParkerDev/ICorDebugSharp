@@ -96,10 +96,10 @@ public unsafe partial interface IMetaDataImport
 	int FindMemberRef(Token td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out Token pmr);
 
 	[PreserveSig]
-	int GetMethodProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out MethodAttributes pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
+	int GetMethodProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out MethodAttributes pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetMemberRefProps(Token mr, out Token ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
+	int GetMemberRefProps(Token mr, out Token ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
 	int EnumProperties(ref HCorEnum phEnum, Token td, out Token rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
@@ -120,7 +120,7 @@ public unsafe partial interface IMetaDataImport
 	int GetClassLayout(Token td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
 	[PreserveSig]
-	int GetFieldMarshal(Token tk, out byte* ppvNativeType, out uint pcbNativeType);
+	int GetFieldMarshal(Token tk, [MarshalUsing(CountElementName = nameof(pcbNativeType))] scoped out ReadOnlySpan<byte> ppvNativeType, out uint pcbNativeType);
 
 	[PreserveSig]
 	int GetRVA(Token tk, out uint pulCodeRVA, out uint pdwImplFlags);
@@ -129,7 +129,7 @@ public unsafe partial interface IMetaDataImport
 	int GetPermissionSetProps(Token pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
 
 	[PreserveSig]
-	int GetSigFromToken(Token mdSig, out byte* ppvSig, out uint pcbSig);
+	int GetSigFromToken(Token mdSig, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
 
 	[PreserveSig]
 	int GetModuleRefProps(Token mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
@@ -138,7 +138,7 @@ public unsafe partial interface IMetaDataImport
 	int EnumModuleRefs(ref HCorEnum phEnum, out Token rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
-	int GetTypeSpecFromToken(Token typespec, out byte* ppvSig, out uint pcbSig);
+	int GetTypeSpecFromToken(Token typespec, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
 
 	[PreserveSig]
 	int GetNameFromToken(Token tk, out sbyte* pszUtf8NamePtr);
@@ -174,13 +174,13 @@ public unsafe partial interface IMetaDataImport
 	int FindTypeRef(Token tkResolutionScope, [MarshalAs(UnmanagedType.LPWStr)] string szName, out Token ptr);
 
 	[PreserveSig]
-	int GetMemberProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int GetMemberProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetFieldProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out FieldAttributes pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int GetFieldProps(Token mb, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out FieldAttributes pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetPropertyProps(Token prop, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out PropertyAttributes pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out Token pmdSetter, out Token pmdGetter, out Token rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
+	int GetPropertyProps(Token prop, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out PropertyAttributes pdwPropFlags, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out Token pmdSetter, out Token pmdGetter, out Token rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
 	int GetParamProps(Token tk, out Token pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ParameterAttributes pdwAttr, out uint pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
