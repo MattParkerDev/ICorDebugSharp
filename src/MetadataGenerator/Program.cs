@@ -4,8 +4,7 @@ using ClangSharp.Interop;
 using MetadataGenerator;
 
 var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
-var projectDirectory = Environment.GetEnvironmentVariable("ProjectDir");
-ArgumentNullException.ThrowIfNull(projectDirectory);
+var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
 var generatedFileHeaderPath = Path.Combine(projectDirectory, "../ClangSharpCliMetadataGenerator", "Header.txt");
 var outputDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp/GeneratedMetadata"));
 var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -14,6 +13,13 @@ var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
 	["IMetaDataImport2"] = 8,
 	["IMetaDataAssemblyImport"] = 14,
 };
+string[] comInterfaceNames =
+[
+	"IMetaDataError", "IMapToken", "IMetaDataDispenser", "IMetaDataEmit", "IMetaDataEmit2",
+	"IMetaDataImport", "IMetaDataImport2", "IMetaDataFilter", "IHostFilter",
+	"IMetaDataAssemblyEmit", "IMetaDataAssemblyImport", "IMetaDataValidate",
+	"IMetaDataDispenserEx", "IMetaDataTables", "IMetaDataTables2", "IMetaDataInfo",
+];
 var interfaceGuids = ExternGuidParser.ParseInterfaceGuids(rootFilePath);
 
 var pInvokeGeneratorConfigurationOptions = PInvokeGeneratorConfigurationOptions.None;
@@ -26,11 +32,9 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Gen
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateDisableRuntimeMarshalling;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateFileScopedNamespaces;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateGuidMember;
-pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateMacroBindings;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateMarkerInterfaces;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateNativeInheritanceAttribute;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateSetsLastSystemErrorAttribute;
-pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateUnmanagedConstants;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateVtblIndexAttribute;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.LogPotentialTypedefRemappings;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.LogExclusions;
@@ -58,7 +62,7 @@ var config = new PInvokeGeneratorConfiguration
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
     ],
-    ExcludedNames = interfaceMethodCounts.Keys.ToArray(),
+    ExcludedNames = comInterfaceNames,
 };
 
 var comInterfaceGenerator = new ComInterfaceGenerator(new ComInterfaceGeneratorConfiguration(
@@ -74,7 +78,7 @@ if (config.GenerateMacroBindings)
     translationFlags |=  CXTranslationUnit_Flags.CXTranslationUnit_DetailedPreprocessingRecord;
 }
 
-using var pinvokeGenerator = new PInvokeGenerator(config);
+var pinvokeGenerator = new PInvokeGenerator(config);
 
 List<string> files = [rootFilePath];
 
@@ -120,10 +124,7 @@ foreach (string filePath in files)
 
     if (skipProcessing)
     {
-        Console.WriteLine($"Skipping '{filePath}' due to one or more errors listed above.");
-        Console.WriteLine("");
-
-        continue;
+		throw new InvalidOperationException($"Parsing failed for '{filePath}' due to one or more errors listed above.");
     }
 
     try
@@ -133,11 +134,18 @@ foreach (string filePath in files)
 
         Console.WriteLine($"Processing '{filePath}'");
         pinvokeGenerator.GenerateBindings(translationUnit, filePath, clangCommandLineArgs.ToArray(), translationFlags);
+		foreach (var interfaceName in comInterfaceNames.Except(interfaceMethodCounts.Keys, StringComparer.Ordinal))
+		{
+			var stalePath = Path.Combine(outputDirectory, $"{interfaceName}.cs");
+			if (File.Exists(stalePath))
+				File.Delete(stalePath);
+		}
 		comInterfaceGenerator.GenerateBindings(translationUnit);
     }
     catch (Exception e)
     {
         Console.WriteLine(e.ToString());
+		throw;
     }
 
     if (pinvokeGenerator.Diagnostics.Count != 0)
@@ -151,3 +159,8 @@ foreach (string filePath in files)
         }
     }
 }
+
+pinvokeGenerator.Dispose();
+var generatedHelperPath = Path.Combine(outputDirectory, $"{config.DefaultClass}.cs");
+if (File.Exists(generatedHelperPath))
+	File.Delete(generatedHelperPath);

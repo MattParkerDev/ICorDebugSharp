@@ -39,9 +39,29 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 				.ToArray();
 			if (methods.Length != expectedMethodCount)
 				throw new InvalidOperationException($"{name} has {methods.Length} own virtual methods; expected {expectedMethodCount}.");
+			var expectedVtblIndex = GetExpectedFirstVtblIndex(record);
+			foreach (var method in methods)
+			{
+				if (method.VtblIndex != expectedVtblIndex)
+					throw new InvalidOperationException($"{name}.{method.Name} has vtable index {method.VtblIndex}; expected {expectedVtblIndex}.");
+				expectedVtblIndex++;
+			}
 
 			WriteIfChanged(Path.Combine(configuration.OutputDirectory, $"{name}.cs"), GenerateInterface(record, guid, methods));
 		}
+	}
+
+	private static uint GetExpectedFirstVtblIndex(CXXRecordDecl record)
+	{
+		var index = 0u;
+		for (var current = record; current.Bases.Count != 0;)
+		{
+			if (current.Bases.Count != 1 || current.Bases[0].Referenced is not CXXRecordDecl parent)
+				throw new InvalidOperationException($"Cannot determine the primary COM base for {current.Name}.");
+			index += (uint)parent.Methods.Count(method => method.IsVirtual);
+			current = parent;
+		}
+		return index;
 	}
 
 	private string GenerateInterface(CXXRecordDecl record, Guid guid, IReadOnlyList<CXXMethodDecl> methods)
