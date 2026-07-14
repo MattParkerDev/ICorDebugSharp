@@ -3,7 +3,7 @@ using ClangSharp;
 using ClangSharp.Interop;
 
 Console.WriteLine("Hello, World!");
-var rootFilePath = "C:/Users/Matthew/Documents/Git/libgit2/include/git2.h";
+var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
 var projectDirectory = Environment.GetEnvironmentVariable("ProjectDir");
 ArgumentNullException.ThrowIfNull(projectDirectory);
 
@@ -31,15 +31,30 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Gen
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateUnixTypes;
 
 var config = new PInvokeGeneratorConfiguration
-("c++", 
+("c++",
     "",
     "ICorDebugSharp.GeneratedMetadata",
     $"{projectDirectory}/../ICorDebugSharp/GeneratedMetadata/",
-    "", 
+    "",
     PInvokeGeneratorOutputMode.CSharp,
     pInvokeGeneratorConfigurationOptions)
 {
-    DefaultClass = "Cor"
+    DefaultClass = "Cor",
+    IncludedNames =
+    [
+	    "C:/src/dotnet/src/runtime/src/coreclr/inc/",
+	    "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc",
+	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
+	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared",
+	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt",
+	    "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt",
+	    "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include",
+    ],
+    TraversalNames =
+    [
+	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
+	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
+    ]
 };
 
 var translationFlags = CXTranslationUnit_Flags.CXTranslationUnit_None;
@@ -87,10 +102,10 @@ foreach (string filePath in files)
     {
         Console.WriteLine($"Skipping '{filePath}' due to one or more errors listed above.");
         Console.WriteLine("");
-        
+
         continue;
     }
-    
+
     try
     {
         using var translationUnit = TranslationUnit.GetOrCreate(handle);
@@ -103,7 +118,7 @@ foreach (string filePath in files)
     {
         Console.WriteLine(e.ToString());
     }
-    
+
     if (pinvokeGenerator.Diagnostics.Count != 0)
     {
         Console.WriteLine($"Diagnostics for binding generation of {pinvokeGenerator.FilePath}:");
