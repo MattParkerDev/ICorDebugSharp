@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ICorDebugSharp.GeneratedMetadata;
@@ -12,9 +13,9 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(0)]
     [return: NativeTypeName("HRESULT")]
-    public nint QueryInterface([NativeTypeName("const IID &")] _GUID* riid, void** ppvObject)
+    public nint QueryInterface([NativeTypeName("const IID &")] Guid* riid, void** ppvObject)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, _GUID*, void**, nint>)(lpVtbl[0]))((IMetaDataImport*)Unsafe.AsPointer(ref this), riid, ppvObject);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, Guid*, void**, nint>)(lpVtbl[0]))((IMetaDataImport*)Unsafe.AsPointer(ref this), riid, ppvObject);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -91,9 +92,9 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(10)]
     [return: NativeTypeName("HRESULT")]
-    public nint GetScopeProps([NativeTypeName("LPWSTR")] uint* szName, [NativeTypeName("ULONG")] nuint cchName, [NativeTypeName("ULONG *")] nuint* pchName, [NativeTypeName("GUID *")] _GUID* pmvid)
+    public nint GetScopeProps([NativeTypeName("LPWSTR")] uint* szName, [NativeTypeName("ULONG")] nuint cchName, [NativeTypeName("ULONG *")] nuint* pchName, Guid* pmvid)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, uint*, nuint, nuint*, _GUID*, nint>)(lpVtbl[10]))((IMetaDataImport*)Unsafe.AsPointer(ref this), szName, cchName, pchName, pmvid);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, uint*, nuint, nuint*, Guid*, nint>)(lpVtbl[10]))((IMetaDataImport*)Unsafe.AsPointer(ref this), szName, cchName, pchName, pmvid);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -131,9 +132,9 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(15)]
     [return: NativeTypeName("HRESULT")]
-    public nint ResolveTypeRef([NativeTypeName("mdTypeRef")] uint tr, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIScope, [NativeTypeName("mdTypeDef *")] uint* ptd)
+    public nint ResolveTypeRef([NativeTypeName("mdTypeRef")] uint tr, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIScope, [NativeTypeName("mdTypeDef *")] uint* ptd)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, uint, _GUID*, IUnknown**, uint*, nint>)(lpVtbl[15]))((IMetaDataImport*)Unsafe.AsPointer(ref this), tr, riid, ppIScope, ptd);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataImport*, uint, Guid*, IUnknown**, uint*, nint>)(lpVtbl[15]))((IMetaDataImport*)Unsafe.AsPointer(ref this), tr, riid, ppIScope, ptd);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -559,7 +560,7 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
 
         [VtblIndex(10)]
         [return: NativeTypeName("HRESULT")]
-        nint GetScopeProps([NativeTypeName("LPWSTR")] uint* szName, [NativeTypeName("ULONG")] nuint cchName, [NativeTypeName("ULONG *")] nuint* pchName, [NativeTypeName("GUID *")] _GUID* pmvid);
+        nint GetScopeProps([NativeTypeName("LPWSTR")] uint* szName, [NativeTypeName("ULONG")] nuint cchName, [NativeTypeName("ULONG *")] nuint* pchName, Guid* pmvid);
 
         [VtblIndex(11)]
         [return: NativeTypeName("HRESULT")]
@@ -579,7 +580,7 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
 
         [VtblIndex(15)]
         [return: NativeTypeName("HRESULT")]
-        nint ResolveTypeRef([NativeTypeName("mdTypeRef")] uint tr, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIScope, [NativeTypeName("mdTypeDef *")] uint* ptd);
+        nint ResolveTypeRef([NativeTypeName("mdTypeRef")] uint tr, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIScope, [NativeTypeName("mdTypeDef *")] uint* ptd);
 
         [VtblIndex(16)]
         [return: NativeTypeName("HRESULT")]
@@ -782,7 +783,7 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
         where TSelf : unmanaged, Interface
     {
         [NativeTypeName("HRESULT (const IID &, void **) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, void**, nint> QueryInterface;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, void**, nint> QueryInterface;
 
         [NativeTypeName("ULONG () __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint> AddRef;
@@ -812,7 +813,7 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
         public delegate* unmanaged[MemberFunction]<TSelf*, uint*, uint, uint*, nint> FindTypeDefByName;
 
         [NativeTypeName("HRESULT (LPWSTR, ULONG, ULONG *, GUID *) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nuint, nuint*, _GUID*, nint> GetScopeProps;
+        public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nuint, nuint*, Guid*, nint> GetScopeProps;
 
         [NativeTypeName("HRESULT (mdModule *) __attribute__((nothrow)) __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nint> GetModuleFromScope;
@@ -827,7 +828,7 @@ public unsafe partial struct IMetaDataImport : IMetaDataImport.Interface
         public delegate* unmanaged[MemberFunction]<TSelf*, uint, uint*, uint*, nuint, nuint*, nint> GetTypeRefProps;
 
         [NativeTypeName("HRESULT (mdTypeRef, const IID &, IUnknown **, mdTypeDef *) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, uint, _GUID*, IUnknown**, uint*, nint> ResolveTypeRef;
+        public delegate* unmanaged[MemberFunction]<TSelf*, uint, Guid*, IUnknown**, uint*, nint> ResolveTypeRef;
 
         [NativeTypeName("HRESULT (HCORENUM *, mdTypeDef, mdToken *, ULONG, ULONG *) __attribute__((nothrow)) __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, void**, uint, uint*, nuint, nuint*, nint> EnumMembers;

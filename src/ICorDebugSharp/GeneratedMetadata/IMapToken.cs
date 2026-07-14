@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ICorDebugSharp.GeneratedMetadata;
@@ -12,9 +13,9 @@ public unsafe partial struct IMapToken : IMapToken.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(0)]
     [return: NativeTypeName("HRESULT")]
-    public nint QueryInterface([NativeTypeName("const IID &")] _GUID* riid, void** ppvObject)
+    public nint QueryInterface([NativeTypeName("const IID &")] Guid* riid, void** ppvObject)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMapToken*, _GUID*, void**, nint>)(lpVtbl[0]))((IMapToken*)Unsafe.AsPointer(ref this), riid, ppvObject);
+        return ((delegate* unmanaged[MemberFunction]<IMapToken*, Guid*, void**, nint>)(lpVtbl[0]))((IMapToken*)Unsafe.AsPointer(ref this), riid, ppvObject);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -52,7 +53,7 @@ public unsafe partial struct IMapToken : IMapToken.Interface
         where TSelf : unmanaged, Interface
     {
         [NativeTypeName("HRESULT (const IID &, void **) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, void**, nint> QueryInterface;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, void**, nint> QueryInterface;
 
         [NativeTypeName("ULONG () __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint> AddRef;

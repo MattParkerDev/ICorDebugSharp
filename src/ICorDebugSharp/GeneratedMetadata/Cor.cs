@@ -12,7 +12,7 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public static unsafe partial class Cor
 {
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID CLSID_CLR_v1_MetaData
+    public static ref readonly Guid CLSID_CLR_v1_MetaData
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -31,13 +31,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID CLSID_CLR_v2_MetaData
+    public static ref readonly Guid CLSID_CLR_v2_MetaData
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -56,13 +56,13 @@ public static unsafe partial class Cor
                 0x3A
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataCheckDuplicatesFor
+    public static ref readonly Guid MetaDataCheckDuplicatesFor
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -81,13 +81,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataRefToDefCheck
+    public static ref readonly Guid MetaDataRefToDefCheck
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -106,13 +106,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataNotificationForTokenMovement
+    public static ref readonly Guid MetaDataNotificationForTokenMovement
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -131,13 +131,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataSetUpdate
+    public static ref readonly Guid MetaDataSetUpdate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -156,13 +156,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataImportOption
+    public static ref readonly Guid MetaDataImportOption
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -181,13 +181,13 @@ public static unsafe partial class Cor
                 0xB1
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataThreadSafetyOptions
+    public static ref readonly Guid MetaDataThreadSafetyOptions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -206,13 +206,13 @@ public static unsafe partial class Cor
                 0x34
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataErrorIfEmitOutOfOrder
+    public static ref readonly Guid MetaDataErrorIfEmitOutOfOrder
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -231,13 +231,13 @@ public static unsafe partial class Cor
                 0x60
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataGenerateTCEAdapters
+    public static ref readonly Guid MetaDataGenerateTCEAdapters
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -256,13 +256,13 @@ public static unsafe partial class Cor
                 0x3A
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataTypeLibImportNamespace
+    public static ref readonly Guid MetaDataTypeLibImportNamespace
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -281,13 +281,13 @@ public static unsafe partial class Cor
                 0x1A
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataLinkerOptions
+    public static ref readonly Guid MetaDataLinkerOptions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -306,13 +306,13 @@ public static unsafe partial class Cor
                 0xF9
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataRuntimeVersion
+    public static ref readonly Guid MetaDataRuntimeVersion
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -331,13 +331,13 @@ public static unsafe partial class Cor
                 0xF9
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataMergerOptions
+    public static ref readonly Guid MetaDataMergerOptions
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -356,13 +356,13 @@ public static unsafe partial class Cor
                 0x01
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID MetaDataPreserveLocalRefs
+    public static ref readonly Guid MetaDataPreserveLocalRefs
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -381,8 +381,8 @@ public static unsafe partial class Cor
                 0x33
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
@@ -390,7 +390,7 @@ public static unsafe partial class Cor
     public const int DESCR_GROUP_METHODIMPL = 1;
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID CLSID_CorMetaDataDispenser
+    public static ref readonly Guid CLSID_CorMetaDataDispenser
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -409,13 +409,13 @@ public static unsafe partial class Cor
                 0xD8
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataError
+    public static ref readonly Guid IID_IMetaDataError
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -434,13 +434,13 @@ public static unsafe partial class Cor
                 0x19
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMapToken
+    public static ref readonly Guid IID_IMapToken
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -459,13 +459,13 @@ public static unsafe partial class Cor
                 0x12
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataDispenser
+    public static ref readonly Guid IID_IMetaDataDispenser
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -484,13 +484,13 @@ public static unsafe partial class Cor
                 0x0C
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataEmit
+    public static ref readonly Guid IID_IMetaDataEmit
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -509,13 +509,13 @@ public static unsafe partial class Cor
                 0x59
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataEmit2
+    public static ref readonly Guid IID_IMetaDataEmit2
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -534,13 +534,13 @@ public static unsafe partial class Cor
                 0xA9
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataImport
+    public static ref readonly Guid IID_IMetaDataImport
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -559,13 +559,13 @@ public static unsafe partial class Cor
                 0x44
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataImport2
+    public static ref readonly Guid IID_IMetaDataImport2
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -584,13 +584,13 @@ public static unsafe partial class Cor
                 0x66
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataFilter
+    public static ref readonly Guid IID_IMetaDataFilter
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -609,13 +609,13 @@ public static unsafe partial class Cor
                 0x95
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IHostFilter
+    public static ref readonly Guid IID_IHostFilter
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -634,13 +634,13 @@ public static unsafe partial class Cor
                 0x95
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataAssemblyEmit
+    public static ref readonly Guid IID_IMetaDataAssemblyEmit
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -659,13 +659,13 @@ public static unsafe partial class Cor
                 0x93
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataAssemblyImport
+    public static ref readonly Guid IID_IMetaDataAssemblyImport
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -684,13 +684,13 @@ public static unsafe partial class Cor
                 0x93
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataValidate
+    public static ref readonly Guid IID_IMetaDataValidate
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -709,13 +709,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataDispenserEx
+    public static ref readonly Guid IID_IMetaDataDispenserEx
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -734,13 +734,13 @@ public static unsafe partial class Cor
                 0xA3
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataTables
+    public static ref readonly Guid IID_IMetaDataTables
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -759,13 +759,13 @@ public static unsafe partial class Cor
                 0x68
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataTables2
+    public static ref readonly Guid IID_IMetaDataTables2
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -784,13 +784,13 @@ public static unsafe partial class Cor
                 0x15
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
     [NativeTypeName("const IID")]
-    public static ref readonly _GUID IID_IMetaDataInfo
+    public static ref readonly Guid IID_IMetaDataInfo
     {
         [MethodImpl(MethodImplOptions.AggressiveInlining)]
         get
@@ -809,8 +809,8 @@ public static unsafe partial class Cor
                 0xCB
             ];
 
-            Debug.Assert(data.Length == Unsafe.SizeOf<_GUID>());
-            return ref Unsafe.As<byte, _GUID>(ref MemoryMarshal.GetReference(data));
+            Debug.Assert(data.Length == Unsafe.SizeOf<Guid>());
+            return ref Unsafe.As<byte, Guid>(ref MemoryMarshal.GetReference(data));
         }
     }
 
@@ -1207,10 +1207,10 @@ public static unsafe partial class Cor
     }
 
     [NativeTypeName("#define CLSID_CorMetaDataRuntime CLSID_CLR_v2_MetaData")]
-    public static ref readonly _GUID CLSID_CorMetaDataRuntime => ref CLSID_CLR_v2_MetaData;
+    public static ref readonly Guid CLSID_CorMetaDataRuntime => ref CLSID_CLR_v2_MetaData;
 
     [NativeTypeName("#define MetaDataSetENC MetaDataSetUpdate")]
-    public static ref readonly _GUID MetaDataSetENC => ref MetaDataSetUpdate;
+    public static ref readonly Guid MetaDataSetENC => ref MetaDataSetUpdate;
 
     [NativeTypeName("#define INVALID_CONNECTION_ID 0x0")]
     public const int INVALID_CONNECTION_ID = 0x0;

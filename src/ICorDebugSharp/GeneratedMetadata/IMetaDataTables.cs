@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ICorDebugSharp.GeneratedMetadata;
@@ -12,9 +13,9 @@ public unsafe partial struct IMetaDataTables : IMetaDataTables.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(0)]
     [return: NativeTypeName("HRESULT")]
-    public nint QueryInterface([NativeTypeName("const IID &")] _GUID* riid, void** ppvObject)
+    public nint QueryInterface([NativeTypeName("const IID &")] Guid* riid, void** ppvObject)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataTables*, _GUID*, void**, nint>)(lpVtbl[0]))((IMetaDataTables*)Unsafe.AsPointer(ref this), riid, ppvObject);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataTables*, Guid*, void**, nint>)(lpVtbl[0]))((IMetaDataTables*)Unsafe.AsPointer(ref this), riid, ppvObject);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -140,9 +141,9 @@ public unsafe partial struct IMetaDataTables : IMetaDataTables.Interface
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(16)]
     [return: NativeTypeName("HRESULT")]
-    public nint GetGuid([NativeTypeName("ULONG")] nuint ixGuid, [NativeTypeName("const GUID **")] _GUID** ppGUID)
+    public nint GetGuid([NativeTypeName("ULONG")] nuint ixGuid, [NativeTypeName("const GUID **")] Guid** ppGUID)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataTables*, nuint, _GUID**, nint>)(lpVtbl[16]))((IMetaDataTables*)Unsafe.AsPointer(ref this), ixGuid, ppGUID);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataTables*, nuint, Guid**, nint>)(lpVtbl[16]))((IMetaDataTables*)Unsafe.AsPointer(ref this), ixGuid, ppGUID);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -241,7 +242,7 @@ public unsafe partial struct IMetaDataTables : IMetaDataTables.Interface
 
         [VtblIndex(16)]
         [return: NativeTypeName("HRESULT")]
-        nint GetGuid([NativeTypeName("ULONG")] nuint ixGuid, [NativeTypeName("const GUID **")] _GUID** ppGUID);
+        nint GetGuid([NativeTypeName("ULONG")] nuint ixGuid, [NativeTypeName("const GUID **")] Guid** ppGUID);
 
         [VtblIndex(17)]
         [return: NativeTypeName("HRESULT")]
@@ -268,7 +269,7 @@ public unsafe partial struct IMetaDataTables : IMetaDataTables.Interface
         where TSelf : unmanaged, Interface
     {
         [NativeTypeName("HRESULT (const IID &, void **) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, void**, nint> QueryInterface;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, void**, nint> QueryInterface;
 
         [NativeTypeName("ULONG () __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint> AddRef;
@@ -316,7 +317,7 @@ public unsafe partial struct IMetaDataTables : IMetaDataTables.Interface
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint, nuint*, void**, nint> GetBlob;
 
         [NativeTypeName("HRESULT (ULONG, const GUID **) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, nuint, _GUID**, nint> GetGuid;
+        public delegate* unmanaged[MemberFunction]<TSelf*, nuint, Guid**, nint> GetGuid;
 
         [NativeTypeName("HRESULT (ULONG, ULONG *, const void **) __attribute__((nothrow)) __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint, nuint*, void**, nint> GetUserString;

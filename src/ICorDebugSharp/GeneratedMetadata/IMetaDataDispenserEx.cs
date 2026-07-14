@@ -1,4 +1,5 @@
 // ReSharper disable InconsistentNaming
+using System;
 using System.Runtime.CompilerServices;
 
 namespace ICorDebugSharp.GeneratedMetadata;
@@ -12,9 +13,9 @@ public unsafe partial struct IMetaDataDispenserEx : IMetaDataDispenserEx.Interfa
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(0)]
     [return: NativeTypeName("HRESULT")]
-    public nint QueryInterface([NativeTypeName("const IID &")] _GUID* riid, void** ppvObject)
+    public nint QueryInterface([NativeTypeName("const IID &")] Guid* riid, void** ppvObject)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, _GUID*, void**, nint>)(lpVtbl[0]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), riid, ppvObject);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, Guid*, void**, nint>)(lpVtbl[0]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), riid, ppvObject);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -36,49 +37,49 @@ public unsafe partial struct IMetaDataDispenserEx : IMetaDataDispenserEx.Interfa
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(3)]
     [return: NativeTypeName("HRESULT")]
-    public nint DefineScope([NativeTypeName("const IID &")] _GUID* rclsid, [NativeTypeName("DWORD")] nuint dwCreateFlags, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIUnk)
+    public nint DefineScope([NativeTypeName("const IID &")] Guid* rclsid, [NativeTypeName("DWORD")] nuint dwCreateFlags, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIUnk)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, _GUID*, nuint, _GUID*, IUnknown**, nint>)(lpVtbl[3]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), rclsid, dwCreateFlags, riid, ppIUnk);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, Guid*, nuint, Guid*, IUnknown**, nint>)(lpVtbl[3]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), rclsid, dwCreateFlags, riid, ppIUnk);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(4)]
     [return: NativeTypeName("HRESULT")]
-    public nint OpenScope([NativeTypeName("LPCWSTR")] uint* szScope, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIUnk)
+    public nint OpenScope([NativeTypeName("LPCWSTR")] uint* szScope, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIUnk)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, uint*, nuint, _GUID*, IUnknown**, nint>)(lpVtbl[4]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), szScope, dwOpenFlags, riid, ppIUnk);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, uint*, nuint, Guid*, IUnknown**, nint>)(lpVtbl[4]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), szScope, dwOpenFlags, riid, ppIUnk);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(5)]
     [return: NativeTypeName("HRESULT")]
-    public nint OpenScopeOnMemory([NativeTypeName("LPCVOID")] void* pData, [NativeTypeName("ULONG")] nuint cbData, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIUnk)
+    public nint OpenScopeOnMemory([NativeTypeName("LPCVOID")] void* pData, [NativeTypeName("ULONG")] nuint cbData, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIUnk)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, void*, nuint, nuint, _GUID*, IUnknown**, nint>)(lpVtbl[5]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), pData, cbData, dwOpenFlags, riid, ppIUnk);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, void*, nuint, nuint, Guid*, IUnknown**, nint>)(lpVtbl[5]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), pData, cbData, dwOpenFlags, riid, ppIUnk);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(6)]
     [return: NativeTypeName("HRESULT")]
-    public nint SetOption([NativeTypeName("const GUID &")] _GUID* optionid, [NativeTypeName("const VARIANT *")] tagVARIANT* value)
+    public nint SetOption([NativeTypeName("const GUID &")] Guid* optionid, [NativeTypeName("const VARIANT *")] tagVARIANT* value)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, _GUID*, tagVARIANT*, nint>)(lpVtbl[6]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), optionid, value);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, Guid*, tagVARIANT*, nint>)(lpVtbl[6]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), optionid, value);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(7)]
     [return: NativeTypeName("HRESULT")]
-    public nint GetOption([NativeTypeName("const GUID &")] _GUID* optionid, [NativeTypeName("VARIANT *")] tagVARIANT* pvalue)
+    public nint GetOption([NativeTypeName("const GUID &")] Guid* optionid, [NativeTypeName("VARIANT *")] tagVARIANT* pvalue)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, _GUID*, tagVARIANT*, nint>)(lpVtbl[7]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), optionid, pvalue);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, Guid*, tagVARIANT*, nint>)(lpVtbl[7]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), optionid, pvalue);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
     [VtblIndex(8)]
     [return: NativeTypeName("HRESULT")]
-    public nint OpenScopeOnITypeInfo(ITypeInfo* pITI, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIUnk)
+    public nint OpenScopeOnITypeInfo(ITypeInfo* pITI, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIUnk)
     {
-        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, ITypeInfo*, nuint, _GUID*, IUnknown**, nint>)(lpVtbl[8]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), pITI, dwOpenFlags, riid, ppIUnk);
+        return ((delegate* unmanaged[MemberFunction]<IMetaDataDispenserEx*, ITypeInfo*, nuint, Guid*, IUnknown**, nint>)(lpVtbl[8]))((IMetaDataDispenserEx*)Unsafe.AsPointer(ref this), pITI, dwOpenFlags, riid, ppIUnk);
     }
 
     [MethodImpl(MethodImplOptions.AggressiveInlining)]
@@ -109,15 +110,15 @@ public unsafe partial struct IMetaDataDispenserEx : IMetaDataDispenserEx.Interfa
     {
         [VtblIndex(6)]
         [return: NativeTypeName("HRESULT")]
-        nint SetOption([NativeTypeName("const GUID &")] _GUID* optionid, [NativeTypeName("const VARIANT *")] tagVARIANT* value);
+        nint SetOption([NativeTypeName("const GUID &")] Guid* optionid, [NativeTypeName("const VARIANT *")] tagVARIANT* value);
 
         [VtblIndex(7)]
         [return: NativeTypeName("HRESULT")]
-        nint GetOption([NativeTypeName("const GUID &")] _GUID* optionid, [NativeTypeName("VARIANT *")] tagVARIANT* pvalue);
+        nint GetOption([NativeTypeName("const GUID &")] Guid* optionid, [NativeTypeName("VARIANT *")] tagVARIANT* pvalue);
 
         [VtblIndex(8)]
         [return: NativeTypeName("HRESULT")]
-        nint OpenScopeOnITypeInfo(ITypeInfo* pITI, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] _GUID* riid, IUnknown** ppIUnk);
+        nint OpenScopeOnITypeInfo(ITypeInfo* pITI, [NativeTypeName("DWORD")] nuint dwOpenFlags, [NativeTypeName("const IID &")] Guid* riid, IUnknown** ppIUnk);
 
         [VtblIndex(9)]
         [return: NativeTypeName("HRESULT")]
@@ -136,7 +137,7 @@ public unsafe partial struct IMetaDataDispenserEx : IMetaDataDispenserEx.Interfa
         where TSelf : unmanaged, Interface
     {
         [NativeTypeName("HRESULT (const IID &, void **) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, void**, nint> QueryInterface;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, void**, nint> QueryInterface;
 
         [NativeTypeName("ULONG () __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint> AddRef;
@@ -145,22 +146,22 @@ public unsafe partial struct IMetaDataDispenserEx : IMetaDataDispenserEx.Interfa
         public delegate* unmanaged[MemberFunction]<TSelf*, nuint> Release;
 
         [NativeTypeName("HRESULT (const IID &, DWORD, const IID &, IUnknown **) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, nuint, _GUID*, IUnknown**, nint> DefineScope;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, nuint, Guid*, IUnknown**, nint> DefineScope;
 
         [NativeTypeName("HRESULT (LPCWSTR, DWORD, const IID &, IUnknown **) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nuint, _GUID*, IUnknown**, nint> OpenScope;
+        public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nuint, Guid*, IUnknown**, nint> OpenScope;
 
         [NativeTypeName("HRESULT (LPCVOID, ULONG, DWORD, const IID &, IUnknown **) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, void*, nuint, nuint, _GUID*, IUnknown**, nint> OpenScopeOnMemory;
+        public delegate* unmanaged[MemberFunction]<TSelf*, void*, nuint, nuint, Guid*, IUnknown**, nint> OpenScopeOnMemory;
 
         [NativeTypeName("HRESULT (const GUID &, const VARIANT *) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, tagVARIANT*, nint> SetOption;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, tagVARIANT*, nint> SetOption;
 
         [NativeTypeName("HRESULT (const GUID &, VARIANT *) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, _GUID*, tagVARIANT*, nint> GetOption;
+        public delegate* unmanaged[MemberFunction]<TSelf*, Guid*, tagVARIANT*, nint> GetOption;
 
         [NativeTypeName("HRESULT (ITypeInfo *, DWORD, const IID &, IUnknown **) __attribute__((nothrow)) __attribute__((stdcall))")]
-        public delegate* unmanaged[MemberFunction]<TSelf*, ITypeInfo*, nuint, _GUID*, IUnknown**, nint> OpenScopeOnITypeInfo;
+        public delegate* unmanaged[MemberFunction]<TSelf*, ITypeInfo*, nuint, Guid*, IUnknown**, nint> OpenScopeOnITypeInfo;
 
         [NativeTypeName("HRESULT (LPWSTR, DWORD, DWORD *) __attribute__((nothrow)) __attribute__((stdcall))")]
         public delegate* unmanaged[MemberFunction]<TSelf*, uint*, nuint, nuint*, nint> GetCORSystemDirectory;
