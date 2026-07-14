@@ -41,6 +41,37 @@ interface ICorDebugAppDomain : ICorDebugModule
 };
 """
 
+DATA_IDL = """
+typedef enum Values
+{
+    Zero = 0,
+    Negative = -1,
+    Shifted = 1 << 4,
+    Alias = Shifted,
+    HighBit = 0x80000001
+} Values;
+
+typedef struct Plain
+{
+    ULONG32 count;
+    UINT64 address;
+} Plain;
+
+typedef struct WithInterface
+{
+    IFoo *value;
+    BOOL enabled;
+} WithInterface;
+
+[object, uuid(00000000-0000-0000-0000-000000000001)]
+interface IFoo : IUnknown
+{
+    typedef enum LocalEnum { First = 1, Second } LocalEnum;
+    typedef struct LocalStruct { ULONG32 value; } LocalStruct;
+    HRESULT M([in] LocalEnum value, [out] LocalStruct *result);
+};
+"""
+
 
 class CSharpGeneratorTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -104,6 +135,43 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
 
+    def test_generates_top_level_and_interface_local_enums(self) -> None:
+        generator = CSharpGenerator(parse_string(DATA_IDL))
+
+        values = generator.generate_enum(generator.enums["Values"])
+        local = generator.generate_enum(generator.enums["LocalEnum"])
+
+        self.assertIn("Negative = -1", values)
+        self.assertIn("Shifted = 1 << 4", values)
+        self.assertIn("Alias = Shifted", values)
+        self.assertIn("HighBit = unchecked((int)0x80000001)", values)
+        self.assertIn("public enum LocalEnum", local)
+
+    def test_generates_plain_and_interface_local_structs(self) -> None:
+        generator = CSharpGenerator(parse_string(DATA_IDL))
+
+        plain = generator.generate_struct(generator.structs["Plain"])
+        local = generator.generate_struct(generator.structs["LocalStruct"])
+
+        self.assertIn("[StructLayout(LayoutKind.Sequential)]", plain)
+        self.assertIn("public uint count;", plain)
+        self.assertIn("public ulong address;", plain)
+        self.assertIn("public struct LocalStruct", local)
+
+    def test_generates_custom_marshaller_for_interface_struct_fields(self) -> None:
+        generator = CSharpGenerator(parse_string(DATA_IDL))
+
+        source = generator.generate_struct(generator.structs["WithInterface"])
+
+        self.assertIn(
+            "[NativeMarshalling(typeof(WithInterfaceMarshaller))]", source
+        )
+        self.assertIn("public IFoo value;", source)
+        self.assertIn("public nint value;", source)
+        self.assertIn("ComInterfaceMarshaller<IFoo>.ConvertToUnmanaged", source)
+        self.assertIn("ComInterfaceMarshaller<IFoo>.ConvertToManaged", source)
+        self.assertIn("ComInterfaceMarshaller<IFoo>.Free", source)
+
     def test_writes_one_file_per_interface_without_deleting_other_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             output = Path(directory)
@@ -116,6 +184,21 @@ class CSharpGeneratorTests(unittest.TestCase):
             self.assertEqual((2, 0), (written, unchanged))
             self.assertEqual((0, 2), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
+
+    def test_writes_every_declaration(self) -> None:
+        midl = parse_string(DATA_IDL)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+
+            written, unchanged = write_interfaces(midl, output)
+
+            self.assertEqual((6, 0), (written, unchanged))
+            self.assertTrue((output / "IFoo.cs").exists())
+            self.assertTrue((output / "Values.cs").exists())
+            self.assertTrue((output / "LocalEnum.cs").exists())
+            self.assertTrue((output / "Plain.cs").exists())
+            self.assertTrue((output / "WithInterface.cs").exists())
+            self.assertTrue((output / "LocalStruct.cs").exists())
 
     def test_rejects_unsupported_array_size_expression(self) -> None:
         midl = parse_string("""
