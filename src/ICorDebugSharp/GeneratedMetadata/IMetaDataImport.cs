@@ -193,7 +193,7 @@ public unsafe partial interface IMetaDataImport
 	int GetNestedClassProps(uint tdNestedClass, out uint ptdEnclosingClass);
 
 	[PreserveSig]
-	int GetNativeCallConvFromSig(out void pvSig, uint cbSig, out uint pCallConv);
+	int GetNativeCallConvFromSig(void* pvSig, uint cbSig, out uint pCallConv);
 
 	[PreserveSig]
 	int IsGlobal(uint pd, out int pbGlobal);

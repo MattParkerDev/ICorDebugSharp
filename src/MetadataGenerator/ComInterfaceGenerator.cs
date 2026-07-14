@@ -130,6 +130,8 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 
 		if (GetPointerType(parameter.Type) is { } pointer)
 		{
+			if (_typeMapper.Map(pointer.PointeeType) == "void")
+				return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 			var modifier = GetTypedefName(pointer.PointeeType) == "HCORENUM" ? "ref" : "out";
 			return $"{modifier} {_typeMapper.Map(pointer.PointeeType)} {EscapeIdentifier(parameter.Name)}";
 		}
