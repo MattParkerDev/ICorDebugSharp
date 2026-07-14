@@ -51,5 +51,6 @@ c++
 # git_submodule_status_t=uint
 --traverse
 C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h
+C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/annotated_commit.h
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/apply.h
