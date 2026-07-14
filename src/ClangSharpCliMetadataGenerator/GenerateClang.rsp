@@ -39,7 +39,7 @@ LibGit2.Interop
 --methodClassName
 libgit2
 --output
-./Interop
+../ICorDebugSharp/GeneratedMetadata
 --headerFile
 Header.txt
 --prefixStrip
