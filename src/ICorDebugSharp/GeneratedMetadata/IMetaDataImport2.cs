@@ -13,26 +13,26 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 {
 	[PreserveSig]
-	int EnumGenericParams(nint* phEnum, uint tk, uint* rGenericParams, uint cMax, uint* pcGenericParams);
+	int EnumGenericParams(ref nint phEnum, uint tk, uint* rGenericParams, uint cMax, out uint pcGenericParams);
 
 	[PreserveSig]
-	int GetGenericParamProps(uint gp, uint* pulParamSeq, uint* pdwParamFlags, uint* ptOwner, uint* reserved, char* wzname, uint cchName, uint* pchName);
+	int GetGenericParamProps(uint gp, out uint pulParamSeq, out uint pdwParamFlags, out uint ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int GetMethodSpecProps(uint mi, uint* tkParent, byte** ppvSigBlob, uint* pcbSigBlob);
+	int GetMethodSpecProps(uint mi, out uint tkParent, out byte* ppvSigBlob, out uint pcbSigBlob);
 
 	[PreserveSig]
-	int EnumGenericParamConstraints(nint* phEnum, uint tk, uint* rGenericParamConstraints, uint cMax, uint* pcGenericParamConstraints);
+	int EnumGenericParamConstraints(ref nint phEnum, uint tk, uint* rGenericParamConstraints, uint cMax, out uint pcGenericParamConstraints);
 
 	[PreserveSig]
-	int GetGenericParamConstraintProps(uint gpc, uint* ptGenericParam, uint* ptkConstraintType);
+	int GetGenericParamConstraintProps(uint gpc, out uint ptGenericParam, out uint ptkConstraintType);
 
 	[PreserveSig]
-	int GetPEKind(uint* pdwPEKind, uint* pdwMAchine);
+	int GetPEKind(out uint pdwPEKind, out uint pdwMAchine);
 
 	[PreserveSig]
-	int GetVersionString(char* pwzBuf, uint ccBufSize, uint* pccBufSize);
+	int GetVersionString([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? pwzBuf, uint ccBufSize, out uint pccBufSize);
 
 	[PreserveSig]
-	int EnumMethodSpecs(nint* phEnum, uint tk, uint* rMethodSpecs, uint cMax, uint* pcMethodSpecs);
+	int EnumMethodSpecs(ref nint phEnum, uint tk, uint* rMethodSpecs, uint cMax, out uint pcMethodSpecs);
 }

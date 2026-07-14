@@ -1,5 +1,6 @@
 using System.Text;
 using ClangSharp;
+using ClangType = ClangSharp.Type;
 
 namespace MetadataGenerator;
 
@@ -14,6 +15,12 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		"return", "sbyte", "sealed", "short", "sizeof", "stackalloc", "static", "string",
 		"struct", "switch", "this", "throw", "true", "try", "typeof", "uint", "ulong",
 		"unchecked", "unsafe", "ushort", "using", "virtual", "void", "volatile", "while",
+	];
+	private static readonly HashSet<string> InputPointerTypedefs = ["LPCWSTR", "PCCOR_SIGNATURE"];
+	private static readonly HashSet<string> OutputWideStringOverrides =
+	[
+		"IMetaDataImport.GetEventProps.szEvent",
+		"IMetaDataImport.GetPropertyProps.szProperty",
 	];
 
 	private readonly ComInterfaceTypeMapper _typeMapper = new();
@@ -99,9 +106,7 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			{
 				if (parameterIndex != 0)
 					builder.Append(", ");
-				var parameter = method.Parameters[parameterIndex];
-				builder.Append(_typeMapper.Map(parameter.Type)).Append(' ')
-					.Append(EscapeIdentifier(parameter.Name));
+				builder.Append(RenderParameter(record.Name, method, method.Parameters[parameterIndex], parameterIndex));
 			}
 			builder.AppendLine(");");
 			if (index != methods.Count - 1)
@@ -109,6 +114,66 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		}
 
 		return builder.AppendLine("}").ToString();
+	}
+
+	private string RenderParameter(string interfaceName, CXXMethodDecl method, ParmVarDecl parameter, int parameterIndex)
+	{
+		var typedefName = GetTypedefName(parameter.OriginalType);
+		if (typedefName == "LPWSTR" || OutputWideStringOverrides.Contains($"{interfaceName}.{method.Name}.{parameter.Name}"))
+		{
+			var sizeParameterIndex = FindSizeParameterIndex(method, parameterIndex);
+			return $"[Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = {sizeParameterIndex})] char[]? {EscapeIdentifier(parameter.Name)}";
+		}
+
+		if (typedefName is not null && InputPointerTypedefs.Contains(typedefName))
+			return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
+
+		if (GetPointerType(parameter.Type) is { } pointer)
+		{
+			var modifier = GetTypedefName(pointer.PointeeType) == "HCORENUM" ? "ref" : "out";
+			return $"{modifier} {_typeMapper.Map(pointer.PointeeType)} {EscapeIdentifier(parameter.Name)}";
+		}
+
+		return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
+	}
+
+	private static int FindSizeParameterIndex(CXXMethodDecl method, int bufferParameterIndex)
+	{
+		var sizeParameterIndex = bufferParameterIndex + 1;
+		if (sizeParameterIndex >= method.Parameters.Count || GetPointerType(method.Parameters[sizeParameterIndex].Type) is not null)
+			throw new InvalidOperationException($"No character count parameter follows {method.Name}.{method.Parameters[bufferParameterIndex].Name}.");
+		return sizeParameterIndex;
+	}
+
+	private static PointerType? GetPointerType(ClangType type)
+	{
+		while (true)
+		{
+			type = type switch
+			{
+				AttributedType attributed => attributed.ModifiedType,
+				ElaboratedType elaborated => elaborated.NamedType,
+				AdjustedType adjusted => adjusted.GetAdjustedType,
+				_ => type,
+			};
+			if (type is not AttributedType and not ElaboratedType and not AdjustedType)
+				return type as PointerType;
+		}
+	}
+
+	private static string? GetTypedefName(ClangType type)
+	{
+		while (true)
+		{
+			type = type switch
+			{
+				AttributedType attributed => attributed.ModifiedType,
+				ElaboratedType elaborated => elaborated.NamedType,
+				_ => type,
+			};
+			if (type is not AttributedType and not ElaboratedType)
+				return (type as TypedefType)?.Decl.Name;
+		}
 	}
 
 	private static IEnumerable<Decl> Descendants(Decl declaration)

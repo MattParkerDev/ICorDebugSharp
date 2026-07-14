@@ -16,185 +16,185 @@ public unsafe partial interface IMetaDataImport
 	void CloseEnum(nint hEnum);
 
 	[PreserveSig]
-	int CountEnum(nint hEnum, uint* pulCount);
+	int CountEnum(nint hEnum, out uint pulCount);
 
 	[PreserveSig]
 	int ResetEnum(nint hEnum, uint ulPos);
 
 	[PreserveSig]
-	int EnumTypeDefs(nint* phEnum, uint* rTypeDefs, uint cMax, uint* pcTypeDefs);
+	int EnumTypeDefs(ref nint phEnum, uint* rTypeDefs, uint cMax, out uint pcTypeDefs);
 
 	[PreserveSig]
-	int EnumInterfaceImpls(nint* phEnum, uint td, uint* rImpls, uint cMax, uint* pcImpls);
+	int EnumInterfaceImpls(ref nint phEnum, uint td, uint* rImpls, uint cMax, out uint pcImpls);
 
 	[PreserveSig]
-	int EnumTypeRefs(nint* phEnum, uint* rTypeRefs, uint cMax, uint* pcTypeRefs);
+	int EnumTypeRefs(ref nint phEnum, uint* rTypeRefs, uint cMax, out uint pcTypeRefs);
 
 	[PreserveSig]
-	int FindTypeDefByName(char* szTypeDef, uint tkEnclosingClass, uint* ptd);
+	int FindTypeDefByName(char* szTypeDef, uint tkEnclosingClass, out uint ptd);
 
 	[PreserveSig]
-	int GetScopeProps(char* szName, uint cchName, uint* pchName, Guid* pmvid);
+	int GetScopeProps([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? szName, uint cchName, out uint pchName, out Guid pmvid);
 
 	[PreserveSig]
-	int GetModuleFromScope(uint* pmd);
+	int GetModuleFromScope(out uint pmd);
 
 	[PreserveSig]
-	int GetTypeDefProps(uint td, char* szTypeDef, uint cchTypeDef, uint* pchTypeDef, uint* pdwTypeDefFlags, uint* ptkExtends);
+	int GetTypeDefProps(uint td, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szTypeDef, uint cchTypeDef, out uint pchTypeDef, out uint pdwTypeDefFlags, out uint ptkExtends);
 
 	[PreserveSig]
-	int GetInterfaceImplProps(uint iiImpl, uint* pClass, uint* ptkIface);
+	int GetInterfaceImplProps(uint iiImpl, out uint pClass, out uint ptkIface);
 
 	[PreserveSig]
-	int GetTypeRefProps(uint tr, uint* ptkResolutionScope, char* szName, uint cchName, uint* pchName);
+	int GetTypeRefProps(uint tr, out uint ptkResolutionScope, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int ResolveTypeRef(uint tr, Guid* riid, nint* ppIScope, uint* ptd);
+	int ResolveTypeRef(uint tr, Guid* riid, out nint ppIScope, out uint ptd);
 
 	[PreserveSig]
-	int EnumMembers(nint* phEnum, uint cl, uint* rMembers, uint cMax, uint* pcTokens);
+	int EnumMembers(ref nint phEnum, uint cl, uint* rMembers, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMembersWithName(nint* phEnum, uint cl, char* szName, uint* rMembers, uint cMax, uint* pcTokens);
+	int EnumMembersWithName(ref nint phEnum, uint cl, char* szName, uint* rMembers, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethods(nint* phEnum, uint cl, uint* rMethods, uint cMax, uint* pcTokens);
+	int EnumMethods(ref nint phEnum, uint cl, uint* rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodsWithName(nint* phEnum, uint cl, char* szName, uint* rMethods, uint cMax, uint* pcTokens);
+	int EnumMethodsWithName(ref nint phEnum, uint cl, char* szName, uint* rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFields(nint* phEnum, uint cl, uint* rFields, uint cMax, uint* pcTokens);
+	int EnumFields(ref nint phEnum, uint cl, uint* rFields, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFieldsWithName(nint* phEnum, uint cl, char* szName, uint* rFields, uint cMax, uint* pcTokens);
+	int EnumFieldsWithName(ref nint phEnum, uint cl, char* szName, uint* rFields, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumParams(nint* phEnum, uint mb, uint* rParams, uint cMax, uint* pcTokens);
+	int EnumParams(ref nint phEnum, uint mb, uint* rParams, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMemberRefs(nint* phEnum, uint tkParent, uint* rMemberRefs, uint cMax, uint* pcTokens);
+	int EnumMemberRefs(ref nint phEnum, uint tkParent, uint* rMemberRefs, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodImpls(nint* phEnum, uint td, uint* rMethodBody, uint* rMethodDecl, uint cMax, uint* pcTokens);
+	int EnumMethodImpls(ref nint phEnum, uint td, uint* rMethodBody, uint* rMethodDecl, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumPermissionSets(nint* phEnum, uint tk, uint dwActions, uint* rPermission, uint cMax, uint* pcTokens);
+	int EnumPermissionSets(ref nint phEnum, uint tk, uint dwActions, uint* rPermission, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int FindMember(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, uint* pmb);
+	int FindMember(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, out uint pmb);
 
 	[PreserveSig]
-	int FindMethod(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, uint* pmb);
+	int FindMethod(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, out uint pmb);
 
 	[PreserveSig]
-	int FindField(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, uint* pmb);
+	int FindField(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, out uint pmb);
 
 	[PreserveSig]
-	int FindMemberRef(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, uint* pmr);
+	int FindMemberRef(uint td, char* szName, byte* pvSigBlob, uint cbSigBlob, out uint pmr);
 
 	[PreserveSig]
-	int GetMethodProps(uint mb, uint* pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, uint* pchMethod, uint* pdwAttr, byte** ppvSigBlob, uint* pcbSigBlob, uint* pulCodeRVA, uint* pdwImplFlags);
+	int GetMethodProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetMemberRefProps(uint mr, uint* ptk, char* szMember, uint cchMember, uint* pchMember, byte** ppvSigBlob, uint* pbSig);
+	int GetMemberRefProps(uint mr, out uint ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
-	int EnumProperties(nint* phEnum, uint td, uint* rProperties, uint cMax, uint* pcProperties);
+	int EnumProperties(ref nint phEnum, uint td, uint* rProperties, uint cMax, out uint pcProperties);
 
 	[PreserveSig]
-	int EnumEvents(nint* phEnum, uint td, uint* rEvents, uint cMax, uint* pcEvents);
+	int EnumEvents(ref nint phEnum, uint td, uint* rEvents, uint cMax, out uint pcEvents);
 
 	[PreserveSig]
-	int GetEventProps(uint ev, uint* pClass, char* szEvent, uint cchEvent, uint* pchEvent, uint* pdwEventFlags, uint* ptkEventType, uint* pmdAddOn, uint* pmdRemoveOn, uint* pmdFire, uint* rmdOtherMethod, uint cMax, uint* pcOtherMethod);
+	int GetEventProps(uint ev, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out uint pdwEventFlags, out uint ptkEventType, out uint pmdAddOn, out uint pmdRemoveOn, out uint pmdFire, uint* rmdOtherMethod, uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int EnumMethodSemantics(nint* phEnum, uint mb, uint* rEventProp, uint cMax, uint* pcEventProp);
+	int EnumMethodSemantics(ref nint phEnum, uint mb, uint* rEventProp, uint cMax, out uint pcEventProp);
 
 	[PreserveSig]
-	int GetMethodSemantics(uint mb, uint tkEventProp, uint* pdwSemanticsFlags);
+	int GetMethodSemantics(uint mb, uint tkEventProp, out uint pdwSemanticsFlags);
 
 	[PreserveSig]
-	int GetClassLayout(uint td, uint* pdwPackSize, COR_FIELD_OFFSET* rFieldOffset, uint cMax, uint* pcFieldOffset, uint* pulClassSize);
+	int GetClassLayout(uint td, out uint pdwPackSize, COR_FIELD_OFFSET* rFieldOffset, uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
 	[PreserveSig]
-	int GetFieldMarshal(uint tk, byte** ppvNativeType, uint* pcbNativeType);
+	int GetFieldMarshal(uint tk, out byte* ppvNativeType, out uint pcbNativeType);
 
 	[PreserveSig]
-	int GetRVA(uint tk, uint* pulCodeRVA, uint* pdwImplFlags);
+	int GetRVA(uint tk, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetPermissionSetProps(uint pm, uint* pdwAction, void** ppvPermission, uint* pcbPermission);
+	int GetPermissionSetProps(uint pm, out uint pdwAction, out void* ppvPermission, out uint pcbPermission);
 
 	[PreserveSig]
-	int GetSigFromToken(uint mdSig, byte** ppvSig, uint* pcbSig);
+	int GetSigFromToken(uint mdSig, out byte* ppvSig, out uint pcbSig);
 
 	[PreserveSig]
-	int GetModuleRefProps(uint mur, char* szName, uint cchName, uint* pchName);
+	int GetModuleRefProps(uint mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int EnumModuleRefs(nint* phEnum, uint* rModuleRefs, uint cmax, uint* pcModuleRefs);
+	int EnumModuleRefs(ref nint phEnum, uint* rModuleRefs, uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
-	int GetTypeSpecFromToken(uint typespec, byte** ppvSig, uint* pcbSig);
+	int GetTypeSpecFromToken(uint typespec, out byte* ppvSig, out uint pcbSig);
 
 	[PreserveSig]
-	int GetNameFromToken(uint tk, sbyte** pszUtf8NamePtr);
+	int GetNameFromToken(uint tk, out sbyte* pszUtf8NamePtr);
 
 	[PreserveSig]
-	int EnumUnresolvedMethods(nint* phEnum, uint* rMethods, uint cMax, uint* pcTokens);
+	int EnumUnresolvedMethods(ref nint phEnum, uint* rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int GetUserString(uint stk, char* szString, uint cchString, uint* pchString);
+	int GetUserString(uint stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
 
 	[PreserveSig]
-	int GetPinvokeMap(uint tk, uint* pdwMappingFlags, char* szImportName, uint cchImportName, uint* pchImportName, uint* pmrImportDLL);
+	int GetPinvokeMap(uint tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out uint pmrImportDLL);
 
 	[PreserveSig]
-	int EnumSignatures(nint* phEnum, uint* rSignatures, uint cmax, uint* pcSignatures);
+	int EnumSignatures(ref nint phEnum, uint* rSignatures, uint cmax, out uint pcSignatures);
 
 	[PreserveSig]
-	int EnumTypeSpecs(nint* phEnum, uint* rTypeSpecs, uint cmax, uint* pcTypeSpecs);
+	int EnumTypeSpecs(ref nint phEnum, uint* rTypeSpecs, uint cmax, out uint pcTypeSpecs);
 
 	[PreserveSig]
-	int EnumUserStrings(nint* phEnum, uint* rStrings, uint cmax, uint* pcStrings);
+	int EnumUserStrings(ref nint phEnum, uint* rStrings, uint cmax, out uint pcStrings);
 
 	[PreserveSig]
-	int GetParamForMethodIndex(uint md, uint ulParamSeq, uint* ppd);
+	int GetParamForMethodIndex(uint md, uint ulParamSeq, out uint ppd);
 
 	[PreserveSig]
-	int EnumCustomAttributes(nint* phEnum, uint tk, uint tkType, uint* rCustomAttributes, uint cMax, uint* pcCustomAttributes);
+	int EnumCustomAttributes(ref nint phEnum, uint tk, uint tkType, uint* rCustomAttributes, uint cMax, out uint pcCustomAttributes);
 
 	[PreserveSig]
-	int GetCustomAttributeProps(uint cv, uint* ptkObj, uint* ptkType, void** ppBlob, uint* pcbSize);
+	int GetCustomAttributeProps(uint cv, out uint ptkObj, out uint ptkType, out void* ppBlob, out uint pcbSize);
 
 	[PreserveSig]
-	int FindTypeRef(uint tkResolutionScope, char* szName, uint* ptr);
+	int FindTypeRef(uint tkResolutionScope, char* szName, out uint ptr);
 
 	[PreserveSig]
-	int GetMemberProps(uint mb, uint* pClass, char* szMember, uint cchMember, uint* pchMember, uint* pdwAttr, byte** ppvSigBlob, uint* pcbSigBlob, uint* pulCodeRVA, uint* pdwImplFlags, uint* pdwCPlusTypeFlag, void** ppValue, uint* pcchValue);
+	int GetMemberProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetFieldProps(uint mb, uint* pClass, char* szField, uint cchField, uint* pchField, uint* pdwAttr, byte** ppvSigBlob, uint* pcbSigBlob, uint* pdwCPlusTypeFlag, void** ppValue, uint* pcchValue);
+	int GetFieldProps(uint mb, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetPropertyProps(uint prop, uint* pClass, char* szProperty, uint cchProperty, uint* pchProperty, uint* pdwPropFlags, byte** ppvSig, uint* pbSig, uint* pdwCPlusTypeFlag, void** ppDefaultValue, uint* pcchDefaultValue, uint* pmdSetter, uint* pmdGetter, uint* rmdOtherMethod, uint cMax, uint* pcOtherMethod);
+	int GetPropertyProps(uint prop, out uint pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out uint pdwPropFlags, out byte* ppvSig, out uint pbSig, out uint pdwCPlusTypeFlag, out void* ppDefaultValue, out uint pcchDefaultValue, out uint pmdSetter, out uint pmdGetter, uint* rmdOtherMethod, uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int GetParamProps(uint tk, uint* pmd, uint* pulSequence, char* szName, uint cchName, uint* pchName, uint* pdwAttr, uint* pdwCPlusTypeFlag, void** ppValue, uint* pcchValue);
+	int GetParamProps(uint tk, out uint pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out uint pdwAttr, out uint pdwCPlusTypeFlag, out void* ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetCustomAttributeByName(uint tkObj, char* szName, void** ppData, uint* pcbData);
+	int GetCustomAttributeByName(uint tkObj, char* szName, out void* ppData, out uint pcbData);
 
 	[PreserveSig]
 	int IsValidToken(uint tk);
 
 	[PreserveSig]
-	int GetNestedClassProps(uint tdNestedClass, uint* ptdEnclosingClass);
+	int GetNestedClassProps(uint tdNestedClass, out uint ptdEnclosingClass);
 
 	[PreserveSig]
-	int GetNativeCallConvFromSig(void* pvSig, uint cbSig, uint* pCallConv);
+	int GetNativeCallConvFromSig(out void pvSig, uint cbSig, out uint pCallConv);
 
 	[PreserveSig]
-	int IsGlobal(uint pd, int* pbGlobal);
+	int IsGlobal(uint pd, out int pbGlobal);
 }
