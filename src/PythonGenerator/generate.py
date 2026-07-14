@@ -858,11 +858,6 @@ def write_interfaces(
         (struct.name, Path(f"{struct.name}.cs"), generator.generate_struct(struct))
         for struct in generator.structs.values()
     )
-    declarations.extend(
-        (name, Path("Extensions") / f"{name}.cs", source)
-        for name, source in generator.generate_buffer_extensions()
-    )
-
     names = [name for name, _, _ in declarations]
     duplicates = sorted(name for name in set(names) if names.count(name) > 1)
     if duplicates:
@@ -906,12 +901,11 @@ def main() -> int:
     generator = CSharpGenerator(midl, args.namespace)
     written, unchanged = write_interfaces(midl, args.output, args.namespace)
     interface_count = sum(interface.uuid is not None for interface in midl.interfaces)
-    extension_count = len(generator.generate_buffer_extensions())
-    declaration_count = interface_count + len(generator.enums) + len(generator.structs) + extension_count
+    declaration_count = interface_count + len(generator.enums) + len(generator.structs)
     print(
         f"Generated {declaration_count} declarations in {args.output}: "
         f"{interface_count} interfaces, {len(generator.enums)} enums, "
-        f"{len(generator.structs)} structs, {extension_count} extension classes "
+        f"{len(generator.structs)} structs "
         f"({written} written, {unchanged} unchanged)."
     )
     return 0

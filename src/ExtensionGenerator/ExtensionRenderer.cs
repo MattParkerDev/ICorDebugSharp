@@ -90,6 +90,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var publicMembers = enumerationRecipes.Select(RenderEnumerationMember)
 			.Concat(stringRecipes.Select(RenderStringMember));
 		var helpers = enumerationRecipes.Select(RenderEnumerationHelper).ToList();
+		helpers.AddRange(stringRecipes.Select(RenderStringHelper));
 		if (stringRecipes.Length != 0)
 			helpers.Add(RenderStringHelper());
 		return Header("ICorDebugSharp.GeneratedMetadata") +
@@ -111,15 +112,15 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		var suffix = recipe.Method[4..];
 		var inputs = string.Concat(recipe.Inputs.Select(input => $", {input.Type} {Escape(input.Name)}"));
-		var outputArguments = string.Join(", ", recipe.Outputs.Select(output => $"out var {Camel(output.PublicName)}"));
+		var outputArguments = string.Join(", ", recipe.Outputs.Select(output => $"out var {Escape(Camel(output.PublicName))}"));
 		var callArguments = new List<string> { "ref handle" };
 		callArguments.AddRange(recipe.Inputs.Select(input => Escape(input.Name)));
 		callArguments.Add(outputArguments);
 		callArguments.Add("1");
 		callArguments.Add("out var count");
 		var result = recipe.Outputs.Count == 1
-			? Camel(recipe.Outputs[0].PublicName)
-			: $"({string.Join(", ", recipe.Outputs.Select(output => Camel(output.PublicName)))})";
+			? Escape(Camel(recipe.Outputs[0].PublicName))
+			: $"({string.Join(", ", recipe.Outputs.Select(output => Escape(Camel(output.PublicName))))})";
 		return $"\tprivate static IEnumerable<{EnumerationReturnType(recipe)}> Enumerate{suffix}Core({recipe.Interface} instance{inputs})\n" +
 			"\t{\n\t\tvar handle = default(HCorEnum);\n\t\ttry\n\t\t{\n\t\t\twhile (true)\n\t\t\t{\n" +
 			$"\t\t\t\tvar hr = instance.{recipe.Method}({string.Join(", ", callArguments)});\n" +

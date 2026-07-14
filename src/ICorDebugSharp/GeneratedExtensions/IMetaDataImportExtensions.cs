@@ -398,13 +398,13 @@ public static class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumEvents(ref handle, td, out var event, 1, out var count);
+				var hr = instance.EnumEvents(ref handle, td, out var @event, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
 				if (count != 1)
 					throw new InvalidOperationException("Native metadata enumerator returned an invalid item count.");
-				yield return event;
+				yield return @event;
 			}
 		}
 		finally
