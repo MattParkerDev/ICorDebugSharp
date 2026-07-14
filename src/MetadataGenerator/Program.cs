@@ -53,7 +53,8 @@ var config = new PInvokeGeneratorConfiguration
     ]
 };
 
-var translationFlags = CXTranslationUnit_Flags.CXTranslationUnit_None;
+var translationFlags = CXTranslationUnit_Flags.CXTranslationUnit_IncludeAttributedTypes |
+                       CXTranslationUnit_Flags.CXTranslationUnit_VisitImplicitAttributes;
 if (config.GenerateMacroBindings)
 {
     translationFlags |=  CXTranslationUnit_Flags.CXTranslationUnit_DetailedPreprocessingRecord;
@@ -79,7 +80,7 @@ Span<string> clangCommandLineArgs =
 
 foreach (string filePath in files)
 {
-    var translationUnitError = CXTranslationUnit.TryParse(pinvokeGenerator.IndexHandle, rootFilePath, clangCommandLineArgs, [], translationFlags, out var handle);
+    var translationUnitError = CXTranslationUnit.TryParse(pinvokeGenerator.IndexHandle, filePath, clangCommandLineArgs, [], translationFlags, out var handle);
     var skipProcessing = false;
     if (translationUnitError != CXErrorCode.CXError_Success)
     {
