@@ -42,6 +42,10 @@ var config = new PInvokeGeneratorConfiguration
     pInvokeGeneratorConfigurationOptions)
 {
     DefaultClass = "Cor",
+    RemappedNames = new Dictionary<string, string>
+    {
+	    ["_GUID"] = "Guid",
+    },
     TraversalNames =
     [
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
