@@ -14,22 +14,22 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataImport
 {
 	[PreserveSig]
-	void CloseEnum(nint hEnum);
+	void CloseEnum(HCorEnum hEnum);
 
 	[PreserveSig]
-	int CountEnum(nint hEnum, out uint pulCount);
+	int CountEnum(HCorEnum hEnum, out uint pulCount);
 
 	[PreserveSig]
-	int ResetEnum(nint hEnum, uint ulPos);
+	int ResetEnum(HCorEnum hEnum, uint ulPos);
 
 	[PreserveSig]
-	int EnumTypeDefs(ref nint phEnum, out Token rTypeDefs, uint cMax, out uint pcTypeDefs);
+	int EnumTypeDefs(ref HCorEnum phEnum, out Token rTypeDefs, uint cMax, out uint pcTypeDefs);
 
 	[PreserveSig]
-	int EnumInterfaceImpls(ref nint phEnum, Token td, out Token rImpls, uint cMax, out uint pcImpls);
+	int EnumInterfaceImpls(ref HCorEnum phEnum, Token td, out Token rImpls, uint cMax, out uint pcImpls);
 
 	[PreserveSig]
-	int EnumTypeRefs(ref nint phEnum, out Token rTypeRefs, uint cMax, out uint pcTypeRefs);
+	int EnumTypeRefs(ref HCorEnum phEnum, out Token rTypeRefs, uint cMax, out uint pcTypeRefs);
 
 	[PreserveSig]
 	int FindTypeDefByName(char* szTypeDef, Token tkEnclosingClass, out Token ptd);
@@ -53,34 +53,34 @@ public unsafe partial interface IMetaDataImport
 	int ResolveTypeRef(Token tr, Guid* riid, out nint ppIScope, out Token ptd);
 
 	[PreserveSig]
-	int EnumMembers(ref nint phEnum, Token cl, out Token rMembers, uint cMax, out uint pcTokens);
+	int EnumMembers(ref HCorEnum phEnum, Token cl, out Token rMembers, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMembersWithName(ref nint phEnum, Token cl, char* szName, out Token rMembers, uint cMax, out uint pcTokens);
+	int EnumMembersWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMembers, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethods(ref nint phEnum, Token cl, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumMethods(ref HCorEnum phEnum, Token cl, out Token rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodsWithName(ref nint phEnum, Token cl, char* szName, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumMethodsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFields(ref nint phEnum, Token cl, out Token rFields, uint cMax, out uint pcTokens);
+	int EnumFields(ref HCorEnum phEnum, Token cl, out Token rFields, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFieldsWithName(ref nint phEnum, Token cl, char* szName, out Token rFields, uint cMax, out uint pcTokens);
+	int EnumFieldsWithName(ref HCorEnum phEnum, Token cl, char* szName, out Token rFields, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumParams(ref nint phEnum, Token mb, out Token rParams, uint cMax, out uint pcTokens);
+	int EnumParams(ref HCorEnum phEnum, Token mb, out Token rParams, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMemberRefs(ref nint phEnum, Token tkParent, out Token rMemberRefs, uint cMax, out uint pcTokens);
+	int EnumMemberRefs(ref HCorEnum phEnum, Token tkParent, out Token rMemberRefs, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodImpls(ref nint phEnum, Token td, out Token rMethodBody, out Token rMethodDecl, uint cMax, out uint pcTokens);
+	int EnumMethodImpls(ref HCorEnum phEnum, Token td, out Token rMethodBody, out Token rMethodDecl, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumPermissionSets(ref nint phEnum, Token tk, uint dwActions, out Token rPermission, uint cMax, out uint pcTokens);
+	int EnumPermissionSets(ref HCorEnum phEnum, Token tk, uint dwActions, out Token rPermission, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int FindMember(Token td, char* szName, byte* pvSigBlob, uint cbSigBlob, out Token pmb);
@@ -101,16 +101,16 @@ public unsafe partial interface IMetaDataImport
 	int GetMemberRefProps(Token mr, out Token ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
-	int EnumProperties(ref nint phEnum, Token td, out Token rProperties, uint cMax, out uint pcProperties);
+	int EnumProperties(ref HCorEnum phEnum, Token td, out Token rProperties, uint cMax, out uint pcProperties);
 
 	[PreserveSig]
-	int EnumEvents(ref nint phEnum, Token td, out Token rEvents, uint cMax, out uint pcEvents);
+	int EnumEvents(ref HCorEnum phEnum, Token td, out Token rEvents, uint cMax, out uint pcEvents);
 
 	[PreserveSig]
 	int GetEventProps(Token ev, out Token pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out uint pdwEventFlags, out Token ptkEventType, out Token pmdAddOn, out Token pmdRemoveOn, out Token pmdFire, out Token rmdOtherMethod, uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int EnumMethodSemantics(ref nint phEnum, Token mb, out Token rEventProp, uint cMax, out uint pcEventProp);
+	int EnumMethodSemantics(ref HCorEnum phEnum, Token mb, out Token rEventProp, uint cMax, out uint pcEventProp);
 
 	[PreserveSig]
 	int GetMethodSemantics(Token mb, Token tkEventProp, out uint pdwSemanticsFlags);
@@ -134,7 +134,7 @@ public unsafe partial interface IMetaDataImport
 	int GetModuleRefProps(Token mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int EnumModuleRefs(ref nint phEnum, out Token rModuleRefs, uint cmax, out uint pcModuleRefs);
+	int EnumModuleRefs(ref HCorEnum phEnum, out Token rModuleRefs, uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
 	int GetTypeSpecFromToken(Token typespec, out byte* ppvSig, out uint pcbSig);
@@ -143,7 +143,7 @@ public unsafe partial interface IMetaDataImport
 	int GetNameFromToken(Token tk, out sbyte* pszUtf8NamePtr);
 
 	[PreserveSig]
-	int EnumUnresolvedMethods(ref nint phEnum, out Token rMethods, uint cMax, out uint pcTokens);
+	int EnumUnresolvedMethods(ref HCorEnum phEnum, out Token rMethods, uint cMax, out uint pcTokens);
 
 	[PreserveSig]
 	int GetUserString(Token stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
@@ -152,19 +152,19 @@ public unsafe partial interface IMetaDataImport
 	int GetPinvokeMap(Token tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out Token pmrImportDLL);
 
 	[PreserveSig]
-	int EnumSignatures(ref nint phEnum, out Token rSignatures, uint cmax, out uint pcSignatures);
+	int EnumSignatures(ref HCorEnum phEnum, out Token rSignatures, uint cmax, out uint pcSignatures);
 
 	[PreserveSig]
-	int EnumTypeSpecs(ref nint phEnum, out Token rTypeSpecs, uint cmax, out uint pcTypeSpecs);
+	int EnumTypeSpecs(ref HCorEnum phEnum, out Token rTypeSpecs, uint cmax, out uint pcTypeSpecs);
 
 	[PreserveSig]
-	int EnumUserStrings(ref nint phEnum, out Token rStrings, uint cmax, out uint pcStrings);
+	int EnumUserStrings(ref HCorEnum phEnum, out Token rStrings, uint cmax, out uint pcStrings);
 
 	[PreserveSig]
 	int GetParamForMethodIndex(Token md, uint ulParamSeq, out Token ppd);
 
 	[PreserveSig]
-	int EnumCustomAttributes(ref nint phEnum, Token tk, Token tkType, out Token rCustomAttributes, uint cMax, out uint pcCustomAttributes);
+	int EnumCustomAttributes(ref HCorEnum phEnum, Token tk, Token tkType, out Token rCustomAttributes, uint cMax, out uint pcCustomAttributes);
 
 	[PreserveSig]
 	int GetCustomAttributeProps(Token cv, out Token ptkObj, out Token ptkType, out nint ppBlob, out uint pcbSize);

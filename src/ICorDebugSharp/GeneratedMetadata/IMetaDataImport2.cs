@@ -14,7 +14,7 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 {
 	[PreserveSig]
-	int EnumGenericParams(ref nint phEnum, Token tk, out Token rGenericParams, uint cMax, out uint pcGenericParams);
+	int EnumGenericParams(ref HCorEnum phEnum, Token tk, out Token rGenericParams, uint cMax, out uint pcGenericParams);
 
 	[PreserveSig]
 	int GetGenericParamProps(Token gp, out uint pulParamSeq, out uint pdwParamFlags, out Token ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
@@ -23,7 +23,7 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	int GetMethodSpecProps(Token mi, out Token tkParent, out byte* ppvSigBlob, out uint pcbSigBlob);
 
 	[PreserveSig]
-	int EnumGenericParamConstraints(ref nint phEnum, Token tk, out Token rGenericParamConstraints, uint cMax, out uint pcGenericParamConstraints);
+	int EnumGenericParamConstraints(ref HCorEnum phEnum, Token tk, out Token rGenericParamConstraints, uint cMax, out uint pcGenericParamConstraints);
 
 	[PreserveSig]
 	int GetGenericParamConstraintProps(Token gpc, out Token ptGenericParam, out Token ptkConstraintType);
@@ -35,5 +35,5 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	int GetVersionString([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? pwzBuf, uint ccBufSize, out uint pccBufSize);
 
 	[PreserveSig]
-	int EnumMethodSpecs(ref nint phEnum, Token tk, out Token rMethodSpecs, uint cMax, out uint pcMethodSpecs);
+	int EnumMethodSpecs(ref HCorEnum phEnum, Token tk, out Token rMethodSpecs, uint cMax, out uint pcMethodSpecs);
 }

@@ -50,7 +50,7 @@ internal sealed class ComInterfaceTypeMapper
 			"WCHAR" => "char",
 			"UINT64" or "ULONG64" => "ulong",
 			"INT64" or "LONG64" => "long",
-			"HCORENUM" => "nint",
+			"HCORENUM" => "HCorEnum",
 			"LPWSTR" or "LPCWSTR" => "char*",
 			"LPCVOID" or "LPVOID" or "UVCP_CONSTANT" => "nint",
 			"PCOR_SIGNATURE" or "PCCOR_SIGNATURE" => "byte*",
