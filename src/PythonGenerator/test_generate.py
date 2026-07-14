@@ -26,6 +26,8 @@ interface ICorDebugModule : IUnknown
         [out, size_is(cchName), length_is(*pcchName)] WCHAR szName[]);
     HRESULT SetName([in] WCHAR *name);
     HRESULT GetUnknown([out] IUnknown **value);
+    HRESULT GetImplicitOutput(ICorDebugProcess **value);
+    HRESULT GetImplicitScalar(ULONG32 *value);
 };
 
 [
@@ -71,6 +73,8 @@ class CSharpGeneratorTests(unittest.TestCase):
         )
         self.assertIn("int SetName(string name);", source)
         self.assertIn("int GetUnknown(out nint value);", source)
+        self.assertIn("int GetImplicitOutput(out ICorDebugProcess value);", source)
+        self.assertIn("int GetImplicitScalar(out uint value);", source)
 
     def test_generates_inheritance_and_ref_parameter(self) -> None:
         source = self.generate("ICorDebugAppDomain")

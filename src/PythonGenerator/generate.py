@@ -242,6 +242,10 @@ class CSharpGenerator:
             return "out ", csharp_type
         if parameter.is_in and parameter.is_out:
             return "ref ", csharp_type
+        if not parameter.is_in and not parameter.is_out:
+            if csharp_type in self.interfaces and parameter.type_spec.pointer_depth == 1:
+                return "", csharp_type
+            return "out ", csharp_type
         if is_opaque_pointer:
             return "", csharp_type
         if csharp_type in self.interfaces and parameter.type_spec.pointer_depth == 1:
