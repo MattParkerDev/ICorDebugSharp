@@ -79,10 +79,30 @@ class CSharpGeneratorTests(unittest.TestCase):
     def test_generates_inheritance_and_ref_parameter(self) -> None:
         source = self.generate("ICorDebugAppDomain")
 
+        self.assertIn("[GeneratedComInterface]\n", source)
+        self.assertNotIn("StringMarshalling = StringMarshalling.Utf16", source)
         self.assertIn(
             "public partial interface ICorDebugAppDomain : ICorDebugModule", source
         )
         self.assertIn("int GetToken(ref uint token);", source)
+
+    def test_detects_utf16_through_typedef_chain(self) -> None:
+        midl = parse_string("""
+            typedef WCHAR WIDE_CHAR;
+            typedef WIDE_CHAR NAME_CHAR;
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface IWideAlias : IUnknown
+            {
+                HRESULT GetName([in] ULONG count, [out, size_is(count)] NAME_CHAR value[]);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn(
+            "[GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]",
+            source,
+        )
 
     def test_writes_one_file_per_interface_without_deleting_other_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
