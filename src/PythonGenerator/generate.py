@@ -94,6 +94,10 @@ SPECIAL_TYPES = {
     "REFIID": "Guid",
 }
 
+IID_SELECTED_OUTPUT_OVERRIDES = {
+    ("ICorDebugModule", "GetMetaDataInterface", "ppObj"): "riid",
+}
+
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 NAMESPACE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$")
 INTERFACE_DEFINITION_RE = re.compile(
@@ -437,7 +441,7 @@ class CSharpGenerator:
             )
 
         parameters = ", ".join(
-            self.generate_parameter(interface, method.name, parameter)
+            self.generate_parameter(interface, method, parameter)
             for parameter in method.params
         )
         return (
@@ -446,11 +450,11 @@ class CSharpGenerator:
         )
 
     def generate_parameter(
-        self, interface: InterfaceDef, method_name: str, parameter: MethodParam
+        self, interface: InterfaceDef, method: Method, parameter: MethodParam
     ) -> str:
         if not parameter.name:
             raise GenerationError(
-                f"{interface.name}.{method_name} at IDL line {parameter.line}: "
+                f"{interface.name}.{method.name} at IDL line {parameter.line}: "
                 "unnamed parameters are not supported"
             )
 
@@ -459,13 +463,18 @@ class CSharpGenerator:
         is_array = bool(parameter.array_dimensions) or parameter.size_is is not None
         attributes: list[str] = []
         modifier = ""
+        iid_selector = self.get_iid_selector(interface, method, parameter)
 
-        if is_array:
+        if iid_selector:
+            attributes.append("MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))")
+            modifier = "out "
+            csharp_type = "object?"
+        elif is_array:
             if parameter.size_is:
                 count_name = parameter.size_is.strip().lstrip("*")
                 if not IDENTIFIER_RE.fullmatch(count_name):
                     raise self.parameter_error(
-                        interface, method_name, parameter,
+                        interface, method.name, parameter,
                         f"unsupported size_is expression {parameter.size_is!r}",
                     )
                 attributes.append(
@@ -479,7 +488,7 @@ class CSharpGenerator:
         elif base_name in {"LPCWSTR", "LPWSTR"}:
             if parameter.is_out:
                 raise self.parameter_error(
-                    interface, method_name, parameter,
+                    interface, method.name, parameter,
                     f"output {base_name} requires an explicit buffer size",
                 )
         elif base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
@@ -497,6 +506,60 @@ class CSharpGenerator:
             f"{attribute_text}{modifier}{csharp_type} "
             f"{self.escape_identifier(parameter.name)}"
         )
+
+    def get_iid_selector(
+        self, interface: InterfaceDef, method: Method, parameter: MethodParam
+    ) -> str | None:
+        if not parameter.name:
+            return None
+
+        selector = parameter.iid_is or IID_SELECTED_OUTPUT_OVERRIDES.get(
+            (interface.name, method.name, parameter.name)
+        )
+        if not selector:
+            return None
+
+        selector = selector.strip()
+        if not IDENTIFIER_RE.fullmatch(selector):
+            raise self.parameter_error(
+                interface,
+                method.name,
+                parameter,
+                f"unsupported iid_is expression {selector!r}",
+            )
+        if (
+            not parameter.is_out
+            or parameter.is_in
+            or parameter.type_spec.base_name not in {"IUnknown", "void"}
+            or parameter.type_spec.pointer_depth != 2
+        ):
+            raise self.parameter_error(
+                interface,
+                method.name,
+                parameter,
+                "IID-selected outputs must be [out] void** or IUnknown**",
+            )
+
+        selector_parameter = next(
+            (candidate for candidate in method.params if candidate.name == selector),
+            None,
+        )
+        if selector_parameter is None:
+            raise self.parameter_error(
+                interface,
+                method.name,
+                parameter,
+                f"iid_is references missing parameter {selector!r}",
+            )
+        if selector_parameter.type_spec.base_name not in {"GUID", "REFIID"}:
+            raise self.parameter_error(
+                interface,
+                method.name,
+                parameter,
+                f"iid_is parameter {selector!r} is not a GUID or REFIID",
+            )
+
+        return selector
 
     def project_pointer(self, parameter: MethodParam, csharp_type: str) -> tuple[str, str]:
         base_name = parameter.type_spec.base_name

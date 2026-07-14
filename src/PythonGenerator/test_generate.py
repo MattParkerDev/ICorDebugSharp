@@ -26,6 +26,8 @@ interface ICorDebugModule : IUnknown
         [out, size_is(cchName), length_is(*pcchName)] WCHAR szName[]);
     HRESULT SetName([in] WCHAR *name);
     HRESULT GetUnknown([out] IUnknown **value);
+    HRESULT GetMetaDataInterface([in] REFIID riid, [out] IUnknown **ppObj);
+    HRESULT GetDynamic([in] REFIID riid, [out, iid_is(riid)] void **value);
     HRESULT SetStream([in] IStream *value);
     HRESULT GetImplicitOutput(ICorDebugProcess **value);
     HRESULT GetImplicitScalar(ULONG32 *value);
@@ -108,6 +110,23 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("int SetStream(nint value);", source)
         self.assertIn("int GetImplicitOutput(out ICorDebugProcess value);", source)
         self.assertIn("int GetImplicitScalar(out uint value);", source)
+
+    def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:
+        source = self.generate("ICorDebugModule")
+
+        marshalling = (
+            "[MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] "
+            "out object?"
+        )
+        self.assertIn(
+            f"int GetMetaDataInterface(ref Guid riid, {marshalling} ppObj);",
+            source,
+        )
+        self.assertIn(
+            f"int GetDynamic(ref Guid riid, {marshalling} value);",
+            source,
+        )
+        self.assertIn("int GetUnknown(out nint value);", source)
 
     def test_generates_inheritance_and_ref_parameter(self) -> None:
         source = self.generate("ICorDebugAppDomain")
