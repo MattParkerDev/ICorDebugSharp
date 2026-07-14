@@ -128,6 +128,18 @@ class CSharpGeneratorTests(unittest.TestCase):
         )
         self.assertIn("int GetUnknown(out nint value);", source)
 
+    def test_rejects_invalid_iid_selected_output(self) -> None:
+        midl = parse_string("""
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface IBad : IUnknown
+            {
+                HRESULT M([out, iid_is(missing)] void **value);
+            };
+        """)
+
+        with self.assertRaisesRegex(GenerationError, "missing parameter 'missing'"):
+            CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
     def test_generates_inheritance_and_ref_parameter(self) -> None:
         source = self.generate("ICorDebugAppDomain")
 
