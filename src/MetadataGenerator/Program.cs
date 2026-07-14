@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using ClangSharp;
 using ClangSharp.Interop;
 
@@ -35,13 +33,13 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Gen
 var config = new PInvokeGeneratorConfiguration
 ("c++", 
     "",
-    "LibGit2.Interop",
-    $"{projectDirectory}/../../src/LibGit2.Interop2/",
+    "ICorDebugSharp.GeneratedMetadata",
+    $"{projectDirectory}/../ICorDebugSharp/GeneratedMetadata/",
     "", 
     PInvokeGeneratorOutputMode.CSharp,
     pInvokeGeneratorConfigurationOptions)
 {
-    DefaultClass = "libgit2"
+    DefaultClass = "Cor"
 };
 
 var translationFlags = CXTranslationUnit_Flags.CXTranslationUnit_None;
