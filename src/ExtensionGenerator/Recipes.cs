@@ -110,6 +110,6 @@ internal static class Recipes
 		new("IMetaDataImport2", "GetVersionString", "VersionString", "string", "", "null, 0, out var required", "buffer, capacity, out var actual", "CreateString(buffer, actual, true)"),
 		new("IMetaDataAssemblyImport", "GetFileProps", "FileName", "string", "Token file", "file, null, 0, out var required, out _, out _, out _", "file, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
 		new("IMetaDataAssemblyImport", "GetExportedTypeProps", "ExportedTypeName", "string", "Token exportedType", "exportedType, null, 0, out var required, out _, out _, out _", "exportedType, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
-		new("IMetaDataAssemblyImport", "GetManifestResourceProps", "ManifestResourceName", "string", "Token resource", "resource, null, 0, out var required, out _, out _, out _, out _", "resource, buffer, capacity, out var actual, out _, out _, out _, out _", "CreateString(buffer, actual, true)"),
+		new("IMetaDataAssemblyImport", "GetManifestResourceProps", "ManifestResourceName", "string", "Token resource", "resource, null, 0, out var required, out _, out _, out _", "resource, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
 	];
 }

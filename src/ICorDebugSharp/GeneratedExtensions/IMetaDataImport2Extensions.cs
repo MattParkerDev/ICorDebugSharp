@@ -92,6 +92,31 @@ public static class MetaDataImport2Extensions
 		}
 	}
 
+	private static string QueryGetVersionString(IMetaDataImport2 instance)
+	{
+		var hr = instance.GetVersionString(null, 0, out var required);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetVersionString(buffer, capacity, out var actual);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, true);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
 	private static string CreateString(char[] buffer, uint count, bool trimTerminator)
 	{
 		var length = checked((int)count);

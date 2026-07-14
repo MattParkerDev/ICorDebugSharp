@@ -121,6 +121,81 @@ public static class MetaDataAssemblyImportExtensions
 		}
 	}
 
+	private static string QueryGetFileProps(IMetaDataAssemblyImport instance, Token file)
+	{
+		var hr = instance.GetFileProps(file, null, 0, out var required, out _, out _, out _);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetFileProps(file, buffer, capacity, out var actual, out _, out _, out _);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, true);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static string QueryGetExportedTypeProps(IMetaDataAssemblyImport instance, Token exportedType)
+	{
+		var hr = instance.GetExportedTypeProps(exportedType, null, 0, out var required, out _, out _, out _);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetExportedTypeProps(exportedType, buffer, capacity, out var actual, out _, out _, out _);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, true);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static string QueryGetManifestResourceProps(IMetaDataAssemblyImport instance, Token resource)
+	{
+		var hr = instance.GetManifestResourceProps(resource, null, 0, out var required, out _, out _, out _);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetManifestResourceProps(resource, buffer, capacity, out var actual, out _, out _, out _);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, true);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
 	private static string CreateString(char[] buffer, uint count, bool trimTerminator)
 	{
 		var length = checked((int)count);

@@ -575,6 +575,131 @@ public static class MetaDataImportExtensions
 		}
 	}
 
+	private static (string Name, Guid ModuleVersionId) QueryGetScopeProps(IMetaDataImport instance)
+	{
+		var hr = instance.GetScopeProps(null, 0, out var required, out _);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return (string.Empty, default);
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetScopeProps(buffer, capacity, out var actual, out var moduleVersionId);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return (CreateString(buffer, actual, true), moduleVersionId);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static (string Name, TypeAttributes Attributes, Token Extends) QueryGetTypeDefProps(IMetaDataImport instance, Token typeDefinition)
+	{
+		var hr = instance.GetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return (string.Empty, default, default);
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetTypeDefProps(typeDefinition, buffer, capacity, out var actual, out var attributes, out var extends);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return (CreateString(buffer, actual, true), attributes, extends);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static (Token ResolutionScope, string Name) QueryGetTypeRefProps(IMetaDataImport instance, Token typeReference)
+	{
+		var hr = instance.GetTypeRefProps(typeReference, out _, null, 0, out var required);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return (default, string.Empty);
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetTypeRefProps(typeReference, out var resolutionScope, buffer, capacity, out var actual);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return (resolutionScope, CreateString(buffer, actual, true));
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static string QueryGetModuleRefProps(IMetaDataImport instance, Token moduleReference)
+	{
+		var hr = instance.GetModuleRefProps(moduleReference, null, 0, out var required);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetModuleRefProps(moduleReference, buffer, capacity, out var actual);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, true);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
+	private static string QueryGetUserString(IMetaDataImport instance, Token userString)
+	{
+		var hr = instance.GetUserString(userString, null, 0, out var required);
+		Marshal.ThrowExceptionForHR(hr);
+		if (required == 0)
+			return string.Empty;
+
+		for (var attempt = 0; attempt < 3; attempt++)
+		{
+			var capacity = required;
+			var buffer = new char[checked((int)capacity)];
+			hr = instance.GetUserString(userString, buffer, capacity, out var actual);
+			Marshal.ThrowExceptionForHR(hr);
+			if (actual > capacity)
+			{
+				required = actual;
+				continue;
+			}
+
+			return CreateString(buffer, actual, false);
+		}
+
+		throw new InvalidOperationException("Native buffer size did not stabilize.");
+	}
+
 	private static string CreateString(char[] buffer, uint count, bool trimTerminator)
 	{
 		var length = checked((int)count);
