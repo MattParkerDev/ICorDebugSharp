@@ -40,25 +40,9 @@ Header.txt
 git_
 --language
 c++
---with-type
-git_status_opt_t=uint
-git_submodule_status_t=uint
-git_reference_format_t=uint
-git_diff_flag_t=uint
-git_pathspec_flag_t=uint
-git_status_t=uint
-git_diff_option_t=uint
-git_index_add_option_t=uint
-git_filter_flag_t=uint
-git_repository_init_flag_t=uint
-git_diff_format_t=uint
-git_checkout_notify_t=uint
-git_checkout_strategy_t=uint
-git_credential_t=uint
-git_diff_find_t=uint
-git_email_create_flags_t=uint
-git_diff_stats_format_t=uint
-git_worktree_prune_t=uint
+# --with-type
+# git_status_opt_t=uint
+# git_submodule_status_t=uint
 # --traverse
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/annotated_commit.h
 # C:/Users/Matthew/Documents/Git/libgit2/include/git2/apply.h
