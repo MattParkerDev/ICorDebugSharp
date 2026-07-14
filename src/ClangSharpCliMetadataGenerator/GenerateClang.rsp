@@ -42,6 +42,8 @@ Cor
 ../ICorDebugSharp/GeneratedMetadata
 --headerFile
 Header.txt
+--remap
+_GUID=Guid
 # --prefixStrip
 # git_
 --language
