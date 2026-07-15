@@ -100,7 +100,7 @@ class CSharpGeneratorTests(unittest.TestCase):
     def test_maps_typedefs_pointers_and_sized_arrays(self) -> None:
         source = self.generate("ICorDebugModule")
 
-        self.assertIn("int GetBaseAddress(out ulong pAddress);", source)
+        self.assertIn("int GetBaseAddress(out CORDB_ADDRESS pAddress);", source)
         self.assertIn(
             "int GetName(uint cchName, out uint pcchName, "
             "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);",
@@ -202,6 +202,13 @@ class CSharpGeneratorTests(unittest.TestCase):
             typed_source,
         )
 
+    def test_generates_preserved_typedef_with_resolved_storage_type(self) -> None:
+        source = self.generator.generate_preserved_typedef("CORDB_ADDRESS")
+
+        self.assertIn(
+            "public readonly record struct CORDB_ADDRESS(ulong Value);", source
+        )
+
     def test_detects_utf16_through_typedef_chain(self) -> None:
         midl = parse_string("""
             typedef WCHAR WIDE_CHAR;
@@ -266,7 +273,11 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            declaration_count = 2 + len(self.generator.metadata_typedefs)
+            declaration_count = (
+                2
+                + len(self.generator.metadata_typedefs)
+                + len(self.generator.preserved_typedefs)
+            )
             self.assertEqual((declaration_count, 0), (written, unchanged))
             self.assertEqual((0, declaration_count), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
