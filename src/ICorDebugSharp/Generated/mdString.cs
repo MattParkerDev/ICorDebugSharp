@@ -20,5 +20,7 @@ public readonly record struct mdString
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdToken(mdString value) => new(value.Value);
+
 	public bool IsNil => Rid == 0;
 }

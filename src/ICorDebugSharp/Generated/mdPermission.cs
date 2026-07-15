@@ -20,5 +20,7 @@ public readonly record struct mdPermission
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdToken(mdPermission value) => new(value.Value);
+
 	public bool IsNil => Rid == 0;
 }
