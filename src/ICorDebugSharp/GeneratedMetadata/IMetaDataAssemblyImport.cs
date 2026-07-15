@@ -15,10 +15,10 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataAssemblyImport
 {
 	[PreserveSig]
-	int GetAssemblyProps(mdAssembly mda, out nint ppbPublicKey, out uint pcbPublicKey, out uint pulHashAlgId, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out AssemblyNameFlags pdwAssemblyFlags);
+	int GetAssemblyProps(mdAssembly mda, out nint ppbPublicKey, out uint pcbPublicKey, out uint pulHashAlgId, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out CorAssemblyFlags pdwAssemblyFlags);
 
 	[PreserveSig]
-	int GetAssemblyRefProps(mdAssemblyRef mdar, out nint ppbPublicKeyOrToken, out uint pcbPublicKeyOrToken, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out nint ppbHashValue, out uint pcbHashValue, out AssemblyNameFlags pdwAssemblyRefFlags);
+	int GetAssemblyRefProps(mdAssemblyRef mdar, out nint ppbPublicKeyOrToken, out uint pcbPublicKeyOrToken, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out nint ppbHashValue, out uint pcbHashValue, out CorAssemblyFlags pdwAssemblyRefFlags);
 
 	[PreserveSig]
 	int GetFileProps(mdFile mdf, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out nint ppbHashValue, out uint pcbHashValue, out CorFileFlags pdwFileFlags);

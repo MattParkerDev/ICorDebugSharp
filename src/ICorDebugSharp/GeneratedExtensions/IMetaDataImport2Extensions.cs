@@ -21,7 +21,7 @@ public static unsafe class MetaDataImport2Extensions
 
 		public string VersionString => QueryGetVersionString(instance);
 
-		public (string wzname, uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
+		public (string wzname, uint pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
 		{
 			var hr = instance.GetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
 			Marshal.ThrowExceptionForHR(hr);
@@ -74,7 +74,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (ptGenericParam, ptkConstraintType);
 		}
 
-		public (uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved, uint pchName) GetGenericParamProps(mdGenericParam gp, char[]? wzname, uint cchName)
+		public (uint pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, uint reserved, uint pchName) GetGenericParamProps(mdGenericParam gp, char[]? wzname, uint cchName)
 		{
 			var hr = instance.GetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, wzname, cchName, out var pchName);
 			Marshal.ThrowExceptionForHR(hr);

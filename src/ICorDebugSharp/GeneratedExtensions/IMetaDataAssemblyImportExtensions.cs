@@ -27,7 +27,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public string GetManifestResourceProps(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
 
-		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
+		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
 		{
 			var hr = instance.GetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
@@ -52,7 +52,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
+		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
 		{
 			var hr = instance.GetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
@@ -136,14 +136,14 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			}
 		}
 
-		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)
+		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)
 		{
 			var hr = instance.GetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, cchName, out var pchName, out var pMetaData, out var pdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppbPublicKey, pcbPublicKey, pulHashAlgId, pchName, pMetaData, pdwAssemblyFlags);
 		}
 
-		public (nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, uint pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, uint cchName)
+		public (nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, uint pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, uint cchName)
 		{
 			var hr = instance.GetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, cchName, out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
