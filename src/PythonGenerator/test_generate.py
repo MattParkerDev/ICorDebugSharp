@@ -314,15 +314,15 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertIn(
-            "public event EventHandler<CorDebugManagedCallbackEventArgs>? OnAnyEvent;",
+            "\tpublic event EventHandler<CorDebugManagedCallbackEventArgs>? OnAnyEvent;",
             source,
         )
         self.assertIn(
-            "public event EventHandler<BreakpointCorDebugManagedCallbackEventArgs>? OnBreakpoint;",
+            "\tpublic event EventHandler<BreakpointCorDebugManagedCallbackEventArgs>? OnBreakpoint;",
             source,
         )
         self.assertIn(
-            "int ICorDebugManagedCallback2.FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset) => HandleEvent(OnFunctionRemapOpportunity, new FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset));",
+            "\tint ICorDebugManagedCallback2.FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset) => HandleEvent(OnFunctionRemapOpportunity, new FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset));",
             source,
         )
         self.assertIn("OnException;", source)
@@ -333,10 +333,10 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertIn(
-            "public string LogSwitchName { get; }",
+            "\tpublic string LogSwitchName { get; }",
             source,
         )
-        self.assertIn("LogSwitchName = pLogSwitchName;", source)
+        self.assertIn("\t\tLogSwitchName = pLogSwitchName;", source)
 
     def test_writes_managed_callback_dispatcher(self) -> None:
         midl = parse_string(CALLBACK_IDL)

@@ -328,7 +328,7 @@ class CSharpGenerator:
             for _, method, name in methods
         )
         events = "\n".join(
-            f"    public event EventHandler<{name}CorDebugManagedCallbackEventArgs>? On{name};"
+            f"\tpublic event EventHandler<{name}CorDebugManagedCallbackEventArgs>? On{name};"
             for _, _, name in methods
         )
         implementations = "\n\n".join(
@@ -347,15 +347,15 @@ class CSharpGenerator:
             "[GeneratedComClass]\n"
             f"public partial class CorDebugManagedCallback : {interfaces}\n"
             "{\n"
-            "    public event EventHandler<CorDebugManagedCallbackEventArgs>? OnAnyEvent;\n"
+            "\tpublic event EventHandler<CorDebugManagedCallbackEventArgs>? OnAnyEvent;\n"
             f"{events}\n\n"
-            "    private int HandleEvent<TEventArgs>(EventHandler<TEventArgs>? handler, TEventArgs args)\n"
-            "        where TEventArgs : CorDebugManagedCallbackEventArgs\n"
-            "    {\n"
-            "        handler?.Invoke(this, args);\n"
-            "        OnAnyEvent?.Invoke(this, args);\n"
-            "        return 0;\n"
-            "    }\n\n"
+            "\tprivate int HandleEvent<TEventArgs>(EventHandler<TEventArgs>? handler, TEventArgs args)\n"
+            "\t\twhere TEventArgs : CorDebugManagedCallbackEventArgs\n"
+            "\t{\n"
+            "\t\thandler?.Invoke(this, args);\n"
+            "\t\tOnAnyEvent?.Invoke(this, args);\n"
+            "\t\treturn 0;\n"
+            "\t}\n\n"
             f"{implementations}\n"
             "}\n\n"
             "public abstract class CorDebugManagedCallbackEventArgs : EventArgs\n"
@@ -383,7 +383,7 @@ class CSharpGenerator:
             self.escape_identifier(parameter.name) for parameter in method.params
         )
         return (
-            f"    int {self.escape_identifier(interface.name)}.{self.escape_identifier(method.name)}"
+            f"\tint {self.escape_identifier(interface.name)}.{self.escape_identifier(method.name)}"
             f"({parameters}) => HandleEvent(On{name}, new "
             f"{name}CorDebugManagedCallbackEventArgs({arguments}));"
         )
@@ -398,22 +398,22 @@ class CSharpGenerator:
             for parameter, parameter_type in parameters
         )
         properties = "\n".join(
-            f"        {self.callback_property_name(parameter.name)} = "
+            f"\t\t{self.callback_property_name(parameter.name)} = "
             f"{self.escape_identifier(parameter.name)};"
             for parameter, _ in parameters
         )
         declarations = "\n".join(
-            f"    public {parameter_type} {self.callback_property_name(parameter.name)} {{ get; }}"
+            f"\tpublic {parameter_type} {self.callback_property_name(parameter.name)} {{ get; }}"
             for parameter, parameter_type in parameters
         )
         return (
             f"public sealed class {name}CorDebugManagedCallbackEventArgs "
             ": CorDebugManagedCallbackEventArgs\n"
             "{\n"
-            f"    public {name}CorDebugManagedCallbackEventArgs({signature})\n"
-            "    {\n"
+            f"\tpublic {name}CorDebugManagedCallbackEventArgs({signature})\n"
+            "\t{\n"
             f"{properties}\n"
-            "    }\n\n"
+            "\t}\n\n"
             f"{declarations}\n"
             "}"
         )
