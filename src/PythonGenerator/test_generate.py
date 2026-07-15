@@ -9,6 +9,7 @@ from generate import CSharpGenerator, GenerationError, parse_midl_file, write_in
 
 IDL = """
 typedef UINT32 mdToken;
+typedef mdToken mdTypeDef;
 typedef ULONG64 CORDB_ADDRESS;
 
 [
@@ -191,8 +192,15 @@ class CSharpGeneratorTests(unittest.TestCase):
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_metadata_typedef("mdToken")
+        typed_source = self.generator.generate_metadata_typedef("mdTypeDef")
 
-        self.assertIn("public readonly record struct mdToken(uint Value);", source)
+        self.assertIn("public static readonly mdToken Nil = new(0);", source)
+        self.assertIn("public uint Value { get; }", source)
+        self.assertIn("public bool IsNil => Rid == 0;", source)
+        self.assertIn(
+            "public static readonly mdTypeDef Nil = new((uint) CorTokenType.mdtTypeDef);",
+            typed_source,
+        )
 
     def test_detects_utf16_through_typedef_chain(self) -> None:
         midl = parse_string("""
@@ -258,8 +266,8 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            self.assertEqual((3, 0), (written, unchanged))
-            self.assertEqual((0, 3), (second_written, second_unchanged))
+            self.assertEqual((4, 0), (written, unchanged))
+            self.assertEqual((0, 4), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
             self.assertTrue((output / "mdToken.cs").exists())
             self.assertFalse(
