@@ -120,11 +120,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var returnType = recipe.Kind == BufferKind.String
 			? "string"
 			: $"{elementType}[]";
+		if (retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal))
+			return $"\t\tpublic {returnType} {recipe.Method[3..]} => instance.{capabilityName}.{recipe.Method[3..]};";
 		var body = RenderQueryBody(method, recipe, retained, elementType, retained.Length == 0 ? 4 : 3)
 			.Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal);
-		return retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
-			? $"\t\tpublic {returnType} {recipe.Method[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{body}\n\t\t\t}}\n\t\t}}"
-			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
+		return $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
 	}
 
 	private static string RenderCapabilityStringQuery(ManagedMethod method, string capabilityName)
