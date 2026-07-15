@@ -60,7 +60,7 @@ public static unsafe class CorDebugProcess2ProjectedExtensions
 			return version;
 		}
 
-		public uint SetUnmanagedBreakpoint(ulong address, uint bufsize, byte[] buffer)
+		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)
 		{
 			var hr = instance.SetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
 			Marshal.ThrowExceptionForHR(hr);

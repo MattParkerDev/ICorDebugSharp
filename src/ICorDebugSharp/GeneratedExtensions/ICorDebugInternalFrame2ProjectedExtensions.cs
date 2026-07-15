@@ -12,7 +12,7 @@ public static unsafe class CorDebugInternalFrame2ProjectedExtensions
 {
 	extension(ICorDebugInternalFrame2 instance)
 	{
-		public ulong Address
+		public CORDB_ADDRESS Address
 		{
 			get
 			{
@@ -22,7 +22,7 @@ public static unsafe class CorDebugInternalFrame2ProjectedExtensions
 			}
 		}
 
-		public ulong GetAddress()
+		public CORDB_ADDRESS GetAddress()
 		{
 			var hr = instance.GetAddress(out var pAddress);
 			Marshal.ThrowExceptionForHR(hr);

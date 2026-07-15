@@ -12,7 +12,7 @@ public static unsafe class CorDebugLoadedModuleProjectedExtensions
 {
 	extension(ICorDebugLoadedModule instance)
 	{
-		public ulong BaseAddress
+		public CORDB_ADDRESS BaseAddress
 		{
 			get
 			{
@@ -32,7 +32,7 @@ public static unsafe class CorDebugLoadedModuleProjectedExtensions
 			}
 		}
 
-		public ulong GetBaseAddress()
+		public CORDB_ADDRESS GetBaseAddress()
 		{
 			var hr = instance.GetBaseAddress(out var pAddress);
 			Marshal.ThrowExceptionForHR(hr);

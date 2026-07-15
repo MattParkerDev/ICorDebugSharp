@@ -108,14 +108,14 @@ public static unsafe class CorDebugProcessProjectedExtensions
 			return pbSuspended;
 		}
 
-		public int IsTransitionStub(ulong address)
+		public int IsTransitionStub(CORDB_ADDRESS address)
 		{
 			var hr = instance.IsTransitionStub(address, out var pbTransitionStub);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbTransitionStub;
 		}
 
-		public nuint ReadMemory(ulong address, uint size, byte[] buffer)
+		public nuint ReadMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
 		{
 			var hr = instance.ReadMemory(address, size, buffer, out var read);
 			Marshal.ThrowExceptionForHR(hr);
@@ -129,7 +129,7 @@ public static unsafe class CorDebugProcessProjectedExtensions
 			return ppThread;
 		}
 
-		public nuint WriteMemory(ulong address, uint size, byte[] buffer)
+		public nuint WriteMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
 		{
 			var hr = instance.WriteMemory(address, size, buffer, out var written);
 			Marshal.ThrowExceptionForHR(hr);

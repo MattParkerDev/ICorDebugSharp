@@ -18,7 +18,7 @@ public partial interface ICorDebugValue
 	int GetSize(out uint pSize);
 
 	[PreserveSig]
-	int GetAddress(out ulong pAddress);
+	int GetAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
 	int CreateBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);

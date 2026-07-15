@@ -12,7 +12,7 @@ public static unsafe class CorDebugValueProjectedExtensions
 {
 	extension(ICorDebugValue instance)
 	{
-		public ulong Address
+		public CORDB_ADDRESS Address
 		{
 			get
 			{
@@ -49,7 +49,7 @@ public static unsafe class CorDebugValueProjectedExtensions
 			return ppBreakpoint;
 		}
 
-		public ulong GetAddress()
+		public CORDB_ADDRESS GetAddress()
 		{
 			var hr = instance.GetAddress(out var pAddress);
 			Marshal.ThrowExceptionForHR(hr);

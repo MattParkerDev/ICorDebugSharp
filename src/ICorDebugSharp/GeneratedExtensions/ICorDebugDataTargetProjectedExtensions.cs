@@ -29,7 +29,7 @@ public static unsafe class CorDebugDataTargetProjectedExtensions
 			return pTargetPlatform;
 		}
 
-		public uint ReadVirtual(ulong address, byte[] pBuffer, uint bytesRequested)
+		public uint ReadVirtual(CORDB_ADDRESS address, byte[] pBuffer, uint bytesRequested)
 		{
 			var hr = instance.ReadVirtual(address, pBuffer, bytesRequested, out var pBytesRead);
 			Marshal.ThrowExceptionForHR(hr);

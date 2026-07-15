@@ -18,10 +18,10 @@ public partial interface ICorDebugProcess2
 	int GetVersion(out COR_VERSION version);
 
 	[PreserveSig]
-	int SetUnmanagedBreakpoint(ulong address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
+	int SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
 
 	[PreserveSig]
-	int ClearUnmanagedBreakpoint(ulong address);
+	int ClearUnmanagedBreakpoint(CORDB_ADDRESS address);
 
 	[PreserveSig]
 	int SetDesiredNGENCompilerFlags(uint pdwFlags);

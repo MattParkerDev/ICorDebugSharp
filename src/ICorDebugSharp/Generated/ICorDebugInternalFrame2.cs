@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugInternalFrame2
 {
 	[PreserveSig]
-	int GetAddress(out ulong pAddress);
+	int GetAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
 	int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, out int pIsCloser);

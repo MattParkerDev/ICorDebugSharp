@@ -46,21 +46,21 @@ public static unsafe class CorDebugNativeFrameProjectedExtensions
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalMemoryRegisterValue(ulong highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.GetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalMemoryValue(ulong address, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.GetLocalMemoryValue(address, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, ulong lowWordAddress, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.GetLocalRegisterMemoryValue(highWordReg, lowWordAddress, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);

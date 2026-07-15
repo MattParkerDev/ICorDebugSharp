@@ -12,7 +12,7 @@ public static unsafe class CorDebugReferenceValueProjectedExtensions
 {
 	extension(ICorDebugReferenceValue instance)
 	{
-		public ulong Value
+		public CORDB_ADDRESS Value
 		{
 			get
 			{
@@ -36,7 +36,7 @@ public static unsafe class CorDebugReferenceValueProjectedExtensions
 			return ppValue;
 		}
 
-		public ulong GetValue()
+		public CORDB_ADDRESS GetValue()
 		{
 			var hr = instance.GetValue(out var pValue);
 			Marshal.ThrowExceptionForHR(hr);

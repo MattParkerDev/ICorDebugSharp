@@ -18,7 +18,7 @@ public partial interface ICorDebugCode
 	int GetFunction(out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetAddress(out ulong pStart);
+	int GetAddress(out CORDB_ADDRESS pStart);
 
 	[PreserveSig]
 	int GetSize(out uint pcBytes);

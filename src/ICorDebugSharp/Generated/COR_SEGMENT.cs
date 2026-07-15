@@ -8,9 +8,9 @@ namespace ICorDebugSharp;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_SEGMENT
 {
-	public ulong start;
+	public CORDB_ADDRESS start;
 
-	public ulong end;
+	public CORDB_ADDRESS end;
 
 	public CorDebugGenerationTypes type;
 

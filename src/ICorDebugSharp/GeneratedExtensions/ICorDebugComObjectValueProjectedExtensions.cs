@@ -12,7 +12,7 @@ public static unsafe class CorDebugComObjectValueProjectedExtensions
 {
 	extension(ICorDebugComObjectValue instance)
 	{
-		public uint GetCachedInterfacePointers(int bIInspectableOnly, uint celt, ulong[]? ptrs)
+		public uint GetCachedInterfacePointers(int bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
 		{
 			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
 			Marshal.ThrowExceptionForHR(hr);

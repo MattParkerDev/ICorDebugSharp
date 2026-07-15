@@ -15,7 +15,7 @@ public partial interface ICorDebugChain
 	int GetThread(out ICorDebugThread ppThread);
 
 	[PreserveSig]
-	int GetStackRange(out ulong pStart, out ulong pEnd);
+	int GetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
 	[PreserveSig]
 	int GetContext(out ICorDebugContext ppContext);

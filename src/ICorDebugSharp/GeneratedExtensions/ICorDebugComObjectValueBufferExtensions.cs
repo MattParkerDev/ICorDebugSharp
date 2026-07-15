@@ -12,7 +12,7 @@ public static class CorDebugComObjectValueBufferExtensions
 {
 	extension(ICorDebugComObjectValue instance)
 	{
-		public ulong[] CachedInterfacePointers(int bIInspectableOnly)
+		public CORDB_ADDRESS[] CachedInterfacePointers(int bIInspectableOnly)
 		{
 			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, 0, out var required, null!);
 			Marshal.ThrowExceptionForHR(hr);
@@ -22,7 +22,7 @@ public static class CorDebugComObjectValueBufferExtensions
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
 				var capacity = required;
-				var buffer = new ulong[checked((int)capacity)];
+				var buffer = new CORDB_ADDRESS[checked((int)capacity)];
 				hr = instance.GetCachedInterfacePointers(bIInspectableOnly, capacity, out var actual, buffer);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)

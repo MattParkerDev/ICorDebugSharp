@@ -12,13 +12,13 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDataTarget2
 {
 	[PreserveSig]
-	int GetImageFromPointer(ulong addr, out ulong pImageBase, out uint pSize);
+	int GetImageFromPointer(CORDB_ADDRESS addr, out CORDB_ADDRESS pImageBase, out uint pSize);
 
 	[PreserveSig]
-	int GetImageLocation(ulong baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int GetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSymbolProviderForImage(ulong imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
+	int GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
 
 	[PreserveSig]
 	int EnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);

@@ -64,7 +64,7 @@ public static unsafe class CorDebugProcess5ProjectedExtensions
 			return pHeapInfo;
 		}
 
-		public ICorDebugObjectValue GetObject(ulong addr)
+		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)
 		{
 			var hr = instance.GetObject(addr, out var pObject);
 			Marshal.ThrowExceptionForHR(hr);
@@ -85,7 +85,7 @@ public static unsafe class CorDebugProcess5ProjectedExtensions
 			return ppType;
 		}
 
-		public COR_TYPEID GetTypeID(ulong obj)
+		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj)
 		{
 			var hr = instance.GetTypeID(obj, out var pId);
 			Marshal.ThrowExceptionForHR(hr);

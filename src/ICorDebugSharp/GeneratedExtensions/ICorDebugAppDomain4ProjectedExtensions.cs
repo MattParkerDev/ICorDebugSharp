@@ -12,7 +12,7 @@ public static unsafe class CorDebugAppDomain4ProjectedExtensions
 {
 	extension(ICorDebugAppDomain4 instance)
 	{
-		public ICorDebugValue GetObjectForCCW(ulong ccwPointer)
+		public ICorDebugValue GetObjectForCCW(CORDB_ADDRESS ccwPointer)
 		{
 			var hr = instance.GetObjectForCCW(ccwPointer, out var ppManagedObject);
 			Marshal.ThrowExceptionForHR(hr);

@@ -15,7 +15,7 @@ public partial interface ICorDebugDataTarget
 	int GetPlatform(out CorDebugPlatform pTargetPlatform);
 
 	[PreserveSig]
-	int ReadVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
+	int ReadVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
 
 	[PreserveSig]
 	int GetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);

@@ -8,7 +8,7 @@ namespace ICorDebugSharp;
 [StructLayout(LayoutKind.Sequential)]
 public struct CodeChunkInfo
 {
-	public ulong startAddr;
+	public CORDB_ADDRESS startAddr;
 
 	public uint length;
 }

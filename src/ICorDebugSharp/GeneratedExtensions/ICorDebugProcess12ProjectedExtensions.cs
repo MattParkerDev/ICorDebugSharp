@@ -12,7 +12,7 @@ public static unsafe class CorDebugProcess12ProjectedExtensions
 {
 	extension(ICorDebugProcess12 instance)
 	{
-		public ICorDebugStackWalk GetAsyncStack(ulong continuationAddress)
+		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress)
 		{
 			var hr = instance.GetAsyncStack(continuationAddress, out var ppStackWalk);
 			Marshal.ThrowExceptionForHR(hr);

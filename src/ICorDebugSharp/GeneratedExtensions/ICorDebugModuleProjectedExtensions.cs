@@ -22,7 +22,7 @@ public static unsafe class CorDebugModuleProjectedExtensions
 			}
 		}
 
-		public ulong BaseAddress
+		public CORDB_ADDRESS BaseAddress
 		{
 			get
 			{
@@ -86,7 +86,7 @@ public static unsafe class CorDebugModuleProjectedExtensions
 			return ppAssembly;
 		}
 
-		public ulong GetBaseAddress()
+		public CORDB_ADDRESS GetBaseAddress()
 		{
 			var hr = instance.GetBaseAddress(out var pAddress);
 			Marshal.ThrowExceptionForHR(hr);
@@ -107,7 +107,7 @@ public static unsafe class CorDebugModuleProjectedExtensions
 			return ppEditAndContinueSnapshot;
 		}
 
-		public ICorDebugFunction GetFunctionFromRVA(ulong rva)
+		public ICorDebugFunction GetFunctionFromRVA(CORDB_ADDRESS rva)
 		{
 			var hr = instance.GetFunctionFromRVA(rva, out var ppFunction);
 			Marshal.ThrowExceptionForHR(hr);

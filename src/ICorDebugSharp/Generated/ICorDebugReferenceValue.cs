@@ -15,10 +15,10 @@ public partial interface ICorDebugReferenceValue : ICorDebugValue
 	int IsNull(out int pbNull);
 
 	[PreserveSig]
-	int GetValue(out ulong pValue);
+	int GetValue(out CORDB_ADDRESS pValue);
 
 	[PreserveSig]
-	int SetValue(ulong value);
+	int SetValue(CORDB_ADDRESS value);
 
 	[PreserveSig]
 	int Dereference(out ICorDebugValue ppValue);

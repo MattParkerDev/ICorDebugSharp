@@ -165,7 +165,7 @@ public static unsafe class CorDebugChainProjectedExtensions
 			return ppRegisters;
 		}
 
-		public (ulong pStart, ulong pEnd) GetStackRange()
+		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) GetStackRange()
 		{
 			var hr = instance.GetStackRange(out var pStart, out var pEnd);
 			Marshal.ThrowExceptionForHR(hr);

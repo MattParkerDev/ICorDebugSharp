@@ -11,7 +11,7 @@ public struct CorDebugExceptionObjectStackFrame
 {
 	public ICorDebugModule pModule;
 
-	public ulong ip;
+	public CORDB_ADDRESS ip;
 
 	public mdMethodDef methodDef;
 
@@ -26,7 +26,7 @@ internal static class CorDebugExceptionObjectStackFrameMarshaller
 	{
 		public nint pModule;
 
-		public ulong ip;
+		public CORDB_ADDRESS ip;
 
 		public mdMethodDef methodDef;
 

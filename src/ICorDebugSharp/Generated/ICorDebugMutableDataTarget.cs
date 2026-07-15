@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMutableDataTarget : ICorDebugDataTarget
 {
 	[PreserveSig]
-	int WriteVirtual(ulong address, [MarshalUsing(CountElementName = nameof(bytesRequested))][In] byte[] pBuffer, uint bytesRequested);
+	int WriteVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][In] byte[] pBuffer, uint bytesRequested);
 
 	[PreserveSig]
 	int SetThreadContext(uint dwThreadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] pContext);

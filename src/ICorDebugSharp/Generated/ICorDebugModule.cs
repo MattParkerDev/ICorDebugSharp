@@ -15,7 +15,7 @@ public partial interface ICorDebugModule
 	int GetProcess(out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int GetBaseAddress(out ulong pAddress);
+	int GetBaseAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
 	int GetAssembly(out ICorDebugAssembly ppAssembly);
@@ -33,7 +33,7 @@ public partial interface ICorDebugModule
 	int GetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetFunctionFromRVA(ulong rva, out ICorDebugFunction ppFunction);
+	int GetFunctionFromRVA(CORDB_ADDRESS rva, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
 	int GetClassFromToken(mdTypeDef typeDef, out ICorDebugClass ppClass);

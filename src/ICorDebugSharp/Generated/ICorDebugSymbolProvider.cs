@@ -36,7 +36,7 @@ public partial interface ICorDebugSymbolProvider
 	int GetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
 
 	[PreserveSig]
-	int GetAssemblyImageBytes(ulong rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
+	int GetAssemblyImageBytes(CORDB_ADDRESS rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
 
 	[PreserveSig]
 	int GetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);

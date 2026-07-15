@@ -12,7 +12,7 @@ public static class CorDebugDataTarget2BufferExtensions
 {
 	extension(ICorDebugDataTarget2 instance)
 	{
-		public string ImageLocation(ulong baseAddress)
+		public string ImageLocation(CORDB_ADDRESS baseAddress)
 		{
 			var hr = instance.GetImageLocation(baseAddress, 0, out var required, null!);
 			Marshal.ThrowExceptionForHR(hr);

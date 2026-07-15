@@ -22,7 +22,7 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 			}
 		}
 
-		public ulong NativeIP
+		public CORDB_ADDRESS NativeIP
 		{
 			get
 			{
@@ -32,7 +32,7 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 			}
 		}
 
-		public ulong StackPointer
+		public CORDB_ADDRESS StackPointer
 		{
 			get
 			{
@@ -49,14 +49,14 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 			return pdwFlags;
 		}
 
-		public ulong GetNativeIP()
+		public CORDB_ADDRESS GetNativeIP()
 		{
 			var hr = instance.GetNativeIP(out var pIP);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIP;
 		}
 
-		public ulong GetStackPointer()
+		public CORDB_ADDRESS GetStackPointer()
 		{
 			var hr = instance.GetStackPointer(out var pStackPointer);
 			Marshal.ThrowExceptionForHR(hr);

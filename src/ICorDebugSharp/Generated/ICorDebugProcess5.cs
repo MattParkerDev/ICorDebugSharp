@@ -21,7 +21,7 @@ public partial interface ICorDebugProcess5
 	int EnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
 
 	[PreserveSig]
-	int GetObject(ulong addr, out ICorDebugObjectValue pObject);
+	int GetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject);
 
 	[PreserveSig]
 	int EnumerateGCReferences(int enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
@@ -30,7 +30,7 @@ public partial interface ICorDebugProcess5
 	int EnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
 
 	[PreserveSig]
-	int GetTypeID(ulong obj, out COR_TYPEID pId);
+	int GetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId);
 
 	[PreserveSig]
 	int GetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
@@ -42,7 +42,7 @@ public partial interface ICorDebugProcess5
 	int GetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
 
 	[PreserveSig]
-	int GetTypeFields(COR_TYPEID id, uint celt, [MarshalUsing(CountElementName = nameof(celt))] COR_FIELD[] fields, out uint pceltNeeded);
+	int GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded);
 
 	[PreserveSig]
 	int EnableNGENPolicy(CorDebugNGENPolicy ePolicy);

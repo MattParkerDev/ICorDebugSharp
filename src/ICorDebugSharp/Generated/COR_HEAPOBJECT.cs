@@ -8,7 +8,7 @@ namespace ICorDebugSharp;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_HEAPOBJECT
 {
-	public ulong address;
+	public CORDB_ADDRESS address;
 
 	public ulong size;
 

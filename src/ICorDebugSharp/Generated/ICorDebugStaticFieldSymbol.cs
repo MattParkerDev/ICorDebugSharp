@@ -18,5 +18,5 @@ public partial interface ICorDebugStaticFieldSymbol
 	int GetSize(out uint pcbSize);
 
 	[PreserveSig]
-	int GetAddress(out ulong pRVA);
+	int GetAddress(out CORDB_ADDRESS pRVA);
 }

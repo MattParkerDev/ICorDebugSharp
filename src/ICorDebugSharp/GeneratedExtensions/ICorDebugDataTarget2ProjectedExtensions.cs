@@ -26,21 +26,21 @@ public static unsafe class CorDebugDataTarget2ProjectedExtensions
 			return pcThreadIds;
 		}
 
-		public (ulong pImageBase, uint pSize) GetImageFromPointer(ulong addr)
+		public (CORDB_ADDRESS pImageBase, uint pSize) GetImageFromPointer(CORDB_ADDRESS addr)
 		{
 			var hr = instance.GetImageFromPointer(addr, out var pImageBase, out var pSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pImageBase, pSize);
 		}
 
-		public uint GetImageLocation(ulong baseAddress, uint cchName, char[]? szName)
+		public uint GetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, char[]? szName)
 		{
 			var hr = instance.GetImageLocation(baseAddress, cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
 
-		public ICorDebugSymbolProvider GetSymbolProviderForImage(ulong imageBaseAddress)
+		public ICorDebugSymbolProvider GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress)
 		{
 			var hr = instance.GetSymbolProviderForImage(imageBaseAddress, out var ppSymProvider);
 			Marshal.ThrowExceptionForHR(hr);

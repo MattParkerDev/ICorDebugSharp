@@ -12,7 +12,7 @@ public static unsafe class CorDebugObjectEnumProjectedExtensions
 {
 	extension(ICorDebugObjectEnum instance)
 	{
-		public uint Next(uint celt, ulong[] objects)
+		public uint Next(uint celt, CORDB_ADDRESS[] objects)
 		{
 			var hr = instance.Next(celt, objects, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);

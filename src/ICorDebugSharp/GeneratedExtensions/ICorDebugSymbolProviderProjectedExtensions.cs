@@ -22,7 +22,7 @@ public static unsafe class CorDebugSymbolProviderProjectedExtensions
 			}
 		}
 
-		public ICorDebugMemoryBuffer GetAssemblyImageBytes(ulong rva, uint length)
+		public ICorDebugMemoryBuffer GetAssemblyImageBytes(CORDB_ADDRESS rva, uint length)
 		{
 			var hr = instance.GetAssemblyImageBytes(rva, length, out var ppMemoryBuffer);
 			Marshal.ThrowExceptionForHR(hr);

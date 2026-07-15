@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcess6ProjectedExtensions
 			return ppEvent;
 		}
 
-		public ICorDebugCode GetCode(ulong codeAddress)
+		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress)
 		{
 			var hr = instance.GetCode(codeAddress, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);

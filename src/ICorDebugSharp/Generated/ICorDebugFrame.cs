@@ -24,7 +24,7 @@ public partial interface ICorDebugFrame
 	int GetFunctionToken(out mdMethodDef pToken);
 
 	[PreserveSig]
-	int GetStackRange(out ulong pStart, out ulong pEnd);
+	int GetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
 	[PreserveSig]
 	int GetCaller(out ICorDebugFrame ppFrame);

@@ -24,7 +24,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	int EnumerateObjects(out ICorDebugObjectEnum ppObjects);
 
 	[PreserveSig]
-	int IsTransitionStub(ulong address, out int pbTransitionStub);
+	int IsTransitionStub(CORDB_ADDRESS address, out int pbTransitionStub);
 
 	[PreserveSig]
 	int IsOSSuspended(uint threadID, out int pbSuspended);
@@ -36,10 +36,10 @@ public partial interface ICorDebugProcess : ICorDebugController
 	int SetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 
 	[PreserveSig]
-	int ReadMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][Out] byte[] buffer, out nuint read);
+	int ReadMemory(CORDB_ADDRESS address, uint size, [MarshalUsing(CountElementName = nameof(size))][Out] byte[] buffer, out nuint read);
 
 	[PreserveSig]
-	int WriteMemory(ulong address, uint size, [MarshalUsing(CountElementName = nameof(size))][In] byte[] buffer, out nuint written);
+	int WriteMemory(CORDB_ADDRESS address, uint size, [MarshalUsing(CountElementName = nameof(size))][In] byte[] buffer, out nuint written);
 
 	[PreserveSig]
 	int ClearCurrentException(uint threadID);

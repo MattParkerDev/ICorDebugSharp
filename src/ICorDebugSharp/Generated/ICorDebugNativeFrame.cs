@@ -27,13 +27,13 @@ public partial interface ICorDebugNativeFrame : ICorDebugFrame
 	int GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalMemoryValue(ulong address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int GetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, ulong lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalMemoryRegisterValue(ulong highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
 	int CanSetIP(uint nOffset);

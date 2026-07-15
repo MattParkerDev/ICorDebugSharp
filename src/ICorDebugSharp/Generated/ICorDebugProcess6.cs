@@ -18,7 +18,7 @@ public partial interface ICorDebugProcess6
 	int ProcessStateChanged(CorDebugStateChange change);
 
 	[PreserveSig]
-	int GetCode(ulong codeAddress, out ICorDebugCode ppCode);
+	int GetCode(CORDB_ADDRESS codeAddress, out ICorDebugCode ppCode);
 
 	[PreserveSig]
 	int EnableVirtualModuleSplitting(int enableSplitting);

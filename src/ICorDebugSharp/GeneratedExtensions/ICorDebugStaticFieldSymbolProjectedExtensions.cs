@@ -12,7 +12,7 @@ public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 {
 	extension(ICorDebugStaticFieldSymbol instance)
 	{
-		public ulong Address
+		public CORDB_ADDRESS Address
 		{
 			get
 			{
@@ -32,7 +32,7 @@ public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 			}
 		}
 
-		public ulong GetAddress()
+		public CORDB_ADDRESS GetAddress()
 		{
 			var hr = instance.GetAddress(out var pRVA);
 			Marshal.ThrowExceptionForHR(hr);
