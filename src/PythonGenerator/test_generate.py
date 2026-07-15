@@ -366,6 +366,10 @@ class CSharpGeneratorTests(unittest.TestCase):
             self.assertEqual((0, declaration_count), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
             self.assertTrue((output / "mdToken.cs").exists())
+            self.assertIn(
+                "\tpublic uint Value { get; }",
+                (output / "mdToken.cs").read_text(encoding="utf-8"),
+            )
             self.assertFalse(
                 (output / "Extensions" / "CorDebugModuleBufferExtensions.cs").exists()
             )

@@ -1155,6 +1155,11 @@ def write_interfaces(
     written = 0
     unchanged = 0
     for _, relative_path, content in sorted(declarations):
+        content = re.sub(
+            r"(?m)^( {4})+",
+            lambda match: "\t" * (len(match.group()) // 4),
+            content,
+        )
         output_path = output_directory / relative_path
         if output_path.exists() and output_path.read_text(encoding="utf-8") == content:
             unchanged += 1
