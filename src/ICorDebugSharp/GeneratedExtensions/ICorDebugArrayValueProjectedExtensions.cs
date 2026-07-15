@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugArrayValueProjectedExtensions
+public static unsafe class CorDebugArrayValueProjectedExtensions
 {
 	extension(ICorDebugArrayValue instance)
 	{
@@ -40,6 +40,48 @@ public static class CorDebugArrayValueProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetCount()
+		{
+			var hr = instance.GetCount(out var pnCount);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnCount;
+		}
+
+		public ICorDebugValue GetElement(uint cdim, uint[] indices)
+		{
+			var hr = instance.GetElement(cdim, indices, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugValue GetElementAtPosition(uint nPosition)
+		{
+			var hr = instance.GetElementAtPosition(nPosition, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public uint GetElementType()
+		{
+			var hr = instance.GetElementType(out var pType);
+			Marshal.ThrowExceptionForHR(hr);
+			return pType;
+		}
+
+		public uint GetRank()
+		{
+			var hr = instance.GetRank(out var pnRank);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnRank;
+		}
+
+		public int HasBaseIndicies()
+		{
+			var hr = instance.HasBaseIndicies(out var pbHasBaseIndicies);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbHasBaseIndicies;
 		}
 	}
 }

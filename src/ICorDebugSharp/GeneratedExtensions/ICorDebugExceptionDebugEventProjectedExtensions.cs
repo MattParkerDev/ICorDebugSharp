@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugExceptionDebugEventProjectedExtensions
+public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 {
 	extension(ICorDebugExceptionDebugEvent instance)
 	{
@@ -40,6 +40,27 @@ public static class CorDebugExceptionDebugEventProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public CorDebugExceptionFlags GetFlags()
+		{
+			var hr = instance.GetFlags(out var pdwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwFlags;
+		}
+
+		public ulong GetNativeIP()
+		{
+			var hr = instance.GetNativeIP(out var pIP);
+			Marshal.ThrowExceptionForHR(hr);
+			return pIP;
+		}
+
+		public ulong GetStackPointer()
+		{
+			var hr = instance.GetStackPointer(out var pStackPointer);
+			Marshal.ThrowExceptionForHR(hr);
+			return pStackPointer;
 		}
 	}
 }

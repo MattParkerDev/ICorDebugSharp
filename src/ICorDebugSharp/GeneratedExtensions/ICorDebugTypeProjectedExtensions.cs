@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugTypeProjectedExtensions
+public static unsafe class CorDebugTypeProjectedExtensions
 {
 	extension(ICorDebugType instance)
 	{
@@ -60,6 +60,55 @@ public static class CorDebugTypeProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugTypeEnum EnumerateTypeParameters()
+		{
+			var hr = instance.EnumerateTypeParameters(out var ppTyParEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppTyParEnum;
+		}
+
+		public ICorDebugType GetBase()
+		{
+			var hr = instance.GetBase(out var pBase);
+			Marshal.ThrowExceptionForHR(hr);
+			return pBase;
+		}
+
+		public ICorDebugClass GetClass()
+		{
+			var hr = instance.GetClass(out var ppClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppClass;
+		}
+
+		public ICorDebugType GetFirstTypeParameter()
+		{
+			var hr = instance.GetFirstTypeParameter(out var value);
+			Marshal.ThrowExceptionForHR(hr);
+			return value;
+		}
+
+		public uint GetRank()
+		{
+			var hr = instance.GetRank(out var pnRank);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnRank;
+		}
+
+		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
+		{
+			var hr = instance.GetStaticFieldValue(fieldDef, pFrame, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public uint GetType()
+		{
+			var hr = instance.GetType(out var ty);
+			Marshal.ThrowExceptionForHR(hr);
+			return ty;
 		}
 	}
 }

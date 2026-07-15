@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugAppDomain3ProjectedExtensions
+public static unsafe class CorDebugAppDomain3ProjectedExtensions
 {
 	extension(ICorDebugAppDomain3 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugAppDomain3ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugGuidToTypeEnum GetCachedWinRTTypes()
+		{
+			var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppGuidToTypeEnum;
+		}
+
+		public ICorDebugTypeEnum GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
+		{
+			var hr = instance.GetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppTypesEnum;
 		}
 	}
 }

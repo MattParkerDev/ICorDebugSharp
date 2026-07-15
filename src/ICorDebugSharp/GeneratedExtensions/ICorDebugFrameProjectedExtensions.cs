@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugFrameProjectedExtensions
+public static unsafe class CorDebugFrameProjectedExtensions
 {
 	extension(ICorDebugFrame instance)
 	{
@@ -70,6 +70,62 @@ public static class CorDebugFrameProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugStepper CreateStepper()
+		{
+			var hr = instance.CreateStepper(out var ppStepper);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppStepper;
+		}
+
+		public ICorDebugFrame GetCallee()
+		{
+			var hr = instance.GetCallee(out var ppFrame);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFrame;
+		}
+
+		public ICorDebugFrame GetCaller()
+		{
+			var hr = instance.GetCaller(out var ppFrame);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFrame;
+		}
+
+		public ICorDebugChain GetChain()
+		{
+			var hr = instance.GetChain(out var ppChain);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppChain;
+		}
+
+		public ICorDebugCode GetCode()
+		{
+			var hr = instance.GetCode(out var ppCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppCode;
+		}
+
+		public ICorDebugFunction GetFunction()
+		{
+			var hr = instance.GetFunction(out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public mdMethodDef GetFunctionToken()
+		{
+			var hr = instance.GetFunctionToken(out var pToken);
+			Marshal.ThrowExceptionForHR(hr);
+			return pToken;
+		}
+
+		public (ulong pStart, ulong pEnd) GetStackRange()
+		{
+			var hr = instance.GetStackRange(out var pStart, out var pEnd);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pStart, pEnd);
 		}
 	}
 }

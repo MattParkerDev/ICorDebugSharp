@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugNativeFrameProjectedExtensions
+public static unsafe class CorDebugNativeFrameProjectedExtensions
 {
 	extension(ICorDebugNativeFrame instance)
 	{
@@ -30,6 +30,55 @@ public static class CorDebugNativeFrameProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetIP()
+		{
+			var hr = instance.GetIP(out var pnOffset);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnOffset;
+		}
+
+		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
+		{
+			var hr = instance.GetLocalDoubleRegisterValue(highWordReg, lowWordReg, cbSigBlob, pvSigBlob, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugValue GetLocalMemoryRegisterValue(ulong highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob)
+		{
+			var hr = instance.GetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, cbSigBlob, pvSigBlob, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugValue GetLocalMemoryValue(ulong address, uint cbSigBlob, nuint pvSigBlob)
+		{
+			var hr = instance.GetLocalMemoryValue(address, cbSigBlob, pvSigBlob, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, ulong lowWordAddress, uint cbSigBlob, nuint pvSigBlob)
+		{
+			var hr = instance.GetLocalRegisterMemoryValue(highWordReg, lowWordAddress, cbSigBlob, pvSigBlob, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugValue GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob)
+		{
+			var hr = instance.GetLocalRegisterValue(reg, cbSigBlob, pvSigBlob, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public ICorDebugRegisterSet GetRegisterSet()
+		{
+			var hr = instance.GetRegisterSet(out var ppRegisters);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppRegisters;
 		}
 	}
 }

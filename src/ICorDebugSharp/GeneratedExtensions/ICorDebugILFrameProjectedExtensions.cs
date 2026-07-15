@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugILFrameProjectedExtensions
+public static unsafe class CorDebugILFrameProjectedExtensions
 {
 	extension(ICorDebugILFrame instance)
 	{
@@ -20,6 +20,55 @@ public static class CorDebugILFrameProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugValueEnum EnumerateArguments()
+		{
+			var hr = instance.EnumerateArguments(out var ppValueEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValueEnum;
+		}
+
+		public ICorDebugValueEnum EnumerateLocalVariables()
+		{
+			var hr = instance.EnumerateLocalVariables(out var ppValueEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValueEnum;
+		}
+
+		public ICorDebugValue GetArgument(uint dwIndex)
+		{
+			var hr = instance.GetArgument(dwIndex, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public (uint pnOffset, CorDebugMappingResult pMappingResult) GetIP()
+		{
+			var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pnOffset, pMappingResult);
+		}
+
+		public ICorDebugValue GetLocalVariable(uint dwIndex)
+		{
+			var hr = instance.GetLocalVariable(dwIndex, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public uint GetStackDepth()
+		{
+			var hr = instance.GetStackDepth(out var pDepth);
+			Marshal.ThrowExceptionForHR(hr);
+			return pDepth;
+		}
+
+		public ICorDebugValue GetStackValue(uint dwIndex)
+		{
+			var hr = instance.GetStackValue(dwIndex, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
 		}
 	}
 }

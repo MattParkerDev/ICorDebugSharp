@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugProcess2ProjectedExtensions
+public static unsafe class CorDebugProcess2ProjectedExtensions
 {
 	extension(ICorDebugProcess2 instance)
 	{
@@ -30,6 +30,41 @@ public static class CorDebugProcess2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetDesiredNGENCompilerFlags()
+		{
+			var hr = instance.GetDesiredNGENCompilerFlags(out var pdwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwFlags;
+		}
+
+		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
+		{
+			var hr = instance.GetReferenceValueFromGCHandle(handle, out var pOutValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return pOutValue;
+		}
+
+		public ICorDebugThread2 GetThreadForTaskID(ulong taskid)
+		{
+			var hr = instance.GetThreadForTaskID(taskid, out var ppThread);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppThread;
+		}
+
+		public COR_VERSION GetVersion()
+		{
+			var hr = instance.GetVersion(out var version);
+			Marshal.ThrowExceptionForHR(hr);
+			return version;
+		}
+
+		public uint SetUnmanagedBreakpoint(ulong address, uint bufsize, byte[] buffer)
+		{
+			var hr = instance.SetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
+			Marshal.ThrowExceptionForHR(hr);
+			return bufLen;
 		}
 	}
 }

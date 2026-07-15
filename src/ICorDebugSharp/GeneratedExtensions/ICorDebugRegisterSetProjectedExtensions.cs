@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugRegisterSetProjectedExtensions
+public static unsafe class CorDebugRegisterSetProjectedExtensions
 {
 	extension(ICorDebugRegisterSet instance)
 	{
@@ -20,6 +20,13 @@ public static class CorDebugRegisterSetProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ulong GetRegistersAvailable()
+		{
+			var hr = instance.GetRegistersAvailable(out var pAvailable);
+			Marshal.ThrowExceptionForHR(hr);
+			return pAvailable;
 		}
 	}
 }

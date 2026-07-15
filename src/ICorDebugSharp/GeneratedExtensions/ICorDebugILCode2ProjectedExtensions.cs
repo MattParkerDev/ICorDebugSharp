@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugILCode2ProjectedExtensions
+public static unsafe class CorDebugILCode2ProjectedExtensions
 {
 	extension(ICorDebugILCode2 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugILCode2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
+		{
+			var hr = instance.GetInstrumentedILMap(cMap, out var pcMap, map);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcMap;
+		}
+
+		public mdSignature GetLocalVarSigToken()
+		{
+			var hr = instance.GetLocalVarSigToken(out var pmdSig);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmdSig;
 		}
 	}
 }

@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugDataTargetProjectedExtensions
+public static unsafe class CorDebugDataTargetProjectedExtensions
 {
 	extension(ICorDebugDataTarget instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugDataTargetProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public CorDebugPlatform GetPlatform()
+		{
+			var hr = instance.GetPlatform(out var pTargetPlatform);
+			Marshal.ThrowExceptionForHR(hr);
+			return pTargetPlatform;
+		}
+
+		public uint ReadVirtual(ulong address, byte[] pBuffer, uint bytesRequested)
+		{
+			var hr = instance.ReadVirtual(address, pBuffer, bytesRequested, out var pBytesRead);
+			Marshal.ThrowExceptionForHR(hr);
+			return pBytesRead;
 		}
 	}
 }

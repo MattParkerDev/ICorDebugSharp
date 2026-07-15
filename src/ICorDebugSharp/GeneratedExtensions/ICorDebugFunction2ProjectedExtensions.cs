@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugFunction2ProjectedExtensions
+public static unsafe class CorDebugFunction2ProjectedExtensions
 {
 	extension(ICorDebugFunction2 instance)
 	{
@@ -30,6 +30,27 @@ public static class CorDebugFunction2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugCodeEnum EnumerateNativeCode()
+		{
+			var hr = instance.EnumerateNativeCode(out var ppCodeEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppCodeEnum;
+		}
+
+		public int GetJMCStatus()
+		{
+			var hr = instance.GetJMCStatus(out var pbIsJustMyCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbIsJustMyCode;
+		}
+
+		public uint GetVersionNumber()
+		{
+			var hr = instance.GetVersionNumber(out var pnVersion);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnVersion;
 		}
 	}
 }

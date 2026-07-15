@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugMDAProjectedExtensions
+public static unsafe class CorDebugMDAProjectedExtensions
 {
 	extension(ICorDebugMDA instance)
 	{
@@ -20,6 +20,34 @@ public static class CorDebugMDAProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetDescription(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetDescription(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public uint GetName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public uint GetOSThreadId()
+		{
+			var hr = instance.GetOSThreadId(out var pOsTid);
+			Marshal.ThrowExceptionForHR(hr);
+			return pOsTid;
+		}
+
+		public uint GetXML(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetXML(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
 		}
 	}
 }

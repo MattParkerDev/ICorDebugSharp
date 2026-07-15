@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugStringValueProjectedExtensions
+public static unsafe class CorDebugStringValueProjectedExtensions
 {
 	extension(ICorDebugStringValue instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugStringValueProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetLength()
+		{
+			var hr = instance.GetLength(out var pcchString);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchString;
+		}
+
+		public uint GetString(uint cchString, char[]? szString)
+		{
+			var hr = instance.GetString(cchString, out var pcchString, szString);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchString;
 		}
 	}
 }

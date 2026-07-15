@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugSymbolProvider2ProjectedExtensions
+public static unsafe class CorDebugSymbolProvider2ProjectedExtensions
 {
 	extension(ICorDebugSymbolProvider2 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugSymbolProvider2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public (uint pCodeStartRva, uint pParentFrameStartRva) GetFrameProps(uint codeRva)
+		{
+			var hr = instance.GetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pCodeStartRva, pParentFrameStartRva);
+		}
+
+		public ICorDebugMemoryBuffer GetGenericDictionaryInfo()
+		{
+			var hr = instance.GetGenericDictionaryInfo(out var ppMemoryBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppMemoryBuffer;
 		}
 	}
 }

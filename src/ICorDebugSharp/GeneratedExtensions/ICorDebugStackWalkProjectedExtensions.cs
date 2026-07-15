@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugStackWalkProjectedExtensions
+public static unsafe class CorDebugStackWalkProjectedExtensions
 {
 	extension(ICorDebugStackWalk instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugStackWalkProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetContext(uint contextFlags, uint contextBufSize, byte[] contextBuf)
+		{
+			var hr = instance.GetContext(contextFlags, contextBufSize, out var contextSize, contextBuf);
+			Marshal.ThrowExceptionForHR(hr);
+			return contextSize;
+		}
+
+		public ICorDebugFrame GetFrame()
+		{
+			var hr = instance.GetFrame(out var pFrame);
+			Marshal.ThrowExceptionForHR(hr);
+			return pFrame;
 		}
 	}
 }

@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugMergedAssemblyRecordProjectedExtensions
+public static unsafe class CorDebugMergedAssemblyRecordProjectedExtensions
 {
 	extension(ICorDebugMergedAssemblyRecord instance)
 	{
@@ -20,6 +20,48 @@ public static class CorDebugMergedAssemblyRecordProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetCulture(uint cchCulture, char[]? szCulture)
+		{
+			var hr = instance.GetCulture(cchCulture, out var pcchCulture, szCulture);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchCulture;
+		}
+
+		public uint GetIndex()
+		{
+			var hr = instance.GetIndex(out var pIndex);
+			Marshal.ThrowExceptionForHR(hr);
+			return pIndex;
+		}
+
+		public uint GetPublicKey(uint cbPublicKey, byte[] pbPublicKey)
+		{
+			var hr = instance.GetPublicKey(cbPublicKey, out var pcbPublicKey, pbPublicKey);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbPublicKey;
+		}
+
+		public uint GetPublicKeyToken(uint cbPublicKeyToken, byte[] pbPublicKeyToken)
+		{
+			var hr = instance.GetPublicKeyToken(cbPublicKeyToken, out var pcbPublicKeyToken, pbPublicKeyToken);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbPublicKeyToken;
+		}
+
+		public uint GetSimpleName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetSimpleName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) GetVersion()
+		{
+			var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pMajor, pMinor, pBuild, pRevision);
 		}
 	}
 }

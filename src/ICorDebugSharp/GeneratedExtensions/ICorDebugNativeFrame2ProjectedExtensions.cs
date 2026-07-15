@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugNativeFrame2ProjectedExtensions
+public static unsafe class CorDebugNativeFrame2ProjectedExtensions
 {
 	extension(ICorDebugNativeFrame2 instance)
 	{
@@ -20,6 +20,27 @@ public static class CorDebugNativeFrame2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetStackParameterSize()
+		{
+			var hr = instance.GetStackParameterSize(out var pSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pSize;
+		}
+
+		public int IsChild()
+		{
+			var hr = instance.IsChild(out var pIsChild);
+			Marshal.ThrowExceptionForHR(hr);
+			return pIsChild;
+		}
+
+		public int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame)
+		{
+			var hr = instance.IsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);
+			Marshal.ThrowExceptionForHR(hr);
+			return pIsParent;
 		}
 	}
 }

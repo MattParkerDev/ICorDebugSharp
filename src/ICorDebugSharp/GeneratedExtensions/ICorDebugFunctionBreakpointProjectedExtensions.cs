@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugFunctionBreakpointProjectedExtensions
+public static unsafe class CorDebugFunctionBreakpointProjectedExtensions
 {
 	extension(ICorDebugFunctionBreakpoint instance)
 	{
@@ -30,6 +30,20 @@ public static class CorDebugFunctionBreakpointProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugFunction GetFunction()
+		{
+			var hr = instance.GetFunction(out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public uint GetOffset()
+		{
+			var hr = instance.GetOffset(out var pnOffset);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnOffset;
 		}
 	}
 }

@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugObjectValueProjectedExtensions
+public static unsafe class CorDebugObjectValueProjectedExtensions
 {
 	extension(ICorDebugObjectValue instance)
 	{
@@ -40,6 +40,48 @@ public static class CorDebugObjectValueProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugClass GetClass()
+		{
+			var hr = instance.GetClass(out var ppClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppClass;
+		}
+
+		public ICorDebugContext GetContext()
+		{
+			var hr = instance.GetContext(out var ppContext);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppContext;
+		}
+
+		public ICorDebugValue GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef)
+		{
+			var hr = instance.GetFieldValue(pClass, fieldDef, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public nint GetManagedCopy()
+		{
+			var hr = instance.GetManagedCopy(out var ppObject);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppObject;
+		}
+
+		public ICorDebugFunction GetVirtualMethod(mdMemberRef memberRef)
+		{
+			var hr = instance.GetVirtualMethod(memberRef, out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public int IsValueClass()
+		{
+			var hr = instance.IsValueClass(out var pbIsValueClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbIsValueClass;
 		}
 	}
 }

@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugEditAndContinueSnapshotProjectedExtensions
+public static unsafe class CorDebugEditAndContinueSnapshotProjectedExtensions
 {
 	extension(ICorDebugEditAndContinueSnapshot instance)
 	{
@@ -40,6 +40,34 @@ public static class CorDebugEditAndContinueSnapshotProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public Guid CopyMetaData(nint pIStream)
+		{
+			var hr = instance.CopyMetaData(pIStream, out var pMvid);
+			Marshal.ThrowExceptionForHR(hr);
+			return pMvid;
+		}
+
+		public Guid GetMvid()
+		{
+			var hr = instance.GetMvid(out var pMvid);
+			Marshal.ThrowExceptionForHR(hr);
+			return pMvid;
+		}
+
+		public uint GetRoDataRVA()
+		{
+			var hr = instance.GetRoDataRVA(out var pRoDataRVA);
+			Marshal.ThrowExceptionForHR(hr);
+			return pRoDataRVA;
+		}
+
+		public uint GetRwDataRVA()
+		{
+			var hr = instance.GetRwDataRVA(out var pRwDataRVA);
+			Marshal.ThrowExceptionForHR(hr);
+			return pRwDataRVA;
 		}
 	}
 }

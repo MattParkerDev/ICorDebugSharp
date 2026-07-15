@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugInternalFrameProjectedExtensions
+public static unsafe class CorDebugInternalFrameProjectedExtensions
 {
 	extension(ICorDebugInternalFrame instance)
 	{
@@ -20,6 +20,13 @@ public static class CorDebugInternalFrameProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public CorDebugInternalFrameType GetFrameType()
+		{
+			var hr = instance.GetFrameType(out var pType);
+			Marshal.ThrowExceptionForHR(hr);
+			return pType;
 		}
 	}
 }

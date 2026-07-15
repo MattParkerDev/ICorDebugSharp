@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugSymbolProviderProjectedExtensions
+public static unsafe class CorDebugSymbolProviderProjectedExtensions
 {
 	extension(ICorDebugSymbolProvider instance)
 	{
@@ -20,6 +20,83 @@ public static class CorDebugSymbolProviderProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugMemoryBuffer GetAssemblyImageBytes(ulong rva, uint length)
+		{
+			var hr = instance.GetAssemblyImageBytes(rva, length, out var ppMemoryBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppMemoryBuffer;
+		}
+
+		public ICorDebugMemoryBuffer GetAssemblyImageMetadata()
+		{
+			var hr = instance.GetAssemblyImageMetadata(out var ppMemoryBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppMemoryBuffer;
+		}
+
+		public (uint pCodeStartAddress, uint pCodeSize) GetCodeRange(uint codeRva)
+		{
+			var hr = instance.GetCodeRange(codeRva, out var pCodeStartAddress, out var pCodeSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pCodeStartAddress, pCodeSize);
+		}
+
+		public uint GetInstanceFieldSymbols(uint cbSignature, byte[] typeSig, uint cRequestedSymbols, ICorDebugInstanceFieldSymbol[] pSymbols)
+		{
+			var hr = instance.GetInstanceFieldSymbols(cbSignature, typeSig, cRequestedSymbols, out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFetchedSymbols;
+		}
+
+		public uint GetMergedAssemblyRecords(uint cRequestedRecords, ICorDebugMergedAssemblyRecord[] pRecords)
+		{
+			var hr = instance.GetMergedAssemblyRecords(cRequestedRecords, out var pcFetchedRecords, pRecords);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFetchedRecords;
+		}
+
+		public uint GetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, ICorDebugVariableSymbol[] pSymbols)
+		{
+			var hr = instance.GetMethodLocalSymbols(nativeRVA, cRequestedSymbols, out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFetchedSymbols;
+		}
+
+		public uint GetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, ICorDebugVariableSymbol[] pSymbols)
+		{
+			var hr = instance.GetMethodParameterSymbols(nativeRVA, cRequestedSymbols, out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFetchedSymbols;
+		}
+
+		public (mdToken pMethodToken, uint pcGenericParams, uint pcbSignature) GetMethodProps(uint codeRva, uint cbSignature, byte[] signature)
+		{
+			var hr = instance.GetMethodProps(codeRva, out var pMethodToken, out var pcGenericParams, cbSignature, out var pcbSignature, signature);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pMethodToken, pcGenericParams, pcbSignature);
+		}
+
+		public uint GetObjectSize(uint cbSignature, byte[] typeSig)
+		{
+			var hr = instance.GetObjectSize(cbSignature, typeSig, out var pObjectSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pObjectSize;
+		}
+
+		public uint GetStaticFieldSymbols(uint cbSignature, byte[] typeSig, uint cRequestedSymbols, ICorDebugStaticFieldSymbol[] pSymbols)
+		{
+			var hr = instance.GetStaticFieldSymbols(cbSignature, typeSig, cRequestedSymbols, out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFetchedSymbols;
+		}
+
+		public uint GetTypeProps(uint vtableRva, uint cbSignature, byte[] signature)
+		{
+			var hr = instance.GetTypeProps(vtableRva, cbSignature, out var pcbSignature, signature);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbSignature;
 		}
 	}
 }

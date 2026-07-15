@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugThread2ProjectedExtensions
+public static unsafe class CorDebugThread2ProjectedExtensions
 {
 	extension(ICorDebugThread2 instance)
 	{
@@ -40,6 +40,34 @@ public static class CorDebugThread2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
+		{
+			var hr = instance.GetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcFunctions;
+		}
+
+		public uint GetConnectionID()
+		{
+			var hr = instance.GetConnectionID(out var pdwConnectionId);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwConnectionId;
+		}
+
+		public ulong GetTaskID()
+		{
+			var hr = instance.GetTaskID(out var pTaskId);
+			Marshal.ThrowExceptionForHR(hr);
+			return pTaskId;
+		}
+
+		public uint GetVolatileOSThreadID()
+		{
+			var hr = instance.GetVolatileOSThreadID(out var pdwTid);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwTid;
 		}
 	}
 }

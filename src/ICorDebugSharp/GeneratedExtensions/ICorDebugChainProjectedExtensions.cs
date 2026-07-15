@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugChainProjectedExtensions
+public static unsafe class CorDebugChainProjectedExtensions
 {
 	extension(ICorDebugChain instance)
 	{
@@ -100,6 +100,90 @@ public static class CorDebugChainProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugFrameEnum EnumerateFrames()
+		{
+			var hr = instance.EnumerateFrames(out var ppFrames);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFrames;
+		}
+
+		public ICorDebugFrame GetActiveFrame()
+		{
+			var hr = instance.GetActiveFrame(out var ppFrame);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFrame;
+		}
+
+		public ICorDebugChain GetCallee()
+		{
+			var hr = instance.GetCallee(out var ppChain);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppChain;
+		}
+
+		public ICorDebugChain GetCaller()
+		{
+			var hr = instance.GetCaller(out var ppChain);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppChain;
+		}
+
+		public ICorDebugContext GetContext()
+		{
+			var hr = instance.GetContext(out var ppContext);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppContext;
+		}
+
+		public ICorDebugChain GetNext()
+		{
+			var hr = instance.GetNext(out var ppChain);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppChain;
+		}
+
+		public ICorDebugChain GetPrevious()
+		{
+			var hr = instance.GetPrevious(out var ppChain);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppChain;
+		}
+
+		public CorDebugChainReason GetReason()
+		{
+			var hr = instance.GetReason(out var pReason);
+			Marshal.ThrowExceptionForHR(hr);
+			return pReason;
+		}
+
+		public ICorDebugRegisterSet GetRegisterSet()
+		{
+			var hr = instance.GetRegisterSet(out var ppRegisters);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppRegisters;
+		}
+
+		public (ulong pStart, ulong pEnd) GetStackRange()
+		{
+			var hr = instance.GetStackRange(out var pStart, out var pEnd);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pStart, pEnd);
+		}
+
+		public ICorDebugThread GetThread()
+		{
+			var hr = instance.GetThread(out var ppThread);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppThread;
+		}
+
+		public int IsManaged()
+		{
+			var hr = instance.IsManaged(out var pManaged);
+			Marshal.ThrowExceptionForHR(hr);
+			return pManaged;
 		}
 	}
 }

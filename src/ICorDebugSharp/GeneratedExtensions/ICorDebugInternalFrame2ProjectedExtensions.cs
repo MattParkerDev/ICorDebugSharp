@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugInternalFrame2ProjectedExtensions
+public static unsafe class CorDebugInternalFrame2ProjectedExtensions
 {
 	extension(ICorDebugInternalFrame2 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugInternalFrame2ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ulong GetAddress()
+		{
+			var hr = instance.GetAddress(out var pAddress);
+			Marshal.ThrowExceptionForHR(hr);
+			return pAddress;
+		}
+
+		public int IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
+		{
+			var hr = instance.IsCloserToLeaf(pFrameToCompare, out var pIsCloser);
+			Marshal.ThrowExceptionForHR(hr);
+			return pIsCloser;
 		}
 	}
 }

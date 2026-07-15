@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugHeapValue3ProjectedExtensions
+public static unsafe class CorDebugHeapValue3ProjectedExtensions
 {
 	extension(ICorDebugHeapValue3 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugHeapValue3ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugThreadEnum GetMonitorEventWaitList()
+		{
+			var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppThreadEnum;
+		}
+
+		public (ICorDebugThread ppThread, uint pAcquisitionCount) GetThreadOwningMonitorLock()
+		{
+			var hr = instance.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppThread, pAcquisitionCount);
 		}
 	}
 }

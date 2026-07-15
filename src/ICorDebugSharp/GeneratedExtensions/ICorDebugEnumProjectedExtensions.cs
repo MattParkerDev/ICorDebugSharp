@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugEnumProjectedExtensions
+public static unsafe class CorDebugEnumProjectedExtensions
 {
 	extension(ICorDebugEnum instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugEnumProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugEnum Clone()
+		{
+			var hr = instance.Clone(out var ppEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppEnum;
+		}
+
+		public uint GetCount()
+		{
+			var hr = instance.GetCount(out var pcelt);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcelt;
 		}
 	}
 }

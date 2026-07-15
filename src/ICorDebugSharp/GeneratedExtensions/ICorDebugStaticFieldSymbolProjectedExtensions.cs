@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugStaticFieldSymbolProjectedExtensions
+public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 {
 	extension(ICorDebugStaticFieldSymbol instance)
 	{
@@ -30,6 +30,27 @@ public static class CorDebugStaticFieldSymbolProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ulong GetAddress()
+		{
+			var hr = instance.GetAddress(out var pRVA);
+			Marshal.ThrowExceptionForHR(hr);
+			return pRVA;
+		}
+
+		public uint GetName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public uint GetSize()
+		{
+			var hr = instance.GetSize(out var pcbSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbSize;
 		}
 	}
 }

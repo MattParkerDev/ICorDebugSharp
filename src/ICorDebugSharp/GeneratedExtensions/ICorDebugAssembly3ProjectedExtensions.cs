@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugAssembly3ProjectedExtensions
+public static unsafe class CorDebugAssembly3ProjectedExtensions
 {
 	extension(ICorDebugAssembly3 instance)
 	{
@@ -20,6 +20,20 @@ public static class CorDebugAssembly3ProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugAssemblyEnum EnumerateContainedAssemblies()
+		{
+			var hr = instance.EnumerateContainedAssemblies(out var ppAssemblies);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppAssemblies;
+		}
+
+		public ICorDebugAssembly GetContainerAssembly()
+		{
+			var hr = instance.GetContainerAssembly(out var ppAssembly);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppAssembly;
 		}
 	}
 }

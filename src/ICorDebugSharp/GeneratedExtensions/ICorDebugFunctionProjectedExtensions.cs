@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugFunctionProjectedExtensions
+public static unsafe class CorDebugFunctionProjectedExtensions
 {
 	extension(ICorDebugFunction instance)
 	{
@@ -80,6 +80,62 @@ public static class CorDebugFunctionProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugFunctionBreakpoint CreateBreakpoint()
+		{
+			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppBreakpoint;
+		}
+
+		public ICorDebugClass GetClass()
+		{
+			var hr = instance.GetClass(out var ppClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppClass;
+		}
+
+		public uint GetCurrentVersionNumber()
+		{
+			var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnCurrentVersion;
+		}
+
+		public ICorDebugCode GetILCode()
+		{
+			var hr = instance.GetILCode(out var ppCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppCode;
+		}
+
+		public mdSignature GetLocalVarSigToken()
+		{
+			var hr = instance.GetLocalVarSigToken(out var pmdSig);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmdSig;
+		}
+
+		public ICorDebugModule GetModule()
+		{
+			var hr = instance.GetModule(out var ppModule);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppModule;
+		}
+
+		public ICorDebugCode GetNativeCode()
+		{
+			var hr = instance.GetNativeCode(out var ppCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppCode;
+		}
+
+		public mdMethodDef GetToken()
+		{
+			var hr = instance.GetToken(out var pMethodDef);
+			Marshal.ThrowExceptionForHR(hr);
+			return pMethodDef;
 		}
 	}
 }

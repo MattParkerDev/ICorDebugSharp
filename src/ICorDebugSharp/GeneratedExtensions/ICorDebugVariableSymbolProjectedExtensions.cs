@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugVariableSymbolProjectedExtensions
+public static unsafe class CorDebugVariableSymbolProjectedExtensions
 {
 	extension(ICorDebugVariableSymbol instance)
 	{
@@ -30,6 +30,34 @@ public static class CorDebugVariableSymbolProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public uint GetSize()
+		{
+			var hr = instance.GetSize(out var pcbValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbValue;
+		}
+
+		public uint GetSlotIndex()
+		{
+			var hr = instance.GetSlotIndex(out var pSlotIndex);
+			Marshal.ThrowExceptionForHR(hr);
+			return pSlotIndex;
+		}
+
+		public uint GetValue(uint offset, uint cbContext, byte[] context, uint cbValue, byte[] pValue)
+		{
+			var hr = instance.GetValue(offset, cbContext, context, cbValue, out var pcbValue, pValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbValue;
 		}
 	}
 }

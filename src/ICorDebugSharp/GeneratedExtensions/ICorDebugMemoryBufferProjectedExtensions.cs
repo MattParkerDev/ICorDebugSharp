@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugMemoryBufferProjectedExtensions
+public static unsafe class CorDebugMemoryBufferProjectedExtensions
 {
 	extension(ICorDebugMemoryBuffer instance)
 	{
@@ -30,6 +30,20 @@ public static class CorDebugMemoryBufferProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetSize()
+		{
+			var hr = instance.GetSize(out var pcbBufferLength);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcbBufferLength;
+		}
+
+		public nint GetStartAddress()
+		{
+			var hr = instance.GetStartAddress(out var address);
+			Marshal.ThrowExceptionForHR(hr);
+			return address;
 		}
 	}
 }

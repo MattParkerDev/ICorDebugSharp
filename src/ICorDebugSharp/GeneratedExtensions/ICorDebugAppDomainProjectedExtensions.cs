@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugAppDomainProjectedExtensions
+public static unsafe class CorDebugAppDomainProjectedExtensions
 {
 	extension(ICorDebugAppDomain instance)
 	{
@@ -40,6 +40,69 @@ public static class CorDebugAppDomainProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugAssemblyEnum EnumerateAssemblies()
+		{
+			var hr = instance.EnumerateAssemblies(out var ppAssemblies);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppAssemblies;
+		}
+
+		public ICorDebugBreakpointEnum EnumerateBreakpoints()
+		{
+			var hr = instance.EnumerateBreakpoints(out var ppBreakpoints);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppBreakpoints;
+		}
+
+		public ICorDebugStepperEnum EnumerateSteppers()
+		{
+			var hr = instance.EnumerateSteppers(out var ppSteppers);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppSteppers;
+		}
+
+		public uint GetID()
+		{
+			var hr = instance.GetID(out var pId);
+			Marshal.ThrowExceptionForHR(hr);
+			return pId;
+		}
+
+		public ICorDebugModule GetModuleFromMetaDataInterface(nint pIMetaData)
+		{
+			var hr = instance.GetModuleFromMetaDataInterface(pIMetaData, out var ppModule);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppModule;
+		}
+
+		public uint GetName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public ICorDebugValue GetObject()
+		{
+			var hr = instance.GetObject(out var ppObject);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppObject;
+		}
+
+		public ICorDebugProcess GetProcess()
+		{
+			var hr = instance.GetProcess(out var ppProcess);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppProcess;
+		}
+
+		public int IsAttached()
+		{
+			var hr = instance.IsAttached(out var pbAttached);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbAttached;
 		}
 	}
 }

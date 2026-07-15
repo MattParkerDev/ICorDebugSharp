@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugVariableHomeProjectedExtensions
+public static unsafe class CorDebugVariableHomeProjectedExtensions
 {
 	extension(ICorDebugVariableHome instance)
 	{
@@ -70,6 +70,55 @@ public static class CorDebugVariableHomeProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public uint GetArgumentIndex()
+		{
+			var hr = instance.GetArgumentIndex(out var pArgumentIndex);
+			Marshal.ThrowExceptionForHR(hr);
+			return pArgumentIndex;
+		}
+
+		public ICorDebugCode GetCode()
+		{
+			var hr = instance.GetCode(out var ppCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppCode;
+		}
+
+		public (uint pStartOffset, uint pEndOffset) GetLiveRange()
+		{
+			var hr = instance.GetLiveRange(out var pStartOffset, out var pEndOffset);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pStartOffset, pEndOffset);
+		}
+
+		public VariableLocationType GetLocationType()
+		{
+			var hr = instance.GetLocationType(out var pLocationType);
+			Marshal.ThrowExceptionForHR(hr);
+			return pLocationType;
+		}
+
+		public int GetOffset()
+		{
+			var hr = instance.GetOffset(out var pOffset);
+			Marshal.ThrowExceptionForHR(hr);
+			return pOffset;
+		}
+
+		public CorDebugRegister GetRegister()
+		{
+			var hr = instance.GetRegister(out var pRegister);
+			Marshal.ThrowExceptionForHR(hr);
+			return pRegister;
+		}
+
+		public uint GetSlotIndex()
+		{
+			var hr = instance.GetSlotIndex(out var pSlotIndex);
+			Marshal.ThrowExceptionForHR(hr);
+			return pSlotIndex;
 		}
 	}
 }

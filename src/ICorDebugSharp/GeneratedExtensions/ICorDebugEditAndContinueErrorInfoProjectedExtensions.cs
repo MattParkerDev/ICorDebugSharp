@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugEditAndContinueErrorInfoProjectedExtensions
+public static unsafe class CorDebugEditAndContinueErrorInfoProjectedExtensions
 {
 	extension(ICorDebugEditAndContinueErrorInfo instance)
 	{
@@ -40,6 +40,34 @@ public static class CorDebugEditAndContinueErrorInfoProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public int GetErrorCode()
+		{
+			var hr = instance.GetErrorCode(out var pHr);
+			Marshal.ThrowExceptionForHR(hr);
+			return pHr;
+		}
+
+		public ICorDebugModule GetModule()
+		{
+			var hr = instance.GetModule(out var ppModule);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppModule;
+		}
+
+		public uint GetString(uint cchString, char[]? szString)
+		{
+			var hr = instance.GetString(cchString, out var pcchString, szString);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchString;
+		}
+
+		public mdToken GetToken()
+		{
+			var hr = instance.GetToken(out var pToken);
+			Marshal.ThrowExceptionForHR(hr);
+			return pToken;
 		}
 	}
 }

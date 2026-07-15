@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugCodeProjectedExtensions
+public static unsafe class CorDebugCodeProjectedExtensions
 {
 	extension(ICorDebugCode instance)
 	{
@@ -50,6 +50,69 @@ public static class CorDebugCodeProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugFunctionBreakpoint CreateBreakpoint(uint offset)
+		{
+			var hr = instance.CreateBreakpoint(offset, out var ppBreakpoint);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppBreakpoint;
+		}
+
+		public ulong GetAddress()
+		{
+			var hr = instance.GetAddress(out var pStart);
+			Marshal.ThrowExceptionForHR(hr);
+			return pStart;
+		}
+
+		public uint GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, byte[] buffer)
+		{
+			var hr = instance.GetCode(startOffset, endOffset, cBufferAlloc, buffer, out var pcBufferSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcBufferSize;
+		}
+
+		public uint GetEnCRemapSequencePoints(uint cMap, uint[] offsets)
+		{
+			var hr = instance.GetEnCRemapSequencePoints(cMap, out var pcMap, offsets);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcMap;
+		}
+
+		public ICorDebugFunction GetFunction()
+		{
+			var hr = instance.GetFunction(out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public uint GetILToNativeMapping(uint cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
+		{
+			var hr = instance.GetILToNativeMapping(cMap, out var pcMap, map);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcMap;
+		}
+
+		public uint GetSize()
+		{
+			var hr = instance.GetSize(out var pcBytes);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcBytes;
+		}
+
+		public uint GetVersionNumber()
+		{
+			var hr = instance.GetVersionNumber(out var nVersion);
+			Marshal.ThrowExceptionForHR(hr);
+			return nVersion;
+		}
+
+		public int IsIL()
+		{
+			var hr = instance.IsIL(out var pbIL);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbIL;
 		}
 	}
 }

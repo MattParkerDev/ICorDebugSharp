@@ -8,7 +8,7 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugModuleProjectedExtensions
+public static unsafe class CorDebugModuleProjectedExtensions
 {
 	extension(ICorDebugModule instance)
 	{
@@ -70,6 +70,111 @@ public static class CorDebugModuleProjectedExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
+		}
+
+		public ICorDebugModuleBreakpoint CreateBreakpoint()
+		{
+			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppBreakpoint;
+		}
+
+		public ICorDebugAssembly GetAssembly()
+		{
+			var hr = instance.GetAssembly(out var ppAssembly);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppAssembly;
+		}
+
+		public ulong GetBaseAddress()
+		{
+			var hr = instance.GetBaseAddress(out var pAddress);
+			Marshal.ThrowExceptionForHR(hr);
+			return pAddress;
+		}
+
+		public ICorDebugClass GetClassFromToken(mdTypeDef typeDef)
+		{
+			var hr = instance.GetClassFromToken(typeDef, out var ppClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppClass;
+		}
+
+		public ICorDebugEditAndContinueSnapshot GetEditAndContinueSnapshot()
+		{
+			var hr = instance.GetEditAndContinueSnapshot(out var ppEditAndContinueSnapshot);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppEditAndContinueSnapshot;
+		}
+
+		public ICorDebugFunction GetFunctionFromRVA(ulong rva)
+		{
+			var hr = instance.GetFunctionFromRVA(rva, out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public ICorDebugFunction GetFunctionFromToken(mdMethodDef methodDef)
+		{
+			var hr = instance.GetFunctionFromToken(methodDef, out var ppFunction);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppFunction;
+		}
+
+		public ICorDebugValue GetGlobalVariableValue(mdFieldDef fieldDef)
+		{
+			var hr = instance.GetGlobalVariableValue(fieldDef, out var ppValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppValue;
+		}
+
+		public object? GetMetaDataInterface(ref Guid riid)
+		{
+			var hr = instance.GetMetaDataInterface(ref riid, out var ppObj);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppObj;
+		}
+
+		public uint GetName(uint cchName, char[]? szName)
+		{
+			var hr = instance.GetName(cchName, out var pcchName, szName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcchName;
+		}
+
+		public ICorDebugProcess GetProcess()
+		{
+			var hr = instance.GetProcess(out var ppProcess);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppProcess;
+		}
+
+		public uint GetSize()
+		{
+			var hr = instance.GetSize(out var pcBytes);
+			Marshal.ThrowExceptionForHR(hr);
+			return pcBytes;
+		}
+
+		public mdModule GetToken()
+		{
+			var hr = instance.GetToken(out var pToken);
+			Marshal.ThrowExceptionForHR(hr);
+			return pToken;
+		}
+
+		public int IsDynamic()
+		{
+			var hr = instance.IsDynamic(out var pDynamic);
+			Marshal.ThrowExceptionForHR(hr);
+			return pDynamic;
+		}
+
+		public int IsInMemory()
+		{
+			var hr = instance.IsInMemory(out var pInMemory);
+			Marshal.ThrowExceptionForHR(hr);
+			return pInMemory;
 		}
 	}
 }
