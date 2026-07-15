@@ -43,6 +43,16 @@ interface ICorDebugAppDomain : ICorDebugModule
 {
     HRESULT GetToken([in, out] mdToken *token);
 };
+
+[
+    object,
+    uuid(00000000-0000-0000-0000-000000000003),
+    pointer_default(unique)
+]
+interface ICorDebugReferenceValue : IUnknown
+{
+    HRESULT IsNull([out] BOOL *pbNull);
+};
 """
 
 DATA_IDL = """
@@ -225,6 +235,17 @@ class CSharpGeneratorTests(unittest.TestCase):
             "public partial interface ICorDebugAppDomain : ICorDebugModule", source
         )
         self.assertIn("int GetToken(ref mdToken token);", source)
+
+    def test_projects_configured_output_as_return_value(self) -> None:
+        source = self.generate("ICorDebugReferenceValue")
+
+        self.assertIn(
+            "[PreserveSig]\n"
+            "    [return: MarshalAs(UnmanagedType.Bool)]\n"
+            "    bool IsNull();",
+            source,
+        )
+        self.assertNotIn("IsNull(out int pbNull)", source)
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_metadata_typedef("mdToken")

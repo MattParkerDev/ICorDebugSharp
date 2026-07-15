@@ -57,6 +57,16 @@ QUERY_BUFFER_METHODS = {
     ("ICorDebugComObjectValue", "GetCachedInterfacePointers"): ("array", "celt", "pcEltFetched", "ptrs"),
 }
 
+# Opt-in projections that use a native [out] parameter as the managed return
+# value. Values are (output parameter, managed type, return attributes).
+RETURN_VALUE_METHODS = {
+    ("ICorDebugReferenceValue", "IsNull"): (
+        "pbNull",
+        "bool",
+        ("return: MarshalAs(UnmanagedType.Bool)",),
+    ),
+}
+
 CSHARP_KEYWORDS = {
     "base", "bool", "break", "byte", "case", "catch", "char", "checked",
     "class", "const", "continue", "decimal", "default", "delegate", "do",
@@ -831,6 +841,42 @@ class CSharpGenerator:
             raise GenerationError(
                 f"{interface.name}.{method.name} at IDL line {method.line}: "
                 f"expected HRESULT return type, got {method.return_type.format()}"
+            )
+
+        return_projection = RETURN_VALUE_METHODS.get((interface.name, method.name))
+        if return_projection:
+            parameter_name, return_type, return_attributes = return_projection
+            return_parameter = next(
+                (parameter for parameter in method.params if parameter.name == parameter_name),
+                None,
+            )
+            if return_parameter is None:
+                raise GenerationError(
+                    f"{interface.name}.{method.name} return-value projection references "
+                    f"missing parameter {parameter_name!r}"
+                )
+            if (
+                not return_parameter.is_out
+                or return_parameter.is_in
+                or not return_parameter.type_spec.is_pointer
+                or return_parameter.type_spec.pointer_depth != 1
+            ):
+                raise self.parameter_error(
+                    interface,
+                    method.name,
+                    return_parameter,
+                    "return-value projection requires an [out] single pointer",
+                )
+            parameters = ", ".join(
+                self.generate_parameter(interface, method, parameter)
+                for parameter in method.params
+                if parameter is not return_parameter
+            )
+            attributes = "\n".join(f"    [{attribute}]" for attribute in return_attributes)
+            return (
+                "    [PreserveSig]\n"
+                f"{attributes}\n"
+                f"    {return_type} {self.escape_identifier(method.name)}({parameters});"
             )
 
         parameters = ", ".join(
