@@ -47,7 +47,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(enumerations.Select(RenderEnumerationMember))
 			.Concat(metadataStrings.Select(RenderStringMember))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
-			.Concat(projected.Select(RenderProjectedMethod));
+			.Concat(projected.Select(method => IsParameterlessGetter(method)
+				? RenderOutputProperty(method, $"instance.{method.Name}")
+				: RenderProjectedMethod(method)));
 		var helpers = enumerations.Select(RenderEnumerationHelper).ToList();
 		helpers.AddRange(metadataStrings.Select(RenderStringHelper));
 		if (metadataStrings.Length != 0 || automaticStrings.Length != 0)
@@ -72,7 +74,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		foreach (var method in capabilityInterface.Methods.Values.Where(method => method.ReturnType == "int").OrderBy(method => method.Name, StringComparer.Ordinal))
 		{
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
-				? RenderProjectedMethod(method).Replace("instance.", "GetCapability(instance).", StringComparison.Ordinal)
+				? (IsParameterlessGetter(method)
+					? RenderOutputProperty(method, $"GetCapability(instance).{method.Name}")
+					: RenderProjectedMethod(method).Replace("instance.", "GetCapability(instance).", StringComparison.Ordinal))
 				: RenderCapabilityVoidMethod(method));
 		}
 
@@ -133,6 +137,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		method.ReturnType == "int" &&
 		method.Parameters.Any(parameter => parameter.IsOut);
 
+	private static bool IsParameterlessGetter(ManagedMethod method) =>
+		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
+		method.Name.Length > 3 &&
+		method.Parameters.All(parameter => parameter.IsOut);
+
 	private static string RenderProjectedMethod(ManagedMethod method)
 	{
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
@@ -150,6 +159,21 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+	}
+
+	private static string RenderOutputProperty(ManagedMethod method, string call)
+	{
+		var outputs = method.Parameters;
+		var returnType = outputs.Count == 1
+			? ProjectedOutputType(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+		var arguments = string.Join(", ", outputs.Select(output => $"out var {Escape(output.Name)}"));
+		var result = outputs.Count == 1
+			? ProjectedOutputValue(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+		return $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
+			"\t\t\t}\n\t\t}";
 	}
 
 
@@ -192,11 +216,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var emptyResult = outputs.Length == 0
 			? "string.Empty"
 			: $"(string.Empty, {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output, "query")))})";
-		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
+		var body =
 			$"\t\t\tvar hr = instance.{method.Name}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
 			"\t\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t\t{\n\t\t\t\tvar capacity = required;\n\t\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
 			$"\t\t\t\thr = instance.{method.Name}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
 			$"\t\t\t\treturn {result};\n\t\t\t}}\n\n\t\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t\t}}";
+		return inputs.Length == 0 && method.Name.StartsWith("Get", StringComparison.Ordinal) && method.Name.Length > 3
+			? $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{Indent(body, "\t")}\n\t\t\t}}\n\t\t}}"
+			: $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n{body}";
 	}
 
 	private static string RenderStringCallArguments(ManagedMethod method,
@@ -248,7 +275,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} has unsupported retained output parameters.");
 		var elementType = buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
 		var returnType = recipe.Kind == BufferKind.String ? "string" : $"{elementType}[]";
-		var declaration = $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 3)}\n\t\t}}";
+		var declaration = retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
+			? $"\t\tpublic {returnType} {recipe.Method[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 4)}\n\t\t\t}}\n\t\t}}"
+			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 3)}\n\t\t}}";
 		return declaration;
 	}
 
@@ -317,7 +346,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string RenderStringMember(StringQueryRecipe recipe)
 	{
 		var call = $"Query{recipe.Method}(instance{(recipe.Parameters.Length == 0 ? "" : ", " + string.Join(", ", recipe.Parameters.Split(", ").Select(parameter => parameter.Split(' ')[^1])))})";
-		return $"\t\tpublic {recipe.ReturnType} {recipe.Method}({recipe.Parameters}) => {call};";
+		return recipe.Parameters.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
+			? $"\t\tpublic {recipe.ReturnType} {recipe.Method[3..]} => {call};"
+			: $"\t\tpublic {recipe.ReturnType} {recipe.Method}({recipe.Parameters}) => {call};";
 	}
 
 	private static string RenderStringHelper(StringQueryRecipe recipe) =>
