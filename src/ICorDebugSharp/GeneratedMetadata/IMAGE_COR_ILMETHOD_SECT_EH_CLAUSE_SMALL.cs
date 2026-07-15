@@ -15,13 +15,13 @@ public partial struct IMAGE_COR_ILMETHOD_SECT_EH_CLAUSE_SMALL
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		readonly get
 		{
-			return (CorExceptionFlag) ((_bitfield1 << 16) >> 16);
+			return (CorExceptionFlag)((_bitfield1 << 16) >> 16);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		set
 		{
-			_bitfield1 = (_bitfield1 & ~0xFFFF) | ((int) (value) & 0xFFFF);
+			_bitfield1 = (_bitfield1 & ~0xFFFF) | ((int)(value) & 0xFFFF);
 		}
 	}
 
@@ -31,13 +31,13 @@ public partial struct IMAGE_COR_ILMETHOD_SECT_EH_CLAUSE_SMALL
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		readonly get
 		{
-			return (uint) ((_bitfield1 >> 16) & 0xFFFF);
+			return (uint)((_bitfield1 >> 16) & 0xFFFF);
 		}
 
 		[MethodImpl(MethodImplOptions.AggressiveInlining)]
 		set
 		{
-			_bitfield1 = (_bitfield1 & ~(0xFFFF << 16)) | (int) ((value & 0xFFFFu) << 16);
+			_bitfield1 = (_bitfield1 & ~(0xFFFF << 16)) | (int)((value & 0xFFFFu) << 16);
 		}
 	}
 

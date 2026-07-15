@@ -30,7 +30,7 @@ internal static class CorDebugGuidToTypeMappingMarshaller
 		return new Native
 		{
 			iid = managed.iid,
-			pType = (nint) ComInterfaceMarshaller<ICorDebugType>.ConvertToUnmanaged(managed.pType)
+			pType = (nint)ComInterfaceMarshaller<ICorDebugType>.ConvertToUnmanaged(managed.pType)
 		};
 	}
 
@@ -39,12 +39,12 @@ internal static class CorDebugGuidToTypeMappingMarshaller
 		return new CorDebugGuidToTypeMapping
 		{
 			iid = unmanaged.iid,
-			pType = ComInterfaceMarshaller<ICorDebugType>.ConvertToManaged((void*) unmanaged.pType) ?? throw new InvalidOperationException("Native CorDebugGuidToTypeMapping.pType was null.")
+			pType = ComInterfaceMarshaller<ICorDebugType>.ConvertToManaged((void*)unmanaged.pType) ?? throw new InvalidOperationException("Native CorDebugGuidToTypeMapping.pType was null.")
 		};
 	}
 
 	public static unsafe void Free(in Native unmanaged)
 	{
-		ComInterfaceMarshaller<ICorDebugType>.Free((void*) unmanaged.pType);
+		ComInterfaceMarshaller<ICorDebugType>.Free((void*)unmanaged.pType);
 	}
 }

@@ -15,8 +15,8 @@ public partial interface ICorDebugClass
 	int GetModule(out ICorDebugModule pModule);
 
 	[PreserveSig]
-	int GetToken(out uint pTypeDef);
+	int GetToken(out mdTypeDef pTypeDef);
 
 	[PreserveSig]
-	int GetStaticFieldValue(uint fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
+	int GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 }

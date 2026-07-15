@@ -8,7 +8,7 @@ namespace ICorDebugSharp;
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_FIELD
 {
-	public uint token;
+	public mdFieldDef token;
 
 	public uint offset;
 

@@ -14,5 +14,5 @@ public enum CorOpenFlags
 	ofReserved1 = 0x00000100,
 	ofReserved2 = 0x00000200,
 	ofReserved3 = 0x00000400,
-	ofReserved = unchecked((int) (0xffffef40)),
+	ofReserved = unchecked((int)(0xffffef40)),
 }

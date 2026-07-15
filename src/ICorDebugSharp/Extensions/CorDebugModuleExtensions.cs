@@ -18,7 +18,7 @@ public static class CorDebugModuleExtensions
 		var iid = typeof(T).GUID;
 		var hr = module.GetMetaDataInterface(ref iid, out var value);
 
-		metadata = hr >= 0 ? (T?) value : null;
+		metadata = hr >= 0 ? (T?)value : null;
 		return hr;
 	}
 }

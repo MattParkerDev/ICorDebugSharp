@@ -33,7 +33,7 @@ internal static class CorDebugBlockingObjectMarshaller
 	{
 		return new Native
 		{
-			pBlockingObject = (nint) ComInterfaceMarshaller<ICorDebugValue>.ConvertToUnmanaged(managed.pBlockingObject),
+			pBlockingObject = (nint)ComInterfaceMarshaller<ICorDebugValue>.ConvertToUnmanaged(managed.pBlockingObject),
 			dwTimeout = managed.dwTimeout,
 			blockingReason = managed.blockingReason
 		};
@@ -43,7 +43,7 @@ internal static class CorDebugBlockingObjectMarshaller
 	{
 		return new CorDebugBlockingObject
 		{
-			pBlockingObject = ComInterfaceMarshaller<ICorDebugValue>.ConvertToManaged((void*) unmanaged.pBlockingObject) ?? throw new InvalidOperationException("Native CorDebugBlockingObject.pBlockingObject was null."),
+			pBlockingObject = ComInterfaceMarshaller<ICorDebugValue>.ConvertToManaged((void*)unmanaged.pBlockingObject) ?? throw new InvalidOperationException("Native CorDebugBlockingObject.pBlockingObject was null."),
 			dwTimeout = unmanaged.dwTimeout,
 			blockingReason = unmanaged.blockingReason
 		};
@@ -51,6 +51,6 @@ internal static class CorDebugBlockingObjectMarshaller
 
 	public static unsafe void Free(in Native unmanaged)
 	{
-		ComInterfaceMarshaller<ICorDebugValue>.Free((void*) unmanaged.pBlockingObject);
+		ComInterfaceMarshaller<ICorDebugValue>.Free((void*)unmanaged.pBlockingObject);
 	}
 }

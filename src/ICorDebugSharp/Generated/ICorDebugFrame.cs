@@ -21,7 +21,7 @@ public partial interface ICorDebugFrame
 	int GetFunction(out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetFunctionToken(out uint pToken);
+	int GetFunctionToken(out mdMethodDef pToken);
 
 	[PreserveSig]
 	int GetStackRange(out ulong pStart, out ulong pEnd);

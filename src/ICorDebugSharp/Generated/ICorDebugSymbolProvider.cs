@@ -27,7 +27,7 @@ public partial interface ICorDebugSymbolProvider
 	int GetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
 
 	[PreserveSig]
-	int GetMethodProps(uint codeRva, out uint pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
+	int GetMethodProps(uint codeRva, out mdToken pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
 	[PreserveSig]
 	int GetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);

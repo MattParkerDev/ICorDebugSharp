@@ -18,7 +18,7 @@ public partial interface ICorDebugFunction
 	int GetClass(out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int GetToken(out uint pMethodDef);
+	int GetToken(out mdMethodDef pMethodDef);
 
 	[PreserveSig]
 	int GetILCode(out ICorDebugCode ppCode);
@@ -30,7 +30,7 @@ public partial interface ICorDebugFunction
 	int CreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
 
 	[PreserveSig]
-	int GetLocalVarSigToken(out uint pmdSig);
+	int GetLocalVarSigToken(out mdSignature pmdSig);
 
 	[PreserveSig]
 	int GetCurrentVersionNumber(out uint pnCurrentVersion);

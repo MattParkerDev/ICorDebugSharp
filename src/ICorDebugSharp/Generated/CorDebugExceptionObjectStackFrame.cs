@@ -13,7 +13,7 @@ public struct CorDebugExceptionObjectStackFrame
 
 	public ulong ip;
 
-	public uint methodDef;
+	public mdMethodDef methodDef;
 
 	public int isLastForeignExceptionFrame;
 }
@@ -28,7 +28,7 @@ internal static class CorDebugExceptionObjectStackFrameMarshaller
 
 		public ulong ip;
 
-		public uint methodDef;
+		public mdMethodDef methodDef;
 
 		public int isLastForeignExceptionFrame;
 	}
@@ -37,7 +37,7 @@ internal static class CorDebugExceptionObjectStackFrameMarshaller
 	{
 		return new Native
 		{
-			pModule = (nint) ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
+			pModule = (nint)ComInterfaceMarshaller<ICorDebugModule>.ConvertToUnmanaged(managed.pModule),
 			ip = managed.ip,
 			methodDef = managed.methodDef,
 			isLastForeignExceptionFrame = managed.isLastForeignExceptionFrame
@@ -48,7 +48,7 @@ internal static class CorDebugExceptionObjectStackFrameMarshaller
 	{
 		return new CorDebugExceptionObjectStackFrame
 		{
-			pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*) unmanaged.pModule) ?? throw new InvalidOperationException("Native CorDebugExceptionObjectStackFrame.pModule was null."),
+			pModule = ComInterfaceMarshaller<ICorDebugModule>.ConvertToManaged((void*)unmanaged.pModule) ?? throw new InvalidOperationException("Native CorDebugExceptionObjectStackFrame.pModule was null."),
 			ip = unmanaged.ip,
 			methodDef = unmanaged.methodDef,
 			isLastForeignExceptionFrame = unmanaged.isLastForeignExceptionFrame
@@ -57,6 +57,6 @@ internal static class CorDebugExceptionObjectStackFrameMarshaller
 
 	public static unsafe void Free(in Native unmanaged)
 	{
-		ComInterfaceMarshaller<ICorDebugModule>.Free((void*) unmanaged.pModule);
+		ComInterfaceMarshaller<ICorDebugModule>.Free((void*)unmanaged.pModule);
 	}
 }

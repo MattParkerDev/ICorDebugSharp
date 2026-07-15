@@ -10,7 +10,7 @@ public readonly record struct Token(int Value)
 
 	public int Value { get; } = Value;
 
-	public CorTokenType Type => (CorTokenType) (Value & 0xFF000000);
+	public CorTokenType Type => (CorTokenType)(Value & 0xFF000000);
 	public int Rid => Value & 0xFFFFFF;
 	public bool IsNil => Rid == 0;
 

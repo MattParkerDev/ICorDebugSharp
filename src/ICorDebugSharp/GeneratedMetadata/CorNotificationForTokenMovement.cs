@@ -4,7 +4,7 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public enum CorNotificationForTokenMovement
 {
 	MDNotifyDefault = 0x0000000f,
-	MDNotifyAll = unchecked((int) (0xffffffff)),
+	MDNotifyAll = unchecked((int)(0xffffffff)),
 	MDNotifyNone = 0x00000000,
 	MDNotifyMethodDef = 0x00000001,
 	MDNotifyMemberRef = 0x00000002,

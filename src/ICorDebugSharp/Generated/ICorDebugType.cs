@@ -27,7 +27,7 @@ public partial interface ICorDebugType
 	int GetBase(out ICorDebugType pBase);
 
 	[PreserveSig]
-	int GetStaticFieldValue(uint fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
+	int GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 
 	[PreserveSig]
 	int GetRank(out uint pnRank);

@@ -15,7 +15,7 @@ public partial interface ICorDebugEditAndContinueErrorInfo
 	int GetModule(out ICorDebugModule ppModule);
 
 	[PreserveSig]
-	int GetToken(out uint pToken);
+	int GetToken(out mdToken pToken);
 
 	[PreserveSig]
 	int GetErrorCode(out int pHr);

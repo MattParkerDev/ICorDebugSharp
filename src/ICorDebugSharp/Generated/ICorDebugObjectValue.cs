@@ -15,10 +15,10 @@ public partial interface ICorDebugObjectValue : ICorDebugValue
 	int GetClass(out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int GetFieldValue(ICorDebugClass pClass, uint fieldDef, out ICorDebugValue ppValue);
+	int GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetVirtualMethod(uint memberRef, out ICorDebugFunction ppFunction);
+	int GetVirtualMethod(mdMemberRef memberRef, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
 	int GetContext(out ICorDebugContext ppContext);

@@ -5,7 +5,7 @@ public enum CorErrorIfEmitOutOfOrder
 {
 	MDErrorOutOfOrderDefault = 0x00000000,
 	MDErrorOutOfOrderNone = 0x00000000,
-	MDErrorOutOfOrderAll = unchecked((int) (0xffffffff)),
+	MDErrorOutOfOrderAll = unchecked((int)(0xffffffff)),
 	MDMethodOutOfOrder = 0x00000001,
 	MDFieldOutOfOrder = 0x00000002,
 	MDParamOutOfOrder = 0x00000004,

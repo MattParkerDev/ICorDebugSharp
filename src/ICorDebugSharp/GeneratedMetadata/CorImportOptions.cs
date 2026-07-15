@@ -4,7 +4,7 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public enum CorImportOptions
 {
 	MDImportOptionDefault = 0x00000000,
-	MDImportOptionAll = unchecked((int) (0xFFFFFFFF)),
+	MDImportOptionAll = unchecked((int)(0xFFFFFFFF)),
 	MDImportOptionAllTypeDefs = 0x00000001,
 	MDImportOptionAllMethodDefs = 0x00000002,
 	MDImportOptionAllFieldDefs = 0x00000004,

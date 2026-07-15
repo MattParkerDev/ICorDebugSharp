@@ -16,7 +16,7 @@ public enum CorGCReferenceType
 	CorHandleStrongSizedByref = 1 << 8,
 	CorHandleWeakNativeCom = 1 << 9,
 	CorHandleWeakWinRT = CorHandleWeakNativeCom,
-	CorReferenceStack = unchecked((int) 0x80000001),
+	CorReferenceStack = unchecked((int)0x80000001),
 	CorReferenceFinalizer = 80000002,
 	CorHandleStrongOnly = 0x1E3,
 	CorHandleWeakOnly = 0x21C,

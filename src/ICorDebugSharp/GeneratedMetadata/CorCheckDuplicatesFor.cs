@@ -3,7 +3,7 @@ namespace ICorDebugSharp.GeneratedMetadata;
 
 public enum CorCheckDuplicatesFor
 {
-	MDDupAll = unchecked((int) (0xffffffff)),
+	MDDupAll = unchecked((int)(0xffffffff)),
 	MDDupENC = MDDupAll,
 	MDNoDupChecks = 0x00000000,
 	MDDupTypeDef = 0x00000001,

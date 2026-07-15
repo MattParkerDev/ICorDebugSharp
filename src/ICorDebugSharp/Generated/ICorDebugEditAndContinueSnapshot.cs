@@ -27,7 +27,7 @@ public partial interface ICorDebugEditAndContinueSnapshot
 	int SetPEBytes(nint pIStream);
 
 	[PreserveSig]
-	int SetILMap(uint mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
+	int SetILMap(mdToken mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
 
 	[PreserveSig]
 	int SetPESymbolBytes(nint pIStream);

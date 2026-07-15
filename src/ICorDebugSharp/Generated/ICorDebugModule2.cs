@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule2
 {
 	[PreserveSig]
-	int SetJMCStatus(int bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] uint[] pTokens);
+	int SetJMCStatus(int bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
 
 	[PreserveSig]
 	int ApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
@@ -24,5 +24,5 @@ public partial interface ICorDebugModule2
 	int GetJITCompilerFlags(out uint pdwFlags);
 
 	[PreserveSig]
-	int ResolveAssembly(uint tkAssemblyRef, out ICorDebugAssembly ppAssembly);
+	int ResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly);
 }

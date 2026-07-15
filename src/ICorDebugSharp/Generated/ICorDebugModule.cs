@@ -30,13 +30,13 @@ public partial interface ICorDebugModule
 	int EnableClassLoadCallbacks(int bClassLoadCallbacks);
 
 	[PreserveSig]
-	int GetFunctionFromToken(uint methodDef, out ICorDebugFunction ppFunction);
+	int GetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
 	int GetFunctionFromRVA(ulong rva, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetClassFromToken(uint typeDef, out ICorDebugClass ppClass);
+	int GetClassFromToken(mdTypeDef typeDef, out ICorDebugClass ppClass);
 
 	[PreserveSig]
 	int CreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
@@ -48,13 +48,13 @@ public partial interface ICorDebugModule
 	int GetMetaDataInterface(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 
 	[PreserveSig]
-	int GetToken(out uint pToken);
+	int GetToken(out mdModule pToken);
 
 	[PreserveSig]
 	int IsDynamic(out int pDynamic);
 
 	[PreserveSig]
-	int GetGlobalVariableValue(uint fieldDef, out ICorDebugValue ppValue);
+	int GetGlobalVariableValue(mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
 	[PreserveSig]
 	int GetSize(out uint pcBytes);
