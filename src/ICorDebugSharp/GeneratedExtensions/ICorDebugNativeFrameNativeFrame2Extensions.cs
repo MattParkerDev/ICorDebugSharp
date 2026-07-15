@@ -16,14 +16,11 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 
 		public ICorDebugNativeFrame2 NativeFrame2 => GetCapability(instance);
 
-		public uint StackParameterSize
+		public uint GetStackParameterSize()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetStackParameterSize(out var pSize);
-				Marshal.ThrowExceptionForHR(hr);
-				return pSize;
-			}
+			var hr = GetCapability(instance).GetStackParameterSize(out var pSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pSize;
 		}
 
 		public int IsChild()

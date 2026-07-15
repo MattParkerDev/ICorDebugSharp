@@ -9,17 +9,98 @@ using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class MetaDataImport2Extensions
+public static unsafe class MetaDataImport2Extensions
 {
 	extension(IMetaDataImport2 instance)
 	{
-		public IEnumerable<mdGenericParam> GenericParameters(mdToken tk) => EnumerateGenericParamsCore(instance, tk);
+		public IEnumerable<mdGenericParam> EnumGenericParams(mdToken tk) => EnumerateGenericParamsCore(instance, tk);
 
-		public IEnumerable<mdGenericParamConstraint> GenericParameterConstraints(mdGenericParam tk) => EnumerateGenericParamConstraintsCore(instance, tk);
+		public IEnumerable<mdGenericParamConstraint> EnumGenericParamConstraints(mdGenericParam tk) => EnumerateGenericParamConstraintsCore(instance, tk);
 
-		public IEnumerable<mdMethodSpec> MethodSpecs(mdToken tk) => EnumerateMethodSpecsCore(instance, tk);
+		public IEnumerable<mdMethodSpec> EnumMethodSpecs(mdToken tk) => EnumerateMethodSpecsCore(instance, tk);
 
-		public string VersionString => QueryGetVersionString(instance);
+		public string GetVersionString() => QueryGetVersionString(instance);
+
+		public (string wzname, uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
+		{
+			var hr = instance.GetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPulParamSeq, queryPdwParamFlags, queryPtOwner, queryReserved);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, buffer, capacity, out var actual);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pulParamSeq, pdwParamFlags, ptOwner, reserved);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (mdGenericParamConstraint rGenericParamConstraints, uint pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk)
+		{
+			var hr = instance.EnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rGenericParamConstraints, pcGenericParamConstraints);
+		}
+
+		public (mdGenericParam rGenericParams, uint pcGenericParams) EnumGenericParams(ref HCorEnum phEnum, mdToken tk)
+		{
+			var hr = instance.EnumGenericParams(ref phEnum, tk, out var rGenericParams, 1, out var pcGenericParams);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rGenericParams, pcGenericParams);
+		}
+
+		public (mdMethodSpec rMethodSpecs, uint pcMethodSpecs) EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk)
+		{
+			var hr = instance.EnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, 1, out var pcMethodSpecs);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMethodSpecs, pcMethodSpecs);
+		}
+
+		public (mdGenericParam ptGenericParam, mdToken ptkConstraintType) GetGenericParamConstraintProps(mdGenericParamConstraint gpc)
+		{
+			var hr = instance.GetGenericParamConstraintProps(gpc, out var ptGenericParam, out var ptkConstraintType);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ptGenericParam, ptkConstraintType);
+		}
+
+		public (uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved, uint pchName) GetGenericParamProps(mdGenericParam gp, char[]? wzname, uint cchName)
+		{
+			var hr = instance.GetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, wzname, cchName, out var pchName);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pulParamSeq, pdwParamFlags, ptOwner, reserved, pchName);
+		}
+
+		public (mdToken tkParent, byte[] ppvSigBlob, uint pcbSigBlob) GetMethodSpecProps(mdMethodSpec mi)
+		{
+			var hr = instance.GetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
+			Marshal.ThrowExceptionForHR(hr);
+			return (tkParent, ppvSigBlob.ToArray(), pcbSigBlob);
+		}
+
+		public (uint pdwPEKind, uint pdwMAchine) GetPEKind()
+		{
+			var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pdwPEKind, pdwMAchine);
+		}
+
+		public uint GetVersionString(char[]? pwzBuf, uint ccBufSize)
+		{
+			var hr = instance.GetVersionString(pwzBuf, ccBufSize, out var pccBufSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return pccBufSize;
+		}
 	}
 
 	private static IEnumerable<mdGenericParam> EnumerateGenericParamsCore(IMetaDataImport2 instance, mdToken tk)

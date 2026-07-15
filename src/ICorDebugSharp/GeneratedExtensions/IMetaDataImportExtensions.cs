@@ -9,63 +9,676 @@ using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class MetaDataImportExtensions
+public static unsafe class MetaDataImportExtensions
 {
 	extension(IMetaDataImport instance)
 	{
-		public IEnumerable<mdTypeDef> TypeDefs => EnumerateTypeDefsCore(instance);
+		public IEnumerable<mdTypeDef> EnumTypeDefs() => EnumerateTypeDefsCore(instance);
 
-		public IEnumerable<mdInterfaceImpl> InterfaceImpls(mdTypeDef td) => EnumerateInterfaceImplsCore(instance, td);
+		public IEnumerable<mdInterfaceImpl> EnumInterfaceImpls(mdTypeDef td) => EnumerateInterfaceImplsCore(instance, td);
 
-		public IEnumerable<mdTypeRef> TypeRefs => EnumerateTypeRefsCore(instance);
+		public IEnumerable<mdTypeRef> EnumTypeRefs() => EnumerateTypeRefsCore(instance);
 
-		public IEnumerable<mdToken> Members(mdTypeDef cl) => EnumerateMembersCore(instance, cl);
+		public IEnumerable<mdToken> EnumMembers(mdTypeDef cl) => EnumerateMembersCore(instance, cl);
 
-		public IEnumerable<mdToken> MembersWithName(mdTypeDef cl, string szName) => EnumerateMembersWithNameCore(instance, cl, szName);
+		public IEnumerable<mdToken> EnumMembersWithName(mdTypeDef cl, string szName) => EnumerateMembersWithNameCore(instance, cl, szName);
 
-		public IEnumerable<mdMethodDef> Methods(mdTypeDef cl) => EnumerateMethodsCore(instance, cl);
+		public IEnumerable<mdMethodDef> EnumMethods(mdTypeDef cl) => EnumerateMethodsCore(instance, cl);
 
-		public IEnumerable<mdMethodDef> MethodsWithName(mdTypeDef cl, string szName) => EnumerateMethodsWithNameCore(instance, cl, szName);
+		public IEnumerable<mdMethodDef> EnumMethodsWithName(mdTypeDef cl, string szName) => EnumerateMethodsWithNameCore(instance, cl, szName);
 
-		public IEnumerable<mdFieldDef> Fields(mdTypeDef cl) => EnumerateFieldsCore(instance, cl);
+		public IEnumerable<mdFieldDef> EnumFields(mdTypeDef cl) => EnumerateFieldsCore(instance, cl);
 
-		public IEnumerable<mdFieldDef> FieldsWithName(mdTypeDef cl, string szName) => EnumerateFieldsWithNameCore(instance, cl, szName);
+		public IEnumerable<mdFieldDef> EnumFieldsWithName(mdTypeDef cl, string szName) => EnumerateFieldsWithNameCore(instance, cl, szName);
 
-		public IEnumerable<mdParamDef> Parameters(mdMethodDef mb) => EnumerateParamsCore(instance, mb);
+		public IEnumerable<mdParamDef> EnumParams(mdMethodDef mb) => EnumerateParamsCore(instance, mb);
 
-		public IEnumerable<mdMemberRef> MemberRefs(mdToken tkParent) => EnumerateMemberRefsCore(instance, tkParent);
+		public IEnumerable<mdMemberRef> EnumMemberRefs(mdToken tkParent) => EnumerateMemberRefsCore(instance, tkParent);
 
-		public IEnumerable<(mdToken MethodBody, mdToken MethodDeclaration)> MethodImpls(mdTypeDef td) => EnumerateMethodImplsCore(instance, td);
+		public IEnumerable<(mdToken MethodBody, mdToken MethodDeclaration)> EnumMethodImpls(mdTypeDef td) => EnumerateMethodImplsCore(instance, td);
 
-		public IEnumerable<mdPermission> PermissionSets(mdToken tk, uint dwActions) => EnumeratePermissionSetsCore(instance, tk, dwActions);
+		public IEnumerable<mdPermission> EnumPermissionSets(mdToken tk, uint dwActions) => EnumeratePermissionSetsCore(instance, tk, dwActions);
 
-		public IEnumerable<mdProperty> Properties(mdTypeDef td) => EnumeratePropertiesCore(instance, td);
+		public IEnumerable<mdProperty> EnumProperties(mdTypeDef td) => EnumeratePropertiesCore(instance, td);
 
-		public IEnumerable<mdEvent> Events(mdTypeDef td) => EnumerateEventsCore(instance, td);
+		public IEnumerable<mdEvent> EnumEvents(mdTypeDef td) => EnumerateEventsCore(instance, td);
 
-		public IEnumerable<mdToken> MethodSemantics(mdMethodDef mb) => EnumerateMethodSemanticsCore(instance, mb);
+		public IEnumerable<mdToken> EnumMethodSemantics(mdMethodDef mb) => EnumerateMethodSemanticsCore(instance, mb);
 
-		public IEnumerable<mdModuleRef> ModuleRefs => EnumerateModuleRefsCore(instance);
+		public IEnumerable<mdModuleRef> EnumModuleRefs() => EnumerateModuleRefsCore(instance);
 
-		public IEnumerable<mdToken> UnresolvedMethods => EnumerateUnresolvedMethodsCore(instance);
+		public IEnumerable<mdToken> EnumUnresolvedMethods() => EnumerateUnresolvedMethodsCore(instance);
 
-		public IEnumerable<mdSignature> Signatures => EnumerateSignaturesCore(instance);
+		public IEnumerable<mdSignature> EnumSignatures() => EnumerateSignaturesCore(instance);
 
-		public IEnumerable<mdTypeSpec> TypeSpecs => EnumerateTypeSpecsCore(instance);
+		public IEnumerable<mdTypeSpec> EnumTypeSpecs() => EnumerateTypeSpecsCore(instance);
 
-		public IEnumerable<mdString> UserStrings => EnumerateUserStringsCore(instance);
+		public IEnumerable<mdString> EnumUserStrings() => EnumerateUserStringsCore(instance);
 
-		public IEnumerable<mdCustomAttribute> CustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
+		public IEnumerable<mdCustomAttribute> EnumCustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
 
-		public (string szName, Guid pmvid) ScopeProps => QueryGetScopeProps(instance);
+		public (string szName, Guid pmvid) GetScopeProps() => QueryGetScopeProps(instance);
 
-		public (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) TypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
+		public (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
-		public (mdToken ptkResolutionScope, string szName) TypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
+		public (mdToken ptkResolutionScope, string szName) GetTypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
 
-		public string ModuleRefName(mdModuleRef moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
+		public string GetModuleRefProps(mdModuleRef moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
 
-		public string UserString(mdString userString) => QueryGetUserString(instance, userString);
+		public string GetUserString(mdString userString) => QueryGetUserString(instance, userString);
+
+		public (string szEvent, mdTypeDef pClass, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
+		{
+			var hr = instance.GetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPClass, queryPdwEventFlags, queryPtkEventType, queryPmdAddOn, queryPmdRemoveOn, queryPmdFire, queryRmdOtherMethod, queryPcOtherMethod);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetEventProps(ev, out var pClass, buffer, capacity, out var actual, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pClass, pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, pcOtherMethod);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szField, mdTypeDef pClass, FieldAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
+		{
+			var hr = instance.GetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetFieldProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pClass, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pdwCPlusTypeFlag, ppValue, pcchValue);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szMember, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
+		{
+			var hr = instance.GetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPulCodeRVA, queryPdwImplFlags, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetMemberProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pClass, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags, pdwCPlusTypeFlag, ppValue, pcchValue);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szMember, mdToken ptk, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr)
+		{
+			var hr = instance.GetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPtk, queryPpvSigBlob.ToArray(), queryPbSig);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetMemberRefProps(mr, out var ptk, buffer, capacity, out var actual, out var ppvSigBlob, out var pbSig);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), ptk, ppvSigBlob.ToArray(), pbSig);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szMethod, mdTypeDef pClass, MethodAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb)
+		{
+			var hr = instance.GetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPulCodeRVA, queryPdwImplFlags);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetMethodProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pClass, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szName, mdMethodDef pmd, uint pulSequence, ParameterAttributes pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
+		{
+			var hr = instance.GetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPmd, queryPulSequence, queryPdwAttr, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetParamProps(tk, out var pmd, out var pulSequence, buffer, capacity, out var actual, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pmd, pulSequence, pdwAttr, pdwCPlusTypeFlag, ppValue, pcchValue);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szImportName, uint pdwMappingFlags, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk)
+		{
+			var hr = instance.GetPinvokeMap(tk, out var queryPdwMappingFlags, null, 0, out var required, out var queryPmrImportDLL);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPdwMappingFlags, queryPmrImportDLL);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetPinvokeMap(tk, out var pdwMappingFlags, buffer, capacity, out var actual, out var pmrImportDLL);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pdwMappingFlags, pmrImportDLL);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szProperty, mdTypeDef pClass, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
+		{
+			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPClass, queryPdwPropFlags, queryPpvSig.ToArray(), queryPbSig, queryPdwCPlusTypeFlag, queryPpDefaultValue, queryPcchDefaultValue, queryPmdSetter, queryPmdGetter, queryRmdOtherMethod, queryPcOtherMethod);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetPropertyProps(prop, out var pClass, buffer, capacity, out var actual, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), pClass, pdwPropFlags, ppvSig.ToArray(), pbSig, pdwCPlusTypeFlag, ppDefaultValue, pcchDefaultValue, pmdSetter, pmdGetter, rmdOtherMethod, pcOtherMethod);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public uint CountEnum(HCorEnum hEnum)
+		{
+			var hr = instance.CountEnum(hEnum, out var pulCount);
+			Marshal.ThrowExceptionForHR(hr);
+			return pulCount;
+		}
+
+		public (mdCustomAttribute rCustomAttributes, uint pcCustomAttributes) EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType)
+		{
+			var hr = instance.EnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, 1, out var pcCustomAttributes);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rCustomAttributes, pcCustomAttributes);
+		}
+
+		public (mdEvent rEvents, uint pcEvents) EnumEvents(ref HCorEnum phEnum, mdTypeDef td)
+		{
+			var hr = instance.EnumEvents(ref phEnum, td, out var rEvents, 1, out var pcEvents);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rEvents, pcEvents);
+		}
+
+		public (mdFieldDef rFields, uint pcTokens) EnumFields(ref HCorEnum phEnum, mdTypeDef cl)
+		{
+			var hr = instance.EnumFields(ref phEnum, cl, out var rFields, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rFields, pcTokens);
+		}
+
+		public (mdFieldDef rFields, uint pcTokens) EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
+		{
+			var hr = instance.EnumFieldsWithName(ref phEnum, cl, szName, out var rFields, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rFields, pcTokens);
+		}
+
+		public (mdInterfaceImpl rImpls, uint pcImpls) EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td)
+		{
+			var hr = instance.EnumInterfaceImpls(ref phEnum, td, out var rImpls, 1, out var pcImpls);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rImpls, pcImpls);
+		}
+
+		public (mdMemberRef rMemberRefs, uint pcTokens) EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent)
+		{
+			var hr = instance.EnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMemberRefs, pcTokens);
+		}
+
+		public (mdToken rMembers, uint pcTokens) EnumMembers(ref HCorEnum phEnum, mdTypeDef cl)
+		{
+			var hr = instance.EnumMembers(ref phEnum, cl, out var rMembers, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMembers, pcTokens);
+		}
+
+		public (mdToken rMembers, uint pcTokens) EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
+		{
+			var hr = instance.EnumMembersWithName(ref phEnum, cl, szName, out var rMembers, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMembers, pcTokens);
+		}
+
+		public (mdToken rMethodBody, mdToken rMethodDecl, uint pcTokens) EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td)
+		{
+			var hr = instance.EnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMethodBody, rMethodDecl, pcTokens);
+		}
+
+		public (mdToken rEventProp, uint pcEventProp) EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb)
+		{
+			var hr = instance.EnumMethodSemantics(ref phEnum, mb, out var rEventProp, 1, out var pcEventProp);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rEventProp, pcEventProp);
+		}
+
+		public (mdMethodDef rMethods, uint pcTokens) EnumMethods(ref HCorEnum phEnum, mdTypeDef cl)
+		{
+			var hr = instance.EnumMethods(ref phEnum, cl, out var rMethods, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMethods, pcTokens);
+		}
+
+		public (mdMethodDef rMethods, uint pcTokens) EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
+		{
+			var hr = instance.EnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMethods, pcTokens);
+		}
+
+		public (mdModuleRef rModuleRefs, uint pcModuleRefs) EnumModuleRefs(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumModuleRefs(ref phEnum, out var rModuleRefs, 1, out var pcModuleRefs);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rModuleRefs, pcModuleRefs);
+		}
+
+		public (mdParamDef rParams, uint pcTokens) EnumParams(ref HCorEnum phEnum, mdMethodDef mb)
+		{
+			var hr = instance.EnumParams(ref phEnum, mb, out var rParams, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rParams, pcTokens);
+		}
+
+		public (mdPermission rPermission, uint pcTokens) EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions)
+		{
+			var hr = instance.EnumPermissionSets(ref phEnum, tk, dwActions, out var rPermission, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rPermission, pcTokens);
+		}
+
+		public (mdProperty rProperties, uint pcProperties) EnumProperties(ref HCorEnum phEnum, mdTypeDef td)
+		{
+			var hr = instance.EnumProperties(ref phEnum, td, out var rProperties, 1, out var pcProperties);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rProperties, pcProperties);
+		}
+
+		public (mdSignature rSignatures, uint pcSignatures) EnumSignatures(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumSignatures(ref phEnum, out var rSignatures, 1, out var pcSignatures);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rSignatures, pcSignatures);
+		}
+
+		public (mdTypeDef rTypeDefs, uint pcTypeDefs) EnumTypeDefs(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumTypeDefs(ref phEnum, out var rTypeDefs, 1, out var pcTypeDefs);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rTypeDefs, pcTypeDefs);
+		}
+
+		public (mdTypeRef rTypeRefs, uint pcTypeRefs) EnumTypeRefs(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumTypeRefs(ref phEnum, out var rTypeRefs, 1, out var pcTypeRefs);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rTypeRefs, pcTypeRefs);
+		}
+
+		public (mdTypeSpec rTypeSpecs, uint pcTypeSpecs) EnumTypeSpecs(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumTypeSpecs(ref phEnum, out var rTypeSpecs, 1, out var pcTypeSpecs);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rTypeSpecs, pcTypeSpecs);
+		}
+
+		public (mdToken rMethods, uint pcTokens) EnumUnresolvedMethods(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumUnresolvedMethods(ref phEnum, out var rMethods, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rMethods, pcTokens);
+		}
+
+		public (mdString rStrings, uint pcStrings) EnumUserStrings(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumUserStrings(ref phEnum, out var rStrings, 1, out var pcStrings);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rStrings, pcStrings);
+		}
+
+		public mdFieldDef FindField(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
+		{
+			var hr = instance.FindField(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmb;
+		}
+
+		public mdToken FindMember(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
+		{
+			var hr = instance.FindMember(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmb;
+		}
+
+		public mdMemberRef FindMemberRef(mdTypeRef td, string szName, byte* pvSigBlob, uint cbSigBlob)
+		{
+			var hr = instance.FindMemberRef(td, szName, pvSigBlob, cbSigBlob, out var pmr);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmr;
+		}
+
+		public mdMethodDef FindMethod(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
+		{
+			var hr = instance.FindMethod(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmb;
+		}
+
+		public mdTypeDef FindTypeDefByName(string szTypeDef, mdToken tkEnclosingClass)
+		{
+			var hr = instance.FindTypeDefByName(szTypeDef, tkEnclosingClass, out var ptd);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptd;
+		}
+
+		public mdTypeRef FindTypeRef(mdToken tkResolutionScope, string szName)
+		{
+			var hr = instance.FindTypeRef(tkResolutionScope, szName, out var ptr);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptr;
+		}
+
+		public (uint pdwPackSize, COR_FIELD_OFFSET rFieldOffset, uint pcFieldOffset, uint pulClassSize) GetClassLayout(mdTypeDef td)
+		{
+			var hr = instance.GetClassLayout(td, out var pdwPackSize, out var rFieldOffset, 1, out var pcFieldOffset, out var pulClassSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pdwPackSize, rFieldOffset, pcFieldOffset, pulClassSize);
+		}
+
+		public (nint ppData, uint pcbData) GetCustomAttributeByName(mdToken tkObj, string szName)
+		{
+			var hr = instance.GetCustomAttributeByName(tkObj, szName, out var ppData, out var pcbData);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppData, pcbData);
+		}
+
+		public (mdToken ptkObj, mdToken ptkType, nint ppBlob, uint pcbSize) GetCustomAttributeProps(mdCustomAttribute cv)
+		{
+			var hr = instance.GetCustomAttributeProps(cv, out var ptkObj, out var ptkType, out var ppBlob, out var pcbSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ptkObj, ptkType, ppBlob, pcbSize);
+		}
+
+		public (mdTypeDef pClass, uint pchEvent, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev, char[]? szEvent, uint cchEvent)
+		{
+			var hr = instance.GetEventProps(ev, out var pClass, szEvent, cchEvent, out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, pchEvent, pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, pcOtherMethod);
+		}
+
+		public (byte[] ppvNativeType, uint pcbNativeType) GetFieldMarshal(mdToken tk)
+		{
+			var hr = instance.GetFieldMarshal(tk, out var ppvNativeType, out var pcbNativeType);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppvNativeType.ToArray(), pcbNativeType);
+		}
+
+		public (mdTypeDef pClass, uint pchField, FieldAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, uint cchField)
+		{
+			var hr = instance.GetFieldProps(mb, out var pClass, szField, cchField, out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, pchField, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pdwCPlusTypeFlag, ppValue, pcchValue);
+		}
+
+		public (mdTypeDef pClass, mdToken ptkIface) GetInterfaceImplProps(mdInterfaceImpl iiImpl)
+		{
+			var hr = instance.GetInterfaceImplProps(iiImpl, out var pClass, out var ptkIface);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, ptkIface);
+		}
+
+		public (mdTypeDef pClass, uint pchMember, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb, char[]? szMember, uint cchMember)
+		{
+			var hr = instance.GetMemberProps(mb, out var pClass, szMember, cchMember, out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, pchMember, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags, pdwCPlusTypeFlag, ppValue, pcchValue);
+		}
+
+		public (mdToken ptk, uint pchMember, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr, char[]? szMember, uint cchMember)
+		{
+			var hr = instance.GetMemberRefProps(mr, out var ptk, szMember, cchMember, out var pchMember, out var ppvSigBlob, out var pbSig);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ptk, pchMember, ppvSigBlob.ToArray(), pbSig);
+		}
+
+		public (mdTypeDef pClass, uint pchMethod, MethodAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb, char[]? szMethod, uint cchMethod)
+		{
+			var hr = instance.GetMethodProps(mb, out var pClass, szMethod, cchMethod, out var pchMethod, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, pchMethod, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags);
+		}
+
+		public uint GetMethodSemantics(mdMethodDef mb, mdToken tkEventProp)
+		{
+			var hr = instance.GetMethodSemantics(mb, tkEventProp, out var pdwSemanticsFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwSemanticsFlags;
+		}
+
+		public mdModule GetModuleFromScope()
+		{
+			var hr = instance.GetModuleFromScope(out var pmd);
+			Marshal.ThrowExceptionForHR(hr);
+			return pmd;
+		}
+
+		public uint GetModuleRefProps(mdModuleRef mur, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetModuleRefProps(mur, szName, cchName, out var pchName);
+			Marshal.ThrowExceptionForHR(hr);
+			return pchName;
+		}
+
+		public sbyte* GetNameFromToken(mdToken tk)
+		{
+			var hr = instance.GetNameFromToken(tk, out var pszUtf8NamePtr);
+			Marshal.ThrowExceptionForHR(hr);
+			return pszUtf8NamePtr;
+		}
+
+		public uint GetNativeCallConvFromSig(nint pvSig, uint cbSig)
+		{
+			var hr = instance.GetNativeCallConvFromSig(pvSig, cbSig, out var pCallConv);
+			Marshal.ThrowExceptionForHR(hr);
+			return pCallConv;
+		}
+
+		public mdTypeDef GetNestedClassProps(mdTypeDef tdNestedClass)
+		{
+			var hr = instance.GetNestedClassProps(tdNestedClass, out var ptdEnclosingClass);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptdEnclosingClass;
+		}
+
+		public mdParamDef GetParamForMethodIndex(mdMethodDef md, uint ulParamSeq)
+		{
+			var hr = instance.GetParamForMethodIndex(md, ulParamSeq, out var ppd);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppd;
+		}
+
+		public (mdMethodDef pmd, uint pulSequence, uint pchName, ParameterAttributes pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetParamProps(tk, out var pmd, out var pulSequence, szName, cchName, out var pchName, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pmd, pulSequence, pchName, pdwAttr, pdwCPlusTypeFlag, ppValue, pcchValue);
+		}
+
+		public (uint pdwAction, nint ppvPermission, uint pcbPermission) GetPermissionSetProps(mdPermission pm)
+		{
+			var hr = instance.GetPermissionSetProps(pm, out var pdwAction, out var ppvPermission, out var pcbPermission);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pdwAction, ppvPermission, pcbPermission);
+		}
+
+		public (uint pdwMappingFlags, uint pchImportName, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk, char[]? szImportName, uint cchImportName)
+		{
+			var hr = instance.GetPinvokeMap(tk, out var pdwMappingFlags, szImportName, cchImportName, out var pchImportName, out var pmrImportDLL);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pdwMappingFlags, pchImportName, pmrImportDLL);
+		}
+
+		public (mdTypeDef pClass, uint pchProperty, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty)
+		{
+			var hr = instance.GetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pClass, pchProperty, pdwPropFlags, ppvSig.ToArray(), pbSig, pdwCPlusTypeFlag, ppDefaultValue, pcchDefaultValue, pmdSetter, pmdGetter, rmdOtherMethod, pcOtherMethod);
+		}
+
+		public (uint pulCodeRVA, uint pdwImplFlags) GetRVA(mdToken tk)
+		{
+			var hr = instance.GetRVA(tk, out var pulCodeRVA, out var pdwImplFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pulCodeRVA, pdwImplFlags);
+		}
+
+		public (uint pchName, Guid pmvid) GetScopeProps(char[]? szName, uint cchName)
+		{
+			var hr = instance.GetScopeProps(szName, cchName, out var pchName, out var pmvid);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pchName, pmvid);
+		}
+
+		public (byte[] ppvSig, uint pcbSig) GetSigFromToken(mdSignature mdSig)
+		{
+			var hr = instance.GetSigFromToken(mdSig, out var ppvSig, out var pcbSig);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppvSig.ToArray(), pcbSig);
+		}
+
+		public (uint pchTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef td, char[]? szTypeDef, uint cchTypeDef)
+		{
+			var hr = instance.GetTypeDefProps(td, szTypeDef, cchTypeDef, out var pchTypeDef, out var pdwTypeDefFlags, out var ptkExtends);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pchTypeDef, pdwTypeDefFlags, ptkExtends);
+		}
+
+		public (mdToken ptkResolutionScope, uint pchName) GetTypeRefProps(mdTypeRef tr, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetTypeRefProps(tr, out var ptkResolutionScope, szName, cchName, out var pchName);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ptkResolutionScope, pchName);
+		}
+
+		public (byte[] ppvSig, uint pcbSig) GetTypeSpecFromToken(mdTypeSpec typespec)
+		{
+			var hr = instance.GetTypeSpecFromToken(typespec, out var ppvSig, out var pcbSig);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppvSig.ToArray(), pcbSig);
+		}
+
+		public uint GetUserString(mdString stk, char[]? szString, uint cchString)
+		{
+			var hr = instance.GetUserString(stk, szString, cchString, out var pchString);
+			Marshal.ThrowExceptionForHR(hr);
+			return pchString;
+		}
+
+		public int IsGlobal(mdToken pd)
+		{
+			var hr = instance.IsGlobal(pd, out var pbGlobal);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbGlobal;
+		}
+
+		public (nint ppIScope, mdTypeDef ptd) ResolveTypeRef(mdTypeRef tr, ref Guid riid)
+		{
+			var hr = instance.ResolveTypeRef(tr, ref riid, out var ppIScope, out var ptd);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppIScope, ptd);
+		}
 	}
 
 	private static IEnumerable<mdTypeDef> EnumerateTypeDefsCore(IMetaDataImport instance)

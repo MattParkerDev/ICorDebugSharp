@@ -16,24 +16,18 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 
 		public ICorDebugHeapValue3 HeapValue3 => GetCapability(instance);
 
-		public ICorDebugThreadEnum MonitorEventWaitList
+		public ICorDebugThreadEnum GetMonitorEventWaitList()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetMonitorEventWaitList(out var ppThreadEnum);
-				Marshal.ThrowExceptionForHR(hr);
-				return ppThreadEnum;
-			}
+			var hr = GetCapability(instance).GetMonitorEventWaitList(out var ppThreadEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppThreadEnum;
 		}
 
-		public (ICorDebugThread ppThread, uint pAcquisitionCount) ThreadOwningMonitorLock
+		public (ICorDebugThread ppThread, uint pAcquisitionCount) GetThreadOwningMonitorLock()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
-				Marshal.ThrowExceptionForHR(hr);
-				return (ppThread, pAcquisitionCount);
-			}
+			var hr = GetCapability(instance).GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppThread, pAcquisitionCount);
 		}
 	}
 

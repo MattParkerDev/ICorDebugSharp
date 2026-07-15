@@ -22,14 +22,11 @@ public static unsafe class CorDebugModuleModule2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public uint JITCompilerFlags
+		public uint GetJITCompilerFlags()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetJITCompilerFlags(out var pdwFlags);
-				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
-			}
+			var hr = GetCapability(instance).GetJITCompilerFlags(out var pdwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwFlags;
 		}
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)

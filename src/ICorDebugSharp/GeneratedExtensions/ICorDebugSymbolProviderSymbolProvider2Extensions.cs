@@ -23,14 +23,11 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 			return (pCodeStartRva, pParentFrameStartRva);
 		}
 
-		public ICorDebugMemoryBuffer GenericDictionaryInfo
+		public ICorDebugMemoryBuffer GetGenericDictionaryInfo()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetGenericDictionaryInfo(out var ppMemoryBuffer);
-				Marshal.ThrowExceptionForHR(hr);
-				return ppMemoryBuffer;
-			}
+			var hr = GetCapability(instance).GetGenericDictionaryInfo(out var ppMemoryBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+			return ppMemoryBuffer;
 		}
 	}
 

@@ -23,34 +23,25 @@ public static unsafe class CorDebugThreadThread2Extensions
 			return pcFunctions;
 		}
 
-		public uint ConnectionID
+		public uint GetConnectionID()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetConnectionID(out var pdwConnectionId);
-				Marshal.ThrowExceptionForHR(hr);
-				return pdwConnectionId;
-			}
+			var hr = GetCapability(instance).GetConnectionID(out var pdwConnectionId);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwConnectionId;
 		}
 
-		public ulong TaskID
+		public ulong GetTaskID()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetTaskID(out var pTaskId);
-				Marshal.ThrowExceptionForHR(hr);
-				return pTaskId;
-			}
+			var hr = GetCapability(instance).GetTaskID(out var pTaskId);
+			Marshal.ThrowExceptionForHR(hr);
+			return pTaskId;
 		}
 
-		public uint VolatileOSThreadID
+		public uint GetVolatileOSThreadID()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetVolatileOSThreadID(out var pdwTid);
-				Marshal.ThrowExceptionForHR(hr);
-				return pdwTid;
-			}
+			var hr = GetCapability(instance).GetVolatileOSThreadID(out var pdwTid);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwTid;
 		}
 
 		public void InterceptCurrentException(ICorDebugFrame pFrame)
@@ -59,7 +50,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public COR_ACTIVE_FUNCTION[] ActiveFunctions => GetCapability(instance).ActiveFunctions;
+		public COR_ACTIVE_FUNCTION[] GetActiveFunctions() => GetCapability(instance).GetActiveFunctions();
 	}
 
 	private static ICorDebugThread2 GetCapability(ICorDebugThread instance) =>

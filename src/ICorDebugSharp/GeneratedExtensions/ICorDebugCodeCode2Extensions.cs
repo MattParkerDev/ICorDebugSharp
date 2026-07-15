@@ -23,17 +23,14 @@ public static unsafe class CorDebugCodeCode2Extensions
 			return pcnumChunks;
 		}
 
-		public uint CompilerFlags
+		public uint GetCompilerFlags()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetCompilerFlags(out var pdwFlags);
-				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
-			}
+			var hr = GetCapability(instance).GetCompilerFlags(out var pdwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return pdwFlags;
 		}
 
-		public CodeChunkInfo[] CodeChunks => GetCapability(instance).CodeChunks;
+		public CodeChunkInfo[] GetCodeChunks() => GetCapability(instance).GetCodeChunks();
 	}
 
 	private static ICorDebugCode2 GetCapability(ICorDebugCode instance) =>

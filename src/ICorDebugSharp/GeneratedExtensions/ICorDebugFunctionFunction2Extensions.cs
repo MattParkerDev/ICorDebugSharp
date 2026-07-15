@@ -23,24 +23,18 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			return ppCodeEnum;
 		}
 
-		public int JMCStatus
+		public int GetJMCStatus()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetJMCStatus(out var pbIsJustMyCode);
-				Marshal.ThrowExceptionForHR(hr);
-				return pbIsJustMyCode;
-			}
+			var hr = GetCapability(instance).GetJMCStatus(out var pbIsJustMyCode);
+			Marshal.ThrowExceptionForHR(hr);
+			return pbIsJustMyCode;
 		}
 
-		public uint VersionNumber
+		public uint GetVersionNumber()
 		{
-			get
-			{
-				var hr = GetCapability(instance).GetVersionNumber(out var pnVersion);
-				Marshal.ThrowExceptionForHR(hr);
-				return pnVersion;
-			}
+			var hr = GetCapability(instance).GetVersionNumber(out var pnVersion);
+			Marshal.ThrowExceptionForHR(hr);
+			return pnVersion;
 		}
 
 		public void SetJMCStatus(int bIsJustMyCode)

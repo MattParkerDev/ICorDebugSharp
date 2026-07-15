@@ -9,23 +9,164 @@ using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp.Extensions;
 
-public static class MetaDataAssemblyImportExtensions
+public static unsafe class MetaDataAssemblyImportExtensions
 {
 	extension(IMetaDataAssemblyImport instance)
 	{
-		public IEnumerable<mdAssemblyRef> AssemblyRefs => EnumerateAssemblyRefsCore(instance);
+		public IEnumerable<mdAssemblyRef> EnumAssemblyRefs() => EnumerateAssemblyRefsCore(instance);
 
-		public IEnumerable<mdFile> Files => EnumerateFilesCore(instance);
+		public IEnumerable<mdFile> EnumFiles() => EnumerateFilesCore(instance);
 
-		public IEnumerable<mdExportedType> ExportedTypes => EnumerateExportedTypesCore(instance);
+		public IEnumerable<mdExportedType> EnumExportedTypes() => EnumerateExportedTypesCore(instance);
 
-		public IEnumerable<mdManifestResource> ManifestResources => EnumerateManifestResourcesCore(instance);
+		public IEnumerable<mdManifestResource> EnumManifestResources() => EnumerateManifestResourcesCore(instance);
 
-		public string FileName(mdFile file) => QueryGetFileProps(instance, file);
+		public string GetFileProps(mdFile file) => QueryGetFileProps(instance, file);
 
-		public string ExportedTypeName(mdExportedType exportedType) => QueryGetExportedTypeProps(instance, exportedType);
+		public string GetExportedTypeProps(mdExportedType exportedType) => QueryGetExportedTypeProps(instance, exportedType);
 
-		public string ManifestResourceName(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
+		public string GetManifestResourceProps(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
+
+		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
+		{
+			var hr = instance.GetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPpbPublicKey, queryPcbPublicKey, queryPulHashAlgId, queryPMetaData, queryPdwAssemblyFlags);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, buffer, capacity, out var actual, out var pMetaData, out var pdwAssemblyFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), ppbPublicKey, pcbPublicKey, pulHashAlgId, pMetaData, pdwAssemblyFlags);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
+		{
+			var hr = instance.GetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return (string.Empty, queryPpbPublicKeyOrToken, queryPcbPublicKeyOrToken, queryPMetaData, queryPpbHashValue, queryPcbHashValue, queryPdwAssemblyRefFlags);
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new char[checked((int)capacity)];
+				hr = instance.GetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, buffer, capacity, out var actual, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				return (CreateString(buffer, actual, true), ppbPublicKeyOrToken, pcbPublicKeyOrToken, pMetaData, ppbHashValue, pcbHashValue, pdwAssemblyRefFlags);
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
+		public (mdAssemblyRef rAssemblyRefs, uint pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rAssemblyRefs, pcTokens);
+		}
+
+		public (mdExportedType rExportedTypes, uint pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rExportedTypes, pcTokens);
+		}
+
+		public (mdFile rFiles, uint pcTokens) EnumFiles(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rFiles, pcTokens);
+		}
+
+		public (mdManifestResource rManifestResources, uint pcTokens) EnumManifestResources(ref HCorEnum phEnum)
+		{
+			var hr = instance.EnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
+			Marshal.ThrowExceptionForHR(hr);
+			return (rManifestResources, pcTokens);
+		}
+
+		public (nint ppIUnk, uint pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
+		{
+			var hr = instance.FindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppIUnk, pcAssemblies);
+		}
+
+		public mdExportedType FindExportedTypeByName(string szName, mdToken mdtExportedType)
+		{
+			var hr = instance.FindExportedTypeByName(szName, mdtExportedType, out var ptkExportedType);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptkExportedType;
+		}
+
+		public mdManifestResource FindManifestResourceByName(string szName)
+		{
+			var hr = instance.FindManifestResourceByName(szName, out var ptkManifestResource);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptkManifestResource;
+		}
+
+		public mdAssembly GetAssemblyFromScope()
+		{
+			var hr = instance.GetAssemblyFromScope(out var ptkAssembly);
+			Marshal.ThrowExceptionForHR(hr);
+			return ptkAssembly;
+		}
+
+		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, cchName, out var pchName, out var pMetaData, out var pdwAssemblyFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppbPublicKey, pcbPublicKey, pulHashAlgId, pchName, pMetaData, pdwAssemblyFlags);
+		}
+
+		public (nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, uint pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, cchName, out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (ppbPublicKeyOrToken, pcbPublicKeyOrToken, pchName, pMetaData, ppbHashValue, pcbHashValue, pdwAssemblyRefFlags);
+		}
+
+		public (uint pchName, mdToken ptkImplementation, mdTypeDef ptkTypeDef, CorTypeAttr pdwExportedTypeFlags) GetExportedTypeProps(mdExportedType mdct, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetExportedTypeProps(mdct, szName, cchName, out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pchName, ptkImplementation, ptkTypeDef, pdwExportedTypeFlags);
+		}
+
+		public (uint pchName, nint ppbHashValue, uint pcbHashValue, CorFileFlags pdwFileFlags) GetFileProps(mdFile mdf, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetFileProps(mdf, szName, cchName, out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pchName, ppbHashValue, pcbHashValue, pdwFileFlags);
+		}
+
+		public (uint pchName, mdToken ptkImplementation, uint pdwOffset, CorManifestResourceFlags pdwResourceFlags) GetManifestResourceProps(mdManifestResource mdmr, char[]? szName, uint cchName)
+		{
+			var hr = instance.GetManifestResourceProps(mdmr, szName, cchName, out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pchName, ptkImplementation, pdwOffset, pdwResourceFlags);
+		}
 	}
 
 	private static IEnumerable<mdAssemblyRef> EnumerateAssemblyRefsCore(IMetaDataAssemblyImport instance)
