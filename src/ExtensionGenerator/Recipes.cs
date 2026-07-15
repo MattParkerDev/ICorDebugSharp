@@ -35,8 +35,61 @@ internal sealed record StringQueryRecipe(
 	string ReturnExpression,
 	bool TrimTerminator = true);
 
+internal sealed record CapabilityFamily(string BaseInterface, string CapabilityInterface);
+
 internal static class Recipes
 {
+	public static readonly CapabilityFamily[] CapabilityFamilies =
+	[
+		new("ICorDebug", "ICorDebug2"),
+		new("ICorDebugAppDomain", "ICorDebugAppDomain2"),
+		new("ICorDebugAppDomain", "ICorDebugAppDomain3"),
+		new("ICorDebugAppDomain", "ICorDebugAppDomain4"),
+		new("ICorDebugAssembly", "ICorDebugAssembly2"),
+		new("ICorDebugAssembly", "ICorDebugAssembly3"),
+		new("ICorDebugClass", "ICorDebugClass2"),
+		new("ICorDebugCode", "ICorDebugCode2"),
+		new("ICorDebugCode", "ICorDebugCode3"),
+		new("ICorDebugCode", "ICorDebugCode4"),
+		new("ICorDebugEval", "ICorDebugEval2"),
+		new("ICorDebugExceptionObjectValue", "ICorDebugExceptionObjectValue2"),
+		new("ICorDebugFunction", "ICorDebugFunction2"),
+		new("ICorDebugFunction", "ICorDebugFunction3"),
+		new("ICorDebugFunction", "ICorDebugFunction4"),
+		new("ICorDebugFunction", "ICorDebugFunction5"),
+		new("ICorDebugHeapValue", "ICorDebugHeapValue2"),
+		new("ICorDebugHeapValue", "ICorDebugHeapValue3"),
+		new("ICorDebugHeapValue", "ICorDebugHeapValue4"),
+		new("ICorDebugILCode", "ICorDebugILCode2"),
+		new("ICorDebugILFrame", "ICorDebugILFrame2"),
+		new("ICorDebugILFrame", "ICorDebugILFrame3"),
+		new("ICorDebugILFrame", "ICorDebugILFrame4"),
+		new("ICorDebugInternalFrame", "ICorDebugInternalFrame2"),
+		new("ICorDebugModule", "ICorDebugModule2"),
+		new("ICorDebugModule", "ICorDebugModule3"),
+		new("ICorDebugModule", "ICorDebugModule4"),
+		new("ICorDebugNativeFrame", "ICorDebugNativeFrame2"),
+		new("ICorDebugObjectValue", "ICorDebugObjectValue2"),
+		new("ICorDebugProcess", "ICorDebugProcess2"),
+		new("ICorDebugProcess", "ICorDebugProcess3"),
+		new("ICorDebugProcess", "ICorDebugProcess5"),
+		new("ICorDebugProcess", "ICorDebugProcess6"),
+		new("ICorDebugProcess", "ICorDebugProcess7"),
+		new("ICorDebugProcess", "ICorDebugProcess8"),
+		new("ICorDebugProcess", "ICorDebugProcess10"),
+		new("ICorDebugProcess", "ICorDebugProcess12"),
+		new("ICorDebugRegisterSet", "ICorDebugRegisterSet2"),
+		new("ICorDebugStepper", "ICorDebugStepper2"),
+		new("ICorDebugSymbolProvider", "ICorDebugSymbolProvider2"),
+		new("ICorDebugThread", "ICorDebugThread2"),
+		new("ICorDebugThread", "ICorDebugThread3"),
+		new("ICorDebugThread", "ICorDebugThread4"),
+		new("ICorDebugThread", "ICorDebugThread5"),
+		new("ICorDebugType", "ICorDebugType2"),
+		new("ICorDebugValue", "ICorDebugValue2"),
+		new("ICorDebugValue", "ICorDebugValue3"),
+	];
+
 	public static readonly QueryBufferRecipe[] QueryBuffers =
 	[
 		new("ICorDebugStaticFieldSymbol", "GetName", BufferKind.String, "cchName", "pcchName", "szName"),
