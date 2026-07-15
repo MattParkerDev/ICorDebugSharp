@@ -30,156 +30,156 @@ public static unsafe class MetaDataImportProjectedExtensions
 			return pulCount;
 		}
 
-		public (mdCustomAttribute rCustomAttributes, uint pcCustomAttributes) EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType, uint cMax)
+		public (mdCustomAttribute rCustomAttributes, uint pcCustomAttributes) EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType)
 		{
-			var hr = instance.EnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, cMax, out var pcCustomAttributes);
+			var hr = instance.EnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, 1, out var pcCustomAttributes);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rCustomAttributes, pcCustomAttributes);
 		}
 
-		public (mdEvent rEvents, uint pcEvents) EnumEvents(ref HCorEnum phEnum, mdTypeDef td, uint cMax)
+		public (mdEvent rEvents, uint pcEvents) EnumEvents(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumEvents(ref phEnum, td, out var rEvents, cMax, out var pcEvents);
+			var hr = instance.EnumEvents(ref phEnum, td, out var rEvents, 1, out var pcEvents);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rEvents, pcEvents);
 		}
 
-		public (mdFieldDef rFields, uint pcTokens) EnumFields(ref HCorEnum phEnum, mdTypeDef cl, uint cMax)
+		public (mdFieldDef rFields, uint pcTokens) EnumFields(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumFields(ref phEnum, cl, out var rFields, cMax, out var pcTokens);
+			var hr = instance.EnumFields(ref phEnum, cl, out var rFields, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFields, pcTokens);
 		}
 
-		public (mdFieldDef rFields, uint pcTokens) EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName, uint cMax)
+		public (mdFieldDef rFields, uint pcTokens) EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumFieldsWithName(ref phEnum, cl, szName, out var rFields, cMax, out var pcTokens);
+			var hr = instance.EnumFieldsWithName(ref phEnum, cl, szName, out var rFields, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFields, pcTokens);
 		}
 
-		public (mdInterfaceImpl rImpls, uint pcImpls) EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td, uint cMax)
+		public (mdInterfaceImpl rImpls, uint pcImpls) EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumInterfaceImpls(ref phEnum, td, out var rImpls, cMax, out var pcImpls);
+			var hr = instance.EnumInterfaceImpls(ref phEnum, td, out var rImpls, 1, out var pcImpls);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rImpls, pcImpls);
 		}
 
-		public (mdMemberRef rMemberRefs, uint pcTokens) EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent, uint cMax)
+		public (mdMemberRef rMemberRefs, uint pcTokens) EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent)
 		{
-			var hr = instance.EnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, cMax, out var pcTokens);
+			var hr = instance.EnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMemberRefs, pcTokens);
 		}
 
-		public (mdToken rMembers, uint pcTokens) EnumMembers(ref HCorEnum phEnum, mdTypeDef cl, uint cMax)
+		public (mdToken rMembers, uint pcTokens) EnumMembers(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumMembers(ref phEnum, cl, out var rMembers, cMax, out var pcTokens);
+			var hr = instance.EnumMembers(ref phEnum, cl, out var rMembers, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMembers, pcTokens);
 		}
 
-		public (mdToken rMembers, uint pcTokens) EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName, uint cMax)
+		public (mdToken rMembers, uint pcTokens) EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumMembersWithName(ref phEnum, cl, szName, out var rMembers, cMax, out var pcTokens);
+			var hr = instance.EnumMembersWithName(ref phEnum, cl, szName, out var rMembers, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMembers, pcTokens);
 		}
 
-		public (mdToken rMethodBody, mdToken rMethodDecl, uint pcTokens) EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td, uint cMax)
+		public (mdToken rMethodBody, mdToken rMethodDecl, uint pcTokens) EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, cMax, out var pcTokens);
+			var hr = instance.EnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethodBody, rMethodDecl, pcTokens);
 		}
 
-		public (mdToken rEventProp, uint pcEventProp) EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb, uint cMax)
+		public (mdToken rEventProp, uint pcEventProp) EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb)
 		{
-			var hr = instance.EnumMethodSemantics(ref phEnum, mb, out var rEventProp, cMax, out var pcEventProp);
+			var hr = instance.EnumMethodSemantics(ref phEnum, mb, out var rEventProp, 1, out var pcEventProp);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rEventProp, pcEventProp);
 		}
 
-		public (mdMethodDef rMethods, uint pcTokens) EnumMethods(ref HCorEnum phEnum, mdTypeDef cl, uint cMax)
+		public (mdMethodDef rMethods, uint pcTokens) EnumMethods(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumMethods(ref phEnum, cl, out var rMethods, cMax, out var pcTokens);
+			var hr = instance.EnumMethods(ref phEnum, cl, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
-		public (mdMethodDef rMethods, uint pcTokens) EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName, uint cMax)
+		public (mdMethodDef rMethods, uint pcTokens) EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, cMax, out var pcTokens);
+			var hr = instance.EnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
-		public (mdModuleRef rModuleRefs, uint pcModuleRefs) EnumModuleRefs(ref HCorEnum phEnum, uint cmax)
+		public (mdModuleRef rModuleRefs, uint pcModuleRefs) EnumModuleRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumModuleRefs(ref phEnum, out var rModuleRefs, cmax, out var pcModuleRefs);
+			var hr = instance.EnumModuleRefs(ref phEnum, out var rModuleRefs, 1, out var pcModuleRefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rModuleRefs, pcModuleRefs);
 		}
 
-		public (mdParamDef rParams, uint pcTokens) EnumParams(ref HCorEnum phEnum, mdMethodDef mb, uint cMax)
+		public (mdParamDef rParams, uint pcTokens) EnumParams(ref HCorEnum phEnum, mdMethodDef mb)
 		{
-			var hr = instance.EnumParams(ref phEnum, mb, out var rParams, cMax, out var pcTokens);
+			var hr = instance.EnumParams(ref phEnum, mb, out var rParams, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rParams, pcTokens);
 		}
 
-		public (mdPermission rPermission, uint pcTokens) EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions, uint cMax)
+		public (mdPermission rPermission, uint pcTokens) EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions)
 		{
-			var hr = instance.EnumPermissionSets(ref phEnum, tk, dwActions, out var rPermission, cMax, out var pcTokens);
+			var hr = instance.EnumPermissionSets(ref phEnum, tk, dwActions, out var rPermission, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rPermission, pcTokens);
 		}
 
-		public (mdProperty rProperties, uint pcProperties) EnumProperties(ref HCorEnum phEnum, mdTypeDef td, uint cMax)
+		public (mdProperty rProperties, uint pcProperties) EnumProperties(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumProperties(ref phEnum, td, out var rProperties, cMax, out var pcProperties);
+			var hr = instance.EnumProperties(ref phEnum, td, out var rProperties, 1, out var pcProperties);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rProperties, pcProperties);
 		}
 
-		public (mdSignature rSignatures, uint pcSignatures) EnumSignatures(ref HCorEnum phEnum, uint cmax)
+		public (mdSignature rSignatures, uint pcSignatures) EnumSignatures(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumSignatures(ref phEnum, out var rSignatures, cmax, out var pcSignatures);
+			var hr = instance.EnumSignatures(ref phEnum, out var rSignatures, 1, out var pcSignatures);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rSignatures, pcSignatures);
 		}
 
-		public (mdTypeDef rTypeDefs, uint pcTypeDefs) EnumTypeDefs(ref HCorEnum phEnum, uint cMax)
+		public (mdTypeDef rTypeDefs, uint pcTypeDefs) EnumTypeDefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeDefs(ref phEnum, out var rTypeDefs, cMax, out var pcTypeDefs);
+			var hr = instance.EnumTypeDefs(ref phEnum, out var rTypeDefs, 1, out var pcTypeDefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeDefs, pcTypeDefs);
 		}
 
-		public (mdTypeRef rTypeRefs, uint pcTypeRefs) EnumTypeRefs(ref HCorEnum phEnum, uint cMax)
+		public (mdTypeRef rTypeRefs, uint pcTypeRefs) EnumTypeRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeRefs(ref phEnum, out var rTypeRefs, cMax, out var pcTypeRefs);
+			var hr = instance.EnumTypeRefs(ref phEnum, out var rTypeRefs, 1, out var pcTypeRefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeRefs, pcTypeRefs);
 		}
 
-		public (mdTypeSpec rTypeSpecs, uint pcTypeSpecs) EnumTypeSpecs(ref HCorEnum phEnum, uint cmax)
+		public (mdTypeSpec rTypeSpecs, uint pcTypeSpecs) EnumTypeSpecs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeSpecs(ref phEnum, out var rTypeSpecs, cmax, out var pcTypeSpecs);
+			var hr = instance.EnumTypeSpecs(ref phEnum, out var rTypeSpecs, 1, out var pcTypeSpecs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeSpecs, pcTypeSpecs);
 		}
 
-		public (mdToken rMethods, uint pcTokens) EnumUnresolvedMethods(ref HCorEnum phEnum, uint cMax)
+		public (mdToken rMethods, uint pcTokens) EnumUnresolvedMethods(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumUnresolvedMethods(ref phEnum, out var rMethods, cMax, out var pcTokens);
+			var hr = instance.EnumUnresolvedMethods(ref phEnum, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
-		public (mdString rStrings, uint pcStrings) EnumUserStrings(ref HCorEnum phEnum, uint cmax)
+		public (mdString rStrings, uint pcStrings) EnumUserStrings(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumUserStrings(ref phEnum, out var rStrings, cmax, out var pcStrings);
+			var hr = instance.EnumUserStrings(ref phEnum, out var rStrings, 1, out var pcStrings);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rStrings, pcStrings);
 		}
@@ -226,9 +226,9 @@ public static unsafe class MetaDataImportProjectedExtensions
 			return ptr;
 		}
 
-		public (uint pdwPackSize, COR_FIELD_OFFSET rFieldOffset, uint pcFieldOffset, uint pulClassSize) GetClassLayout(mdTypeDef td, uint cMax)
+		public (uint pdwPackSize, COR_FIELD_OFFSET rFieldOffset, uint pcFieldOffset, uint pulClassSize) GetClassLayout(mdTypeDef td)
 		{
-			var hr = instance.GetClassLayout(td, out var pdwPackSize, out var rFieldOffset, cMax, out var pcFieldOffset, out var pulClassSize);
+			var hr = instance.GetClassLayout(td, out var pdwPackSize, out var rFieldOffset, 1, out var pcFieldOffset, out var pulClassSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pdwPackSize, rFieldOffset, pcFieldOffset, pulClassSize);
 		}
@@ -247,9 +247,9 @@ public static unsafe class MetaDataImportProjectedExtensions
 			return (ptkObj, ptkType, ppBlob, pcbSize);
 		}
 
-		public (mdTypeDef pClass, uint pchEvent, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev, char[]? szEvent, uint cchEvent, uint cMax)
+		public (mdTypeDef pClass, uint pchEvent, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev, char[]? szEvent, uint cchEvent)
 		{
-			var hr = instance.GetEventProps(ev, out var pClass, szEvent, cchEvent, out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, cMax, out var pcOtherMethod);
+			var hr = instance.GetEventProps(ev, out var pClass, szEvent, cchEvent, out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchEvent, pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, pcOtherMethod);
 		}
@@ -366,9 +366,9 @@ public static unsafe class MetaDataImportProjectedExtensions
 			return (pdwMappingFlags, pchImportName, pmrImportDLL);
 		}
 
-		public (mdTypeDef pClass, uint pchProperty, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty, uint cMax)
+		public (mdTypeDef pClass, uint pchProperty, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty)
 		{
-			var hr = instance.GetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, cMax, out var pcOtherMethod);
+			var hr = instance.GetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchProperty, pdwPropFlags, ppvSig.ToArray(), pbSig, pdwCPlusTypeFlag, ppDefaultValue, pcchDefaultValue, pmdSetter, pmdGetter, rmdOtherMethod, pcOtherMethod);
 		}

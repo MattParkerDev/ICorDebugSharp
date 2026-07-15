@@ -13,23 +13,23 @@ public static unsafe class MetaDataImport2ProjectedExtensions
 {
 	extension(IMetaDataImport2 instance)
 	{
-		public (mdGenericParamConstraint rGenericParamConstraints, uint pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk, uint cMax)
+		public (mdGenericParamConstraint rGenericParamConstraints, uint pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk)
 		{
-			var hr = instance.EnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, cMax, out var pcGenericParamConstraints);
+			var hr = instance.EnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rGenericParamConstraints, pcGenericParamConstraints);
 		}
 
-		public (mdGenericParam rGenericParams, uint pcGenericParams) EnumGenericParams(ref HCorEnum phEnum, mdToken tk, uint cMax)
+		public (mdGenericParam rGenericParams, uint pcGenericParams) EnumGenericParams(ref HCorEnum phEnum, mdToken tk)
 		{
-			var hr = instance.EnumGenericParams(ref phEnum, tk, out var rGenericParams, cMax, out var pcGenericParams);
+			var hr = instance.EnumGenericParams(ref phEnum, tk, out var rGenericParams, 1, out var pcGenericParams);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rGenericParams, pcGenericParams);
 		}
 
-		public (mdMethodSpec rMethodSpecs, uint pcMethodSpecs) EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk, uint cMax)
+		public (mdMethodSpec rMethodSpecs, uint pcMethodSpecs) EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk)
 		{
-			var hr = instance.EnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, cMax, out var pcMethodSpecs);
+			var hr = instance.EnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, 1, out var pcMethodSpecs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethodSpecs, pcMethodSpecs);
 		}

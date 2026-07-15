@@ -13,9 +13,9 @@ public static unsafe class MetaDataImportStringExtensions
 {
 	extension(IMetaDataImport instance)
 	{
-		public (string Name, mdTypeDef pClass, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev, uint cMax)
+		public (string Name, mdTypeDef pClass, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
 		{
-			var hr = instance.GetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, cMax, out var queryPcOtherMethod);
+			var hr = instance.GetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwEventFlags, queryPtkEventType, queryPmdAddOn, queryPmdRemoveOn, queryPmdFire, queryRmdOtherMethod, queryPcOtherMethod);
@@ -24,7 +24,7 @@ public static unsafe class MetaDataImportStringExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetEventProps(ev, out var pClass, buffer, capacity, out var actual, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, cMax, out var pcOtherMethod);
+				hr = instance.GetEventProps(ev, out var pClass, buffer, capacity, out var actual, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -188,9 +188,9 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdTypeDef pClass, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, uint cMax)
+		public (string Name, mdTypeDef pClass, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
-			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, cMax, out var queryPcOtherMethod);
+			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwPropFlags, queryPpvSig.ToArray(), queryPbSig, queryPdwCPlusTypeFlag, queryPpDefaultValue, queryPcchDefaultValue, queryPmdSetter, queryPmdGetter, queryRmdOtherMethod, queryPcOtherMethod);
@@ -199,7 +199,7 @@ public static unsafe class MetaDataImportStringExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetPropertyProps(prop, out var pClass, buffer, capacity, out var actual, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, cMax, out var pcOtherMethod);
+				hr = instance.GetPropertyProps(prop, out var pClass, buffer, capacity, out var actual, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{

@@ -23,37 +23,37 @@ public static unsafe class MetaDataAssemblyImportProjectedExtensions
 			}
 		}
 
-		public (mdAssemblyRef rAssemblyRefs, uint pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum, uint cMax)
+		public (mdAssemblyRef rAssemblyRefs, uint pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, cMax, out var pcTokens);
+			var hr = instance.EnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rAssemblyRefs, pcTokens);
 		}
 
-		public (mdExportedType rExportedTypes, uint pcTokens) EnumExportedTypes(ref HCorEnum phEnum, uint cMax)
+		public (mdExportedType rExportedTypes, uint pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumExportedTypes(ref phEnum, out var rExportedTypes, cMax, out var pcTokens);
+			var hr = instance.EnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rExportedTypes, pcTokens);
 		}
 
-		public (mdFile rFiles, uint pcTokens) EnumFiles(ref HCorEnum phEnum, uint cMax)
+		public (mdFile rFiles, uint pcTokens) EnumFiles(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumFiles(ref phEnum, out var rFiles, cMax, out var pcTokens);
+			var hr = instance.EnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFiles, pcTokens);
 		}
 
-		public (mdManifestResource rManifestResources, uint pcTokens) EnumManifestResources(ref HCorEnum phEnum, uint cMax)
+		public (mdManifestResource rManifestResources, uint pcTokens) EnumManifestResources(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumManifestResources(ref phEnum, out var rManifestResources, cMax, out var pcTokens);
+			var hr = instance.EnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rManifestResources, pcTokens);
 		}
 
-		public (nint ppIUnk, uint pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName, uint cMax)
+		public (nint ppIUnk, uint pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
 		{
-			var hr = instance.FindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, cMax, out var pcAssemblies);
+			var hr = instance.FindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppIUnk, pcAssemblies);
 		}

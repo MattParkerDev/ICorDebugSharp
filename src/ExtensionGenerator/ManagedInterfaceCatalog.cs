@@ -63,11 +63,18 @@ internal sealed record ManagedMethod(string Name, string ReturnType, IReadOnlyLi
 		?? throw new InvalidOperationException($"{Name} has no parameter named {name}.");
 }
 
-internal sealed record ManagedParameter(string Name, string Type, bool IsOut, bool IsRef, int? SizeParamIndex)
+internal sealed record ManagedParameter(
+	string Name,
+	string Type,
+	bool IsOut,
+	bool IsRef,
+	int? SizeParamIndex,
+	bool IsEnumeratorMaxOne)
 {
 	public static ManagedParameter Create(ParameterSyntax parameter)
 	{
-		var sizeArgument = parameter.AttributeLists.SelectMany(list => list.Attributes)
+		var attributes = parameter.AttributeLists.SelectMany(list => list.Attributes).ToArray();
+		var sizeArgument = attributes
 			.SelectMany(attribute => attribute.ArgumentList?.Arguments ?? [])
 			.FirstOrDefault(argument => argument.NameEquals?.Name.Identifier.ValueText == "SizeParamIndex");
 		int? sizeParamIndex = sizeArgument is null || !int.TryParse(sizeArgument.Expression.ToString(), out var value) ? null : value;
@@ -76,6 +83,7 @@ internal sealed record ManagedParameter(string Name, string Type, bool IsOut, bo
 			parameter.Type?.ToString() ?? throw new InvalidOperationException($"Parameter {parameter.Identifier.ValueText} has no type."),
 			parameter.Modifiers.Any(modifier => modifier.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.OutKeyword)),
 			parameter.Modifiers.Any(modifier => modifier.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.RefKeyword)),
-			sizeParamIndex);
+			sizeParamIndex,
+			attributes.Any(attribute => attribute.ToString().Contains("EnumeratorMax1Marshaller", StringComparison.Ordinal)));
 	}
 }
