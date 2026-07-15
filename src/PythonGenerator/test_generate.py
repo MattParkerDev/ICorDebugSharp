@@ -85,6 +85,12 @@ interface ICorDebugManagedCallback : IUnknown
         ICorDebugThread pThread,
         ICorDebugBreakpoint pBreakpoint);
     HRESULT Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, BOOL unhandled);
+    HRESULT LogMessage(
+        ICorDebugAppDomain pAppDomain,
+        ICorDebugThread pThread,
+        LONG lLevel,
+        [in] WCHAR *pLogSwitchName,
+        [in] WCHAR *pMessage);
 };
 
 [object, uuid(00000000-0000-0000-0000-000000000002)]
@@ -326,6 +332,11 @@ class CSharpGeneratorTests(unittest.TestCase):
             "public sealed class BreakpointCorDebugManagedCallbackEventArgs",
             source,
         )
+        self.assertIn(
+            "public string pLogSwitchName { get; }",
+            source,
+        )
+        self.assertIn("this.pLogSwitchName = pLogSwitchName;", source)
 
     def test_writes_managed_callback_dispatcher(self) -> None:
         midl = parse_string(CALLBACK_IDL)

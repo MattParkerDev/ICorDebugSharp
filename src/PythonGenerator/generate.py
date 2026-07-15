@@ -398,12 +398,12 @@ class CSharpGenerator:
             for parameter, parameter_type in parameters
         )
         properties = "\n".join(
-            f"        {self.to_pascal_case(parameter.name)} = "
+            f"        this.{self.escape_identifier(parameter.name)} = "
             f"{self.escape_identifier(parameter.name)};"
             for parameter, _ in parameters
         )
         declarations = "\n".join(
-            f"    public {parameter_type} {self.to_pascal_case(parameter.name)} {{ get; }}"
+            f"    public {parameter_type} {self.escape_identifier(parameter.name)} {{ get; }}"
             for parameter, parameter_type in parameters
         )
         return (
@@ -437,7 +437,9 @@ class CSharpGenerator:
             )
 
         csharp_type = self.map_type(parameter.type_spec)
-        if parameter.type_spec.is_pointer:
+        if parameter.type_spec.base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
+            csharp_type = "string"
+        elif parameter.type_spec.is_pointer:
             _, csharp_type = self.project_pointer(parameter, csharp_type)
         elif parameter.type_spec.base_name == "REFIID":
             csharp_type = "Guid"
