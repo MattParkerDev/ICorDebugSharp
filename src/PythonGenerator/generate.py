@@ -447,7 +447,9 @@ class CSharpGenerator:
             )
 
         csharp_type = self.map_type(parameter.type_spec)
-        if parameter.type_spec.base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
+        if parameter.type_spec.base_name == "BOOL":
+            csharp_type = "bool"
+        elif parameter.type_spec.base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
             csharp_type = "string"
         elif parameter.type_spec.is_pointer:
             _, csharp_type = self.project_pointer(parameter, csharp_type)

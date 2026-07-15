@@ -376,6 +376,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("OnException;", source)
         self.assertIn("OnException2;", source)
         self.assertIn("OnAnyEvent?.Invoke(this, args);", source)
+        self.assertIn("public bool Unhandled { get; }", source)
         self.assertIn(
             "public sealed class BreakpointCorDebugManagedCallbackEventArgs",
             source,
