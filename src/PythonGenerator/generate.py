@@ -308,7 +308,7 @@ class CSharpGenerator:
         callback_interfaces = [
             interface
             for interface in self.midl.interfaces
-            if re.fullmatch(r"ICorDebugManagedCallback[2-9]?", interface.name)
+            if re.fullmatch(r"ICorDebugManagedCallback(?:\d+)?", interface.name)
         ]
         if not callback_interfaces:
             return []
@@ -1186,6 +1186,7 @@ def main() -> int:
         + len(generator.structs)
         + len(generator.metadata_typedefs)
         + len(generator.preserved_typedefs)
+        + len(generator.generate_managed_callback())
     )
     print(
         f"Generated {declaration_count} declarations in {args.output}: "
