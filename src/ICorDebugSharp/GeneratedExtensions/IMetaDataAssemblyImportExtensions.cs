@@ -13,22 +13,22 @@ public static class MetaDataAssemblyImportExtensions
 {
 	extension(IMetaDataAssemblyImport instance)
 	{
-		public IEnumerable<Token> AssemblyRefs => EnumerateAssemblyRefsCore(instance);
+		public IEnumerable<mdAssemblyRef> AssemblyRefs => EnumerateAssemblyRefsCore(instance);
 
-		public IEnumerable<Token> Files => EnumerateFilesCore(instance);
+		public IEnumerable<mdFile> Files => EnumerateFilesCore(instance);
 
-		public IEnumerable<Token> ExportedTypes => EnumerateExportedTypesCore(instance);
+		public IEnumerable<mdExportedType> ExportedTypes => EnumerateExportedTypesCore(instance);
 
-		public IEnumerable<Token> ManifestResources => EnumerateManifestResourcesCore(instance);
+		public IEnumerable<mdManifestResource> ManifestResources => EnumerateManifestResourcesCore(instance);
 
-		public string FileName(Token file) => QueryGetFileProps(instance, file);
+		public string FileName(mdFile file) => QueryGetFileProps(instance, file);
 
-		public string ExportedTypeName(Token exportedType) => QueryGetExportedTypeProps(instance, exportedType);
+		public string ExportedTypeName(mdExportedType exportedType) => QueryGetExportedTypeProps(instance, exportedType);
 
-		public string ManifestResourceName(Token resource) => QueryGetManifestResourceProps(instance, resource);
+		public string ManifestResourceName(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
 	}
 
-	private static IEnumerable<Token> EnumerateAssemblyRefsCore(IMetaDataAssemblyImport instance)
+	private static IEnumerable<mdAssemblyRef> EnumerateAssemblyRefsCore(IMetaDataAssemblyImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -51,7 +51,7 @@ public static class MetaDataAssemblyImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateFilesCore(IMetaDataAssemblyImport instance)
+	private static IEnumerable<mdFile> EnumerateFilesCore(IMetaDataAssemblyImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -74,7 +74,7 @@ public static class MetaDataAssemblyImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateExportedTypesCore(IMetaDataAssemblyImport instance)
+	private static IEnumerable<mdExportedType> EnumerateExportedTypesCore(IMetaDataAssemblyImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -97,7 +97,7 @@ public static class MetaDataAssemblyImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateManifestResourcesCore(IMetaDataAssemblyImport instance)
+	private static IEnumerable<mdManifestResource> EnumerateManifestResourcesCore(IMetaDataAssemblyImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -120,7 +120,7 @@ public static class MetaDataAssemblyImportExtensions
 		}
 	}
 
-	private static string QueryGetFileProps(IMetaDataAssemblyImport instance, Token file)
+	private static string QueryGetFileProps(IMetaDataAssemblyImport instance, mdFile file)
 	{
 		var hr = instance.GetFileProps(file, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
@@ -145,7 +145,7 @@ public static class MetaDataAssemblyImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static string QueryGetExportedTypeProps(IMetaDataAssemblyImport instance, Token exportedType)
+	private static string QueryGetExportedTypeProps(IMetaDataAssemblyImport instance, mdExportedType exportedType)
 	{
 		var hr = instance.GetExportedTypeProps(exportedType, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
@@ -170,7 +170,7 @@ public static class MetaDataAssemblyImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static string QueryGetManifestResourceProps(IMetaDataAssemblyImport instance, Token resource)
+	private static string QueryGetManifestResourceProps(IMetaDataAssemblyImport instance, mdManifestResource resource)
 	{
 		var hr = instance.GetManifestResourceProps(resource, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);

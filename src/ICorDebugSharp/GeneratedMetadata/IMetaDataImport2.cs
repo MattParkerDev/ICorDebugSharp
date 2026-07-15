@@ -15,19 +15,19 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 {
 	[PreserveSig]
-	int EnumGenericParams(ref HCorEnum phEnum, Token tk, out Token rGenericParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParams);
+	int EnumGenericParams(ref HCorEnum phEnum, mdToken tk, out mdGenericParam rGenericParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParams);
 
 	[PreserveSig]
-	int GetGenericParamProps(Token gp, out uint pulParamSeq, out GenericParameterAttributes pdwParamFlags, out Token ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
+	int GetGenericParamProps(mdGenericParam gp, out uint pulParamSeq, out GenericParameterAttributes pdwParamFlags, out mdToken ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int GetMethodSpecProps(Token mi, out Token tkParent, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob);
+	int GetMethodSpecProps(mdMethodSpec mi, out mdToken tkParent, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob);
 
 	[PreserveSig]
-	int EnumGenericParamConstraints(ref HCorEnum phEnum, Token tk, out Token rGenericParamConstraints, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParamConstraints);
+	int EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk, out mdGenericParamConstraint rGenericParamConstraints, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParamConstraints);
 
 	[PreserveSig]
-	int GetGenericParamConstraintProps(Token gpc, out Token ptGenericParam, out Token ptkConstraintType);
+	int GetGenericParamConstraintProps(mdGenericParamConstraint gpc, out mdGenericParam ptGenericParam, out mdToken ptkConstraintType);
 
 	[PreserveSig]
 	int GetPEKind(out uint pdwPEKind, out uint pdwMAchine);
@@ -36,5 +36,5 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	int GetVersionString([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? pwzBuf, uint ccBufSize, out uint pccBufSize);
 
 	[PreserveSig]
-	int EnumMethodSpecs(ref HCorEnum phEnum, Token tk, out Token rMethodSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcMethodSpecs);
+	int EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk, out mdMethodSpec rMethodSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcMethodSpecs);
 }

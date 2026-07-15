@@ -15,40 +15,40 @@ namespace ICorDebugSharp.GeneratedMetadata;
 public unsafe partial interface IMetaDataAssemblyImport
 {
 	[PreserveSig]
-	int GetAssemblyProps(Token mda, out nint ppbPublicKey, out uint pcbPublicKey, out uint pulHashAlgId, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out AssemblyNameFlags pdwAssemblyFlags);
+	int GetAssemblyProps(mdAssembly mda, out nint ppbPublicKey, out uint pcbPublicKey, out uint pulHashAlgId, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out AssemblyNameFlags pdwAssemblyFlags);
 
 	[PreserveSig]
-	int GetAssemblyRefProps(Token mdar, out nint ppbPublicKeyOrToken, out uint pcbPublicKeyOrToken, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out nint ppbHashValue, out uint pcbHashValue, out AssemblyNameFlags pdwAssemblyRefFlags);
+	int GetAssemblyRefProps(mdAssemblyRef mdar, out nint ppbPublicKeyOrToken, out uint pcbPublicKeyOrToken, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out nint ppbHashValue, out uint pcbHashValue, out AssemblyNameFlags pdwAssemblyRefFlags);
 
 	[PreserveSig]
-	int GetFileProps(Token mdf, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out nint ppbHashValue, out uint pcbHashValue, out CorFileFlags pdwFileFlags);
+	int GetFileProps(mdFile mdf, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out nint ppbHashValue, out uint pcbHashValue, out CorFileFlags pdwFileFlags);
 
 	[PreserveSig]
-	int GetExportedTypeProps(Token mdct, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out Token ptkImplementation, out Token ptkTypeDef, out CorTypeAttr pdwExportedTypeFlags);
+	int GetExportedTypeProps(mdExportedType mdct, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out mdToken ptkImplementation, out mdTypeDef ptkTypeDef, out CorTypeAttr pdwExportedTypeFlags);
 
 	[PreserveSig]
-	int GetManifestResourceProps(Token mdmr, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out Token ptkImplementation, out uint pdwOffset, out CorManifestResourceFlags pdwResourceFlags);
+	int GetManifestResourceProps(mdManifestResource mdmr, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out mdToken ptkImplementation, out uint pdwOffset, out CorManifestResourceFlags pdwResourceFlags);
 
 	[PreserveSig]
-	int EnumAssemblyRefs(ref HCorEnum phEnum, out Token rAssemblyRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int EnumAssemblyRefs(ref HCorEnum phEnum, out mdAssemblyRef rAssemblyRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFiles(ref HCorEnum phEnum, out Token rFiles, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int EnumFiles(ref HCorEnum phEnum, out mdFile rFiles, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumExportedTypes(ref HCorEnum phEnum, out Token rExportedTypes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int EnumExportedTypes(ref HCorEnum phEnum, out mdExportedType rExportedTypes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumManifestResources(ref HCorEnum phEnum, out Token rManifestResources, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int EnumManifestResources(ref HCorEnum phEnum, out mdManifestResource rManifestResources, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int GetAssemblyFromScope(out Token ptkAssembly);
+	int GetAssemblyFromScope(out mdAssembly ptkAssembly);
 
 	[PreserveSig]
-	int FindExportedTypeByName([MarshalAs(UnmanagedType.LPWStr)] string szName, Token mdtExportedType, out Token ptkExportedType);
+	int FindExportedTypeByName([MarshalAs(UnmanagedType.LPWStr)] string szName, mdToken mdtExportedType, out mdExportedType ptkExportedType);
 
 	[PreserveSig]
-	int FindManifestResourceByName([MarshalAs(UnmanagedType.LPWStr)] string szName, out Token ptkManifestResource);
+	int FindManifestResourceByName([MarshalAs(UnmanagedType.LPWStr)] string szName, out mdManifestResource ptkManifestResource);
 
 	[PreserveSig]
 	void CloseEnum(HCorEnum hEnum);

@@ -13,62 +13,62 @@ public static class MetaDataImportExtensions
 {
 	extension(IMetaDataImport instance)
 	{
-		public IEnumerable<Token> TypeDefs => EnumerateTypeDefsCore(instance);
+		public IEnumerable<mdTypeDef> TypeDefs => EnumerateTypeDefsCore(instance);
 
-		public IEnumerable<Token> InterfaceImpls(Token td) => EnumerateInterfaceImplsCore(instance, td);
+		public IEnumerable<mdInterfaceImpl> InterfaceImpls(mdTypeDef td) => EnumerateInterfaceImplsCore(instance, td);
 
-		public IEnumerable<Token> TypeRefs => EnumerateTypeRefsCore(instance);
+		public IEnumerable<mdTypeRef> TypeRefs => EnumerateTypeRefsCore(instance);
 
-		public IEnumerable<Token> Members(Token cl) => EnumerateMembersCore(instance, cl);
+		public IEnumerable<mdToken> Members(mdTypeDef cl) => EnumerateMembersCore(instance, cl);
 
-		public IEnumerable<Token> MembersWithName(Token cl, string szName) => EnumerateMembersWithNameCore(instance, cl, szName);
+		public IEnumerable<mdToken> MembersWithName(mdTypeDef cl, string szName) => EnumerateMembersWithNameCore(instance, cl, szName);
 
-		public IEnumerable<Token> Methods(Token cl) => EnumerateMethodsCore(instance, cl);
+		public IEnumerable<mdMethodDef> Methods(mdTypeDef cl) => EnumerateMethodsCore(instance, cl);
 
-		public IEnumerable<Token> MethodsWithName(Token cl, string szName) => EnumerateMethodsWithNameCore(instance, cl, szName);
+		public IEnumerable<mdMethodDef> MethodsWithName(mdTypeDef cl, string szName) => EnumerateMethodsWithNameCore(instance, cl, szName);
 
-		public IEnumerable<Token> Fields(Token cl) => EnumerateFieldsCore(instance, cl);
+		public IEnumerable<mdFieldDef> Fields(mdTypeDef cl) => EnumerateFieldsCore(instance, cl);
 
-		public IEnumerable<Token> FieldsWithName(Token cl, string szName) => EnumerateFieldsWithNameCore(instance, cl, szName);
+		public IEnumerable<mdFieldDef> FieldsWithName(mdTypeDef cl, string szName) => EnumerateFieldsWithNameCore(instance, cl, szName);
 
-		public IEnumerable<Token> Parameters(Token mb) => EnumerateParamsCore(instance, mb);
+		public IEnumerable<mdParamDef> Parameters(mdMethodDef mb) => EnumerateParamsCore(instance, mb);
 
-		public IEnumerable<Token> MemberRefs(Token tkParent) => EnumerateMemberRefsCore(instance, tkParent);
+		public IEnumerable<mdMemberRef> MemberRefs(mdToken tkParent) => EnumerateMemberRefsCore(instance, tkParent);
 
-		public IEnumerable<(Token MethodBody, Token MethodDeclaration)> MethodImpls(Token td) => EnumerateMethodImplsCore(instance, td);
+		public IEnumerable<(mdToken MethodBody, mdToken MethodDeclaration)> MethodImpls(mdTypeDef td) => EnumerateMethodImplsCore(instance, td);
 
-		public IEnumerable<Token> PermissionSets(Token tk, uint dwActions) => EnumeratePermissionSetsCore(instance, tk, dwActions);
+		public IEnumerable<mdPermission> PermissionSets(mdToken tk, uint dwActions) => EnumeratePermissionSetsCore(instance, tk, dwActions);
 
-		public IEnumerable<Token> Properties(Token td) => EnumeratePropertiesCore(instance, td);
+		public IEnumerable<mdProperty> Properties(mdTypeDef td) => EnumeratePropertiesCore(instance, td);
 
-		public IEnumerable<Token> Events(Token td) => EnumerateEventsCore(instance, td);
+		public IEnumerable<mdEvent> Events(mdTypeDef td) => EnumerateEventsCore(instance, td);
 
-		public IEnumerable<Token> MethodSemantics(Token mb) => EnumerateMethodSemanticsCore(instance, mb);
+		public IEnumerable<mdToken> MethodSemantics(mdMethodDef mb) => EnumerateMethodSemanticsCore(instance, mb);
 
-		public IEnumerable<Token> ModuleRefs => EnumerateModuleRefsCore(instance);
+		public IEnumerable<mdModuleRef> ModuleRefs => EnumerateModuleRefsCore(instance);
 
-		public IEnumerable<Token> UnresolvedMethods => EnumerateUnresolvedMethodsCore(instance);
+		public IEnumerable<mdToken> UnresolvedMethods => EnumerateUnresolvedMethodsCore(instance);
 
-		public IEnumerable<Token> Signatures => EnumerateSignaturesCore(instance);
+		public IEnumerable<mdSignature> Signatures => EnumerateSignaturesCore(instance);
 
-		public IEnumerable<Token> TypeSpecs => EnumerateTypeSpecsCore(instance);
+		public IEnumerable<mdTypeSpec> TypeSpecs => EnumerateTypeSpecsCore(instance);
 
-		public IEnumerable<Token> UserStrings => EnumerateUserStringsCore(instance);
+		public IEnumerable<mdString> UserStrings => EnumerateUserStringsCore(instance);
 
-		public IEnumerable<Token> CustomAttributes(Token tk, Token tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
+		public IEnumerable<mdCustomAttribute> CustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
 
 		public (string Name, Guid ModuleVersionId) ScopeProps => QueryGetScopeProps(instance);
 
-		public (string Name, TypeAttributes Attributes, Token Extends) TypeDefProps(Token typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
+		public (string Name, TypeAttributes Attributes, mdToken Extends) TypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
-		public (Token ResolutionScope, string Name) TypeRefProps(Token typeReference) => QueryGetTypeRefProps(instance, typeReference);
+		public (mdToken ResolutionScope, string Name) TypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
 
-		public string ModuleRefName(Token moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
+		public string ModuleRefName(mdModuleRef moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
 
-		public string UserString(Token userString) => QueryGetUserString(instance, userString);
+		public string UserString(mdString userString) => QueryGetUserString(instance, userString);
 	}
 
-	private static IEnumerable<Token> EnumerateTypeDefsCore(IMetaDataImport instance)
+	private static IEnumerable<mdTypeDef> EnumerateTypeDefsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -91,7 +91,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateInterfaceImplsCore(IMetaDataImport instance, Token td)
+	private static IEnumerable<mdInterfaceImpl> EnumerateInterfaceImplsCore(IMetaDataImport instance, mdTypeDef td)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -114,7 +114,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateTypeRefsCore(IMetaDataImport instance)
+	private static IEnumerable<mdTypeRef> EnumerateTypeRefsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -137,7 +137,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMembersCore(IMetaDataImport instance, Token cl)
+	private static IEnumerable<mdToken> EnumerateMembersCore(IMetaDataImport instance, mdTypeDef cl)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -160,7 +160,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMembersWithNameCore(IMetaDataImport instance, Token cl, string szName)
+	private static IEnumerable<mdToken> EnumerateMembersWithNameCore(IMetaDataImport instance, mdTypeDef cl, string szName)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -183,7 +183,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMethodsCore(IMetaDataImport instance, Token cl)
+	private static IEnumerable<mdMethodDef> EnumerateMethodsCore(IMetaDataImport instance, mdTypeDef cl)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -206,7 +206,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMethodsWithNameCore(IMetaDataImport instance, Token cl, string szName)
+	private static IEnumerable<mdMethodDef> EnumerateMethodsWithNameCore(IMetaDataImport instance, mdTypeDef cl, string szName)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -229,7 +229,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateFieldsCore(IMetaDataImport instance, Token cl)
+	private static IEnumerable<mdFieldDef> EnumerateFieldsCore(IMetaDataImport instance, mdTypeDef cl)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -252,7 +252,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateFieldsWithNameCore(IMetaDataImport instance, Token cl, string szName)
+	private static IEnumerable<mdFieldDef> EnumerateFieldsWithNameCore(IMetaDataImport instance, mdTypeDef cl, string szName)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -275,7 +275,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateParamsCore(IMetaDataImport instance, Token mb)
+	private static IEnumerable<mdParamDef> EnumerateParamsCore(IMetaDataImport instance, mdMethodDef mb)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -298,7 +298,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMemberRefsCore(IMetaDataImport instance, Token tkParent)
+	private static IEnumerable<mdMemberRef> EnumerateMemberRefsCore(IMetaDataImport instance, mdToken tkParent)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -321,7 +321,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<(Token MethodBody, Token MethodDeclaration)> EnumerateMethodImplsCore(IMetaDataImport instance, Token td)
+	private static IEnumerable<(mdToken MethodBody, mdToken MethodDeclaration)> EnumerateMethodImplsCore(IMetaDataImport instance, mdTypeDef td)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -344,7 +344,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumeratePermissionSetsCore(IMetaDataImport instance, Token tk, uint dwActions)
+	private static IEnumerable<mdPermission> EnumeratePermissionSetsCore(IMetaDataImport instance, mdToken tk, uint dwActions)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -367,7 +367,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumeratePropertiesCore(IMetaDataImport instance, Token td)
+	private static IEnumerable<mdProperty> EnumeratePropertiesCore(IMetaDataImport instance, mdTypeDef td)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -390,7 +390,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateEventsCore(IMetaDataImport instance, Token td)
+	private static IEnumerable<mdEvent> EnumerateEventsCore(IMetaDataImport instance, mdTypeDef td)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -413,7 +413,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMethodSemanticsCore(IMetaDataImport instance, Token mb)
+	private static IEnumerable<mdToken> EnumerateMethodSemanticsCore(IMetaDataImport instance, mdMethodDef mb)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -436,7 +436,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateModuleRefsCore(IMetaDataImport instance)
+	private static IEnumerable<mdModuleRef> EnumerateModuleRefsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -459,7 +459,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateUnresolvedMethodsCore(IMetaDataImport instance)
+	private static IEnumerable<mdToken> EnumerateUnresolvedMethodsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -482,7 +482,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateSignaturesCore(IMetaDataImport instance)
+	private static IEnumerable<mdSignature> EnumerateSignaturesCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -505,7 +505,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateTypeSpecsCore(IMetaDataImport instance)
+	private static IEnumerable<mdTypeSpec> EnumerateTypeSpecsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -528,7 +528,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateUserStringsCore(IMetaDataImport instance)
+	private static IEnumerable<mdString> EnumerateUserStringsCore(IMetaDataImport instance)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -551,7 +551,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateCustomAttributesCore(IMetaDataImport instance, Token tk, Token tkType)
+	private static IEnumerable<mdCustomAttribute> EnumerateCustomAttributesCore(IMetaDataImport instance, mdToken tk, mdToken tkType)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -599,7 +599,7 @@ public static class MetaDataImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static (string Name, TypeAttributes Attributes, Token Extends) QueryGetTypeDefProps(IMetaDataImport instance, Token typeDefinition)
+	private static (string Name, TypeAttributes Attributes, mdToken Extends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
 	{
 		var hr = instance.GetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
@@ -624,7 +624,7 @@ public static class MetaDataImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static (Token ResolutionScope, string Name) QueryGetTypeRefProps(IMetaDataImport instance, Token typeReference)
+	private static (mdToken ResolutionScope, string Name) QueryGetTypeRefProps(IMetaDataImport instance, mdTypeRef typeReference)
 	{
 		var hr = instance.GetTypeRefProps(typeReference, out _, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
@@ -649,7 +649,7 @@ public static class MetaDataImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static string QueryGetModuleRefProps(IMetaDataImport instance, Token moduleReference)
+	private static string QueryGetModuleRefProps(IMetaDataImport instance, mdModuleRef moduleReference)
 	{
 		var hr = instance.GetModuleRefProps(moduleReference, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
@@ -674,7 +674,7 @@ public static class MetaDataImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static string QueryGetUserString(IMetaDataImport instance, Token userString)
+	private static string QueryGetUserString(IMetaDataImport instance, mdString userString)
 	{
 		var hr = instance.GetUserString(userString, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);

@@ -13,16 +13,16 @@ public static class MetaDataImport2Extensions
 {
 	extension(IMetaDataImport2 instance)
 	{
-		public IEnumerable<Token> GenericParameters(Token tk) => EnumerateGenericParamsCore(instance, tk);
+		public IEnumerable<mdGenericParam> GenericParameters(mdToken tk) => EnumerateGenericParamsCore(instance, tk);
 
-		public IEnumerable<Token> GenericParameterConstraints(Token tk) => EnumerateGenericParamConstraintsCore(instance, tk);
+		public IEnumerable<mdGenericParamConstraint> GenericParameterConstraints(mdGenericParam tk) => EnumerateGenericParamConstraintsCore(instance, tk);
 
-		public IEnumerable<Token> MethodSpecs(Token tk) => EnumerateMethodSpecsCore(instance, tk);
+		public IEnumerable<mdMethodSpec> MethodSpecs(mdToken tk) => EnumerateMethodSpecsCore(instance, tk);
 
 		public string VersionString => QueryGetVersionString(instance);
 	}
 
-	private static IEnumerable<Token> EnumerateGenericParamsCore(IMetaDataImport2 instance, Token tk)
+	private static IEnumerable<mdGenericParam> EnumerateGenericParamsCore(IMetaDataImport2 instance, mdToken tk)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -45,7 +45,7 @@ public static class MetaDataImport2Extensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateGenericParamConstraintsCore(IMetaDataImport2 instance, Token tk)
+	private static IEnumerable<mdGenericParamConstraint> EnumerateGenericParamConstraintsCore(IMetaDataImport2 instance, mdGenericParam tk)
 	{
 		var handle = default(HCorEnum);
 		try
@@ -68,7 +68,7 @@ public static class MetaDataImport2Extensions
 		}
 	}
 
-	private static IEnumerable<Token> EnumerateMethodSpecsCore(IMetaDataImport2 instance, Token tk)
+	private static IEnumerable<mdMethodSpec> EnumerateMethodSpecsCore(IMetaDataImport2 instance, mdToken tk)
 	{
 		var handle = default(HCorEnum);
 		try
