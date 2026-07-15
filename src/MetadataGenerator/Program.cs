@@ -69,6 +69,7 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Str
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateLatestCode;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateTrimmableVtbls;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateHelperTypes;
+pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.ExcludeGeneratedCodeAttribute;
 
 var config = new PInvokeGeneratorConfiguration
 ("c++",
