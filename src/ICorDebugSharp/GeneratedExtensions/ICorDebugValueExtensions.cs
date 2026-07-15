@@ -39,7 +39,7 @@ public static unsafe class CorDebugValueExtensions
 			}
 		}
 
-		public uint Type
+		public CorElementType Type
 		{
 			get
 			{

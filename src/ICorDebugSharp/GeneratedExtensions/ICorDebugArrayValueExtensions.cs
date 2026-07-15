@@ -36,7 +36,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			return ppValue;
 		}
 
-		public uint ElementType
+		public CorElementType ElementType
 		{
 			get
 			{

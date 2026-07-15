@@ -12,7 +12,7 @@ public static unsafe class CorDebugEvalExtensions
 {
 	extension(ICorDebugEval instance)
 	{
-		public ICorDebugValue CreateValue(uint elementType, ICorDebugClass pElementClass)
+		public ICorDebugValue CreateValue(CorElementType elementType, ICorDebugClass pElementClass)
 		{
 			var hr = instance.CreateValue(elementType, pElementClass, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
