@@ -68,45 +68,44 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var members = new List<string>
 		{
 			$"\t\tpublic bool Supports{capabilityName} => instance is {capabilityInterface.Name};",
-			$"\t\tpublic {capabilityInterface.Name} {capabilityName} => GetCapability(instance);",
+			$"\t\tpublic {capabilityInterface.Name} {capabilityName} =>\n" +
+				$"\t\t\tinstance as {capabilityInterface.Name} ?? throw new NotSupportedException(\"{baseInterface.Name} does not support {capabilityInterface.Name}.\");",
 		};
 
 		foreach (var method in capabilityInterface.Methods.Values.Where(method => method.ReturnType == "int").OrderBy(method => method.Name, StringComparer.Ordinal))
 		{
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
-					? RenderOutputProperty(method, $"GetCapability(instance).{method.Name}")
-					: RenderProjectedMethod(method).Replace("instance.", "GetCapability(instance).", StringComparison.Ordinal))
-				: RenderCapabilityVoidMethod(method));
+					? RenderOutputProperty(method, $"instance.{capabilityName}.{method.Name}")
+					: RenderProjectedMethod(method).Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal))
+				: RenderCapabilityVoidMethod(method, capabilityName));
 		}
 
 		foreach (var recipe in Recipes.QueryBuffers.Where(recipe => recipe.Interface == capabilityInterface.Name))
-			members.Add(RenderCapabilityQueryBuffer(recipe));
+			members.Add(RenderCapabilityQueryBuffer(recipe, capabilityName));
 
 		var configuredStrings = Recipes.MetadataStrings.Select(recipe => (recipe.Interface, recipe.Method)).ToHashSet();
 		foreach (var method in capabilityInterface.Methods.Values
 			.Where(method => TryGetStringBuffer(method, out _) && !configuredStrings.Contains((capabilityInterface.Name, method.Name)))
 			.OrderBy(method => method.Name, StringComparer.Ordinal))
-			members.Add(RenderCapabilityStringQuery(method));
+			members.Add(RenderCapabilityStringQuery(method, capabilityName));
 
 		return Header(baseInterface.Namespace) +
 			$"public static unsafe class {baseInterface.Name[1..]}{capabilityName}Extensions\n{{\n" +
-			$"\textension({baseInterface.Name} instance)\n\t{{\n{string.Join("\n\n", members)}\n\t}}\n\n" +
-			$"\tprivate static {capabilityInterface.Name} GetCapability({baseInterface.Name} instance) =>\n" +
-			$"\t\tinstance as {capabilityInterface.Name} ?? throw new NotSupportedException(\"{baseInterface.Name} does not support {capabilityInterface.Name}.\");\n}}\n";
+			$"\textension({baseInterface.Name} instance)\n\t{{\n{string.Join("\n\n", members)}\n\t}}\n}}\n";
 	}
 
-	private static string RenderCapabilityVoidMethod(ManagedMethod method)
+	private static string RenderCapabilityVoidMethod(ManagedMethod method, string capabilityName)
 	{
 		var parameters = string.Join(", ", method.Parameters.Where(parameter => !parameter.IsEnumeratorMaxOne).Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
 			? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = GetCapability(instance).{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
+			$"\t\t\tvar hr = instance.{capabilityName}.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
 	}
 
-	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe)
+	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe, string capabilityName)
 	{
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var retained = method.Parameters.Where(parameter => parameter.Name != recipe.Capacity && parameter.Name != recipe.Count && parameter.Name != recipe.Buffer).ToArray();
@@ -115,11 +114,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "string"
 			: $"{buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal)}[]";
 		return retained.Length == 0
-			? $"\t\tpublic {returnType} {recipe.Method}() => GetCapability(instance).{recipe.Method}();"
-			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))}) => GetCapability(instance).{recipe.Method}({string.Join(", ", retained.Select(parameter => Escape(parameter.Name)))});";
+			? $"\t\tpublic {returnType} {recipe.Method}() => instance.{capabilityName}.{recipe.Method}();"
+			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))}) => instance.{capabilityName}.{recipe.Method}({string.Join(", ", retained.Select(parameter => Escape(parameter.Name)))});";
 	}
 
-	private static string RenderCapabilityStringQuery(ManagedMethod method)
+	private static string RenderCapabilityStringQuery(ManagedMethod method, string capabilityName)
 	{
 		if (!TryGetStringBuffer(method, out var stringBuffer))
 			throw new InvalidOperationException($"{method.Name} is not a string query method.");
@@ -130,7 +129,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "string"
 			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
 		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
-			$"GetCapability(instance).{method.Name}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
+			$"instance.{capabilityName}.{method.Name}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
 	}
 
 	private static bool CanProjectOutputs(ManagedMethod method) =>
