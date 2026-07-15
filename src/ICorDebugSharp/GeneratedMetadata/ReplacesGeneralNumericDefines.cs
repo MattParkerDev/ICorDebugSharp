@@ -3,5 +3,5 @@ namespace ICorDebugSharp.GeneratedMetadata;
 
 public enum ReplacesGeneralNumericDefines
 {
-	IMAGE_DIRECTORY_ENTRY_COMHEADER = 14,
+    IMAGE_DIRECTORY_ENTRY_COMHEADER = 14,
 }

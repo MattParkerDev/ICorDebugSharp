@@ -3,6 +3,6 @@ namespace ICorDebugSharp.GeneratedMetadata;
 
 public enum CorFileFlags
 {
-	ffContainsMetaData = 0x0000,
-	ffContainsNoMetaData = 0x0001,
+    ffContainsMetaData = 0x0000,
+    ffContainsNoMetaData = 0x0001,
 }

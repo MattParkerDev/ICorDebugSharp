@@ -10,8 +10,8 @@ namespace ICorDebugSharp.GeneratedMetadata;
 [Conditional("DEBUG")]
 internal sealed partial class SetsLastSystemErrorAttribute : Attribute
 {
-	/// <summary>Initializes a new instance of the <see cref="SetsLastSystemErrorAttribute" /> class.</summary>
-	public SetsLastSystemErrorAttribute()
-	{
-	}
+    /// <summary>Initializes a new instance of the <see cref="SetsLastSystemErrorAttribute" /> class.</summary>
+    public SetsLastSystemErrorAttribute()
+    {
+    }
 }
