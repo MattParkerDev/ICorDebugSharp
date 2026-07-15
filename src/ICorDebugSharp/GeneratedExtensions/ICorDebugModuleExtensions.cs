@@ -12,33 +12,36 @@ public static unsafe class CorDebugModuleExtensions
 {
 	extension(ICorDebugModule instance)
 	{
-		public string GetName()
+		public string Name
 		{
-			var hr = instance.GetName(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return string.Empty;
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetName(capacity, out var actual, buffer);
+				var hr = instance.GetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return string.Empty;
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new char[checked((int)capacity)];
+					hr = instance.GetName(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					var length = checked((int)actual);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
-				var length = checked((int)actual);
-				if (length > 0 && buffer[length - 1] == '\0')
-					length--;
-
-				return new string(buffer, 0, length);
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public ICorDebugModuleBreakpoint CreateBreakpoint()
@@ -48,18 +51,24 @@ public static unsafe class CorDebugModuleExtensions
 			return ppBreakpoint;
 		}
 
-		public ICorDebugAssembly GetAssembly()
+		public ICorDebugAssembly Assembly
 		{
-			var hr = instance.GetAssembly(out var ppAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAssembly;
+			get
+			{
+				var hr = instance.GetAssembly(out var ppAssembly);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppAssembly;
+			}
 		}
 
-		public CORDB_ADDRESS GetBaseAddress()
+		public CORDB_ADDRESS BaseAddress
 		{
-			var hr = instance.GetBaseAddress(out var pAddress);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAddress;
+			get
+			{
+				var hr = instance.GetBaseAddress(out var pAddress);
+				Marshal.ThrowExceptionForHR(hr);
+				return pAddress;
+			}
 		}
 
 		public ICorDebugClass GetClassFromToken(mdTypeDef typeDef)
@@ -69,11 +78,14 @@ public static unsafe class CorDebugModuleExtensions
 			return ppClass;
 		}
 
-		public ICorDebugEditAndContinueSnapshot GetEditAndContinueSnapshot()
+		public ICorDebugEditAndContinueSnapshot EditAndContinueSnapshot
 		{
-			var hr = instance.GetEditAndContinueSnapshot(out var ppEditAndContinueSnapshot);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppEditAndContinueSnapshot;
+			get
+			{
+				var hr = instance.GetEditAndContinueSnapshot(out var ppEditAndContinueSnapshot);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppEditAndContinueSnapshot;
+			}
 		}
 
 		public ICorDebugFunction GetFunctionFromRVA(CORDB_ADDRESS rva)
@@ -111,25 +123,34 @@ public static unsafe class CorDebugModuleExtensions
 			return pcchName;
 		}
 
-		public ICorDebugProcess GetProcess()
+		public ICorDebugProcess Process
 		{
-			var hr = instance.GetProcess(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
+			get
+			{
+				var hr = instance.GetProcess(out var ppProcess);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppProcess;
+			}
 		}
 
-		public uint GetSize()
+		public uint Size
 		{
-			var hr = instance.GetSize(out var pcBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcBytes;
+			get
+			{
+				var hr = instance.GetSize(out var pcBytes);
+				Marshal.ThrowExceptionForHR(hr);
+				return pcBytes;
+			}
 		}
 
-		public mdModule GetToken()
+		public mdModule Token
 		{
-			var hr = instance.GetToken(out var pToken);
-			Marshal.ThrowExceptionForHR(hr);
-			return pToken;
+			get
+			{
+				var hr = instance.GetToken(out var pToken);
+				Marshal.ThrowExceptionForHR(hr);
+				return pToken;
+			}
 		}
 
 		public int IsDynamic()

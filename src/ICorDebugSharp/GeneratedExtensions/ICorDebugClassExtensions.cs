@@ -12,11 +12,14 @@ public static unsafe class CorDebugClassExtensions
 {
 	extension(ICorDebugClass instance)
 	{
-		public ICorDebugModule GetModule()
+		public ICorDebugModule Module
 		{
-			var hr = instance.GetModule(out var pModule);
-			Marshal.ThrowExceptionForHR(hr);
-			return pModule;
+			get
+			{
+				var hr = instance.GetModule(out var pModule);
+				Marshal.ThrowExceptionForHR(hr);
+				return pModule;
+			}
 		}
 
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
@@ -26,11 +29,14 @@ public static unsafe class CorDebugClassExtensions
 			return ppValue;
 		}
 
-		public mdTypeDef GetToken()
+		public mdTypeDef Token
 		{
-			var hr = instance.GetToken(out var pTypeDef);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTypeDef;
+			get
+			{
+				var hr = instance.GetToken(out var pTypeDef);
+				Marshal.ThrowExceptionForHR(hr);
+				return pTypeDef;
+			}
 		}
 	}
 }

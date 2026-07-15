@@ -12,11 +12,14 @@ public static unsafe class CorDebugFunction3Extensions
 {
 	extension(ICorDebugFunction3 instance)
 	{
-		public ICorDebugILCode GetActiveReJitRequestILCode()
+		public ICorDebugILCode ActiveReJitRequestILCode
 		{
-			var hr = instance.GetActiveReJitRequestILCode(out var ppReJitedILCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppReJitedILCode;
+			get
+			{
+				var hr = instance.GetActiveReJitRequestILCode(out var ppReJitedILCode);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppReJitedILCode;
+			}
 		}
 	}
 }

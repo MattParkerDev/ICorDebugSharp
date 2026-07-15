@@ -19,11 +19,14 @@ public static unsafe class CorDebugEnumExtensions
 			return ppEnum;
 		}
 
-		public uint GetCount()
+		public uint Count
 		{
-			var hr = instance.GetCount(out var pcelt);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcelt;
+			get
+			{
+				var hr = instance.GetCount(out var pcelt);
+				Marshal.ThrowExceptionForHR(hr);
+				return pcelt;
+			}
 		}
 	}
 }

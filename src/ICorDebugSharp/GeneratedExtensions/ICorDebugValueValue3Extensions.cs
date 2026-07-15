@@ -16,11 +16,14 @@ public static unsafe class CorDebugValueValue3Extensions
 
 		public ICorDebugValue3 Value3 => GetCapability(instance);
 
-		public ulong GetSize64()
+		public ulong Size64
 		{
-			var hr = GetCapability(instance).GetSize64(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
+			get
+			{
+				var hr = GetCapability(instance).GetSize64(out var pSize);
+				Marshal.ThrowExceptionForHR(hr);
+				return pSize;
+			}
 		}
 	}
 

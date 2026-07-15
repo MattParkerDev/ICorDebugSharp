@@ -33,11 +33,14 @@ public static unsafe class CorDebugILFrameExtensions
 			return ppValue;
 		}
 
-		public (uint pnOffset, CorDebugMappingResult pMappingResult) GetIP()
+		public (uint pnOffset, CorDebugMappingResult pMappingResult) IP
 		{
-			var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pnOffset, pMappingResult);
+			get
+			{
+				var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pnOffset, pMappingResult);
+			}
 		}
 
 		public ICorDebugValue GetLocalVariable(uint dwIndex)
@@ -47,11 +50,14 @@ public static unsafe class CorDebugILFrameExtensions
 			return ppValue;
 		}
 
-		public uint GetStackDepth()
+		public uint StackDepth
 		{
-			var hr = instance.GetStackDepth(out var pDepth);
-			Marshal.ThrowExceptionForHR(hr);
-			return pDepth;
+			get
+			{
+				var hr = instance.GetStackDepth(out var pDepth);
+				Marshal.ThrowExceptionForHR(hr);
+				return pDepth;
+			}
 		}
 
 		public ICorDebugValue GetStackValue(uint dwIndex)

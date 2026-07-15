@@ -12,32 +12,35 @@ public static unsafe class CorDebugThread2Extensions
 {
 	extension(ICorDebugThread2 instance)
 	{
-		public COR_ACTIVE_FUNCTION[] GetActiveFunctions()
+		public COR_ACTIVE_FUNCTION[] ActiveFunctions
 		{
-			var hr = instance.GetActiveFunctions(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return [];
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new COR_ACTIVE_FUNCTION[checked((int)capacity)];
-				hr = instance.GetActiveFunctions(capacity, out var actual, buffer);
+				var hr = instance.GetActiveFunctions(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new COR_ACTIVE_FUNCTION[checked((int)capacity)];
+					hr = instance.GetActiveFunctions(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
 				}
 
-				if (actual != capacity)
-					Array.Resize(ref buffer, checked((int)actual));
-
-				return buffer;
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
@@ -47,25 +50,34 @@ public static unsafe class CorDebugThread2Extensions
 			return pcFunctions;
 		}
 
-		public uint GetConnectionID()
+		public uint ConnectionID
 		{
-			var hr = instance.GetConnectionID(out var pdwConnectionId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwConnectionId;
+			get
+			{
+				var hr = instance.GetConnectionID(out var pdwConnectionId);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwConnectionId;
+			}
 		}
 
-		public ulong GetTaskID()
+		public ulong TaskID
 		{
-			var hr = instance.GetTaskID(out var pTaskId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTaskId;
+			get
+			{
+				var hr = instance.GetTaskID(out var pTaskId);
+				Marshal.ThrowExceptionForHR(hr);
+				return pTaskId;
+			}
 		}
 
-		public uint GetVolatileOSThreadID()
+		public uint VolatileOSThreadID
 		{
-			var hr = instance.GetVolatileOSThreadID(out var pdwTid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwTid;
+			get
+			{
+				var hr = instance.GetVolatileOSThreadID(out var pdwTid);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwTid;
+			}
 		}
 	}
 }

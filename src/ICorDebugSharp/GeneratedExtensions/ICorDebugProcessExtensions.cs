@@ -26,32 +26,44 @@ public static unsafe class CorDebugProcessExtensions
 			return ppObjects;
 		}
 
-		public nint GetHandle()
+		public nint Handle
 		{
-			var hr = instance.GetHandle(out var phProcessHandle);
-			Marshal.ThrowExceptionForHR(hr);
-			return phProcessHandle;
+			get
+			{
+				var hr = instance.GetHandle(out var phProcessHandle);
+				Marshal.ThrowExceptionForHR(hr);
+				return phProcessHandle;
+			}
 		}
 
-		public uint GetHelperThreadID()
+		public uint HelperThreadID
 		{
-			var hr = instance.GetHelperThreadID(out var pThreadID);
-			Marshal.ThrowExceptionForHR(hr);
-			return pThreadID;
+			get
+			{
+				var hr = instance.GetHelperThreadID(out var pThreadID);
+				Marshal.ThrowExceptionForHR(hr);
+				return pThreadID;
+			}
 		}
 
-		public uint GetID()
+		public uint ID
 		{
-			var hr = instance.GetID(out var pdwProcessId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwProcessId;
+			get
+			{
+				var hr = instance.GetID(out var pdwProcessId);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwProcessId;
+			}
 		}
 
-		public ICorDebugValue GetObject()
+		public ICorDebugValue Object
 		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
+			get
+			{
+				var hr = instance.GetObject(out var ppObject);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppObject;
+			}
 		}
 
 		public ICorDebugThread GetThread(uint dwThreadId)

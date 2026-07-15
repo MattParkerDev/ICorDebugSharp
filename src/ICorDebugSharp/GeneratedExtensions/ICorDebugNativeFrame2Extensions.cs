@@ -12,11 +12,14 @@ public static unsafe class CorDebugNativeFrame2Extensions
 {
 	extension(ICorDebugNativeFrame2 instance)
 	{
-		public uint GetStackParameterSize()
+		public uint StackParameterSize
 		{
-			var hr = instance.GetStackParameterSize(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
+			get
+			{
+				var hr = instance.GetStackParameterSize(out var pSize);
+				Marshal.ThrowExceptionForHR(hr);
+				return pSize;
+			}
 		}
 
 		public int IsChild()

@@ -12,11 +12,14 @@ public static unsafe class CorDebugDataTargetExtensions
 {
 	extension(ICorDebugDataTarget instance)
 	{
-		public CorDebugPlatform GetPlatform()
+		public CorDebugPlatform Platform
 		{
-			var hr = instance.GetPlatform(out var pTargetPlatform);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTargetPlatform;
+			get
+			{
+				var hr = instance.GetPlatform(out var pTargetPlatform);
+				Marshal.ThrowExceptionForHR(hr);
+				return pTargetPlatform;
+			}
 		}
 
 		public uint ReadVirtual(CORDB_ADDRESS address, byte[] pBuffer, uint bytesRequested)

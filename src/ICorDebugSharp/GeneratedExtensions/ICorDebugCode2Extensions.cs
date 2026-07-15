@@ -12,32 +12,35 @@ public static unsafe class CorDebugCode2Extensions
 {
 	extension(ICorDebugCode2 instance)
 	{
-		public CodeChunkInfo[] GetCodeChunks()
+		public CodeChunkInfo[] CodeChunks
 		{
-			var hr = instance.GetCodeChunks(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return [];
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new CodeChunkInfo[checked((int)capacity)];
-				hr = instance.GetCodeChunks(capacity, out var actual, buffer);
+				var hr = instance.GetCodeChunks(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new CodeChunkInfo[checked((int)capacity)];
+					hr = instance.GetCodeChunks(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
 				}
 
-				if (actual != capacity)
-					Array.Resize(ref buffer, checked((int)actual));
-
-				return buffer;
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public uint GetCodeChunks(uint cbufSize, CodeChunkInfo[]? chunks)
@@ -47,11 +50,14 @@ public static unsafe class CorDebugCode2Extensions
 			return pcnumChunks;
 		}
 
-		public uint GetCompilerFlags()
+		public uint CompilerFlags
 		{
-			var hr = instance.GetCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
+			get
+			{
+				var hr = instance.GetCompilerFlags(out var pdwFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwFlags;
+			}
 		}
 	}
 }

@@ -12,11 +12,14 @@ public static unsafe class CorDebugModule2Extensions
 {
 	extension(ICorDebugModule2 instance)
 	{
-		public uint GetJITCompilerFlags()
+		public uint JITCompilerFlags
 		{
-			var hr = instance.GetJITCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
+			get
+			{
+				var hr = instance.GetJITCompilerFlags(out var pdwFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwFlags;
+			}
 		}
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)

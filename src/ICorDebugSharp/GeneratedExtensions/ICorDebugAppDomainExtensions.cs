@@ -12,33 +12,36 @@ public static unsafe class CorDebugAppDomainExtensions
 {
 	extension(ICorDebugAppDomain instance)
 	{
-		public string GetName()
+		public string Name
 		{
-			var hr = instance.GetName(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return string.Empty;
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetName(capacity, out var actual, buffer);
+				var hr = instance.GetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return string.Empty;
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new char[checked((int)capacity)];
+					hr = instance.GetName(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					var length = checked((int)actual);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
-				var length = checked((int)actual);
-				if (length > 0 && buffer[length - 1] == '\0')
-					length--;
-
-				return new string(buffer, 0, length);
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public ICorDebugAssemblyEnum EnumerateAssemblies()
@@ -62,11 +65,14 @@ public static unsafe class CorDebugAppDomainExtensions
 			return ppSteppers;
 		}
 
-		public uint GetID()
+		public uint ID
 		{
-			var hr = instance.GetID(out var pId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pId;
+			get
+			{
+				var hr = instance.GetID(out var pId);
+				Marshal.ThrowExceptionForHR(hr);
+				return pId;
+			}
 		}
 
 		public ICorDebugModule GetModuleFromMetaDataInterface(nint pIMetaData)
@@ -83,18 +89,24 @@ public static unsafe class CorDebugAppDomainExtensions
 			return pcchName;
 		}
 
-		public ICorDebugValue GetObject()
+		public ICorDebugValue Object
 		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
+			get
+			{
+				var hr = instance.GetObject(out var ppObject);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppObject;
+			}
 		}
 
-		public ICorDebugProcess GetProcess()
+		public ICorDebugProcess Process
 		{
-			var hr = instance.GetProcess(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
+			get
+			{
+				var hr = instance.GetProcess(out var ppProcess);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppProcess;
+			}
 		}
 
 		public int IsAttached()

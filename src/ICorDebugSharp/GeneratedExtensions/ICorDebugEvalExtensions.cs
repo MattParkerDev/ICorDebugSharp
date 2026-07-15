@@ -19,18 +19,24 @@ public static unsafe class CorDebugEvalExtensions
 			return ppValue;
 		}
 
-		public ICorDebugValue GetResult()
+		public ICorDebugValue Result
 		{
-			var hr = instance.GetResult(out var ppResult);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppResult;
+			get
+			{
+				var hr = instance.GetResult(out var ppResult);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppResult;
+			}
 		}
 
-		public ICorDebugThread GetThread()
+		public ICorDebugThread Thread
 		{
-			var hr = instance.GetThread(out var ppThread);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThread;
+			get
+			{
+				var hr = instance.GetThread(out var ppThread);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppThread;
+			}
 		}
 
 		public int IsActive()

@@ -12,18 +12,24 @@ public static unsafe class CorDebugDebugEventExtensions
 {
 	extension(ICorDebugDebugEvent instance)
 	{
-		public CorDebugDebugEventKind GetEventKind()
+		public CorDebugDebugEventKind EventKind
 		{
-			var hr = instance.GetEventKind(out var pDebugEventKind);
-			Marshal.ThrowExceptionForHR(hr);
-			return pDebugEventKind;
+			get
+			{
+				var hr = instance.GetEventKind(out var pDebugEventKind);
+				Marshal.ThrowExceptionForHR(hr);
+				return pDebugEventKind;
+			}
 		}
 
-		public ICorDebugThread GetThread()
+		public ICorDebugThread Thread
 		{
-			var hr = instance.GetThread(out var ppThread);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThread;
+			get
+			{
+				var hr = instance.GetThread(out var ppThread);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppThread;
+			}
 		}
 	}
 }

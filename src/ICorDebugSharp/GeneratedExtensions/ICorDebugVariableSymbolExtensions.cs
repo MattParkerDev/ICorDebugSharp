@@ -12,33 +12,36 @@ public static unsafe class CorDebugVariableSymbolExtensions
 {
 	extension(ICorDebugVariableSymbol instance)
 	{
-		public string GetName()
+		public string Name
 		{
-			var hr = instance.GetName(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return string.Empty;
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetName(capacity, out var actual, buffer);
+				var hr = instance.GetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return string.Empty;
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new char[checked((int)capacity)];
+					hr = instance.GetName(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					var length = checked((int)actual);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
-				var length = checked((int)actual);
-				if (length > 0 && buffer[length - 1] == '\0')
-					length--;
-
-				return new string(buffer, 0, length);
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
@@ -48,18 +51,24 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			return pcchName;
 		}
 
-		public uint GetSize()
+		public uint Size
 		{
-			var hr = instance.GetSize(out var pcbValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcbValue;
+			get
+			{
+				var hr = instance.GetSize(out var pcbValue);
+				Marshal.ThrowExceptionForHR(hr);
+				return pcbValue;
+			}
 		}
 
-		public uint GetSlotIndex()
+		public uint SlotIndex
 		{
-			var hr = instance.GetSlotIndex(out var pSlotIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSlotIndex;
+			get
+			{
+				var hr = instance.GetSlotIndex(out var pSlotIndex);
+				Marshal.ThrowExceptionForHR(hr);
+				return pSlotIndex;
+			}
 		}
 
 		public uint GetValue(uint offset, uint cbContext, byte[] context, uint cbValue, byte[] pValue)

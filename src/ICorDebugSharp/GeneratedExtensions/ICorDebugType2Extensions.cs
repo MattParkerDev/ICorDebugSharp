@@ -12,11 +12,14 @@ public static unsafe class CorDebugType2Extensions
 {
 	extension(ICorDebugType2 instance)
 	{
-		public COR_TYPEID GetTypeID()
+		public COR_TYPEID TypeID
 		{
-			var hr = instance.GetTypeID(out var id);
-			Marshal.ThrowExceptionForHR(hr);
-			return id;
+			get
+			{
+				var hr = instance.GetTypeID(out var id);
+				Marshal.ThrowExceptionForHR(hr);
+				return id;
+			}
 		}
 	}
 }

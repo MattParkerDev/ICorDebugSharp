@@ -12,18 +12,24 @@ public static unsafe class CorDebugDelegateObjectValueExtensions
 {
 	extension(ICorDebugDelegateObjectValue instance)
 	{
-		public ICorDebugFunction GetFunction()
+		public ICorDebugFunction Function
 		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
+			get
+			{
+				var hr = instance.GetFunction(out var ppFunction);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFunction;
+			}
 		}
 
-		public ICorDebugReferenceValue GetTarget()
+		public ICorDebugReferenceValue Target
 		{
-			var hr = instance.GetTarget(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
+			get
+			{
+				var hr = instance.GetTarget(out var ppObject);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppObject;
+			}
 		}
 	}
 }

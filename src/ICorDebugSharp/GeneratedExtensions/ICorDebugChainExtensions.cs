@@ -19,74 +19,104 @@ public static unsafe class CorDebugChainExtensions
 			return ppFrames;
 		}
 
-		public ICorDebugFrame GetActiveFrame()
+		public ICorDebugFrame ActiveFrame
 		{
-			var hr = instance.GetActiveFrame(out var ppFrame);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFrame;
+			get
+			{
+				var hr = instance.GetActiveFrame(out var ppFrame);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFrame;
+			}
 		}
 
-		public ICorDebugChain GetCallee()
+		public ICorDebugChain Callee
 		{
-			var hr = instance.GetCallee(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
+			get
+			{
+				var hr = instance.GetCallee(out var ppChain);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppChain;
+			}
 		}
 
-		public ICorDebugChain GetCaller()
+		public ICorDebugChain Caller
 		{
-			var hr = instance.GetCaller(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
+			get
+			{
+				var hr = instance.GetCaller(out var ppChain);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppChain;
+			}
 		}
 
-		public ICorDebugContext GetContext()
+		public ICorDebugContext Context
 		{
-			var hr = instance.GetContext(out var ppContext);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppContext;
+			get
+			{
+				var hr = instance.GetContext(out var ppContext);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppContext;
+			}
 		}
 
-		public ICorDebugChain GetNext()
+		public ICorDebugChain Next
 		{
-			var hr = instance.GetNext(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
+			get
+			{
+				var hr = instance.GetNext(out var ppChain);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppChain;
+			}
 		}
 
-		public ICorDebugChain GetPrevious()
+		public ICorDebugChain Previous
 		{
-			var hr = instance.GetPrevious(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
+			get
+			{
+				var hr = instance.GetPrevious(out var ppChain);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppChain;
+			}
 		}
 
-		public CorDebugChainReason GetReason()
+		public CorDebugChainReason Reason
 		{
-			var hr = instance.GetReason(out var pReason);
-			Marshal.ThrowExceptionForHR(hr);
-			return pReason;
+			get
+			{
+				var hr = instance.GetReason(out var pReason);
+				Marshal.ThrowExceptionForHR(hr);
+				return pReason;
+			}
 		}
 
-		public ICorDebugRegisterSet GetRegisterSet()
+		public ICorDebugRegisterSet RegisterSet
 		{
-			var hr = instance.GetRegisterSet(out var ppRegisters);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppRegisters;
+			get
+			{
+				var hr = instance.GetRegisterSet(out var ppRegisters);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppRegisters;
+			}
 		}
 
-		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) GetStackRange()
+		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) StackRange
 		{
-			var hr = instance.GetStackRange(out var pStart, out var pEnd);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pStart, pEnd);
+			get
+			{
+				var hr = instance.GetStackRange(out var pStart, out var pEnd);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pStart, pEnd);
+			}
 		}
 
-		public ICorDebugThread GetThread()
+		public ICorDebugThread Thread
 		{
-			var hr = instance.GetThread(out var ppThread);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThread;
+			get
+			{
+				var hr = instance.GetThread(out var ppThread);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppThread;
+			}
 		}
 
 		public int IsManaged()

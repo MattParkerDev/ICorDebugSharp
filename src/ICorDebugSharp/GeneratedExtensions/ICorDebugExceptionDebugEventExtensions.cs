@@ -12,25 +12,34 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 {
 	extension(ICorDebugExceptionDebugEvent instance)
 	{
-		public CorDebugExceptionFlags GetFlags()
+		public CorDebugExceptionFlags Flags
 		{
-			var hr = instance.GetFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
+			get
+			{
+				var hr = instance.GetFlags(out var pdwFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwFlags;
+			}
 		}
 
-		public CORDB_ADDRESS GetNativeIP()
+		public CORDB_ADDRESS NativeIP
 		{
-			var hr = instance.GetNativeIP(out var pIP);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIP;
+			get
+			{
+				var hr = instance.GetNativeIP(out var pIP);
+				Marshal.ThrowExceptionForHR(hr);
+				return pIP;
+			}
 		}
 
-		public CORDB_ADDRESS GetStackPointer()
+		public CORDB_ADDRESS StackPointer
 		{
-			var hr = instance.GetStackPointer(out var pStackPointer);
-			Marshal.ThrowExceptionForHR(hr);
-			return pStackPointer;
+			get
+			{
+				var hr = instance.GetStackPointer(out var pStackPointer);
+				Marshal.ThrowExceptionForHR(hr);
+				return pStackPointer;
+			}
 		}
 	}
 }

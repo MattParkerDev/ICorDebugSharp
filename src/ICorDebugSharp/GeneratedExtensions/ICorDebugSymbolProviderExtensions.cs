@@ -19,11 +19,14 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return ppMemoryBuffer;
 		}
 
-		public ICorDebugMemoryBuffer GetAssemblyImageMetadata()
+		public ICorDebugMemoryBuffer AssemblyImageMetadata
 		{
-			var hr = instance.GetAssemblyImageMetadata(out var ppMemoryBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppMemoryBuffer;
+			get
+			{
+				var hr = instance.GetAssemblyImageMetadata(out var ppMemoryBuffer);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppMemoryBuffer;
+			}
 		}
 
 		public (uint pCodeStartAddress, uint pCodeSize) GetCodeRange(uint codeRva)

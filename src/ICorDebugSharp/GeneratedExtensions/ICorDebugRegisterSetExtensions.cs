@@ -12,11 +12,14 @@ public static unsafe class CorDebugRegisterSetExtensions
 {
 	extension(ICorDebugRegisterSet instance)
 	{
-		public ulong GetRegistersAvailable()
+		public ulong RegistersAvailable
 		{
-			var hr = instance.GetRegistersAvailable(out var pAvailable);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAvailable;
+			get
+			{
+				var hr = instance.GetRegistersAvailable(out var pAvailable);
+				Marshal.ThrowExceptionForHR(hr);
+				return pAvailable;
+			}
 		}
 	}
 }

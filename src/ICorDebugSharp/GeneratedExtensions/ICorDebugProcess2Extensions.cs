@@ -12,11 +12,14 @@ public static unsafe class CorDebugProcess2Extensions
 {
 	extension(ICorDebugProcess2 instance)
 	{
-		public uint GetDesiredNGENCompilerFlags()
+		public uint DesiredNGENCompilerFlags
 		{
-			var hr = instance.GetDesiredNGENCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
+			get
+			{
+				var hr = instance.GetDesiredNGENCompilerFlags(out var pdwFlags);
+				Marshal.ThrowExceptionForHR(hr);
+				return pdwFlags;
+			}
 		}
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
@@ -33,11 +36,14 @@ public static unsafe class CorDebugProcess2Extensions
 			return ppThread;
 		}
 
-		public COR_VERSION GetVersion()
+		public COR_VERSION Version
 		{
-			var hr = instance.GetVersion(out var version);
-			Marshal.ThrowExceptionForHR(hr);
-			return version;
+			get
+			{
+				var hr = instance.GetVersion(out var version);
+				Marshal.ThrowExceptionForHR(hr);
+				return version;
+			}
 		}
 
 		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)

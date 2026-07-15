@@ -57,11 +57,14 @@ public static unsafe class CorDebugProcessProcess5Extensions
 			return pLayout;
 		}
 
-		public COR_HEAPINFO GetGCHeapInformation()
+		public COR_HEAPINFO GCHeapInformation
 		{
-			var hr = GetCapability(instance).GetGCHeapInformation(out var pHeapInfo);
-			Marshal.ThrowExceptionForHR(hr);
-			return pHeapInfo;
+			get
+			{
+				var hr = GetCapability(instance).GetGCHeapInformation(out var pHeapInfo);
+				Marshal.ThrowExceptionForHR(hr);
+				return pHeapInfo;
+			}
 		}
 
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)

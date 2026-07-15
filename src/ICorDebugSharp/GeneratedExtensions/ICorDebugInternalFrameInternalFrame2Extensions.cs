@@ -16,11 +16,14 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 
 		public ICorDebugInternalFrame2 InternalFrame2 => GetCapability(instance);
 
-		public CORDB_ADDRESS GetAddress()
+		public CORDB_ADDRESS Address
 		{
-			var hr = GetCapability(instance).GetAddress(out var pAddress);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAddress;
+			get
+			{
+				var hr = GetCapability(instance).GetAddress(out var pAddress);
+				Marshal.ThrowExceptionForHR(hr);
+				return pAddress;
+			}
 		}
 
 		public int IsCloserToLeaf(ICorDebugFrame pFrameToCompare)

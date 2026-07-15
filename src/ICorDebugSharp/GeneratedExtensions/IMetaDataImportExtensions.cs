@@ -57,7 +57,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public IEnumerable<mdCustomAttribute> EnumCustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
 
-		public (string szName, Guid pmvid) GetScopeProps() => QueryGetScopeProps(instance);
+		public (string szName, Guid pmvid) ScopeProps => QueryGetScopeProps(instance);
 
 		public (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
@@ -547,11 +547,14 @@ public static unsafe class MetaDataImportExtensions
 			return pdwSemanticsFlags;
 		}
 
-		public mdModule GetModuleFromScope()
+		public mdModule ModuleFromScope
 		{
-			var hr = instance.GetModuleFromScope(out var pmd);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmd;
+			get
+			{
+				var hr = instance.GetModuleFromScope(out var pmd);
+				Marshal.ThrowExceptionForHR(hr);
+				return pmd;
+			}
 		}
 
 		public uint GetModuleRefProps(mdModuleRef mur, char[]? szName, uint cchName)

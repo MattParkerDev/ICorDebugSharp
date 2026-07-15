@@ -19,11 +19,14 @@ public static unsafe class CorDebugStackWalkExtensions
 			return contextSize;
 		}
 
-		public ICorDebugFrame GetFrame()
+		public ICorDebugFrame Frame
 		{
-			var hr = instance.GetFrame(out var pFrame);
-			Marshal.ThrowExceptionForHR(hr);
-			return pFrame;
+			get
+			{
+				var hr = instance.GetFrame(out var pFrame);
+				Marshal.ThrowExceptionForHR(hr);
+				return pFrame;
+			}
 		}
 	}
 }

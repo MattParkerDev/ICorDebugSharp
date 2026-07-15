@@ -19,7 +19,7 @@ public static unsafe class MetaDataImport2Extensions
 
 		public IEnumerable<mdMethodSpec> EnumMethodSpecs(mdToken tk) => EnumerateMethodSpecsCore(instance, tk);
 
-		public string GetVersionString() => QueryGetVersionString(instance);
+		public string VersionString => QueryGetVersionString(instance);
 
 		public (string wzname, uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
 		{
@@ -88,11 +88,14 @@ public static unsafe class MetaDataImport2Extensions
 			return (tkParent, ppvSigBlob.ToArray(), pcbSigBlob);
 		}
 
-		public (uint pdwPEKind, uint pdwMAchine) GetPEKind()
+		public (uint pdwPEKind, uint pdwMAchine) PEKind
 		{
-			var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pdwPEKind, pdwMAchine);
+			get
+			{
+				var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pdwPEKind, pdwMAchine);
+			}
 		}
 
 		public uint GetVersionString(char[]? pwzBuf, uint ccBufSize)

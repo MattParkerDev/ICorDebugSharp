@@ -19,53 +19,74 @@ public static unsafe class CorDebugFunctionExtensions
 			return ppBreakpoint;
 		}
 
-		public ICorDebugClass GetClass()
+		public ICorDebugClass Class
 		{
-			var hr = instance.GetClass(out var ppClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppClass;
+			get
+			{
+				var hr = instance.GetClass(out var ppClass);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppClass;
+			}
 		}
 
-		public uint GetCurrentVersionNumber()
+		public uint CurrentVersionNumber
 		{
-			var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnCurrentVersion;
+			get
+			{
+				var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnCurrentVersion;
+			}
 		}
 
-		public ICorDebugCode GetILCode()
+		public ICorDebugCode ILCode
 		{
-			var hr = instance.GetILCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
+			get
+			{
+				var hr = instance.GetILCode(out var ppCode);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppCode;
+			}
 		}
 
-		public mdSignature GetLocalVarSigToken()
+		public mdSignature LocalVarSigToken
 		{
-			var hr = instance.GetLocalVarSigToken(out var pmdSig);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmdSig;
+			get
+			{
+				var hr = instance.GetLocalVarSigToken(out var pmdSig);
+				Marshal.ThrowExceptionForHR(hr);
+				return pmdSig;
+			}
 		}
 
-		public ICorDebugModule GetModule()
+		public ICorDebugModule Module
 		{
-			var hr = instance.GetModule(out var ppModule);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppModule;
+			get
+			{
+				var hr = instance.GetModule(out var ppModule);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppModule;
+			}
 		}
 
-		public ICorDebugCode GetNativeCode()
+		public ICorDebugCode NativeCode
 		{
-			var hr = instance.GetNativeCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
+			get
+			{
+				var hr = instance.GetNativeCode(out var ppCode);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppCode;
+			}
 		}
 
-		public mdMethodDef GetToken()
+		public mdMethodDef Token
 		{
-			var hr = instance.GetToken(out var pMethodDef);
-			Marshal.ThrowExceptionForHR(hr);
-			return pMethodDef;
+			get
+			{
+				var hr = instance.GetToken(out var pMethodDef);
+				Marshal.ThrowExceptionForHR(hr);
+				return pMethodDef;
+			}
 		}
 	}
 }

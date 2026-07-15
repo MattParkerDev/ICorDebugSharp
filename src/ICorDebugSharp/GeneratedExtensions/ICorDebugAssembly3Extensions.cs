@@ -19,11 +19,14 @@ public static unsafe class CorDebugAssembly3Extensions
 			return ppAssemblies;
 		}
 
-		public ICorDebugAssembly GetContainerAssembly()
+		public ICorDebugAssembly ContainerAssembly
 		{
-			var hr = instance.GetContainerAssembly(out var ppAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAssembly;
+			get
+			{
+				var hr = instance.GetContainerAssembly(out var ppAssembly);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppAssembly;
+			}
 		}
 	}
 }

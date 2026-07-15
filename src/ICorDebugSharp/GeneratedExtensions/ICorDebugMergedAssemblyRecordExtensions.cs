@@ -12,62 +12,68 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 {
 	extension(ICorDebugMergedAssemblyRecord instance)
 	{
-		public string GetSimpleName()
+		public string SimpleName
 		{
-			var hr = instance.GetSimpleName(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return string.Empty;
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetSimpleName(capacity, out var actual, buffer);
+				var hr = instance.GetSimpleName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return string.Empty;
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new char[checked((int)capacity)];
+					hr = instance.GetSimpleName(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					var length = checked((int)actual);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
-				var length = checked((int)actual);
-				if (length > 0 && buffer[length - 1] == '\0')
-					length--;
-
-				return new string(buffer, 0, length);
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public string GetCulture()
+		public string Culture
 		{
-			var hr = instance.GetCulture(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return string.Empty;
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetCulture(capacity, out var actual, buffer);
+				var hr = instance.GetCulture(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return string.Empty;
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new char[checked((int)capacity)];
+					hr = instance.GetCulture(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					var length = checked((int)actual);
+					if (length > 0 && buffer[length - 1] == '\0')
+						length--;
+
+					return new string(buffer, 0, length);
 				}
 
-				var length = checked((int)actual);
-				if (length > 0 && buffer[length - 1] == '\0')
-					length--;
-
-				return new string(buffer, 0, length);
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public uint GetCulture(uint cchCulture, char[]? szCulture)
@@ -77,11 +83,14 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			return pcchCulture;
 		}
 
-		public uint GetIndex()
+		public uint Index
 		{
-			var hr = instance.GetIndex(out var pIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIndex;
+			get
+			{
+				var hr = instance.GetIndex(out var pIndex);
+				Marshal.ThrowExceptionForHR(hr);
+				return pIndex;
+			}
 		}
 
 		public uint GetPublicKey(uint cbPublicKey, byte[] pbPublicKey)
@@ -105,11 +114,14 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			return pcchName;
 		}
 
-		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) GetVersion()
+		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) Version
 		{
-			var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pMajor, pMinor, pBuild, pRevision);
+			get
+			{
+				var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pMajor, pMinor, pBuild, pRevision);
+			}
 		}
 	}
 }

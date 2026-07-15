@@ -12,11 +12,14 @@ public static unsafe class CorDebugNativeFrameExtensions
 {
 	extension(ICorDebugNativeFrame instance)
 	{
-		public uint GetIP()
+		public uint IP
 		{
-			var hr = instance.GetIP(out var pnOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnOffset;
+			get
+			{
+				var hr = instance.GetIP(out var pnOffset);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnOffset;
+			}
 		}
 
 		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
@@ -54,11 +57,14 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
-		public ICorDebugRegisterSet GetRegisterSet()
+		public ICorDebugRegisterSet RegisterSet
 		{
-			var hr = instance.GetRegisterSet(out var ppRegisters);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppRegisters;
+			get
+			{
+				var hr = instance.GetRegisterSet(out var ppRegisters);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppRegisters;
+			}
 		}
 	}
 }

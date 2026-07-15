@@ -12,11 +12,14 @@ public static unsafe class CorDebugValue3Extensions
 {
 	extension(ICorDebugValue3 instance)
 	{
-		public ulong GetSize64()
+		public ulong Size64
 		{
-			var hr = instance.GetSize64(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
+			get
+			{
+				var hr = instance.GetSize64(out var pSize);
+				Marshal.ThrowExceptionForHR(hr);
+				return pSize;
+			}
 		}
 	}
 }

@@ -16,11 +16,14 @@ public static unsafe class CorDebugTypeType2Extensions
 
 		public ICorDebugType2 Type2 => GetCapability(instance);
 
-		public COR_TYPEID GetTypeID()
+		public COR_TYPEID TypeID
 		{
-			var hr = GetCapability(instance).GetTypeID(out var id);
-			Marshal.ThrowExceptionForHR(hr);
-			return id;
+			get
+			{
+				var hr = GetCapability(instance).GetTypeID(out var id);
+				Marshal.ThrowExceptionForHR(hr);
+				return id;
+			}
 		}
 	}
 

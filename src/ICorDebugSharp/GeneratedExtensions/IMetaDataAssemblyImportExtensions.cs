@@ -126,11 +126,14 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return ptkManifestResource;
 		}
 
-		public mdAssembly GetAssemblyFromScope()
+		public mdAssembly AssemblyFromScope
 		{
-			var hr = instance.GetAssemblyFromScope(out var ptkAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ptkAssembly;
+			get
+			{
+				var hr = instance.GetAssemblyFromScope(out var ptkAssembly);
+				Marshal.ThrowExceptionForHR(hr);
+				return ptkAssembly;
+			}
 		}
 
 		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)

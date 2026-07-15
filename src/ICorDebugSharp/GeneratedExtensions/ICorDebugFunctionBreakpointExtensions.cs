@@ -12,18 +12,24 @@ public static unsafe class CorDebugFunctionBreakpointExtensions
 {
 	extension(ICorDebugFunctionBreakpoint instance)
 	{
-		public ICorDebugFunction GetFunction()
+		public ICorDebugFunction Function
 		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
+			get
+			{
+				var hr = instance.GetFunction(out var ppFunction);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFunction;
+			}
 		}
 
-		public uint GetOffset()
+		public uint Offset
 		{
-			var hr = instance.GetOffset(out var pnOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnOffset;
+			get
+			{
+				var hr = instance.GetOffset(out var pnOffset);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnOffset;
+			}
 		}
 	}
 }

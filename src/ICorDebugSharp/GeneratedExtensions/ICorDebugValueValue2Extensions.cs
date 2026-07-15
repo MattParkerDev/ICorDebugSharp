@@ -16,11 +16,14 @@ public static unsafe class CorDebugValueValue2Extensions
 
 		public ICorDebugValue2 Value2 => GetCapability(instance);
 
-		public ICorDebugType GetExactType()
+		public ICorDebugType ExactType
 		{
-			var hr = GetCapability(instance).GetExactType(out var ppType);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppType;
+			get
+			{
+				var hr = GetCapability(instance).GetExactType(out var ppType);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppType;
+			}
 		}
 	}
 

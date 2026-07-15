@@ -12,11 +12,14 @@ public static unsafe class CorDebugInternalFrameExtensions
 {
 	extension(ICorDebugInternalFrame instance)
 	{
-		public CorDebugInternalFrameType GetFrameType()
+		public CorDebugInternalFrameType FrameType
 		{
-			var hr = instance.GetFrameType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
+			get
+			{
+				var hr = instance.GetFrameType(out var pType);
+				Marshal.ThrowExceptionForHR(hr);
+				return pType;
+			}
 		}
 	}
 }

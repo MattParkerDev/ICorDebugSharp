@@ -19,25 +19,34 @@ public static unsafe class CorDebugValueExtensions
 			return ppBreakpoint;
 		}
 
-		public CORDB_ADDRESS GetAddress()
+		public CORDB_ADDRESS Address
 		{
-			var hr = instance.GetAddress(out var pAddress);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAddress;
+			get
+			{
+				var hr = instance.GetAddress(out var pAddress);
+				Marshal.ThrowExceptionForHR(hr);
+				return pAddress;
+			}
 		}
 
-		public uint GetSize()
+		public uint Size
 		{
-			var hr = instance.GetSize(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
+			get
+			{
+				var hr = instance.GetSize(out var pSize);
+				Marshal.ThrowExceptionForHR(hr);
+				return pSize;
+			}
 		}
 
-		public uint GetType()
+		public uint Type
 		{
-			var hr = instance.GetType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
+			get
+			{
+				var hr = instance.GetType(out var pType);
+				Marshal.ThrowExceptionForHR(hr);
+				return pType;
+			}
 		}
 	}
 }

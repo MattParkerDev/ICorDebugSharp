@@ -19,32 +19,44 @@ public static unsafe class CorDebugTypeExtensions
 			return ppTyParEnum;
 		}
 
-		public ICorDebugType GetBase()
+		public ICorDebugType Base
 		{
-			var hr = instance.GetBase(out var pBase);
-			Marshal.ThrowExceptionForHR(hr);
-			return pBase;
+			get
+			{
+				var hr = instance.GetBase(out var pBase);
+				Marshal.ThrowExceptionForHR(hr);
+				return pBase;
+			}
 		}
 
-		public ICorDebugClass GetClass()
+		public ICorDebugClass Class
 		{
-			var hr = instance.GetClass(out var ppClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppClass;
+			get
+			{
+				var hr = instance.GetClass(out var ppClass);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppClass;
+			}
 		}
 
-		public ICorDebugType GetFirstTypeParameter()
+		public ICorDebugType FirstTypeParameter
 		{
-			var hr = instance.GetFirstTypeParameter(out var value);
-			Marshal.ThrowExceptionForHR(hr);
-			return value;
+			get
+			{
+				var hr = instance.GetFirstTypeParameter(out var value);
+				Marshal.ThrowExceptionForHR(hr);
+				return value;
+			}
 		}
 
-		public uint GetRank()
+		public uint Rank
 		{
-			var hr = instance.GetRank(out var pnRank);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnRank;
+			get
+			{
+				var hr = instance.GetRank(out var pnRank);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnRank;
+			}
 		}
 
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
@@ -54,11 +66,14 @@ public static unsafe class CorDebugTypeExtensions
 			return ppValue;
 		}
 
-		public uint GetType()
+		public uint Type
 		{
-			var hr = instance.GetType(out var ty);
-			Marshal.ThrowExceptionForHR(hr);
-			return ty;
+			get
+			{
+				var hr = instance.GetType(out var ty);
+				Marshal.ThrowExceptionForHR(hr);
+				return ty;
+			}
 		}
 	}
 }

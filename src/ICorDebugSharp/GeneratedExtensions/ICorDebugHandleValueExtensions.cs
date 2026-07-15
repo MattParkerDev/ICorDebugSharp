@@ -12,11 +12,14 @@ public static unsafe class CorDebugHandleValueExtensions
 {
 	extension(ICorDebugHandleValue instance)
 	{
-		public CorDebugHandleType GetHandleType()
+		public CorDebugHandleType HandleType
 		{
-			var hr = instance.GetHandleType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
+			get
+			{
+				var hr = instance.GetHandleType(out var pType);
+				Marshal.ThrowExceptionForHR(hr);
+				return pType;
+			}
 		}
 	}
 }

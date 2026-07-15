@@ -12,11 +12,14 @@ public static unsafe class CorDebugValueBreakpointExtensions
 {
 	extension(ICorDebugValueBreakpoint instance)
 	{
-		public ICorDebugValue GetValue()
+		public ICorDebugValue Value
 		{
-			var hr = instance.GetValue(out var ppValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppValue;
+			get
+			{
+				var hr = instance.GetValue(out var ppValue);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppValue;
+			}
 		}
 	}
 }

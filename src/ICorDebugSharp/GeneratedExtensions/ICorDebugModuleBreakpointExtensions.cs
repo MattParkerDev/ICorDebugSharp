@@ -12,11 +12,14 @@ public static unsafe class CorDebugModuleBreakpointExtensions
 {
 	extension(ICorDebugModuleBreakpoint instance)
 	{
-		public ICorDebugModule GetModule()
+		public ICorDebugModule Module
 		{
-			var hr = instance.GetModule(out var ppModule);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppModule;
+			get
+			{
+				var hr = instance.GetModule(out var ppModule);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppModule;
+			}
 		}
 	}
 }

@@ -12,18 +12,24 @@ public static unsafe class CorDebugThread4Extensions
 {
 	extension(ICorDebugThread4 instance)
 	{
-		public ICorDebugBlockingObjectEnum GetBlockingObjects()
+		public ICorDebugBlockingObjectEnum BlockingObjects
 		{
-			var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppBlockingObjectEnum;
+			get
+			{
+				var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppBlockingObjectEnum;
+			}
 		}
 
-		public ICorDebugValue GetCurrentCustomDebuggerNotification()
+		public ICorDebugValue CurrentCustomDebuggerNotification
 		{
-			var hr = instance.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppNotificationObject;
+			get
+			{
+				var hr = instance.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppNotificationObject;
+			}
 		}
 	}
 }

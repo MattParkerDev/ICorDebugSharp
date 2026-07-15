@@ -16,11 +16,14 @@ public static unsafe class CorDebugFunctionFunction3Extensions
 
 		public ICorDebugFunction3 Function3 => GetCapability(instance);
 
-		public ICorDebugILCode GetActiveReJitRequestILCode()
+		public ICorDebugILCode ActiveReJitRequestILCode
 		{
-			var hr = GetCapability(instance).GetActiveReJitRequestILCode(out var ppReJitedILCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppReJitedILCode;
+			get
+			{
+				var hr = GetCapability(instance).GetActiveReJitRequestILCode(out var ppReJitedILCode);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppReJitedILCode;
+			}
 		}
 	}
 

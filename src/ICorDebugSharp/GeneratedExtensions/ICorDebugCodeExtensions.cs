@@ -12,32 +12,35 @@ public static unsafe class CorDebugCodeExtensions
 {
 	extension(ICorDebugCode instance)
 	{
-		public COR_DEBUG_IL_TO_NATIVE_MAP[] GetILToNativeMapping()
+		public COR_DEBUG_IL_TO_NATIVE_MAP[] ILToNativeMapping
 		{
-			var hr = instance.GetILToNativeMapping(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return [];
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new COR_DEBUG_IL_TO_NATIVE_MAP[checked((int)capacity)];
-				hr = instance.GetILToNativeMapping(capacity, out var actual, buffer);
+				var hr = instance.GetILToNativeMapping(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new COR_DEBUG_IL_TO_NATIVE_MAP[checked((int)capacity)];
+					hr = instance.GetILToNativeMapping(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
 				}
 
-				if (actual != capacity)
-					Array.Resize(ref buffer, checked((int)actual));
-
-				return buffer;
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public ICorDebugFunctionBreakpoint CreateBreakpoint(uint offset)
@@ -47,11 +50,14 @@ public static unsafe class CorDebugCodeExtensions
 			return ppBreakpoint;
 		}
 
-		public CORDB_ADDRESS GetAddress()
+		public CORDB_ADDRESS Address
 		{
-			var hr = instance.GetAddress(out var pStart);
-			Marshal.ThrowExceptionForHR(hr);
-			return pStart;
+			get
+			{
+				var hr = instance.GetAddress(out var pStart);
+				Marshal.ThrowExceptionForHR(hr);
+				return pStart;
+			}
 		}
 
 		public uint GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, byte[] buffer)
@@ -68,11 +74,14 @@ public static unsafe class CorDebugCodeExtensions
 			return pcMap;
 		}
 
-		public ICorDebugFunction GetFunction()
+		public ICorDebugFunction Function
 		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
+			get
+			{
+				var hr = instance.GetFunction(out var ppFunction);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFunction;
+			}
 		}
 
 		public uint GetILToNativeMapping(uint cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
@@ -82,18 +91,24 @@ public static unsafe class CorDebugCodeExtensions
 			return pcMap;
 		}
 
-		public uint GetSize()
+		public uint Size
 		{
-			var hr = instance.GetSize(out var pcBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcBytes;
+			get
+			{
+				var hr = instance.GetSize(out var pcBytes);
+				Marshal.ThrowExceptionForHR(hr);
+				return pcBytes;
+			}
 		}
 
-		public uint GetVersionNumber()
+		public uint VersionNumber
 		{
-			var hr = instance.GetVersionNumber(out var nVersion);
-			Marshal.ThrowExceptionForHR(hr);
-			return nVersion;
+			get
+			{
+				var hr = instance.GetVersionNumber(out var nVersion);
+				Marshal.ThrowExceptionForHR(hr);
+				return nVersion;
+			}
 		}
 
 		public int IsIL()

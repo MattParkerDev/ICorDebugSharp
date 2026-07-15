@@ -19,25 +19,34 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			return pMvid;
 		}
 
-		public Guid GetMvid()
+		public Guid Mvid
 		{
-			var hr = instance.GetMvid(out var pMvid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pMvid;
+			get
+			{
+				var hr = instance.GetMvid(out var pMvid);
+				Marshal.ThrowExceptionForHR(hr);
+				return pMvid;
+			}
 		}
 
-		public uint GetRoDataRVA()
+		public uint RoDataRVA
 		{
-			var hr = instance.GetRoDataRVA(out var pRoDataRVA);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRoDataRVA;
+			get
+			{
+				var hr = instance.GetRoDataRVA(out var pRoDataRVA);
+				Marshal.ThrowExceptionForHR(hr);
+				return pRoDataRVA;
+			}
 		}
 
-		public uint GetRwDataRVA()
+		public uint RwDataRVA
 		{
-			var hr = instance.GetRwDataRVA(out var pRwDataRVA);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRwDataRVA;
+			get
+			{
+				var hr = instance.GetRwDataRVA(out var pRwDataRVA);
+				Marshal.ThrowExceptionForHR(hr);
+				return pRwDataRVA;
+			}
 		}
 	}
 }

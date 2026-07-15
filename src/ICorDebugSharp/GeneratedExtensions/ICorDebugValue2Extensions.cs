@@ -12,11 +12,14 @@ public static unsafe class CorDebugValue2Extensions
 {
 	extension(ICorDebugValue2 instance)
 	{
-		public ICorDebugType GetExactType()
+		public ICorDebugType ExactType
 		{
-			var hr = instance.GetExactType(out var ppType);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppType;
+			get
+			{
+				var hr = instance.GetExactType(out var ppType);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppType;
+			}
 		}
 	}
 }

@@ -12,11 +12,14 @@ public static unsafe class CorDebugAppDomain3Extensions
 {
 	extension(ICorDebugAppDomain3 instance)
 	{
-		public ICorDebugGuidToTypeEnum GetCachedWinRTTypes()
+		public ICorDebugGuidToTypeEnum CachedWinRTTypes
 		{
-			var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppGuidToTypeEnum;
+			get
+			{
+				var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppGuidToTypeEnum;
+			}
 		}
 
 		public ICorDebugTypeEnum GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)

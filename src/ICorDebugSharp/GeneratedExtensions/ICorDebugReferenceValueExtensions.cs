@@ -26,11 +26,14 @@ public static unsafe class CorDebugReferenceValueExtensions
 			return ppValue;
 		}
 
-		public CORDB_ADDRESS GetValue()
+		public CORDB_ADDRESS Value
 		{
-			var hr = instance.GetValue(out var pValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return pValue;
+			get
+			{
+				var hr = instance.GetValue(out var pValue);
+				Marshal.ThrowExceptionForHR(hr);
+				return pValue;
+			}
 		}
 
 		public int IsNull()

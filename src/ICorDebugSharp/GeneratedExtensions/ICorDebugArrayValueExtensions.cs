@@ -12,11 +12,14 @@ public static unsafe class CorDebugArrayValueExtensions
 {
 	extension(ICorDebugArrayValue instance)
 	{
-		public uint GetCount()
+		public uint Count
 		{
-			var hr = instance.GetCount(out var pnCount);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnCount;
+			get
+			{
+				var hr = instance.GetCount(out var pnCount);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnCount;
+			}
 		}
 
 		public ICorDebugValue GetElement(uint cdim, uint[] indices)
@@ -33,18 +36,24 @@ public static unsafe class CorDebugArrayValueExtensions
 			return ppValue;
 		}
 
-		public uint GetElementType()
+		public uint ElementType
 		{
-			var hr = instance.GetElementType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
+			get
+			{
+				var hr = instance.GetElementType(out var pType);
+				Marshal.ThrowExceptionForHR(hr);
+				return pType;
+			}
 		}
 
-		public uint GetRank()
+		public uint Rank
 		{
-			var hr = instance.GetRank(out var pnRank);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnRank;
+			get
+			{
+				var hr = instance.GetRank(out var pnRank);
+				Marshal.ThrowExceptionForHR(hr);
+				return pnRank;
+			}
 		}
 
 		public int HasBaseIndicies()

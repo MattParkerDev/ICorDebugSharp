@@ -19,53 +19,74 @@ public static unsafe class CorDebugFrameExtensions
 			return ppStepper;
 		}
 
-		public ICorDebugFrame GetCallee()
+		public ICorDebugFrame Callee
 		{
-			var hr = instance.GetCallee(out var ppFrame);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFrame;
+			get
+			{
+				var hr = instance.GetCallee(out var ppFrame);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFrame;
+			}
 		}
 
-		public ICorDebugFrame GetCaller()
+		public ICorDebugFrame Caller
 		{
-			var hr = instance.GetCaller(out var ppFrame);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFrame;
+			get
+			{
+				var hr = instance.GetCaller(out var ppFrame);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFrame;
+			}
 		}
 
-		public ICorDebugChain GetChain()
+		public ICorDebugChain Chain
 		{
-			var hr = instance.GetChain(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
+			get
+			{
+				var hr = instance.GetChain(out var ppChain);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppChain;
+			}
 		}
 
-		public ICorDebugCode GetCode()
+		public ICorDebugCode Code
 		{
-			var hr = instance.GetCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
+			get
+			{
+				var hr = instance.GetCode(out var ppCode);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppCode;
+			}
 		}
 
-		public ICorDebugFunction GetFunction()
+		public ICorDebugFunction Function
 		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
+			get
+			{
+				var hr = instance.GetFunction(out var ppFunction);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppFunction;
+			}
 		}
 
-		public mdMethodDef GetFunctionToken()
+		public mdMethodDef FunctionToken
 		{
-			var hr = instance.GetFunctionToken(out var pToken);
-			Marshal.ThrowExceptionForHR(hr);
-			return pToken;
+			get
+			{
+				var hr = instance.GetFunctionToken(out var pToken);
+				Marshal.ThrowExceptionForHR(hr);
+				return pToken;
+			}
 		}
 
-		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) GetStackRange()
+		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) StackRange
 		{
-			var hr = instance.GetStackRange(out var pStart, out var pEnd);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pStart, pEnd);
+			get
+			{
+				var hr = instance.GetStackRange(out var pStart, out var pEnd);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pStart, pEnd);
+			}
 		}
 	}
 }

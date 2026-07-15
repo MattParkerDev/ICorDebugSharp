@@ -12,11 +12,14 @@ public static unsafe class CorDebugBoxValueExtensions
 {
 	extension(ICorDebugBoxValue instance)
 	{
-		public ICorDebugObjectValue GetObject()
+		public ICorDebugObjectValue Object
 		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
+			get
+			{
+				var hr = instance.GetObject(out var ppObject);
+				Marshal.ThrowExceptionForHR(hr);
+				return ppObject;
+			}
 		}
 	}
 }

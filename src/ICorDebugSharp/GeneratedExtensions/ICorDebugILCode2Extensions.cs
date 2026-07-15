@@ -12,32 +12,35 @@ public static unsafe class CorDebugILCode2Extensions
 {
 	extension(ICorDebugILCode2 instance)
 	{
-		public COR_IL_MAP[] GetInstrumentedILMap()
+		public COR_IL_MAP[] InstrumentedILMap
 		{
-			var hr = instance.GetInstrumentedILMap(0, out var required, null!);
-			Marshal.ThrowExceptionForHR(hr);
-			if (required == 0)
-				return [];
-
-			for (var attempt = 0; attempt < 3; attempt++)
+			get
 			{
-				var capacity = required;
-				var buffer = new COR_IL_MAP[checked((int)capacity)];
-				hr = instance.GetInstrumentedILMap(capacity, out var actual, buffer);
+				var hr = instance.GetInstrumentedILMap(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
-				if (actual > capacity)
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
 				{
-					required = actual;
-					continue;
+					var capacity = required;
+					var buffer = new COR_IL_MAP[checked((int)capacity)];
+					hr = instance.GetInstrumentedILMap(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
 				}
 
-				if (actual != capacity)
-					Array.Resize(ref buffer, checked((int)actual));
-
-				return buffer;
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
-
-			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
 		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
@@ -47,11 +50,14 @@ public static unsafe class CorDebugILCode2Extensions
 			return pcMap;
 		}
 
-		public mdSignature GetLocalVarSigToken()
+		public mdSignature LocalVarSigToken
 		{
-			var hr = instance.GetLocalVarSigToken(out var pmdSig);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmdSig;
+			get
+			{
+				var hr = instance.GetLocalVarSigToken(out var pmdSig);
+				Marshal.ThrowExceptionForHR(hr);
+				return pmdSig;
+			}
 		}
 	}
 }

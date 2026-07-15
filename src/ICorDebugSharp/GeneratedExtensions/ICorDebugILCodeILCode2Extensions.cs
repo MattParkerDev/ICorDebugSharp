@@ -23,11 +23,14 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 			return pcMap;
 		}
 
-		public mdSignature GetLocalVarSigToken()
+		public mdSignature LocalVarSigToken
 		{
-			var hr = GetCapability(instance).GetLocalVarSigToken(out var pmdSig);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmdSig;
+			get
+			{
+				var hr = GetCapability(instance).GetLocalVarSigToken(out var pmdSig);
+				Marshal.ThrowExceptionForHR(hr);
+				return pmdSig;
+			}
 		}
 
 		public COR_IL_MAP[] GetInstrumentedILMap() => GetCapability(instance).GetInstrumentedILMap();
