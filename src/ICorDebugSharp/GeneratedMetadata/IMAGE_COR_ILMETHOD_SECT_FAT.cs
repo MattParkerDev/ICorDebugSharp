@@ -1,7 +1,7 @@
 // ReSharper disable InconsistentNaming
 using System.Runtime.CompilerServices;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public partial struct IMAGE_COR_ILMETHOD_SECT_FAT
 {

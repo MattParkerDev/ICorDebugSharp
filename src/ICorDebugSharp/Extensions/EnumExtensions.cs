@@ -1,19 +1,19 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using ICorDebugSharp.GeneratedMetadata;
-using static ICorDebugSharp.GeneratedMetadata.CorTypeAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorMethodAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorFieldAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorParamAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorPropertyAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorEventAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorMethodSemanticsAttr;
-using static ICorDebugSharp.GeneratedMetadata.CorDeclSecurity;
-using static ICorDebugSharp.GeneratedMetadata.CorMethodImpl;
-using static ICorDebugSharp.GeneratedMetadata.CorPinvokeMap;
-using static ICorDebugSharp.GeneratedMetadata.CorAssemblyFlags;
-using static ICorDebugSharp.GeneratedMetadata.CorManifestResourceFlags;
-using static ICorDebugSharp.GeneratedMetadata.CorFileFlags;
+using ICorDebugSharp;
+using static ICorDebugSharp.CorTypeAttr;
+using static ICorDebugSharp.CorMethodAttr;
+using static ICorDebugSharp.CorFieldAttr;
+using static ICorDebugSharp.CorParamAttr;
+using static ICorDebugSharp.CorPropertyAttr;
+using static ICorDebugSharp.CorEventAttr;
+using static ICorDebugSharp.CorMethodSemanticsAttr;
+using static ICorDebugSharp.CorDeclSecurity;
+using static ICorDebugSharp.CorMethodImpl;
+using static ICorDebugSharp.CorPinvokeMap;
+using static ICorDebugSharp.CorAssemblyFlags;
+using static ICorDebugSharp.CorManifestResourceFlags;
+using static ICorDebugSharp.CorFileFlags;
 
 namespace ICorDebugSharp.Extensions;
 

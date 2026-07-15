@@ -1,7 +1,7 @@
 // ReSharper disable InconsistentNaming
-using static ICorDebugSharp.GeneratedMetadata.CorElementType;
+using static ICorDebugSharp.CorElementType;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public enum CorSerializationType
 {

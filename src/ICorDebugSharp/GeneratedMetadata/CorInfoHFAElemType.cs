@@ -1,5 +1,5 @@
 // ReSharper disable InconsistentNaming
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 [NativeTypeName("unsigned int")]
 public enum CorInfoHFAElemType : uint

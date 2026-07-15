@@ -5,9 +5,8 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
 using ICorDebugSharp;
-using ICorDebugSharp.GeneratedMetadata;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]

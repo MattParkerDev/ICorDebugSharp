@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public partial struct IMAGE_COR_ILMETHOD_SECT_EH_SMALL
 {

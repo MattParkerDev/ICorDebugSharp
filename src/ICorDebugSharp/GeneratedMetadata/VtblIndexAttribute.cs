@@ -2,7 +2,7 @@
 using System;
 using System.Diagnostics;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 /// <summary>Defines the vtbl index of a method as it was in the native signature.</summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]

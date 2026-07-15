@@ -1,9 +1,9 @@
 // ReSharper disable InconsistentNaming
 using System;
-using static ICorDebugSharp.GeneratedMetadata.CorCallingConvention;
-using static ICorDebugSharp.GeneratedMetadata.CorTokenType;
+using static ICorDebugSharp.CorCallingConvention;
+using static ICorDebugSharp.CorTokenType;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public static partial class Cor
 {

@@ -1,7 +1,7 @@
 // ReSharper disable InconsistentNaming
 using System.Runtime.InteropServices;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 [StructLayout(LayoutKind.Explicit)]
 public partial struct IMAGE_COR_ILMETHOD_SECT_EH

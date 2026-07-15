@@ -1,7 +1,7 @@
 // ReSharper disable InconsistentNaming
-using static ICorDebugSharp.GeneratedMetadata.CorUnmanagedCallingConvention;
+using static ICorDebugSharp.CorUnmanagedCallingConvention;
 
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public enum CorCallingConvention
 {
