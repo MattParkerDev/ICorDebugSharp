@@ -704,9 +704,13 @@ class CSharpGenerator:
         if underlying_type == "uint":
             token_type = METADATA_TOKEN_TYPES.get(name)
             nil_value = f"(uint) CorTokenType.{token_type}" if token_type else "0"
-            conversion = ""
+            conversions = (
+                f"    public static implicit operator int({self.escape_identifier(name)} value) => "
+                "unchecked((int)value.Value);\n\n"
+                f"    public static implicit operator uint({self.escape_identifier(name)} value) => value.Value;\n\n"
+            )
             if name != "mdToken":
-                conversion = (
+                conversions += (
                     f"    public static implicit operator mdToken"
                     f"({self.escape_identifier(name)} value) => new(value.Value);\n\n"
                 )
@@ -727,7 +731,7 @@ class CSharpGenerator:
                 "    public CorTokenType Type => (CorTokenType)(Value & 0xFF000000);\n\n"
                 "    /// <summary>Gets the raw numeric value of the metadata token.</summary>\n"
                 "    public uint Value { get; }\n\n"
-                f"{conversion}"
+                f"{conversions}"
                 "    public bool IsNil => Rid == 0;\n"
                 "}\n"
             )
