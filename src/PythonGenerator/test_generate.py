@@ -201,6 +201,11 @@ class CSharpGeneratorTests(unittest.TestCase):
             "public static readonly mdTypeDef Nil = new((uint) CorTokenType.mdtTypeDef);",
             typed_source,
         )
+        self.assertIn(
+            "public static implicit operator mdToken(mdTypeDef value) => new(value.Value);",
+            typed_source,
+        )
+        self.assertNotIn("implicit operator mdToken(mdToken", source)
 
     def test_generates_preserved_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_preserved_typedef("CORDB_ADDRESS")
