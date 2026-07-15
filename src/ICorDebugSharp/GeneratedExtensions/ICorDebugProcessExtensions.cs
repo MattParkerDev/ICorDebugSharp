@@ -46,7 +46,7 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
-		public uint ID
+		public uint Id
 		{
 			get
 			{

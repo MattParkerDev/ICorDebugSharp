@@ -65,7 +65,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			return ppSteppers;
 		}
 
-		public uint ID
+		public uint Id
 		{
 			get
 			{

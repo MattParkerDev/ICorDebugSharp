@@ -93,7 +93,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
-		public uint ID
+		public uint Id
 		{
 			get
 			{

@@ -185,7 +185,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = outputs.Count == 1
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
-		return $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+		return $"\t\tpublic {returnType} {PropertyName(method.Name[3..])}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
 			"\t\t\t}\n\t\t}";
 	}
@@ -293,7 +293,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var elementType = buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
 		var returnType = recipe.Kind == BufferKind.String ? "string" : $"{elementType}[]";
 		var declaration = retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
-			? $"\t\tpublic {returnType} {recipe.Method[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 4)}\n\t\t\t}}\n\t\t}}"
+			? $"\t\tpublic {returnType} {PropertyName(recipe.Method[3..])}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 4)}\n\t\t\t}}\n\t\t}}"
 			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 3)}\n\t\t}}";
 		return declaration;
 	}
@@ -427,6 +427,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		string.Join("\n", value.Split('\n').Select(line => line.Length == 0 ? "" : indentation + line));
 
 	private static string RenderInputParameter(ManagedParameter parameter) => $"{parameter.Type} {Escape(parameter.Name)}";
+	private static string PropertyName(string name) => name == "ID" ? "Id" : name;
 	private static string Escape(string name) => name is "base" or "event" or "params" or "ref" or "string" ? $"@{name}" : name;
 	private static string Camel(string value) => char.ToLowerInvariant(value[0]) + value[1..];
 }
