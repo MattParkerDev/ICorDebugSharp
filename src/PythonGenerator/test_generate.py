@@ -64,6 +64,16 @@ interface ICorDebugBreakpoint : IUnknown
     HRESULT Activate([in] BOOL bActive);
     HRESULT IsActive([out] BOOL *pbActive);
 };
+
+[
+    object,
+    uuid(00000000-0000-0000-0000-000000000005),
+    pointer_default(unique)
+]
+interface ICorDebugValue : IUnknown
+{
+    HRESULT GetType([out] CorElementType *pType);
+};
 """
 
 DATA_IDL = """
@@ -269,6 +279,12 @@ class CSharpGeneratorTests(unittest.TestCase):
             "int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);",
             source,
         )
+
+    def test_uses_cor_element_type_declared_by_idl(self) -> None:
+        source = self.generate("ICorDebugValue")
+
+        self.assertIn("using ICorDebugSharp.GeneratedMetadata;", source)
+        self.assertIn("int GetType(out CorElementType pType);", source)
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_metadata_typedef("mdToken")
