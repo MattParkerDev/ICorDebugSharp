@@ -48,6 +48,8 @@ string[] comInterfaceNames =
 var interfaceGuids = ExternGuidParser.ParseInterfaceGuids(rootFilePath);
 
 var pInvokeGeneratorConfigurationOptions = PInvokeGeneratorConfigurationOptions.None;
+// corerror.h defines HRESULT values as macros rather than declarations.
+pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateMacroBindings;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.GenerateMultipleFiles;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.ExcludeComProxies;
 pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.ExcludeEnumOperators;
@@ -86,6 +88,7 @@ var config = new PInvokeGeneratorConfiguration
     [
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
+        "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc/corerror.h",
     ],
     ExcludedNames = comInterfaceNames,
 };
@@ -186,6 +189,3 @@ foreach (string filePath in files)
 }
 
 pinvokeGenerator.Dispose();
-var generatedHelperPath = Path.Combine(outputDirectory, $"{config.DefaultClass}.cs");
-if (File.Exists(generatedHelperPath))
-	File.Delete(generatedHelperPath);
