@@ -99,19 +99,21 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"{string.Join("\n\n", helpers)}\n}}\n";
 	}
 
-	private static string RenderEnumerationMember(EnumerationRecipe recipe)
+	private string RenderEnumerationMember(EnumerationRecipe recipe)
 	{
+		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var returnType = EnumerationReturnType(recipe);
 		var call = $"Enumerate{recipe.Method[4..]}Core(instance{string.Concat(recipe.Inputs.Select(input => $", {Escape(input.Name)}"))})";
 		return recipe.Inputs.Count == 0
 			? $"\t\tpublic IEnumerable<{returnType}> {recipe.PublicName} => {call};"
-			: $"\t\tpublic IEnumerable<{returnType}> {recipe.PublicName}({string.Join(", ", recipe.Inputs.Select(input => $"{input.Type} {Escape(input.Name)}"))}) => {call};";
+			: $"\t\tpublic IEnumerable<{returnType}> {recipe.PublicName}({string.Join(", ", recipe.Inputs.Select(input => $"{method.GetParameter(input.Name).Type} {Escape(input.Name)}"))}) => {call};";
 	}
 
-	private static string RenderEnumerationHelper(EnumerationRecipe recipe)
+	private string RenderEnumerationHelper(EnumerationRecipe recipe)
 	{
+		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var suffix = recipe.Method[4..];
-		var inputs = string.Concat(recipe.Inputs.Select(input => $", {input.Type} {Escape(input.Name)}"));
+		var inputs = string.Concat(recipe.Inputs.Select(input => $", {method.GetParameter(input.Name).Type} {Escape(input.Name)}"));
 		var outputArguments = string.Join(", ", recipe.Outputs.Select(output => $"out var {Escape(Camel(output.PublicName))}"));
 		var callArguments = new List<string> { "ref handle" };
 		callArguments.AddRange(recipe.Inputs.Select(input => Escape(input.Name)));
@@ -149,8 +151,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		"string" => "string.Empty",
 		"(string Name, Guid ModuleVersionId)" => "(string.Empty, default)",
-		"(string Name, TypeAttributes Attributes, Token Extends)" => "(string.Empty, default, default)",
-		"(Token ResolutionScope, string Name)" => "(default, string.Empty)",
+		"(string Name, TypeAttributes Attributes, mdToken Extends)" => "(string.Empty, default, default)",
+		"(mdToken ResolutionScope, string Name)" => "(default, string.Empty)",
 		_ => throw new InvalidOperationException($"No empty result is configured for {recipe.Interface}.{recipe.Method}."),
 	};
 
@@ -176,9 +178,13 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			throw new InvalidOperationException($"{interfaceName}.{method.Name} must return an HRESULT-compatible int.");
 	}
 
-	private static string EnumerationReturnType(EnumerationRecipe recipe) => recipe.Outputs.Count == 1
-		? recipe.Outputs[0].Type
-		: $"({string.Join(", ", recipe.Outputs.Select(output => $"{output.Type} {output.PublicName}"))})";
+	private string EnumerationReturnType(EnumerationRecipe recipe)
+	{
+		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
+		return recipe.Outputs.Count == 1
+			? method.GetParameter(recipe.Outputs[0].RawName).Type
+			: $"({string.Join(", ", recipe.Outputs.Select(output => $"{method.GetParameter(output.RawName).Type} {output.PublicName}"))})";
+	}
 
 	private static string Header(string rawNamespace)
 	{

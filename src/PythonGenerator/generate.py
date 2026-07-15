@@ -133,12 +133,31 @@ NAMESPACE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*
 METADATA_TYPEDEF_RE = re.compile(r"^md[A-Z][A-Za-z0-9_]*$")
 METADATA_TOKEN_TYPES = {
     "mdModule": "mdtModule",
+    "mdTypeRef": "mdtTypeRef",
     "mdTypeDef": "mdtTypeDef",
-    "mdMemberRef": "mdtMemberRef",
-    "mdMethodDef": "mdtMethodDef",
     "mdFieldDef": "mdtFieldDef",
+    "mdMethodDef": "mdtMethodDef",
+    "mdParamDef": "mdtParamDef",
+    "mdInterfaceImpl": "mdtInterfaceImpl",
+    "mdMemberRef": "mdtMemberRef",
+    "mdCustomAttribute": "mdtCustomAttribute",
+    "mdPermission": "mdtPermission",
     "mdSignature": "mdtSignature",
+    "mdEvent": "mdtEvent",
+    "mdProperty": "mdtProperty",
+    "mdModuleRef": "mdtModuleRef",
+    "mdTypeSpec": "mdtTypeSpec",
+    "mdAssembly": "mdtAssembly",
+    "mdAssemblyRef": "mdtAssemblyRef",
+    "mdFile": "mdtFile",
+    "mdExportedType": "mdtExportedType",
+    "mdManifestResource": "mdtManifestResource",
+    "mdGenericParam": "mdtGenericParam",
+    "mdMethodSpec": "mdtMethodSpec",
+    "mdGenericParamConstraint": "mdtGenericParamConstraint",
+    "mdString": "mdtString",
 }
+GENERIC_METADATA_TOKENS = {"mdToken", "mdSourceFile", "mdCPToken"}
 INTERFACE_DEFINITION_RE = re.compile(
     r"\binterface\s+([A-Za-z_]\w*)\s*:\s*[A-Za-z_]\w*"
 )
@@ -185,10 +204,13 @@ class CSharpGenerator:
         self.named_types = {*self.enums, *self.structs, *(union.name for union in midl.unions)}
         self.aliases = {alias.name: alias for alias in midl.typedefs}
         self.metadata_typedefs = {
-            name: alias
+            name: alias.type_spec.base_name
             for name, alias in self.aliases.items()
             if METADATA_TYPEDEF_RE.fullmatch(name)
         }
+        if "mdToken" in self.metadata_typedefs:
+            for name in {*METADATA_TOKEN_TYPES, *GENERIC_METADATA_TOKENS}:
+                self.metadata_typedefs.setdefault(name, "UINT32")
 
     def collect_declarations(self, declaration_type: type, top_level: list) -> dict:
         declarations = {declaration.name: declaration for declaration in top_level}
@@ -670,9 +692,8 @@ class CSharpGenerator:
         )
 
     def generate_metadata_typedef(self, name: str) -> str:
-        alias = self.metadata_typedefs[name]
         underlying_type = self.map_base_type(
-            alias.type_spec.base_name, {name}, preserve_metadata_typedefs=False
+            self.metadata_typedefs[name], {name}, preserve_metadata_typedefs=False
         )
         if underlying_type == "uint":
             token_type = METADATA_TOKEN_TYPES.get(name)

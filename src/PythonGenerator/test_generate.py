@@ -266,8 +266,9 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            self.assertEqual((4, 0), (written, unchanged))
-            self.assertEqual((0, 4), (second_written, second_unchanged))
+            declaration_count = 2 + len(self.generator.metadata_typedefs)
+            self.assertEqual((declaration_count, 0), (written, unchanged))
+            self.assertEqual((0, declaration_count), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
             self.assertTrue((output / "mdToken.cs").exists())
             self.assertFalse(
