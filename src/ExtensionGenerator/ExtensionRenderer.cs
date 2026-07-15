@@ -12,27 +12,28 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		foreach (var interfaceName in Recipes.Enumerations.Select(recipe => recipe.Interface)
 			.Concat(Recipes.MetadataStrings.Select(recipe => recipe.Interface)).Distinct(StringComparer.Ordinal))
 			files[$"{interfaceName}Extensions.cs"] = RenderMetadata(interfaceName);
-		foreach (var @interface in catalog.Interfaces.Where(@interface => @interface.Namespace == "ICorDebugSharp"))
+		foreach (var @interface in catalog.Interfaces)
 		{
-			var methods = @interface.Methods.Values.Where(IsSimpleOutputProperty).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+			var methods = @interface.Methods.Values.Where(CanProjectOutputs).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 			if (methods.Length != 0)
-				files[$"{@interface.Name}ProjectedExtensions.cs"] = RenderSimpleOutputProperties(@interface, methods);
+				files[$"{@interface.Name}ProjectedExtensions.cs"] = RenderProjectedMembers(@interface, methods);
 		}
 		return files;
 	}
 
 	private static bool IsSimpleOutputProperty(ManagedMethod method) =>
-		method.ReturnType == "int" &&
 		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
 		method.Name.Length > 3 &&
 		method.Parameters.Count == 1 &&
-		method.Parameters[0].IsOut &&
-		!method.Parameters[0].Type.Contains("[]", StringComparison.Ordinal) &&
-		!method.Parameters[0].Type.Contains("Span<", StringComparison.Ordinal);
+		method.Parameters[0].IsOut;
 
-	private static string RenderSimpleOutputProperties(ManagedInterface @interface, IReadOnlyList<ManagedMethod> methods)
+	private static bool CanProjectOutputs(ManagedMethod method) =>
+		method.ReturnType == "int" &&
+		method.Parameters.Any(parameter => parameter.IsOut);
+
+	private static string RenderProjectedMembers(ManagedInterface @interface, IReadOnlyList<ManagedMethod> methods)
 	{
-		var members = methods.Select(method =>
+		var properties = methods.Where(IsSimpleOutputProperty).Select(method =>
 		{
 			var output = method.Parameters[0];
 			var propertyName = method.Name[3..];
@@ -40,10 +41,49 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 				$"\t\t\t\tvar hr = instance.{method.Name}(out var value);\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn value;\n" +
 				"\t\t\t}\n\t\t}";
 		});
+		var projectedMethods = methods.Select(RenderProjectedMethod);
+		var members = properties.Concat(projectedMethods);
 		return Header(@interface.Namespace) +
-			$"public static class {@interface.Name[1..]}ProjectedExtensions\n{{\n" +
+			$"public static unsafe class {@interface.Name[1..]}ProjectedExtensions\n{{\n" +
 			$"\textension({@interface.Name} instance)\n\t{{\n{string.Join("\n\n", members)}\n\t}}\n}}\n";
 	}
+
+	private static string RenderProjectedMethod(ManagedMethod method)
+	{
+		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut).ToArray();
+		var returnType = outputs.Length == 1
+			? ProjectedOutputType(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
+			? $"out var {Escape(parameter.Name)}"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		var result = outputs.Length == 1
+			? ProjectedOutputValue(outputs[0])
+			: $"({string.Join(", ", outputs.Select(ProjectedOutputValue))})";
+		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
+			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+	}
+
+	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
+		$"{(parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
+
+	private static string ProjectedOutputType(ManagedParameter parameter)
+	{
+		const string readOnlySpanPrefix = "ReadOnlySpan<";
+		const string spanPrefix = "Span<";
+		if (parameter.Type.StartsWith(readOnlySpanPrefix, StringComparison.Ordinal) && parameter.Type.EndsWith('>'))
+			return parameter.Type[readOnlySpanPrefix.Length..^1] + "[]";
+		if (parameter.Type.StartsWith(spanPrefix, StringComparison.Ordinal) && parameter.Type.EndsWith('>'))
+			return parameter.Type[spanPrefix.Length..^1] + "[]";
+		return parameter.Type;
+	}
+
+	private static string ProjectedOutputValue(ManagedParameter parameter) =>
+		parameter.Type.Contains("Span<", StringComparison.Ordinal)
+			? $"{Escape(parameter.Name)}.ToArray()"
+			: Escape(parameter.Name);
 
 	private string RenderQueryBuffers(string interfaceName, IReadOnlyList<QueryBufferRecipe> recipes)
 	{
