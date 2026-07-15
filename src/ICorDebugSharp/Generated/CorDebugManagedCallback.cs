@@ -141,510 +141,510 @@ public sealed class BreakpointCorDebugManagedCallbackEventArgs : CorDebugManaged
 {
 	public BreakpointCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pBreakpoint = pBreakpoint;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Breakpoint = pBreakpoint;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugBreakpoint pBreakpoint { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugBreakpoint Breakpoint { get; }
 }
 
 public sealed class StepCompleteCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public StepCompleteCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugStepper pStepper, CorDebugStepReason reason)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pStepper = pStepper;
-		this.reason = reason;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Stepper = pStepper;
+		Reason = reason;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugStepper pStepper { get; }
-	public CorDebugStepReason reason { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugStepper Stepper { get; }
+	public CorDebugStepReason Reason { get; }
 }
 
 public sealed class BreakCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public BreakCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 	{
-		this.pAppDomain = pAppDomain;
-		this.thread = thread;
+		AppDomain = pAppDomain;
+		Thread = thread;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread thread { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
 }
 
 public sealed class ExceptionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ExceptionCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int unhandled)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.unhandled = unhandled;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Unhandled = unhandled;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public int unhandled { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public int Unhandled { get; }
 }
 
 public sealed class EvalCompleteCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public EvalCompleteCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pEval = pEval;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Eval = pEval;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugEval pEval { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugEval Eval { get; }
 }
 
 public sealed class EvalExceptionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public EvalExceptionCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pEval = pEval;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Eval = pEval;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugEval pEval { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugEval Eval { get; }
 }
 
 public sealed class CreateProcessCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public CreateProcessCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess)
 	{
-		this.pProcess = pProcess;
+		Process = pProcess;
 	}
 
-	public ICorDebugProcess pProcess { get; }
+	public ICorDebugProcess Process { get; }
 }
 
 public sealed class ExitProcessCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ExitProcessCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess)
 	{
-		this.pProcess = pProcess;
+		Process = pProcess;
 	}
 
-	public ICorDebugProcess pProcess { get; }
+	public ICorDebugProcess Process { get; }
 }
 
 public sealed class CreateThreadCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public CreateThreadCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 	{
-		this.pAppDomain = pAppDomain;
-		this.thread = thread;
+		AppDomain = pAppDomain;
+		Thread = thread;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread thread { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
 }
 
 public sealed class ExitThreadCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ExitThreadCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 	{
-		this.pAppDomain = pAppDomain;
-		this.thread = thread;
+		AppDomain = pAppDomain;
+		Thread = thread;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread thread { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
 }
 
 public sealed class LoadModuleCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public LoadModuleCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pModule = pModule;
+		AppDomain = pAppDomain;
+		Module = pModule;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugModule pModule { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugModule Module { get; }
 }
 
 public sealed class UnloadModuleCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public UnloadModuleCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pModule = pModule;
+		AppDomain = pAppDomain;
+		Module = pModule;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugModule pModule { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugModule Module { get; }
 }
 
 public sealed class LoadClassCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public LoadClassCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugClass c)
 	{
-		this.pAppDomain = pAppDomain;
-		this.c = c;
+		AppDomain = pAppDomain;
+		C = c;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugClass c { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugClass C { get; }
 }
 
 public sealed class UnloadClassCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public UnloadClassCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugClass c)
 	{
-		this.pAppDomain = pAppDomain;
-		this.c = c;
+		AppDomain = pAppDomain;
+		C = c;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugClass c { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugClass C { get; }
 }
 
 public sealed class DebuggerErrorCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public DebuggerErrorCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, int errorHR, uint errorCode)
 	{
-		this.pProcess = pProcess;
-		this.errorHR = errorHR;
-		this.errorCode = errorCode;
+		Process = pProcess;
+		ErrorHR = errorHR;
+		ErrorCode = errorCode;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public int errorHR { get; }
-	public uint errorCode { get; }
+	public ICorDebugProcess Process { get; }
+	public int ErrorHR { get; }
+	public uint ErrorCode { get; }
 }
 
 public sealed class LogMessageCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public LogMessageCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, string pLogSwitchName, string pMessage)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.lLevel = lLevel;
-		this.pLogSwitchName = pLogSwitchName;
-		this.pMessage = pMessage;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		LLevel = lLevel;
+		LogSwitchName = pLogSwitchName;
+		Message = pMessage;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public int lLevel { get; }
-	public string pLogSwitchName { get; }
-	public string pMessage { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public int LLevel { get; }
+	public string LogSwitchName { get; }
+	public string Message { get; }
 }
 
 public sealed class LogSwitchCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public LogSwitchCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, uint ulReason, string pLogSwitchName, string pParentName)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.lLevel = lLevel;
-		this.ulReason = ulReason;
-		this.pLogSwitchName = pLogSwitchName;
-		this.pParentName = pParentName;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		LLevel = lLevel;
+		UlReason = ulReason;
+		LogSwitchName = pLogSwitchName;
+		ParentName = pParentName;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public int lLevel { get; }
-	public uint ulReason { get; }
-	public string pLogSwitchName { get; }
-	public string pParentName { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public int LLevel { get; }
+	public uint UlReason { get; }
+	public string LogSwitchName { get; }
+	public string ParentName { get; }
 }
 
 public sealed class CreateAppDomainCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public CreateAppDomainCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain)
 	{
-		this.pProcess = pProcess;
-		this.pAppDomain = pAppDomain;
+		Process = pProcess;
+		AppDomain = pAppDomain;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public ICorDebugAppDomain pAppDomain { get; }
+	public ICorDebugProcess Process { get; }
+	public ICorDebugAppDomain AppDomain { get; }
 }
 
 public sealed class ExitAppDomainCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ExitAppDomainCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain)
 	{
-		this.pProcess = pProcess;
-		this.pAppDomain = pAppDomain;
+		Process = pProcess;
+		AppDomain = pAppDomain;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public ICorDebugAppDomain pAppDomain { get; }
+	public ICorDebugProcess Process { get; }
+	public ICorDebugAppDomain AppDomain { get; }
 }
 
 public sealed class LoadAssemblyCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public LoadAssemblyCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pAssembly = pAssembly;
+		AppDomain = pAppDomain;
+		Assembly = pAssembly;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugAssembly pAssembly { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugAssembly Assembly { get; }
 }
 
 public sealed class UnloadAssemblyCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public UnloadAssemblyCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pAssembly = pAssembly;
+		AppDomain = pAppDomain;
+		Assembly = pAssembly;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugAssembly pAssembly { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugAssembly Assembly { get; }
 }
 
 public sealed class ControlCTrapCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ControlCTrapCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess)
 	{
-		this.pProcess = pProcess;
+		Process = pProcess;
 	}
 
-	public ICorDebugProcess pProcess { get; }
+	public ICorDebugProcess Process { get; }
 }
 
 public sealed class NameChangeCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public NameChangeCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
+		AppDomain = pAppDomain;
+		Thread = pThread;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
 }
 
 public sealed class UpdateModuleSymbolsCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public UpdateModuleSymbolsCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pModule = pModule;
-		this.pSymbolStream = pSymbolStream;
+		AppDomain = pAppDomain;
+		Module = pModule;
+		SymbolStream = pSymbolStream;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugModule pModule { get; }
-	public nint pSymbolStream { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugModule Module { get; }
+	public nint SymbolStream { get; }
 }
 
 public sealed class EditAndContinueRemapCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public EditAndContinueRemapCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, int fAccurate)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pFunction = pFunction;
-		this.fAccurate = fAccurate;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Function = pFunction;
+		FAccurate = fAccurate;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugFunction pFunction { get; }
-	public int fAccurate { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugFunction Function { get; }
+	public int FAccurate { get; }
 }
 
 public sealed class BreakpointSetErrorCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public BreakpointSetErrorCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pBreakpoint = pBreakpoint;
-		this.dwError = dwError;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Breakpoint = pBreakpoint;
+		DwError = dwError;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugBreakpoint pBreakpoint { get; }
-	public uint dwError { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugBreakpoint Breakpoint { get; }
+	public uint DwError { get; }
 }
 
 public sealed class CustomNotificationCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public CustomNotificationCorDebugManagedCallbackEventArgs(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain)
 	{
-		this.pThread = pThread;
-		this.pAppDomain = pAppDomain;
+		Thread = pThread;
+		AppDomain = pAppDomain;
 	}
 
-	public ICorDebugThread pThread { get; }
-	public ICorDebugAppDomain pAppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugAppDomain AppDomain { get; }
 }
 
 public sealed class BeforeGarbageCollectionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public BeforeGarbageCollectionCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess)
 	{
-		this.pProcess = pProcess;
+		Process = pProcess;
 	}
 
-	public ICorDebugProcess pProcess { get; }
+	public ICorDebugProcess Process { get; }
 }
 
 public sealed class AfterGarbageCollectionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public AfterGarbageCollectionCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess)
 	{
-		this.pProcess = pProcess;
+		Process = pProcess;
 	}
 
-	public ICorDebugProcess pProcess { get; }
+	public ICorDebugProcess Process { get; }
 }
 
 public sealed class DataBreakpointCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public DataBreakpointCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, ICorDebugThread pThread, byte pContext, uint contextSize)
 	{
-		this.pProcess = pProcess;
-		this.pThread = pThread;
-		this.pContext = pContext;
-		this.contextSize = contextSize;
+		Process = pProcess;
+		Thread = pThread;
+		Context = pContext;
+		ContextSize = contextSize;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public ICorDebugThread pThread { get; }
-	public byte pContext { get; }
-	public uint contextSize { get; }
+	public ICorDebugProcess Process { get; }
+	public ICorDebugThread Thread { get; }
+	public byte Context { get; }
+	public uint ContextSize { get; }
 }
 
 public sealed class FunctionRemapOpportunityCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pOldFunction = pOldFunction;
-		this.pNewFunction = pNewFunction;
-		this.oldILOffset = oldILOffset;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		OldFunction = pOldFunction;
+		NewFunction = pNewFunction;
+		OldILOffset = oldILOffset;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugFunction pOldFunction { get; }
-	public ICorDebugFunction pNewFunction { get; }
-	public uint oldILOffset { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugFunction OldFunction { get; }
+	public ICorDebugFunction NewFunction { get; }
+	public uint OldILOffset { get; }
 }
 
 public sealed class CreateConnectionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public CreateConnectionCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName)
 	{
-		this.pProcess = pProcess;
-		this.dwConnectionId = dwConnectionId;
-		this.pConnName = pConnName;
+		Process = pProcess;
+		DwConnectionId = dwConnectionId;
+		ConnName = pConnName;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public uint dwConnectionId { get; }
-	public string pConnName { get; }
+	public ICorDebugProcess Process { get; }
+	public uint DwConnectionId { get; }
+	public string ConnName { get; }
 }
 
 public sealed class ChangeConnectionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ChangeConnectionCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, uint dwConnectionId)
 	{
-		this.pProcess = pProcess;
-		this.dwConnectionId = dwConnectionId;
+		Process = pProcess;
+		DwConnectionId = dwConnectionId;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public uint dwConnectionId { get; }
+	public ICorDebugProcess Process { get; }
+	public uint DwConnectionId { get; }
 }
 
 public sealed class DestroyConnectionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public DestroyConnectionCorDebugManagedCallbackEventArgs(ICorDebugProcess pProcess, uint dwConnectionId)
 	{
-		this.pProcess = pProcess;
-		this.dwConnectionId = dwConnectionId;
+		Process = pProcess;
+		DwConnectionId = dwConnectionId;
 	}
 
-	public ICorDebugProcess pProcess { get; }
-	public uint dwConnectionId { get; }
+	public ICorDebugProcess Process { get; }
+	public uint DwConnectionId { get; }
 }
 
 public sealed class Exception2CorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public Exception2CorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pFrame = pFrame;
-		this.nOffset = nOffset;
-		this.dwEventType = dwEventType;
-		this.dwFlags = dwFlags;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Frame = pFrame;
+		NOffset = nOffset;
+		DwEventType = dwEventType;
+		DwFlags = dwFlags;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugFrame pFrame { get; }
-	public uint nOffset { get; }
-	public CorDebugExceptionCallbackType dwEventType { get; }
-	public uint dwFlags { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugFrame Frame { get; }
+	public uint NOffset { get; }
+	public CorDebugExceptionCallbackType DwEventType { get; }
+	public uint DwFlags { get; }
 }
 
 public sealed class ExceptionUnwindCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public ExceptionUnwindCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.dwEventType = dwEventType;
-		this.dwFlags = dwFlags;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		DwEventType = dwEventType;
+		DwFlags = dwFlags;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public CorDebugExceptionUnwindCallbackType dwEventType { get; }
-	public uint dwFlags { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public CorDebugExceptionUnwindCallbackType DwEventType { get; }
+	public uint DwFlags { get; }
 }
 
 public sealed class FunctionRemapCompleteCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public FunctionRemapCompleteCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction)
 	{
-		this.pAppDomain = pAppDomain;
-		this.pThread = pThread;
-		this.pFunction = pFunction;
+		AppDomain = pAppDomain;
+		Thread = pThread;
+		Function = pFunction;
 	}
 
-	public ICorDebugAppDomain pAppDomain { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugFunction pFunction { get; }
+	public ICorDebugAppDomain AppDomain { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugFunction Function { get; }
 }
 
 public sealed class MDANotificationCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
 	public MDANotificationCorDebugManagedCallbackEventArgs(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA)
 	{
-		this.pController = pController;
-		this.pThread = pThread;
-		this.pMDA = pMDA;
+		Controller = pController;
+		Thread = pThread;
+		MDA = pMDA;
 	}
 
-	public ICorDebugController pController { get; }
-	public ICorDebugThread pThread { get; }
-	public ICorDebugMDA pMDA { get; }
+	public ICorDebugController Controller { get; }
+	public ICorDebugThread Thread { get; }
+	public ICorDebugMDA MDA { get; }
 }
