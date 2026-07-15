@@ -16,9 +16,9 @@ public static unsafe class CorDebugReferenceValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetValue(out var value);
+				var hr = instance.GetValue(out var pValue);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pValue;
 			}
 		}
 
@@ -34,13 +34,6 @@ public static unsafe class CorDebugReferenceValueProjectedExtensions
 			var hr = instance.DereferenceStrong(out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public CORDB_ADDRESS GetValue()
-		{
-			var hr = instance.GetValue(out var pValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return pValue;
 		}
 
 		public int IsNull()

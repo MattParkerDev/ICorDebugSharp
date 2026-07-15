@@ -27,17 +27,10 @@ public static unsafe class CorDebugCodeCode2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetCompilerFlags(out var value);
+				var hr = GetCapability(instance).GetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
-		}
-
-		public uint GetCompilerFlags()
-		{
-			var hr = GetCapability(instance).GetCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
 		}
 
 		public CodeChunkInfo[] CodeChunks => GetCapability(instance).CodeChunks;

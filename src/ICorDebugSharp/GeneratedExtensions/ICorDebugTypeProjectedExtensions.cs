@@ -16,9 +16,9 @@ public static unsafe class CorDebugTypeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetBase(out var value);
+				var hr = instance.GetBase(out var pBase);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pBase;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugTypeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var value);
+				var hr = instance.GetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppClass;
 			}
 		}
 
@@ -46,9 +46,9 @@ public static unsafe class CorDebugTypeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRank(out var value);
+				var hr = instance.GetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnRank;
 			}
 		}
 
@@ -56,9 +56,9 @@ public static unsafe class CorDebugTypeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetType(out var value);
+				var hr = instance.GetType(out var ty);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ty;
 			}
 		}
 
@@ -69,46 +69,11 @@ public static unsafe class CorDebugTypeProjectedExtensions
 			return ppTyParEnum;
 		}
 
-		public ICorDebugType GetBase()
-		{
-			var hr = instance.GetBase(out var pBase);
-			Marshal.ThrowExceptionForHR(hr);
-			return pBase;
-		}
-
-		public ICorDebugClass GetClass()
-		{
-			var hr = instance.GetClass(out var ppClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppClass;
-		}
-
-		public ICorDebugType GetFirstTypeParameter()
-		{
-			var hr = instance.GetFirstTypeParameter(out var value);
-			Marshal.ThrowExceptionForHR(hr);
-			return value;
-		}
-
-		public uint GetRank()
-		{
-			var hr = instance.GetRank(out var pnRank);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnRank;
-		}
-
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
 		{
 			var hr = instance.GetStaticFieldValue(fieldDef, pFrame, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public uint GetType()
-		{
-			var hr = instance.GetType(out var ty);
-			Marshal.ThrowExceptionForHR(hr);
-			return ty;
 		}
 	}
 }

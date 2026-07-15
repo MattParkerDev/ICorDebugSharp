@@ -16,9 +16,9 @@ public static unsafe class CorDebugProcess2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetDesiredNGENCompilerFlags(out var value);
+				var hr = instance.GetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
 		}
 
@@ -26,17 +26,10 @@ public static unsafe class CorDebugProcess2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetVersion(out var value);
+				var hr = instance.GetVersion(out var version);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return version;
 			}
-		}
-
-		public uint GetDesiredNGENCompilerFlags()
-		{
-			var hr = instance.GetDesiredNGENCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
 		}
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
@@ -51,13 +44,6 @@ public static unsafe class CorDebugProcess2ProjectedExtensions
 			var hr = instance.GetThreadForTaskID(taskid, out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
-		}
-
-		public COR_VERSION GetVersion()
-		{
-			var hr = instance.GetVersion(out var version);
-			Marshal.ThrowExceptionForHR(hr);
-			return version;
 		}
 
 		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)

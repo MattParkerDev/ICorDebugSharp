@@ -16,9 +16,9 @@ public static unsafe class CorDebugArrayValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCount(out var value);
+				var hr = instance.GetCount(out var pnCount);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnCount;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugArrayValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetElementType(out var value);
+				var hr = instance.GetElementType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pType;
 			}
 		}
 
@@ -36,17 +36,10 @@ public static unsafe class CorDebugArrayValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRank(out var value);
+				var hr = instance.GetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnRank;
 			}
-		}
-
-		public uint GetCount()
-		{
-			var hr = instance.GetCount(out var pnCount);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnCount;
 		}
 
 		public ICorDebugValue GetElement(uint cdim, uint[] indices)
@@ -61,20 +54,6 @@ public static unsafe class CorDebugArrayValueProjectedExtensions
 			var hr = instance.GetElementAtPosition(nPosition, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public uint GetElementType()
-		{
-			var hr = instance.GetElementType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
-		}
-
-		public uint GetRank()
-		{
-			var hr = instance.GetRank(out var pnRank);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnRank;
 		}
 
 		public int HasBaseIndicies()

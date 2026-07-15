@@ -16,17 +16,10 @@ public static unsafe class CorDebugNativeFrame2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackParameterSize(out var value);
+				var hr = instance.GetStackParameterSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pSize;
 			}
-		}
-
-		public uint GetStackParameterSize()
-		{
-			var hr = instance.GetStackParameterSize(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
 		}
 
 		public int IsChild()

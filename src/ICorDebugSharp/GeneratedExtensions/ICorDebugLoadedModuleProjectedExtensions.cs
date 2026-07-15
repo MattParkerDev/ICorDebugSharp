@@ -16,9 +16,9 @@ public static unsafe class CorDebugLoadedModuleProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetBaseAddress(out var value);
+				var hr = instance.GetBaseAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pAddress;
 			}
 		}
 
@@ -26,17 +26,10 @@ public static unsafe class CorDebugLoadedModuleProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var value);
+				var hr = instance.GetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcBytes;
 			}
-		}
-
-		public CORDB_ADDRESS GetBaseAddress()
-		{
-			var hr = instance.GetBaseAddress(out var pAddress);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAddress;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
@@ -44,13 +37,6 @@ public static unsafe class CorDebugLoadedModuleProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public uint GetSize()
-		{
-			var hr = instance.GetSize(out var pcBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcBytes;
 		}
 	}
 }

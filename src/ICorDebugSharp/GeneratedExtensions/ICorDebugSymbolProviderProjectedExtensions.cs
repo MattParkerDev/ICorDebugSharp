@@ -16,22 +16,15 @@ public static unsafe class CorDebugSymbolProviderProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAssemblyImageMetadata(out var value);
+				var hr = instance.GetAssemblyImageMetadata(out var ppMemoryBuffer);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppMemoryBuffer;
 			}
 		}
 
 		public ICorDebugMemoryBuffer GetAssemblyImageBytes(CORDB_ADDRESS rva, uint length)
 		{
 			var hr = instance.GetAssemblyImageBytes(rva, length, out var ppMemoryBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppMemoryBuffer;
-		}
-
-		public ICorDebugMemoryBuffer GetAssemblyImageMetadata()
-		{
-			var hr = instance.GetAssemblyImageMetadata(out var ppMemoryBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppMemoryBuffer;
 		}

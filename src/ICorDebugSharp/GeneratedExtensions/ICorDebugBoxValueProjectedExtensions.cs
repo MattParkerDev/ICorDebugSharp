@@ -16,17 +16,10 @@ public static unsafe class CorDebugBoxValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var value);
+				var hr = instance.GetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
-		}
-
-		public ICorDebugObjectValue GetObject()
-		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
 		}
 	}
 }

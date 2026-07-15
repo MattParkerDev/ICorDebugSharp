@@ -16,17 +16,10 @@ public static unsafe class CorDebugInternalFrameProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetFrameType(out var value);
+				var hr = instance.GetFrameType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pType;
 			}
-		}
-
-		public CorDebugInternalFrameType GetFrameType()
-		{
-			var hr = instance.GetFrameType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
 		}
 	}
 }

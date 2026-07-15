@@ -20,34 +20,20 @@ public static unsafe class CorDebugThreadThread4Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetBlockingObjects(out var value);
+				var hr = GetCapability(instance).GetBlockingObjects(out var ppBlockingObjectEnum);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppBlockingObjectEnum;
 			}
-		}
-
-		public ICorDebugBlockingObjectEnum GetBlockingObjects()
-		{
-			var hr = GetCapability(instance).GetBlockingObjects(out var ppBlockingObjectEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppBlockingObjectEnum;
 		}
 
 		public ICorDebugValue CurrentCustomDebuggerNotification
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetCurrentCustomDebuggerNotification(out var value);
+				var hr = GetCapability(instance).GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppNotificationObject;
 			}
-		}
-
-		public ICorDebugValue GetCurrentCustomDebuggerNotification()
-		{
-			var hr = GetCapability(instance).GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppNotificationObject;
 		}
 
 		public void HasUnhandledException()

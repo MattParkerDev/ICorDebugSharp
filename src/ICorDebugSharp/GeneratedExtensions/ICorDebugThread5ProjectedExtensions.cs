@@ -12,11 +12,14 @@ public static unsafe class CorDebugThread5ProjectedExtensions
 {
 	extension(ICorDebugThread5 instance)
 	{
-		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) GetBytesAllocated()
+		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) BytesAllocated
 		{
-			var hr = instance.GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pSohAllocatedBytes, pUohAllocatedBytes);
+			get
+			{
+				var hr = instance.GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pSohAllocatedBytes, pUohAllocatedBytes);
+			}
 		}
 	}
 }

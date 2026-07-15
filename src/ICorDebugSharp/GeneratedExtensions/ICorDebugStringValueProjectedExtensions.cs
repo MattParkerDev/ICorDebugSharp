@@ -16,17 +16,10 @@ public static unsafe class CorDebugStringValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetLength(out var value);
+				var hr = instance.GetLength(out var pcchString);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcchString;
 			}
-		}
-
-		public uint GetLength()
-		{
-			var hr = instance.GetLength(out var pcchString);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcchString;
 		}
 
 		public uint GetString(uint cchString, char[]? szString)

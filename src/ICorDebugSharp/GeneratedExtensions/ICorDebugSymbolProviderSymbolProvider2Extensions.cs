@@ -27,17 +27,10 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetGenericDictionaryInfo(out var value);
+				var hr = GetCapability(instance).GetGenericDictionaryInfo(out var ppMemoryBuffer);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppMemoryBuffer;
 			}
-		}
-
-		public ICorDebugMemoryBuffer GetGenericDictionaryInfo()
-		{
-			var hr = GetCapability(instance).GetGenericDictionaryInfo(out var ppMemoryBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppMemoryBuffer;
 		}
 	}
 

@@ -16,17 +16,10 @@ public static unsafe class CorDebugValue2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetExactType(out var value);
+				var hr = instance.GetExactType(out var ppType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppType;
 			}
-		}
-
-		public ICorDebugType GetExactType()
-		{
-			var hr = instance.GetExactType(out var ppType);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppType;
 		}
 	}
 }

@@ -16,9 +16,19 @@ public static unsafe class CorDebugMergedAssemblyRecordProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetIndex(out var value);
+				var hr = instance.GetIndex(out var pIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pIndex;
+			}
+		}
+
+		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) Version
+		{
+			get
+			{
+				var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pMajor, pMinor, pBuild, pRevision);
 			}
 		}
 
@@ -27,13 +37,6 @@ public static unsafe class CorDebugMergedAssemblyRecordProjectedExtensions
 			var hr = instance.GetCulture(cchCulture, out var pcchCulture, szCulture);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchCulture;
-		}
-
-		public uint GetIndex()
-		{
-			var hr = instance.GetIndex(out var pIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIndex;
 		}
 
 		public uint GetPublicKey(uint cbPublicKey, byte[] pbPublicKey)
@@ -55,13 +58,6 @@ public static unsafe class CorDebugMergedAssemblyRecordProjectedExtensions
 			var hr = instance.GetSimpleName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) GetVersion()
-		{
-			var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pMajor, pMinor, pBuild, pRevision);
 		}
 	}
 }

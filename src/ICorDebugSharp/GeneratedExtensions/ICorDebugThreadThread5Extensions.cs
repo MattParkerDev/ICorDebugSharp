@@ -16,11 +16,14 @@ public static unsafe class CorDebugThreadThread5Extensions
 
 		public ICorDebugThread5 Thread5 => GetCapability(instance);
 
-		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) GetBytesAllocated()
+		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) BytesAllocated
 		{
-			var hr = GetCapability(instance).GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pSohAllocatedBytes, pUohAllocatedBytes);
+			get
+			{
+				var hr = GetCapability(instance).GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pSohAllocatedBytes, pUohAllocatedBytes);
+			}
 		}
 	}
 

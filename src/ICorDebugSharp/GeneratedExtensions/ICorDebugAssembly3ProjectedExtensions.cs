@@ -16,9 +16,9 @@ public static unsafe class CorDebugAssembly3ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetContainerAssembly(out var value);
+				var hr = instance.GetContainerAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppAssembly;
 			}
 		}
 
@@ -27,13 +27,6 @@ public static unsafe class CorDebugAssembly3ProjectedExtensions
 			var hr = instance.EnumerateContainedAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssemblies;
-		}
-
-		public ICorDebugAssembly GetContainerAssembly()
-		{
-			var hr = instance.GetContainerAssembly(out var ppAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAssembly;
 		}
 	}
 }

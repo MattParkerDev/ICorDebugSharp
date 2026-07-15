@@ -16,17 +16,10 @@ public static unsafe class CorDebugHandleValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandleType(out var value);
+				var hr = instance.GetHandleType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pType;
 			}
-		}
-
-		public CorDebugHandleType GetHandleType()
-		{
-			var hr = instance.GetHandleType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
 		}
 	}
 }

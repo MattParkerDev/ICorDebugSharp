@@ -17,9 +17,9 @@ public static unsafe class MetaDataImportProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetModuleFromScope(out var value);
+				var hr = instance.GetModuleFromScope(out var pmd);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pmd;
 			}
 		}
 
@@ -301,13 +301,6 @@ public static unsafe class MetaDataImportProjectedExtensions
 			var hr = instance.GetMethodSemantics(mb, tkEventProp, out var pdwSemanticsFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return pdwSemanticsFlags;
-		}
-
-		public mdModule GetModuleFromScope()
-		{
-			var hr = instance.GetModuleFromScope(out var pmd);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmd;
 		}
 
 		public uint GetModuleRefProps(mdModuleRef mur, char[]? szName, uint cchName)

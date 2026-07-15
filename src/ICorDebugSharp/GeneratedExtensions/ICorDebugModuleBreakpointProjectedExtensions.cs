@@ -16,17 +16,10 @@ public static unsafe class CorDebugModuleBreakpointProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var value);
+				var hr = instance.GetModule(out var ppModule);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppModule;
 			}
-		}
-
-		public ICorDebugModule GetModule()
-		{
-			var hr = instance.GetModule(out var ppModule);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppModule;
 		}
 	}
 }

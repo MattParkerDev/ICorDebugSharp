@@ -16,9 +16,9 @@ public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAddress(out var value);
+				var hr = instance.GetAddress(out var pRVA);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pRVA;
 			}
 		}
 
@@ -26,17 +26,10 @@ public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var value);
+				var hr = instance.GetSize(out var pcbSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcbSize;
 			}
-		}
-
-		public CORDB_ADDRESS GetAddress()
-		{
-			var hr = instance.GetAddress(out var pRVA);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRVA;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
@@ -44,13 +37,6 @@ public static unsafe class CorDebugStaticFieldSymbolProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public uint GetSize()
-		{
-			var hr = instance.GetSize(out var pcbSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcbSize;
 		}
 	}
 }

@@ -16,17 +16,10 @@ public static unsafe class CorDebugType2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetTypeID(out var value);
+				var hr = instance.GetTypeID(out var id);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return id;
 			}
-		}
-
-		public COR_TYPEID GetTypeID()
-		{
-			var hr = instance.GetTypeID(out var id);
-			Marshal.ThrowExceptionForHR(hr);
-			return id;
 		}
 	}
 }

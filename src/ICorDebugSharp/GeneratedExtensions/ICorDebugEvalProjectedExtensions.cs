@@ -16,9 +16,9 @@ public static unsafe class CorDebugEvalProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetResult(out var value);
+				var hr = instance.GetResult(out var ppResult);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppResult;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugEvalProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetThread(out var value);
+				var hr = instance.GetThread(out var ppThread);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppThread;
 			}
 		}
 
@@ -37,20 +37,6 @@ public static unsafe class CorDebugEvalProjectedExtensions
 			var hr = instance.CreateValue(elementType, pElementClass, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public ICorDebugValue GetResult()
-		{
-			var hr = instance.GetResult(out var ppResult);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppResult;
-		}
-
-		public ICorDebugThread GetThread()
-		{
-			var hr = instance.GetThread(out var ppThread);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThread;
 		}
 
 		public int IsActive()

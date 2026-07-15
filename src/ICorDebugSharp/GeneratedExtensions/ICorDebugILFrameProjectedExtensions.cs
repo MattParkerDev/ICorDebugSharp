@@ -12,13 +12,23 @@ public static unsafe class CorDebugILFrameProjectedExtensions
 {
 	extension(ICorDebugILFrame instance)
 	{
+		public (uint pnOffset, CorDebugMappingResult pMappingResult) IP
+		{
+			get
+			{
+				var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pnOffset, pMappingResult);
+			}
+		}
+
 		public uint StackDepth
 		{
 			get
 			{
-				var hr = instance.GetStackDepth(out var value);
+				var hr = instance.GetStackDepth(out var pDepth);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pDepth;
 			}
 		}
 
@@ -43,25 +53,11 @@ public static unsafe class CorDebugILFrameProjectedExtensions
 			return ppValue;
 		}
 
-		public (uint pnOffset, CorDebugMappingResult pMappingResult) GetIP()
-		{
-			var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pnOffset, pMappingResult);
-		}
-
 		public ICorDebugValue GetLocalVariable(uint dwIndex)
 		{
 			var hr = instance.GetLocalVariable(dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public uint GetStackDepth()
-		{
-			var hr = instance.GetStackDepth(out var pDepth);
-			Marshal.ThrowExceptionForHR(hr);
-			return pDepth;
 		}
 
 		public ICorDebugValue GetStackValue(uint dwIndex)

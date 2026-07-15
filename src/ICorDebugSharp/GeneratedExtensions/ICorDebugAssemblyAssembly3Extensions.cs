@@ -27,17 +27,10 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetContainerAssembly(out var value);
+				var hr = GetCapability(instance).GetContainerAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppAssembly;
 			}
-		}
-
-		public ICorDebugAssembly GetContainerAssembly()
-		{
-			var hr = GetCapability(instance).GetContainerAssembly(out var ppAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAssembly;
 		}
 	}
 

@@ -16,9 +16,9 @@ public static unsafe class CorDebugFunctionBreakpointProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunction(out var value);
+				var hr = instance.GetFunction(out var ppFunction);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppFunction;
 			}
 		}
 
@@ -26,24 +26,10 @@ public static unsafe class CorDebugFunctionBreakpointProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetOffset(out var value);
+				var hr = instance.GetOffset(out var pnOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnOffset;
 			}
-		}
-
-		public ICorDebugFunction GetFunction()
-		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
-		}
-
-		public uint GetOffset()
-		{
-			var hr = instance.GetOffset(out var pnOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnOffset;
 		}
 	}
 }

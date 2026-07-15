@@ -16,9 +16,9 @@ public static unsafe class CorDebugFunction2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetJMCStatus(out var value);
+				var hr = instance.GetJMCStatus(out var pbIsJustMyCode);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pbIsJustMyCode;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugFunction2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetVersionNumber(out var value);
+				var hr = instance.GetVersionNumber(out var pnVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnVersion;
 			}
 		}
 
@@ -37,20 +37,6 @@ public static unsafe class CorDebugFunction2ProjectedExtensions
 			var hr = instance.EnumerateNativeCode(out var ppCodeEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCodeEnum;
-		}
-
-		public int GetJMCStatus()
-		{
-			var hr = instance.GetJMCStatus(out var pbIsJustMyCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbIsJustMyCode;
-		}
-
-		public uint GetVersionNumber()
-		{
-			var hr = instance.GetVersionNumber(out var pnVersion);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnVersion;
 		}
 	}
 }

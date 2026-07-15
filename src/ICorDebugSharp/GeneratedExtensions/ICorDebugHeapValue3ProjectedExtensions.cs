@@ -16,24 +16,20 @@ public static unsafe class CorDebugHeapValue3ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetMonitorEventWaitList(out var value);
+				var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppThreadEnum;
 			}
 		}
 
-		public ICorDebugThreadEnum GetMonitorEventWaitList()
+		public (ICorDebugThread ppThread, uint pAcquisitionCount) ThreadOwningMonitorLock
 		{
-			var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThreadEnum;
-		}
-
-		public (ICorDebugThread ppThread, uint pAcquisitionCount) GetThreadOwningMonitorLock()
-		{
-			var hr = instance.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
-			Marshal.ThrowExceptionForHR(hr);
-			return (ppThread, pAcquisitionCount);
+			get
+			{
+				var hr = instance.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+				Marshal.ThrowExceptionForHR(hr);
+				return (ppThread, pAcquisitionCount);
+			}
 		}
 	}
 }

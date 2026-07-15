@@ -16,9 +16,9 @@ public static unsafe class CorDebugDebugEventProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetEventKind(out var value);
+				var hr = instance.GetEventKind(out var pDebugEventKind);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pDebugEventKind;
 			}
 		}
 
@@ -26,24 +26,10 @@ public static unsafe class CorDebugDebugEventProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetThread(out var value);
+				var hr = instance.GetThread(out var ppThread);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppThread;
 			}
-		}
-
-		public CorDebugDebugEventKind GetEventKind()
-		{
-			var hr = instance.GetEventKind(out var pDebugEventKind);
-			Marshal.ThrowExceptionForHR(hr);
-			return pDebugEventKind;
-		}
-
-		public ICorDebugThread GetThread()
-		{
-			var hr = instance.GetThread(out var ppThread);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppThread;
 		}
 	}
 }

@@ -16,9 +16,9 @@ public static unsafe class CorDebugEnumProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCount(out var value);
+				var hr = instance.GetCount(out var pcelt);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcelt;
 			}
 		}
 
@@ -27,13 +27,6 @@ public static unsafe class CorDebugEnumProjectedExtensions
 			var hr = instance.Clone(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
-		}
-
-		public uint GetCount()
-		{
-			var hr = instance.GetCount(out var pcelt);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcelt;
 		}
 	}
 }

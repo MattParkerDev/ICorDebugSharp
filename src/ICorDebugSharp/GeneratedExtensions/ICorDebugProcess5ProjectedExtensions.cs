@@ -16,9 +16,9 @@ public static unsafe class CorDebugProcess5ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetGCHeapInformation(out var value);
+				var hr = instance.GetGCHeapInformation(out var pHeapInfo);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pHeapInfo;
 			}
 		}
 
@@ -55,13 +55,6 @@ public static unsafe class CorDebugProcess5ProjectedExtensions
 			var hr = instance.GetArrayLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
-		}
-
-		public COR_HEAPINFO GetGCHeapInformation()
-		{
-			var hr = instance.GetGCHeapInformation(out var pHeapInfo);
-			Marshal.ThrowExceptionForHR(hr);
-			return pHeapInfo;
 		}
 
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)

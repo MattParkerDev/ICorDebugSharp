@@ -16,9 +16,9 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetArgumentIndex(out var value);
+				var hr = instance.GetArgumentIndex(out var pArgumentIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pArgumentIndex;
 			}
 		}
 
@@ -26,9 +26,19 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCode(out var value);
+				var hr = instance.GetCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppCode;
+			}
+		}
+
+		public (uint pStartOffset, uint pEndOffset) LiveRange
+		{
+			get
+			{
+				var hr = instance.GetLiveRange(out var pStartOffset, out var pEndOffset);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pStartOffset, pEndOffset);
 			}
 		}
 
@@ -36,9 +46,9 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetLocationType(out var value);
+				var hr = instance.GetLocationType(out var pLocationType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pLocationType;
 			}
 		}
 
@@ -46,9 +56,9 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetOffset(out var value);
+				var hr = instance.GetOffset(out var pOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pOffset;
 			}
 		}
 
@@ -56,9 +66,9 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegister(out var value);
+				var hr = instance.GetRegister(out var pRegister);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pRegister;
 			}
 		}
 
@@ -66,59 +76,10 @@ public static unsafe class CorDebugVariableHomeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSlotIndex(out var value);
+				var hr = instance.GetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pSlotIndex;
 			}
-		}
-
-		public uint GetArgumentIndex()
-		{
-			var hr = instance.GetArgumentIndex(out var pArgumentIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pArgumentIndex;
-		}
-
-		public ICorDebugCode GetCode()
-		{
-			var hr = instance.GetCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
-		}
-
-		public (uint pStartOffset, uint pEndOffset) GetLiveRange()
-		{
-			var hr = instance.GetLiveRange(out var pStartOffset, out var pEndOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pStartOffset, pEndOffset);
-		}
-
-		public VariableLocationType GetLocationType()
-		{
-			var hr = instance.GetLocationType(out var pLocationType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pLocationType;
-		}
-
-		public int GetOffset()
-		{
-			var hr = instance.GetOffset(out var pOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return pOffset;
-		}
-
-		public CorDebugRegister GetRegister()
-		{
-			var hr = instance.GetRegister(out var pRegister);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRegister;
-		}
-
-		public uint GetSlotIndex()
-		{
-			var hr = instance.GetSlotIndex(out var pSlotIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSlotIndex;
 		}
 	}
 }

@@ -16,9 +16,9 @@ public static unsafe class CorDebugObjectValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var value);
+				var hr = instance.GetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppClass;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugObjectValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetContext(out var value);
+				var hr = instance.GetContext(out var ppContext);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppContext;
 			}
 		}
 
@@ -36,24 +36,10 @@ public static unsafe class CorDebugObjectValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetManagedCopy(out var value);
+				var hr = instance.GetManagedCopy(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
-		}
-
-		public ICorDebugClass GetClass()
-		{
-			var hr = instance.GetClass(out var ppClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppClass;
-		}
-
-		public ICorDebugContext GetContext()
-		{
-			var hr = instance.GetContext(out var ppContext);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppContext;
 		}
 
 		public ICorDebugValue GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef)
@@ -61,13 +47,6 @@ public static unsafe class CorDebugObjectValueProjectedExtensions
 			var hr = instance.GetFieldValue(pClass, fieldDef, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public nint GetManagedCopy()
-		{
-			var hr = instance.GetManagedCopy(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
 		}
 
 		public ICorDebugFunction GetVirtualMethod(mdMemberRef memberRef)

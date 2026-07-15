@@ -16,9 +16,9 @@ public static unsafe class CorDebugProcessProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandle(out var value);
+				var hr = instance.GetHandle(out var phProcessHandle);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return phProcessHandle;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugProcessProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetHelperThreadID(out var value);
+				var hr = instance.GetHelperThreadID(out var pThreadID);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pThreadID;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugProcessProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var value);
+				var hr = instance.GetID(out var pdwProcessId);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwProcessId;
 			}
 		}
 
@@ -46,9 +46,9 @@ public static unsafe class CorDebugProcessProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var value);
+				var hr = instance.GetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
 		}
 
@@ -64,34 +64,6 @@ public static unsafe class CorDebugProcessProjectedExtensions
 			var hr = instance.EnumerateObjects(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppObjects;
-		}
-
-		public nint GetHandle()
-		{
-			var hr = instance.GetHandle(out var phProcessHandle);
-			Marshal.ThrowExceptionForHR(hr);
-			return phProcessHandle;
-		}
-
-		public uint GetHelperThreadID()
-		{
-			var hr = instance.GetHelperThreadID(out var pThreadID);
-			Marshal.ThrowExceptionForHR(hr);
-			return pThreadID;
-		}
-
-		public uint GetID()
-		{
-			var hr = instance.GetID(out var pdwProcessId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwProcessId;
-		}
-
-		public ICorDebugValue GetObject()
-		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
 		}
 
 		public ICorDebugThread GetThread(uint dwThreadId)

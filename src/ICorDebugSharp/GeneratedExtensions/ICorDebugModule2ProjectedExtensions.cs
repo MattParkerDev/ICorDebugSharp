@@ -16,17 +16,10 @@ public static unsafe class CorDebugModule2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetJITCompilerFlags(out var value);
+				var hr = instance.GetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
-		}
-
-		public uint GetJITCompilerFlags()
-		{
-			var hr = instance.GetJITCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
 		}
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)

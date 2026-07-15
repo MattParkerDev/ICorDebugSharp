@@ -16,9 +16,9 @@ public static unsafe class CorDebugCodeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAddress(out var value);
+				var hr = instance.GetAddress(out var pStart);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pStart;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugCodeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunction(out var value);
+				var hr = instance.GetFunction(out var ppFunction);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppFunction;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugCodeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var value);
+				var hr = instance.GetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcBytes;
 			}
 		}
 
@@ -46,9 +46,9 @@ public static unsafe class CorDebugCodeProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetVersionNumber(out var value);
+				var hr = instance.GetVersionNumber(out var nVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return nVersion;
 			}
 		}
 
@@ -57,13 +57,6 @@ public static unsafe class CorDebugCodeProjectedExtensions
 			var hr = instance.CreateBreakpoint(offset, out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
-		}
-
-		public CORDB_ADDRESS GetAddress()
-		{
-			var hr = instance.GetAddress(out var pStart);
-			Marshal.ThrowExceptionForHR(hr);
-			return pStart;
 		}
 
 		public uint GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, byte[] buffer)
@@ -80,32 +73,11 @@ public static unsafe class CorDebugCodeProjectedExtensions
 			return pcMap;
 		}
 
-		public ICorDebugFunction GetFunction()
-		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
-		}
-
 		public uint GetILToNativeMapping(uint cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
 		{
 			var hr = instance.GetILToNativeMapping(cMap, out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcMap;
-		}
-
-		public uint GetSize()
-		{
-			var hr = instance.GetSize(out var pcBytes);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcBytes;
-		}
-
-		public uint GetVersionNumber()
-		{
-			var hr = instance.GetVersionNumber(out var nVersion);
-			Marshal.ThrowExceptionForHR(hr);
-			return nVersion;
 		}
 
 		public int IsIL()

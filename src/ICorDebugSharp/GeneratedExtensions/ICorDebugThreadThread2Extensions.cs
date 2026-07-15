@@ -27,51 +27,30 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetConnectionID(out var value);
+				var hr = GetCapability(instance).GetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwConnectionId;
 			}
-		}
-
-		public uint GetConnectionID()
-		{
-			var hr = GetCapability(instance).GetConnectionID(out var pdwConnectionId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwConnectionId;
 		}
 
 		public ulong TaskID
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetTaskID(out var value);
+				var hr = GetCapability(instance).GetTaskID(out var pTaskId);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pTaskId;
 			}
-		}
-
-		public ulong GetTaskID()
-		{
-			var hr = GetCapability(instance).GetTaskID(out var pTaskId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTaskId;
 		}
 
 		public uint VolatileOSThreadID
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetVolatileOSThreadID(out var value);
+				var hr = GetCapability(instance).GetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwTid;
 			}
-		}
-
-		public uint GetVolatileOSThreadID()
-		{
-			var hr = GetCapability(instance).GetVolatileOSThreadID(out var pdwTid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwTid;
 		}
 
 		public void InterceptCurrentException(ICorDebugFrame pFrame)

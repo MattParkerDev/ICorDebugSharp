@@ -16,9 +16,9 @@ public static unsafe class CorDebugAssemblyProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAppDomain(out var value);
+				var hr = instance.GetAppDomain(out var ppAppDomain);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppAppDomain;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugAssemblyProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var value);
+				var hr = instance.GetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppProcess;
 			}
 		}
 
@@ -37,13 +37,6 @@ public static unsafe class CorDebugAssemblyProjectedExtensions
 			var hr = instance.EnumerateModules(out var ppModules);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppModules;
-		}
-
-		public ICorDebugAppDomain GetAppDomain()
-		{
-			var hr = instance.GetAppDomain(out var ppAppDomain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAppDomain;
 		}
 
 		public uint GetCodeBase(uint cchName, char[]? szName)
@@ -58,13 +51,6 @@ public static unsafe class CorDebugAssemblyProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public ICorDebugProcess GetProcess()
-		{
-			var hr = instance.GetProcess(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
 		}
 	}
 }

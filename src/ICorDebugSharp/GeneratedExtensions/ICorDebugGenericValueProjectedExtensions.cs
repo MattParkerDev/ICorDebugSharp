@@ -16,17 +16,10 @@ public static unsafe class CorDebugGenericValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetValue(out var value);
+				var hr = instance.GetValue(out var pTo);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pTo;
 			}
-		}
-
-		public nint GetValue()
-		{
-			var hr = instance.GetValue(out var pTo);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTo;
 		}
 	}
 }

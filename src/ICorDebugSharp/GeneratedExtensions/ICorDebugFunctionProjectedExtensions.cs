@@ -16,9 +16,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var value);
+				var hr = instance.GetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppClass;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentVersionNumber(out var value);
+				var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnCurrentVersion;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetILCode(out var value);
+				var hr = instance.GetILCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppCode;
 			}
 		}
 
@@ -46,9 +46,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetLocalVarSigToken(out var value);
+				var hr = instance.GetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pmdSig;
 			}
 		}
 
@@ -56,9 +56,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var value);
+				var hr = instance.GetModule(out var ppModule);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppModule;
 			}
 		}
 
@@ -66,9 +66,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetNativeCode(out var value);
+				var hr = instance.GetNativeCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppCode;
 			}
 		}
 
@@ -76,9 +76,9 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetToken(out var value);
+				var hr = instance.GetToken(out var pMethodDef);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pMethodDef;
 			}
 		}
 
@@ -87,55 +87,6 @@ public static unsafe class CorDebugFunctionProjectedExtensions
 			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
-		}
-
-		public ICorDebugClass GetClass()
-		{
-			var hr = instance.GetClass(out var ppClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppClass;
-		}
-
-		public uint GetCurrentVersionNumber()
-		{
-			var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnCurrentVersion;
-		}
-
-		public ICorDebugCode GetILCode()
-		{
-			var hr = instance.GetILCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
-		}
-
-		public mdSignature GetLocalVarSigToken()
-		{
-			var hr = instance.GetLocalVarSigToken(out var pmdSig);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmdSig;
-		}
-
-		public ICorDebugModule GetModule()
-		{
-			var hr = instance.GetModule(out var ppModule);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppModule;
-		}
-
-		public ICorDebugCode GetNativeCode()
-		{
-			var hr = instance.GetNativeCode(out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
-		}
-
-		public mdMethodDef GetToken()
-		{
-			var hr = instance.GetToken(out var pMethodDef);
-			Marshal.ThrowExceptionForHR(hr);
-			return pMethodDef;
 		}
 	}
 }

@@ -16,9 +16,9 @@ public static unsafe class CorDebugThread4ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetBlockingObjects(out var value);
+				var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppBlockingObjectEnum;
 			}
 		}
 
@@ -26,24 +26,10 @@ public static unsafe class CorDebugThread4ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentCustomDebuggerNotification(out var value);
+				var hr = instance.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppNotificationObject;
 			}
-		}
-
-		public ICorDebugBlockingObjectEnum GetBlockingObjects()
-		{
-			var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppBlockingObjectEnum;
-		}
-
-		public ICorDebugValue GetCurrentCustomDebuggerNotification()
-		{
-			var hr = instance.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppNotificationObject;
 		}
 	}
 }

@@ -16,17 +16,10 @@ public static unsafe class CorDebugValue3ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize64(out var value);
+				var hr = instance.GetSize64(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pSize;
 			}
-		}
-
-		public ulong GetSize64()
-		{
-			var hr = instance.GetSize64(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
 		}
 	}
 }

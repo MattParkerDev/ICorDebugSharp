@@ -16,9 +16,9 @@ public static unsafe class CorDebugMDAProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetOSThreadId(out var value);
+				var hr = instance.GetOSThreadId(out var pOsTid);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pOsTid;
 			}
 		}
 
@@ -34,13 +34,6 @@ public static unsafe class CorDebugMDAProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public uint GetOSThreadId()
-		{
-			var hr = instance.GetOSThreadId(out var pOsTid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pOsTid;
 		}
 
 		public uint GetXML(uint cchName, char[]? szName)

@@ -16,9 +16,9 @@ public static unsafe class CorDebugVariableSymbolProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var value);
+				var hr = instance.GetSize(out var pcbValue);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pcbValue;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugVariableSymbolProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSlotIndex(out var value);
+				var hr = instance.GetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pSlotIndex;
 			}
 		}
 
@@ -37,20 +37,6 @@ public static unsafe class CorDebugVariableSymbolProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public uint GetSize()
-		{
-			var hr = instance.GetSize(out var pcbValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcbValue;
-		}
-
-		public uint GetSlotIndex()
-		{
-			var hr = instance.GetSlotIndex(out var pSlotIndex);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSlotIndex;
 		}
 
 		public uint GetValue(uint offset, uint cbContext, byte[] context, uint cbValue, byte[] pValue)

@@ -16,9 +16,9 @@ public static unsafe class CorDebugDelegateObjectValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunction(out var value);
+				var hr = instance.GetFunction(out var ppFunction);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppFunction;
 			}
 		}
 
@@ -26,24 +26,10 @@ public static unsafe class CorDebugDelegateObjectValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetTarget(out var value);
+				var hr = instance.GetTarget(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
-		}
-
-		public ICorDebugFunction GetFunction()
-		{
-			var hr = instance.GetFunction(out var ppFunction);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFunction;
-		}
-
-		public ICorDebugReferenceValue GetTarget()
-		{
-			var hr = instance.GetTarget(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
 		}
 	}
 }

@@ -16,9 +16,9 @@ public static unsafe class CorDebugAppDomainProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var value);
+				var hr = instance.GetID(out var pId);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pId;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugAppDomainProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var value);
+				var hr = instance.GetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugAppDomainProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var value);
+				var hr = instance.GetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppProcess;
 			}
 		}
 
@@ -63,13 +63,6 @@ public static unsafe class CorDebugAppDomainProjectedExtensions
 			return ppSteppers;
 		}
 
-		public uint GetID()
-		{
-			var hr = instance.GetID(out var pId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pId;
-		}
-
 		public ICorDebugModule GetModuleFromMetaDataInterface(nint pIMetaData)
 		{
 			var hr = instance.GetModuleFromMetaDataInterface(pIMetaData, out var ppModule);
@@ -82,20 +75,6 @@ public static unsafe class CorDebugAppDomainProjectedExtensions
 			var hr = instance.GetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
-		}
-
-		public ICorDebugValue GetObject()
-		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
-		}
-
-		public ICorDebugProcess GetProcess()
-		{
-			var hr = instance.GetProcess(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
 		}
 
 		public int IsAttached()

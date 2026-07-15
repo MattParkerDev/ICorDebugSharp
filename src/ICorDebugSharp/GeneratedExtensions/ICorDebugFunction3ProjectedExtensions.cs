@@ -16,17 +16,10 @@ public static unsafe class CorDebugFunction3ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveReJitRequestILCode(out var value);
+				var hr = instance.GetActiveReJitRequestILCode(out var ppReJitedILCode);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppReJitedILCode;
 			}
-		}
-
-		public ICorDebugILCode GetActiveReJitRequestILCode()
-		{
-			var hr = instance.GetActiveReJitRequestILCode(out var ppReJitedILCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppReJitedILCode;
 		}
 	}
 }

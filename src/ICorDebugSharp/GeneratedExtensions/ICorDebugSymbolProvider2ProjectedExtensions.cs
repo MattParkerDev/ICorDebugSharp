@@ -16,9 +16,9 @@ public static unsafe class CorDebugSymbolProvider2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetGenericDictionaryInfo(out var value);
+				var hr = instance.GetGenericDictionaryInfo(out var ppMemoryBuffer);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppMemoryBuffer;
 			}
 		}
 
@@ -27,13 +27,6 @@ public static unsafe class CorDebugSymbolProvider2ProjectedExtensions
 			var hr = instance.GetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pCodeStartRva, pParentFrameStartRva);
-		}
-
-		public ICorDebugMemoryBuffer GetGenericDictionaryInfo()
-		{
-			var hr = instance.GetGenericDictionaryInfo(out var ppMemoryBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppMemoryBuffer;
 		}
 	}
 }

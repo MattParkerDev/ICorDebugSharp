@@ -16,9 +16,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveChain(out var value);
+				var hr = instance.GetActiveChain(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppChain;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveFrame(out var value);
+				var hr = instance.GetActiveFrame(out var ppFrame);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppFrame;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAppDomain(out var value);
+				var hr = instance.GetAppDomain(out var ppAppDomain);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppAppDomain;
 			}
 		}
 
@@ -46,9 +46,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentException(out var value);
+				var hr = instance.GetCurrentException(out var ppExceptionObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppExceptionObject;
 			}
 		}
 
@@ -56,9 +56,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetDebugState(out var value);
+				var hr = instance.GetDebugState(out var pState);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pState;
 			}
 		}
 
@@ -66,9 +66,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandle(out var value);
+				var hr = instance.GetHandle(out var phThreadHandle);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return phThreadHandle;
 			}
 		}
 
@@ -76,9 +76,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var value);
+				var hr = instance.GetID(out var pdwThreadId);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwThreadId;
 			}
 		}
 
@@ -86,9 +86,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var value);
+				var hr = instance.GetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppObject;
 			}
 		}
 
@@ -96,9 +96,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var value);
+				var hr = instance.GetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppProcess;
 			}
 		}
 
@@ -106,9 +106,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegisterSet(out var value);
+				var hr = instance.GetRegisterSet(out var ppRegisters);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppRegisters;
 			}
 		}
 
@@ -116,9 +116,9 @@ public static unsafe class CorDebugThreadProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetUserState(out var value);
+				var hr = instance.GetUserState(out var pState);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pState;
 			}
 		}
 
@@ -141,83 +141,6 @@ public static unsafe class CorDebugThreadProjectedExtensions
 			var hr = instance.EnumerateChains(out var ppChains);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppChains;
-		}
-
-		public ICorDebugChain GetActiveChain()
-		{
-			var hr = instance.GetActiveChain(out var ppChain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChain;
-		}
-
-		public ICorDebugFrame GetActiveFrame()
-		{
-			var hr = instance.GetActiveFrame(out var ppFrame);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppFrame;
-		}
-
-		public ICorDebugAppDomain GetAppDomain()
-		{
-			var hr = instance.GetAppDomain(out var ppAppDomain);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAppDomain;
-		}
-
-		public ICorDebugValue GetCurrentException()
-		{
-			var hr = instance.GetCurrentException(out var ppExceptionObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppExceptionObject;
-		}
-
-		public CorDebugThreadState GetDebugState()
-		{
-			var hr = instance.GetDebugState(out var pState);
-			Marshal.ThrowExceptionForHR(hr);
-			return pState;
-		}
-
-		public nint GetHandle()
-		{
-			var hr = instance.GetHandle(out var phThreadHandle);
-			Marshal.ThrowExceptionForHR(hr);
-			return phThreadHandle;
-		}
-
-		public uint GetID()
-		{
-			var hr = instance.GetID(out var pdwThreadId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwThreadId;
-		}
-
-		public ICorDebugValue GetObject()
-		{
-			var hr = instance.GetObject(out var ppObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObject;
-		}
-
-		public ICorDebugProcess GetProcess()
-		{
-			var hr = instance.GetProcess(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
-		}
-
-		public ICorDebugRegisterSet GetRegisterSet()
-		{
-			var hr = instance.GetRegisterSet(out var ppRegisters);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppRegisters;
-		}
-
-		public CorDebugUserState GetUserState()
-		{
-			var hr = instance.GetUserState(out var pState);
-			Marshal.ThrowExceptionForHR(hr);
-			return pState;
 		}
 	}
 }

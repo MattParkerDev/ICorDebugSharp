@@ -16,9 +16,9 @@ public static unsafe class CorDebugEditAndContinueSnapshotProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetMvid(out var value);
+				var hr = instance.GetMvid(out var pMvid);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pMvid;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugEditAndContinueSnapshotProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRoDataRVA(out var value);
+				var hr = instance.GetRoDataRVA(out var pRoDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pRoDataRVA;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugEditAndContinueSnapshotProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRwDataRVA(out var value);
+				var hr = instance.GetRwDataRVA(out var pRwDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pRwDataRVA;
 			}
 		}
 
@@ -47,27 +47,6 @@ public static unsafe class CorDebugEditAndContinueSnapshotProjectedExtensions
 			var hr = instance.CopyMetaData(pIStream, out var pMvid);
 			Marshal.ThrowExceptionForHR(hr);
 			return pMvid;
-		}
-
-		public Guid GetMvid()
-		{
-			var hr = instance.GetMvid(out var pMvid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pMvid;
-		}
-
-		public uint GetRoDataRVA()
-		{
-			var hr = instance.GetRoDataRVA(out var pRoDataRVA);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRoDataRVA;
-		}
-
-		public uint GetRwDataRVA()
-		{
-			var hr = instance.GetRwDataRVA(out var pRwDataRVA);
-			Marshal.ThrowExceptionForHR(hr);
-			return pRwDataRVA;
 		}
 	}
 }

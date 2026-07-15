@@ -16,17 +16,10 @@ public static unsafe class CorDebugRegisterSetProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegistersAvailable(out var value);
+				var hr = instance.GetRegistersAvailable(out var pAvailable);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pAvailable;
 			}
-		}
-
-		public ulong GetRegistersAvailable()
-		{
-			var hr = instance.GetRegistersAvailable(out var pAvailable);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAvailable;
 		}
 	}
 }

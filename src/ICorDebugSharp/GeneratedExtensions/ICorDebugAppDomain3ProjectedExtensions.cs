@@ -16,17 +16,10 @@ public static unsafe class CorDebugAppDomain3ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCachedWinRTTypes(out var value);
+				var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppGuidToTypeEnum;
 			}
-		}
-
-		public ICorDebugGuidToTypeEnum GetCachedWinRTTypes()
-		{
-			var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppGuidToTypeEnum;
 		}
 
 		public ICorDebugTypeEnum GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)

@@ -16,17 +16,10 @@ public static unsafe class CorDebugDataTargetProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetPlatform(out var value);
+				var hr = instance.GetPlatform(out var pTargetPlatform);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pTargetPlatform;
 			}
-		}
-
-		public CorDebugPlatform GetPlatform()
-		{
-			var hr = instance.GetPlatform(out var pTargetPlatform);
-			Marshal.ThrowExceptionForHR(hr);
-			return pTargetPlatform;
 		}
 
 		public uint ReadVirtual(CORDB_ADDRESS address, byte[] pBuffer, uint bytesRequested)

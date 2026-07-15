@@ -16,9 +16,9 @@ public static unsafe class CorDebugCode2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetCompilerFlags(out var value);
+				var hr = instance.GetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
 		}
 
@@ -27,13 +27,6 @@ public static unsafe class CorDebugCode2ProjectedExtensions
 			var hr = instance.GetCodeChunks(cbufSize, out var pcnumChunks, chunks);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcnumChunks;
-		}
-
-		public uint GetCompilerFlags()
-		{
-			var hr = instance.GetCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
 		}
 	}
 }

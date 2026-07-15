@@ -16,9 +16,9 @@ public static unsafe class CorDebugNativeFrameProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetIP(out var value);
+				var hr = instance.GetIP(out var pnOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pnOffset;
 			}
 		}
 
@@ -26,17 +26,10 @@ public static unsafe class CorDebugNativeFrameProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegisterSet(out var value);
+				var hr = instance.GetRegisterSet(out var ppRegisters);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return ppRegisters;
 			}
-		}
-
-		public uint GetIP()
-		{
-			var hr = instance.GetIP(out var pnOffset);
-			Marshal.ThrowExceptionForHR(hr);
-			return pnOffset;
 		}
 
 		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
@@ -72,13 +65,6 @@ public static unsafe class CorDebugNativeFrameProjectedExtensions
 			var hr = instance.GetLocalRegisterValue(reg, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
-		}
-
-		public ICorDebugRegisterSet GetRegisterSet()
-		{
-			var hr = instance.GetRegisterSet(out var ppRegisters);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppRegisters;
 		}
 	}
 }

@@ -16,9 +16,9 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetFlags(out var value);
+				var hr = instance.GetFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetNativeIP(out var value);
+				var hr = instance.GetNativeIP(out var pIP);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pIP;
 			}
 		}
 
@@ -36,31 +36,10 @@ public static unsafe class CorDebugExceptionDebugEventProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackPointer(out var value);
+				var hr = instance.GetStackPointer(out var pStackPointer);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pStackPointer;
 			}
-		}
-
-		public CorDebugExceptionFlags GetFlags()
-		{
-			var hr = instance.GetFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
-		}
-
-		public CORDB_ADDRESS GetNativeIP()
-		{
-			var hr = instance.GetNativeIP(out var pIP);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIP;
-		}
-
-		public CORDB_ADDRESS GetStackPointer()
-		{
-			var hr = instance.GetStackPointer(out var pStackPointer);
-			Marshal.ThrowExceptionForHR(hr);
-			return pStackPointer;
 		}
 	}
 }

@@ -26,17 +26,10 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetDesiredNGENCompilerFlags(out var value);
+				var hr = GetCapability(instance).GetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pdwFlags;
 			}
-		}
-
-		public uint GetDesiredNGENCompilerFlags()
-		{
-			var hr = GetCapability(instance).GetDesiredNGENCompilerFlags(out var pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
-			return pdwFlags;
 		}
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
@@ -57,17 +50,10 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetVersion(out var value);
+				var hr = GetCapability(instance).GetVersion(out var version);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return version;
 			}
-		}
-
-		public COR_VERSION GetVersion()
-		{
-			var hr = GetCapability(instance).GetVersion(out var version);
-			Marshal.ThrowExceptionForHR(hr);
-			return version;
 		}
 
 		public void SetDesiredNGENCompilerFlags(uint pdwFlags)

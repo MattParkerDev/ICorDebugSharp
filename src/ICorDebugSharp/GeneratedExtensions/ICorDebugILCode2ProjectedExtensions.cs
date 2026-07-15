@@ -16,9 +16,9 @@ public static unsafe class CorDebugILCode2ProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetLocalVarSigToken(out var value);
+				var hr = instance.GetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pmdSig;
 			}
 		}
 
@@ -27,13 +27,6 @@ public static unsafe class CorDebugILCode2ProjectedExtensions
 			var hr = instance.GetInstrumentedILMap(cMap, out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcMap;
-		}
-
-		public mdSignature GetLocalVarSigToken()
-		{
-			var hr = instance.GetLocalVarSigToken(out var pmdSig);
-			Marshal.ThrowExceptionForHR(hr);
-			return pmdSig;
 		}
 	}
 }

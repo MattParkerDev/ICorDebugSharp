@@ -13,6 +13,16 @@ public static unsafe class MetaDataImport2ProjectedExtensions
 {
 	extension(IMetaDataImport2 instance)
 	{
+		public (uint pdwPEKind, uint pdwMAchine) PEKind
+		{
+			get
+			{
+				var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
+				Marshal.ThrowExceptionForHR(hr);
+				return (pdwPEKind, pdwMAchine);
+			}
+		}
+
 		public (mdGenericParamConstraint rGenericParamConstraints, uint pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk)
 		{
 			var hr = instance.EnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
@@ -53,13 +63,6 @@ public static unsafe class MetaDataImport2ProjectedExtensions
 			var hr = instance.GetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
 			Marshal.ThrowExceptionForHR(hr);
 			return (tkParent, ppvSigBlob.ToArray(), pcbSigBlob);
-		}
-
-		public (uint pdwPEKind, uint pdwMAchine) GetPEKind()
-		{
-			var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pdwPEKind, pdwMAchine);
 		}
 
 		public uint GetVersionString(char[]? pwzBuf, uint ccBufSize)

@@ -16,9 +16,9 @@ public static unsafe class CorDebugValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetAddress(out var value);
+				var hr = instance.GetAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pAddress;
 			}
 		}
 
@@ -26,9 +26,9 @@ public static unsafe class CorDebugValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var value);
+				var hr = instance.GetSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pSize;
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugValueProjectedExtensions
 		{
 			get
 			{
-				var hr = instance.GetType(out var value);
+				var hr = instance.GetType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
-				return value;
+				return pType;
 			}
 		}
 
@@ -47,27 +47,6 @@ public static unsafe class CorDebugValueProjectedExtensions
 			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
-		}
-
-		public CORDB_ADDRESS GetAddress()
-		{
-			var hr = instance.GetAddress(out var pAddress);
-			Marshal.ThrowExceptionForHR(hr);
-			return pAddress;
-		}
-
-		public uint GetSize()
-		{
-			var hr = instance.GetSize(out var pSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return pSize;
-		}
-
-		public uint GetType()
-		{
-			var hr = instance.GetType(out var pType);
-			Marshal.ThrowExceptionForHR(hr);
-			return pType;
 		}
 	}
 }
