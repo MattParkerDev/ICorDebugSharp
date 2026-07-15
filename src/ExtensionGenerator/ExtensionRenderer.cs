@@ -12,7 +12,37 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		foreach (var interfaceName in Recipes.Enumerations.Select(recipe => recipe.Interface)
 			.Concat(Recipes.MetadataStrings.Select(recipe => recipe.Interface)).Distinct(StringComparer.Ordinal))
 			files[$"{interfaceName}Extensions.cs"] = RenderMetadata(interfaceName);
+		foreach (var @interface in catalog.Interfaces.Where(@interface => @interface.Namespace == "ICorDebugSharp"))
+		{
+			var methods = @interface.Methods.Values.Where(IsSimpleOutputProperty).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+			if (methods.Length != 0)
+				files[$"{@interface.Name}ProjectedExtensions.cs"] = RenderSimpleOutputProperties(@interface, methods);
+		}
 		return files;
+	}
+
+	private static bool IsSimpleOutputProperty(ManagedMethod method) =>
+		method.ReturnType == "int" &&
+		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
+		method.Name.Length > 3 &&
+		method.Parameters.Count == 1 &&
+		method.Parameters[0].IsOut &&
+		!method.Parameters[0].Type.Contains("[]", StringComparison.Ordinal) &&
+		!method.Parameters[0].Type.Contains("Span<", StringComparison.Ordinal);
+
+	private static string RenderSimpleOutputProperties(ManagedInterface @interface, IReadOnlyList<ManagedMethod> methods)
+	{
+		var members = methods.Select(method =>
+		{
+			var output = method.Parameters[0];
+			var propertyName = method.Name[3..];
+			return $"\t\tpublic {output.Type} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+				$"\t\t\t\tvar hr = instance.{method.Name}(out var value);\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn value;\n" +
+				"\t\t\t}\n\t\t}";
+		});
+		return Header(@interface.Namespace) +
+			$"public static class {@interface.Name[1..]}ProjectedExtensions\n{{\n" +
+			$"\textension({@interface.Name} instance)\n\t{{\n{string.Join("\n\n", members)}\n\t}}\n}}\n";
 	}
 
 	private string RenderQueryBuffers(string interfaceName, IReadOnlyList<QueryBufferRecipe> recipes)

@@ -10,6 +10,8 @@ internal sealed class ManagedInterfaceCatalog
 
 	private ManagedInterfaceCatalog(Dictionary<string, ManagedInterface> interfaces) => _interfaces = interfaces;
 
+	public IEnumerable<ManagedInterface> Interfaces => _interfaces.Values;
+
 	public static ManagedInterfaceCatalog Load(params string[] directories)
 	{
 		var interfaces = new Dictionary<string, ManagedInterface>(StringComparer.Ordinal);
