@@ -57,11 +57,11 @@ public static class MetaDataImportExtensions
 
 		public IEnumerable<mdCustomAttribute> CustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
 
-		public (string Name, Guid ModuleVersionId) ScopeProps => QueryGetScopeProps(instance);
+		public (string szName, Guid pmvid) ScopeProps => QueryGetScopeProps(instance);
 
-		public (string Name, TypeAttributes Attributes, mdToken Extends) TypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
+		public (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) TypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
-		public (mdToken ResolutionScope, string Name) TypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
+		public (mdToken ptkResolutionScope, string szName) TypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
 
 		public string ModuleRefName(mdModuleRef moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
 
@@ -574,7 +574,7 @@ public static class MetaDataImportExtensions
 		}
 	}
 
-	private static (string Name, Guid ModuleVersionId) QueryGetScopeProps(IMetaDataImport instance)
+	private static (string szName, Guid pmvid) QueryGetScopeProps(IMetaDataImport instance)
 	{
 		var hr = instance.GetScopeProps(null, 0, out var required, out _);
 		Marshal.ThrowExceptionForHR(hr);
@@ -585,7 +585,7 @@ public static class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetScopeProps(buffer, capacity, out var actual, out var moduleVersionId);
+			hr = instance.GetScopeProps(buffer, capacity, out var actual, out var pmvid);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -593,13 +593,13 @@ public static class MetaDataImportExtensions
 				continue;
 			}
 
-			return (CreateString(buffer, actual, true), moduleVersionId);
+			return (CreateString(buffer, actual, true), pmvid);
 		}
 
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static (string Name, TypeAttributes Attributes, mdToken Extends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
+	private static (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
 	{
 		var hr = instance.GetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
@@ -610,7 +610,7 @@ public static class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetTypeDefProps(typeDefinition, buffer, capacity, out var actual, out var attributes, out var extends);
+			hr = instance.GetTypeDefProps(typeDefinition, buffer, capacity, out var actual, out var pdwTypeDefFlags, out var ptkExtends);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -618,13 +618,13 @@ public static class MetaDataImportExtensions
 				continue;
 			}
 
-			return (CreateString(buffer, actual, true), attributes, extends);
+			return (CreateString(buffer, actual, true), pdwTypeDefFlags, ptkExtends);
 		}
 
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static (mdToken ResolutionScope, string Name) QueryGetTypeRefProps(IMetaDataImport instance, mdTypeRef typeReference)
+	private static (mdToken ptkResolutionScope, string szName) QueryGetTypeRefProps(IMetaDataImport instance, mdTypeRef typeReference)
 	{
 		var hr = instance.GetTypeRefProps(typeReference, out _, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
@@ -635,7 +635,7 @@ public static class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetTypeRefProps(typeReference, out var resolutionScope, buffer, capacity, out var actual);
+			hr = instance.GetTypeRefProps(typeReference, out var ptkResolutionScope, buffer, capacity, out var actual);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -643,7 +643,7 @@ public static class MetaDataImportExtensions
 				continue;
 			}
 
-			return (resolutionScope, CreateString(buffer, actual, true));
+			return (ptkResolutionScope, CreateString(buffer, actual, true));
 		}
 
 		throw new InvalidOperationException("Native buffer size did not stabilize.");

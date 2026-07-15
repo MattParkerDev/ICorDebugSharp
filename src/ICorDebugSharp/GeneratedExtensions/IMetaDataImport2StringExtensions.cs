@@ -13,7 +13,7 @@ public static unsafe class MetaDataImport2StringExtensions
 {
 	extension(IMetaDataImport2 instance)
 	{
-		public (string Name, uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
+		public (string wzname, uint pulParamSeq, GenericParameterAttributes pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
 		{
 			var hr = instance.GetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
 			Marshal.ThrowExceptionForHR(hr);

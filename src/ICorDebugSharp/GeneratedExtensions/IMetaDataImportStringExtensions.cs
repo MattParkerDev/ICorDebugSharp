@@ -13,7 +13,7 @@ public static unsafe class MetaDataImportStringExtensions
 {
 	extension(IMetaDataImport instance)
 	{
-		public (string Name, mdTypeDef pClass, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
+		public (string szEvent, mdTypeDef pClass, EventAttributes pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
 		{
 			var hr = instance.GetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
@@ -38,7 +38,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdTypeDef pClass, FieldAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
+		public (string szField, mdTypeDef pClass, FieldAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
 		{
 			var hr = instance.GetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -63,7 +63,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
+		public (string szMember, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
 		{
 			var hr = instance.GetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -88,7 +88,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdToken ptk, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr)
+		public (string szMember, mdToken ptk, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr)
 		{
 			var hr = instance.GetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
 			Marshal.ThrowExceptionForHR(hr);
@@ -113,7 +113,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdTypeDef pClass, MethodAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb)
+		public (string szMethod, mdTypeDef pClass, MethodAttributes pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb)
 		{
 			var hr = instance.GetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
@@ -138,7 +138,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdMethodDef pmd, uint pulSequence, ParameterAttributes pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
+		public (string szName, mdMethodDef pmd, uint pulSequence, ParameterAttributes pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
 		{
 			var hr = instance.GetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -163,7 +163,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, uint pdwMappingFlags, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk)
+		public (string szImportName, uint pdwMappingFlags, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk)
 		{
 			var hr = instance.GetPinvokeMap(tk, out var queryPdwMappingFlags, null, 0, out var required, out var queryPmrImportDLL);
 			Marshal.ThrowExceptionForHR(hr);
@@ -188,7 +188,7 @@ public static unsafe class MetaDataImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, mdTypeDef pClass, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
+		public (string szProperty, mdTypeDef pClass, PropertyAttributes pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
 			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);

@@ -13,7 +13,7 @@ public static unsafe class MetaDataAssemblyImportStringExtensions
 {
 	extension(IMetaDataAssemblyImport instance)
 	{
-		public (string Name, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
+		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, AssemblyNameFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
 		{
 			var hr = instance.GetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
@@ -38,7 +38,7 @@ public static unsafe class MetaDataAssemblyImportStringExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string Name, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
+		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, AssemblyNameFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
 		{
 			var hr = instance.GetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
