@@ -10,9 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="ClangSharp.PInvokeGenerator" Version="21.1.8.4" />
-    <PackageReference Include="libclang" Version="22.1.8" />
+    <PackageReference Include="libclang" Version="21.1.8" />
     <PackageReference Include="libClangSharp" Version="21.1.8.2" />
-    <PackageReference Include="libclang.runtime.win-x64" Version="22.1.8" />
+    <PackageReference Include="libclang.runtime.win-x64" Version="21.1.8" />
     <PackageReference Include="libClangSharp.runtime.win-x64" Version="21.1.8.2" />
   </ItemGroup>
 
