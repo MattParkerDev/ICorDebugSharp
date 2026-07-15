@@ -1,5 +1,5 @@
 // ReSharper disable once CheckNamespace
-namespace ICorDebugSharp.GeneratedMetadata;
+namespace ICorDebugSharp;
 
 public static partial class Cor
 {

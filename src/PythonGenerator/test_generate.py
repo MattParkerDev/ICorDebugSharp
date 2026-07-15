@@ -284,7 +284,6 @@ class CSharpGeneratorTests(unittest.TestCase):
     def test_uses_cor_element_type_declared_by_idl(self) -> None:
         source = self.generate("ICorDebugValue")
 
-        self.assertIn("using ICorDebugSharp.GeneratedMetadata;", source)
         self.assertIn("int GetType(out CorElementType pType);", source)
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:

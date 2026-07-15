@@ -74,7 +74,7 @@ pInvokeGeneratorConfigurationOptions |= PInvokeGeneratorConfigurationOptions.Exc
 var config = new PInvokeGeneratorConfiguration
 ("c++",
     "",
-    "ICorDebugSharp.GeneratedMetadata",
+    "ICorDebugSharp",
     $"{projectDirectory}/../ICorDebugSharp/GeneratedMetadata/",
     generatedFileHeaderPath,
     PInvokeGeneratorOutputMode.CSharp,
@@ -116,7 +116,7 @@ var config = new PInvokeGeneratorConfiguration
 };
 
 var comInterfaceGenerator = new ComInterfaceGenerator(new ComInterfaceGeneratorConfiguration(
-	"ICorDebugSharp.GeneratedMetadata",
+	"ICorDebugSharp",
 	outputDirectory,
 	interfaceMethodCounts,
 	interfaceGuids));

@@ -103,7 +103,6 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			.AppendLine("using System.Runtime.InteropServices;")
 			.AppendLine("using System.Runtime.InteropServices.Marshalling;")
 			.AppendLine("using ICorDebugSharp;")
-			.AppendLine("using ICorDebugSharp.GeneratedMetadata;")
 			.AppendLine()
 			.Append("namespace ").Append(configuration.Namespace).AppendLine(";")
 			.AppendLine()
