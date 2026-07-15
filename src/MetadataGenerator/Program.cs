@@ -94,8 +94,13 @@ var config = new PInvokeGeneratorConfiguration
     ExcludedNames =
     [
         ..comInterfaceNames,
+        // These generate malformed or invalid code
         "MAIN_CLR_DLL_NAME_W",
         "TARGET_MAIN_CLR_DLL_NAME_W",
+        "CorSig*",
+        "CorIs*",
+        "CLSID_CorMetaDataRuntime",
+        "MetaDataSetENC",
     ],
 };
 
