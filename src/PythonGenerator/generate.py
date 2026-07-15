@@ -398,12 +398,12 @@ class CSharpGenerator:
             for parameter, parameter_type in parameters
         )
         properties = "\n".join(
-            f"        this.{self.escape_identifier(parameter.name)} = "
+            f"        {self.callback_property_name(parameter.name)} = "
             f"{self.escape_identifier(parameter.name)};"
             for parameter, _ in parameters
         )
         declarations = "\n".join(
-            f"    public {parameter_type} {self.escape_identifier(parameter.name)} {{ get; }}"
+            f"    public {parameter_type} {self.callback_property_name(parameter.name)} {{ get; }}"
             for parameter, parameter_type in parameters
         )
         return (
@@ -444,6 +444,10 @@ class CSharpGenerator:
         elif parameter.type_spec.base_name == "REFIID":
             csharp_type = "Guid"
         return parameter, csharp_type
+
+    def callback_property_name(self, parameter_name: str) -> str:
+        name = parameter_name[1:] if parameter_name.startswith("p") else parameter_name
+        return self.escape_identifier(name[:1].upper() + name[1:])
 
     def generate_buffer_extension(self, interface: InterfaceDef, method: Method) -> str:
         kind, capacity_name, count_name, buffer_name = QUERY_BUFFER_METHODS[

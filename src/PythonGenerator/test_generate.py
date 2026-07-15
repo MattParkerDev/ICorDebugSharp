@@ -333,10 +333,10 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertIn(
-            "public string pLogSwitchName { get; }",
+            "public string LogSwitchName { get; }",
             source,
         )
-        self.assertIn("this.pLogSwitchName = pLogSwitchName;", source)
+        self.assertIn("LogSwitchName = pLogSwitchName;", source)
 
     def test_writes_managed_callback_dispatcher(self) -> None:
         midl = parse_string(CALLBACK_IDL)
