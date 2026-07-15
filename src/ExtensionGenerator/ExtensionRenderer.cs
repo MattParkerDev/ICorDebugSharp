@@ -17,6 +17,12 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			var methods = @interface.Methods.Values.Where(CanProjectOutputs).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 			if (methods.Length != 0)
 				files[$"{@interface.Name}ProjectedExtensions.cs"] = RenderProjectedMembers(@interface, methods);
+			var configuredStrings = Recipes.MetadataStrings.Select(recipe => (recipe.Interface, recipe.Method)).ToHashSet();
+			var stringMethods = @interface.Methods.Values
+				.Where(method => TryGetStringBuffer(method, out _) && !configuredStrings.Contains((@interface.Name, method.Name)))
+				.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+			if (stringMethods.Length != 0)
+				files[$"{@interface.Name}StringExtensions.cs"] = RenderAutomaticStringQueries(@interface, stringMethods);
 		}
 		return files;
 	}
@@ -61,13 +67,81 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		var result = outputs.Length == 1
 			? ProjectedOutputValue(outputs[0])
-			: $"({string.Join(", ", outputs.Select(ProjectedOutputValue))})";
+			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
 		$"{(parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
+
+	private static bool TryGetStringBuffer(ManagedMethod method, out (ManagedParameter Buffer, ManagedParameter Capacity, ManagedParameter Count) value)
+	{
+		var buffer = method.Parameters.FirstOrDefault(parameter =>
+			parameter.Type is "char[]" or "char[]?" && parameter.SizeParamIndex is not null);
+		if (buffer?.SizeParamIndex is not int capacityIndex || capacityIndex + 1 >= method.Parameters.Count)
+		{
+			value = default;
+			return false;
+		}
+		var count = method.Parameters[capacityIndex + 1];
+		if (!count.IsOut)
+			throw new InvalidOperationException($"{method.Name}.{buffer.Name} is not followed by an output character count.");
+		value = (buffer, method.Parameters[capacityIndex], count);
+		return true;
+	}
+
+	private static string RenderAutomaticStringQueries(ManagedInterface @interface, IReadOnlyList<ManagedMethod> methods)
+	{
+		var members = methods.Select(RenderAutomaticStringQuery);
+		return Header(@interface.Namespace) +
+			$"public static unsafe class {@interface.Name[1..]}StringExtensions\n{{\n" +
+			$"\textension({@interface.Name} instance)\n\t{{\n{string.Join("\n\n", members)}\n\t}}\n\n" +
+			RenderStringHelper() + "\n}\n";
+	}
+
+	private static string RenderAutomaticStringQuery(ManagedMethod method)
+	{
+		if (!TryGetStringBuffer(method, out var stringBuffer))
+			throw new InvalidOperationException($"{method.Name} is not a string query method.");
+		var omitted = new HashSet<string>(StringComparer.Ordinal) { stringBuffer.Buffer.Name, stringBuffer.Capacity.Name, stringBuffer.Count.Name };
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && !omitted.Contains(parameter.Name)).ToArray();
+		var outputs = method.Parameters.Where(parameter => parameter.IsOut && parameter.Name != stringBuffer.Count.Name).ToArray();
+		var returnType = outputs.Length == 0
+			? "string"
+			: $"(string Name, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
+		var queryArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, true);
+		var fillArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, false);
+		var result = outputs.Length == 0
+			? "CreateString(buffer, actual, true)"
+			: $"(CreateString(buffer, actual, true), {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+		var emptyResult = outputs.Length == 0
+			? "string.Empty"
+			: $"(string.Empty, {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output, "query")))})";
+		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
+			$"\t\t\tvar hr = instance.{method.Name}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
+			"\t\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t\t{\n\t\t\t\tvar capacity = required;\n\t\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
+			$"\t\t\t\thr = instance.{method.Name}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
+			$"\t\t\t\treturn {result};\n\t\t\t}}\n\n\t\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t\t}}";
+	}
+
+	private static string RenderStringCallArguments(ManagedMethod method,
+		(ManagedParameter Buffer, ManagedParameter Capacity, ManagedParameter Count) stringBuffer,
+		IReadOnlyCollection<ManagedParameter> inputs, IReadOnlyCollection<ManagedParameter> outputs, bool query)
+	{
+		var inputNames = inputs.Select(parameter => parameter.Name).ToHashSet(StringComparer.Ordinal);
+		var outputNames = outputs.Select(parameter => parameter.Name).ToHashSet(StringComparer.Ordinal);
+		return string.Join(", ", method.Parameters.Select(parameter => parameter.Name switch
+		{
+			var name when name == stringBuffer.Buffer.Name => query ? "null" : "buffer",
+			var name when name == stringBuffer.Capacity.Name => query ? "0" : "capacity",
+			var name when name == stringBuffer.Count.Name => query ? "out var required" : "out var actual",
+			var name when outputNames.Contains(name) => $"out var {(query ? "query" + char.ToUpperInvariant(name[0]) + name[1..] : Escape(name))}",
+			var name when inputNames.Contains(name) => parameter.IsRef ? $"ref {Escape(name)}" : Escape(name),
+			_ => throw new InvalidOperationException($"Unexpected parameter {parameter.Name} in {method.Name} string query."),
+		}));
+	}
 
 	private static string ProjectedOutputType(ManagedParameter parameter)
 	{
@@ -80,10 +154,10 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		return parameter.Type;
 	}
 
-	private static string ProjectedOutputValue(ManagedParameter parameter) =>
+	private static string ProjectedOutputValue(ManagedParameter parameter, string prefix = "") =>
 		parameter.Type.Contains("Span<", StringComparison.Ordinal)
-			? $"{Escape(parameter.Name)}.ToArray()"
-			: Escape(parameter.Name);
+			? $"{Escape(prefix + (prefix.Length == 0 ? parameter.Name : char.ToUpperInvariant(parameter.Name[0]) + parameter.Name[1..]))}.ToArray()"
+			: Escape(prefix + (prefix.Length == 0 ? parameter.Name : char.ToUpperInvariant(parameter.Name[0]) + parameter.Name[1..]));
 
 	private string RenderQueryBuffers(string interfaceName, IReadOnlyList<QueryBufferRecipe> recipes)
 	{
