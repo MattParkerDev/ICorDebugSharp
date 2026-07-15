@@ -47,7 +47,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		{
 			if (IsSimpleOutputProperty(method))
 				members.Add(RenderCapabilityProperty(method));
-			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
+			if (!IsSimpleOutputProperty(method))
+				members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? RenderProjectedMethod(method).Replace("instance.", "GetCapability(instance).", StringComparison.Ordinal)
 				: RenderCapabilityVoidMethod(method));
 		}
@@ -70,10 +71,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderCapabilityProperty(ManagedMethod method)
 	{
-		var output = method.Parameters[0];
-		return $"\t\tpublic {output.Type} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
-			$"\t\t\t\tvar hr = GetCapability(instance).{method.Name}(out var value);\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn value;\n" +
-			"\t\t\t}\n\t\t}";
+		return RenderOutputProperty(method, $"GetCapability(instance).{method.Name}");
 	}
 
 	private static string RenderCapabilityVoidMethod(ManagedMethod method)
@@ -117,8 +115,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static bool IsSimpleOutputProperty(ManagedMethod method) =>
 		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
 		method.Name.Length > 3 &&
-		method.Parameters.Count == 1 &&
-		method.Parameters[0].IsOut;
+		method.Parameters.Count != 0 &&
+		method.Parameters.All(parameter => parameter.IsOut);
 
 	private static bool CanProjectOutputs(ManagedMethod method) =>
 		method.ReturnType == "int" &&
@@ -126,15 +124,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderProjectedMembers(ManagedInterface @interface, IReadOnlyList<ManagedMethod> methods)
 	{
-		var properties = methods.Where(IsSimpleOutputProperty).Select(method =>
-		{
-			var output = method.Parameters[0];
-			var propertyName = method.Name[3..];
-			return $"\t\tpublic {output.Type} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
-				$"\t\t\t\tvar hr = instance.{method.Name}(out var value);\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn value;\n" +
-				"\t\t\t}\n\t\t}";
-		});
-		var projectedMethods = methods.Select(RenderProjectedMethod);
+		var properties = methods.Where(IsSimpleOutputProperty).Select(method => RenderOutputProperty(method, $"instance.{method.Name}"));
+		var projectedMethods = methods.Where(method => !IsSimpleOutputProperty(method)).Select(RenderProjectedMethod);
 		var members = properties.Concat(projectedMethods);
 		return Header(@interface.Namespace) +
 			$"public static unsafe class {@interface.Name[1..]}ProjectedExtensions\n{{\n" +
@@ -158,6 +149,21 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+	}
+
+	private static string RenderOutputProperty(ManagedMethod method, string call)
+	{
+		var outputs = method.Parameters;
+		var returnType = outputs.Count == 1
+			? ProjectedOutputType(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+		var arguments = string.Join(", ", outputs.Select(output => $"out var {Escape(output.Name)}"));
+		var result = outputs.Count == 1
+			? ProjectedOutputValue(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+		return $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
+			"\t\t\t}\n\t\t}";
 	}
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
