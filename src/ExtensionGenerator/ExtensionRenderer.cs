@@ -111,7 +111,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut && parameter.Name != stringBuffer.Count.Name).ToArray();
 		var returnType = outputs.Length == 0
 			? "string"
-			: $"(string Name, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
 		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var queryArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, true);
 		var fillArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, false);
@@ -297,9 +297,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string EmptyStringResult(StringQueryRecipe recipe) => recipe.ReturnType switch
 	{
 		"string" => "string.Empty",
-		"(string Name, Guid ModuleVersionId)" => "(string.Empty, default)",
-		"(string Name, TypeAttributes Attributes, mdToken Extends)" => "(string.Empty, default, default)",
-		"(mdToken ResolutionScope, string Name)" => "(default, string.Empty)",
+		"(string szName, Guid pmvid)" => "(string.Empty, default)",
+		"(string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends)" => "(string.Empty, default, default)",
+		"(mdToken ptkResolutionScope, string szName)" => "(default, string.Empty)",
 		_ => throw new InvalidOperationException($"No empty result is configured for {recipe.Interface}.{recipe.Method}."),
 	};
 
