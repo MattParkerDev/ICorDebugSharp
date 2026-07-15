@@ -20,6 +20,10 @@ public readonly record struct mdInterfaceImpl
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator int(mdInterfaceImpl value) => unchecked((int)value.Value);
+
+	public static implicit operator uint(mdInterfaceImpl value) => value.Value;
+
 	public static implicit operator mdToken(mdInterfaceImpl value) => new(value.Value);
 
 	public bool IsNil => Rid == 0;

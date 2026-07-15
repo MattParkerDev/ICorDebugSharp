@@ -20,6 +20,10 @@ public readonly record struct mdSourceFile
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator int(mdSourceFile value) => unchecked((int)value.Value);
+
+	public static implicit operator uint(mdSourceFile value) => value.Value;
+
 	public static implicit operator mdToken(mdSourceFile value) => new(value.Value);
 
 	public bool IsNil => Rid == 0;
