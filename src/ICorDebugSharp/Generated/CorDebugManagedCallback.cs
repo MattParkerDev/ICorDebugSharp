@@ -181,7 +181,7 @@ public sealed class BreakCorDebugManagedCallbackEventArgs : CorDebugManagedCallb
 
 public sealed class ExceptionCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
-	public ExceptionCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int unhandled)
+	public ExceptionCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, bool unhandled)
 	{
 		AppDomain = pAppDomain;
 		Thread = pThread;
@@ -190,7 +190,7 @@ public sealed class ExceptionCorDebugManagedCallbackEventArgs : CorDebugManagedC
 
 	public ICorDebugAppDomain AppDomain { get; }
 	public ICorDebugThread Thread { get; }
-	public int Unhandled { get; }
+	public bool Unhandled { get; }
 }
 
 public sealed class EvalCompleteCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
@@ -451,7 +451,7 @@ public sealed class UpdateModuleSymbolsCorDebugManagedCallbackEventArgs : CorDeb
 
 public sealed class EditAndContinueRemapCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
 {
-	public EditAndContinueRemapCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, int fAccurate)
+	public EditAndContinueRemapCorDebugManagedCallbackEventArgs(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, bool fAccurate)
 	{
 		AppDomain = pAppDomain;
 		Thread = pThread;
@@ -462,7 +462,7 @@ public sealed class EditAndContinueRemapCorDebugManagedCallbackEventArgs : CorDe
 	public ICorDebugAppDomain AppDomain { get; }
 	public ICorDebugThread Thread { get; }
 	public ICorDebugFunction Function { get; }
-	public int FAccurate { get; }
+	public bool FAccurate { get; }
 }
 
 public sealed class BreakpointSetErrorCorDebugManagedCallbackEventArgs : CorDebugManagedCallbackEventArgs
