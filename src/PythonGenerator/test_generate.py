@@ -76,6 +76,36 @@ interface IFoo : IUnknown
 };
 """
 
+CALLBACK_IDL = """
+[object, uuid(00000000-0000-0000-0000-000000000001)]
+interface ICorDebugManagedCallback : IUnknown
+{
+    HRESULT Breakpoint(
+        ICorDebugAppDomain pAppDomain,
+        ICorDebugThread pThread,
+        ICorDebugBreakpoint pBreakpoint);
+    HRESULT Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, BOOL unhandled);
+};
+
+[object, uuid(00000000-0000-0000-0000-000000000002)]
+interface ICorDebugManagedCallback2 : IUnknown
+{
+    HRESULT FunctionRemapOpportunity(
+        ICorDebugAppDomain pAppDomain,
+        ICorDebugThread pThread,
+        ICorDebugFunction pOldFunction,
+        ICorDebugFunction pNewFunction,
+        ULONG32 oldILOffset);
+    HRESULT Exception(
+        ICorDebugAppDomain pAppDomain,
+        ICorDebugThread pThread,
+        ICorDebugFrame pFrame,
+        ULONG32 nOffset,
+        ULONG32 dwEventType,
+        ULONG32 dwFlags);
+};
+"""
+
 
 class CSharpGeneratorTests(unittest.TestCase):
     def setUp(self) -> None:
@@ -268,6 +298,44 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("ComInterfaceMarshaller<IFoo>.ConvertToUnmanaged", source)
         self.assertIn("ComInterfaceMarshaller<IFoo>.ConvertToManaged", source)
         self.assertIn("ComInterfaceMarshaller<IFoo>.Free", source)
+
+    def test_generates_managed_callback_event_dispatcher(self) -> None:
+        source = dict(CSharpGenerator(parse_string(CALLBACK_IDL)).generate_managed_callback())["CorDebugManagedCallback"]
+
+        self.assertIn("[GeneratedComClass]", source)
+        self.assertIn(
+            "public partial class CorDebugManagedCallback : ICorDebugManagedCallback, ICorDebugManagedCallback2",
+            source,
+        )
+        self.assertIn(
+            "public event EventHandler<CorDebugManagedCallbackEventArgs>? OnAnyEvent;",
+            source,
+        )
+        self.assertIn(
+            "public event EventHandler<BreakpointCorDebugManagedCallbackEventArgs>? OnBreakpoint;",
+            source,
+        )
+        self.assertIn(
+            "int ICorDebugManagedCallback2.FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset) => HandleEvent(OnFunctionRemapOpportunity, new FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset));",
+            source,
+        )
+        self.assertIn("OnException;", source)
+        self.assertIn("OnException2;", source)
+        self.assertIn("OnAnyEvent?.Invoke(this, args);", source)
+        self.assertIn(
+            "public sealed class BreakpointCorDebugManagedCallbackEventArgs",
+            source,
+        )
+
+    def test_writes_managed_callback_dispatcher(self) -> None:
+        midl = parse_string(CALLBACK_IDL)
+        with tempfile.TemporaryDirectory() as directory:
+            output = Path(directory)
+
+            written, unchanged = write_interfaces(midl, output)
+
+            self.assertEqual((3, 0), (written, unchanged))
+            self.assertTrue((output / "CorDebugManagedCallback.cs").exists())
 
     def test_writes_one_file_per_interface_without_deleting_other_files(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
