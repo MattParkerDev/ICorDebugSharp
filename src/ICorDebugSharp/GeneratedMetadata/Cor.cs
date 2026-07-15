@@ -1603,12 +1603,6 @@ public static unsafe partial class Cor
 	[NativeTypeName("#define MAIN_CLR_MODULE_NAME_A \"coreclr\"")]
 	public static ReadOnlySpan<byte> MAIN_CLR_MODULE_NAME_A => "coreclr"u8;
 
-	[NativeTypeName("#define MAIN_CLR_DLL_NAME_W MAKEDLLNAME_W(MAIN_CLR_MODULE_NAME_W)")]
-	public static readonly <dependent type> MAIN_CLR_DLL_NAME_W = MAKEDLLNAME_W();
-
-	[NativeTypeName("#define TARGET_MAIN_CLR_DLL_NAME_W MAKE_TARGET_DLLNAME_W(MAIN_CLR_MODULE_NAME_W)")]
-	public static readonly <dependent type> TARGET_MAIN_CLR_DLL_NAME_W = MAKE_TARGET_DLLNAME_W();
-
 	[NativeTypeName("#define COR_CTOR_METHOD_NAME \".ctor\"")]
 	public static ReadOnlySpan<byte> COR_CTOR_METHOD_NAME => ".ctor"u8;
 

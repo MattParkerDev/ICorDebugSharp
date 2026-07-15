@@ -90,7 +90,12 @@ var config = new PInvokeGeneratorConfiguration
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
         "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc/corerror.h",
     ],
-    ExcludedNames = comInterfaceNames,
+    ExcludedNames =
+    [
+        ..comInterfaceNames,
+        "MAIN_CLR_DLL_NAME_W",
+        "TARGET_MAIN_CLR_DLL_NAME_W",
+    ],
 };
 
 var comInterfaceGenerator = new ComInterfaceGenerator(new ComInterfaceGeneratorConfiguration(
