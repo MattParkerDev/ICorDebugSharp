@@ -848,7 +848,7 @@ class CSharpGenerator:
         )
         if underlying_type == "uint":
             token_type = METADATA_TOKEN_TYPES.get(name)
-            nil_value = f"(uint) CorTokenType.{token_type}" if token_type else "0"
+            nil_value = f"(uint)CorTokenType.{token_type}" if token_type else "0"
             conversions = (
                 f"    public static implicit operator int({self.escape_identifier(name)} value) => "
                 "unchecked((int)value.Value);\n\n"

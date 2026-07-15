@@ -234,7 +234,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("public uint Value { get; }", source)
         self.assertIn("public bool IsNil => Rid == 0;", source)
         self.assertIn(
-            "public static readonly mdTypeDef Nil = new((uint) CorTokenType.mdtTypeDef);",
+            "public static readonly mdTypeDef Nil = new((uint)CorTokenType.mdtTypeDef);",
             typed_source,
         )
         self.assertIn(
