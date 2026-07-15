@@ -12,11 +12,26 @@ public static unsafe class CorDebugCode4Extensions
 {
 	extension(ICorDebugCode4 instance)
 	{
-		public ICorDebugVariableHomeEnum EnumerateVariableHomes()
+		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes()
 		{
 			var hr = instance.EnumerateVariableHomes(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
+			return EnumerateVariableHomesCore(ppEnum);
+		}
+	}
+
+	private static IEnumerable<ICorDebugVariableHome> EnumerateVariableHomesCore(ICorDebugVariableHomeEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugVariableHome[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

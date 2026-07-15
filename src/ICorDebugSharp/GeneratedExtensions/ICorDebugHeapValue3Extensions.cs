@@ -12,14 +12,11 @@ public static unsafe class CorDebugHeapValue3Extensions
 {
 	extension(ICorDebugHeapValue3 instance)
 	{
-		public ICorDebugThreadEnum MonitorEventWaitList
+		public IEnumerable<ICorDebugThread> GetMonitorEventWaitList()
 		{
-			get
-			{
-				var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
-				Marshal.ThrowExceptionForHR(hr);
-				return ppThreadEnum;
-			}
+			var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return GetMonitorEventWaitListCore(ppThreadEnum);
 		}
 
 		public (ICorDebugThread ppThread, uint pAcquisitionCount) ThreadOwningMonitorLock
@@ -30,6 +27,21 @@ public static unsafe class CorDebugHeapValue3Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return (ppThread, pAcquisitionCount);
 			}
+		}
+	}
+
+	private static IEnumerable<ICorDebugThread> GetMonitorEventWaitListCore(ICorDebugThreadEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugThread[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

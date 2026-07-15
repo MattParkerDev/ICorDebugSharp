@@ -28,15 +28,21 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var queryBuffers = Recipes.QueryBuffers.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var enumerations = Recipes.Enumerations.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var metadataStrings = Recipes.MetadataStrings.Where(recipe => recipe.Interface == @interface.Name).ToArray();
+		var comEnumerations = @interface.Methods.Values
+			.Where(IsComEnumeration)
+			.OrderBy(method => method.Name, StringComparer.Ordinal)
+			.ToArray();
 		var configuredStringMethods = queryBuffers.Select(recipe => recipe.Method)
 			.Concat(metadataStrings.Select(recipe => recipe.Method)).ToHashSet(StringComparer.Ordinal);
 		var automaticStrings = @interface.Methods.Values
 			.Where(method => TryGetStringBuffer(method, out _) && !configuredStringMethods.Contains(method.Name))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
-		var projected = @interface.Methods.Values.Where(CanProjectOutputs).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+		var projected = @interface.Methods.Values
+			.Where(method => CanProjectOutputs(method) && !comEnumerations.Contains(method))
+			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 
-		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0)
+		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && comEnumerations.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0)
 			return null;
 
 		foreach (var recipe in enumerations)
@@ -47,12 +53,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var members = queryBuffers.Select(RenderQueryBuffer)
 			.Concat(enumerations.Select(RenderEnumerationMember))
 			.Concat(metadataStrings.Select(RenderStringMember))
+			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
 				? RenderOutputProperty(method, $"instance.{method.Name}")
 				: RenderProjectedMethod(method)))
 			.Concat(returnProperties.Select(RenderReturnProperty));
 		var helpers = enumerations.Select(RenderEnumerationHelper).ToList();
+		helpers.AddRange(comEnumerations.Select(RenderComEnumerationHelper));
 		helpers.AddRange(metadataStrings.Select(RenderStringHelper));
 		if (metadataStrings.Length != 0 || automaticStrings.Length != 0)
 			helpers.Add(RenderStringHelper());
@@ -146,6 +154,40 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static bool CanProjectOutputs(ManagedMethod method) =>
 		method.ReturnType == "int" &&
 		method.Parameters.Any(parameter => parameter.IsOut);
+
+	private static bool IsComEnumeration(ManagedMethod method) =>
+		method.ReturnType == "int" &&
+		method.Parameters.Count(parameter => parameter.IsOut) == 1 &&
+		method.Parameters.Single(parameter => parameter.IsOut).Type is { } type &&
+		type is not "ICorDebugEnum" and not "ICorDebugEnum?" &&
+		(type.EndsWith("Enum", StringComparison.Ordinal) || type.EndsWith("Enum?", StringComparison.Ordinal));
+
+	private string RenderComEnumerationMember(ManagedInterface @interface, ManagedMethod method)
+	{
+		var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
+		var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
+		var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut).ToArray();
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
+			? $"out var {Escape(parameter.Name)}"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		return $"\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))})\n\t\t{{\n" +
+			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {method.Name}Core({Escape(enumerator.Name)});\n\t\t}}";
+	}
+
+	private string RenderComEnumerationHelper(ManagedMethod method)
+	{
+		var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
+		var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
+		var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
+		var count = next.Parameters.Single(parameter => parameter.IsOut);
+		var elementType = ElementType(values.Type);
+		return $"\tprivate static IEnumerable<{elementType}> {method.Name}Core({enumerator.Type} enumerator)\n\t{{\n\t\twhile (true)\n\t\t{{\n" +
+			$"\t\t\tvar values = new {elementType}[1];\n\t\t\tvar hr = enumerator.Next(1, values, out var {Escape(count.Name)});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n" +
+			$"\t\t\tif ({Escape(count.Name)} == 0)\n\t\t\t\tyield break;\n\t\t\tif ({Escape(count.Name)} != 1)\n\t\t\t\tthrow new InvalidOperationException(\"Native debugger enumerator returned an invalid item count.\");\n\t\t\tyield return values[0];\n\t\t}}\n\t}}";
+	}
+
+	private static string ElementType(string arrayType) => arrayType.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
 
 	private static bool CanProjectReturn(ManagedMethod method) =>
 		method.ReturnType is not "int" and not "void" &&

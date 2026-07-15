@@ -12,18 +12,18 @@ public static unsafe class CorDebugILFrameExtensions
 {
 	extension(ICorDebugILFrame instance)
 	{
-		public ICorDebugValueEnum EnumerateArguments()
+		public IEnumerable<ICorDebugValue> EnumerateArguments()
 		{
 			var hr = instance.EnumerateArguments(out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppValueEnum;
+			return EnumerateArgumentsCore(ppValueEnum);
 		}
 
-		public ICorDebugValueEnum EnumerateLocalVariables()
+		public IEnumerable<ICorDebugValue> EnumerateLocalVariables()
 		{
 			var hr = instance.EnumerateLocalVariables(out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppValueEnum;
+			return EnumerateLocalVariablesCore(ppValueEnum);
 		}
 
 		public ICorDebugValue GetArgument(uint dwIndex)
@@ -65,6 +65,36 @@ public static unsafe class CorDebugILFrameExtensions
 			var hr = instance.GetStackValue(dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
+		}
+	}
+
+	private static IEnumerable<ICorDebugValue> EnumerateArgumentsCore(ICorDebugValueEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugValue[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugValue> EnumerateLocalVariablesCore(ICorDebugValueEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugValue[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

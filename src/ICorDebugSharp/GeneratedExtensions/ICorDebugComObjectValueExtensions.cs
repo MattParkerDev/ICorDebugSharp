@@ -40,18 +40,33 @@ public static unsafe class CorDebugComObjectValueExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		public IEnumerable<ICorDebugType> GetCachedInterfaceTypes(bool bIInspectableOnly)
+		{
+			var hr = instance.GetCachedInterfaceTypes(bIInspectableOnly, out var ppInterfacesEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return GetCachedInterfaceTypesCore(ppInterfacesEnum);
+		}
+
 		public uint GetCachedInterfacePointers(bool bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
 		{
 			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcEltFetched;
 		}
+	}
 
-		public ICorDebugTypeEnum GetCachedInterfaceTypes(bool bIInspectableOnly)
+	private static IEnumerable<ICorDebugType> GetCachedInterfaceTypesCore(ICorDebugTypeEnum enumerator)
+	{
+		while (true)
 		{
-			var hr = instance.GetCachedInterfaceTypes(bIInspectableOnly, out var ppInterfacesEnum);
+			var values = new ICorDebugType[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppInterfacesEnum;
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

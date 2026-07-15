@@ -12,21 +12,48 @@ public static unsafe class CorDebugAppDomain3Extensions
 {
 	extension(ICorDebugAppDomain3 instance)
 	{
-		public ICorDebugGuidToTypeEnum CachedWinRTTypes
+		public IEnumerable<CorDebugGuidToTypeMapping> GetCachedWinRTTypes()
 		{
-			get
-			{
-				var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
-				Marshal.ThrowExceptionForHR(hr);
-				return ppGuidToTypeEnum;
-			}
+			var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return GetCachedWinRTTypesCore(ppGuidToTypeEnum);
 		}
 
-		public ICorDebugTypeEnum GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
+		public IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
 		{
 			var hr = instance.GetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppTypesEnum;
+			return GetCachedWinRTTypesForIIDsCore(ppTypesEnum);
+		}
+	}
+
+	private static IEnumerable<CorDebugGuidToTypeMapping> GetCachedWinRTTypesCore(ICorDebugGuidToTypeEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new CorDebugGuidToTypeMapping[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDsCore(ICorDebugTypeEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugType[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

@@ -12,11 +12,11 @@ public static unsafe class CorDebugILFrame4Extensions
 {
 	extension(ICorDebugILFrame4 instance)
 	{
-		public ICorDebugValueEnum EnumerateLocalVariablesEx(ILCodeKind flags)
+		public IEnumerable<ICorDebugValue> EnumerateLocalVariablesEx(ILCodeKind flags)
 		{
 			var hr = instance.EnumerateLocalVariablesEx(flags, out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppValueEnum;
+			return EnumerateLocalVariablesExCore(ppValueEnum);
 		}
 
 		public ICorDebugCode GetCodeEx(ILCodeKind flags)
@@ -31,6 +31,21 @@ public static unsafe class CorDebugILFrame4Extensions
 			var hr = instance.GetLocalVariableEx(flags, dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
+		}
+	}
+
+	private static IEnumerable<ICorDebugValue> EnumerateLocalVariablesExCore(ICorDebugValueEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugValue[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

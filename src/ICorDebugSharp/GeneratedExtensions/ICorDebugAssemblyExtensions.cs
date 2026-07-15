@@ -76,11 +76,11 @@ public static unsafe class CorDebugAssemblyExtensions
 			}
 		}
 
-		public ICorDebugModuleEnum EnumerateModules()
+		public IEnumerable<ICorDebugModule> EnumerateModules()
 		{
 			var hr = instance.EnumerateModules(out var ppModules);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppModules;
+			return EnumerateModulesCore(ppModules);
 		}
 
 		public ICorDebugAppDomain AppDomain
@@ -115,6 +115,21 @@ public static unsafe class CorDebugAssemblyExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return ppProcess;
 			}
+		}
+	}
+
+	private static IEnumerable<ICorDebugModule> EnumerateModulesCore(ICorDebugModuleEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugModule[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

@@ -44,25 +44,25 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
-		public ICorDebugAssemblyEnum EnumerateAssemblies()
+		public IEnumerable<ICorDebugAssembly> EnumerateAssemblies()
 		{
 			var hr = instance.EnumerateAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppAssemblies;
+			return EnumerateAssembliesCore(ppAssemblies);
 		}
 
-		public ICorDebugBreakpointEnum EnumerateBreakpoints()
+		public IEnumerable<ICorDebugBreakpoint> EnumerateBreakpoints()
 		{
 			var hr = instance.EnumerateBreakpoints(out var ppBreakpoints);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppBreakpoints;
+			return EnumerateBreakpointsCore(ppBreakpoints);
 		}
 
-		public ICorDebugStepperEnum EnumerateSteppers()
+		public IEnumerable<ICorDebugStepper> EnumerateSteppers()
 		{
 			var hr = instance.EnumerateSteppers(out var ppSteppers);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppSteppers;
+			return EnumerateSteppersCore(ppSteppers);
 		}
 
 		public uint Id
@@ -114,6 +114,51 @@ public static unsafe class CorDebugAppDomainExtensions
 			var hr = instance.IsAttached(out var pbAttached);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbAttached;
+		}
+	}
+
+	private static IEnumerable<ICorDebugAssembly> EnumerateAssembliesCore(ICorDebugAssemblyEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugAssembly[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugBreakpoint> EnumerateBreakpointsCore(ICorDebugBreakpointEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugBreakpoint[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugStepper> EnumerateSteppersCore(ICorDebugStepperEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugStepper[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

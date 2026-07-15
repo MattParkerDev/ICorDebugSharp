@@ -12,14 +12,11 @@ public static unsafe class CorDebugThread4Extensions
 {
 	extension(ICorDebugThread4 instance)
 	{
-		public ICorDebugBlockingObjectEnum BlockingObjects
+		public IEnumerable<CorDebugBlockingObject> GetBlockingObjects()
 		{
-			get
-			{
-				var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
-				Marshal.ThrowExceptionForHR(hr);
-				return ppBlockingObjectEnum;
-			}
+			var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
+			Marshal.ThrowExceptionForHR(hr);
+			return GetBlockingObjectsCore(ppBlockingObjectEnum);
 		}
 
 		public ICorDebugValue CurrentCustomDebuggerNotification
@@ -30,6 +27,21 @@ public static unsafe class CorDebugThread4Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return ppNotificationObject;
 			}
+		}
+	}
+
+	private static IEnumerable<CorDebugBlockingObject> GetBlockingObjectsCore(ICorDebugBlockingObjectEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new CorDebugBlockingObject[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

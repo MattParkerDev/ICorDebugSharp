@@ -12,6 +12,13 @@ public static unsafe class CorDebugExtensions
 {
 	extension(ICorDebug instance)
 	{
+		public IEnumerable<ICorDebugProcess> EnumerateProcesses()
+		{
+			var hr = instance.EnumerateProcesses(out var ppProcess);
+			Marshal.ThrowExceptionForHR(hr);
+			return EnumerateProcessesCore(ppProcess);
+		}
+
 		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
 			var hr = instance.CreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
@@ -26,18 +33,26 @@ public static unsafe class CorDebugExtensions
 			return ppProcess;
 		}
 
-		public ICorDebugProcessEnum EnumerateProcesses()
-		{
-			var hr = instance.EnumerateProcesses(out var ppProcess);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppProcess;
-		}
-
 		public ICorDebugProcess GetProcess(uint dwProcessId)
 		{
 			var hr = instance.GetProcess(dwProcessId, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
+		}
+	}
+
+	private static IEnumerable<ICorDebugProcess> EnumerateProcessesCore(ICorDebugProcessEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugProcess[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

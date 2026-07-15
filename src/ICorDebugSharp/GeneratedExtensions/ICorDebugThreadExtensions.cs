@@ -12,6 +12,13 @@ public static unsafe class CorDebugThreadExtensions
 {
 	extension(ICorDebugThread instance)
 	{
+		public IEnumerable<ICorDebugChain> EnumerateChains()
+		{
+			var hr = instance.EnumerateChains(out var ppChains);
+			Marshal.ThrowExceptionForHR(hr);
+			return EnumerateChainsCore(ppChains);
+		}
+
 		public ICorDebugEval CreateEval()
 		{
 			var hr = instance.CreateEval(out var ppEval);
@@ -24,13 +31,6 @@ public static unsafe class CorDebugThreadExtensions
 			var hr = instance.CreateStepper(out var ppStepper);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStepper;
-		}
-
-		public ICorDebugChainEnum EnumerateChains()
-		{
-			var hr = instance.EnumerateChains(out var ppChains);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppChains;
 		}
 
 		public ICorDebugChain ActiveChain
@@ -141,6 +141,21 @@ public static unsafe class CorDebugThreadExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pState;
 			}
+		}
+	}
+
+	private static IEnumerable<ICorDebugChain> EnumerateChainsCore(ICorDebugChainEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugChain[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

@@ -12,18 +12,18 @@ public static unsafe class CorDebugProcessExtensions
 {
 	extension(ICorDebugProcess instance)
 	{
-		public ICorDebugAppDomainEnum EnumerateAppDomains()
+		public IEnumerable<ICorDebugAppDomain> EnumerateAppDomains()
 		{
 			var hr = instance.EnumerateAppDomains(out var ppAppDomains);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppAppDomains;
+			return EnumerateAppDomainsCore(ppAppDomains);
 		}
 
-		public ICorDebugObjectEnum EnumerateObjects()
+		public IEnumerable<CORDB_ADDRESS> EnumerateObjects()
 		{
 			var hr = instance.EnumerateObjects(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppObjects;
+			return EnumerateObjectsCore(ppObjects);
 		}
 
 		public nint Handle
@@ -106,6 +106,36 @@ public static unsafe class CorDebugProcessExtensions
 			var hr = instance.WriteMemory(address, size, buffer, out var written);
 			Marshal.ThrowExceptionForHR(hr);
 			return written;
+		}
+	}
+
+	private static IEnumerable<ICorDebugAppDomain> EnumerateAppDomainsCore(ICorDebugAppDomainEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugAppDomain[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<CORDB_ADDRESS> EnumerateObjectsCore(ICorDebugObjectEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new CORDB_ADDRESS[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

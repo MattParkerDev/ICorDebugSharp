@@ -12,11 +12,26 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 {
 	extension(ICorDebugExceptionObjectValue instance)
 	{
-		public ICorDebugExceptionObjectCallStackEnum EnumerateExceptionCallStack()
+		public IEnumerable<CorDebugExceptionObjectStackFrame> EnumerateExceptionCallStack()
 		{
 			var hr = instance.EnumerateExceptionCallStack(out var ppCallStackEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppCallStackEnum;
+			return EnumerateExceptionCallStackCore(ppCallStackEnum);
+		}
+	}
+
+	private static IEnumerable<CorDebugExceptionObjectStackFrame> EnumerateExceptionCallStackCore(ICorDebugExceptionObjectCallStackEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new CorDebugExceptionObjectStackFrame[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

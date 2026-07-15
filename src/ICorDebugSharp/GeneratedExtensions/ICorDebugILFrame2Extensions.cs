@@ -12,11 +12,26 @@ public static unsafe class CorDebugILFrame2Extensions
 {
 	extension(ICorDebugILFrame2 instance)
 	{
-		public ICorDebugTypeEnum EnumerateTypeParameters()
+		public IEnumerable<ICorDebugType> EnumerateTypeParameters()
 		{
 			var hr = instance.EnumerateTypeParameters(out var ppTyParEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppTyParEnum;
+			return EnumerateTypeParametersCore(ppTyParEnum);
+		}
+	}
+
+	private static IEnumerable<ICorDebugType> EnumerateTypeParametersCore(ICorDebugTypeEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugType[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

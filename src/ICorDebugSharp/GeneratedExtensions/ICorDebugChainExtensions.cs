@@ -12,11 +12,11 @@ public static unsafe class CorDebugChainExtensions
 {
 	extension(ICorDebugChain instance)
 	{
-		public ICorDebugFrameEnum EnumerateFrames()
+		public IEnumerable<ICorDebugFrame> EnumerateFrames()
 		{
 			var hr = instance.EnumerateFrames(out var ppFrames);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppFrames;
+			return EnumerateFramesCore(ppFrames);
 		}
 
 		public ICorDebugFrame ActiveFrame
@@ -124,6 +124,21 @@ public static unsafe class CorDebugChainExtensions
 			var hr = instance.IsManaged(out var pManaged);
 			Marshal.ThrowExceptionForHR(hr);
 			return pManaged;
+		}
+	}
+
+	private static IEnumerable<ICorDebugFrame> EnumerateFramesCore(ICorDebugFrameEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugFrame[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

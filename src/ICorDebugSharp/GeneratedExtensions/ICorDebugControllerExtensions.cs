@@ -12,25 +12,25 @@ public static unsafe class CorDebugControllerExtensions
 {
 	extension(ICorDebugController instance)
 	{
-		public ICorDebugErrorInfoEnum CanCommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
+		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.CanCommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
-			return pError;
+			return CanCommitChangesCore(pError);
 		}
 
-		public ICorDebugErrorInfoEnum CommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
+		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.CommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
-			return pError;
+			return CommitChangesCore(pError);
 		}
 
-		public ICorDebugThreadEnum EnumerateThreads()
+		public IEnumerable<ICorDebugThread> EnumerateThreads()
 		{
 			var hr = instance.EnumerateThreads(out var ppThreads);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppThreads;
+			return EnumerateThreadsCore(ppThreads);
 		}
 
 		public bool HasQueuedCallbacks(ICorDebugThread pThread)
@@ -45,6 +45,51 @@ public static unsafe class CorDebugControllerExtensions
 			var hr = instance.IsRunning(out var pbRunning);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbRunning;
+		}
+	}
+
+	private static IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChangesCore(ICorDebugErrorInfoEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugEditAndContinueErrorInfo[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChangesCore(ICorDebugErrorInfoEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugEditAndContinueErrorInfo[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<ICorDebugThread> EnumerateThreadsCore(ICorDebugThreadEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugThread[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

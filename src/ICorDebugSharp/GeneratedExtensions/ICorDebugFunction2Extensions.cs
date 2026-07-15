@@ -12,11 +12,11 @@ public static unsafe class CorDebugFunction2Extensions
 {
 	extension(ICorDebugFunction2 instance)
 	{
-		public ICorDebugCodeEnum EnumerateNativeCode()
+		public IEnumerable<ICorDebugCode> EnumerateNativeCode()
 		{
 			var hr = instance.EnumerateNativeCode(out var ppCodeEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppCodeEnum;
+			return EnumerateNativeCodeCore(ppCodeEnum);
 		}
 
 		public bool JMCStatus
@@ -37,6 +37,21 @@ public static unsafe class CorDebugFunction2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pnVersion;
 			}
+		}
+	}
+
+	private static IEnumerable<ICorDebugCode> EnumerateNativeCodeCore(ICorDebugCodeEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugCode[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

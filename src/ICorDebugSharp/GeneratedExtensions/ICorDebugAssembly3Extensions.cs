@@ -12,11 +12,11 @@ public static unsafe class CorDebugAssembly3Extensions
 {
 	extension(ICorDebugAssembly3 instance)
 	{
-		public ICorDebugAssemblyEnum EnumerateContainedAssemblies()
+		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies()
 		{
 			var hr = instance.EnumerateContainedAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppAssemblies;
+			return EnumerateContainedAssembliesCore(ppAssemblies);
 		}
 
 		public ICorDebugAssembly ContainerAssembly
@@ -27,6 +27,21 @@ public static unsafe class CorDebugAssembly3Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAssembly;
 			}
+		}
+	}
+
+	private static IEnumerable<ICorDebugAssembly> EnumerateContainedAssembliesCore(ICorDebugAssemblyEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new ICorDebugAssembly[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }

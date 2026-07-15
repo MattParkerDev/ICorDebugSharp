@@ -12,32 +12,32 @@ public static unsafe class CorDebugProcess5Extensions
 {
 	extension(ICorDebugProcess5 instance)
 	{
-		public ICorDebugGCReferenceEnum EnumerateGCReferences(bool enumerateWeakReferences)
+		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences)
 		{
 			var hr = instance.EnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
+			return EnumerateGCReferencesCore(ppEnum);
 		}
 
-		public ICorDebugGCReferenceEnum EnumerateHandles(CorGCReferenceType types)
+		public IEnumerable<COR_GC_REFERENCE> EnumerateHandles(CorGCReferenceType types)
 		{
 			var hr = instance.EnumerateHandles(types, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
+			return EnumerateHandlesCore(ppEnum);
 		}
 
-		public ICorDebugHeapEnum EnumerateHeap()
+		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap()
 		{
 			var hr = instance.EnumerateHeap(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppObjects;
+			return EnumerateHeapCore(ppObjects);
 		}
 
-		public ICorDebugHeapSegmentEnum EnumerateHeapRegions()
+		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions()
 		{
 			var hr = instance.EnumerateHeapRegions(out var ppRegions);
 			Marshal.ThrowExceptionForHR(hr);
-			return ppRegions;
+			return EnumerateHeapRegionsCore(ppRegions);
 		}
 
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
@@ -90,6 +90,66 @@ public static unsafe class CorDebugProcess5Extensions
 			var hr = instance.GetTypeLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
+		}
+	}
+
+	private static IEnumerable<COR_GC_REFERENCE> EnumerateGCReferencesCore(ICorDebugGCReferenceEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new COR_GC_REFERENCE[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<COR_GC_REFERENCE> EnumerateHandlesCore(ICorDebugGCReferenceEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new COR_GC_REFERENCE[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<COR_HEAPOBJECT> EnumerateHeapCore(ICorDebugHeapEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new COR_HEAPOBJECT[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
+		}
+	}
+
+	private static IEnumerable<COR_SEGMENT> EnumerateHeapRegionsCore(ICorDebugHeapSegmentEnum enumerator)
+	{
+		while (true)
+		{
+			var values = new COR_SEGMENT[1];
+			var hr = enumerator.Next(1, values, out var pceltFetched);
+			Marshal.ThrowExceptionForHR(hr);
+			if (pceltFetched == 0)
+				yield break;
+			if (pceltFetched != 1)
+				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
+			yield return values[0];
 		}
 	}
 }
