@@ -56,7 +56,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			}
 		}
 
-		public int HasBaseIndicies()
+		public bool HasBaseIndicies()
 		{
 			var hr = instance.HasBaseIndicies(out var pbHasBaseIndicies);
 			Marshal.ThrowExceptionForHR(hr);

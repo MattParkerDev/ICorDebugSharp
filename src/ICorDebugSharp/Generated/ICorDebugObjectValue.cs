@@ -24,7 +24,7 @@ public partial interface ICorDebugObjectValue : ICorDebugValue
 	int GetContext(out ICorDebugContext ppContext);
 
 	[PreserveSig]
-	int IsValueClass(out int pbIsValueClass);
+	int IsValueClass([MarshalAs(UnmanagedType.Bool)] out bool pbIsValueClass);
 
 	[PreserveSig]
 	int GetManagedCopy(out nint ppObject);

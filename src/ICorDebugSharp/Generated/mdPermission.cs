@@ -20,6 +20,8 @@ public readonly record struct mdPermission
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdPermission(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdPermission value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdPermission value) => value.Value;

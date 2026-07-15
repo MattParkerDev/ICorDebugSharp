@@ -15,5 +15,5 @@ public partial interface ICorDebugInternalFrame2
 	int GetAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
-	int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, out int pIsCloser);
+	int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, [MarshalAs(UnmanagedType.Bool)] out bool pIsCloser);
 }

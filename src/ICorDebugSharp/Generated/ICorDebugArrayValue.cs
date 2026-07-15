@@ -24,7 +24,7 @@ public partial interface ICorDebugArrayValue : ICorDebugHeapValue
 	int GetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
 
 	[PreserveSig]
-	int HasBaseIndicies(out int pbHasBaseIndicies);
+	int HasBaseIndicies([MarshalAs(UnmanagedType.Bool)] out bool pbHasBaseIndicies);
 
 	[PreserveSig]
 	int GetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);

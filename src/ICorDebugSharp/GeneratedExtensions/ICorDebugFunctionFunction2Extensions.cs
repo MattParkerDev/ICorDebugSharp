@@ -24,7 +24,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			return ppCodeEnum;
 		}
 
-		public int JMCStatus
+		public bool JMCStatus
 		{
 			get
 			{
@@ -44,7 +44,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			}
 		}
 
-		public void SetJMCStatus(int bIsJustMyCode)
+		public void SetJMCStatus(bool bIsJustMyCode)
 		{
 			var hr = instance.Function2.SetJMCStatus(bIsJustMyCode);
 			Marshal.ThrowExceptionForHR(hr);

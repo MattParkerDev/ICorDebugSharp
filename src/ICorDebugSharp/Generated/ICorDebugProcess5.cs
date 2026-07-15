@@ -24,7 +24,7 @@ public partial interface ICorDebugProcess5
 	int GetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject);
 
 	[PreserveSig]
-	int EnumerateGCReferences(int enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
+	int EnumerateGCReferences([MarshalAs(UnmanagedType.Bool)] bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
 
 	[PreserveSig]
 	int EnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);

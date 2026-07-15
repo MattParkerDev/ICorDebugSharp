@@ -17,7 +17,7 @@ public static unsafe class CorDebugProcessProcess10Extensions
 		public ICorDebugProcess10 Process10 =>
 			instance as ICorDebugProcess10 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess10.");
 
-		public void EnableGCNotificationEvents(int fEnable)
+		public void EnableGCNotificationEvents(bool fEnable)
 		{
 			var hr = instance.Process10.EnableGCNotificationEvents(fEnable);
 			Marshal.ThrowExceptionForHR(hr);

@@ -12,7 +12,7 @@ public static unsafe class CorDebugProcess5Extensions
 {
 	extension(ICorDebugProcess5 instance)
 	{
-		public ICorDebugGCReferenceEnum EnumerateGCReferences(int enumerateWeakReferences)
+		public ICorDebugGCReferenceEnum EnumerateGCReferences(bool enumerateWeakReferences)
 		{
 			var hr = instance.EnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);

@@ -33,14 +33,14 @@ public static unsafe class CorDebugControllerExtensions
 			return ppThreads;
 		}
 
-		public int HasQueuedCallbacks(ICorDebugThread pThread)
+		public bool HasQueuedCallbacks(ICorDebugThread pThread)
 		{
 			var hr = instance.HasQueuedCallbacks(pThread, out var pbQueued);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbQueued;
 		}
 
-		public int IsRunning()
+		public bool IsRunning()
 		{
 			var hr = instance.IsRunning(out var pbRunning);
 			Marshal.ThrowExceptionForHR(hr);

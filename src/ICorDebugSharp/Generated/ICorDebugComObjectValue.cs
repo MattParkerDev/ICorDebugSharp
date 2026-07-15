@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugComObjectValue
 {
 	[PreserveSig]
-	int GetCachedInterfaceTypes(int bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
+	int GetCachedInterfaceTypes([MarshalAs(UnmanagedType.Bool)] bool bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
 
 	[PreserveSig]
-	int GetCachedInterfacePointers(int bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] CORDB_ADDRESS[]? ptrs);
+	int GetCachedInterfacePointers([MarshalAs(UnmanagedType.Bool)] bool bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] CORDB_ADDRESS[]? ptrs);
 }

@@ -12,14 +12,14 @@ public static unsafe class CorDebugExtensions
 {
 	extension(ICorDebug instance)
 	{
-		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, int bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
+		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
 			var hr = instance.CreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
-		public ICorDebugProcess DebugActiveProcess(uint id, int win32Attach)
+		public ICorDebugProcess DebugActiveProcess(uint id, bool win32Attach)
 		{
 			var hr = instance.DebugActiveProcess(id, win32Attach, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);

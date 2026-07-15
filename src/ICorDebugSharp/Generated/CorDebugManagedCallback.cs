@@ -62,7 +62,7 @@ public partial class CorDebugManagedCallback : ICorDebugManagedCallback, ICorDeb
 
 	int ICorDebugManagedCallback.Break(ICorDebugAppDomain pAppDomain, ICorDebugThread thread) => HandleEvent(OnBreak, new BreakCorDebugManagedCallbackEventArgs(pAppDomain, thread));
 
-	int ICorDebugManagedCallback.Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int unhandled) => HandleEvent(OnException, new ExceptionCorDebugManagedCallbackEventArgs(pAppDomain, pThread, unhandled));
+	int ICorDebugManagedCallback.Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] bool unhandled) => HandleEvent(OnException, new ExceptionCorDebugManagedCallbackEventArgs(pAppDomain, pThread, unhandled));
 
 	int ICorDebugManagedCallback.EvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval) => HandleEvent(OnEvalComplete, new EvalCompleteCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pEval));
 
@@ -104,7 +104,7 @@ public partial class CorDebugManagedCallback : ICorDebugManagedCallback, ICorDeb
 
 	int ICorDebugManagedCallback.UpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream) => HandleEvent(OnUpdateModuleSymbols, new UpdateModuleSymbolsCorDebugManagedCallbackEventArgs(pAppDomain, pModule, pSymbolStream));
 
-	int ICorDebugManagedCallback.EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, int fAccurate) => HandleEvent(OnEditAndContinueRemap, new EditAndContinueRemapCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pFunction, fAccurate));
+	int ICorDebugManagedCallback.EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, [MarshalAs(UnmanagedType.Bool)] bool fAccurate) => HandleEvent(OnEditAndContinueRemap, new EditAndContinueRemapCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pFunction, fAccurate));
 
 	int ICorDebugManagedCallback.BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError) => HandleEvent(OnBreakpointSetError, new BreakpointSetErrorCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pBreakpoint, dwError));
 

@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugCode
 {
 	[PreserveSig]
-	int IsIL(out int pbIL);
+	int IsIL([MarshalAs(UnmanagedType.Bool)] out bool pbIL);
 
 	[PreserveSig]
 	int GetFunction(out ICorDebugFunction ppFunction);

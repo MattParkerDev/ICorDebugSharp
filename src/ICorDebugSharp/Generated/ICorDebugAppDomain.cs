@@ -27,7 +27,7 @@ public partial interface ICorDebugAppDomain : ICorDebugController
 	int EnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
 
 	[PreserveSig]
-	int IsAttached(out int pbAttached);
+	int IsAttached([MarshalAs(UnmanagedType.Bool)] out bool pbAttached);
 
 	[PreserveSig]
 	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);

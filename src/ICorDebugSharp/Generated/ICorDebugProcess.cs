@@ -24,10 +24,10 @@ public partial interface ICorDebugProcess : ICorDebugController
 	int EnumerateObjects(out ICorDebugObjectEnum ppObjects);
 
 	[PreserveSig]
-	int IsTransitionStub(CORDB_ADDRESS address, out int pbTransitionStub);
+	int IsTransitionStub(CORDB_ADDRESS address, [MarshalAs(UnmanagedType.Bool)] out bool pbTransitionStub);
 
 	[PreserveSig]
-	int IsOSSuspended(uint threadID, out int pbSuspended);
+	int IsOSSuspended(uint threadID, [MarshalAs(UnmanagedType.Bool)] out bool pbSuspended);
 
 	[PreserveSig]
 	int GetThreadContext(uint threadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
@@ -45,7 +45,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	int ClearCurrentException(uint threadID);
 
 	[PreserveSig]
-	int EnableLogMessages(int fOnOff);
+	int EnableLogMessages([MarshalAs(UnmanagedType.Bool)] bool fOnOff);
 
 	[PreserveSig]
 	int ModifyLogSwitch(string pLogSwitchName, int lLevel);

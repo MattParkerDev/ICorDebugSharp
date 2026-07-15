@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugExceptionObjectValue2
 {
 	[PreserveSig]
-	int ForceCatchHandlerFoundEvents(int enableEvents);
+	int ForceCatchHandlerFoundEvents([MarshalAs(UnmanagedType.Bool)] bool enableEvents);
 }

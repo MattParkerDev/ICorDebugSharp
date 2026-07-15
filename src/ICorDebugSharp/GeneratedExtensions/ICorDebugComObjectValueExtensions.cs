@@ -12,7 +12,7 @@ public static unsafe class CorDebugComObjectValueExtensions
 {
 	extension(ICorDebugComObjectValue instance)
 	{
-		public CORDB_ADDRESS[] GetCachedInterfacePointers(int bIInspectableOnly)
+		public CORDB_ADDRESS[] GetCachedInterfacePointers(bool bIInspectableOnly)
 		{
 			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, 0, out var required, null!);
 			Marshal.ThrowExceptionForHR(hr);
@@ -40,14 +40,14 @@ public static unsafe class CorDebugComObjectValueExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public uint GetCachedInterfacePointers(int bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
+		public uint GetCachedInterfacePointers(bool bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
 		{
 			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcEltFetched;
 		}
 
-		public ICorDebugTypeEnum GetCachedInterfaceTypes(int bIInspectableOnly)
+		public ICorDebugTypeEnum GetCachedInterfaceTypes(bool bIInspectableOnly)
 		{
 			var hr = instance.GetCachedInterfaceTypes(bIInspectableOnly, out var ppInterfacesEnum);
 			Marshal.ThrowExceptionForHR(hr);

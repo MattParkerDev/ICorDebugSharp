@@ -20,6 +20,8 @@ public readonly record struct mdSignature
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdSignature(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdSignature value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdSignature value) => value.Value;

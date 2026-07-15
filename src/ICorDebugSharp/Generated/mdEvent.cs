@@ -20,6 +20,8 @@ public readonly record struct mdEvent
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdEvent(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdEvent value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdEvent value) => value.Value;

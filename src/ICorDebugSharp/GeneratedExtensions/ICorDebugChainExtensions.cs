@@ -119,7 +119,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
-		public int IsManaged()
+		public bool IsManaged()
 		{
 			var hr = instance.IsManaged(out var pManaged);
 			Marshal.ThrowExceptionForHR(hr);

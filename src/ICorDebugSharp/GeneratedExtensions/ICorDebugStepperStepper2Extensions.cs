@@ -17,7 +17,7 @@ public static unsafe class CorDebugStepperStepper2Extensions
 		public ICorDebugStepper2 Stepper2 =>
 			instance as ICorDebugStepper2 ?? throw new NotSupportedException("ICorDebugStepper does not support ICorDebugStepper2.");
 
-		public void SetJMC(int fIsJMCStepper)
+		public void SetJMC(bool fIsJMCStepper)
 		{
 			var hr = instance.Stepper2.SetJMC(fIsJMCStepper);
 			Marshal.ThrowExceptionForHR(hr);

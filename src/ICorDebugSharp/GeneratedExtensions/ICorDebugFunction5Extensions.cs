@@ -12,7 +12,7 @@ public static unsafe class CorDebugFunction5Extensions
 {
 	extension(ICorDebugFunction5 instance)
 	{
-		public int AreOptimizationsDisabled()
+		public bool AreOptimizationsDisabled()
 		{
 			var hr = instance.AreOptimizationsDisabled(out var pOptimizationsDisabled);
 			Marshal.ThrowExceptionForHR(hr);

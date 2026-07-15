@@ -12,7 +12,7 @@ public static unsafe class CorDebugAssembly2Extensions
 {
 	extension(ICorDebugAssembly2 instance)
 	{
-		public int IsFullyTrusted()
+		public bool IsFullyTrusted()
 		{
 			var hr = instance.IsFullyTrusted(out var pbFullyTrusted);
 			Marshal.ThrowExceptionForHR(hr);

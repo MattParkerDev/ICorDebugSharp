@@ -56,7 +56,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			return ppFunction;
 		}
 
-		public int IsValueClass()
+		public bool IsValueClass()
 		{
 			var hr = instance.IsValueClass(out var pbIsValueClass);
 			Marshal.ThrowExceptionForHR(hr);

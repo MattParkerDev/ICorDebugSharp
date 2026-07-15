@@ -109,7 +109,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
-		public int IsAttached()
+		public bool IsAttached()
 		{
 			var hr = instance.IsAttached(out var pbAttached);
 			Marshal.ThrowExceptionForHR(hr);

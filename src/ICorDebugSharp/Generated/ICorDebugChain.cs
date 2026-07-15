@@ -33,7 +33,7 @@ public partial interface ICorDebugChain
 	int GetNext(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int IsManaged(out int pManaged);
+	int IsManaged([MarshalAs(UnmanagedType.Bool)] out bool pManaged);
 
 	[PreserveSig]
 	int EnumerateFrames(out ICorDebugFrameEnum ppFrames);

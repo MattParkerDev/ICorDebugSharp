@@ -73,14 +73,14 @@ public static unsafe class CorDebugProcessExtensions
 			return ppThread;
 		}
 
-		public int IsOSSuspended(uint threadID)
+		public bool IsOSSuspended(uint threadID)
 		{
 			var hr = instance.IsOSSuspended(threadID, out var pbSuspended);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbSuspended;
 		}
 
-		public int IsTransitionStub(CORDB_ADDRESS address)
+		public bool IsTransitionStub(CORDB_ADDRESS address)
 		{
 			var hr = instance.IsTransitionStub(address, out var pbTransitionStub);
 			Marshal.ThrowExceptionForHR(hr);

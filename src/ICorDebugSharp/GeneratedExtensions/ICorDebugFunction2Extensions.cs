@@ -19,7 +19,7 @@ public static unsafe class CorDebugFunction2Extensions
 			return ppCodeEnum;
 		}
 
-		public int JMCStatus
+		public bool JMCStatus
 		{
 			get
 			{

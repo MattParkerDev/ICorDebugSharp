@@ -111,7 +111,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
-		public int IsIL()
+		public bool IsIL()
 		{
 			var hr = instance.IsIL(out var pbIL);
 			Marshal.ThrowExceptionForHR(hr);

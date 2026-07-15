@@ -153,14 +153,14 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
-		public int IsDynamic()
+		public bool IsDynamic()
 		{
 			var hr = instance.IsDynamic(out var pDynamic);
 			Marshal.ThrowExceptionForHR(hr);
 			return pDynamic;
 		}
 
-		public int IsInMemory()
+		public bool IsInMemory()
 		{
 			var hr = instance.IsInMemory(out var pInMemory);
 			Marshal.ThrowExceptionForHR(hr);

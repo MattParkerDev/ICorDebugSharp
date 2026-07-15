@@ -21,10 +21,10 @@ public partial interface ICorDebugProcess6
 	int GetCode(CORDB_ADDRESS codeAddress, out ICorDebugCode ppCode);
 
 	[PreserveSig]
-	int EnableVirtualModuleSplitting(int enableSplitting);
+	int EnableVirtualModuleSplitting([MarshalAs(UnmanagedType.Bool)] bool enableSplitting);
 
 	[PreserveSig]
-	int MarkDebuggerAttached(int fIsAttached);
+	int MarkDebuggerAttached([MarshalAs(UnmanagedType.Bool)] bool fIsAttached);
 
 	[PreserveSig]
 	int GetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose);

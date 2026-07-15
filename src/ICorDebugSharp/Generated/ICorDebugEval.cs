@@ -27,7 +27,7 @@ public partial interface ICorDebugEval
 	int NewArray(uint elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
 	[PreserveSig]
-	int IsActive(out int pbActive);
+	int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 
 	[PreserveSig]
 	int Abort();

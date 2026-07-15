@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess8
 {
 	[PreserveSig]
-	int EnableExceptionCallbacksOutsideOfMyCode(int enableExceptionsOutsideOfJMC);
+	int EnableExceptionCallbacksOutsideOfMyCode([MarshalAs(UnmanagedType.Bool)] bool enableExceptionsOutsideOfJMC);
 }

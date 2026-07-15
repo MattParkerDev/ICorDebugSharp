@@ -15,5 +15,5 @@ public partial interface ICorDebugClass2
 	int GetParameterizedType(uint elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 
 	[PreserveSig]
-	int SetJMCStatus(int bIsJustMyCode);
+	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
 }

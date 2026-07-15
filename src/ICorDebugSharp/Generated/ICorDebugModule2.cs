@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule2
 {
 	[PreserveSig]
-	int SetJMCStatus(int bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
+	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
 
 	[PreserveSig]
 	int ApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);

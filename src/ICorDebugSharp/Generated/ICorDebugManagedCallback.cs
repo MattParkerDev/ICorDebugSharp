@@ -21,7 +21,7 @@ public partial interface ICorDebugManagedCallback
 	int Break(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
 	[PreserveSig]
-	int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int unhandled);
+	int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] bool unhandled);
 
 	[PreserveSig]
 	int EvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
@@ -84,7 +84,7 @@ public partial interface ICorDebugManagedCallback
 	int UpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream);
 
 	[PreserveSig]
-	int EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, int fAccurate);
+	int EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, [MarshalAs(UnmanagedType.Bool)] bool fAccurate);
 
 	[PreserveSig]
 	int BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError);

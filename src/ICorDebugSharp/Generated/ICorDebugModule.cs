@@ -24,10 +24,10 @@ public partial interface ICorDebugModule
 	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int EnableJITDebugging(int bTrackJITInfo, int bAllowJitOpts);
+	int EnableJITDebugging([MarshalAs(UnmanagedType.Bool)] bool bTrackJITInfo, [MarshalAs(UnmanagedType.Bool)] bool bAllowJitOpts);
 
 	[PreserveSig]
-	int EnableClassLoadCallbacks(int bClassLoadCallbacks);
+	int EnableClassLoadCallbacks([MarshalAs(UnmanagedType.Bool)] bool bClassLoadCallbacks);
 
 	[PreserveSig]
 	int GetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
@@ -51,7 +51,7 @@ public partial interface ICorDebugModule
 	int GetToken(out mdModule pToken);
 
 	[PreserveSig]
-	int IsDynamic(out int pDynamic);
+	int IsDynamic([MarshalAs(UnmanagedType.Bool)] out bool pDynamic);
 
 	[PreserveSig]
 	int GetGlobalVariableValue(mdFieldDef fieldDef, out ICorDebugValue ppValue);
@@ -60,5 +60,5 @@ public partial interface ICorDebugModule
 	int GetSize(out uint pcBytes);
 
 	[PreserveSig]
-	int IsInMemory(out int pInMemory);
+	int IsInMemory([MarshalAs(UnmanagedType.Bool)] out bool pInMemory);
 }

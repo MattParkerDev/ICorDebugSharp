@@ -39,7 +39,7 @@ public static unsafe class CorDebugEvalExtensions
 			}
 		}
 
-		public int IsActive()
+		public bool IsActive()
 		{
 			var hr = instance.IsActive(out var pbActive);
 			Marshal.ThrowExceptionForHR(hr);

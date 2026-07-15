@@ -20,6 +20,8 @@ public readonly record struct mdTypeSpec
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdTypeSpec(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdTypeSpec value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdTypeSpec value) => value.Value;

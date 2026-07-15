@@ -24,7 +24,7 @@ public static unsafe class CorDebugProcessProcess6Extensions
 			return ppEvent;
 		}
 
-		public void EnableVirtualModuleSplitting(int enableSplitting)
+		public void EnableVirtualModuleSplitting(bool enableSplitting)
 		{
 			var hr = instance.Process6.EnableVirtualModuleSplitting(enableSplitting);
 			Marshal.ThrowExceptionForHR(hr);
@@ -44,7 +44,7 @@ public static unsafe class CorDebugProcessProcess6Extensions
 			return (pInvokeKind, pInvokePurpose);
 		}
 
-		public void MarkDebuggerAttached(int fIsAttached)
+		public void MarkDebuggerAttached(bool fIsAttached)
 		{
 			var hr = instance.Process6.MarkDebuggerAttached(fIsAttached);
 			Marshal.ThrowExceptionForHR(hr);

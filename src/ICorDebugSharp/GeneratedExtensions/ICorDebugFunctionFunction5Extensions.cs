@@ -17,7 +17,7 @@ public static unsafe class CorDebugFunctionFunction5Extensions
 		public ICorDebugFunction5 Function5 =>
 			instance as ICorDebugFunction5 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction5.");
 
-		public int AreOptimizationsDisabled()
+		public bool AreOptimizationsDisabled()
 		{
 			var hr = instance.Function5.AreOptimizationsDisabled(out var pOptimizationsDisabled);
 			Marshal.ThrowExceptionForHR(hr);

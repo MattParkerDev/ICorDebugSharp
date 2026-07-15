@@ -17,7 +17,7 @@ public static unsafe class CorDebugExceptionObjectValueExceptionObjectValue2Exte
 		public ICorDebugExceptionObjectValue2 ExceptionObjectValue2 =>
 			instance as ICorDebugExceptionObjectValue2 ?? throw new NotSupportedException("ICorDebugExceptionObjectValue does not support ICorDebugExceptionObjectValue2.");
 
-		public void ForceCatchHandlerFoundEvents(int enableEvents)
+		public void ForceCatchHandlerFoundEvents(bool enableEvents)
 		{
 			var hr = instance.ExceptionObjectValue2.ForceCatchHandlerFoundEvents(enableEvents);
 			Marshal.ThrowExceptionForHR(hr);

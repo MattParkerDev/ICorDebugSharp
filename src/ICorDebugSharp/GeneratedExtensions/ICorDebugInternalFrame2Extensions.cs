@@ -22,7 +22,7 @@ public static unsafe class CorDebugInternalFrame2Extensions
 			}
 		}
 
-		public int IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
+		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
 		{
 			var hr = instance.IsCloserToLeaf(pFrameToCompare, out var pIsCloser);
 			Marshal.ThrowExceptionForHR(hr);

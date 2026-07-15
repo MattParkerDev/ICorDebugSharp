@@ -15,13 +15,13 @@ public partial interface ICorDebugController
 	int Stop(uint dwTimeoutIgnored);
 
 	[PreserveSig]
-	int Continue(int fIsOutOfBand);
+	int Continue([MarshalAs(UnmanagedType.Bool)] bool fIsOutOfBand);
 
 	[PreserveSig]
-	int IsRunning(out int pbRunning);
+	int IsRunning([MarshalAs(UnmanagedType.Bool)] out bool pbRunning);
 
 	[PreserveSig]
-	int HasQueuedCallbacks(ICorDebugThread pThread, out int pbQueued);
+	int HasQueuedCallbacks(ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] out bool pbQueued);
 
 	[PreserveSig]
 	int EnumerateThreads(out ICorDebugThreadEnum ppThreads);

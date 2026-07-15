@@ -46,7 +46,7 @@ public static unsafe class CorDebugModuleModule2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void SetJMCStatus(int bIsJustMyCode, uint cTokens, mdToken[] pTokens)
+		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens)
 		{
 			var hr = instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 			Marshal.ThrowExceptionForHR(hr);

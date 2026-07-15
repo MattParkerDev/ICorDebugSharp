@@ -20,6 +20,8 @@ public readonly record struct mdCustomAttribute
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdCustomAttribute(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdCustomAttribute value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdCustomAttribute value) => value.Value;

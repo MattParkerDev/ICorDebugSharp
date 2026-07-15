@@ -15,5 +15,5 @@ public partial interface ICorDebugFunction5
 	int DisableOptimizations();
 
 	[PreserveSig]
-	int AreOptimizationsDisabled(out int pOptimizationsDisabled);
+	int AreOptimizationsDisabled([MarshalAs(UnmanagedType.Bool)] out bool pOptimizationsDisabled);
 }

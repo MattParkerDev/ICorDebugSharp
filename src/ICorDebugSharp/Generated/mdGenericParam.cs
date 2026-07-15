@@ -20,6 +20,8 @@ public readonly record struct mdGenericParam
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdGenericParam(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdGenericParam value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdGenericParam value) => value.Value;

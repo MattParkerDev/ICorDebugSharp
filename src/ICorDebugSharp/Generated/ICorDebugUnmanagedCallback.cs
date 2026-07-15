@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugUnmanagedCallback
 {
 	[PreserveSig]
-	int DebugEvent(nint pDebugEvent, int fOutOfBand);
+	int DebugEvent(nint pDebugEvent, [MarshalAs(UnmanagedType.Bool)] bool fOutOfBand);
 }

@@ -12,10 +12,10 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugNativeFrame2
 {
 	[PreserveSig]
-	int IsChild(out int pIsChild);
+	int IsChild([MarshalAs(UnmanagedType.Bool)] out bool pIsChild);
 
 	[PreserveSig]
-	int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, out int pIsParent);
+	int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, [MarshalAs(UnmanagedType.Bool)] out bool pIsParent);
 
 	[PreserveSig]
 	int GetStackParameterSize(out uint pSize);

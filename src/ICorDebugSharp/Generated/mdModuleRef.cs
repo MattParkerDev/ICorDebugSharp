@@ -20,6 +20,8 @@ public readonly record struct mdModuleRef
 	/// <summary>Gets the raw numeric value of the metadata token.</summary>
 	public uint Value { get; }
 
+	public static implicit operator mdModuleRef(int value) => new(unchecked((uint)value));
+
 	public static implicit operator int(mdModuleRef value) => unchecked((int)value.Value);
 
 	public static implicit operator uint(mdModuleRef value) => value.Value;
