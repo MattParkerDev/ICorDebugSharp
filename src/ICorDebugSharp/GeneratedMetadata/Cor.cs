@@ -52,8 +52,8 @@ public static partial class Cor
     [NativeTypeName("const IID")]
     public static readonly Guid MetaDataPreserveLocalRefs = new Guid(0xa55c0354, 0xe91b, 0x468b, 0x86, 0x48, 0x7c, 0xc3, 0x10, 0x35, 0xd5, 0x33);
 
-    public const int DESCR_GROUP_METHODDEF = 0;
-    public const int DESCR_GROUP_METHODIMPL = 1;
+    public const int METHODDEF = 0;
+    public const int METHODIMPL = 1;
 
     [NativeTypeName("const IID")]
     public static readonly Guid CLSID_CorMetaDataDispenser = new Guid(0xe5cb7a31, 0x7512, 0x11d2, 0x89, 0xce, 0x0, 0x80, 0xc7, 0x92, 0xe5, 0xd8);
@@ -106,9 +106,9 @@ public static partial class Cor
     [NativeTypeName("const IID")]
     public static readonly Guid IID_IMetaDataInfo = new Guid(0x7998EA64, 0x7F95, 0x48B8, 0x86, 0xFC, 0x17, 0xCA, 0xF4, 0x8B, 0xF5, 0xCB);
 
-    public const int SIGN_MASK_ONEBYTE = unchecked((int)(0xffffffc0));
-    public const int SIGN_MASK_TWOBYTE = unchecked((int)(0xffffe000));
-    public const int SIGN_MASK_FOURBYTE = unchecked((int)(0xf0000000));
+    public const int ONEBYTE = unchecked((int)(0xffffffc0));
+    public const int TWOBYTE = unchecked((int)(0xffffe000));
+    public const int FOURBYTE = unchecked((int)(0xf0000000));
 
     [NativeTypeName("#define CLDB_S_TRUNCATION SMAKEHR(0x1106)")]
     public const int CLDB_S_TRUNCATION = unchecked((int)(((uint)(0) << 31) | ((uint)(19) << 16) | ((uint)(0x1106))));
@@ -1224,7 +1224,7 @@ public static partial class Cor
     public static ReadOnlySpan<byte> COR_VTABLEGAP_NAME_A => "_VtblGap"u8;
 
     [NativeTypeName("#define IMAGE_CEE_CS_CALLCONV_INSTANTIATION IMAGE_CEE_CS_CALLCONV_GENERICINST")]
-    public const CorCallingConvention IMAGE_CEE_CS_CALLCONV_INSTANTIATION = IMAGE_CEE_CS_CALLCONV_GENERICINST;
+    public const CorCallingConvention IMAGE_CEE_CS_CALLCONV_INSTANTIATION = GENERICINST;
 
     [NativeTypeName("#define mdTokenNil ((mdToken)0)")]
     public const uint mdTokenNil = ((uint)(0));
@@ -1302,7 +1302,7 @@ public static partial class Cor
     public const uint mdStringNil = ((uint)(mdtString));
 
     [NativeTypeName("#define IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS (IMAGE_CEE_CS_CALLCONV_DEFAULT | IMAGE_CEE_CS_CALLCONV_HASTHIS)")]
-    public const int IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS = ((int)(IMAGE_CEE_CS_CALLCONV_DEFAULT) | (int)(IMAGE_CEE_CS_CALLCONV_HASTHIS));
+    public const int IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS = ((int)(DEFAULT) | (int)(HASTHIS));
 
     [NativeTypeName("#define INTEROP_DISPID_TYPE \"System.Runtime.InteropServices.DispIdAttribute\"")]
     public static ReadOnlySpan<byte> INTEROP_DISPID_TYPE => "System.Runtime.InteropServices.DispIdAttribute"u8;
