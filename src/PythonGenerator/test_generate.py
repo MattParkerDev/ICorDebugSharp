@@ -53,6 +53,17 @@ interface ICorDebugReferenceValue : IUnknown
 {
     HRESULT IsNull([out] BOOL *pbNull);
 };
+
+[
+    object,
+    uuid(00000000-0000-0000-0000-000000000004),
+    pointer_default(unique)
+]
+interface ICorDebugBreakpoint : IUnknown
+{
+    HRESULT Activate([in] BOOL bActive);
+    HRESULT IsActive([out] BOOL *pbActive);
+};
 """
 
 DATA_IDL = """
@@ -246,6 +257,18 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertNotIn("IsNull(out int pbNull)", source)
+
+    def test_projects_bool_parameters_with_bool_marshalling(self) -> None:
+        source = self.generate("ICorDebugBreakpoint")
+
+        self.assertIn(
+            "int Activate([MarshalAs(UnmanagedType.Bool)] bool bActive);",
+            source,
+        )
+        self.assertIn(
+            "int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);",
+            source,
+        )
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_metadata_typedef("mdToken")

@@ -975,6 +975,10 @@ class CSharpGenerator:
         modifier = ""
         iid_selector = self.get_iid_selector(interface, method, parameter)
 
+        if base_name == "BOOL":
+            attributes.append("MarshalAs(UnmanagedType.Bool)")
+            csharp_type = "bool"
+
         if iid_selector:
             attributes.append("MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))")
             modifier = "out "
