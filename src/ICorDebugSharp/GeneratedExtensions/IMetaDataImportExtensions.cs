@@ -59,7 +59,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szName, Guid pmvid) ScopeProps => QueryGetScopeProps(instance);
 
-		public (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
+		public (string szTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
 		public (mdToken ptkResolutionScope, string szName) GetTypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
 
@@ -1215,7 +1215,7 @@ public static unsafe class MetaDataImportExtensions
 		throw new InvalidOperationException("Native buffer size did not stabilize.");
 	}
 
-	private static (string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
+	private static (string szTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
 	{
 		var hr = instance.GetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);

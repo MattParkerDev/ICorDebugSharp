@@ -371,7 +371,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		"string" => "string.Empty",
 		"(string szName, Guid pmvid)" => "(string.Empty, default)",
-		"(string szTypeDef, TypeAttributes pdwTypeDefFlags, mdToken ptkExtends)" => "(string.Empty, default, default)",
+		"(string szTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends)" => "(string.Empty, default, default)",
 		"(mdToken ptkResolutionScope, string szName)" => "(default, string.Empty)",
 		_ => throw new InvalidOperationException($"No empty result is configured for {recipe.Interface}.{recipe.Method}."),
 	};
