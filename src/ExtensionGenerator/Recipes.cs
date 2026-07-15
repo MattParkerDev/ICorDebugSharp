@@ -41,7 +41,7 @@ internal static class Recipes
 {
 	public static readonly CapabilityFamily[] CapabilityFamilies =
 	[
-		new("ICorDebug", "ICorDebug2"),
+		//new("ICorDebug", "ICorDebug2"), // Has no methods, and generates badly (just "2")
 		new("ICorDebugAppDomain", "ICorDebugAppDomain2"),
 		new("ICorDebugAppDomain", "ICorDebugAppDomain3"),
 		new("ICorDebugAppDomain", "ICorDebugAppDomain4"),
