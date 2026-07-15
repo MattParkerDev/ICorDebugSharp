@@ -17,7 +17,7 @@ public static unsafe class CorDebugAppDomainAppDomain2Extensions
 		public ICorDebugAppDomain2 AppDomain2 =>
 			instance as ICorDebugAppDomain2 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain2.");
 
-		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg)
+		public ICorDebugType GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg)
 		{
 			var hr = instance.AppDomain2.GetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);

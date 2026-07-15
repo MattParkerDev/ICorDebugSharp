@@ -3,7 +3,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp;
 
@@ -13,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugType
 {
 	[PreserveSig]
-	int GetType(out CorElementType ty);
+	int GetType(out uint ty);
 
 	[PreserveSig]
 	int GetClass(out ICorDebugClass ppClass);

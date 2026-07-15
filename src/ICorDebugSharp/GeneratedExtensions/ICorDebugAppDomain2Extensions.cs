@@ -12,7 +12,7 @@ public static unsafe class CorDebugAppDomain2Extensions
 {
 	extension(ICorDebugAppDomain2 instance)
 	{
-		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg)
+		public ICorDebugType GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg)
 		{
 			var hr = instance.GetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);

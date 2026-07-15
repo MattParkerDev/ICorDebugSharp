@@ -3,7 +3,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp;
 
@@ -13,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugClass2
 {
 	[PreserveSig]
-	int GetParameterizedType(CorElementType elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
+	int GetParameterizedType(uint elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 
 	[PreserveSig]
 	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);

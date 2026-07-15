@@ -3,7 +3,6 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
-using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp;
 
@@ -13,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAppDomain2
 {
 	[PreserveSig]
-	int GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
+	int GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
 
 	[PreserveSig]
 	int GetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
