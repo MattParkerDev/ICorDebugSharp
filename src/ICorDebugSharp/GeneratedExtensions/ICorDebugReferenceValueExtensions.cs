@@ -36,11 +36,6 @@ public static unsafe class CorDebugReferenceValueExtensions
 			}
 		}
 
-		public int IsNull()
-		{
-			var hr = instance.IsNull(out var pbNull);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbNull;
-		}
+		public bool IsNull => instance.IsNull();
 	}
 }

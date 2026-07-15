@@ -34,8 +34,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Where(method => TryGetStringBuffer(method, out _) && !configuredStringMethods.Contains(method.Name))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var projected = @interface.Methods.Values.Where(CanProjectOutputs).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 
-		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0)
+		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0)
 			return null;
 
 		foreach (var recipe in enumerations)
@@ -49,7 +50,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
 				? RenderOutputProperty(method, $"instance.{method.Name}")
-				: RenderProjectedMethod(method)));
+				: RenderProjectedMethod(method)))
+			.Concat(returnProperties.Select(RenderReturnProperty));
 		var helpers = enumerations.Select(RenderEnumerationHelper).ToList();
 		helpers.AddRange(metadataStrings.Select(RenderStringHelper));
 		if (metadataStrings.Length != 0 || automaticStrings.Length != 0)
@@ -145,6 +147,10 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		method.ReturnType == "int" &&
 		method.Parameters.Any(parameter => parameter.IsOut);
 
+	private static bool CanProjectReturn(ManagedMethod method) =>
+		method.ReturnType is not "int" and not "void" &&
+		method.Parameters.Count == 0;
+
 	private static bool IsParameterlessGetter(ManagedMethod method) =>
 		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
 		method.Name.Length > 3 &&
@@ -183,6 +189,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
 			"\t\t\t}\n\t\t}";
 	}
+
+	private static string RenderReturnProperty(ManagedMethod method) =>
+		$"\t\tpublic {method.ReturnType} {method.Name} => instance.{method.Name}();";
 
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
