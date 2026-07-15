@@ -60,6 +60,6 @@ public static unsafe class CorDebugThreadThread2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public COR_ACTIVE_FUNCTION[] GetActiveFunctions() => instance.Thread2.GetActiveFunctions();
+		public COR_ACTIVE_FUNCTION[] GetActiveFunctions() => instance.Thread2.ActiveFunctions;
 	}
 }

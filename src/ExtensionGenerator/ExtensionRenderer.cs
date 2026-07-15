@@ -108,14 +108,23 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe, string capabilityName)
 	{
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
+		ValidateHResult(method, recipe.Interface);
 		var retained = method.Parameters.Where(parameter => parameter.Name != recipe.Capacity && parameter.Name != recipe.Count && parameter.Name != recipe.Buffer).ToArray();
 		var buffer = method.GetParameter(recipe.Buffer);
+		var count = method.GetParameter(recipe.Count);
+		if (!count.IsOut || !buffer.Type.Contains("[]", StringComparison.Ordinal))
+			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} no longer has the configured output buffer shape.");
+		if (retained.Any(parameter => parameter.IsOut || parameter.IsRef))
+			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} has unsupported retained output parameters.");
+		var elementType = buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
 		var returnType = recipe.Kind == BufferKind.String
 			? "string"
-			: $"{buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal)}[]";
-		return retained.Length == 0
-			? $"\t\tpublic {returnType} {recipe.Method}() => instance.{capabilityName}.{recipe.Method}();"
-			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))}) => instance.{capabilityName}.{recipe.Method}({string.Join(", ", retained.Select(parameter => Escape(parameter.Name)))});";
+			: $"{elementType}[]";
+		var body = RenderQueryBody(method, recipe, retained, elementType, retained.Length == 0 ? 4 : 3)
+			.Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal);
+		return retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
+			? $"\t\tpublic {returnType} {recipe.Method[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{body}\n\t\t\t}}\n\t\t}}"
+			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
 	}
 
 	private static string RenderCapabilityStringQuery(ManagedMethod method, string capabilityName)

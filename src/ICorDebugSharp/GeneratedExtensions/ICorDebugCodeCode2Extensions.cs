@@ -34,6 +34,35 @@ public static unsafe class CorDebugCodeCode2Extensions
 			}
 		}
 
-		public CodeChunkInfo[] GetCodeChunks() => instance.Code2.GetCodeChunks();
+		public CodeChunkInfo[] CodeChunks
+		{
+			get
+			{
+				var hr = instance.Code2.GetCodeChunks(0, out var required, null!);
+				Marshal.ThrowExceptionForHR(hr);
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
+				{
+					var capacity = required;
+					var buffer = new CodeChunkInfo[checked((int)capacity)];
+					hr = instance.Code2.GetCodeChunks(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
+				}
+
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
+			}
+		}
 	}
 }

@@ -34,6 +34,35 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 			}
 		}
 
-		public COR_IL_MAP[] GetInstrumentedILMap() => instance.ILCode2.GetInstrumentedILMap();
+		public COR_IL_MAP[] InstrumentedILMap
+		{
+			get
+			{
+				var hr = instance.ILCode2.GetInstrumentedILMap(0, out var required, null!);
+				Marshal.ThrowExceptionForHR(hr);
+				if (required == 0)
+					return [];
+
+				for (var attempt = 0; attempt < 3; attempt++)
+				{
+					var capacity = required;
+					var buffer = new COR_IL_MAP[checked((int)capacity)];
+					hr = instance.ILCode2.GetInstrumentedILMap(capacity, out var actual, buffer);
+					Marshal.ThrowExceptionForHR(hr);
+					if (actual > capacity)
+					{
+						required = actual;
+						continue;
+					}
+
+					if (actual != capacity)
+						Array.Resize(ref buffer, checked((int)actual));
+
+					return buffer;
+				}
+
+				throw new InvalidOperationException("Native buffer size did not stabilize.");
+			}
+		}
 	}
 }
