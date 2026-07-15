@@ -1,7 +1,7 @@
 
 namespace ICorDebugSharp.Extensions;
 
-public static class CorDebugModuleExtensions
+public static class CorDebugModuleManualExtensions
 {
 	public static T GetMetaDataInterface<T>(this ICorDebugModule module) where T : class
 	{
