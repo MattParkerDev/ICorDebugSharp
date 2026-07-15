@@ -10,7 +10,7 @@ public struct COR_ARRAY_LAYOUT
 {
 	public COR_TYPEID componentID;
 
-	public uint componentType;
+	public CorElementType componentType;
 
 	public uint firstElementOffset;
 

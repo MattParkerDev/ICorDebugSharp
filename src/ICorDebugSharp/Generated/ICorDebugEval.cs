@@ -24,7 +24,7 @@ public partial interface ICorDebugEval
 	int NewString(string @string);
 
 	[PreserveSig]
-	int NewArray(uint elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
+	int NewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
 	[PreserveSig]
 	int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
@@ -39,5 +39,5 @@ public partial interface ICorDebugEval
 	int GetThread(out ICorDebugThread ppThread);
 
 	[PreserveSig]
-	int CreateValue(uint elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
+	int CreateValue(CorElementType elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
 }

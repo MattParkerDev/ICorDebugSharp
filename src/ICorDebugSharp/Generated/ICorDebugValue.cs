@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugValue
 {
 	[PreserveSig]
-	int GetType(out uint pType);
+	int GetType(out CorElementType pType);
 
 	[PreserveSig]
 	int GetSize(out uint pSize);

@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugClass2
 {
 	[PreserveSig]
-	int GetParameterizedType(uint elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
+	int GetParameterizedType(CorElementType elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 
 	[PreserveSig]
 	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
