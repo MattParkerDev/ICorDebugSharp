@@ -5,4 +5,8 @@ using System.Runtime.InteropServices;
 namespace ICorDebugSharp;
 
 [StructLayout(LayoutKind.Sequential)]
-public readonly record struct CORDB_ADDRESS(ulong Value);
+public readonly record struct CORDB_ADDRESS(ulong Value)
+{
+
+	public static implicit operator int(CORDB_ADDRESS value) => (int)value.Value;
+}
