@@ -91,6 +91,10 @@ var config = new PInvokeGeneratorConfiguration
 	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
         "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc/corerror.h",
     ],
+    // WithTypes = new Dictionary<string, string>()
+	// {
+	//     ["CorElementType"] = "uint",
+	// },
     WithEnumMemberStrip = new Dictionary<string, string>()
     {
 	    ["*"] = "common-prefix",
