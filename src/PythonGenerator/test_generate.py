@@ -187,7 +187,12 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn(
             "public partial interface ICorDebugAppDomain : ICorDebugModule", source
         )
-        self.assertIn("int GetToken(ref uint token);", source)
+        self.assertIn("int GetToken(ref mdToken token);", source)
+
+    def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
+        source = self.generator.generate_metadata_typedef("mdToken")
+
+        self.assertIn("public readonly record struct mdToken(uint Value);", source)
 
     def test_detects_utf16_through_typedef_chain(self) -> None:
         midl = parse_string("""
@@ -253,9 +258,10 @@ class CSharpGeneratorTests(unittest.TestCase):
             written, unchanged = write_interfaces(self.midl, output)
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
-            self.assertEqual((2, 0), (written, unchanged))
-            self.assertEqual((0, 2), (second_written, second_unchanged))
+            self.assertEqual((3, 0), (written, unchanged))
+            self.assertEqual((0, 3), (second_written, second_unchanged))
             self.assertEqual("keep", unrelated.read_text(encoding="utf-8"))
+            self.assertTrue((output / "mdToken.cs").exists())
             self.assertFalse(
                 (output / "Extensions" / "CorDebugModuleBufferExtensions.cs").exists()
             )
