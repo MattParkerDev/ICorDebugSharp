@@ -67,6 +67,10 @@ RETURN_VALUE_METHODS = {
     ),
 }
 
+# cor.h declares this typedef outside cordebug.idl. Preserve it rather than
+# resolving its ULONG32 storage type when it appears in the IDL.
+METADATA_TYPES = {"CorElementType"}
+
 CSHARP_KEYWORDS = {
     "base", "bool", "break", "byte", "case", "catch", "char", "checked",
     "class", "const", "continue", "decimal", "default", "delegate", "do",
@@ -1121,6 +1125,8 @@ class CSharpGenerator:
         preserve_metadata_typedefs: bool = True,
         preserve_typedefs: bool = True,
     ) -> str:
+        if base_name in METADATA_TYPES:
+            return self.escape_identifier(base_name)
         if preserve_metadata_typedefs and base_name in self.metadata_typedefs:
             return self.escape_identifier(base_name)
         if preserve_typedefs and base_name in self.preserved_typedefs:
