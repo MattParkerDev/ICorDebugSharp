@@ -1,5 +1,4 @@
 using System.Runtime.InteropServices.Marshalling;
-using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp;
 

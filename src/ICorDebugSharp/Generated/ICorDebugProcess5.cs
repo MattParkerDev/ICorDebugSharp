@@ -42,7 +42,7 @@ public partial interface ICorDebugProcess5
 	int GetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
 
 	[PreserveSig]
-	int GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded);
+	int GetTypeFields(COR_TYPEID id, uint celt, [MarshalUsing(CountElementName = nameof(celt))] COR_FIELD[] fields, out uint pceltNeeded);
 
 	[PreserveSig]
 	int EnableNGENPolicy(CorDebugNGENPolicy ePolicy);
