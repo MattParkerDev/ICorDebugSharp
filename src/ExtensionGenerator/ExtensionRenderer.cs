@@ -57,13 +57,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string RenderProjectedMethod(ManagedMethod method)
 	{
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
-		var inputs = method.Parameters.Where(parameter => !parameter.IsOut).ToArray();
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && !parameter.IsEnumeratorMaxOne).ToArray();
 		var returnType = outputs.Length == 1
 			? ProjectedOutputType(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
 		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
 			? $"out var {Escape(parameter.Name)}"
+			: parameter.IsEnumeratorMaxOne ? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		var result = outputs.Length == 1
 			? ProjectedOutputValue(outputs[0])
@@ -105,7 +106,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		if (!TryGetStringBuffer(method, out var stringBuffer))
 			throw new InvalidOperationException($"{method.Name} is not a string query method.");
 		var omitted = new HashSet<string>(StringComparer.Ordinal) { stringBuffer.Buffer.Name, stringBuffer.Capacity.Name, stringBuffer.Count.Name };
-		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && !omitted.Contains(parameter.Name)).ToArray();
+		var inputs = method.Parameters.Where(parameter =>
+			!parameter.IsOut && !parameter.IsEnumeratorMaxOne && !omitted.Contains(parameter.Name)).ToArray();
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut && parameter.Name != stringBuffer.Count.Name).ToArray();
 		var returnType = outputs.Length == 0
 			? "string"
@@ -138,6 +140,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			var name when name == stringBuffer.Capacity.Name => query ? "0" : "capacity",
 			var name when name == stringBuffer.Count.Name => query ? "out var required" : "out var actual",
 			var name when outputNames.Contains(name) => $"out var {(query ? "query" + char.ToUpperInvariant(name[0]) + name[1..] : Escape(name))}",
+			_ when parameter.IsEnumeratorMaxOne => "1",
 			var name when inputNames.Contains(name) => parameter.IsRef ? $"ref {Escape(name)}" : Escape(name),
 			_ => throw new InvalidOperationException($"Unexpected parameter {parameter.Name} in {method.Name} string query."),
 		}));
