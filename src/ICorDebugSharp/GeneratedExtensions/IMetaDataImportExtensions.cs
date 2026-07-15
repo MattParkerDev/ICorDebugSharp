@@ -91,7 +91,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
+		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
 		{
 			var hr = instance.GetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -116,7 +116,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szMember, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
+		public (string szMember, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
 		{
 			var hr = instance.GetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -191,7 +191,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szName, mdMethodDef pmd, uint pulSequence, CorParamAttr pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
+		public (string szName, mdMethodDef pmd, uint pulSequence, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
 		{
 			var hr = instance.GetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -241,7 +241,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
+		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
 			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
@@ -504,7 +504,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ppvNativeType.ToArray(), pcbNativeType);
 		}
 
-		public (mdTypeDef pClass, uint pchField, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, uint cchField)
+		public (mdTypeDef pClass, uint pchField, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, uint cchField)
 		{
 			var hr = instance.GetFieldProps(mb, out var pClass, szField, cchField, out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -518,7 +518,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, ptkIface);
 		}
 
-		public (mdTypeDef pClass, uint pchMember, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb, char[]? szMember, uint cchMember)
+		public (mdTypeDef pClass, uint pchMember, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb, char[]? szMember, uint cchMember)
 		{
 			var hr = instance.GetMemberProps(mb, out var pClass, szMember, cchMember, out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -591,7 +591,7 @@ public static unsafe class MetaDataImportExtensions
 			return ppd;
 		}
 
-		public (mdMethodDef pmd, uint pulSequence, uint pchName, CorParamAttr pdwAttr, uint pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk, char[]? szName, uint cchName)
+		public (mdMethodDef pmd, uint pulSequence, uint pchName, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk, char[]? szName, uint cchName)
 		{
 			var hr = instance.GetParamProps(tk, out var pmd, out var pulSequence, szName, cchName, out var pchName, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
@@ -612,7 +612,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pdwMappingFlags, pchImportName, pmrImportDLL);
 		}
 
-		public (mdTypeDef pClass, uint pchProperty, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, uint pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty)
+		public (mdTypeDef pClass, uint pchProperty, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty)
 		{
 			var hr = instance.GetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
