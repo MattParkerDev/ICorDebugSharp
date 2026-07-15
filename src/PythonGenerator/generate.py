@@ -1131,6 +1131,8 @@ class CSharpGenerator:
         preserve_metadata_typedefs: bool = True,
         preserve_typedefs: bool = True,
     ) -> str:
+        if base_name in METADATA_TYPES:
+            return self.escape_identifier(base_name)
         if preserve_metadata_typedefs and base_name in self.metadata_typedefs:
             return self.escape_identifier(base_name)
         if preserve_typedefs and base_name in self.preserved_typedefs:

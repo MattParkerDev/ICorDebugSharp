@@ -11,6 +11,7 @@ IDL = """
 typedef UINT32 mdToken;
 typedef mdToken mdTypeDef;
 typedef ULONG64 CORDB_ADDRESS;
+typedef ULONG32 CorElementType;
 
 [
     object,

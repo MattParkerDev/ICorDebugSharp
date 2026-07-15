@@ -16,5 +16,5 @@ public struct COR_TYPE_LAYOUT
 
 	public uint boxOffset;
 
-	public uint type;
+	public CorElementType type;
 }

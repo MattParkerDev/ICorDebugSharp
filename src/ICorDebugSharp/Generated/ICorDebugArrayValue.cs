@@ -3,6 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 using System.Runtime.InteropServices.Marshalling;
+using ICorDebugSharp.GeneratedMetadata;
 
 namespace ICorDebugSharp;
 
@@ -12,7 +13,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugArrayValue : ICorDebugHeapValue
 {
 	[PreserveSig]
-	int GetElementType(out uint pType);
+	int GetElementType(out CorElementType pType);
 
 	[PreserveSig]
 	int GetRank(out uint pnRank);

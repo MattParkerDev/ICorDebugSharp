@@ -14,5 +14,5 @@ public struct COR_FIELD
 
 	public COR_TYPEID id;
 
-	public uint fieldType;
+	public CorElementType fieldType;
 }
