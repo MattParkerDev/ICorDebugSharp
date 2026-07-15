@@ -14,15 +14,13 @@ public static unsafe class CorDebugStepperStepper2Extensions
 	{
 		public bool SupportsStepper2 => instance is ICorDebugStepper2;
 
-		public ICorDebugStepper2 Stepper2 => GetCapability(instance);
+		public ICorDebugStepper2 Stepper2 =>
+			instance as ICorDebugStepper2 ?? throw new NotSupportedException("ICorDebugStepper does not support ICorDebugStepper2.");
 
 		public void SetJMC(int fIsJMCStepper)
 		{
-			var hr = GetCapability(instance).SetJMC(fIsJMCStepper);
+			var hr = instance.Stepper2.SetJMC(fIsJMCStepper);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugStepper2 GetCapability(ICorDebugStepper instance) =>
-		instance as ICorDebugStepper2 ?? throw new NotSupportedException("ICorDebugStepper does not support ICorDebugStepper2.");
 }

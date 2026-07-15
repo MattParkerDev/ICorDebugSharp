@@ -14,16 +14,14 @@ public static unsafe class CorDebugFunctionFunction4Extensions
 	{
 		public bool SupportsFunction4 => instance is ICorDebugFunction4;
 
-		public ICorDebugFunction4 Function4 => GetCapability(instance);
+		public ICorDebugFunction4 Function4 =>
+			instance as ICorDebugFunction4 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction4.");
 
 		public ICorDebugFunctionBreakpoint CreateNativeBreakpoint()
 		{
-			var hr = GetCapability(instance).CreateNativeBreakpoint(out var ppBreakpoint);
+			var hr = instance.Function4.CreateNativeBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
 	}
-
-	private static ICorDebugFunction4 GetCapability(ICorDebugFunction instance) =>
-		instance as ICorDebugFunction4 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction4.");
 }

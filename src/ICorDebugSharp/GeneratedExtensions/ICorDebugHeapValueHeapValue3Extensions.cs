@@ -14,13 +14,14 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 	{
 		public bool SupportsHeapValue3 => instance is ICorDebugHeapValue3;
 
-		public ICorDebugHeapValue3 HeapValue3 => GetCapability(instance);
+		public ICorDebugHeapValue3 HeapValue3 =>
+			instance as ICorDebugHeapValue3 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue3.");
 
 		public ICorDebugThreadEnum MonitorEventWaitList
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetMonitorEventWaitList(out var ppThreadEnum);
+				var hr = instance.HeapValue3.GetMonitorEventWaitList(out var ppThreadEnum);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppThreadEnum;
 			}
@@ -30,13 +31,10 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+				var hr = instance.HeapValue3.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
 				Marshal.ThrowExceptionForHR(hr);
 				return (ppThread, pAcquisitionCount);
 			}
 		}
 	}
-
-	private static ICorDebugHeapValue3 GetCapability(ICorDebugHeapValue instance) =>
-		instance as ICorDebugHeapValue3 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue3.");
 }

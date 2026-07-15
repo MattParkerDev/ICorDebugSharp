@@ -14,16 +14,14 @@ public static unsafe class CorDebugHeapValueHeapValue2Extensions
 	{
 		public bool SupportsHeapValue2 => instance is ICorDebugHeapValue2;
 
-		public ICorDebugHeapValue2 HeapValue2 => GetCapability(instance);
+		public ICorDebugHeapValue2 HeapValue2 =>
+			instance as ICorDebugHeapValue2 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue2.");
 
 		public ICorDebugHandleValue CreateHandle(CorDebugHandleType type)
 		{
-			var hr = GetCapability(instance).CreateHandle(type, out var ppHandle);
+			var hr = instance.HeapValue2.CreateHandle(type, out var ppHandle);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppHandle;
 		}
 	}
-
-	private static ICorDebugHeapValue2 GetCapability(ICorDebugHeapValue instance) =>
-		instance as ICorDebugHeapValue2 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue2.");
 }

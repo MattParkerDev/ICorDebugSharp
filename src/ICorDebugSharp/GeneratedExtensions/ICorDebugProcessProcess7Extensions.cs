@@ -14,15 +14,13 @@ public static unsafe class CorDebugProcessProcess7Extensions
 	{
 		public bool SupportsProcess7 => instance is ICorDebugProcess7;
 
-		public ICorDebugProcess7 Process7 => GetCapability(instance);
+		public ICorDebugProcess7 Process7 =>
+			instance as ICorDebugProcess7 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess7.");
 
 		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags)
 		{
-			var hr = GetCapability(instance).SetWriteableMetadataUpdateMode(flags);
+			var hr = instance.Process7.SetWriteableMetadataUpdateMode(flags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugProcess7 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess7 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess7.");
 }

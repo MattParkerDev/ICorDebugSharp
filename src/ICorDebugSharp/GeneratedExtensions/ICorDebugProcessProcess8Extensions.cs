@@ -14,15 +14,13 @@ public static unsafe class CorDebugProcessProcess8Extensions
 	{
 		public bool SupportsProcess8 => instance is ICorDebugProcess8;
 
-		public ICorDebugProcess8 Process8 => GetCapability(instance);
+		public ICorDebugProcess8 Process8 =>
+			instance as ICorDebugProcess8 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess8.");
 
 		public void EnableExceptionCallbacksOutsideOfMyCode(int enableExceptionsOutsideOfJMC)
 		{
-			var hr = GetCapability(instance).EnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
+			var hr = instance.Process8.EnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugProcess8 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess8 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess8.");
 }

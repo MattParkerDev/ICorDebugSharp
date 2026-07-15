@@ -14,15 +14,13 @@ public static unsafe class CorDebugProcessProcess10Extensions
 	{
 		public bool SupportsProcess10 => instance is ICorDebugProcess10;
 
-		public ICorDebugProcess10 Process10 => GetCapability(instance);
+		public ICorDebugProcess10 Process10 =>
+			instance as ICorDebugProcess10 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess10.");
 
 		public void EnableGCNotificationEvents(int fEnable)
 		{
-			var hr = GetCapability(instance).EnableGCNotificationEvents(fEnable);
+			var hr = instance.Process10.EnableGCNotificationEvents(fEnable);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugProcess10 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess10 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess10.");
 }

@@ -14,11 +14,12 @@ public static unsafe class CorDebugProcessProcess2Extensions
 	{
 		public bool SupportsProcess2 => instance is ICorDebugProcess2;
 
-		public ICorDebugProcess2 Process2 => GetCapability(instance);
+		public ICorDebugProcess2 Process2 =>
+			instance as ICorDebugProcess2 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess2.");
 
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
 		{
-			var hr = GetCapability(instance).ClearUnmanagedBreakpoint(address);
+			var hr = instance.Process2.ClearUnmanagedBreakpoint(address);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -26,7 +27,7 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetDesiredNGENCompilerFlags(out var pdwFlags);
+				var hr = instance.Process2.GetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
@@ -34,14 +35,14 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
 		{
-			var hr = GetCapability(instance).GetReferenceValueFromGCHandle(handle, out var pOutValue);
+			var hr = instance.Process2.GetReferenceValueFromGCHandle(handle, out var pOutValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return pOutValue;
 		}
 
 		public ICorDebugThread2 GetThreadForTaskID(ulong taskid)
 		{
-			var hr = GetCapability(instance).GetThreadForTaskID(taskid, out var ppThread);
+			var hr = instance.Process2.GetThreadForTaskID(taskid, out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
@@ -50,7 +51,7 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetVersion(out var version);
+				var hr = instance.Process2.GetVersion(out var version);
 				Marshal.ThrowExceptionForHR(hr);
 				return version;
 			}
@@ -58,18 +59,15 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public void SetDesiredNGENCompilerFlags(uint pdwFlags)
 		{
-			var hr = GetCapability(instance).SetDesiredNGENCompilerFlags(pdwFlags);
+			var hr = instance.Process2.SetDesiredNGENCompilerFlags(pdwFlags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)
 		{
-			var hr = GetCapability(instance).SetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
+			var hr = instance.Process2.SetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
 			Marshal.ThrowExceptionForHR(hr);
 			return bufLen;
 		}
 	}
-
-	private static ICorDebugProcess2 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess2 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess2.");
 }

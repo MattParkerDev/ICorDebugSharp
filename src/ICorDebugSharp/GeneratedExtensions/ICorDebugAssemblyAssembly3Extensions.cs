@@ -14,11 +14,12 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 	{
 		public bool SupportsAssembly3 => instance is ICorDebugAssembly3;
 
-		public ICorDebugAssembly3 Assembly3 => GetCapability(instance);
+		public ICorDebugAssembly3 Assembly3 =>
+			instance as ICorDebugAssembly3 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly3.");
 
 		public ICorDebugAssemblyEnum EnumerateContainedAssemblies()
 		{
-			var hr = GetCapability(instance).EnumerateContainedAssemblies(out var ppAssemblies);
+			var hr = instance.Assembly3.EnumerateContainedAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssemblies;
 		}
@@ -27,13 +28,10 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetContainerAssembly(out var ppAssembly);
+				var hr = instance.Assembly3.GetContainerAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAssembly;
 			}
 		}
 	}
-
-	private static ICorDebugAssembly3 GetCapability(ICorDebugAssembly instance) =>
-		instance as ICorDebugAssembly3 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly3.");
 }

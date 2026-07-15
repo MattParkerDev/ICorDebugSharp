@@ -14,30 +14,28 @@ public static unsafe class CorDebugILFrameILFrame4Extensions
 	{
 		public bool SupportsILFrame4 => instance is ICorDebugILFrame4;
 
-		public ICorDebugILFrame4 ILFrame4 => GetCapability(instance);
+		public ICorDebugILFrame4 ILFrame4 =>
+			instance as ICorDebugILFrame4 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame4.");
 
 		public ICorDebugValueEnum EnumerateLocalVariablesEx(ILCodeKind flags)
 		{
-			var hr = GetCapability(instance).EnumerateLocalVariablesEx(flags, out var ppValueEnum);
+			var hr = instance.ILFrame4.EnumerateLocalVariablesEx(flags, out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValueEnum;
 		}
 
 		public ICorDebugCode GetCodeEx(ILCodeKind flags)
 		{
-			var hr = GetCapability(instance).GetCodeEx(flags, out var ppCode);
+			var hr = instance.ILFrame4.GetCodeEx(flags, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex)
 		{
-			var hr = GetCapability(instance).GetLocalVariableEx(flags, dwIndex, out var ppValue);
+			var hr = instance.ILFrame4.GetLocalVariableEx(flags, dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 	}
-
-	private static ICorDebugILFrame4 GetCapability(ICorDebugILFrame instance) =>
-		instance as ICorDebugILFrame4 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame4.");
 }

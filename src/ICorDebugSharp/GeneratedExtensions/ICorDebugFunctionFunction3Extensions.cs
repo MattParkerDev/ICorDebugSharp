@@ -14,19 +14,17 @@ public static unsafe class CorDebugFunctionFunction3Extensions
 	{
 		public bool SupportsFunction3 => instance is ICorDebugFunction3;
 
-		public ICorDebugFunction3 Function3 => GetCapability(instance);
+		public ICorDebugFunction3 Function3 =>
+			instance as ICorDebugFunction3 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction3.");
 
 		public ICorDebugILCode ActiveReJitRequestILCode
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetActiveReJitRequestILCode(out var ppReJitedILCode);
+				var hr = instance.Function3.GetActiveReJitRequestILCode(out var ppReJitedILCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppReJitedILCode;
 			}
 		}
 	}
-
-	private static ICorDebugFunction3 GetCapability(ICorDebugFunction instance) =>
-		instance as ICorDebugFunction3 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction3.");
 }

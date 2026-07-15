@@ -14,19 +14,17 @@ public static unsafe class CorDebugValueValue2Extensions
 	{
 		public bool SupportsValue2 => instance is ICorDebugValue2;
 
-		public ICorDebugValue2 Value2 => GetCapability(instance);
+		public ICorDebugValue2 Value2 =>
+			instance as ICorDebugValue2 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue2.");
 
 		public ICorDebugType ExactType
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetExactType(out var ppType);
+				var hr = instance.Value2.GetExactType(out var ppType);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppType;
 			}
 		}
 	}
-
-	private static ICorDebugValue2 GetCapability(ICorDebugValue instance) =>
-		instance as ICorDebugValue2 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue2.");
 }

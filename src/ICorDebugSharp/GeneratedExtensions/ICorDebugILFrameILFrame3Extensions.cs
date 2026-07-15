@@ -14,16 +14,14 @@ public static unsafe class CorDebugILFrameILFrame3Extensions
 	{
 		public bool SupportsILFrame3 => instance is ICorDebugILFrame3;
 
-		public ICorDebugILFrame3 ILFrame3 => GetCapability(instance);
+		public ICorDebugILFrame3 ILFrame3 =>
+			instance as ICorDebugILFrame3 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame3.");
 
 		public ICorDebugValue GetReturnValueForILOffset(uint ILoffset)
 		{
-			var hr = GetCapability(instance).GetReturnValueForILOffset(ILoffset, out var ppReturnValue);
+			var hr = instance.ILFrame3.GetReturnValueForILOffset(ILoffset, out var ppReturnValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppReturnValue;
 		}
 	}
-
-	private static ICorDebugILFrame3 GetCapability(ICorDebugILFrame instance) =>
-		instance as ICorDebugILFrame3 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame3.");
 }

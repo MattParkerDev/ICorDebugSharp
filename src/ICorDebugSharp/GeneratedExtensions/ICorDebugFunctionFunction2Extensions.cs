@@ -14,11 +14,12 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 	{
 		public bool SupportsFunction2 => instance is ICorDebugFunction2;
 
-		public ICorDebugFunction2 Function2 => GetCapability(instance);
+		public ICorDebugFunction2 Function2 =>
+			instance as ICorDebugFunction2 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction2.");
 
 		public ICorDebugCodeEnum EnumerateNativeCode()
 		{
-			var hr = GetCapability(instance).EnumerateNativeCode(out var ppCodeEnum);
+			var hr = instance.Function2.EnumerateNativeCode(out var ppCodeEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCodeEnum;
 		}
@@ -27,7 +28,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetJMCStatus(out var pbIsJustMyCode);
+				var hr = instance.Function2.GetJMCStatus(out var pbIsJustMyCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return pbIsJustMyCode;
 			}
@@ -37,7 +38,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetVersionNumber(out var pnVersion);
+				var hr = instance.Function2.GetVersionNumber(out var pnVersion);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnVersion;
 			}
@@ -45,11 +46,8 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 
 		public void SetJMCStatus(int bIsJustMyCode)
 		{
-			var hr = GetCapability(instance).SetJMCStatus(bIsJustMyCode);
+			var hr = instance.Function2.SetJMCStatus(bIsJustMyCode);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugFunction2 GetCapability(ICorDebugFunction instance) =>
-		instance as ICorDebugFunction2 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction2.");
 }

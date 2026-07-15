@@ -14,16 +14,14 @@ public static unsafe class CorDebugObjectValueObjectValue2Extensions
 	{
 		public bool SupportsObjectValue2 => instance is ICorDebugObjectValue2;
 
-		public ICorDebugObjectValue2 ObjectValue2 => GetCapability(instance);
+		public ICorDebugObjectValue2 ObjectValue2 =>
+			instance as ICorDebugObjectValue2 ?? throw new NotSupportedException("ICorDebugObjectValue does not support ICorDebugObjectValue2.");
 
 		public (ICorDebugFunction ppFunction, ICorDebugType ppType) GetVirtualMethodAndType(mdMemberRef memberRef)
 		{
-			var hr = GetCapability(instance).GetVirtualMethodAndType(memberRef, out var ppFunction, out var ppType);
+			var hr = instance.ObjectValue2.GetVirtualMethodAndType(memberRef, out var ppFunction, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppFunction, ppType);
 		}
 	}
-
-	private static ICorDebugObjectValue2 GetCapability(ICorDebugObjectValue instance) =>
-		instance as ICorDebugObjectValue2 ?? throw new NotSupportedException("ICorDebugObjectValue does not support ICorDebugObjectValue2.");
 }

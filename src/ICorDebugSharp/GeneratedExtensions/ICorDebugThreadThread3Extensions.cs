@@ -14,23 +14,21 @@ public static unsafe class CorDebugThreadThread3Extensions
 	{
 		public bool SupportsThread3 => instance is ICorDebugThread3;
 
-		public ICorDebugThread3 Thread3 => GetCapability(instance);
+		public ICorDebugThread3 Thread3 =>
+			instance as ICorDebugThread3 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread3.");
 
 		public ICorDebugStackWalk CreateStackWalk()
 		{
-			var hr = GetCapability(instance).CreateStackWalk(out var ppStackWalk);
+			var hr = instance.Thread3.CreateStackWalk(out var ppStackWalk);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStackWalk;
 		}
 
 		public uint GetActiveInternalFrames(uint cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
 		{
-			var hr = GetCapability(instance).GetActiveInternalFrames(cInternalFrames, out var pcInternalFrames, ppInternalFrames);
+			var hr = instance.Thread3.GetActiveInternalFrames(cInternalFrames, out var pcInternalFrames, ppInternalFrames);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcInternalFrames;
 		}
 	}
-
-	private static ICorDebugThread3 GetCapability(ICorDebugThread instance) =>
-		instance as ICorDebugThread3 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread3.");
 }

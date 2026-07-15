@@ -14,11 +14,12 @@ public static unsafe class CorDebugThreadThread2Extensions
 	{
 		public bool SupportsThread2 => instance is ICorDebugThread2;
 
-		public ICorDebugThread2 Thread2 => GetCapability(instance);
+		public ICorDebugThread2 Thread2 =>
+			instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 
 		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
 		{
-			var hr = GetCapability(instance).GetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
+			var hr = instance.Thread2.GetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcFunctions;
 		}
@@ -27,7 +28,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetConnectionID(out var pdwConnectionId);
+				var hr = instance.Thread2.GetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwConnectionId;
 			}
@@ -37,7 +38,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetTaskID(out var pTaskId);
+				var hr = instance.Thread2.GetTaskID(out var pTaskId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTaskId;
 			}
@@ -47,7 +48,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetVolatileOSThreadID(out var pdwTid);
+				var hr = instance.Thread2.GetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwTid;
 			}
@@ -55,13 +56,10 @@ public static unsafe class CorDebugThreadThread2Extensions
 
 		public void InterceptCurrentException(ICorDebugFrame pFrame)
 		{
-			var hr = GetCapability(instance).InterceptCurrentException(pFrame);
+			var hr = instance.Thread2.InterceptCurrentException(pFrame);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public COR_ACTIVE_FUNCTION[] GetActiveFunctions() => GetCapability(instance).GetActiveFunctions();
+		public COR_ACTIVE_FUNCTION[] GetActiveFunctions() => instance.Thread2.GetActiveFunctions();
 	}
-
-	private static ICorDebugThread2 GetCapability(ICorDebugThread instance) =>
-		instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 }

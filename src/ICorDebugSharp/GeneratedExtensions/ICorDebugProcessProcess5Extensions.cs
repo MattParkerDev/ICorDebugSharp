@@ -14,45 +14,46 @@ public static unsafe class CorDebugProcessProcess5Extensions
 	{
 		public bool SupportsProcess5 => instance is ICorDebugProcess5;
 
-		public ICorDebugProcess5 Process5 => GetCapability(instance);
+		public ICorDebugProcess5 Process5 =>
+			instance as ICorDebugProcess5 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess5.");
 
 		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy)
 		{
-			var hr = GetCapability(instance).EnableNGENPolicy(ePolicy);
+			var hr = instance.Process5.EnableNGENPolicy(ePolicy);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public ICorDebugGCReferenceEnum EnumerateGCReferences(int enumerateWeakReferences)
 		{
-			var hr = GetCapability(instance).EnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
+			var hr = instance.Process5.EnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
 		}
 
 		public ICorDebugGCReferenceEnum EnumerateHandles(CorGCReferenceType types)
 		{
-			var hr = GetCapability(instance).EnumerateHandles(types, out var ppEnum);
+			var hr = instance.Process5.EnumerateHandles(types, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
 		}
 
 		public ICorDebugHeapEnum EnumerateHeap()
 		{
-			var hr = GetCapability(instance).EnumerateHeap(out var ppObjects);
+			var hr = instance.Process5.EnumerateHeap(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppObjects;
 		}
 
 		public ICorDebugHeapSegmentEnum EnumerateHeapRegions()
 		{
-			var hr = GetCapability(instance).EnumerateHeapRegions(out var ppRegions);
+			var hr = instance.Process5.EnumerateHeapRegions(out var ppRegions);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppRegions;
 		}
 
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
 		{
-			var hr = GetCapability(instance).GetArrayLayout(id, out var pLayout);
+			var hr = instance.Process5.GetArrayLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
 		}
@@ -61,7 +62,7 @@ public static unsafe class CorDebugProcessProcess5Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetGCHeapInformation(out var pHeapInfo);
+				var hr = instance.Process5.GetGCHeapInformation(out var pHeapInfo);
 				Marshal.ThrowExceptionForHR(hr);
 				return pHeapInfo;
 			}
@@ -69,40 +70,37 @@ public static unsafe class CorDebugProcessProcess5Extensions
 
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)
 		{
-			var hr = GetCapability(instance).GetObject(addr, out var pObject);
+			var hr = instance.Process5.GetObject(addr, out var pObject);
 			Marshal.ThrowExceptionForHR(hr);
 			return pObject;
 		}
 
 		public uint GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields)
 		{
-			var hr = GetCapability(instance).GetTypeFields(id, celt, fields, out var pceltNeeded);
+			var hr = instance.Process5.GetTypeFields(id, celt, fields, out var pceltNeeded);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltNeeded;
 		}
 
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)
 		{
-			var hr = GetCapability(instance).GetTypeForTypeID(id, out var ppType);
+			var hr = instance.Process5.GetTypeForTypeID(id, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj)
 		{
-			var hr = GetCapability(instance).GetTypeID(obj, out var pId);
+			var hr = instance.Process5.GetTypeID(obj, out var pId);
 			Marshal.ThrowExceptionForHR(hr);
 			return pId;
 		}
 
 		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id)
 		{
-			var hr = GetCapability(instance).GetTypeLayout(id, out var pLayout);
+			var hr = instance.Process5.GetTypeLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
 		}
 	}
-
-	private static ICorDebugProcess5 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess5 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess5.");
 }

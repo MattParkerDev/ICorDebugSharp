@@ -14,22 +14,20 @@ public static unsafe class CorDebugClassClass2Extensions
 	{
 		public bool SupportsClass2 => instance is ICorDebugClass2;
 
-		public ICorDebugClass2 Class2 => GetCapability(instance);
+		public ICorDebugClass2 Class2 =>
+			instance as ICorDebugClass2 ?? throw new NotSupportedException("ICorDebugClass does not support ICorDebugClass2.");
 
 		public ICorDebugType GetParameterizedType(uint elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = GetCapability(instance).GetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.Class2.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public void SetJMCStatus(int bIsJustMyCode)
 		{
-			var hr = GetCapability(instance).SetJMCStatus(bIsJustMyCode);
+			var hr = instance.Class2.SetJMCStatus(bIsJustMyCode);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugClass2 GetCapability(ICorDebugClass instance) =>
-		instance as ICorDebugClass2 ?? throw new NotSupportedException("ICorDebugClass does not support ICorDebugClass2.");
 }

@@ -14,11 +14,12 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 	{
 		public bool SupportsILCode2 => instance is ICorDebugILCode2;
 
-		public ICorDebugILCode2 ILCode2 => GetCapability(instance);
+		public ICorDebugILCode2 ILCode2 =>
+			instance as ICorDebugILCode2 ?? throw new NotSupportedException("ICorDebugILCode does not support ICorDebugILCode2.");
 
 		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
 		{
-			var hr = GetCapability(instance).GetInstrumentedILMap(cMap, out var pcMap, map);
+			var hr = instance.ILCode2.GetInstrumentedILMap(cMap, out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcMap;
 		}
@@ -27,15 +28,12 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetLocalVarSigToken(out var pmdSig);
+				var hr = instance.ILCode2.GetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
 				return pmdSig;
 			}
 		}
 
-		public COR_IL_MAP[] GetInstrumentedILMap() => GetCapability(instance).GetInstrumentedILMap();
+		public COR_IL_MAP[] GetInstrumentedILMap() => instance.ILCode2.GetInstrumentedILMap();
 	}
-
-	private static ICorDebugILCode2 GetCapability(ICorDebugILCode instance) =>
-		instance as ICorDebugILCode2 ?? throw new NotSupportedException("ICorDebugILCode does not support ICorDebugILCode2.");
 }

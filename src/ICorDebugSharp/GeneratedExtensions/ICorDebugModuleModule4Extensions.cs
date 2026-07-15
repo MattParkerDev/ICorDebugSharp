@@ -14,16 +14,14 @@ public static unsafe class CorDebugModuleModule4Extensions
 	{
 		public bool SupportsModule4 => instance is ICorDebugModule4;
 
-		public ICorDebugModule4 Module4 => GetCapability(instance);
+		public ICorDebugModule4 Module4 =>
+			instance as ICorDebugModule4 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule4.");
 
 		public int IsMappedLayout()
 		{
-			var hr = GetCapability(instance).IsMappedLayout(out var pIsMapped);
+			var hr = instance.Module4.IsMappedLayout(out var pIsMapped);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsMapped;
 		}
 	}
-
-	private static ICorDebugModule4 GetCapability(ICorDebugModule instance) =>
-		instance as ICorDebugModule4 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule4.");
 }

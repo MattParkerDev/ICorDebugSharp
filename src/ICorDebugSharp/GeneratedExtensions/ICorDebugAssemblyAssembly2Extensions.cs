@@ -14,16 +14,14 @@ public static unsafe class CorDebugAssemblyAssembly2Extensions
 	{
 		public bool SupportsAssembly2 => instance is ICorDebugAssembly2;
 
-		public ICorDebugAssembly2 Assembly2 => GetCapability(instance);
+		public ICorDebugAssembly2 Assembly2 =>
+			instance as ICorDebugAssembly2 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly2.");
 
 		public int IsFullyTrusted()
 		{
-			var hr = GetCapability(instance).IsFullyTrusted(out var pbFullyTrusted);
+			var hr = instance.Assembly2.IsFullyTrusted(out var pbFullyTrusted);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbFullyTrusted;
 		}
 	}
-
-	private static ICorDebugAssembly2 GetCapability(ICorDebugAssembly instance) =>
-		instance as ICorDebugAssembly2 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly2.");
 }

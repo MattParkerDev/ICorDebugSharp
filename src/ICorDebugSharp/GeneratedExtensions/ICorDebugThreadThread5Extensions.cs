@@ -14,19 +14,17 @@ public static unsafe class CorDebugThreadThread5Extensions
 	{
 		public bool SupportsThread5 => instance is ICorDebugThread5;
 
-		public ICorDebugThread5 Thread5 => GetCapability(instance);
+		public ICorDebugThread5 Thread5 =>
+			instance as ICorDebugThread5 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread5.");
 
 		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) BytesAllocated
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
+				var hr = instance.Thread5.GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pSohAllocatedBytes, pUohAllocatedBytes);
 			}
 		}
 	}
-
-	private static ICorDebugThread5 GetCapability(ICorDebugThread instance) =>
-		instance as ICorDebugThread5 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread5.");
 }

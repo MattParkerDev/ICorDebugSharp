@@ -14,11 +14,12 @@ public static unsafe class CorDebugCodeCode2Extensions
 	{
 		public bool SupportsCode2 => instance is ICorDebugCode2;
 
-		public ICorDebugCode2 Code2 => GetCapability(instance);
+		public ICorDebugCode2 Code2 =>
+			instance as ICorDebugCode2 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode2.");
 
 		public uint GetCodeChunks(uint cbufSize, CodeChunkInfo[]? chunks)
 		{
-			var hr = GetCapability(instance).GetCodeChunks(cbufSize, out var pcnumChunks, chunks);
+			var hr = instance.Code2.GetCodeChunks(cbufSize, out var pcnumChunks, chunks);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcnumChunks;
 		}
@@ -27,15 +28,12 @@ public static unsafe class CorDebugCodeCode2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetCompilerFlags(out var pdwFlags);
+				var hr = instance.Code2.GetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
 		}
 
-		public CodeChunkInfo[] GetCodeChunks() => GetCapability(instance).GetCodeChunks();
+		public CodeChunkInfo[] GetCodeChunks() => instance.Code2.GetCodeChunks();
 	}
-
-	private static ICorDebugCode2 GetCapability(ICorDebugCode instance) =>
-		instance as ICorDebugCode2 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode2.");
 }

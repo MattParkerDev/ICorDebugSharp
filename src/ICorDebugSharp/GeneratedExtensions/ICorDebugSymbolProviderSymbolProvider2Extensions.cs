@@ -14,11 +14,12 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 	{
 		public bool SupportsSymbolProvider2 => instance is ICorDebugSymbolProvider2;
 
-		public ICorDebugSymbolProvider2 SymbolProvider2 => GetCapability(instance);
+		public ICorDebugSymbolProvider2 SymbolProvider2 =>
+			instance as ICorDebugSymbolProvider2 ?? throw new NotSupportedException("ICorDebugSymbolProvider does not support ICorDebugSymbolProvider2.");
 
 		public (uint pCodeStartRva, uint pParentFrameStartRva) GetFrameProps(uint codeRva)
 		{
-			var hr = GetCapability(instance).GetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
+			var hr = instance.SymbolProvider2.GetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pCodeStartRva, pParentFrameStartRva);
 		}
@@ -27,13 +28,10 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetGenericDictionaryInfo(out var ppMemoryBuffer);
+				var hr = instance.SymbolProvider2.GetGenericDictionaryInfo(out var ppMemoryBuffer);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppMemoryBuffer;
 			}
 		}
 	}
-
-	private static ICorDebugSymbolProvider2 GetCapability(ICorDebugSymbolProvider instance) =>
-		instance as ICorDebugSymbolProvider2 ?? throw new NotSupportedException("ICorDebugSymbolProvider does not support ICorDebugSymbolProvider2.");
 }

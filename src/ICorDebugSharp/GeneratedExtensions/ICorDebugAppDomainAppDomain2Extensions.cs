@@ -14,23 +14,21 @@ public static unsafe class CorDebugAppDomainAppDomain2Extensions
 	{
 		public bool SupportsAppDomain2 => instance is ICorDebugAppDomain2;
 
-		public ICorDebugAppDomain2 AppDomain2 => GetCapability(instance);
+		public ICorDebugAppDomain2 AppDomain2 =>
+			instance as ICorDebugAppDomain2 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain2.");
 
 		public ICorDebugType GetArrayOrPointerType(uint elementType, uint nRank, ICorDebugType pTypeArg)
 		{
-			var hr = GetCapability(instance).GetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
+			var hr = instance.AppDomain2.GetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public ICorDebugType GetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = GetCapability(instance).GetFunctionPointerType(nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.AppDomain2.GetFunctionPointerType(nTypeArgs, ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 	}
-
-	private static ICorDebugAppDomain2 GetCapability(ICorDebugAppDomain instance) =>
-		instance as ICorDebugAppDomain2 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain2.");
 }

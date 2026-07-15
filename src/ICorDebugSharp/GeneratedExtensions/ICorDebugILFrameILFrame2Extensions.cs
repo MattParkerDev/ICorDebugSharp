@@ -14,22 +14,20 @@ public static unsafe class CorDebugILFrameILFrame2Extensions
 	{
 		public bool SupportsILFrame2 => instance is ICorDebugILFrame2;
 
-		public ICorDebugILFrame2 ILFrame2 => GetCapability(instance);
+		public ICorDebugILFrame2 ILFrame2 =>
+			instance as ICorDebugILFrame2 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame2.");
 
 		public ICorDebugTypeEnum EnumerateTypeParameters()
 		{
-			var hr = GetCapability(instance).EnumerateTypeParameters(out var ppTyParEnum);
+			var hr = instance.ILFrame2.EnumerateTypeParameters(out var ppTyParEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppTyParEnum;
 		}
 
 		public void RemapFunction(uint newILOffset)
 		{
-			var hr = GetCapability(instance).RemapFunction(newILOffset);
+			var hr = instance.ILFrame2.RemapFunction(newILOffset);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugILFrame2 GetCapability(ICorDebugILFrame instance) =>
-		instance as ICorDebugILFrame2 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame2.");
 }

@@ -14,16 +14,14 @@ public static unsafe class CorDebugModuleModule3Extensions
 	{
 		public bool SupportsModule3 => instance is ICorDebugModule3;
 
-		public ICorDebugModule3 Module3 => GetCapability(instance);
+		public ICorDebugModule3 Module3 =>
+			instance as ICorDebugModule3 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule3.");
 
 		public object? CreateReaderForInMemorySymbols(ref Guid riid)
 		{
-			var hr = GetCapability(instance).CreateReaderForInMemorySymbols(ref riid, out var ppObj);
+			var hr = instance.Module3.CreateReaderForInMemorySymbols(ref riid, out var ppObj);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppObj;
 		}
 	}
-
-	private static ICorDebugModule3 GetCapability(ICorDebugModule instance) =>
-		instance as ICorDebugModule3 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule3.");
 }

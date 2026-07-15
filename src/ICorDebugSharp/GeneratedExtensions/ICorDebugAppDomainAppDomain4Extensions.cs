@@ -14,16 +14,14 @@ public static unsafe class CorDebugAppDomainAppDomain4Extensions
 	{
 		public bool SupportsAppDomain4 => instance is ICorDebugAppDomain4;
 
-		public ICorDebugAppDomain4 AppDomain4 => GetCapability(instance);
+		public ICorDebugAppDomain4 AppDomain4 =>
+			instance as ICorDebugAppDomain4 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain4.");
 
 		public ICorDebugValue GetObjectForCCW(CORDB_ADDRESS ccwPointer)
 		{
-			var hr = GetCapability(instance).GetObjectForCCW(ccwPointer, out var ppManagedObject);
+			var hr = instance.AppDomain4.GetObjectForCCW(ccwPointer, out var ppManagedObject);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppManagedObject;
 		}
 	}
-
-	private static ICorDebugAppDomain4 GetCapability(ICorDebugAppDomain instance) =>
-		instance as ICorDebugAppDomain4 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain4.");
 }

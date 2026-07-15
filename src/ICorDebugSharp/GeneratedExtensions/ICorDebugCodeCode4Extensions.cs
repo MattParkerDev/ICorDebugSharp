@@ -14,16 +14,14 @@ public static unsafe class CorDebugCodeCode4Extensions
 	{
 		public bool SupportsCode4 => instance is ICorDebugCode4;
 
-		public ICorDebugCode4 Code4 => GetCapability(instance);
+		public ICorDebugCode4 Code4 =>
+			instance as ICorDebugCode4 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode4.");
 
 		public ICorDebugVariableHomeEnum EnumerateVariableHomes()
 		{
-			var hr = GetCapability(instance).EnumerateVariableHomes(out var ppEnum);
+			var hr = instance.Code4.EnumerateVariableHomes(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
 		}
 	}
-
-	private static ICorDebugCode4 GetCapability(ICorDebugCode instance) =>
-		instance as ICorDebugCode4 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode4.");
 }

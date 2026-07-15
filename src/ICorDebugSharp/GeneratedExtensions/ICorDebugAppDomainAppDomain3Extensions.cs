@@ -14,13 +14,14 @@ public static unsafe class CorDebugAppDomainAppDomain3Extensions
 	{
 		public bool SupportsAppDomain3 => instance is ICorDebugAppDomain3;
 
-		public ICorDebugAppDomain3 AppDomain3 => GetCapability(instance);
+		public ICorDebugAppDomain3 AppDomain3 =>
+			instance as ICorDebugAppDomain3 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain3.");
 
 		public ICorDebugGuidToTypeEnum CachedWinRTTypes
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetCachedWinRTTypes(out var ppGuidToTypeEnum);
+				var hr = instance.AppDomain3.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppGuidToTypeEnum;
 			}
@@ -28,12 +29,9 @@ public static unsafe class CorDebugAppDomainAppDomain3Extensions
 
 		public ICorDebugTypeEnum GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
 		{
-			var hr = GetCapability(instance).GetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
+			var hr = instance.AppDomain3.GetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppTypesEnum;
 		}
 	}
-
-	private static ICorDebugAppDomain3 GetCapability(ICorDebugAppDomain instance) =>
-		instance as ICorDebugAppDomain3 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain3.");
 }

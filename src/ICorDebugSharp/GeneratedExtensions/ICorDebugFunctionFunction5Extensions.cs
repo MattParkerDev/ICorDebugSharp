@@ -14,22 +14,20 @@ public static unsafe class CorDebugFunctionFunction5Extensions
 	{
 		public bool SupportsFunction5 => instance is ICorDebugFunction5;
 
-		public ICorDebugFunction5 Function5 => GetCapability(instance);
+		public ICorDebugFunction5 Function5 =>
+			instance as ICorDebugFunction5 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction5.");
 
 		public int AreOptimizationsDisabled()
 		{
-			var hr = GetCapability(instance).AreOptimizationsDisabled(out var pOptimizationsDisabled);
+			var hr = instance.Function5.AreOptimizationsDisabled(out var pOptimizationsDisabled);
 			Marshal.ThrowExceptionForHR(hr);
 			return pOptimizationsDisabled;
 		}
 
 		public void DisableOptimizations()
 		{
-			var hr = GetCapability(instance).DisableOptimizations();
+			var hr = instance.Function5.DisableOptimizations();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugFunction5 GetCapability(ICorDebugFunction instance) =>
-		instance as ICorDebugFunction5 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction5.");
 }

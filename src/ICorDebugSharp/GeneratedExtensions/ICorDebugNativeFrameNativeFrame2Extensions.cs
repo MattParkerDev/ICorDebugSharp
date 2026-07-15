@@ -14,13 +14,14 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 	{
 		public bool SupportsNativeFrame2 => instance is ICorDebugNativeFrame2;
 
-		public ICorDebugNativeFrame2 NativeFrame2 => GetCapability(instance);
+		public ICorDebugNativeFrame2 NativeFrame2 =>
+			instance as ICorDebugNativeFrame2 ?? throw new NotSupportedException("ICorDebugNativeFrame does not support ICorDebugNativeFrame2.");
 
 		public uint StackParameterSize
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetStackParameterSize(out var pSize);
+				var hr = instance.NativeFrame2.GetStackParameterSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSize;
 			}
@@ -28,19 +29,16 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 
 		public int IsChild()
 		{
-			var hr = GetCapability(instance).IsChild(out var pIsChild);
+			var hr = instance.NativeFrame2.IsChild(out var pIsChild);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsChild;
 		}
 
 		public int IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame)
 		{
-			var hr = GetCapability(instance).IsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);
+			var hr = instance.NativeFrame2.IsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsParent;
 		}
 	}
-
-	private static ICorDebugNativeFrame2 GetCapability(ICorDebugNativeFrame instance) =>
-		instance as ICorDebugNativeFrame2 ?? throw new NotSupportedException("ICorDebugNativeFrame does not support ICorDebugNativeFrame2.");
 }

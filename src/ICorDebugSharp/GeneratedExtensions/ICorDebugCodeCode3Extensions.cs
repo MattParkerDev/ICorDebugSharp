@@ -14,16 +14,14 @@ public static unsafe class CorDebugCodeCode3Extensions
 	{
 		public bool SupportsCode3 => instance is ICorDebugCode3;
 
-		public ICorDebugCode3 Code3 => GetCapability(instance);
+		public ICorDebugCode3 Code3 =>
+			instance as ICorDebugCode3 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode3.");
 
 		public uint GetReturnValueLiveOffset(uint ILoffset, uint bufferSize, uint[] pOffsets)
 		{
-			var hr = GetCapability(instance).GetReturnValueLiveOffset(ILoffset, bufferSize, out var pFetched, pOffsets);
+			var hr = instance.Code3.GetReturnValueLiveOffset(ILoffset, bufferSize, out var pFetched, pOffsets);
 			Marshal.ThrowExceptionForHR(hr);
 			return pFetched;
 		}
 	}
-
-	private static ICorDebugCode3 GetCapability(ICorDebugCode instance) =>
-		instance as ICorDebugCode3 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode3.");
 }

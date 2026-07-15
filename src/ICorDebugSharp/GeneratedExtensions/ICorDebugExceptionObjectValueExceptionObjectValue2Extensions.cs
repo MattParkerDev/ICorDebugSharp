@@ -14,15 +14,13 @@ public static unsafe class CorDebugExceptionObjectValueExceptionObjectValue2Exte
 	{
 		public bool SupportsExceptionObjectValue2 => instance is ICorDebugExceptionObjectValue2;
 
-		public ICorDebugExceptionObjectValue2 ExceptionObjectValue2 => GetCapability(instance);
+		public ICorDebugExceptionObjectValue2 ExceptionObjectValue2 =>
+			instance as ICorDebugExceptionObjectValue2 ?? throw new NotSupportedException("ICorDebugExceptionObjectValue does not support ICorDebugExceptionObjectValue2.");
 
 		public void ForceCatchHandlerFoundEvents(int enableEvents)
 		{
-			var hr = GetCapability(instance).ForceCatchHandlerFoundEvents(enableEvents);
+			var hr = instance.ExceptionObjectValue2.ForceCatchHandlerFoundEvents(enableEvents);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugExceptionObjectValue2 GetCapability(ICorDebugExceptionObjectValue instance) =>
-		instance as ICorDebugExceptionObjectValue2 ?? throw new NotSupportedException("ICorDebugExceptionObjectValue does not support ICorDebugExceptionObjectValue2.");
 }

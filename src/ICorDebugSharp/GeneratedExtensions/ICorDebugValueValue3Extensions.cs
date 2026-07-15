@@ -14,19 +14,17 @@ public static unsafe class CorDebugValueValue3Extensions
 	{
 		public bool SupportsValue3 => instance is ICorDebugValue3;
 
-		public ICorDebugValue3 Value3 => GetCapability(instance);
+		public ICorDebugValue3 Value3 =>
+			instance as ICorDebugValue3 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue3.");
 
 		public ulong Size64
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetSize64(out var pSize);
+				var hr = instance.Value3.GetSize64(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSize;
 			}
 		}
 	}
-
-	private static ICorDebugValue3 GetCapability(ICorDebugValue instance) =>
-		instance as ICorDebugValue3 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue3.");
 }

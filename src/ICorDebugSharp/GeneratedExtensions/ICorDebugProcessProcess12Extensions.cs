@@ -14,16 +14,14 @@ public static unsafe class CorDebugProcessProcess12Extensions
 	{
 		public bool SupportsProcess12 => instance is ICorDebugProcess12;
 
-		public ICorDebugProcess12 Process12 => GetCapability(instance);
+		public ICorDebugProcess12 Process12 =>
+			instance as ICorDebugProcess12 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess12.");
 
 		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress)
 		{
-			var hr = GetCapability(instance).GetAsyncStack(continuationAddress, out var ppStackWalk);
+			var hr = instance.Process12.GetAsyncStack(continuationAddress, out var ppStackWalk);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStackWalk;
 		}
 	}
-
-	private static ICorDebugProcess12 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess12 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess12.");
 }

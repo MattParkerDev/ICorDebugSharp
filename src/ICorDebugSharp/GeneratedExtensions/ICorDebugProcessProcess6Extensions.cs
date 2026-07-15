@@ -14,48 +14,46 @@ public static unsafe class CorDebugProcessProcess6Extensions
 	{
 		public bool SupportsProcess6 => instance is ICorDebugProcess6;
 
-		public ICorDebugProcess6 Process6 => GetCapability(instance);
+		public ICorDebugProcess6 Process6 =>
+			instance as ICorDebugProcess6 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess6.");
 
 		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId)
 		{
-			var hr = GetCapability(instance).DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
+			var hr = instance.Process6.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEvent;
 		}
 
 		public void EnableVirtualModuleSplitting(int enableSplitting)
 		{
-			var hr = GetCapability(instance).EnableVirtualModuleSplitting(enableSplitting);
+			var hr = instance.Process6.EnableVirtualModuleSplitting(enableSplitting);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress)
 		{
-			var hr = GetCapability(instance).GetCode(codeAddress, out var ppCode);
+			var hr = instance.Process6.GetCode(codeAddress, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName)
 		{
-			var hr = GetCapability(instance).GetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
+			var hr = instance.Process6.GetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pInvokeKind, pInvokePurpose);
 		}
 
 		public void MarkDebuggerAttached(int fIsAttached)
 		{
-			var hr = GetCapability(instance).MarkDebuggerAttached(fIsAttached);
+			var hr = instance.Process6.MarkDebuggerAttached(fIsAttached);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void ProcessStateChanged(CorDebugStateChange change)
 		{
-			var hr = GetCapability(instance).ProcessStateChanged(change);
+			var hr = instance.Process6.ProcessStateChanged(change);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugProcess6 GetCapability(ICorDebugProcess instance) =>
-		instance as ICorDebugProcess6 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess6.");
 }

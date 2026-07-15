@@ -14,11 +14,12 @@ public static unsafe class CorDebugModuleModule2Extensions
 	{
 		public bool SupportsModule2 => instance is ICorDebugModule2;
 
-		public ICorDebugModule2 Module2 => GetCapability(instance);
+		public ICorDebugModule2 Module2 =>
+			instance as ICorDebugModule2 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule2.");
 
 		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL)
 		{
-			var hr = GetCapability(instance).ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+			var hr = instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -26,7 +27,7 @@ public static unsafe class CorDebugModuleModule2Extensions
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetJITCompilerFlags(out var pdwFlags);
+				var hr = instance.Module2.GetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
@@ -34,24 +35,21 @@ public static unsafe class CorDebugModuleModule2Extensions
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
 		{
-			var hr = GetCapability(instance).ResolveAssembly(tkAssemblyRef, out var ppAssembly);
+			var hr = instance.Module2.ResolveAssembly(tkAssemblyRef, out var ppAssembly);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssembly;
 		}
 
 		public void SetJITCompilerFlags(uint dwFlags)
 		{
-			var hr = GetCapability(instance).SetJITCompilerFlags(dwFlags);
+			var hr = instance.Module2.SetJITCompilerFlags(dwFlags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void SetJMCStatus(int bIsJustMyCode, uint cTokens, mdToken[] pTokens)
 		{
-			var hr = GetCapability(instance).SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
+			var hr = instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugModule2 GetCapability(ICorDebugModule instance) =>
-		instance as ICorDebugModule2 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule2.");
 }

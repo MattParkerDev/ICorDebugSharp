@@ -14,27 +14,25 @@ public static unsafe class CorDebugRegisterSetRegisterSet2Extensions
 	{
 		public bool SupportsRegisterSet2 => instance is ICorDebugRegisterSet2;
 
-		public ICorDebugRegisterSet2 RegisterSet2 => GetCapability(instance);
+		public ICorDebugRegisterSet2 RegisterSet2 =>
+			instance as ICorDebugRegisterSet2 ?? throw new NotSupportedException("ICorDebugRegisterSet does not support ICorDebugRegisterSet2.");
 
 		public void GetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer)
 		{
-			var hr = GetCapability(instance).GetRegisters(maskCount, mask, regCount, regBuffer);
+			var hr = instance.RegisterSet2.GetRegisters(maskCount, mask, regCount, regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void GetRegistersAvailable(uint numChunks, byte[] availableRegChunks)
 		{
-			var hr = GetCapability(instance).GetRegistersAvailable(numChunks, availableRegChunks);
+			var hr = instance.RegisterSet2.GetRegistersAvailable(numChunks, availableRegChunks);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void SetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer)
 		{
-			var hr = GetCapability(instance).SetRegisters(maskCount, mask, regCount, regBuffer);
+			var hr = instance.RegisterSet2.SetRegisters(maskCount, mask, regCount, regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
-
-	private static ICorDebugRegisterSet2 GetCapability(ICorDebugRegisterSet instance) =>
-		instance as ICorDebugRegisterSet2 ?? throw new NotSupportedException("ICorDebugRegisterSet does not support ICorDebugRegisterSet2.");
 }

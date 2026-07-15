@@ -14,19 +14,17 @@ public static unsafe class CorDebugTypeType2Extensions
 	{
 		public bool SupportsType2 => instance is ICorDebugType2;
 
-		public ICorDebugType2 Type2 => GetCapability(instance);
+		public ICorDebugType2 Type2 =>
+			instance as ICorDebugType2 ?? throw new NotSupportedException("ICorDebugType does not support ICorDebugType2.");
 
 		public COR_TYPEID TypeID
 		{
 			get
 			{
-				var hr = GetCapability(instance).GetTypeID(out var id);
+				var hr = instance.Type2.GetTypeID(out var id);
 				Marshal.ThrowExceptionForHR(hr);
 				return id;
 			}
 		}
 	}
-
-	private static ICorDebugType2 GetCapability(ICorDebugType instance) =>
-		instance as ICorDebugType2 ?? throw new NotSupportedException("ICorDebugType does not support ICorDebugType2.");
 }
