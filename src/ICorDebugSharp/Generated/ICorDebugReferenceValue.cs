@@ -12,8 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugReferenceValue : ICorDebugValue
 {
 	[PreserveSig]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	bool TryIsNull();
+	int TryIsNull([MarshalAs(UnmanagedType.Bool)] out bool pbNull);
 
 	[PreserveSig]
 	int TryGetValue(out CORDB_ADDRESS pValue);

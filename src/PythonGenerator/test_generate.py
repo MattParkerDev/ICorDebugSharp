@@ -258,16 +258,14 @@ class CSharpGeneratorTests(unittest.TestCase):
         )
         self.assertIn("int TryGetToken(ref mdToken token);", source)
 
-    def test_projects_configured_output_as_return_value(self) -> None:
+    def test_generates_bool_output_parameter(self) -> None:
         source = self.generate("ICorDebugReferenceValue")
 
         self.assertIn(
             "[PreserveSig]\n"
-            "    [return: MarshalAs(UnmanagedType.Bool)]\n"
-            "    bool TryIsNull();",
+            "    int TryIsNull([MarshalAs(UnmanagedType.Bool)] out bool pbNull);",
             source,
         )
-        self.assertNotIn("TryIsNull(out int pbNull)", source)
 
     def test_projects_bool_parameters_with_bool_marshalling(self) -> None:
         source = self.generate("ICorDebugBreakpoint")
