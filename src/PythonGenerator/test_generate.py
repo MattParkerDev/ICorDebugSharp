@@ -75,6 +75,16 @@ interface ICorDebugValue : IUnknown
 {
     HRESULT GetType([out] CorElementType *pType);
 };
+
+[
+    object,
+    uuid(00000000-0000-0000-0000-000000000006),
+    pointer_default(unique)
+]
+interface ICorDebugGenericValue : IUnknown
+{
+    HRESULT GetValue([out] void *pTo);
+};
 """
 
 DATA_IDL = """
@@ -179,6 +189,12 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("int TrySetStream(nint value);", source)
         self.assertIn("int TryGetImplicitOutput(out ICorDebugProcess value);", source)
         self.assertIn("int TryGetImplicitScalar(out uint value);", source)
+
+    def test_projects_direct_opaque_output_as_caller_buffer(self) -> None:
+        source = self.generate("ICorDebugGenericValue")
+
+        self.assertIn("int TryGetValue(nint pTo);", source)
+        self.assertNotIn("TryGetValue(out nint pTo)", source)
 
     def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:
         source = self.generate("ICorDebugModule")

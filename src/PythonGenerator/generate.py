@@ -1057,6 +1057,11 @@ class CSharpGenerator:
         if is_opaque_pointer:
             csharp_type = "nint"
 
+        # A direct void* is caller-provided storage even when IDL marks the
+        # pointee [out]. Only an additional indirection is an opaque pointer output.
+        if is_opaque_pointer and parameter.type_spec.pointer_depth == 1:
+            return "", csharp_type
+
         if parameter.is_out and not parameter.is_in:
             return "out ", csharp_type
         if parameter.is_in and parameter.is_out:
@@ -1065,8 +1070,6 @@ class CSharpGenerator:
             if csharp_type in self.interfaces and parameter.type_spec.pointer_depth == 1:
                 return "", csharp_type
             return "out ", csharp_type
-        if is_opaque_pointer:
-            return "", csharp_type
         if csharp_type in self.interfaces and parameter.type_spec.pointer_depth == 1:
             return "", csharp_type
         if csharp_type == "string":
