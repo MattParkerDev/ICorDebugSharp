@@ -123,7 +123,7 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			if (GetTypedefName(method.ReturnType) == "BOOL")
 				builder.AppendLine("\t[return: MarshalAs(UnmanagedType.Bool)]");
 			builder.Append('\t').Append(MapReturnType(method.ReturnType)).Append(' ')
-				.Append(EscapeIdentifier(method.Name)).Append('(');
+				.Append(EscapeIdentifier($"Try{method.Name}")).Append('(');
 			for (var parameterIndex = 0; parameterIndex < method.Parameters.Count; parameterIndex++)
 			{
 				if (parameterIndex != 0)
