@@ -398,7 +398,8 @@ class CSharpGenerator:
             self.escape_identifier(parameter.name) for parameter in method.params
         )
         return (
-            f"\tint {self.escape_identifier(interface.name)}.{self.escape_identifier(method.name)}"
+            f"\tint {self.escape_identifier(interface.name)}."
+            f"{self.escape_identifier(self.interface_method_name(method))}"
             f"({parameters}) => HandleEvent(On{name}, new "
             f"{name}CorDebugManagedCallbackEventArgs({arguments}));"
         )
@@ -562,7 +563,7 @@ class CSharpGenerator:
             f"    public static {return_type} {self.escape_identifier(method.name)}("
             f"this {interface.name} instance{signature_tail})\n"
             "    {\n"
-            f"        var hr = instance.{self.escape_identifier(method.name)}({first_arguments});\n"
+                f"        var hr = instance.{self.escape_identifier(self.interface_method_name(method))}({first_arguments});\n"
             "        Marshal.ThrowExceptionForHR(hr);\n"
             "        if (required == 0)\n"
             f"            return {empty_result};\n\n"
@@ -570,7 +571,7 @@ class CSharpGenerator:
             "        {\n"
             "            var capacity = required;\n"
             f"            var buffer = new {element_type}[checked((int)capacity)];\n"
-            f"            hr = instance.{self.escape_identifier(method.name)}({second_arguments});\n"
+                f"            hr = instance.{self.escape_identifier(self.interface_method_name(method))}({second_arguments});\n"
             "            Marshal.ThrowExceptionForHR(hr);\n"
             "            if (actual > capacity)\n"
             "            {\n"
@@ -883,7 +884,7 @@ class CSharpGenerator:
             return (
                 "    [PreserveSig]\n"
                 f"{attributes}\n"
-                f"    {return_type} {self.escape_identifier(method.name)}({parameters});"
+                f"    {return_type} {self.escape_identifier(self.interface_method_name(method))}({parameters});"
             )
 
         parameters = ", ".join(
@@ -892,8 +893,12 @@ class CSharpGenerator:
         )
         return (
             "    [PreserveSig]\n"
-            f"    int {self.escape_identifier(method.name)}({parameters});"
+            f"    int {self.escape_identifier(self.interface_method_name(method))}({parameters});"
         )
+
+    @staticmethod
+    def interface_method_name(method: Method) -> str:
+        return f"Try{method.name}"
 
     def generate_metadata_typedef(self, name: str) -> str:
         underlying_type = self.map_base_type(

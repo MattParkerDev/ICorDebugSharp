@@ -163,22 +163,22 @@ class CSharpGeneratorTests(unittest.TestCase):
         )
         self.assertIn('[Guid("DBA2D8C1-E5C5-4069-8C13-10A7C6ABF43D")]', source)
         self.assertIn("public partial interface ICorDebugModule", source)
-        self.assertIn("[PreserveSig]\n    int GetProcess(out ICorDebugProcess ppProcess);", source)
+        self.assertIn("[PreserveSig]\n    int TryGetProcess(out ICorDebugProcess ppProcess);", source)
 
     def test_maps_typedefs_pointers_and_sized_arrays(self) -> None:
         source = self.generate("ICorDebugModule")
 
-        self.assertIn("int GetBaseAddress(out CORDB_ADDRESS pAddress);", source)
+        self.assertIn("int TryGetBaseAddress(out CORDB_ADDRESS pAddress);", source)
         self.assertIn(
-            "int GetName(uint cchName, out uint pcchName, "
+            "int TryGetName(uint cchName, out uint pcchName, "
             "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);",
             source,
         )
-        self.assertIn("int SetName(string name);", source)
-        self.assertIn("int GetUnknown(out nint value);", source)
-        self.assertIn("int SetStream(nint value);", source)
-        self.assertIn("int GetImplicitOutput(out ICorDebugProcess value);", source)
-        self.assertIn("int GetImplicitScalar(out uint value);", source)
+        self.assertIn("int TrySetName(string name);", source)
+        self.assertIn("int TryGetUnknown(out nint value);", source)
+        self.assertIn("int TrySetStream(nint value);", source)
+        self.assertIn("int TryGetImplicitOutput(out ICorDebugProcess value);", source)
+        self.assertIn("int TryGetImplicitScalar(out uint value);", source)
 
     def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:
         source = self.generate("ICorDebugModule")
@@ -188,14 +188,14 @@ class CSharpGeneratorTests(unittest.TestCase):
             "out object?"
         )
         self.assertIn(
-            f"int GetMetaDataInterface(ref Guid riid, {marshalling} ppObj);",
+            f"int TryGetMetaDataInterface(ref Guid riid, {marshalling} ppObj);",
             source,
         )
         self.assertIn(
-            f"int GetDynamic(ref Guid riid, {marshalling} value);",
+            f"int TryGetDynamic(ref Guid riid, {marshalling} value);",
             source,
         )
-        self.assertIn("int GetUnknown(out nint value);", source)
+        self.assertIn("int TryGetUnknown(out nint value);", source)
 
     def test_generates_throwing_string_buffer_extension(self) -> None:
         extensions = dict(self.generator.generate_buffer_extensions())
@@ -206,9 +206,9 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn(
             "public static string GetName(this ICorDebugModule instance)", source
         )
-        self.assertIn("instance.GetName(0, out var required, null!)", source)
+        self.assertIn("instance.TryGetName(0, out var required, null!)", source)
         self.assertIn(
-            "instance.GetName(capacity, out var actual, buffer)", source
+            "instance.TryGetName(capacity, out var actual, buffer)", source
         )
         self.assertIn("Marshal.ThrowExceptionForHR(hr);", source)
         self.assertIn("return new string(buffer, 0, length);", source)
@@ -256,7 +256,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn(
             "public partial interface ICorDebugAppDomain : ICorDebugModule", source
         )
-        self.assertIn("int GetToken(ref mdToken token);", source)
+        self.assertIn("int TryGetToken(ref mdToken token);", source)
 
     def test_projects_configured_output_as_return_value(self) -> None:
         source = self.generate("ICorDebugReferenceValue")
@@ -264,27 +264,27 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn(
             "[PreserveSig]\n"
             "    [return: MarshalAs(UnmanagedType.Bool)]\n"
-            "    bool IsNull();",
+            "    bool TryIsNull();",
             source,
         )
-        self.assertNotIn("IsNull(out int pbNull)", source)
+        self.assertNotIn("TryIsNull(out int pbNull)", source)
 
     def test_projects_bool_parameters_with_bool_marshalling(self) -> None:
         source = self.generate("ICorDebugBreakpoint")
 
         self.assertIn(
-            "int Activate([MarshalAs(UnmanagedType.Bool)] bool bActive);",
+            "int TryActivate([MarshalAs(UnmanagedType.Bool)] bool bActive);",
             source,
         )
         self.assertIn(
-            "int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);",
+            "int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);",
             source,
         )
 
     def test_uses_cor_element_type_declared_by_idl(self) -> None:
         source = self.generate("ICorDebugValue")
 
-        self.assertIn("int GetType(out CorElementType pType);", source)
+        self.assertIn("int TryGetType(out CorElementType pType);", source)
 
     def test_generates_metadata_typedef_with_resolved_storage_type(self) -> None:
         source = self.generator.generate_metadata_typedef("mdToken")
@@ -386,7 +386,7 @@ class CSharpGeneratorTests(unittest.TestCase):
             source,
         )
         self.assertIn(
-            "\tint ICorDebugManagedCallback2.FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset) => HandleEvent(OnFunctionRemapOpportunity, new FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset));",
+            "\tint ICorDebugManagedCallback2.TryFunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset) => HandleEvent(OnFunctionRemapOpportunity, new FunctionRemapOpportunityCorDebugManagedCallbackEventArgs(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset));",
             source,
         )
         self.assertIn("OnException;", source)
