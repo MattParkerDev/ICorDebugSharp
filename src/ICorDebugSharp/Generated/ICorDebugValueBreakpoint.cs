@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugValueBreakpoint : ICorDebugBreakpoint
 {
 	[PreserveSig]
-	int GetValue(out ICorDebugValue ppValue);
+	int TryGetValue(out ICorDebugValue ppValue);
 }

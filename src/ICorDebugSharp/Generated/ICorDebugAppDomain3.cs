@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAppDomain3
 {
 	[PreserveSig]
-	int GetCachedWinRTTypesForIIDs(uint cReqTypes, [MarshalUsing(CountElementName = nameof(cReqTypes))][In] Guid[] iidsToResolve, out ICorDebugTypeEnum ppTypesEnum);
+	int TryGetCachedWinRTTypesForIIDs(uint cReqTypes, [MarshalUsing(CountElementName = nameof(cReqTypes))][In] Guid[] iidsToResolve, out ICorDebugTypeEnum ppTypesEnum);
 
 	[PreserveSig]
-	int GetCachedWinRTTypes(out ICorDebugGuidToTypeEnum ppGuidToTypeEnum);
+	int TryGetCachedWinRTTypes(out ICorDebugGuidToTypeEnum ppGuidToTypeEnum);
 }

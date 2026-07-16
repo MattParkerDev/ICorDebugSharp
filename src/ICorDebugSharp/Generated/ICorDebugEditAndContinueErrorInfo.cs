@@ -12,14 +12,14 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugEditAndContinueErrorInfo
 {
 	[PreserveSig]
-	int GetModule(out ICorDebugModule ppModule);
+	int TryGetModule(out ICorDebugModule ppModule);
 
 	[PreserveSig]
-	int GetToken(out mdToken pToken);
+	int TryGetToken(out mdToken pToken);
 
 	[PreserveSig]
-	int GetErrorCode(out int pHr);
+	int TryGetErrorCode(out int pHr);
 
 	[PreserveSig]
-	int GetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
+	int TryGetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
 }

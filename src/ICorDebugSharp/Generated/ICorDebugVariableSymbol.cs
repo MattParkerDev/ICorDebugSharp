@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVariableSymbol
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSize(out uint pcbValue);
+	int TryGetSize(out uint pcbValue);
 
 	[PreserveSig]
-	int GetValue(uint offset, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, out uint pcbValue, [MarshalUsing(CountElementName = nameof(cbValue))][Out] byte[] pValue);
+	int TryGetValue(uint offset, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, out uint pcbValue, [MarshalUsing(CountElementName = nameof(cbValue))][Out] byte[] pValue);
 
 	[PreserveSig]
-	int SetValue(uint offset, uint threadID, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, [MarshalUsing(CountElementName = nameof(cbValue))][In] byte[] pValue);
+	int TrySetValue(uint offset, uint threadID, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, [MarshalUsing(CountElementName = nameof(cbValue))][In] byte[] pValue);
 
 	[PreserveSig]
-	int GetSlotIndex(out uint pSlotIndex);
+	int TryGetSlotIndex(out uint pSlotIndex);
 }

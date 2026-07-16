@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugObjectValue : ICorDebugValue
 {
 	[PreserveSig]
-	int GetClass(out ICorDebugClass ppClass);
+	int TryGetClass(out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef, out ICorDebugValue ppValue);
+	int TryGetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetVirtualMethod(mdMemberRef memberRef, out ICorDebugFunction ppFunction);
+	int TryGetVirtualMethod(mdMemberRef memberRef, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetContext(out ICorDebugContext ppContext);
+	int TryGetContext(out ICorDebugContext ppContext);
 
 	[PreserveSig]
-	int IsValueClass([MarshalAs(UnmanagedType.Bool)] out bool pbIsValueClass);
+	int TryIsValueClass([MarshalAs(UnmanagedType.Bool)] out bool pbIsValueClass);
 
 	[PreserveSig]
-	int GetManagedCopy(out nint ppObject);
+	int TryGetManagedCopy(out nint ppObject);
 
 	[PreserveSig]
-	int SetFromManagedCopy(nint pObject);
+	int TrySetFromManagedCopy(nint pObject);
 }

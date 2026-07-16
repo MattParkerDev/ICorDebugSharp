@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess2
 {
 	[PreserveSig]
-	int GetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread);
+	int TryGetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread);
 
 	[PreserveSig]
-	int GetVersion(out COR_VERSION version);
+	int TryGetVersion(out COR_VERSION version);
 
 	[PreserveSig]
-	int SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
+	int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
 
 	[PreserveSig]
-	int ClearUnmanagedBreakpoint(CORDB_ADDRESS address);
+	int TryClearUnmanagedBreakpoint(CORDB_ADDRESS address);
 
 	[PreserveSig]
-	int SetDesiredNGENCompilerFlags(uint pdwFlags);
+	int TrySetDesiredNGENCompilerFlags(uint pdwFlags);
 
 	[PreserveSig]
-	int GetDesiredNGENCompilerFlags(out uint pdwFlags);
+	int TryGetDesiredNGENCompilerFlags(out uint pdwFlags);
 
 	[PreserveSig]
-	int GetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue);
+	int TryGetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue);
 }

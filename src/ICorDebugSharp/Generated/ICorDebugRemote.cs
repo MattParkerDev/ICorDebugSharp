@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugRemote
 {
 	[PreserveSig]
-	int CreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
+	int TryCreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int DebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool fWin32Attach, out ICorDebugProcess ppProcess);
+	int TryDebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool fWin32Attach, out ICorDebugProcess ppProcess);
 }

@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAppDomain4
 {
 	[PreserveSig]
-	int GetObjectForCCW(CORDB_ADDRESS ccwPointer, out ICorDebugValue ppManagedObject);
+	int TryGetObjectForCCW(CORDB_ADDRESS ccwPointer, out ICorDebugValue ppManagedObject);
 }

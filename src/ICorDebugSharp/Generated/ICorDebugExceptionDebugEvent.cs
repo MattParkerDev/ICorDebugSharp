@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugExceptionDebugEvent : ICorDebugDebugEvent
 {
 	[PreserveSig]
-	int GetStackPointer(out CORDB_ADDRESS pStackPointer);
+	int TryGetStackPointer(out CORDB_ADDRESS pStackPointer);
 
 	[PreserveSig]
-	int GetNativeIP(out CORDB_ADDRESS pIP);
+	int TryGetNativeIP(out CORDB_ADDRESS pIP);
 
 	[PreserveSig]
-	int GetFlags(out CorDebugExceptionFlags pdwFlags);
+	int TryGetFlags(out CorDebugExceptionFlags pdwFlags);
 }

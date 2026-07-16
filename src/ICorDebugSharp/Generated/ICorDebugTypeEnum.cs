@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugTypeEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugType[] values, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugType[] values, out uint pceltFetched);
 }

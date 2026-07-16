@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugEditAndContinueSnapshot
 {
 	[PreserveSig]
-	int CopyMetaData(nint pIStream, out Guid pMvid);
+	int TryCopyMetaData(nint pIStream, out Guid pMvid);
 
 	[PreserveSig]
-	int GetMvid(out Guid pMvid);
+	int TryGetMvid(out Guid pMvid);
 
 	[PreserveSig]
-	int GetRoDataRVA(out uint pRoDataRVA);
+	int TryGetRoDataRVA(out uint pRoDataRVA);
 
 	[PreserveSig]
-	int GetRwDataRVA(out uint pRwDataRVA);
+	int TryGetRwDataRVA(out uint pRwDataRVA);
 
 	[PreserveSig]
-	int SetPEBytes(nint pIStream);
+	int TrySetPEBytes(nint pIStream);
 
 	[PreserveSig]
-	int SetILMap(mdToken mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
+	int TrySetILMap(mdToken mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
 
 	[PreserveSig]
-	int SetPESymbolBytes(nint pIStream);
+	int TrySetPESymbolBytes(nint pIStream);
 }

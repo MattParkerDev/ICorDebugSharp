@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugObjectValue2
 {
 	[PreserveSig]
-	int GetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType);
+	int TryGetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType);
 }

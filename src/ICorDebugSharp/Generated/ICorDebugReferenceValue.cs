@@ -13,17 +13,17 @@ public partial interface ICorDebugReferenceValue : ICorDebugValue
 {
 	[PreserveSig]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	bool IsNull();
+	bool TryIsNull();
 
 	[PreserveSig]
-	int GetValue(out CORDB_ADDRESS pValue);
+	int TryGetValue(out CORDB_ADDRESS pValue);
 
 	[PreserveSig]
-	int SetValue(CORDB_ADDRESS value);
+	int TrySetValue(CORDB_ADDRESS value);
 
 	[PreserveSig]
-	int Dereference(out ICorDebugValue ppValue);
+	int TryDereference(out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int DereferenceStrong(out ICorDebugValue ppValue);
+	int TryDereferenceStrong(out ICorDebugValue ppValue);
 }

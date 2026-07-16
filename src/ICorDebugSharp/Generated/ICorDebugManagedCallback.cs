@@ -12,80 +12,80 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugManagedCallback
 {
 	[PreserveSig]
-	int Breakpoint(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint);
+	int TryBreakpoint(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint);
 
 	[PreserveSig]
-	int StepComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugStepper pStepper, CorDebugStepReason reason);
+	int TryStepComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugStepper pStepper, CorDebugStepReason reason);
 
 	[PreserveSig]
-	int Break(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
+	int TryBreak(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
 	[PreserveSig]
-	int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] bool unhandled);
+	int TryException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] bool unhandled);
 
 	[PreserveSig]
-	int EvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
+	int TryEvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
 
 	[PreserveSig]
-	int EvalException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
+	int TryEvalException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
 
 	[PreserveSig]
-	int CreateProcess(ICorDebugProcess pProcess);
+	int TryCreateProcess(ICorDebugProcess pProcess);
 
 	[PreserveSig]
-	int ExitProcess(ICorDebugProcess pProcess);
+	int TryExitProcess(ICorDebugProcess pProcess);
 
 	[PreserveSig]
-	int CreateThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
+	int TryCreateThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
 	[PreserveSig]
-	int ExitThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
+	int TryExitThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
 	[PreserveSig]
-	int LoadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
+	int TryLoadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
 
 	[PreserveSig]
-	int UnloadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
+	int TryUnloadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
 
 	[PreserveSig]
-	int LoadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
+	int TryLoadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
 
 	[PreserveSig]
-	int UnloadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
+	int TryUnloadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
 
 	[PreserveSig]
-	int DebuggerError(ICorDebugProcess pProcess, int errorHR, uint errorCode);
+	int TryDebuggerError(ICorDebugProcess pProcess, int errorHR, uint errorCode);
 
 	[PreserveSig]
-	int LogMessage(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, string pLogSwitchName, string pMessage);
+	int TryLogMessage(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, string pLogSwitchName, string pMessage);
 
 	[PreserveSig]
-	int LogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, uint ulReason, string pLogSwitchName, string pParentName);
+	int TryLogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, uint ulReason, string pLogSwitchName, string pParentName);
 
 	[PreserveSig]
-	int CreateAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
+	int TryCreateAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
 
 	[PreserveSig]
-	int ExitAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
+	int TryExitAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
 
 	[PreserveSig]
-	int LoadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
+	int TryLoadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
 
 	[PreserveSig]
-	int UnloadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
+	int TryUnloadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
 
 	[PreserveSig]
-	int ControlCTrap(ICorDebugProcess pProcess);
+	int TryControlCTrap(ICorDebugProcess pProcess);
 
 	[PreserveSig]
-	int NameChange(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread);
+	int TryNameChange(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread);
 
 	[PreserveSig]
-	int UpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream);
+	int TryUpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream);
 
 	[PreserveSig]
-	int EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, [MarshalAs(UnmanagedType.Bool)] bool fAccurate);
+	int TryEditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, [MarshalAs(UnmanagedType.Bool)] bool fAccurate);
 
 	[PreserveSig]
-	int BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError);
+	int TryBreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError);
 }

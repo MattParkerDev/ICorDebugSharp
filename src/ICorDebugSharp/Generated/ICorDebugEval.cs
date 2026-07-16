@@ -12,32 +12,32 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugEval
 {
 	[PreserveSig]
-	int CallFunction(ICorDebugFunction pFunction, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryCallFunction(ICorDebugFunction pFunction, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	[PreserveSig]
-	int NewObject(ICorDebugFunction pConstructor, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryNewObject(ICorDebugFunction pConstructor, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	[PreserveSig]
-	int NewObjectNoConstructor(ICorDebugClass pClass);
+	int TryNewObjectNoConstructor(ICorDebugClass pClass);
 
 	[PreserveSig]
-	int NewString(string @string);
+	int TryNewString(string @string);
 
 	[PreserveSig]
-	int NewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
+	int TryNewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
 	[PreserveSig]
-	int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
+	int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 
 	[PreserveSig]
-	int Abort();
+	int TryAbort();
 
 	[PreserveSig]
-	int GetResult(out ICorDebugValue ppResult);
+	int TryGetResult(out ICorDebugValue ppResult);
 
 	[PreserveSig]
-	int GetThread(out ICorDebugThread ppThread);
+	int TryGetThread(out ICorDebugThread ppThread);
 
 	[PreserveSig]
-	int CreateValue(CorElementType elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
+	int TryCreateValue(CorElementType elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
 }

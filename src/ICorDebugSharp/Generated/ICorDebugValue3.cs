@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugValue3
 {
 	[PreserveSig]
-	int GetSize64(out ulong pSize);
+	int TryGetSize64(out ulong pSize);
 }

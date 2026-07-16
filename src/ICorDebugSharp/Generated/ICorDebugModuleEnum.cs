@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModuleEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugModule[] modules, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugModule[] modules, out uint pceltFetched);
 }

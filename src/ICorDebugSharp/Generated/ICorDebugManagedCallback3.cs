@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugManagedCallback3
 {
 	[PreserveSig]
-	int CustomNotification(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain);
+	int TryCustomNotification(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain);
 }

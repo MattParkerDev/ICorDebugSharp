@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDelegateObjectValue
 {
 	[PreserveSig]
-	int GetTarget(out ICorDebugReferenceValue ppObject);
+	int TryGetTarget(out ICorDebugReferenceValue ppObject);
 
 	[PreserveSig]
-	int GetFunction(out ICorDebugFunction ppFunction);
+	int TryGetFunction(out ICorDebugFunction ppFunction);
 }

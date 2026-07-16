@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugStepper2
 {
 	[PreserveSig]
-	int SetJMC([MarshalAs(UnmanagedType.Bool)] bool fIsJMCStepper);
+	int TrySetJMC([MarshalAs(UnmanagedType.Bool)] bool fIsJMCStepper);
 }

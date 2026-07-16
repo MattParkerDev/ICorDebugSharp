@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDataTarget
 {
 	[PreserveSig]
-	int GetPlatform(out CorDebugPlatform pTargetPlatform);
+	int TryGetPlatform(out CorDebugPlatform pTargetPlatform);
 
 	[PreserveSig]
-	int ReadVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
+	int TryReadVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
 
 	[PreserveSig]
-	int GetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);
+	int TryGetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);
 }

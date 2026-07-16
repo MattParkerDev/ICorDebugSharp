@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugCode3
 {
 	[PreserveSig]
-	int GetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, [MarshalUsing(CountElementName = nameof(bufferSize))][Out] uint[] pOffsets);
+	int TryGetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, [MarshalUsing(CountElementName = nameof(bufferSize))][Out] uint[] pOffsets);
 }

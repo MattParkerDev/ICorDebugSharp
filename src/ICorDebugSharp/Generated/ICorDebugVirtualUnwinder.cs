@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVirtualUnwinder
 {
 	[PreserveSig]
-	int GetContext(uint contextFlags, uint cbContextBuf, out uint contextSize, [MarshalUsing(CountElementName = nameof(cbContextBuf))][Out] byte[] contextBuf);
+	int TryGetContext(uint contextFlags, uint cbContextBuf, out uint contextSize, [MarshalUsing(CountElementName = nameof(cbContextBuf))][Out] byte[] contextBuf);
 
 	[PreserveSig]
-	int Next();
+	int TryNext();
 }

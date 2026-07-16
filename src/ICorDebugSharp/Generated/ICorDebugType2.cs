@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugType2
 {
 	[PreserveSig]
-	int GetTypeID(out COR_TYPEID id);
+	int TryGetTypeID(out COR_TYPEID id);
 }

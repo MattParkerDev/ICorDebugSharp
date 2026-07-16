@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugILFrame2
 {
 	[PreserveSig]
-	int RemapFunction(uint newILOffset);
+	int TryRemapFunction(uint newILOffset);
 
 	[PreserveSig]
-	int EnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
+	int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
 }

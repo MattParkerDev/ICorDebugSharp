@@ -12,53 +12,53 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule
 {
 	[PreserveSig]
-	int GetProcess(out ICorDebugProcess ppProcess);
+	int TryGetProcess(out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int GetBaseAddress(out CORDB_ADDRESS pAddress);
+	int TryGetBaseAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
-	int GetAssembly(out ICorDebugAssembly ppAssembly);
+	int TryGetAssembly(out ICorDebugAssembly ppAssembly);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int EnableJITDebugging([MarshalAs(UnmanagedType.Bool)] bool bTrackJITInfo, [MarshalAs(UnmanagedType.Bool)] bool bAllowJitOpts);
+	int TryEnableJITDebugging([MarshalAs(UnmanagedType.Bool)] bool bTrackJITInfo, [MarshalAs(UnmanagedType.Bool)] bool bAllowJitOpts);
 
 	[PreserveSig]
-	int EnableClassLoadCallbacks([MarshalAs(UnmanagedType.Bool)] bool bClassLoadCallbacks);
+	int TryEnableClassLoadCallbacks([MarshalAs(UnmanagedType.Bool)] bool bClassLoadCallbacks);
 
 	[PreserveSig]
-	int GetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
+	int TryGetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetFunctionFromRVA(CORDB_ADDRESS rva, out ICorDebugFunction ppFunction);
+	int TryGetFunctionFromRVA(CORDB_ADDRESS rva, out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetClassFromToken(mdTypeDef typeDef, out ICorDebugClass ppClass);
+	int TryGetClassFromToken(mdTypeDef typeDef, out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int CreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
+	int TryCreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
 
 	[PreserveSig]
-	int GetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
+	int TryGetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
 
 	[PreserveSig]
-	int GetMetaDataInterface(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
+	int TryGetMetaDataInterface(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 
 	[PreserveSig]
-	int GetToken(out mdModule pToken);
+	int TryGetToken(out mdModule pToken);
 
 	[PreserveSig]
-	int IsDynamic([MarshalAs(UnmanagedType.Bool)] out bool pDynamic);
+	int TryIsDynamic([MarshalAs(UnmanagedType.Bool)] out bool pDynamic);
 
 	[PreserveSig]
-	int GetGlobalVariableValue(mdFieldDef fieldDef, out ICorDebugValue ppValue);
+	int TryGetGlobalVariableValue(mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetSize(out uint pcBytes);
+	int TryGetSize(out uint pcBytes);
 
 	[PreserveSig]
-	int IsInMemory([MarshalAs(UnmanagedType.Bool)] out bool pInMemory);
+	int TryIsInMemory([MarshalAs(UnmanagedType.Bool)] out bool pInMemory);
 }

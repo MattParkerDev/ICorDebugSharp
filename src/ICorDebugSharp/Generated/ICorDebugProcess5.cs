@@ -12,38 +12,38 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess5
 {
 	[PreserveSig]
-	int GetGCHeapInformation(out COR_HEAPINFO pHeapInfo);
+	int TryGetGCHeapInformation(out COR_HEAPINFO pHeapInfo);
 
 	[PreserveSig]
-	int EnumerateHeap(out ICorDebugHeapEnum ppObjects);
+	int TryEnumerateHeap(out ICorDebugHeapEnum ppObjects);
 
 	[PreserveSig]
-	int EnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
+	int TryEnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
 
 	[PreserveSig]
-	int GetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject);
+	int TryGetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject);
 
 	[PreserveSig]
-	int EnumerateGCReferences([MarshalAs(UnmanagedType.Bool)] bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
+	int TryEnumerateGCReferences([MarshalAs(UnmanagedType.Bool)] bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
 
 	[PreserveSig]
-	int EnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
+	int TryEnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
 
 	[PreserveSig]
-	int GetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId);
+	int TryGetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId);
 
 	[PreserveSig]
-	int GetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
+	int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
 
 	[PreserveSig]
-	int GetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout);
+	int TryGetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout);
 
 	[PreserveSig]
-	int GetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
+	int TryGetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
 
 	[PreserveSig]
-	int GetTypeFields(COR_TYPEID id, uint celt, [MarshalUsing(CountElementName = nameof(celt))] COR_FIELD[] fields, out uint pceltNeeded);
+	int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded);
 
 	[PreserveSig]
-	int EnableNGENPolicy(CorDebugNGENPolicy ePolicy);
+	int TryEnableNGENPolicy(CorDebugNGENPolicy ePolicy);
 }

@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDataTarget4
 {
 	[PreserveSig]
-	int VirtualUnwind(uint threadId, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
+	int TryVirtualUnwind(uint threadId, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
 }

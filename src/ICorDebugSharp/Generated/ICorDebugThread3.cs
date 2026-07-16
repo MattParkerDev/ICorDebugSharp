@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread3
 {
 	[PreserveSig]
-	int CreateStackWalk(out ICorDebugStackWalk ppStackWalk);
+	int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk);
 
 	[PreserveSig]
-	int GetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, [MarshalUsing(CountElementName = nameof(cInternalFrames))][In][Out] ICorDebugInternalFrame2[] ppInternalFrames);
+	int TryGetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, [MarshalUsing(CountElementName = nameof(cInternalFrames))][In][Out] ICorDebugInternalFrame2[] ppInternalFrames);
 }

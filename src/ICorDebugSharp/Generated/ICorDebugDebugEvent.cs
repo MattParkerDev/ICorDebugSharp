@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDebugEvent
 {
 	[PreserveSig]
-	int GetEventKind(out CorDebugDebugEventKind pDebugEventKind);
+	int TryGetEventKind(out CorDebugDebugEventKind pDebugEventKind);
 
 	[PreserveSig]
-	int GetThread(out ICorDebugThread ppThread);
+	int TryGetThread(out ICorDebugThread ppThread);
 }

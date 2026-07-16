@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugValue2
 {
 	[PreserveSig]
-	int GetExactType(out ICorDebugType ppType);
+	int TryGetExactType(out ICorDebugType ppType);
 }

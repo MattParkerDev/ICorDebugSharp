@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDataTarget3
 {
 	[PreserveSig]
-	int GetLoadedModules(uint cRequestedModules, out uint pcFetchedModules, [MarshalUsing(CountElementName = nameof(cRequestedModules))][Out] ICorDebugLoadedModule[] pLoadedModules);
+	int TryGetLoadedModules(uint cRequestedModules, out uint pcFetchedModules, [MarshalUsing(CountElementName = nameof(cRequestedModules))][Out] ICorDebugLoadedModule[] pLoadedModules);
 }

@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugExceptionObjectValue
 {
 	[PreserveSig]
-	int EnumerateExceptionCallStack(out ICorDebugExceptionObjectCallStackEnum ppCallStackEnum);
+	int TryEnumerateExceptionCallStack(out ICorDebugExceptionObjectCallStackEnum ppCallStackEnum);
 }

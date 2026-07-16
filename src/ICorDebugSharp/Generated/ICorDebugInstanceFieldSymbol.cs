@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugInstanceFieldSymbol
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSize(out uint pcbSize);
+	int TryGetSize(out uint pcbSize);
 
 	[PreserveSig]
-	int GetOffset(out uint pcbOffset);
+	int TryGetOffset(out uint pcbOffset);
 }

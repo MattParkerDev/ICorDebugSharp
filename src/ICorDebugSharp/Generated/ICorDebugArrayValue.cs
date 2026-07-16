@@ -12,26 +12,26 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugArrayValue : ICorDebugHeapValue
 {
 	[PreserveSig]
-	int GetElementType(out CorElementType pType);
+	int TryGetElementType(out CorElementType pType);
 
 	[PreserveSig]
-	int GetRank(out uint pnRank);
+	int TryGetRank(out uint pnRank);
 
 	[PreserveSig]
-	int GetCount(out uint pnCount);
+	int TryGetCount(out uint pnCount);
 
 	[PreserveSig]
-	int GetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
+	int TryGetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
 
 	[PreserveSig]
-	int HasBaseIndicies([MarshalAs(UnmanagedType.Bool)] out bool pbHasBaseIndicies);
+	int TryHasBaseIndicies([MarshalAs(UnmanagedType.Bool)] out bool pbHasBaseIndicies);
 
 	[PreserveSig]
-	int GetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);
+	int TryGetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);
 
 	[PreserveSig]
-	int GetElement(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][In] uint[] indices, out ICorDebugValue ppValue);
+	int TryGetElement(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][In] uint[] indices, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetElementAtPosition(uint nPosition, out ICorDebugValue ppValue);
+	int TryGetElementAtPosition(uint nPosition, out ICorDebugValue ppValue);
 }

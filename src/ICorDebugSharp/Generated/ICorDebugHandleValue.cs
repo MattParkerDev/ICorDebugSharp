@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugHandleValue : ICorDebugReferenceValue
 {
 	[PreserveSig]
-	int GetHandleType(out CorDebugHandleType pType);
+	int TryGetHandleType(out CorDebugHandleType pType);
 
 	[PreserveSig]
-	int Dispose();
+	int TryDispose();
 }

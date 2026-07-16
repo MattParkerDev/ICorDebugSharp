@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugRegisterSet2
 {
 	[PreserveSig]
-	int GetRegistersAvailable(uint numChunks, [MarshalUsing(CountElementName = nameof(numChunks))][Out] byte[] availableRegChunks);
+	int TryGetRegistersAvailable(uint numChunks, [MarshalUsing(CountElementName = nameof(numChunks))][Out] byte[] availableRegChunks);
 
 	[PreserveSig]
-	int GetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
+	int TryGetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
 
 	[PreserveSig]
-	int SetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
+	int TrySetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
 }

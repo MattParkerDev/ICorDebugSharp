@@ -12,32 +12,32 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugController
 {
 	[PreserveSig]
-	int Stop(uint dwTimeoutIgnored);
+	int TryStop(uint dwTimeoutIgnored);
 
 	[PreserveSig]
-	int Continue([MarshalAs(UnmanagedType.Bool)] bool fIsOutOfBand);
+	int TryContinue([MarshalAs(UnmanagedType.Bool)] bool fIsOutOfBand);
 
 	[PreserveSig]
-	int IsRunning([MarshalAs(UnmanagedType.Bool)] out bool pbRunning);
+	int TryIsRunning([MarshalAs(UnmanagedType.Bool)] out bool pbRunning);
 
 	[PreserveSig]
-	int HasQueuedCallbacks(ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] out bool pbQueued);
+	int TryHasQueuedCallbacks(ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] out bool pbQueued);
 
 	[PreserveSig]
-	int EnumerateThreads(out ICorDebugThreadEnum ppThreads);
+	int TryEnumerateThreads(out ICorDebugThreadEnum ppThreads);
 
 	[PreserveSig]
-	int SetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread);
+	int TrySetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread);
 
 	[PreserveSig]
-	int Detach();
+	int TryDetach();
 
 	[PreserveSig]
-	int Terminate(uint exitCode);
+	int TryTerminate(uint exitCode);
 
 	[PreserveSig]
-	int CanCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
+	int TryCanCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 
 	[PreserveSig]
-	int CommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
+	int TryCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 }

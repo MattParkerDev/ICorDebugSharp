@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAppDomain2
 {
 	[PreserveSig]
-	int GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
+	int TryGetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
 
 	[PreserveSig]
-	int GetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
+	int TryGetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 }

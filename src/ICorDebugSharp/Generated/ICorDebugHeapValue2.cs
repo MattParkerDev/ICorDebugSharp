@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugHeapValue2
 {
 	[PreserveSig]
-	int CreateHandle(CorDebugHandleType type, out ICorDebugHandleValue ppHandle);
+	int TryCreateHandle(CorDebugHandleType type, out ICorDebugHandleValue ppHandle);
 }

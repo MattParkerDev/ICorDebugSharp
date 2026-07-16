@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugErrorInfoEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugEditAndContinueErrorInfo[] errors, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugEditAndContinueErrorInfo[] errors, out uint pceltFetched);
 }

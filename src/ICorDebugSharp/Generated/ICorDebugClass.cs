@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugClass
 {
 	[PreserveSig]
-	int GetModule(out ICorDebugModule pModule);
+	int TryGetModule(out ICorDebugModule pModule);
 
 	[PreserveSig]
-	int GetToken(out mdTypeDef pTypeDef);
+	int TryGetToken(out mdTypeDef pTypeDef);
 
 	[PreserveSig]
-	int GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
+	int TryGetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 }

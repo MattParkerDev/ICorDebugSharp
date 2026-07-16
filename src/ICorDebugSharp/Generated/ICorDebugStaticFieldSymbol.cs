@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugStaticFieldSymbol
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSize(out uint pcbSize);
+	int TryGetSize(out uint pcbSize);
 
 	[PreserveSig]
-	int GetAddress(out CORDB_ADDRESS pRVA);
+	int TryGetAddress(out CORDB_ADDRESS pRVA);
 }

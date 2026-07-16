@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugRegisterSet
 {
 	[PreserveSig]
-	int GetRegistersAvailable(out ulong pAvailable);
+	int TryGetRegistersAvailable(out ulong pAvailable);
 
 	[PreserveSig]
-	int GetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
+	int TryGetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
 
 	[PreserveSig]
-	int SetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
+	int TrySetRegisters(ulong mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
 
 	[PreserveSig]
-	int GetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
+	int TryGetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In][Out] byte[] context);
 
 	[PreserveSig]
-	int SetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
+	int TrySetThreadContext(uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 }

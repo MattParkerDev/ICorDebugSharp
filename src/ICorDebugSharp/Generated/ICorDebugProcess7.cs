@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess7
 {
 	[PreserveSig]
-	int SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags);
+	int TrySetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags);
 }

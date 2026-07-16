@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread5
 {
 	[PreserveSig]
-	int GetBytesAllocated(out ulong pSohAllocatedBytes, out ulong pUohAllocatedBytes);
+	int TryGetBytesAllocated(out ulong pSohAllocatedBytes, out ulong pUohAllocatedBytes);
 }

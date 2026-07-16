@@ -12,26 +12,26 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction
 {
 	[PreserveSig]
-	int GetModule(out ICorDebugModule ppModule);
+	int TryGetModule(out ICorDebugModule ppModule);
 
 	[PreserveSig]
-	int GetClass(out ICorDebugClass ppClass);
+	int TryGetClass(out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int GetToken(out mdMethodDef pMethodDef);
+	int TryGetToken(out mdMethodDef pMethodDef);
 
 	[PreserveSig]
-	int GetILCode(out ICorDebugCode ppCode);
+	int TryGetILCode(out ICorDebugCode ppCode);
 
 	[PreserveSig]
-	int GetNativeCode(out ICorDebugCode ppCode);
+	int TryGetNativeCode(out ICorDebugCode ppCode);
 
 	[PreserveSig]
-	int CreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
+	int TryCreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
 
 	[PreserveSig]
-	int GetLocalVarSigToken(out mdSignature pmdSig);
+	int TryGetLocalVarSigToken(out mdSignature pmdSig);
 
 	[PreserveSig]
-	int GetCurrentVersionNumber(out uint pnCurrentVersion);
+	int TryGetCurrentVersionNumber(out uint pnCurrentVersion);
 }

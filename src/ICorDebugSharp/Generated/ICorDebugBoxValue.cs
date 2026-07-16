@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugBoxValue : ICorDebugHeapValue
 {
 	[PreserveSig]
-	int GetObject(out ICorDebugObjectValue ppObject);
+	int TryGetObject(out ICorDebugObjectValue ppObject);
 }

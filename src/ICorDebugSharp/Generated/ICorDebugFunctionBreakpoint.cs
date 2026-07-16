@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunctionBreakpoint : ICorDebugBreakpoint
 {
 	[PreserveSig]
-	int GetFunction(out ICorDebugFunction ppFunction);
+	int TryGetFunction(out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetOffset(out uint pnOffset);
+	int TryGetOffset(out uint pnOffset);
 }

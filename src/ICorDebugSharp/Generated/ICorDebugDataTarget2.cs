@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugDataTarget2
 {
 	[PreserveSig]
-	int GetImageFromPointer(CORDB_ADDRESS addr, out CORDB_ADDRESS pImageBase, out uint pSize);
+	int TryGetImageFromPointer(CORDB_ADDRESS addr, out CORDB_ADDRESS pImageBase, out uint pSize);
 
 	[PreserveSig]
-	int GetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
+	int TryGetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
 
 	[PreserveSig]
-	int EnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);
+	int TryEnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);
 
 	[PreserveSig]
-	int CreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] initialContext, out ICorDebugVirtualUnwinder ppUnwinder);
+	int TryCreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] initialContext, out ICorDebugVirtualUnwinder ppUnwinder);
 }

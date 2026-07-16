@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess12
 {
 	[PreserveSig]
-	int GetAsyncStack(CORDB_ADDRESS continuationAddress, out ICorDebugStackWalk ppStackWalk);
+	int TryGetAsyncStack(CORDB_ADDRESS continuationAddress, out ICorDebugStackWalk ppStackWalk);
 }

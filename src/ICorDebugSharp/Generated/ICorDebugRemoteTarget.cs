@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugRemoteTarget
 {
 	[PreserveSig]
-	int GetHostName(uint cchHostName, out uint pcchHostName, [MarshalUsing(CountElementName = nameof(cchHostName))][Out] char[]? szHostName);
+	int TryGetHostName(uint cchHostName, out uint pcchHostName, [MarshalUsing(CountElementName = nameof(cchHostName))][Out] char[]? szHostName);
 }

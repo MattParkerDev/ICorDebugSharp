@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule3
 {
 	[PreserveSig]
-	int CreateReaderForInMemorySymbols(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
+	int TryCreateReaderForInMemorySymbols(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 }

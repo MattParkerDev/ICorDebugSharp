@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugILCode2
 {
 	[PreserveSig]
-	int GetLocalVarSigToken(out mdSignature pmdSig);
+	int TryGetLocalVarSigToken(out mdSignature pmdSig);
 
 	[PreserveSig]
-	int GetInstrumentedILMap(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_IL_MAP[]? map);
+	int TryGetInstrumentedILMap(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_IL_MAP[]? map);
 }

@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule4
 {
 	[PreserveSig]
-	int IsMappedLayout([MarshalAs(UnmanagedType.Bool)] out bool pIsMapped);
+	int TryIsMappedLayout([MarshalAs(UnmanagedType.Bool)] out bool pIsMapped);
 }

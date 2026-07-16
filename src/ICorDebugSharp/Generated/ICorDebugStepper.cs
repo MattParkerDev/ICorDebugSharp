@@ -12,26 +12,26 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugStepper
 {
 	[PreserveSig]
-	int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
+	int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 
 	[PreserveSig]
-	int Deactivate();
+	int TryDeactivate();
 
 	[PreserveSig]
-	int SetInterceptMask(CorDebugIntercept mask);
+	int TrySetInterceptMask(CorDebugIntercept mask);
 
 	[PreserveSig]
-	int SetUnmappedStopMask(CorDebugUnmappedStop mask);
+	int TrySetUnmappedStopMask(CorDebugUnmappedStop mask);
 
 	[PreserveSig]
-	int Step([MarshalAs(UnmanagedType.Bool)] bool bStepIn);
+	int TryStep([MarshalAs(UnmanagedType.Bool)] bool bStepIn);
 
 	[PreserveSig]
-	int StepRange([MarshalAs(UnmanagedType.Bool)] bool bStepIn, [MarshalUsing(CountElementName = nameof(cRangeCount))][In] COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount);
+	int TryStepRange([MarshalAs(UnmanagedType.Bool)] bool bStepIn, [MarshalUsing(CountElementName = nameof(cRangeCount))][In] COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount);
 
 	[PreserveSig]
-	int StepOut();
+	int TryStepOut();
 
 	[PreserveSig]
-	int SetRangeIL([MarshalAs(UnmanagedType.Bool)] bool bIL);
+	int TrySetRangeIL([MarshalAs(UnmanagedType.Bool)] bool bIL);
 }

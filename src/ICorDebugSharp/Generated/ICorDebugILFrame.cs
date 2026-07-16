@@ -12,29 +12,29 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugILFrame : ICorDebugFrame
 {
 	[PreserveSig]
-	int GetIP(out uint pnOffset, out CorDebugMappingResult pMappingResult);
+	int TryGetIP(out uint pnOffset, out CorDebugMappingResult pMappingResult);
 
 	[PreserveSig]
-	int SetIP(uint nOffset);
+	int TrySetIP(uint nOffset);
 
 	[PreserveSig]
-	int EnumerateLocalVariables(out ICorDebugValueEnum ppValueEnum);
+	int TryEnumerateLocalVariables(out ICorDebugValueEnum ppValueEnum);
 
 	[PreserveSig]
-	int GetLocalVariable(uint dwIndex, out ICorDebugValue ppValue);
+	int TryGetLocalVariable(uint dwIndex, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int EnumerateArguments(out ICorDebugValueEnum ppValueEnum);
+	int TryEnumerateArguments(out ICorDebugValueEnum ppValueEnum);
 
 	[PreserveSig]
-	int GetArgument(uint dwIndex, out ICorDebugValue ppValue);
+	int TryGetArgument(uint dwIndex, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetStackDepth(out uint pDepth);
+	int TryGetStackDepth(out uint pDepth);
 
 	[PreserveSig]
-	int GetStackValue(uint dwIndex, out ICorDebugValue ppValue);
+	int TryGetStackValue(uint dwIndex, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int CanSetIP(uint nOffset);
+	int TryCanSetIP(uint nOffset);
 }

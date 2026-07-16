@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess3
 {
 	[PreserveSig]
-	int SetEnableCustomNotification(ICorDebugClass pClass, [MarshalAs(UnmanagedType.Bool)] bool fEnable);
+	int TrySetEnableCustomNotification(ICorDebugClass pClass, [MarshalAs(UnmanagedType.Bool)] bool fEnable);
 }

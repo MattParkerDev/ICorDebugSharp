@@ -12,29 +12,29 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugNativeFrame : ICorDebugFrame
 {
 	[PreserveSig]
-	int GetIP(out uint pnOffset);
+	int TryGetIP(out uint pnOffset);
 
 	[PreserveSig]
-	int SetIP(uint nOffset);
+	int TrySetIP(uint nOffset);
 
 	[PreserveSig]
-	int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
+	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
 	[PreserveSig]
-	int GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int TryGetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int TryGetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int TryGetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int TryGetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
+	int TryGetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int CanSetIP(uint nOffset);
+	int TryCanSetIP(uint nOffset);
 }

@@ -12,32 +12,32 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAppDomain : ICorDebugController
 {
 	[PreserveSig]
-	int GetProcess(out ICorDebugProcess ppProcess);
+	int TryGetProcess(out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int EnumerateAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
+	int TryEnumerateAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 
 	[PreserveSig]
-	int GetModuleFromMetaDataInterface(nint pIMetaData, out ICorDebugModule ppModule);
+	int TryGetModuleFromMetaDataInterface(nint pIMetaData, out ICorDebugModule ppModule);
 
 	[PreserveSig]
-	int EnumerateBreakpoints(out ICorDebugBreakpointEnum ppBreakpoints);
+	int TryEnumerateBreakpoints(out ICorDebugBreakpointEnum ppBreakpoints);
 
 	[PreserveSig]
-	int EnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
+	int TryEnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
 
 	[PreserveSig]
-	int IsAttached([MarshalAs(UnmanagedType.Bool)] out bool pbAttached);
+	int TryIsAttached([MarshalAs(UnmanagedType.Bool)] out bool pbAttached);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetObject(out ICorDebugValue ppObject);
+	int TryGetObject(out ICorDebugValue ppObject);
 
 	[PreserveSig]
-	int Attach();
+	int TryAttach();
 
 	[PreserveSig]
-	int GetID(out uint pId);
+	int TryGetID(out uint pId);
 }

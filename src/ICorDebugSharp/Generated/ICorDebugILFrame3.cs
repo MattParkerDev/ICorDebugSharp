@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugILFrame3
 {
 	[PreserveSig]
-	int GetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue);
+	int TryGetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue);
 }

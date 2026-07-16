@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModuleBreakpoint : ICorDebugBreakpoint
 {
 	[PreserveSig]
-	int GetModule(out ICorDebugModule ppModule);
+	int TryGetModule(out ICorDebugModule ppModule);
 }

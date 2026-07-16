@@ -12,35 +12,35 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugSymbolProvider
 {
 	[PreserveSig]
-	int GetStaticFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugStaticFieldSymbol[] pSymbols);
+	int TryGetStaticFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugStaticFieldSymbol[] pSymbols);
 
 	[PreserveSig]
-	int GetInstanceFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugInstanceFieldSymbol[] pSymbols);
+	int TryGetInstanceFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugInstanceFieldSymbol[] pSymbols);
 
 	[PreserveSig]
-	int GetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
+	int TryGetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
 	[PreserveSig]
-	int GetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
+	int TryGetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
 	[PreserveSig]
-	int GetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
+	int TryGetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
 
 	[PreserveSig]
-	int GetMethodProps(uint codeRva, out mdToken pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
+	int TryGetMethodProps(uint codeRva, out mdToken pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
 	[PreserveSig]
-	int GetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
+	int TryGetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
 	[PreserveSig]
-	int GetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
+	int TryGetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
 
 	[PreserveSig]
-	int GetAssemblyImageBytes(CORDB_ADDRESS rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
+	int TryGetAssemblyImageBytes(CORDB_ADDRESS rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
 
 	[PreserveSig]
-	int GetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);
+	int TryGetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);
 
 	[PreserveSig]
-	int GetAssemblyImageMetadata(out ICorDebugMemoryBuffer ppMemoryBuffer);
+	int TryGetAssemblyImageMetadata(out ICorDebugMemoryBuffer ppMemoryBuffer);
 }

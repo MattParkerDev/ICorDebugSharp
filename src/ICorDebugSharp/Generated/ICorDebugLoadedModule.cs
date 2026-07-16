@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugLoadedModule
 {
 	[PreserveSig]
-	int GetBaseAddress(out CORDB_ADDRESS pAddress);
+	int TryGetBaseAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetSize(out uint pcBytes);
+	int TryGetSize(out uint pcBytes);
 }

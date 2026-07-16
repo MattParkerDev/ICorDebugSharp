@@ -12,14 +12,14 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugEnum
 {
 	[PreserveSig]
-	int Skip(uint celt);
+	int TrySkip(uint celt);
 
 	[PreserveSig]
-	int Reset();
+	int TryReset();
 
 	[PreserveSig]
-	int Clone(out ICorDebugEnum ppEnum);
+	int TryClone(out ICorDebugEnum ppEnum);
 
 	[PreserveSig]
-	int GetCount(out uint pcelt);
+	int TryGetCount(out uint pcelt);
 }

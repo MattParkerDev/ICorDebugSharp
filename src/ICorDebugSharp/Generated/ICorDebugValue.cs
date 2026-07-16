@@ -12,14 +12,14 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugValue
 {
 	[PreserveSig]
-	int GetType(out CorElementType pType);
+	int TryGetType(out CorElementType pType);
 
 	[PreserveSig]
-	int GetSize(out uint pSize);
+	int TryGetSize(out uint pSize);
 
 	[PreserveSig]
-	int GetAddress(out CORDB_ADDRESS pAddress);
+	int TryGetAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
-	int CreateBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
+	int TryCreateBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
 }

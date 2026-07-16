@@ -12,26 +12,26 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFrame
 {
 	[PreserveSig]
-	int GetChain(out ICorDebugChain ppChain);
+	int TryGetChain(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int GetCode(out ICorDebugCode ppCode);
+	int TryGetCode(out ICorDebugCode ppCode);
 
 	[PreserveSig]
-	int GetFunction(out ICorDebugFunction ppFunction);
+	int TryGetFunction(out ICorDebugFunction ppFunction);
 
 	[PreserveSig]
-	int GetFunctionToken(out mdMethodDef pToken);
+	int TryGetFunctionToken(out mdMethodDef pToken);
 
 	[PreserveSig]
-	int GetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
+	int TryGetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
 	[PreserveSig]
-	int GetCaller(out ICorDebugFrame ppFrame);
+	int TryGetCaller(out ICorDebugFrame ppFrame);
 
 	[PreserveSig]
-	int GetCallee(out ICorDebugFrame ppFrame);
+	int TryGetCallee(out ICorDebugFrame ppFrame);
 
 	[PreserveSig]
-	int CreateStepper(out ICorDebugStepper ppStepper);
+	int TryCreateStepper(out ICorDebugStepper ppStepper);
 }

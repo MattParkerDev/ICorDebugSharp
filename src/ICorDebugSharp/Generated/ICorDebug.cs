@@ -12,29 +12,29 @@ namespace ICorDebugSharp;
 public partial interface ICorDebug
 {
 	[PreserveSig]
-	int Initialize();
+	int TryInitialize();
 
 	[PreserveSig]
-	int Terminate();
+	int TryTerminate();
 
 	[PreserveSig]
-	int SetManagedHandler(ICorDebugManagedCallback pCallback);
+	int TrySetManagedHandler(ICorDebugManagedCallback pCallback);
 
 	[PreserveSig]
-	int SetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback);
+	int TrySetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback);
 
 	[PreserveSig]
-	int CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
+	int TryCreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int DebugActiveProcess(uint id, [MarshalAs(UnmanagedType.Bool)] bool win32Attach, out ICorDebugProcess ppProcess);
+	int TryDebugActiveProcess(uint id, [MarshalAs(UnmanagedType.Bool)] bool win32Attach, out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int EnumerateProcesses(out ICorDebugProcessEnum ppProcess);
+	int TryEnumerateProcesses(out ICorDebugProcessEnum ppProcess);
 
 	[PreserveSig]
-	int GetProcess(uint dwProcessId, out ICorDebugProcess ppProcess);
+	int TryGetProcess(uint dwProcessId, out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int CanLaunchOrAttach(uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool win32DebuggingEnabled);
+	int TryCanLaunchOrAttach(uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool win32DebuggingEnabled);
 }

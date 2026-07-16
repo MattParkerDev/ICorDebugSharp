@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMDA
 {
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetFlags(ref CorDebugMDAFlags pFlags);
+	int TryGetFlags(ref CorDebugMDAFlags pFlags);
 
 	[PreserveSig]
-	int GetOSThreadId(out uint pOsTid);
+	int TryGetOSThreadId(out uint pOsTid);
 }

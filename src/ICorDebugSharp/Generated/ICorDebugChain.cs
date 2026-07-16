@@ -12,38 +12,38 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugChain
 {
 	[PreserveSig]
-	int GetThread(out ICorDebugThread ppThread);
+	int TryGetThread(out ICorDebugThread ppThread);
 
 	[PreserveSig]
-	int GetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
+	int TryGetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
 	[PreserveSig]
-	int GetContext(out ICorDebugContext ppContext);
+	int TryGetContext(out ICorDebugContext ppContext);
 
 	[PreserveSig]
-	int GetCaller(out ICorDebugChain ppChain);
+	int TryGetCaller(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int GetCallee(out ICorDebugChain ppChain);
+	int TryGetCallee(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int GetPrevious(out ICorDebugChain ppChain);
+	int TryGetPrevious(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int GetNext(out ICorDebugChain ppChain);
+	int TryGetNext(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int IsManaged([MarshalAs(UnmanagedType.Bool)] out bool pManaged);
+	int TryIsManaged([MarshalAs(UnmanagedType.Bool)] out bool pManaged);
 
 	[PreserveSig]
-	int EnumerateFrames(out ICorDebugFrameEnum ppFrames);
+	int TryEnumerateFrames(out ICorDebugFrameEnum ppFrames);
 
 	[PreserveSig]
-	int GetActiveFrame(out ICorDebugFrame ppFrame);
+	int TryGetActiveFrame(out ICorDebugFrame ppFrame);
 
 	[PreserveSig]
-	int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
+	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
 	[PreserveSig]
-	int GetReason(out CorDebugChainReason pReason);
+	int TryGetReason(out CorDebugChainReason pReason);
 }

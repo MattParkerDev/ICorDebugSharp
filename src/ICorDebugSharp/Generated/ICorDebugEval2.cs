@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugEval2
 {
 	[PreserveSig]
-	int CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	[PreserveSig]
-	int CreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue);
+	int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	[PreserveSig]
-	int NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
+	int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
 
 	[PreserveSig]
-	int NewParameterizedArray(ICorDebugType pElementType, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
+	int TryNewParameterizedArray(ICorDebugType pElementType, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
 	[PreserveSig]
-	int NewStringWithLength(string @string, uint uiLength);
+	int TryNewStringWithLength(string @string, uint uiLength);
 
 	[PreserveSig]
-	int RudeAbort();
+	int TryRudeAbort();
 }

@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugCode2
 {
 	[PreserveSig]
-	int GetCodeChunks(uint cbufSize, out uint pcnumChunks, [MarshalUsing(CountElementName = nameof(cbufSize))][Out] CodeChunkInfo[]? chunks);
+	int TryGetCodeChunks(uint cbufSize, out uint pcnumChunks, [MarshalUsing(CountElementName = nameof(cbufSize))][Out] CodeChunkInfo[]? chunks);
 
 	[PreserveSig]
-	int GetCompilerFlags(out uint pdwFlags);
+	int TryGetCompilerFlags(out uint pdwFlags);
 }

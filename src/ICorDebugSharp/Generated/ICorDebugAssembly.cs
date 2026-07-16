@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAssembly
 {
 	[PreserveSig]
-	int GetProcess(out ICorDebugProcess ppProcess);
+	int TryGetProcess(out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int GetAppDomain(out ICorDebugAppDomain ppAppDomain);
+	int TryGetAppDomain(out ICorDebugAppDomain ppAppDomain);
 
 	[PreserveSig]
-	int EnumerateModules(out ICorDebugModuleEnum ppModules);
+	int TryEnumerateModules(out ICorDebugModuleEnum ppModules);
 
 	[PreserveSig]
-	int GetCodeBase(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetCodeBase(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 }

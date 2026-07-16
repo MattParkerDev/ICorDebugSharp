@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAssembly3
 {
 	[PreserveSig]
-	int GetContainerAssembly(out ICorDebugAssembly ppAssembly);
+	int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly);
 
 	[PreserveSig]
-	int EnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
+	int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 }

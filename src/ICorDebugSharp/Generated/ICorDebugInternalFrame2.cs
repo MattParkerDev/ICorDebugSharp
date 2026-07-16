@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugInternalFrame2
 {
 	[PreserveSig]
-	int GetAddress(out CORDB_ADDRESS pAddress);
+	int TryGetAddress(out CORDB_ADDRESS pAddress);
 
 	[PreserveSig]
-	int IsCloserToLeaf(ICorDebugFrame pFrameToCompare, [MarshalAs(UnmanagedType.Bool)] out bool pIsCloser);
+	int TryIsCloserToLeaf(ICorDebugFrame pFrameToCompare, [MarshalAs(UnmanagedType.Bool)] out bool pIsCloser);
 }

@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugHeapValue : ICorDebugValue
 {
 	[PreserveSig]
-	int IsValid([MarshalAs(UnmanagedType.Bool)] out bool pbValid);
+	int TryIsValid([MarshalAs(UnmanagedType.Bool)] out bool pbValid);
 
 	[PreserveSig]
-	int CreateRelocBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
+	int TryCreateRelocBreakpoint(out ICorDebugValueBreakpoint ppBreakpoint);
 }

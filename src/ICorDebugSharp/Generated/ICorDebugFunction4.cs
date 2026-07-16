@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction4
 {
 	[PreserveSig]
-	int CreateNativeBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
+	int TryCreateNativeBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
 }

@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugAssembly2
 {
 	[PreserveSig]
-	int IsFullyTrusted([MarshalAs(UnmanagedType.Bool)] out bool pbFullyTrusted);
+	int TryIsFullyTrusted([MarshalAs(UnmanagedType.Bool)] out bool pbFullyTrusted);
 }

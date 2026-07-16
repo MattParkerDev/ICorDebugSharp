@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugSymbolProvider2
 {
 	[PreserveSig]
-	int GetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer);
+	int TryGetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer);
 
 	[PreserveSig]
-	int GetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva);
+	int TryGetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva);
 }

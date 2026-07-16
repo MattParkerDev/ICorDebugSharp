@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVariableHomeEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugVariableHome[] homes, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugVariableHome[] homes, out uint pceltFetched);
 }

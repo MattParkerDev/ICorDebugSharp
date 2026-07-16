@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugGCReferenceEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_GC_REFERENCE[] roots, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_GC_REFERENCE[] roots, out uint pceltFetched);
 }

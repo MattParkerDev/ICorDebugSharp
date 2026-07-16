@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugHeapSegmentEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_SEGMENT[] segments, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_SEGMENT[] segments, out uint pceltFetched);
 }

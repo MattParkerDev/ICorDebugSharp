@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread2
 {
 	[PreserveSig]
-	int GetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[]? pFunctions);
+	int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[]? pFunctions);
 
 	[PreserveSig]
-	int GetConnectionID(out uint pdwConnectionId);
+	int TryGetConnectionID(out uint pdwConnectionId);
 
 	[PreserveSig]
-	int GetTaskID(out ulong pTaskId);
+	int TryGetTaskID(out ulong pTaskId);
 
 	[PreserveSig]
-	int GetVolatileOSThreadID(out uint pdwTid);
+	int TryGetVolatileOSThreadID(out uint pdwTid);
 
 	[PreserveSig]
-	int InterceptCurrentException(ICorDebugFrame pFrame);
+	int TryInterceptCurrentException(ICorDebugFrame pFrame);
 }

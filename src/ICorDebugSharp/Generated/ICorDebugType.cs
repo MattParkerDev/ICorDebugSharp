@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugType
 {
 	[PreserveSig]
-	int GetType(out CorElementType ty);
+	int TryGetType(out CorElementType ty);
 
 	[PreserveSig]
-	int GetClass(out ICorDebugClass ppClass);
+	int TryGetClass(out ICorDebugClass ppClass);
 
 	[PreserveSig]
-	int EnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
+	int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
 
 	[PreserveSig]
-	int GetFirstTypeParameter(out ICorDebugType value);
+	int TryGetFirstTypeParameter(out ICorDebugType value);
 
 	[PreserveSig]
-	int GetBase(out ICorDebugType pBase);
+	int TryGetBase(out ICorDebugType pBase);
 
 	[PreserveSig]
-	int GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
+	int TryGetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetRank(out uint pnRank);
+	int TryGetRank(out uint pnRank);
 }

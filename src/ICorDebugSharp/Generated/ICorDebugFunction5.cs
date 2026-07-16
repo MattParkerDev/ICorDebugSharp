@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction5
 {
 	[PreserveSig]
-	int DisableOptimizations();
+	int TryDisableOptimizations();
 
 	[PreserveSig]
-	int AreOptimizationsDisabled([MarshalAs(UnmanagedType.Bool)] out bool pOptimizationsDisabled);
+	int TryAreOptimizationsDisabled([MarshalAs(UnmanagedType.Bool)] out bool pOptimizationsDisabled);
 }

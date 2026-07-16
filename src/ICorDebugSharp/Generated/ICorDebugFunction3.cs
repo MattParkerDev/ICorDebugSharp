@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction3
 {
 	[PreserveSig]
-	int GetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode);
+	int TryGetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode);
 }

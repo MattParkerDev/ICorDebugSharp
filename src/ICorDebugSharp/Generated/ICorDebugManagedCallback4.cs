@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugManagedCallback4
 {
 	[PreserveSig]
-	int BeforeGarbageCollection(ICorDebugProcess pProcess);
+	int TryBeforeGarbageCollection(ICorDebugProcess pProcess);
 
 	[PreserveSig]
-	int AfterGarbageCollection(ICorDebugProcess pProcess);
+	int TryAfterGarbageCollection(ICorDebugProcess pProcess);
 
 	[PreserveSig]
-	int DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, uint contextSize);
+	int TryDataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, uint contextSize);
 }

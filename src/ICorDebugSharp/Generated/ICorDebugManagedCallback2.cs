@@ -12,26 +12,26 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugManagedCallback2
 {
 	[PreserveSig]
-	int FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset);
+	int TryFunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset);
 
 	[PreserveSig]
-	int CreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName);
+	int TryCreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName);
 
 	[PreserveSig]
-	int ChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId);
+	int TryChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
 	[PreserveSig]
-	int DestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId);
+	int TryDestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
 	[PreserveSig]
-	int Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags);
+	int TryException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags);
 
 	[PreserveSig]
-	int ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags);
+	int TryExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags);
 
 	[PreserveSig]
-	int FunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction);
+	int TryFunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction);
 
 	[PreserveSig]
-	int MDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA);
+	int TryMDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA);
 }

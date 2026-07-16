@@ -12,50 +12,50 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread
 {
 	[PreserveSig]
-	int GetProcess(out ICorDebugProcess ppProcess);
+	int TryGetProcess(out ICorDebugProcess ppProcess);
 
 	[PreserveSig]
-	int GetID(out uint pdwThreadId);
+	int TryGetID(out uint pdwThreadId);
 
 	[PreserveSig]
-	int GetHandle(out nint phThreadHandle);
+	int TryGetHandle(out nint phThreadHandle);
 
 	[PreserveSig]
-	int GetAppDomain(out ICorDebugAppDomain ppAppDomain);
+	int TryGetAppDomain(out ICorDebugAppDomain ppAppDomain);
 
 	[PreserveSig]
-	int SetDebugState(CorDebugThreadState state);
+	int TrySetDebugState(CorDebugThreadState state);
 
 	[PreserveSig]
-	int GetDebugState(out CorDebugThreadState pState);
+	int TryGetDebugState(out CorDebugThreadState pState);
 
 	[PreserveSig]
-	int GetUserState(out CorDebugUserState pState);
+	int TryGetUserState(out CorDebugUserState pState);
 
 	[PreserveSig]
-	int GetCurrentException(out ICorDebugValue ppExceptionObject);
+	int TryGetCurrentException(out ICorDebugValue ppExceptionObject);
 
 	[PreserveSig]
-	int ClearCurrentException();
+	int TryClearCurrentException();
 
 	[PreserveSig]
-	int CreateStepper(out ICorDebugStepper ppStepper);
+	int TryCreateStepper(out ICorDebugStepper ppStepper);
 
 	[PreserveSig]
-	int EnumerateChains(out ICorDebugChainEnum ppChains);
+	int TryEnumerateChains(out ICorDebugChainEnum ppChains);
 
 	[PreserveSig]
-	int GetActiveChain(out ICorDebugChain ppChain);
+	int TryGetActiveChain(out ICorDebugChain ppChain);
 
 	[PreserveSig]
-	int GetActiveFrame(out ICorDebugFrame ppFrame);
+	int TryGetActiveFrame(out ICorDebugFrame ppFrame);
 
 	[PreserveSig]
-	int GetRegisterSet(out ICorDebugRegisterSet ppRegisters);
+	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
 	[PreserveSig]
-	int CreateEval(out ICorDebugEval ppEval);
+	int TryCreateEval(out ICorDebugEval ppEval);
 
 	[PreserveSig]
-	int GetObject(out ICorDebugValue ppObject);
+	int TryGetObject(out ICorDebugValue ppObject);
 }

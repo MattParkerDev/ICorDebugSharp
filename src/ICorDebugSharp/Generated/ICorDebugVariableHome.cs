@@ -12,23 +12,23 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVariableHome
 {
 	[PreserveSig]
-	int GetCode(out ICorDebugCode ppCode);
+	int TryGetCode(out ICorDebugCode ppCode);
 
 	[PreserveSig]
-	int GetSlotIndex(out uint pSlotIndex);
+	int TryGetSlotIndex(out uint pSlotIndex);
 
 	[PreserveSig]
-	int GetArgumentIndex(out uint pArgumentIndex);
+	int TryGetArgumentIndex(out uint pArgumentIndex);
 
 	[PreserveSig]
-	int GetLiveRange(out uint pStartOffset, out uint pEndOffset);
+	int TryGetLiveRange(out uint pStartOffset, out uint pEndOffset);
 
 	[PreserveSig]
-	int GetLocationType(out VariableLocationType pLocationType);
+	int TryGetLocationType(out VariableLocationType pLocationType);
 
 	[PreserveSig]
-	int GetRegister(out CorDebugRegister pRegister);
+	int TryGetRegister(out CorDebugRegister pRegister);
 
 	[PreserveSig]
-	int GetOffset(out int pOffset);
+	int TryGetOffset(out int pOffset);
 }

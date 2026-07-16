@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugHeapValue3
 {
 	[PreserveSig]
-	int GetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount);
+	int TryGetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount);
 
 	[PreserveSig]
-	int GetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum);
+	int TryGetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum);
 }

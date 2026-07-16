@@ -12,17 +12,17 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugModule2
 {
 	[PreserveSig]
-	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
+	int TrySetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
 
 	[PreserveSig]
-	int ApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
+	int TryApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
 
 	[PreserveSig]
-	int SetJITCompilerFlags(uint dwFlags);
+	int TrySetJITCompilerFlags(uint dwFlags);
 
 	[PreserveSig]
-	int GetJITCompilerFlags(out uint pdwFlags);
+	int TryGetJITCompilerFlags(out uint pdwFlags);
 
 	[PreserveSig]
-	int ResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly);
+	int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly);
 }

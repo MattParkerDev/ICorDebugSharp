@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugInternalFrame : ICorDebugFrame
 {
 	[PreserveSig]
-	int GetFrameType(out CorDebugInternalFrameType pType);
+	int TryGetFrameType(out CorDebugInternalFrameType pType);
 }

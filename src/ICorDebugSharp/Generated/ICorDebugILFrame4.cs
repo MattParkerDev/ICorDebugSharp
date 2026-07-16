@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugILFrame4
 {
 	[PreserveSig]
-	int EnumerateLocalVariablesEx(ILCodeKind flags, out ICorDebugValueEnum ppValueEnum);
+	int TryEnumerateLocalVariablesEx(ILCodeKind flags, out ICorDebugValueEnum ppValueEnum);
 
 	[PreserveSig]
-	int GetLocalVariableEx(ILCodeKind flags, uint dwIndex, out ICorDebugValue ppValue);
+	int TryGetLocalVariableEx(ILCodeKind flags, uint dwIndex, out ICorDebugValue ppValue);
 
 	[PreserveSig]
-	int GetCodeEx(ILCodeKind flags, out ICorDebugCode ppCode);
+	int TryGetCodeEx(ILCodeKind flags, out ICorDebugCode ppCode);
 }

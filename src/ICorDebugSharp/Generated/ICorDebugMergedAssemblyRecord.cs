@@ -12,20 +12,20 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMergedAssemblyRecord
 {
 	[PreserveSig]
-	int GetSimpleName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
+	int TryGetSimpleName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	[PreserveSig]
-	int GetVersion(out ushort pMajor, out ushort pMinor, out ushort pBuild, out ushort pRevision);
+	int TryGetVersion(out ushort pMajor, out ushort pMinor, out ushort pBuild, out ushort pRevision);
 
 	[PreserveSig]
-	int GetCulture(uint cchCulture, out uint pcchCulture, [MarshalUsing(CountElementName = nameof(cchCulture))][Out] char[]? szCulture);
+	int TryGetCulture(uint cchCulture, out uint pcchCulture, [MarshalUsing(CountElementName = nameof(cchCulture))][Out] char[]? szCulture);
 
 	[PreserveSig]
-	int GetPublicKey(uint cbPublicKey, out uint pcbPublicKey, [MarshalUsing(CountElementName = nameof(cbPublicKey))][Out] byte[] pbPublicKey);
+	int TryGetPublicKey(uint cbPublicKey, out uint pcbPublicKey, [MarshalUsing(CountElementName = nameof(cbPublicKey))][Out] byte[] pbPublicKey);
 
 	[PreserveSig]
-	int GetPublicKeyToken(uint cbPublicKeyToken, out uint pcbPublicKeyToken, [MarshalUsing(CountElementName = nameof(cbPublicKeyToken))][Out] byte[] pbPublicKeyToken);
+	int TryGetPublicKeyToken(uint cbPublicKeyToken, out uint pcbPublicKeyToken, [MarshalUsing(CountElementName = nameof(cbPublicKeyToken))][Out] byte[] pbPublicKeyToken);
 
 	[PreserveSig]
-	int GetIndex(out uint pIndex);
+	int TryGetIndex(out uint pIndex);
 }

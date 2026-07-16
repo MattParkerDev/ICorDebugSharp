@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugGuidToTypeEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] CorDebugGuidToTypeMapping[] values, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] CorDebugGuidToTypeMapping[] values, out uint pceltFetched);
 }

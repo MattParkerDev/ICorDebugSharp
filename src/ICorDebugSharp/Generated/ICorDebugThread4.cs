@@ -12,11 +12,11 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread4
 {
 	[PreserveSig]
-	int HasUnhandledException();
+	int TryHasUnhandledException();
 
 	[PreserveSig]
-	int GetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum);
+	int TryGetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum);
 
 	[PreserveSig]
-	int GetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject);
+	int TryGetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject);
 }

@@ -12,14 +12,14 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction2
 {
 	[PreserveSig]
-	int SetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
+	int TrySetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
 
 	[PreserveSig]
-	int GetJMCStatus([MarshalAs(UnmanagedType.Bool)] out bool pbIsJustMyCode);
+	int TryGetJMCStatus([MarshalAs(UnmanagedType.Bool)] out bool pbIsJustMyCode);
 
 	[PreserveSig]
-	int EnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum);
+	int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum);
 
 	[PreserveSig]
-	int GetVersionNumber(out uint pnVersion);
+	int TryGetVersionNumber(out uint pnVersion);
 }

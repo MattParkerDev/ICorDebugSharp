@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess10
 {
 	[PreserveSig]
-	int EnableGCNotificationEvents([MarshalAs(UnmanagedType.Bool)] bool fEnable);
+	int TryEnableGCNotificationEvents([MarshalAs(UnmanagedType.Bool)] bool fEnable);
 }

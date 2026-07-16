@@ -12,8 +12,8 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugBreakpoint
 {
 	[PreserveSig]
-	int Activate([MarshalAs(UnmanagedType.Bool)] bool bActive);
+	int TryActivate([MarshalAs(UnmanagedType.Bool)] bool bActive);
 
 	[PreserveSig]
-	int IsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
+	int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 }

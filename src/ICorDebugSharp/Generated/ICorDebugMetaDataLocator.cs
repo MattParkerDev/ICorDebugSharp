@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMetaDataLocator
 {
 	[PreserveSig]
-	int GetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, out uint pcchPathBuffer, [MarshalUsing(CountElementName = nameof(cchPathBuffer))][Out] char[] wszPathBuffer);
+	int TryGetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, out uint pcchPathBuffer, [MarshalUsing(CountElementName = nameof(cchPathBuffer))][Out] char[] wszPathBuffer);
 }

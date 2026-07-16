@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugCode4
 {
 	[PreserveSig]
-	int EnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum);
+	int TryEnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum);
 }

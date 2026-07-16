@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugBreakpointEnum : ICorDebugEnum
 {
 	[PreserveSig]
-	int Next(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugBreakpoint[] breakpoints, out uint pceltFetched);
+	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugBreakpoint[] breakpoints, out uint pceltFetched);
 }
