@@ -183,7 +183,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var count = next.Parameters.Single(parameter => parameter.IsOut);
 		var elementType = ElementType(values.Type);
 		return $"\tprivate static IEnumerable<{elementType}> {method.Name}Core({enumerator.Type} enumerator)\n\t{{\n\t\twhile (true)\n\t\t{{\n" +
-			$"\t\t\tvar values = new {elementType}[1];\n\t\t\tvar hr = enumerator.Next(1, values, out var {Escape(count.Name)});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n" +
+			$"\t\t\tvar values = new {elementType}[1];\n\t\t\tvar hr = enumerator.{next.InvocationName}(1, values, out var {Escape(count.Name)});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n" +
 			$"\t\t\tif ({Escape(count.Name)} == 0)\n\t\t\t\tyield break;\n\t\t\tif ({Escape(count.Name)} != 1)\n\t\t\t\tthrow new InvalidOperationException(\"Native debugger enumerator returned an invalid item count.\");\n\t\t\tyield return values[0];\n\t\t}}\n\t}}";
 	}
 
@@ -278,7 +278,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var body =
 			$"\t\t\tvar hr = instance.{method.InvocationName}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
 			"\t\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t\t{\n\t\t\t\tvar capacity = required;\n\t\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
-			$"\t\t\t\thr = instance.{method.Name}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
+			$"\t\t\t\thr = instance.{method.InvocationName}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
 			$"\t\t\t\treturn {result};\n\t\t\t}}\n\n\t\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t\t}}";
 		return inputs.Length == 0 && method.Name.StartsWith("Get", StringComparison.Ordinal) && method.Name.Length > 3
 			? $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{Indent(body, "\t")}\n\t\t\t}}\n\t\t}}"
@@ -396,10 +396,10 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: $"({string.Join(", ", recipe.Outputs.Select(output => Escape(Camel(output.PublicName))))})";
 		return $"\tprivate static IEnumerable<{EnumerationReturnType(recipe)}> Enumerate{suffix}Core({recipe.Interface} instance{inputs})\n" +
 			"\t{\n\t\tvar handle = default(HCorEnum);\n\t\ttry\n\t\t{\n\t\t\twhile (true)\n\t\t\t{\n" +
-			$"\t\t\t\tvar hr = instance.{recipe.Method}({string.Join(", ", callArguments)});\n" +
+			$"\t\t\t\tvar hr = instance.{method.InvocationName}({string.Join(", ", callArguments)});\n" +
 			"\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (count == 0)\n\t\t\t\t\tyield break;\n" +
 			"\t\t\t\tif (count != 1)\n\t\t\t\t\tthrow new InvalidOperationException(\"Native metadata enumerator returned an invalid item count.\");\n" +
-			$"\t\t\t\tyield return {result};\n\t\t\t}}\n\t\t}}\n\t\tfinally\n\t\t{{\n\t\t\tif (!handle.IsNull)\n\t\t\t\tinstance.CloseEnum(handle);\n\t\t}}\n\t}}";
+			$"\t\t\t\tyield return {result};\n\t\t\t}}\n\t\t}}\n\t\tfinally\n\t\t{{\n\t\t\tif (!handle.IsNull)\n\t\t\t\tinstance.TryCloseEnum(handle);\n\t\t}}\n\t}}";
 	}
 
 	private static string RenderStringMember(StringQueryRecipe recipe)
@@ -413,9 +413,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string RenderStringHelper(StringQueryRecipe recipe) =>
 		$"\tprivate static {recipe.ReturnType} Query{recipe.Method}({recipe.Interface} instance{(recipe.Parameters.Length == 0 ? "" : ", " + recipe.Parameters)})\n" +
 		"\t{\n" +
-		$"\t\tvar hr = instance.{recipe.Method}({recipe.QueryArguments});\n\t\tMarshal.ThrowExceptionForHR(hr);\n\t\tif (required == 0)\n\t\t\treturn {EmptyStringResult(recipe)};\n\n" +
+		$"\t\tvar hr = instance.Try{recipe.Method}({recipe.QueryArguments});\n\t\tMarshal.ThrowExceptionForHR(hr);\n\t\tif (required == 0)\n\t\t\treturn {EmptyStringResult(recipe)};\n\n" +
 		"\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t{\n\t\t\tvar capacity = required;\n\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
-		$"\t\t\thr = instance.{recipe.Method}({recipe.FillArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (actual > capacity)\n\t\t\t{{\n\t\t\t\trequired = actual;\n\t\t\t\tcontinue;\n\t\t\t}}\n\n" +
+		$"\t\t\thr = instance.Try{recipe.Method}({recipe.FillArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (actual > capacity)\n\t\t\t{{\n\t\t\t\trequired = actual;\n\t\t\t\tcontinue;\n\t\t\t}}\n\n" +
 		$"\t\t\treturn {recipe.ReturnExpression};\n\t\t}}\n\n\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t}}";
 
 	private static string EmptyStringResult(StringQueryRecipe recipe) => recipe.ReturnType switch
