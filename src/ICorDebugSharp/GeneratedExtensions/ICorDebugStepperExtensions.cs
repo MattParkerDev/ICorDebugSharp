@@ -12,11 +12,14 @@ public static unsafe class CorDebugStepperExtensions
 {
 	extension(ICorDebugStepper instance)
 	{
-		public bool IsActive()
+		public bool IsActive
 		{
-			var hr = instance.TryIsActive(out var pbActive);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbActive;
+			get
+			{
+				var hr = instance.TryIsActive(out var pbActive);
+				Marshal.ThrowExceptionForHR(hr);
+				return pbActive;
+			}
 		}
 
 		public void Deactivate()

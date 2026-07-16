@@ -56,11 +56,14 @@ public static unsafe class CorDebugObjectValueExtensions
 			return ppFunction;
 		}
 
-		public bool IsValueClass()
+		public bool IsValueClass
 		{
-			var hr = instance.TryIsValueClass(out var pbIsValueClass);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbIsValueClass;
+			get
+			{
+				var hr = instance.TryIsValueClass(out var pbIsValueClass);
+				Marshal.ThrowExceptionForHR(hr);
+				return pbIsValueClass;
+			}
 		}
 
 		public void SetFromManagedCopy(nint pObject)

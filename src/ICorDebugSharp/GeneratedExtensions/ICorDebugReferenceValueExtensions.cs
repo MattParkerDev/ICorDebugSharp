@@ -36,11 +36,14 @@ public static unsafe class CorDebugReferenceValueExtensions
 			}
 		}
 
-		public bool IsNull()
+		public bool IsNull
 		{
-			var hr = instance.TryIsNull(out var pbNull);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbNull;
+			get
+			{
+				var hr = instance.TryIsNull(out var pbNull);
+				Marshal.ThrowExceptionForHR(hr);
+				return pbNull;
+			}
 		}
 
 		public void SetValue(CORDB_ADDRESS value)

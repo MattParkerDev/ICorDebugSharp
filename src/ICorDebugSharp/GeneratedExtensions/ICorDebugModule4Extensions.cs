@@ -12,11 +12,14 @@ public static unsafe class CorDebugModule4Extensions
 {
 	extension(ICorDebugModule4 instance)
 	{
-		public bool IsMappedLayout()
+		public bool IsMappedLayout
 		{
-			var hr = instance.TryIsMappedLayout(out var pIsMapped);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIsMapped;
+			get
+			{
+				var hr = instance.TryIsMappedLayout(out var pIsMapped);
+				Marshal.ThrowExceptionForHR(hr);
+				return pIsMapped;
+			}
 		}
 	}
 }

@@ -40,11 +40,14 @@ public static unsafe class CorDebugControllerExtensions
 			return pbQueued;
 		}
 
-		public bool IsRunning()
+		public bool IsRunning
 		{
-			var hr = instance.TryIsRunning(out var pbRunning);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbRunning;
+			get
+			{
+				var hr = instance.TryIsRunning(out var pbRunning);
+				Marshal.ThrowExceptionForHR(hr);
+				return pbRunning;
+			}
 		}
 
 		public void Continue(bool fIsOutOfBand)

@@ -22,11 +22,14 @@ public static unsafe class CorDebugNativeFrame2Extensions
 			}
 		}
 
-		public bool IsChild()
+		public bool IsChild
 		{
-			var hr = instance.TryIsChild(out var pIsChild);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIsChild;
+			get
+			{
+				var hr = instance.TryIsChild(out var pIsChild);
+				Marshal.ThrowExceptionForHR(hr);
+				return pIsChild;
+			}
 		}
 
 		public bool IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame)

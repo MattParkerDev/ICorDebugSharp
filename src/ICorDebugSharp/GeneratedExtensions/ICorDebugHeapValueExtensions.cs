@@ -19,11 +19,14 @@ public static unsafe class CorDebugHeapValueExtensions
 			return ppBreakpoint;
 		}
 
-		public bool IsValid()
+		public bool IsValid
 		{
-			var hr = instance.TryIsValid(out var pbValid);
-			Marshal.ThrowExceptionForHR(hr);
-			return pbValid;
+			get
+			{
+				var hr = instance.TryIsValid(out var pbValid);
+				Marshal.ThrowExceptionForHR(hr);
+				return pbValid;
+			}
 		}
 	}
 }
