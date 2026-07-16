@@ -98,12 +98,13 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 		foreach (var method in capabilityInterface.Methods.Values.Where(method => method.ReturnType == "int").OrderBy(method => method.Name, StringComparer.Ordinal))
 		{
+			members.Add(RenderCapabilityTryMethod(method, capabilityName));
 			if (method.Name.StartsWith("Set", StringComparison.Ordinal) && capabilityInterface.Methods.TryGetValue("Get" + method.Name[3..], out var getter) && IsPropertySetter(getter, method))
 				continue;
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
 					? RenderOutputProperty(method, GetPropertyName(method), $"instance.{capabilityName}.{method.InvocationName}", FindPropertySetter(capabilityInterface, method), $"instance.{capabilityName}.{FindPropertySetter(capabilityInterface, method)?.InvocationName}")
-					: RenderProjectedMethod(method, "Try" + method.Name).Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal))
+					: RenderCapabilityProjectedMethod(method, capabilityName))
 				: RenderCapabilityVoidMethod(method, capabilityName));
 		}
 
@@ -127,8 +128,36 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
 			? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
-		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{capabilityName}.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
+		return $"\t\tpublic void {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
+	}
+
+	private static string RenderCapabilityTryMethod(ManagedMethod method, string capabilityName)
+	{
+		var parameters = string.Join(", ", method.Parameters.Select(RenderRawParameter));
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
+			? $"out {Escape(parameter.Name)}"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		return $"\t\tpublic int Try{method.Name}({parameters}) => instance.{capabilityName}.{method.InvocationName}({arguments});";
+	}
+
+	private string RenderCapabilityProjectedMethod(ManagedMethod method, string capabilityName)
+	{
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && !parameter.IsEnumeratorMaxOne).ToArray();
+		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
+		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		if (IsComEnumeration(method))
+		{
+			var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
+			var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
+			var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
+			return $"\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
+		}
+
+		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
+		var returnType = outputs.Length == 1
+			? ProjectedOutputType(outputs[0])
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+		return $"\t\tpublic {returnType} {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
 	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe, string capabilityName)
@@ -150,7 +179,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			return $"\t\tpublic {returnType} {recipe.Method[3..]} => instance.{capabilityName}.{recipe.Method[3..]};";
 		var body = RenderQueryBody(method, recipe, retained, elementType, retained.Length == 0 ? 4 : 3)
 			.Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal);
-		return $"\t\tpublic {returnType} Try{recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
+		return $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
 	}
 
 	private static string RenderCapabilityStringQuery(ManagedMethod method, string capabilityName)
@@ -163,7 +192,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var returnType = outputs.Length == 0
 			? "string"
 			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
-		return $"\t\tpublic {returnType} Try{method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
+		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.InvocationName}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
 	}
 
@@ -291,6 +320,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
 		$"{(parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
+
+	private static string RenderRawParameter(ManagedParameter parameter) =>
+		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
 
 	private static bool TryGetStringBuffer(ManagedMethod method, out (ManagedParameter Buffer, ManagedParameter Capacity, ManagedParameter Count) value)
 	{
