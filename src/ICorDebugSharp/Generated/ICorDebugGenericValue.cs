@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugGenericValue : ICorDebugValue
 {
 	[PreserveSig]
-	int TryGetValue(out nint pTo);
+	int TryGetValue(nint pTo);
 
 	[PreserveSig]
 	int TrySetValue(nint pFrom);

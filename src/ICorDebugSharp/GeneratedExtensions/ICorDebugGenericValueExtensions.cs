@@ -12,14 +12,10 @@ public static unsafe class CorDebugGenericValueExtensions
 {
 	extension(ICorDebugGenericValue instance)
 	{
-		public nint Value
+		public void GetValue(nint pTo)
 		{
-			get
-			{
-				var hr = instance.TryGetValue(out var pTo);
-				Marshal.ThrowExceptionForHR(hr);
-				return pTo;
-			}
+			var hr = instance.TryGetValue(pTo);
+			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void SetValue(nint pFrom)

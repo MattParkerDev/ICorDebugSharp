@@ -22,14 +22,10 @@ public static unsafe class CorDebugMemoryBufferExtensions
 			}
 		}
 
-		public nint StartAddress
+		public void GetStartAddress(nint address)
 		{
-			get
-			{
-				var hr = instance.TryGetStartAddress(out var address);
-				Marshal.ThrowExceptionForHR(hr);
-				return address;
-			}
+			var hr = instance.TryGetStartAddress(address);
+			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
 }

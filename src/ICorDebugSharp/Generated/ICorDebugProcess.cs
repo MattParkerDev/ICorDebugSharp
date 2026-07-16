@@ -15,7 +15,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	int TryGetID(out uint pdwProcessId);
 
 	[PreserveSig]
-	int TryGetHandle(out nint phProcessHandle);
+	int TryGetHandle(nint phProcessHandle);
 
 	[PreserveSig]
 	int TryGetThread(uint dwThreadId, out ICorDebugThread ppThread);

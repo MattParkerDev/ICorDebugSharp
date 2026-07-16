@@ -83,16 +83,6 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
-		public nint Handle
-		{
-			get
-			{
-				var hr = instance.TryGetHandle(out var phThreadHandle);
-				Marshal.ThrowExceptionForHR(hr);
-				return phThreadHandle;
-			}
-		}
-
 		public uint Id
 		{
 			get
@@ -146,6 +136,12 @@ public static unsafe class CorDebugThreadExtensions
 		public void ClearCurrentException()
 		{
 			var hr = instance.TryClearCurrentException();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void GetHandle(nint phThreadHandle)
+		{
+			var hr = instance.TryGetHandle(phThreadHandle);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

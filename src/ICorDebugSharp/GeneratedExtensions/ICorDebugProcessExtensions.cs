@@ -26,16 +26,6 @@ public static unsafe class CorDebugProcessExtensions
 			return EnumerateObjectsCore(ppObjects);
 		}
 
-		public nint Handle
-		{
-			get
-			{
-				var hr = instance.TryGetHandle(out var phProcessHandle);
-				Marshal.ThrowExceptionForHR(hr);
-				return phProcessHandle;
-			}
-		}
-
 		public uint HelperThreadID
 		{
 			get
@@ -117,6 +107,12 @@ public static unsafe class CorDebugProcessExtensions
 		public void EnableLogMessages(bool fOnOff)
 		{
 			var hr = instance.TryEnableLogMessages(fOnOff);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void GetHandle(nint phProcessHandle)
+		{
+			var hr = instance.TryGetHandle(phProcessHandle);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
