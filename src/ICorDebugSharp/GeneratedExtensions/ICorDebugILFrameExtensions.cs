@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -25,6 +26,10 @@ public static unsafe class CorDebugILFrameExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateLocalVariablesCore(ppValueEnum);
 		}
+
+		public ICorDebugValue[] Arguments => instance.EnumerateArguments().ToArray();
+
+		public ICorDebugValue[] LocalVariables => instance.EnumerateLocalVariables().ToArray();
 
 		public ICorDebugValue GetArgument(uint dwIndex)
 		{

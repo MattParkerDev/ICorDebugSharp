@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -18,6 +19,8 @@ public static unsafe class CorDebugThreadExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateChainsCore(ppChains);
 		}
+
+		public ICorDebugChain[] Chains => instance.EnumerateChains().ToArray();
 
 		public ICorDebugEval CreateEval()
 		{

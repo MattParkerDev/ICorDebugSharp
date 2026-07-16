@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -20,6 +21,8 @@ public static unsafe class CorDebugILFrameILFrame2Extensions
 		public int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum) => instance.ILFrame2.TryEnumerateTypeParameters(out ppTyParEnum);
 
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters() => instance.ILFrame2.EnumerateTypeParameters();
+
+		public ICorDebugType[] TypeParameters => instance.ILFrame2.EnumerateTypeParameters().ToArray();
 
 		public int TryRemapFunction(uint newILOffset) => instance.ILFrame2.TryRemapFunction(newILOffset);
 

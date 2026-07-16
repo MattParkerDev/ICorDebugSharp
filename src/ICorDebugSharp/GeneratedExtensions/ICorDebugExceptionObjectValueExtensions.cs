@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -18,6 +19,8 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateExceptionCallStackCore(ppCallStackEnum);
 		}
+
+		public CorDebugExceptionObjectStackFrame[] ExceptionCallStack => instance.EnumerateExceptionCallStack().ToArray();
 	}
 
 	private static IEnumerable<CorDebugExceptionObjectStackFrame> EnumerateExceptionCallStackCore(ICorDebugExceptionObjectCallStackEnum enumerator)

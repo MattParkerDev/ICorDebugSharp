@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -64,6 +65,12 @@ public static unsafe class CorDebugAppDomainExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateSteppersCore(ppSteppers);
 		}
+
+		public ICorDebugAssembly[] Assemblies => instance.EnumerateAssemblies().ToArray();
+
+		public ICorDebugBreakpoint[] Breakpoints => instance.EnumerateBreakpoints().ToArray();
+
+		public ICorDebugStepper[] Steppers => instance.EnumerateSteppers().ToArray();
 
 		public uint Id
 		{

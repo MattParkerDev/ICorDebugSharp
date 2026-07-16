@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -18,6 +19,8 @@ public static unsafe class CorDebugExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateProcessesCore(ppProcess);
 		}
+
+		public ICorDebugProcess[] Processes => instance.EnumerateProcesses().ToArray();
 
 		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{

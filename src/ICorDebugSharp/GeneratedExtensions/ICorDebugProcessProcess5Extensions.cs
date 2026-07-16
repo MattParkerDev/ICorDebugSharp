@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -33,9 +34,13 @@ public static unsafe class CorDebugProcessProcess5Extensions
 
 		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap() => instance.Process5.EnumerateHeap();
 
+		public COR_HEAPOBJECT[] Heap => instance.Process5.EnumerateHeap().ToArray();
+
 		public int TryEnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions) => instance.Process5.TryEnumerateHeapRegions(out ppRegions);
 
 		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions() => instance.Process5.EnumerateHeapRegions();
+
+		public COR_SEGMENT[] HeapRegions => instance.Process5.EnumerateHeapRegions().ToArray();
 
 		public int TryGetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout) => instance.Process5.TryGetArrayLayout(id, out pLayout);
 

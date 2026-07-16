@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -20,6 +21,8 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		public int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum) => instance.Function2.TryEnumerateNativeCode(out ppCodeEnum);
 
 		public IEnumerable<ICorDebugCode> EnumerateNativeCode() => instance.Function2.EnumerateNativeCode();
+
+		public ICorDebugCode[] NativeCode => instance.Function2.EnumerateNativeCode().ToArray();
 
 		public int TryGetJMCStatus(out bool pbIsJustMyCode) => instance.Function2.TryGetJMCStatus(out pbIsJustMyCode);
 

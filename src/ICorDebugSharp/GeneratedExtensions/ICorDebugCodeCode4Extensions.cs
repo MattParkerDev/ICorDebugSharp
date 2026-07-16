@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -20,5 +21,7 @@ public static unsafe class CorDebugCodeCode4Extensions
 		public int TryEnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum) => instance.Code4.TryEnumerateVariableHomes(out ppEnum);
 
 		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes() => instance.Code4.EnumerateVariableHomes();
+
+		public ICorDebugVariableHome[] VariableHomes => instance.Code4.EnumerateVariableHomes().ToArray();
 	}
 }

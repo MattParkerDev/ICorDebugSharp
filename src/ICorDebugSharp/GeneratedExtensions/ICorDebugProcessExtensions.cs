@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -25,6 +26,10 @@ public static unsafe class CorDebugProcessExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateObjectsCore(ppObjects);
 		}
+
+		public ICorDebugAppDomain[] AppDomains => instance.EnumerateAppDomains().ToArray();
+
+		public CORDB_ADDRESS[] Objects => instance.EnumerateObjects().ToArray();
 
 		public uint HelperThreadID
 		{

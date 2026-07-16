@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -32,6 +33,8 @@ public static unsafe class CorDebugControllerExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateThreadsCore(ppThreads);
 		}
+
+		public ICorDebugThread[] Threads => instance.EnumerateThreads().ToArray();
 
 		public bool HasQueuedCallbacks(ICorDebugThread pThread)
 		{

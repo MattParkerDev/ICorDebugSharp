@@ -2,6 +2,7 @@
 #nullable enable
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using ICorDebugSharp;
@@ -20,6 +21,8 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 		public int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies) => instance.Assembly3.TryEnumerateContainedAssemblies(out ppAssemblies);
 
 		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies() => instance.Assembly3.EnumerateContainedAssemblies();
+
+		public ICorDebugAssembly[] ContainedAssemblies => instance.Assembly3.EnumerateContainedAssemblies().ToArray();
 
 		public int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly) => instance.Assembly3.TryGetContainerAssembly(out ppAssembly);
 
