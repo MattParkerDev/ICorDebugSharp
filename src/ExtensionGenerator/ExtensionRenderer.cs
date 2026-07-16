@@ -43,8 +43,12 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var boolResultMethods = boolResults.Select(recipe => catalog.GetMethod(recipe.Interface, recipe.Method)).ToHashSet();
+		var propertySetters = projected.Where(IsParameterlessGetter)
+			.Select(getter => FindPropertySetter(@interface, getter))
+			.OfType<ManagedMethod>()
+			.ToHashSet();
 		var voidMethods = @interface.Methods.Values
-			.Where(method => method.ReturnType == "int" && !method.Parameters.Any(parameter => parameter.IsOut) && !boolResultMethods.Contains(method))
+			.Where(method => method.ReturnType == "int" && !method.Parameters.Any(parameter => parameter.IsOut) && !boolResultMethods.Contains(method) && !propertySetters.Contains(method))
 			.OrderBy(method => method.Name, StringComparer.Ordinal)
 			.ToArray();
 
@@ -65,7 +69,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
-				? RenderOutputProperty(method, GetPropertyName(method), $"instance.{method.InvocationName}")
+				? RenderOutputProperty(method, GetPropertyName(method), $"instance.{method.InvocationName}", FindPropertySetter(@interface, method))
 				: RenderProjectedMethod(method)))
 			.Concat(returnProperties.Select(RenderReturnProperty))
 			.Concat(voidMethods.Select(RenderVoidMethod));
@@ -94,9 +98,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 		foreach (var method in capabilityInterface.Methods.Values.Where(method => method.ReturnType == "int").OrderBy(method => method.Name, StringComparer.Ordinal))
 		{
+			if (method.Name.StartsWith("Set", StringComparison.Ordinal) && capabilityInterface.Methods.TryGetValue("Get" + method.Name[3..], out var getter) && IsPropertySetter(getter, method))
+				continue;
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
-					? RenderOutputProperty(method, GetPropertyName(method), $"instance.{capabilityName}.{method.InvocationName}")
+					? RenderOutputProperty(method, GetPropertyName(method), $"instance.{capabilityName}.{method.InvocationName}", FindPropertySetter(capabilityInterface, method), $"instance.{capabilityName}.{FindPropertySetter(capabilityInterface, method)?.InvocationName}")
 					: RenderProjectedMethod(method).Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal))
 				: RenderCapabilityVoidMethod(method, capabilityName));
 		}
@@ -230,7 +236,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
-	private static string RenderOutputProperty(ManagedMethod method, string propertyName, string call)
+	private static string RenderOutputProperty(ManagedMethod method, string propertyName, string call, ManagedMethod? setter = null, string? setterCall = null)
 	{
 		var outputs = method.Parameters;
 		var returnType = outputs.Count == 1
@@ -242,8 +248,24 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
-			"\t\t\t}\n\t\t}";
+			"\t\t\t}" +
+			(setter is null ? "" : $"\n\t\t\tset\n\t\t\t{{\n\t\t\t\tvar hr = {setterCall ?? $"instance.{setter.InvocationName}"}(value);\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t}}") +
+			"\n\t\t}";
 	}
+
+	private static ManagedMethod? FindPropertySetter(ManagedInterface @interface, ManagedMethod getter) =>
+		getter.Name.StartsWith("Get", StringComparison.Ordinal) && @interface.Methods.TryGetValue("Set" + getter.Name[3..], out var setter) && IsPropertySetter(getter, setter)
+			? setter
+			: null;
+
+	private static bool IsPropertySetter(ManagedMethod getter, ManagedMethod setter) =>
+		IsParameterlessGetter(getter) &&
+		getter.Parameters.Count == 1 &&
+		setter.ReturnType == "int" &&
+		setter.Parameters.Count == 1 &&
+		!setter.Parameters[0].IsOut &&
+		!setter.Parameters[0].IsRef &&
+		ProjectedOutputType(getter.Parameters[0]) == setter.Parameters[0].Type;
 
 	private static string RenderReturnProperty(ManagedMethod method) =>
 		$"\t\tpublic {method.ReturnType} {method.Name} => instance.{method.InvocationName}();";
