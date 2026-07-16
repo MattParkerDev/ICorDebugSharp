@@ -27,7 +27,8 @@ internal sealed class ManagedInterfaceCatalog
 				var @namespace = declaration.Ancestors().OfType<BaseNamespaceDeclarationSyntax>().FirstOrDefault()?.Name.ToString()
 					?? throw new InvalidOperationException($"{path}: {declaration.Identifier.ValueText} has no namespace.");
 				var methods = declaration.Members.OfType<MethodDeclarationSyntax>()
-					.ToDictionary(method => method.Identifier.ValueText, ManagedMethod.Create, StringComparer.Ordinal);
+					.Select(ManagedMethod.Create)
+					.ToDictionary(method => method.Name, StringComparer.Ordinal);
 				var item = new ManagedInterface(declaration.Identifier.ValueText, @namespace, methods);
 				if (!interfaces.TryAdd(item.Name, item))
 					throw new InvalidOperationException($"Duplicate managed interface {item.Name}.");
@@ -51,12 +52,23 @@ internal sealed class ManagedInterfaceCatalog
 
 internal sealed record ManagedInterface(string Name, string Namespace, IReadOnlyDictionary<string, ManagedMethod> Methods);
 
-internal sealed record ManagedMethod(string Name, string ReturnType, IReadOnlyList<ManagedParameter> Parameters)
+internal sealed record ManagedMethod(
+	string Name,
+	string InvocationName,
+	string ReturnType,
+	IReadOnlyList<ManagedParameter> Parameters)
 {
-	public static ManagedMethod Create(MethodDeclarationSyntax method) => new(
-		method.Identifier.ValueText,
-		method.ReturnType.ToString(),
-		method.ParameterList.Parameters.Select(ManagedParameter.Create).ToArray());
+	public static ManagedMethod Create(MethodDeclarationSyntax method)
+	{
+		var invocationName = method.Identifier.ValueText;
+		if (!invocationName.StartsWith("Try", StringComparison.Ordinal) || invocationName.Length == 3)
+			throw new InvalidOperationException($"Generated method {invocationName} must start with Try.");
+		return new(
+			invocationName[3..],
+			invocationName,
+			method.ReturnType.ToString(),
+			method.ParameterList.Parameters.Select(ManagedParameter.Create).ToArray());
+	}
 
 	public ManagedParameter GetParameter(string name) =>
 		Parameters.FirstOrDefault(parameter => parameter.Name == name)

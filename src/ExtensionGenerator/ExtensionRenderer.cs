@@ -56,7 +56,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
-				? RenderOutputProperty(method, $"instance.{method.Name}")
+				? RenderOutputProperty(method, $"instance.{method.InvocationName}")
 				: RenderProjectedMethod(method)))
 			.Concat(returnProperties.Select(RenderReturnProperty));
 		var helpers = enumerations.Select(RenderEnumerationHelper).ToList();
@@ -86,7 +86,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		{
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
-					? RenderOutputProperty(method, $"instance.{capabilityName}.{method.Name}")
+					? RenderOutputProperty(method, $"instance.{capabilityName}.{method.InvocationName}")
 					: RenderProjectedMethod(method).Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal))
 				: RenderCapabilityVoidMethod(method, capabilityName));
 		}
@@ -112,7 +112,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{capabilityName}.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
+			$"\t\t\tvar hr = instance.{capabilityName}.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
 	}
 
 	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe, string capabilityName)
@@ -148,7 +148,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "string"
 			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
 		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
-			$"instance.{capabilityName}.{method.Name}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
+			$"instance.{capabilityName}.{method.InvocationName}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
 	}
 
 	private static bool CanProjectOutputs(ManagedMethod method) =>
@@ -172,7 +172,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? $"out var {Escape(parameter.Name)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		return $"\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {method.Name}Core({Escape(enumerator.Name)});\n\t\t}}";
+			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {method.Name}Core({Escape(enumerator.Name)});\n\t\t}}";
 	}
 
 	private string RenderComEnumerationHelper(ManagedMethod method)
@@ -214,7 +214,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{method.Name}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
 	private static string RenderOutputProperty(ManagedMethod method, string call)
@@ -233,7 +233,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	}
 
 	private static string RenderReturnProperty(ManagedMethod method) =>
-		$"\t\tpublic {method.ReturnType} {method.Name} => instance.{method.Name}();";
+		$"\t\tpublic {method.ReturnType} {method.Name} => instance.{method.InvocationName}();";
 
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
@@ -276,7 +276,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "string.Empty"
 			: $"(string.Empty, {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output, "query")))})";
 		var body =
-			$"\t\t\tvar hr = instance.{method.Name}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
+			$"\t\t\tvar hr = instance.{method.InvocationName}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
 			"\t\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t\t{\n\t\t\t\tvar capacity = required;\n\t\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
 			$"\t\t\t\thr = instance.{method.Name}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
 			$"\t\t\t\treturn {result};\n\t\t\t}}\n\n\t\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t\t}}";
@@ -349,11 +349,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = recipe.Kind == BufferKind.String
 			? "var length = checked((int)actual);\nif (length > 0 && buffer[length - 1] == '\\0')\n\tlength--;\n\nreturn new string(buffer, 0, length);"
 			: "if (actual != capacity)\n\tArray.Resize(ref buffer, checked((int)actual));\n\nreturn buffer;";
-		return $"{prefix}var hr = instance.{method.Name}({first});\n" +
+		return $"{prefix}var hr = instance.{method.InvocationName}({first});\n" +
 			$"{prefix}Marshal.ThrowExceptionForHR(hr);\n{prefix}if (required == 0)\n{prefix}\treturn {empty};\n\n" +
 			$"{prefix}for (var attempt = 0; attempt < 3; attempt++)\n{prefix}{{\n" +
 			$"{prefix}\tvar capacity = required;\n{prefix}\tvar buffer = new {elementType}[checked((int)capacity)];\n" +
-			$"{prefix}\thr = instance.{method.Name}({second});\n{prefix}\tMarshal.ThrowExceptionForHR(hr);\n" +
+			$"{prefix}\thr = instance.{method.InvocationName}({second});\n{prefix}\tMarshal.ThrowExceptionForHR(hr);\n" +
 			$"{prefix}\tif (actual > capacity)\n{prefix}\t{{\n{prefix}\t\trequired = actual;\n{prefix}\t\tcontinue;\n{prefix}\t}}\n\n" +
 			$"{Indent(result, prefix + "\t")}\n{prefix}}}\n\n" +
 			$"{prefix}throw new InvalidOperationException(\"Native buffer size did not stabilize.\");";
