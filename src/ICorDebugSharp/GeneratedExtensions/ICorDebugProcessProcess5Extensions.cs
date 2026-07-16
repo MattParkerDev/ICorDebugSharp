@@ -17,46 +17,31 @@ public static unsafe class CorDebugProcessProcess5Extensions
 		public ICorDebugProcess5 Process5 =>
 			instance as ICorDebugProcess5 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess5.");
 
-		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy)
-		{
-			var hr = instance.Process5.TryEnableNGENPolicy(ePolicy);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryEnableNGENPolicy(CorDebugNGENPolicy ePolicy) => instance.Process5.TryEnableNGENPolicy(ePolicy);
 
-		public ICorDebugGCReferenceEnum EnumerateGCReferences(bool enumerateWeakReferences)
-		{
-			var hr = instance.Process5.TryEnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
-		}
+		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy) => instance.Process5.EnableNGENPolicy(ePolicy);
 
-		public ICorDebugGCReferenceEnum EnumerateHandles(CorGCReferenceType types)
-		{
-			var hr = instance.Process5.TryEnumerateHandles(types, out var ppEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
-		}
+		public int TryEnumerateGCReferences(bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum) => instance.Process5.TryEnumerateGCReferences(enumerateWeakReferences, out ppEnum);
 
-		public ICorDebugHeapEnum EnumerateHeap()
-		{
-			var hr = instance.Process5.TryEnumerateHeap(out var ppObjects);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObjects;
-		}
+		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences) => instance.Process5.EnumerateGCReferences(enumerateWeakReferences);
 
-		public ICorDebugHeapSegmentEnum EnumerateHeapRegions()
-		{
-			var hr = instance.Process5.TryEnumerateHeapRegions(out var ppRegions);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppRegions;
-		}
+		public int TryEnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum) => instance.Process5.TryEnumerateHandles(types, out ppEnum);
 
-		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
-		{
-			var hr = instance.Process5.TryGetArrayLayout(id, out var pLayout);
-			Marshal.ThrowExceptionForHR(hr);
-			return pLayout;
-		}
+		public IEnumerable<COR_GC_REFERENCE> EnumerateHandles(CorGCReferenceType types) => instance.Process5.EnumerateHandles(types);
+
+		public int TryEnumerateHeap(out ICorDebugHeapEnum ppObjects) => instance.Process5.TryEnumerateHeap(out ppObjects);
+
+		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap() => instance.Process5.EnumerateHeap();
+
+		public int TryEnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions) => instance.Process5.TryEnumerateHeapRegions(out ppRegions);
+
+		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions() => instance.Process5.EnumerateHeapRegions();
+
+		public int TryGetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout) => instance.Process5.TryGetArrayLayout(id, out pLayout);
+
+		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id) => instance.Process5.GetArrayLayout(id);
+
+		public int TryGetGCHeapInformation(out COR_HEAPINFO pHeapInfo) => instance.Process5.TryGetGCHeapInformation(out pHeapInfo);
 
 		public COR_HEAPINFO GCHeapInformation
 		{
@@ -68,39 +53,24 @@ public static unsafe class CorDebugProcessProcess5Extensions
 			}
 		}
 
-		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)
-		{
-			var hr = instance.Process5.TryGetObject(addr, out var pObject);
-			Marshal.ThrowExceptionForHR(hr);
-			return pObject;
-		}
+		public int TryGetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject) => instance.Process5.TryGetObject(addr, out pObject);
 
-		public uint GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields)
-		{
-			var hr = instance.Process5.TryGetTypeFields(id, celt, fields, out var pceltNeeded);
-			Marshal.ThrowExceptionForHR(hr);
-			return pceltNeeded;
-		}
+		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr) => instance.Process5.GetObject(addr);
 
-		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)
-		{
-			var hr = instance.Process5.TryGetTypeForTypeID(id, out var ppType);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppType;
-		}
+		public int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded) => instance.Process5.TryGetTypeFields(id, celt, fields, out pceltNeeded);
 
-		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj)
-		{
-			var hr = instance.Process5.TryGetTypeID(obj, out var pId);
-			Marshal.ThrowExceptionForHR(hr);
-			return pId;
-		}
+		public uint GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields) => instance.Process5.GetTypeFields(id, celt, fields);
 
-		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id)
-		{
-			var hr = instance.Process5.TryGetTypeLayout(id, out var pLayout);
-			Marshal.ThrowExceptionForHR(hr);
-			return pLayout;
-		}
+		public int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType) => instance.Process5.TryGetTypeForTypeID(id, out ppType);
+
+		public ICorDebugType GetTypeForTypeID(COR_TYPEID id) => instance.Process5.GetTypeForTypeID(id);
+
+		public int TryGetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId) => instance.Process5.TryGetTypeID(obj, out pId);
+
+		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj) => instance.Process5.GetTypeID(obj);
+
+		public int TryGetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout) => instance.Process5.TryGetTypeLayout(id, out pLayout);
+
+		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id) => instance.Process5.GetTypeLayout(id);
 	}
 }

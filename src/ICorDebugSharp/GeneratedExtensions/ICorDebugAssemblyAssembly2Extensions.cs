@@ -17,6 +17,8 @@ public static unsafe class CorDebugAssemblyAssembly2Extensions
 		public ICorDebugAssembly2 Assembly2 =>
 			instance as ICorDebugAssembly2 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly2.");
 
+		public int TryIsFullyTrusted(out bool pbFullyTrusted) => instance.Assembly2.TryIsFullyTrusted(out pbFullyTrusted);
+
 		public bool IsFullyTrusted
 		{
 			get

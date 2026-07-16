@@ -17,10 +17,8 @@ public static unsafe class CorDebugProcessProcess8Extensions
 		public ICorDebugProcess8 Process8 =>
 			instance as ICorDebugProcess8 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess8.");
 
-		public void EnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC)
-		{
-			var hr = instance.Process8.TryEnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryEnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC) => instance.Process8.TryEnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
+
+		public void EnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC) => instance.Process8.EnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
 	}
 }

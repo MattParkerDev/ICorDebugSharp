@@ -17,6 +17,8 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 		public ICorDebugInternalFrame2 InternalFrame2 =>
 			instance as ICorDebugInternalFrame2 ?? throw new NotSupportedException("ICorDebugInternalFrame does not support ICorDebugInternalFrame2.");
 
+		public int TryGetAddress(out CORDB_ADDRESS pAddress) => instance.InternalFrame2.TryGetAddress(out pAddress);
+
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -27,11 +29,8 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 			}
 		}
 
-		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
-		{
-			var hr = instance.InternalFrame2.TryIsCloserToLeaf(pFrameToCompare, out var pIsCloser);
-			Marshal.ThrowExceptionForHR(hr);
-			return pIsCloser;
-		}
+		public int TryIsCloserToLeaf(ICorDebugFrame pFrameToCompare, out bool pIsCloser) => instance.InternalFrame2.TryIsCloserToLeaf(pFrameToCompare, out pIsCloser);
+
+		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare) => instance.InternalFrame2.IsCloserToLeaf(pFrameToCompare);
 	}
 }

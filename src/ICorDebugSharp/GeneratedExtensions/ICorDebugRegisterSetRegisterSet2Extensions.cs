@@ -17,22 +17,16 @@ public static unsafe class CorDebugRegisterSetRegisterSet2Extensions
 		public ICorDebugRegisterSet2 RegisterSet2 =>
 			instance as ICorDebugRegisterSet2 ?? throw new NotSupportedException("ICorDebugRegisterSet does not support ICorDebugRegisterSet2.");
 
-		public void GetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer)
-		{
-			var hr = instance.RegisterSet2.TryGetRegisters(maskCount, mask, regCount, regBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryGetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TryGetRegisters(maskCount, mask, regCount, regBuffer);
 
-		public void GetRegistersAvailable(uint numChunks, byte[] availableRegChunks)
-		{
-			var hr = instance.RegisterSet2.TryGetRegistersAvailable(numChunks, availableRegChunks);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public void GetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.GetRegisters(maskCount, mask, regCount, regBuffer);
 
-		public void SetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer)
-		{
-			var hr = instance.RegisterSet2.TrySetRegisters(maskCount, mask, regCount, regBuffer);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryGetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.TryGetRegistersAvailable(numChunks, availableRegChunks);
+
+		public void GetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.GetRegistersAvailable(numChunks, availableRegChunks);
+
+		public int TrySetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TrySetRegisters(maskCount, mask, regCount, regBuffer);
+
+		public void SetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.SetRegisters(maskCount, mask, regCount, regBuffer);
 	}
 }

@@ -17,12 +17,11 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 		public ICorDebugSymbolProvider2 SymbolProvider2 =>
 			instance as ICorDebugSymbolProvider2 ?? throw new NotSupportedException("ICorDebugSymbolProvider does not support ICorDebugSymbolProvider2.");
 
-		public (uint pCodeStartRva, uint pParentFrameStartRva) GetFrameProps(uint codeRva)
-		{
-			var hr = instance.SymbolProvider2.TryGetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pCodeStartRva, pParentFrameStartRva);
-		}
+		public int TryGetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva) => instance.SymbolProvider2.TryGetFrameProps(codeRva, out pCodeStartRva, out pParentFrameStartRva);
+
+		public (uint pCodeStartRva, uint pParentFrameStartRva) GetFrameProps(uint codeRva) => instance.SymbolProvider2.GetFrameProps(codeRva);
+
+		public int TryGetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer) => instance.SymbolProvider2.TryGetGenericDictionaryInfo(out ppMemoryBuffer);
 
 		public ICorDebugMemoryBuffer GenericDictionaryInfo
 		{

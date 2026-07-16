@@ -17,10 +17,8 @@ public static unsafe class CorDebugProcessProcess7Extensions
 		public ICorDebugProcess7 Process7 =>
 			instance as ICorDebugProcess7 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess7.");
 
-		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags)
-		{
-			var hr = instance.Process7.TrySetWriteableMetadataUpdateMode(flags);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TrySetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags) => instance.Process7.TrySetWriteableMetadataUpdateMode(flags);
+
+		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags) => instance.Process7.SetWriteableMetadataUpdateMode(flags);
 	}
 }

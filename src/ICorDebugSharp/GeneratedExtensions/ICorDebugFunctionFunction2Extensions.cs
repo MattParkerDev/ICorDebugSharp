@@ -17,12 +17,11 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		public ICorDebugFunction2 Function2 =>
 			instance as ICorDebugFunction2 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction2.");
 
-		public ICorDebugCodeEnum EnumerateNativeCode()
-		{
-			var hr = instance.Function2.TryEnumerateNativeCode(out var ppCodeEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCodeEnum;
-		}
+		public int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum) => instance.Function2.TryEnumerateNativeCode(out ppCodeEnum);
+
+		public IEnumerable<ICorDebugCode> EnumerateNativeCode() => instance.Function2.EnumerateNativeCode();
+
+		public int TryGetJMCStatus(out bool pbIsJustMyCode) => instance.Function2.TryGetJMCStatus(out pbIsJustMyCode);
 
 		public bool JMCStatus
 		{
@@ -39,6 +38,8 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			}
 		}
 
+		public int TryGetVersionNumber(out uint pnVersion) => instance.Function2.TryGetVersionNumber(out pnVersion);
+
 		public uint VersionNumber
 		{
 			get
@@ -48,5 +49,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 				return pnVersion;
 			}
 		}
+
+		public int TrySetJMCStatus(bool bIsJustMyCode) => instance.Function2.TrySetJMCStatus(bIsJustMyCode);
 	}
 }

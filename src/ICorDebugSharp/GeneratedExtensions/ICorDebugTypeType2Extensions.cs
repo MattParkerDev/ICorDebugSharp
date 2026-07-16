@@ -17,6 +17,8 @@ public static unsafe class CorDebugTypeType2Extensions
 		public ICorDebugType2 Type2 =>
 			instance as ICorDebugType2 ?? throw new NotSupportedException("ICorDebugType does not support ICorDebugType2.");
 
+		public int TryGetTypeID(out COR_TYPEID id) => instance.Type2.TryGetTypeID(out id);
+
 		public COR_TYPEID TypeID
 		{
 			get

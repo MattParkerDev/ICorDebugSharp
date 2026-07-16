@@ -17,11 +17,11 @@ public static unsafe class CorDebugModuleModule2Extensions
 		public ICorDebugModule2 Module2 =>
 			instance as ICorDebugModule2 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule2.");
 
-		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL)
-		{
-			var hr = instance.Module2.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL) => instance.Module2.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+
+		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL) => instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+
+		public int TryGetJITCompilerFlags(out uint pdwFlags) => instance.Module2.TryGetJITCompilerFlags(out pdwFlags);
 
 		public uint JITCompilerFlags
 		{
@@ -38,17 +38,14 @@ public static unsafe class CorDebugModuleModule2Extensions
 			}
 		}
 
-		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
-		{
-			var hr = instance.Module2.TryResolveAssembly(tkAssemblyRef, out var ppAssembly);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppAssembly;
-		}
+		public int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly) => instance.Module2.TryResolveAssembly(tkAssemblyRef, out ppAssembly);
 
-		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens)
-		{
-			var hr = instance.Module2.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef) => instance.Module2.ResolveAssembly(tkAssemblyRef);
+
+		public int TrySetJITCompilerFlags(uint dwFlags) => instance.Module2.TrySetJITCompilerFlags(dwFlags);
+
+		public int TrySetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
+
+		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 	}
 }

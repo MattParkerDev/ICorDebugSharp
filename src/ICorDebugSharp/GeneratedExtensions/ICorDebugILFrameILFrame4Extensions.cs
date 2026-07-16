@@ -17,25 +17,16 @@ public static unsafe class CorDebugILFrameILFrame4Extensions
 		public ICorDebugILFrame4 ILFrame4 =>
 			instance as ICorDebugILFrame4 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame4.");
 
-		public ICorDebugValueEnum EnumerateLocalVariablesEx(ILCodeKind flags)
-		{
-			var hr = instance.ILFrame4.TryEnumerateLocalVariablesEx(flags, out var ppValueEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppValueEnum;
-		}
+		public int TryEnumerateLocalVariablesEx(ILCodeKind flags, out ICorDebugValueEnum ppValueEnum) => instance.ILFrame4.TryEnumerateLocalVariablesEx(flags, out ppValueEnum);
 
-		public ICorDebugCode GetCodeEx(ILCodeKind flags)
-		{
-			var hr = instance.ILFrame4.TryGetCodeEx(flags, out var ppCode);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppCode;
-		}
+		public IEnumerable<ICorDebugValue> EnumerateLocalVariablesEx(ILCodeKind flags) => instance.ILFrame4.EnumerateLocalVariablesEx(flags);
 
-		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex)
-		{
-			var hr = instance.ILFrame4.TryGetLocalVariableEx(flags, dwIndex, out var ppValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppValue;
-		}
+		public int TryGetCodeEx(ILCodeKind flags, out ICorDebugCode ppCode) => instance.ILFrame4.TryGetCodeEx(flags, out ppCode);
+
+		public ICorDebugCode GetCodeEx(ILCodeKind flags) => instance.ILFrame4.GetCodeEx(flags);
+
+		public int TryGetLocalVariableEx(ILCodeKind flags, uint dwIndex, out ICorDebugValue ppValue) => instance.ILFrame4.TryGetLocalVariableEx(flags, dwIndex, out ppValue);
+
+		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex) => instance.ILFrame4.GetLocalVariableEx(flags, dwIndex);
 	}
 }

@@ -17,11 +17,8 @@ public static unsafe class CorDebugProcessProcess12Extensions
 		public ICorDebugProcess12 Process12 =>
 			instance as ICorDebugProcess12 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess12.");
 
-		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress)
-		{
-			var hr = instance.Process12.TryGetAsyncStack(continuationAddress, out var ppStackWalk);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppStackWalk;
-		}
+		public int TryGetAsyncStack(CORDB_ADDRESS continuationAddress, out ICorDebugStackWalk ppStackWalk) => instance.Process12.TryGetAsyncStack(continuationAddress, out ppStackWalk);
+
+		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress) => instance.Process12.GetAsyncStack(continuationAddress);
 	}
 }

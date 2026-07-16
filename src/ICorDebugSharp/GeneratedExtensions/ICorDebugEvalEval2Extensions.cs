@@ -17,47 +17,32 @@ public static unsafe class CorDebugEvalEval2Extensions
 		public ICorDebugEval2 Eval2 =>
 			instance as ICorDebugEval2 ?? throw new NotSupportedException("ICorDebugEval does not support ICorDebugEval2.");
 
-		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
-		{
-			var hr = instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
-		public ICorDebugValue CreateValueForType(ICorDebugType pType)
-		{
-			var hr = instance.Eval2.TryCreateValueForType(pType, out var ppValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppValue;
-		}
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
-		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds)
-		{
-			var hr = instance.Eval2.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue) => instance.Eval2.TryCreateValueForType(pType, out ppValue);
 
-		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
-		{
-			var hr = instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public ICorDebugValue CreateValueForType(ICorDebugType pType) => instance.Eval2.CreateValueForType(pType);
 
-		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
-		{
-			var hr = instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryNewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds) => instance.Eval2.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
 
-		public void NewStringWithLength(string @string, uint uiLength)
-		{
-			var hr = instance.Eval2.TryNewStringWithLength(@string, uiLength);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds) => instance.Eval2.NewParameterizedArray(pElementType, rank, dims, lowBounds);
 
-		public void RudeAbort()
-		{
-			var hr = instance.Eval2.TryRudeAbort();
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+
+		public int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+
+		public int TryNewStringWithLength(string @string, uint uiLength) => instance.Eval2.TryNewStringWithLength(@string, uiLength);
+
+		public void NewStringWithLength(string @string, uint uiLength) => instance.Eval2.NewStringWithLength(@string, uiLength);
+
+		public int TryRudeAbort() => instance.Eval2.TryRudeAbort();
+
+		public void RudeAbort() => instance.Eval2.RudeAbort();
 	}
 }

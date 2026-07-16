@@ -17,11 +17,8 @@ public static unsafe class CorDebugHeapValueHeapValue2Extensions
 		public ICorDebugHeapValue2 HeapValue2 =>
 			instance as ICorDebugHeapValue2 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue2.");
 
-		public ICorDebugHandleValue CreateHandle(CorDebugHandleType type)
-		{
-			var hr = instance.HeapValue2.TryCreateHandle(type, out var ppHandle);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppHandle;
-		}
+		public int TryCreateHandle(CorDebugHandleType type, out ICorDebugHandleValue ppHandle) => instance.HeapValue2.TryCreateHandle(type, out ppHandle);
+
+		public ICorDebugHandleValue CreateHandle(CorDebugHandleType type) => instance.HeapValue2.CreateHandle(type);
 	}
 }

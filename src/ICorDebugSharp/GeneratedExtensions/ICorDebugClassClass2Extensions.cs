@@ -17,17 +17,12 @@ public static unsafe class CorDebugClassClass2Extensions
 		public ICorDebugClass2 Class2 =>
 			instance as ICorDebugClass2 ?? throw new NotSupportedException("ICorDebugClass does not support ICorDebugClass2.");
 
-		public ICorDebugType GetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
-		{
-			var hr = instance.Class2.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppType;
-		}
+		public int TryGetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.Class2.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out ppType);
 
-		public void SetJMCStatus(bool bIsJustMyCode)
-		{
-			var hr = instance.Class2.TrySetJMCStatus(bIsJustMyCode);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public ICorDebugType GetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Class2.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs);
+
+		public int TrySetJMCStatus(bool bIsJustMyCode) => instance.Class2.TrySetJMCStatus(bIsJustMyCode);
+
+		public void SetJMCStatus(bool bIsJustMyCode) => instance.Class2.SetJMCStatus(bIsJustMyCode);
 	}
 }

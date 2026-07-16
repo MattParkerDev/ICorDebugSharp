@@ -17,11 +17,8 @@ public static unsafe class CorDebugCodeCode4Extensions
 		public ICorDebugCode4 Code4 =>
 			instance as ICorDebugCode4 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode4.");
 
-		public ICorDebugVariableHomeEnum EnumerateVariableHomes()
-		{
-			var hr = instance.Code4.TryEnumerateVariableHomes(out var ppEnum);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppEnum;
-		}
+		public int TryEnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum) => instance.Code4.TryEnumerateVariableHomes(out ppEnum);
+
+		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes() => instance.Code4.EnumerateVariableHomes();
 	}
 }

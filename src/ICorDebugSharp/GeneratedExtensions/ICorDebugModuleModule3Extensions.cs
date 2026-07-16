@@ -17,11 +17,8 @@ public static unsafe class CorDebugModuleModule3Extensions
 		public ICorDebugModule3 Module3 =>
 			instance as ICorDebugModule3 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule3.");
 
-		public object? CreateReaderForInMemorySymbols(ref Guid riid)
-		{
-			var hr = instance.Module3.TryCreateReaderForInMemorySymbols(ref riid, out var ppObj);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppObj;
-		}
+		public int TryCreateReaderForInMemorySymbols(ref Guid riid, out object? ppObj) => instance.Module3.TryCreateReaderForInMemorySymbols(ref riid, out ppObj);
+
+		public object? CreateReaderForInMemorySymbols(ref Guid riid) => instance.Module3.CreateReaderForInMemorySymbols(ref riid);
 	}
 }

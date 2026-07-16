@@ -17,12 +17,11 @@ public static unsafe class CorDebugThreadThread2Extensions
 		public ICorDebugThread2 Thread2 =>
 			instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 
-		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
-		{
-			var hr = instance.Thread2.TryGetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
-			Marshal.ThrowExceptionForHR(hr);
-			return pcFunctions;
-		}
+		public int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.TryGetActiveFunctions(cFunctions, out pcFunctions, pFunctions);
+
+		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.GetActiveFunctions(cFunctions, pFunctions);
+
+		public int TryGetConnectionID(out uint pdwConnectionId) => instance.Thread2.TryGetConnectionID(out pdwConnectionId);
 
 		public uint ConnectionID
 		{
@@ -34,6 +33,8 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
+		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out pTaskId);
+
 		public ulong TaskID
 		{
 			get
@@ -43,6 +44,8 @@ public static unsafe class CorDebugThreadThread2Extensions
 				return pTaskId;
 			}
 		}
+
+		public int TryGetVolatileOSThreadID(out uint pdwTid) => instance.Thread2.TryGetVolatileOSThreadID(out pdwTid);
 
 		public uint VolatileOSThreadID
 		{
@@ -54,11 +57,9 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
-		public void InterceptCurrentException(ICorDebugFrame pFrame)
-		{
-			var hr = instance.Thread2.TryInterceptCurrentException(pFrame);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryInterceptCurrentException(ICorDebugFrame pFrame) => instance.Thread2.TryInterceptCurrentException(pFrame);
+
+		public void InterceptCurrentException(ICorDebugFrame pFrame) => instance.Thread2.InterceptCurrentException(pFrame);
 
 		public COR_ACTIVE_FUNCTION[] ActiveFunctions => instance.Thread2.ActiveFunctions;
 	}

@@ -17,11 +17,8 @@ public static unsafe class CorDebugILFrameILFrame3Extensions
 		public ICorDebugILFrame3 ILFrame3 =>
 			instance as ICorDebugILFrame3 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame3.");
 
-		public ICorDebugValue GetReturnValueForILOffset(uint ILoffset)
-		{
-			var hr = instance.ILFrame3.TryGetReturnValueForILOffset(ILoffset, out var ppReturnValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return ppReturnValue;
-		}
+		public int TryGetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue) => instance.ILFrame3.TryGetReturnValueForILOffset(ILoffset, out ppReturnValue);
+
+		public ICorDebugValue GetReturnValueForILOffset(uint ILoffset) => instance.ILFrame3.GetReturnValueForILOffset(ILoffset);
 	}
 }

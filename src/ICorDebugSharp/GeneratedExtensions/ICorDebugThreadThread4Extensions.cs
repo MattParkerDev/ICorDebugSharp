@@ -17,6 +17,8 @@ public static unsafe class CorDebugThreadThread4Extensions
 		public ICorDebugThread4 Thread4 =>
 			instance as ICorDebugThread4 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread4.");
 
+		public int TryGetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum) => instance.Thread4.TryGetBlockingObjects(out ppBlockingObjectEnum);
+
 		public ICorDebugBlockingObjectEnum BlockingObjects
 		{
 			get
@@ -26,6 +28,8 @@ public static unsafe class CorDebugThreadThread4Extensions
 				return ppBlockingObjectEnum;
 			}
 		}
+
+		public int TryGetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject) => instance.Thread4.TryGetCurrentCustomDebuggerNotification(out ppNotificationObject);
 
 		public ICorDebugValue CurrentCustomDebuggerNotification
 		{
@@ -37,10 +41,8 @@ public static unsafe class CorDebugThreadThread4Extensions
 			}
 		}
 
-		public void HasUnhandledException()
-		{
-			var hr = instance.Thread4.TryHasUnhandledException();
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TryHasUnhandledException() => instance.Thread4.TryHasUnhandledException();
+
+		public void HasUnhandledException() => instance.Thread4.HasUnhandledException();
 	}
 }

@@ -17,6 +17,8 @@ public static unsafe class CorDebugValueValue2Extensions
 		public ICorDebugValue2 Value2 =>
 			instance as ICorDebugValue2 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue2.");
 
+		public int TryGetExactType(out ICorDebugType ppType) => instance.Value2.TryGetExactType(out ppType);
+
 		public ICorDebugType ExactType
 		{
 			get

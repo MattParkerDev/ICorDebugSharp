@@ -17,6 +17,8 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 		public ICorDebugHeapValue3 HeapValue3 =>
 			instance as ICorDebugHeapValue3 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue3.");
 
+		public int TryGetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum) => instance.HeapValue3.TryGetMonitorEventWaitList(out ppThreadEnum);
+
 		public ICorDebugThreadEnum MonitorEventWaitList
 		{
 			get
@@ -26,6 +28,8 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 				return ppThreadEnum;
 			}
 		}
+
+		public int TryGetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount) => instance.HeapValue3.TryGetThreadOwningMonitorLock(out ppThread, out pAcquisitionCount);
 
 		public (ICorDebugThread ppThread, uint pAcquisitionCount) ThreadOwningMonitorLock
 		{

@@ -17,10 +17,8 @@ public static unsafe class CorDebugProcessProcess3Extensions
 		public ICorDebugProcess3 Process3 =>
 			instance as ICorDebugProcess3 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess3.");
 
-		public void SetEnableCustomNotification(ICorDebugClass pClass, bool fEnable)
-		{
-			var hr = instance.Process3.TrySetEnableCustomNotification(pClass, fEnable);
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public int TrySetEnableCustomNotification(ICorDebugClass pClass, bool fEnable) => instance.Process3.TrySetEnableCustomNotification(pClass, fEnable);
+
+		public void SetEnableCustomNotification(ICorDebugClass pClass, bool fEnable) => instance.Process3.SetEnableCustomNotification(pClass, fEnable);
 	}
 }

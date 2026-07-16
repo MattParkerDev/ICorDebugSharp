@@ -17,17 +17,12 @@ public static unsafe class CorDebugFunctionFunction5Extensions
 		public ICorDebugFunction5 Function5 =>
 			instance as ICorDebugFunction5 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction5.");
 
-		public bool AreOptimizationsDisabled()
-		{
-			var hr = instance.Function5.TryAreOptimizationsDisabled(out var pOptimizationsDisabled);
-			Marshal.ThrowExceptionForHR(hr);
-			return pOptimizationsDisabled;
-		}
+		public int TryAreOptimizationsDisabled(out bool pOptimizationsDisabled) => instance.Function5.TryAreOptimizationsDisabled(out pOptimizationsDisabled);
 
-		public void DisableOptimizations()
-		{
-			var hr = instance.Function5.TryDisableOptimizations();
-			Marshal.ThrowExceptionForHR(hr);
-		}
+		public bool AreOptimizationsDisabled() => instance.Function5.AreOptimizationsDisabled();
+
+		public int TryDisableOptimizations() => instance.Function5.TryDisableOptimizations();
+
+		public void DisableOptimizations() => instance.Function5.DisableOptimizations();
 	}
 }
