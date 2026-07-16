@@ -65,7 +65,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
-				? RenderOutputProperty(method, $"instance.{method.InvocationName}")
+				? RenderOutputProperty(method, GetPropertyName(method), $"instance.{method.InvocationName}")
 				: RenderProjectedMethod(method)))
 			.Concat(returnProperties.Select(RenderReturnProperty))
 			.Concat(voidMethods.Select(RenderVoidMethod));
@@ -96,7 +96,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		{
 			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
-					? RenderOutputProperty(method, $"instance.{capabilityName}.{method.InvocationName}")
+					? RenderOutputProperty(method, GetPropertyName(method), $"instance.{capabilityName}.{method.InvocationName}")
 					: RenderProjectedMethod(method).Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal))
 				: RenderCapabilityVoidMethod(method, capabilityName));
 		}
@@ -204,9 +204,12 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		method.Parameters.Count == 0;
 
 	private static bool IsParameterlessGetter(ManagedMethod method) =>
-		method.Name.StartsWith("Get", StringComparison.Ordinal) &&
-		method.Name.Length > 3 &&
+		(method.Name.StartsWith("Get", StringComparison.Ordinal) && method.Name.Length > 3 ||
+		 method.Name.StartsWith("Is", StringComparison.Ordinal) && method.Name.Length > 2) &&
 		method.Parameters.All(parameter => parameter.IsOut);
+
+	private static string GetPropertyName(ManagedMethod method) =>
+		method.Name.StartsWith("Get", StringComparison.Ordinal) ? PropertyName(method.Name[3..]) : method.Name;
 
 	private static string RenderProjectedMethod(ManagedMethod method)
 	{
@@ -227,7 +230,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
-	private static string RenderOutputProperty(ManagedMethod method, string call)
+	private static string RenderOutputProperty(ManagedMethod method, string propertyName, string call)
 	{
 		var outputs = method.Parameters;
 		var returnType = outputs.Count == 1
@@ -237,7 +240,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = outputs.Count == 1
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
-		return $"\t\tpublic {returnType} {PropertyName(method.Name[3..])}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+		return $"\t\tpublic {returnType} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
 			"\t\t\t}\n\t\t}";
 	}
