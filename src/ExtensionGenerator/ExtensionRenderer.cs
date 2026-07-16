@@ -313,7 +313,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
 			? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
-		return $"\t\tpublic void Try{method.Name}({parameters})\n\t\t{{\n" +
+		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
 	}
 
