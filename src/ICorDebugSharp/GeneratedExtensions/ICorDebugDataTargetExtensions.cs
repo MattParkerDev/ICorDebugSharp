@@ -28,5 +28,11 @@ public static unsafe class CorDebugDataTargetExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pBytesRead;
 		}
+
+		public void GetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, byte[] pContext)
+		{
+			var hr = instance.TryGetThreadContext(dwThreadID, contextFlags, contextSize, pContext);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

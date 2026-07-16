@@ -18,6 +18,12 @@ public static unsafe class CorDebugILFrame2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateTypeParametersCore(ppTyParEnum);
 		}
+
+		public void RemapFunction(uint newILOffset)
+		{
+			var hr = instance.TryRemapFunction(newILOffset);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugType> EnumerateTypeParametersCore(ICorDebugTypeEnum enumerator)

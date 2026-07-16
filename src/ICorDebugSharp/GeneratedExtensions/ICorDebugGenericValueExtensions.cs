@@ -21,5 +21,11 @@ public static unsafe class CorDebugGenericValueExtensions
 				return pTo;
 			}
 		}
+
+		public void SetValue(nint pFrom)
+		{
+			var hr = instance.TrySetValue(pFrom);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

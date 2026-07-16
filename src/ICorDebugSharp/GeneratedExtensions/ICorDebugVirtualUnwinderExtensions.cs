@@ -18,5 +18,11 @@ public static unsafe class CorDebugVirtualUnwinderExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return contextSize;
 		}
+
+		public void Next()
+		{
+			var hr = instance.TryNext();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

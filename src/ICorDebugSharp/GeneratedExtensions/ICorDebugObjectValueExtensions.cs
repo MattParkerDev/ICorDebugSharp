@@ -62,5 +62,11 @@ public static unsafe class CorDebugObjectValueExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbIsValueClass;
 		}
+
+		public void SetFromManagedCopy(nint pObject)
+		{
+			var hr = instance.TrySetFromManagedCopy(pObject);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

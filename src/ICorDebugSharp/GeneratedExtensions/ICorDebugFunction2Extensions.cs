@@ -38,6 +38,12 @@ public static unsafe class CorDebugFunction2Extensions
 				return pnVersion;
 			}
 		}
+
+		public void SetJMCStatus(bool bIsJustMyCode)
+		{
+			var hr = instance.TrySetJMCStatus(bIsJustMyCode);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugCode> EnumerateNativeCodeCore(ICorDebugCodeEnum enumerator)

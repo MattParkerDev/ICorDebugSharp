@@ -48,5 +48,23 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 				return pRwDataRVA;
 			}
 		}
+
+		public void SetILMap(mdToken mdFunction, uint cMapSize, COR_IL_MAP[] map)
+		{
+			var hr = instance.TrySetILMap(mdFunction, cMapSize, map);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetPEBytes(nint pIStream)
+		{
+			var hr = instance.TrySetPEBytes(pIStream);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetPESymbolBytes(nint pIStream)
+		{
+			var hr = instance.TrySetPESymbolBytes(pIStream);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

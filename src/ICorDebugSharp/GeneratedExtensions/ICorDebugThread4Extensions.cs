@@ -28,6 +28,12 @@ public static unsafe class CorDebugThread4Extensions
 				return ppNotificationObject;
 			}
 		}
+
+		public void HasUnhandledException()
+		{
+			var hr = instance.TryHasUnhandledException();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<CorDebugBlockingObject> GetBlockingObjectsCore(ICorDebugBlockingObjectEnum enumerator)

@@ -18,5 +18,41 @@ public static unsafe class CorDebugEval2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
+
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
+		{
+			var hr = instance.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds)
+		{
+			var hr = instance.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
+		{
+			var hr = instance.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
+		{
+			var hr = instance.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewStringWithLength(string @string, uint uiLength)
+		{
+			var hr = instance.TryNewStringWithLength(@string, uiLength);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void RudeAbort()
+		{
+			var hr = instance.TryRudeAbort();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

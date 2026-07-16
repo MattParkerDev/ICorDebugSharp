@@ -21,5 +21,11 @@ public static unsafe class CorDebugHandleValueExtensions
 				return pType;
 			}
 		}
+
+		public void Dispose()
+		{
+			var hr = instance.TryDispose();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

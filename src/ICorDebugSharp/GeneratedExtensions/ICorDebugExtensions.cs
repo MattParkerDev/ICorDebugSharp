@@ -39,6 +39,36 @@ public static unsafe class CorDebugExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
+
+		public void CanLaunchOrAttach(uint dwProcessId, bool win32DebuggingEnabled)
+		{
+			var hr = instance.TryCanLaunchOrAttach(dwProcessId, win32DebuggingEnabled);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Initialize()
+		{
+			var hr = instance.TryInitialize();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetManagedHandler(ICorDebugManagedCallback pCallback)
+		{
+			var hr = instance.TrySetManagedHandler(pCallback);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback)
+		{
+			var hr = instance.TrySetUnmanagedHandler(pCallback);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Terminate()
+		{
+			var hr = instance.TryTerminate();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugProcess> EnumerateProcessesCore(ICorDebugProcessEnum enumerator)

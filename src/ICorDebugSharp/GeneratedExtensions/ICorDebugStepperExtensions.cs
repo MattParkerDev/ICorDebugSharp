@@ -18,5 +18,47 @@ public static unsafe class CorDebugStepperExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbActive;
 		}
+
+		public void Deactivate()
+		{
+			var hr = instance.TryDeactivate();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetInterceptMask(CorDebugIntercept mask)
+		{
+			var hr = instance.TrySetInterceptMask(mask);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetRangeIL(bool bIL)
+		{
+			var hr = instance.TrySetRangeIL(bIL);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetUnmappedStopMask(CorDebugUnmappedStop mask)
+		{
+			var hr = instance.TrySetUnmappedStopMask(mask);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Step(bool bStepIn)
+		{
+			var hr = instance.TryStep(bStepIn);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void StepOut()
+		{
+			var hr = instance.TryStepOut();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void StepRange(bool bStepIn, COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount)
+		{
+			var hr = instance.TryStepRange(bStepIn, ranges, cRangeCount);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

@@ -166,5 +166,17 @@ public static unsafe class CorDebugModuleExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pInMemory;
 		}
+
+		public void EnableClassLoadCallbacks(bool bClassLoadCallbacks)
+		{
+			var hr = instance.TryEnableClassLoadCallbacks(bClassLoadCallbacks);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void EnableJITDebugging(bool bTrackJITInfo, bool bAllowJitOpts)
+		{
+			var hr = instance.TryEnableJITDebugging(bTrackJITInfo, bAllowJitOpts);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

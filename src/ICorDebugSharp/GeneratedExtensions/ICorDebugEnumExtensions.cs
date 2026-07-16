@@ -28,5 +28,17 @@ public static unsafe class CorDebugEnumExtensions
 				return pcelt;
 			}
 		}
+
+		public void Reset()
+		{
+			var hr = instance.TryReset();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Skip(uint celt)
+		{
+			var hr = instance.TrySkip(celt);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

@@ -28,5 +28,23 @@ public static unsafe class CorDebugModule2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssembly;
 		}
+
+		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL)
+		{
+			var hr = instance.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetJITCompilerFlags(uint dwFlags)
+		{
+			var hr = instance.TrySetJITCompilerFlags(dwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens)
+		{
+			var hr = instance.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

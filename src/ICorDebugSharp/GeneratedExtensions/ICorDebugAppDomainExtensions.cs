@@ -115,6 +115,12 @@ public static unsafe class CorDebugAppDomainExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbAttached;
 		}
+
+		public void Attach()
+		{
+			var hr = instance.TryAttach();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugAssembly> EnumerateAssembliesCore(ICorDebugAssemblyEnum enumerator)

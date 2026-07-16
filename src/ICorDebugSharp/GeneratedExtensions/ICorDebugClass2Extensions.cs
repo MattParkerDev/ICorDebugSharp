@@ -18,5 +18,11 @@ public static unsafe class CorDebugClass2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
+
+		public void SetJMCStatus(bool bIsJustMyCode)
+		{
+			var hr = instance.TrySetJMCStatus(bIsJustMyCode);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

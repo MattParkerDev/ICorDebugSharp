@@ -18,5 +18,11 @@ public static unsafe class CorDebugFunction5Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pOptimizationsDisabled;
 		}
+
+		public void DisableOptimizations()
+		{
+			var hr = instance.TryDisableOptimizations();
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

@@ -77,5 +77,11 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pcbValue;
 		}
+
+		public void SetValue(uint offset, uint threadID, uint cbContext, byte[] context, uint cbValue, byte[] pValue)
+		{
+			var hr = instance.TrySetValue(offset, threadID, cbContext, context, cbValue, pValue);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

@@ -138,5 +138,11 @@ public static unsafe class CorDebugMDAExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
+
+		public void GetFlags(ref CorDebugMDAFlags pFlags)
+		{
+			var hr = instance.TryGetFlags(ref pFlags);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

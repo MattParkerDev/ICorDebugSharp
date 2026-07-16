@@ -52,5 +52,17 @@ public static unsafe class CorDebugProcess2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return bufLen;
 		}
+
+		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
+		{
+			var hr = instance.TryClearUnmanagedBreakpoint(address);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetDesiredNGENCompilerFlags(uint pdwFlags)
+		{
+			var hr = instance.TrySetDesiredNGENCompilerFlags(pdwFlags);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

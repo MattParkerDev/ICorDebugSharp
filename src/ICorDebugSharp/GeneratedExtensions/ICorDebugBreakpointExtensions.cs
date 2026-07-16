@@ -18,5 +18,11 @@ public static unsafe class CorDebugBreakpointExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbActive;
 		}
+
+		public void Activate(bool bActive)
+		{
+			var hr = instance.TryActivate(bActive);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

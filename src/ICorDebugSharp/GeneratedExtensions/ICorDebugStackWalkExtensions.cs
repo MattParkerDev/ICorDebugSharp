@@ -28,5 +28,17 @@ public static unsafe class CorDebugStackWalkExtensions
 				return pFrame;
 			}
 		}
+
+		public void Next()
+		{
+			var hr = instance.TryNext();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetContext(CorDebugSetContextFlag flag, uint contextSize, byte[] context)
+		{
+			var hr = instance.TrySetContext(flag, contextSize, context);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

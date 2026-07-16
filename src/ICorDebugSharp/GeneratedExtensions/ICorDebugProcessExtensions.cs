@@ -107,6 +107,36 @@ public static unsafe class CorDebugProcessExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return written;
 		}
+
+		public void ClearCurrentException(uint threadID)
+		{
+			var hr = instance.TryClearCurrentException(threadID);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void EnableLogMessages(bool fOnOff)
+		{
+			var hr = instance.TryEnableLogMessages(fOnOff);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void GetThreadContext(uint threadID, uint contextSize, byte[] context)
+		{
+			var hr = instance.TryGetThreadContext(threadID, contextSize, context);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void ModifyLogSwitch(string pLogSwitchName, int lLevel)
+		{
+			var hr = instance.TryModifyLogSwitch(pLogSwitchName, lLevel);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetThreadContext(uint threadID, uint contextSize, byte[] context)
+		{
+			var hr = instance.TrySetThreadContext(threadID, contextSize, context);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugAppDomain> EnumerateAppDomainsCore(ICorDebugAppDomainEnum enumerator)

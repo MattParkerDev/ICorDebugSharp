@@ -32,5 +32,23 @@ public static unsafe class CorDebugProcess6Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return (pInvokeKind, pInvokePurpose);
 		}
+
+		public void EnableVirtualModuleSplitting(bool enableSplitting)
+		{
+			var hr = instance.TryEnableVirtualModuleSplitting(enableSplitting);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void MarkDebuggerAttached(bool fIsAttached)
+		{
+			var hr = instance.TryMarkDebuggerAttached(fIsAttached);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void ProcessStateChanged(CorDebugStateChange change)
+		{
+			var hr = instance.TryProcessStateChanged(change);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

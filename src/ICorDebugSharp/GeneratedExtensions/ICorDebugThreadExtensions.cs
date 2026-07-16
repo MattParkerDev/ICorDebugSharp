@@ -142,6 +142,18 @@ public static unsafe class CorDebugThreadExtensions
 				return pState;
 			}
 		}
+
+		public void ClearCurrentException()
+		{
+			var hr = instance.TryClearCurrentException();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetDebugState(CorDebugThreadState state)
+		{
+			var hr = instance.TrySetDebugState(state);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugChain> EnumerateChainsCore(ICorDebugChainEnum enumerator)

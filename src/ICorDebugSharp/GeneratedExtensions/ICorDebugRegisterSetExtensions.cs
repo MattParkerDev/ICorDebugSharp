@@ -21,5 +21,29 @@ public static unsafe class CorDebugRegisterSetExtensions
 				return pAvailable;
 			}
 		}
+
+		public void GetRegisters(ulong mask, uint regCount, ulong[] regBuffer)
+		{
+			var hr = instance.TryGetRegisters(mask, regCount, regBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void GetThreadContext(uint contextSize, byte[] context)
+		{
+			var hr = instance.TryGetThreadContext(contextSize, context);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetRegisters(ulong mask, uint regCount, ulong[] regBuffer)
+		{
+			var hr = instance.TrySetRegisters(mask, regCount, regBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetThreadContext(uint contextSize, byte[] context)
+		{
+			var hr = instance.TrySetThreadContext(contextSize, context);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

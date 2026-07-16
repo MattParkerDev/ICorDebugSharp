@@ -62,5 +62,17 @@ public static unsafe class CorDebugArrayValueExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbHasBaseIndicies;
 		}
+
+		public void GetBaseIndicies(uint cdim, uint[] indices)
+		{
+			var hr = instance.TryGetBaseIndicies(cdim, indices);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void GetDimensions(uint cdim, uint[] dims)
+		{
+			var hr = instance.TryGetDimensions(cdim, dims);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

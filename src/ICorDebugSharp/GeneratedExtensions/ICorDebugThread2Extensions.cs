@@ -79,5 +79,11 @@ public static unsafe class CorDebugThread2Extensions
 				return pdwTid;
 			}
 		}
+
+		public void InterceptCurrentException(ICorDebugFrame pFrame)
+		{
+			var hr = instance.TryInterceptCurrentException(pFrame);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

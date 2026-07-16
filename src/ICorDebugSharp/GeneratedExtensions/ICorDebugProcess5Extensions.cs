@@ -91,6 +91,12 @@ public static unsafe class CorDebugProcess5Extensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
 		}
+
+		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy)
+		{
+			var hr = instance.TryEnableNGENPolicy(ePolicy);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<COR_GC_REFERENCE> EnumerateGCReferencesCore(ICorDebugGCReferenceEnum enumerator)

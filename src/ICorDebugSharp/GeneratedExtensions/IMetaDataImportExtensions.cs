@@ -66,6 +66,8 @@ public static unsafe class MetaDataImportExtensions
 
 		public string GetUserString(mdString userString) => QueryGetUserString(instance, userString);
 
+		public bool IsValidToken(mdToken tk) => instance.TryIsValidToken(tk) != 0;
+
 		public (string szEvent, mdTypeDef pClass, CorEventAttr pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
 		{
 			var hr = instance.TryGetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
@@ -680,6 +682,12 @@ public static unsafe class MetaDataImportExtensions
 			var hr = instance.TryResolveTypeRef(tr, ref riid, out var ppIScope, out var ptd);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppIScope, ptd);
+		}
+
+		public void ResetEnum(HCorEnum hEnum, uint ulPos)
+		{
+			var hr = instance.TryResetEnum(hEnum, ulPos);
+			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
 

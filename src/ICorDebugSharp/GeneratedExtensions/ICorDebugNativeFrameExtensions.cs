@@ -66,5 +66,17 @@ public static unsafe class CorDebugNativeFrameExtensions
 				return ppRegisters;
 			}
 		}
+
+		public void CanSetIP(uint nOffset)
+		{
+			var hr = instance.TryCanSetIP(nOffset);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetIP(uint nOffset)
+		{
+			var hr = instance.TrySetIP(nOffset);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

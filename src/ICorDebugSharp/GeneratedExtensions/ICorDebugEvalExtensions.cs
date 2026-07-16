@@ -45,5 +45,41 @@ public static unsafe class CorDebugEvalExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbActive;
 		}
+
+		public void Abort()
+		{
+			var hr = instance.TryAbort();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void CallFunction(ICorDebugFunction pFunction, uint nArgs, ICorDebugValue[] ppArgs)
+		{
+			var hr = instance.TryCallFunction(pFunction, nArgs, ppArgs);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, uint[] dims, uint[] lowBounds)
+		{
+			var hr = instance.TryNewArray(elementType, pElementClass, rank, dims, lowBounds);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewObject(ICorDebugFunction pConstructor, uint nArgs, ICorDebugValue[] ppArgs)
+		{
+			var hr = instance.TryNewObject(pConstructor, nArgs, ppArgs);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewObjectNoConstructor(ICorDebugClass pClass)
+		{
+			var hr = instance.TryNewObjectNoConstructor(pClass);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void NewString(string @string)
+		{
+			var hr = instance.TryNewString(@string);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 }

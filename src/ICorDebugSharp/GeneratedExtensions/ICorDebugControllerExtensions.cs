@@ -46,6 +46,36 @@ public static unsafe class CorDebugControllerExtensions
 			Marshal.ThrowExceptionForHR(hr);
 			return pbRunning;
 		}
+
+		public void Continue(bool fIsOutOfBand)
+		{
+			var hr = instance.TryContinue(fIsOutOfBand);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Detach()
+		{
+			var hr = instance.TryDetach();
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread)
+		{
+			var hr = instance.TrySetAllThreadsDebugState(state, pExceptThisThread);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Stop(uint dwTimeoutIgnored)
+		{
+			var hr = instance.TryStop(dwTimeoutIgnored);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void Terminate(uint exitCode)
+		{
+			var hr = instance.TryTerminate(exitCode);
+			Marshal.ThrowExceptionForHR(hr);
+		}
 	}
 
 	private static IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChangesCore(ICorDebugErrorInfoEnum enumerator)
