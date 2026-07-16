@@ -19,7 +19,7 @@ public static unsafe class CorDebugHeapValueHeapValue4Extensions
 
 		public ICorDebugHandleValue CreatePinnedHandle()
 		{
-			var hr = instance.HeapValue4.CreatePinnedHandle(out var ppHandle);
+			var hr = instance.HeapValue4.TryCreatePinnedHandle(out var ppHandle);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppHandle;
 		}

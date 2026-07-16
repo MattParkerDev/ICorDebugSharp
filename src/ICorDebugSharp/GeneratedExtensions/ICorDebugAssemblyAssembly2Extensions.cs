@@ -19,7 +19,7 @@ public static unsafe class CorDebugAssemblyAssembly2Extensions
 
 		public bool IsFullyTrusted()
 		{
-			var hr = instance.Assembly2.IsFullyTrusted(out var pbFullyTrusted);
+			var hr = instance.Assembly2.TryIsFullyTrusted(out var pbFullyTrusted);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbFullyTrusted;
 		}

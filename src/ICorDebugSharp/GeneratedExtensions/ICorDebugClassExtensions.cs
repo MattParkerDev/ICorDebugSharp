@@ -16,7 +16,7 @@ public static unsafe class CorDebugClassExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var pModule);
+				var hr = instance.TryGetModule(out var pModule);
 				Marshal.ThrowExceptionForHR(hr);
 				return pModule;
 			}
@@ -24,7 +24,7 @@ public static unsafe class CorDebugClassExtensions
 
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
 		{
-			var hr = instance.GetStaticFieldValue(fieldDef, pFrame, out var ppValue);
+			var hr = instance.TryGetStaticFieldValue(fieldDef, pFrame, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugClassExtensions
 		{
 			get
 			{
-				var hr = instance.GetToken(out var pTypeDef);
+				var hr = instance.TryGetToken(out var pTypeDef);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTypeDef;
 			}

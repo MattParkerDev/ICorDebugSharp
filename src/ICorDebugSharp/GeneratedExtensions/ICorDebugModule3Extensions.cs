@@ -14,7 +14,7 @@ public static unsafe class CorDebugModule3Extensions
 	{
 		public object? CreateReaderForInMemorySymbols(ref Guid riid)
 		{
-			var hr = instance.CreateReaderForInMemorySymbols(ref riid, out var ppObj);
+			var hr = instance.TryCreateReaderForInMemorySymbols(ref riid, out var ppObj);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppObj;
 		}

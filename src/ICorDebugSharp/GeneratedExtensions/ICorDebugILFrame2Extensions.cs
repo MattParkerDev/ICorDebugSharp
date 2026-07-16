@@ -14,7 +14,7 @@ public static unsafe class CorDebugILFrame2Extensions
 	{
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters()
 		{
-			var hr = instance.EnumerateTypeParameters(out var ppTyParEnum);
+			var hr = instance.TryEnumerateTypeParameters(out var ppTyParEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateTypeParametersCore(ppTyParEnum);
 		}
@@ -25,7 +25,7 @@ public static unsafe class CorDebugILFrame2Extensions
 		while (true)
 		{
 			var values = new ICorDebugType[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

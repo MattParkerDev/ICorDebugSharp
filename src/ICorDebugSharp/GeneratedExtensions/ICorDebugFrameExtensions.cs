@@ -14,7 +14,7 @@ public static unsafe class CorDebugFrameExtensions
 	{
 		public ICorDebugStepper CreateStepper()
 		{
-			var hr = instance.CreateStepper(out var ppStepper);
+			var hr = instance.TryCreateStepper(out var ppStepper);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStepper;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetCallee(out var ppFrame);
+				var hr = instance.TryGetCallee(out var ppFrame);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFrame;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetCaller(out var ppFrame);
+				var hr = instance.TryGetCaller(out var ppFrame);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFrame;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetChain(out var ppChain);
+				var hr = instance.TryGetChain(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -53,7 +53,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetCode(out var ppCode);
+				var hr = instance.TryGetCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppCode;
 			}
@@ -63,7 +63,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunction(out var ppFunction);
+				var hr = instance.TryGetFunction(out var ppFunction);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFunction;
 			}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunctionToken(out var pToken);
+				var hr = instance.TryGetFunctionToken(out var pToken);
 				Marshal.ThrowExceptionForHR(hr);
 				return pToken;
 			}
@@ -83,7 +83,7 @@ public static unsafe class CorDebugFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackRange(out var pStart, out var pEnd);
+				var hr = instance.TryGetStackRange(out var pStart, out var pEnd);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pStart, pEnd);
 			}

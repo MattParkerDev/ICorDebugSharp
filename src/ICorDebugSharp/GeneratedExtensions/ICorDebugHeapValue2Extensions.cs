@@ -14,7 +14,7 @@ public static unsafe class CorDebugHeapValue2Extensions
 	{
 		public ICorDebugHandleValue CreateHandle(CorDebugHandleType type)
 		{
-			var hr = instance.CreateHandle(type, out var ppHandle);
+			var hr = instance.TryCreateHandle(type, out var ppHandle);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppHandle;
 		}

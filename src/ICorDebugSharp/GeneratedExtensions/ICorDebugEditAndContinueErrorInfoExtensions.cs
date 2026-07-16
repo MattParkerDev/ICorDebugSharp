@@ -16,7 +16,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 		{
 			get
 			{
-				var hr = instance.GetString(0, out var required, null!);
+				var hr = instance.TryGetString(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetString(capacity, out var actual, buffer);
+					hr = instance.TryGetString(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 		{
 			get
 			{
-				var hr = instance.GetErrorCode(out var pHr);
+				var hr = instance.TryGetErrorCode(out var pHr);
 				Marshal.ThrowExceptionForHR(hr);
 				return pHr;
 			}
@@ -58,7 +58,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var ppModule);
+				var hr = instance.TryGetModule(out var ppModule);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppModule;
 			}
@@ -66,7 +66,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 
 		public uint GetString(uint cchString, char[]? szString)
 		{
-			var hr = instance.GetString(cchString, out var pcchString, szString);
+			var hr = instance.TryGetString(cchString, out var pcchString, szString);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchString;
 		}
@@ -75,7 +75,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 		{
 			get
 			{
-				var hr = instance.GetToken(out var pToken);
+				var hr = instance.TryGetToken(out var pToken);
 				Marshal.ThrowExceptionForHR(hr);
 				return pToken;
 			}

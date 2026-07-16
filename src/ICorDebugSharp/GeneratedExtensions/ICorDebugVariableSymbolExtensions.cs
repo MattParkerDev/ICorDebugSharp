@@ -16,7 +16,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -46,7 +46,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -55,7 +55,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pcbValue);
+				var hr = instance.TryGetSize(out var pcbValue);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcbValue;
 			}
@@ -65,7 +65,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetSlotIndex(out var pSlotIndex);
+				var hr = instance.TryGetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSlotIndex;
 			}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 
 		public uint GetValue(uint offset, uint cbContext, byte[] context, uint cbValue, byte[] pValue)
 		{
-			var hr = instance.GetValue(offset, cbContext, context, cbValue, out var pcbValue, pValue);
+			var hr = instance.TryGetValue(offset, cbContext, context, cbValue, out var pcbValue, pValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcbValue;
 		}

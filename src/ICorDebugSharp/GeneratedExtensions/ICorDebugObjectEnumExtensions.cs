@@ -14,7 +14,7 @@ public static unsafe class CorDebugObjectEnumExtensions
 	{
 		public uint Next(uint celt, CORDB_ADDRESS[] objects)
 		{
-			var hr = instance.Next(celt, objects, out var pceltFetched);
+			var hr = instance.TryNext(celt, objects, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

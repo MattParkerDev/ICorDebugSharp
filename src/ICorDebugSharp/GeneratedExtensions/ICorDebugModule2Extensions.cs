@@ -16,7 +16,7 @@ public static unsafe class CorDebugModule2Extensions
 		{
 			get
 			{
-				var hr = instance.GetJITCompilerFlags(out var pdwFlags);
+				var hr = instance.TryGetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
@@ -24,7 +24,7 @@ public static unsafe class CorDebugModule2Extensions
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
 		{
-			var hr = instance.ResolveAssembly(tkAssemblyRef, out var ppAssembly);
+			var hr = instance.TryResolveAssembly(tkAssemblyRef, out var ppAssembly);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssembly;
 		}

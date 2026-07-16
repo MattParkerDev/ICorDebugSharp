@@ -19,14 +19,14 @@ public static unsafe class CorDebugILFrameILFrame2Extensions
 
 		public ICorDebugTypeEnum EnumerateTypeParameters()
 		{
-			var hr = instance.ILFrame2.EnumerateTypeParameters(out var ppTyParEnum);
+			var hr = instance.ILFrame2.TryEnumerateTypeParameters(out var ppTyParEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppTyParEnum;
 		}
 
 		public void RemapFunction(uint newILOffset)
 		{
-			var hr = instance.ILFrame2.RemapFunction(newILOffset);
+			var hr = instance.ILFrame2.TryRemapFunction(newILOffset);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -21,7 +21,7 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 		{
 			get
 			{
-				var hr = instance.NativeFrame2.GetStackParameterSize(out var pSize);
+				var hr = instance.NativeFrame2.TryGetStackParameterSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSize;
 			}
@@ -29,14 +29,14 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 
 		public bool IsChild()
 		{
-			var hr = instance.NativeFrame2.IsChild(out var pIsChild);
+			var hr = instance.NativeFrame2.TryIsChild(out var pIsChild);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsChild;
 		}
 
 		public bool IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame)
 		{
-			var hr = instance.NativeFrame2.IsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);
+			var hr = instance.NativeFrame2.TryIsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsParent;
 		}

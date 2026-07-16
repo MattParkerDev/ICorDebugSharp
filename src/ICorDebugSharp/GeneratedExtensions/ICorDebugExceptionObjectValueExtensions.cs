@@ -14,7 +14,7 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 	{
 		public IEnumerable<CorDebugExceptionObjectStackFrame> EnumerateExceptionCallStack()
 		{
-			var hr = instance.EnumerateExceptionCallStack(out var ppCallStackEnum);
+			var hr = instance.TryEnumerateExceptionCallStack(out var ppCallStackEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateExceptionCallStackCore(ppCallStackEnum);
 		}
@@ -25,7 +25,7 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 		while (true)
 		{
 			var values = new CorDebugExceptionObjectStackFrame[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

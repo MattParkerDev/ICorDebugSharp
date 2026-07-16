@@ -16,7 +16,7 @@ public static unsafe class CorDebugILCode2Extensions
 		{
 			get
 			{
-				var hr = instance.GetInstrumentedILMap(0, out var required, null!);
+				var hr = instance.TryGetInstrumentedILMap(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return [];
@@ -25,7 +25,7 @@ public static unsafe class CorDebugILCode2Extensions
 				{
 					var capacity = required;
 					var buffer = new COR_IL_MAP[checked((int)capacity)];
-					hr = instance.GetInstrumentedILMap(capacity, out var actual, buffer);
+					hr = instance.TryGetInstrumentedILMap(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -45,7 +45,7 @@ public static unsafe class CorDebugILCode2Extensions
 
 		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
 		{
-			var hr = instance.GetInstrumentedILMap(cMap, out var pcMap, map);
+			var hr = instance.TryGetInstrumentedILMap(cMap, out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcMap;
 		}
@@ -54,7 +54,7 @@ public static unsafe class CorDebugILCode2Extensions
 		{
 			get
 			{
-				var hr = instance.GetLocalVarSigToken(out var pmdSig);
+				var hr = instance.TryGetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
 				return pmdSig;
 			}

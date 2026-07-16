@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcessProcess7Extensions
 
 		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags)
 		{
-			var hr = instance.Process7.SetWriteableMetadataUpdateMode(flags);
+			var hr = instance.Process7.TrySetWriteableMetadataUpdateMode(flags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

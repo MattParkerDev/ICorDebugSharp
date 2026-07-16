@@ -14,21 +14,21 @@ public static unsafe class CorDebugILFrame4Extensions
 	{
 		public IEnumerable<ICorDebugValue> EnumerateLocalVariablesEx(ILCodeKind flags)
 		{
-			var hr = instance.EnumerateLocalVariablesEx(flags, out var ppValueEnum);
+			var hr = instance.TryEnumerateLocalVariablesEx(flags, out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateLocalVariablesExCore(ppValueEnum);
 		}
 
 		public ICorDebugCode GetCodeEx(ILCodeKind flags)
 		{
-			var hr = instance.GetCodeEx(flags, out var ppCode);
+			var hr = instance.TryGetCodeEx(flags, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex)
 		{
-			var hr = instance.GetLocalVariableEx(flags, dwIndex, out var ppValue);
+			var hr = instance.TryGetLocalVariableEx(flags, dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -39,7 +39,7 @@ public static unsafe class CorDebugILFrame4Extensions
 		while (true)
 		{
 			var values = new ICorDebugValue[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

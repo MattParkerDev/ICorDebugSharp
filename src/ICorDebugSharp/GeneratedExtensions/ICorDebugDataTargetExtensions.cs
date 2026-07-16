@@ -16,7 +16,7 @@ public static unsafe class CorDebugDataTargetExtensions
 		{
 			get
 			{
-				var hr = instance.GetPlatform(out var pTargetPlatform);
+				var hr = instance.TryGetPlatform(out var pTargetPlatform);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTargetPlatform;
 			}
@@ -24,7 +24,7 @@ public static unsafe class CorDebugDataTargetExtensions
 
 		public uint ReadVirtual(CORDB_ADDRESS address, byte[] pBuffer, uint bytesRequested)
 		{
-			var hr = instance.ReadVirtual(address, pBuffer, bytesRequested, out var pBytesRead);
+			var hr = instance.TryReadVirtual(address, pBuffer, bytesRequested, out var pBytesRead);
 			Marshal.ThrowExceptionForHR(hr);
 			return pBytesRead;
 		}

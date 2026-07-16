@@ -14,7 +14,7 @@ public static unsafe class CorDebugFunction2Extensions
 	{
 		public IEnumerable<ICorDebugCode> EnumerateNativeCode()
 		{
-			var hr = instance.EnumerateNativeCode(out var ppCodeEnum);
+			var hr = instance.TryEnumerateNativeCode(out var ppCodeEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateNativeCodeCore(ppCodeEnum);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugFunction2Extensions
 		{
 			get
 			{
-				var hr = instance.GetJMCStatus(out var pbIsJustMyCode);
+				var hr = instance.TryGetJMCStatus(out var pbIsJustMyCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return pbIsJustMyCode;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugFunction2Extensions
 		{
 			get
 			{
-				var hr = instance.GetVersionNumber(out var pnVersion);
+				var hr = instance.TryGetVersionNumber(out var pnVersion);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnVersion;
 			}
@@ -45,7 +45,7 @@ public static unsafe class CorDebugFunction2Extensions
 		while (true)
 		{
 			var values = new ICorDebugCode[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

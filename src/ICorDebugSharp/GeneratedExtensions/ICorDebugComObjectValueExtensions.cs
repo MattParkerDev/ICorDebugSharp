@@ -14,7 +14,7 @@ public static unsafe class CorDebugComObjectValueExtensions
 	{
 		public CORDB_ADDRESS[] GetCachedInterfacePointers(bool bIInspectableOnly)
 		{
-			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, 0, out var required, null!);
+			var hr = instance.TryGetCachedInterfacePointers(bIInspectableOnly, 0, out var required, null!);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return [];
@@ -23,7 +23,7 @@ public static unsafe class CorDebugComObjectValueExtensions
 			{
 				var capacity = required;
 				var buffer = new CORDB_ADDRESS[checked((int)capacity)];
-				hr = instance.GetCachedInterfacePointers(bIInspectableOnly, capacity, out var actual, buffer);
+				hr = instance.TryGetCachedInterfacePointers(bIInspectableOnly, capacity, out var actual, buffer);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -42,14 +42,14 @@ public static unsafe class CorDebugComObjectValueExtensions
 
 		public IEnumerable<ICorDebugType> GetCachedInterfaceTypes(bool bIInspectableOnly)
 		{
-			var hr = instance.GetCachedInterfaceTypes(bIInspectableOnly, out var ppInterfacesEnum);
+			var hr = instance.TryGetCachedInterfaceTypes(bIInspectableOnly, out var ppInterfacesEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return GetCachedInterfaceTypesCore(ppInterfacesEnum);
 		}
 
 		public uint GetCachedInterfacePointers(bool bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
 		{
-			var hr = instance.GetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
+			var hr = instance.TryGetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcEltFetched;
 		}
@@ -60,7 +60,7 @@ public static unsafe class CorDebugComObjectValueExtensions
 		while (true)
 		{
 			var values = new ICorDebugType[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

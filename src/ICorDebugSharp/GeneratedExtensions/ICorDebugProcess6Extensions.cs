@@ -14,21 +14,21 @@ public static unsafe class CorDebugProcess6Extensions
 	{
 		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId)
 		{
-			var hr = instance.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
+			var hr = instance.TryDecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEvent;
 		}
 
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress)
 		{
-			var hr = instance.GetCode(codeAddress, out var ppCode);
+			var hr = instance.TryGetCode(codeAddress, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName)
 		{
-			var hr = instance.GetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
+			var hr = instance.TryGetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pInvokeKind, pInvokePurpose);
 		}

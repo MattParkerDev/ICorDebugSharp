@@ -14,14 +14,14 @@ public static unsafe class CorDebugThread3Extensions
 	{
 		public ICorDebugStackWalk CreateStackWalk()
 		{
-			var hr = instance.CreateStackWalk(out var ppStackWalk);
+			var hr = instance.TryCreateStackWalk(out var ppStackWalk);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStackWalk;
 		}
 
 		public uint GetActiveInternalFrames(uint cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
 		{
-			var hr = instance.GetActiveInternalFrames(cInternalFrames, out var pcInternalFrames, ppInternalFrames);
+			var hr = instance.TryGetActiveInternalFrames(cInternalFrames, out var pcInternalFrames, ppInternalFrames);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcInternalFrames;
 		}

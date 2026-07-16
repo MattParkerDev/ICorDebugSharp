@@ -14,7 +14,7 @@ public static unsafe class CorDebugMetaDataLocatorExtensions
 	{
 		public uint GetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, char[] wszPathBuffer)
 		{
-			var hr = instance.GetMetaData(wszImagePath, dwImageTimeStamp, dwImageSize, cchPathBuffer, out var pcchPathBuffer, wszPathBuffer);
+			var hr = instance.TryGetMetaData(wszImagePath, dwImageTimeStamp, dwImageSize, cchPathBuffer, out var pcchPathBuffer, wszPathBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchPathBuffer;
 		}

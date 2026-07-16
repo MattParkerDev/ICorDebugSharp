@@ -19,7 +19,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 
 		public ICorDebugCodeEnum EnumerateNativeCode()
 		{
-			var hr = instance.Function2.EnumerateNativeCode(out var ppCodeEnum);
+			var hr = instance.Function2.TryEnumerateNativeCode(out var ppCodeEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCodeEnum;
 		}
@@ -28,7 +28,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		{
 			get
 			{
-				var hr = instance.Function2.GetJMCStatus(out var pbIsJustMyCode);
+				var hr = instance.Function2.TryGetJMCStatus(out var pbIsJustMyCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return pbIsJustMyCode;
 			}
@@ -38,7 +38,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		{
 			get
 			{
-				var hr = instance.Function2.GetVersionNumber(out var pnVersion);
+				var hr = instance.Function2.TryGetVersionNumber(out var pnVersion);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnVersion;
 			}
@@ -46,7 +46,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 
 		public void SetJMCStatus(bool bIsJustMyCode)
 		{
-			var hr = instance.Function2.SetJMCStatus(bIsJustMyCode);
+			var hr = instance.Function2.TrySetJMCStatus(bIsJustMyCode);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

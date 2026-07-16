@@ -14,7 +14,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 	{
 		public string GetImageLocation(CORDB_ADDRESS baseAddress)
 		{
-			var hr = instance.GetImageLocation(baseAddress, 0, out var required, null!);
+			var hr = instance.TryGetImageLocation(baseAddress, 0, out var required, null!);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return string.Empty;
@@ -23,7 +23,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetImageLocation(baseAddress, capacity, out var actual, buffer);
+				hr = instance.TryGetImageLocation(baseAddress, capacity, out var actual, buffer);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -43,35 +43,35 @@ public static unsafe class CorDebugDataTarget2Extensions
 
 		public ICorDebugVirtualUnwinder CreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, byte[] initialContext)
 		{
-			var hr = instance.CreateVirtualUnwinder(nativeThreadID, contextFlags, cbContext, initialContext, out var ppUnwinder);
+			var hr = instance.TryCreateVirtualUnwinder(nativeThreadID, contextFlags, cbContext, initialContext, out var ppUnwinder);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppUnwinder;
 		}
 
 		public uint EnumerateThreadIDs(uint cThreadIds, uint[] pThreadIds)
 		{
-			var hr = instance.EnumerateThreadIDs(cThreadIds, out var pcThreadIds, pThreadIds);
+			var hr = instance.TryEnumerateThreadIDs(cThreadIds, out var pcThreadIds, pThreadIds);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcThreadIds;
 		}
 
 		public (CORDB_ADDRESS pImageBase, uint pSize) GetImageFromPointer(CORDB_ADDRESS addr)
 		{
-			var hr = instance.GetImageFromPointer(addr, out var pImageBase, out var pSize);
+			var hr = instance.TryGetImageFromPointer(addr, out var pImageBase, out var pSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pImageBase, pSize);
 		}
 
 		public uint GetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, char[]? szName)
 		{
-			var hr = instance.GetImageLocation(baseAddress, cchName, out var pcchName, szName);
+			var hr = instance.TryGetImageLocation(baseAddress, cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
 
 		public ICorDebugSymbolProvider GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress)
 		{
-			var hr = instance.GetSymbolProviderForImage(imageBaseAddress, out var ppSymProvider);
+			var hr = instance.TryGetSymbolProviderForImage(imageBaseAddress, out var ppSymProvider);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppSymProvider;
 		}

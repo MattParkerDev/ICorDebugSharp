@@ -16,7 +16,7 @@ public static unsafe class CorDebugInternalFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetFrameType(out var pType);
+				var hr = instance.TryGetFrameType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
 				return pType;
 			}

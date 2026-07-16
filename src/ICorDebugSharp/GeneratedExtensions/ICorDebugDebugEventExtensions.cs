@@ -16,7 +16,7 @@ public static unsafe class CorDebugDebugEventExtensions
 		{
 			get
 			{
-				var hr = instance.GetEventKind(out var pDebugEventKind);
+				var hr = instance.TryGetEventKind(out var pDebugEventKind);
 				Marshal.ThrowExceptionForHR(hr);
 				return pDebugEventKind;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugDebugEventExtensions
 		{
 			get
 			{
-				var hr = instance.GetThread(out var ppThread);
+				var hr = instance.TryGetThread(out var ppThread);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppThread;
 			}

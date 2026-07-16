@@ -16,7 +16,7 @@ public static unsafe class CorDebugBoxValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var ppObject);
+				var hr = instance.TryGetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}

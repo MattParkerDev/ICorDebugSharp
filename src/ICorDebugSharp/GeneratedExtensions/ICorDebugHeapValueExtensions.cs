@@ -14,14 +14,14 @@ public static unsafe class CorDebugHeapValueExtensions
 	{
 		public ICorDebugValueBreakpoint CreateRelocBreakpoint()
 		{
-			var hr = instance.CreateRelocBreakpoint(out var ppBreakpoint);
+			var hr = instance.TryCreateRelocBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
 
 		public bool IsValid()
 		{
-			var hr = instance.IsValid(out var pbValid);
+			var hr = instance.TryIsValid(out var pbValid);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbValid;
 		}

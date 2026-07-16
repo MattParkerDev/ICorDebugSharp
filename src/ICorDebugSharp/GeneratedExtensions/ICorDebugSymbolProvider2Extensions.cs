@@ -14,7 +14,7 @@ public static unsafe class CorDebugSymbolProvider2Extensions
 	{
 		public (uint pCodeStartRva, uint pParentFrameStartRva) GetFrameProps(uint codeRva)
 		{
-			var hr = instance.GetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
+			var hr = instance.TryGetFrameProps(codeRva, out var pCodeStartRva, out var pParentFrameStartRva);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pCodeStartRva, pParentFrameStartRva);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugSymbolProvider2Extensions
 		{
 			get
 			{
-				var hr = instance.GetGenericDictionaryInfo(out var ppMemoryBuffer);
+				var hr = instance.TryGetGenericDictionaryInfo(out var ppMemoryBuffer);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppMemoryBuffer;
 			}

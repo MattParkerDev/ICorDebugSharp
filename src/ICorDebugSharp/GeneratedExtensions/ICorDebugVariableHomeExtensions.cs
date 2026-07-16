@@ -16,7 +16,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetArgumentIndex(out var pArgumentIndex);
+				var hr = instance.TryGetArgumentIndex(out var pArgumentIndex);
 				Marshal.ThrowExceptionForHR(hr);
 				return pArgumentIndex;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetCode(out var ppCode);
+				var hr = instance.TryGetCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppCode;
 			}
@@ -36,7 +36,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetLiveRange(out var pStartOffset, out var pEndOffset);
+				var hr = instance.TryGetLiveRange(out var pStartOffset, out var pEndOffset);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pStartOffset, pEndOffset);
 			}
@@ -46,7 +46,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetLocationType(out var pLocationType);
+				var hr = instance.TryGetLocationType(out var pLocationType);
 				Marshal.ThrowExceptionForHR(hr);
 				return pLocationType;
 			}
@@ -56,7 +56,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetOffset(out var pOffset);
+				var hr = instance.TryGetOffset(out var pOffset);
 				Marshal.ThrowExceptionForHR(hr);
 				return pOffset;
 			}
@@ -66,7 +66,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegister(out var pRegister);
+				var hr = instance.TryGetRegister(out var pRegister);
 				Marshal.ThrowExceptionForHR(hr);
 				return pRegister;
 			}
@@ -76,7 +76,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 		{
 			get
 			{
-				var hr = instance.GetSlotIndex(out var pSlotIndex);
+				var hr = instance.TryGetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSlotIndex;
 			}

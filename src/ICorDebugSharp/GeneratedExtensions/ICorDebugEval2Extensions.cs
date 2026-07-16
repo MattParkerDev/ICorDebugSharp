@@ -14,7 +14,7 @@ public static unsafe class CorDebugEval2Extensions
 	{
 		public ICorDebugValue CreateValueForType(ICorDebugType pType)
 		{
-			var hr = instance.CreateValueForType(pType, out var ppValue);
+			var hr = instance.TryCreateValueForType(pType, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}

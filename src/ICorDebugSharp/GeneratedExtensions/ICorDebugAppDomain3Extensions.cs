@@ -14,14 +14,14 @@ public static unsafe class CorDebugAppDomain3Extensions
 	{
 		public IEnumerable<CorDebugGuidToTypeMapping> GetCachedWinRTTypes()
 		{
-			var hr = instance.GetCachedWinRTTypes(out var ppGuidToTypeEnum);
+			var hr = instance.TryGetCachedWinRTTypes(out var ppGuidToTypeEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return GetCachedWinRTTypesCore(ppGuidToTypeEnum);
 		}
 
 		public IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
 		{
-			var hr = instance.GetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
+			var hr = instance.TryGetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return GetCachedWinRTTypesForIIDsCore(ppTypesEnum);
 		}
@@ -32,7 +32,7 @@ public static unsafe class CorDebugAppDomain3Extensions
 		while (true)
 		{
 			var values = new CorDebugGuidToTypeMapping[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -47,7 +47,7 @@ public static unsafe class CorDebugAppDomain3Extensions
 		while (true)
 		{
 			var values = new ICorDebugType[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

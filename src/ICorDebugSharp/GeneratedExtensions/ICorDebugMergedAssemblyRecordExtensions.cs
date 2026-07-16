@@ -16,7 +16,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 		{
 			get
 			{
-				var hr = instance.GetSimpleName(0, out var required, null!);
+				var hr = instance.TryGetSimpleName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetSimpleName(capacity, out var actual, buffer);
+					hr = instance.TryGetSimpleName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 		{
 			get
 			{
-				var hr = instance.GetCulture(0, out var required, null!);
+				var hr = instance.TryGetCulture(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -57,7 +57,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetCulture(capacity, out var actual, buffer);
+					hr = instance.TryGetCulture(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -78,7 +78,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 
 		public uint GetCulture(uint cchCulture, char[]? szCulture)
 		{
-			var hr = instance.GetCulture(cchCulture, out var pcchCulture, szCulture);
+			var hr = instance.TryGetCulture(cchCulture, out var pcchCulture, szCulture);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchCulture;
 		}
@@ -87,7 +87,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 		{
 			get
 			{
-				var hr = instance.GetIndex(out var pIndex);
+				var hr = instance.TryGetIndex(out var pIndex);
 				Marshal.ThrowExceptionForHR(hr);
 				return pIndex;
 			}
@@ -95,21 +95,21 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 
 		public uint GetPublicKey(uint cbPublicKey, byte[] pbPublicKey)
 		{
-			var hr = instance.GetPublicKey(cbPublicKey, out var pcbPublicKey, pbPublicKey);
+			var hr = instance.TryGetPublicKey(cbPublicKey, out var pcbPublicKey, pbPublicKey);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcbPublicKey;
 		}
 
 		public uint GetPublicKeyToken(uint cbPublicKeyToken, byte[] pbPublicKeyToken)
 		{
-			var hr = instance.GetPublicKeyToken(cbPublicKeyToken, out var pcbPublicKeyToken, pbPublicKeyToken);
+			var hr = instance.TryGetPublicKeyToken(cbPublicKeyToken, out var pcbPublicKeyToken, pbPublicKeyToken);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcbPublicKeyToken;
 		}
 
 		public uint GetSimpleName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetSimpleName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetSimpleName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -118,7 +118,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 		{
 			get
 			{
-				var hr = instance.GetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
+				var hr = instance.TryGetVersion(out var pMajor, out var pMinor, out var pBuild, out var pRevision);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pMajor, pMinor, pBuild, pRevision);
 			}

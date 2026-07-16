@@ -14,7 +14,7 @@ public static unsafe class CorDebugTypeExtensions
 	{
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters()
 		{
-			var hr = instance.EnumerateTypeParameters(out var ppTyParEnum);
+			var hr = instance.TryEnumerateTypeParameters(out var ppTyParEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateTypeParametersCore(ppTyParEnum);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugTypeExtensions
 		{
 			get
 			{
-				var hr = instance.GetBase(out var pBase);
+				var hr = instance.TryGetBase(out var pBase);
 				Marshal.ThrowExceptionForHR(hr);
 				return pBase;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugTypeExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var ppClass);
+				var hr = instance.TryGetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppClass;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugTypeExtensions
 		{
 			get
 			{
-				var hr = instance.GetFirstTypeParameter(out var value);
+				var hr = instance.TryGetFirstTypeParameter(out var value);
 				Marshal.ThrowExceptionForHR(hr);
 				return value;
 			}
@@ -53,7 +53,7 @@ public static unsafe class CorDebugTypeExtensions
 		{
 			get
 			{
-				var hr = instance.GetRank(out var pnRank);
+				var hr = instance.TryGetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnRank;
 			}
@@ -61,7 +61,7 @@ public static unsafe class CorDebugTypeExtensions
 
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
 		{
-			var hr = instance.GetStaticFieldValue(fieldDef, pFrame, out var ppValue);
+			var hr = instance.TryGetStaticFieldValue(fieldDef, pFrame, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -70,7 +70,7 @@ public static unsafe class CorDebugTypeExtensions
 		{
 			get
 			{
-				var hr = instance.GetType(out var ty);
+				var hr = instance.TryGetType(out var ty);
 				Marshal.ThrowExceptionForHR(hr);
 				return ty;
 			}
@@ -82,7 +82,7 @@ public static unsafe class CorDebugTypeExtensions
 		while (true)
 		{
 			var values = new ICorDebugType[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

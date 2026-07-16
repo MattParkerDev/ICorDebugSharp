@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
 		{
-			var hr = instance.Process2.ClearUnmanagedBreakpoint(address);
+			var hr = instance.Process2.TryClearUnmanagedBreakpoint(address);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -27,7 +27,7 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = instance.Process2.GetDesiredNGENCompilerFlags(out var pdwFlags);
+				var hr = instance.Process2.TryGetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
@@ -35,14 +35,14 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
 		{
-			var hr = instance.Process2.GetReferenceValueFromGCHandle(handle, out var pOutValue);
+			var hr = instance.Process2.TryGetReferenceValueFromGCHandle(handle, out var pOutValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return pOutValue;
 		}
 
 		public ICorDebugThread2 GetThreadForTaskID(ulong taskid)
 		{
-			var hr = instance.Process2.GetThreadForTaskID(taskid, out var ppThread);
+			var hr = instance.Process2.TryGetThreadForTaskID(taskid, out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
@@ -51,7 +51,7 @@ public static unsafe class CorDebugProcessProcess2Extensions
 		{
 			get
 			{
-				var hr = instance.Process2.GetVersion(out var version);
+				var hr = instance.Process2.TryGetVersion(out var version);
 				Marshal.ThrowExceptionForHR(hr);
 				return version;
 			}
@@ -59,13 +59,13 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public void SetDesiredNGENCompilerFlags(uint pdwFlags)
 		{
-			var hr = instance.Process2.SetDesiredNGENCompilerFlags(pdwFlags);
+			var hr = instance.Process2.TrySetDesiredNGENCompilerFlags(pdwFlags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)
 		{
-			var hr = instance.Process2.SetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
+			var hr = instance.Process2.TrySetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
 			Marshal.ThrowExceptionForHR(hr);
 			return bufLen;
 		}

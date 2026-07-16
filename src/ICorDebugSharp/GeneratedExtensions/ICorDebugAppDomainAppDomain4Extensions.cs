@@ -19,7 +19,7 @@ public static unsafe class CorDebugAppDomainAppDomain4Extensions
 
 		public ICorDebugValue GetObjectForCCW(CORDB_ADDRESS ccwPointer)
 		{
-			var hr = instance.AppDomain4.GetObjectForCCW(ccwPointer, out var ppManagedObject);
+			var hr = instance.AppDomain4.TryGetObjectForCCW(ccwPointer, out var ppManagedObject);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppManagedObject;
 		}

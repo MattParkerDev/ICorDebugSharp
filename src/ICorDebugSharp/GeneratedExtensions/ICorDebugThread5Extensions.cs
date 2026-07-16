@@ -16,7 +16,7 @@ public static unsafe class CorDebugThread5Extensions
 		{
 			get
 			{
-				var hr = instance.GetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
+				var hr = instance.TryGetBytesAllocated(out var pSohAllocatedBytes, out var pUohAllocatedBytes);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pSohAllocatedBytes, pUohAllocatedBytes);
 			}

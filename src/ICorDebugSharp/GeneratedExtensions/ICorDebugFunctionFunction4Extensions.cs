@@ -19,7 +19,7 @@ public static unsafe class CorDebugFunctionFunction4Extensions
 
 		public ICorDebugFunctionBreakpoint CreateNativeBreakpoint()
 		{
-			var hr = instance.Function4.CreateNativeBreakpoint(out var ppBreakpoint);
+			var hr = instance.Function4.TryCreateNativeBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}

@@ -19,7 +19,7 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 
 		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
 		{
-			var hr = instance.ILCode2.GetInstrumentedILMap(cMap, out var pcMap, map);
+			var hr = instance.ILCode2.TryGetInstrumentedILMap(cMap, out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcMap;
 		}
@@ -28,7 +28,7 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 		{
 			get
 			{
-				var hr = instance.ILCode2.GetLocalVarSigToken(out var pmdSig);
+				var hr = instance.ILCode2.TryGetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
 				return pmdSig;
 			}

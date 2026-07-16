@@ -14,7 +14,7 @@ public static unsafe class CorDebugValueExtensions
 	{
 		public ICorDebugValueBreakpoint CreateBreakpoint()
 		{
-			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
+			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetAddress(out var pAddress);
+				var hr = instance.TryGetAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
 				return pAddress;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pSize);
+				var hr = instance.TryGetSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSize;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetType(out var pType);
+				var hr = instance.TryGetType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
 				return pType;
 			}

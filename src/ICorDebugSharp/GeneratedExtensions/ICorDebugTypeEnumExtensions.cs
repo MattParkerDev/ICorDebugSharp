@@ -14,7 +14,7 @@ public static unsafe class CorDebugTypeEnumExtensions
 	{
 		public uint Next(uint celt, ICorDebugType[] values)
 		{
-			var hr = instance.Next(celt, values, out var pceltFetched);
+			var hr = instance.TryNext(celt, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

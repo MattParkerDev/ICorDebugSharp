@@ -14,14 +14,14 @@ public static unsafe class CorDebugProcessExtensions
 	{
 		public IEnumerable<ICorDebugAppDomain> EnumerateAppDomains()
 		{
-			var hr = instance.EnumerateAppDomains(out var ppAppDomains);
+			var hr = instance.TryEnumerateAppDomains(out var ppAppDomains);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateAppDomainsCore(ppAppDomains);
 		}
 
 		public IEnumerable<CORDB_ADDRESS> EnumerateObjects()
 		{
-			var hr = instance.EnumerateObjects(out var ppObjects);
+			var hr = instance.TryEnumerateObjects(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateObjectsCore(ppObjects);
 		}
@@ -30,7 +30,7 @@ public static unsafe class CorDebugProcessExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandle(out var phProcessHandle);
+				var hr = instance.TryGetHandle(out var phProcessHandle);
 				Marshal.ThrowExceptionForHR(hr);
 				return phProcessHandle;
 			}
@@ -40,7 +40,7 @@ public static unsafe class CorDebugProcessExtensions
 		{
 			get
 			{
-				var hr = instance.GetHelperThreadID(out var pThreadID);
+				var hr = instance.TryGetHelperThreadID(out var pThreadID);
 				Marshal.ThrowExceptionForHR(hr);
 				return pThreadID;
 			}
@@ -50,7 +50,7 @@ public static unsafe class CorDebugProcessExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var pdwProcessId);
+				var hr = instance.TryGetID(out var pdwProcessId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwProcessId;
 			}
@@ -60,7 +60,7 @@ public static unsafe class CorDebugProcessExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var ppObject);
+				var hr = instance.TryGetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}
@@ -68,42 +68,42 @@ public static unsafe class CorDebugProcessExtensions
 
 		public ICorDebugThread GetThread(uint dwThreadId)
 		{
-			var hr = instance.GetThread(dwThreadId, out var ppThread);
+			var hr = instance.TryGetThread(dwThreadId, out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
 
 		public bool IsOSSuspended(uint threadID)
 		{
-			var hr = instance.IsOSSuspended(threadID, out var pbSuspended);
+			var hr = instance.TryIsOSSuspended(threadID, out var pbSuspended);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbSuspended;
 		}
 
 		public bool IsTransitionStub(CORDB_ADDRESS address)
 		{
-			var hr = instance.IsTransitionStub(address, out var pbTransitionStub);
+			var hr = instance.TryIsTransitionStub(address, out var pbTransitionStub);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbTransitionStub;
 		}
 
 		public nuint ReadMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
 		{
-			var hr = instance.ReadMemory(address, size, buffer, out var read);
+			var hr = instance.TryReadMemory(address, size, buffer, out var read);
 			Marshal.ThrowExceptionForHR(hr);
 			return read;
 		}
 
 		public ICorDebugThread ThreadForFiberCookie(uint fiberCookie)
 		{
-			var hr = instance.ThreadForFiberCookie(fiberCookie, out var ppThread);
+			var hr = instance.TryThreadForFiberCookie(fiberCookie, out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
 
 		public nuint WriteMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
 		{
-			var hr = instance.WriteMemory(address, size, buffer, out var written);
+			var hr = instance.TryWriteMemory(address, size, buffer, out var written);
 			Marshal.ThrowExceptionForHR(hr);
 			return written;
 		}
@@ -114,7 +114,7 @@ public static unsafe class CorDebugProcessExtensions
 		while (true)
 		{
 			var values = new ICorDebugAppDomain[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -129,7 +129,7 @@ public static unsafe class CorDebugProcessExtensions
 		while (true)
 		{
 			var values = new CORDB_ADDRESS[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

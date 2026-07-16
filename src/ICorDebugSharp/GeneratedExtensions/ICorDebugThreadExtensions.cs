@@ -14,21 +14,21 @@ public static unsafe class CorDebugThreadExtensions
 	{
 		public IEnumerable<ICorDebugChain> EnumerateChains()
 		{
-			var hr = instance.EnumerateChains(out var ppChains);
+			var hr = instance.TryEnumerateChains(out var ppChains);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateChainsCore(ppChains);
 		}
 
 		public ICorDebugEval CreateEval()
 		{
-			var hr = instance.CreateEval(out var ppEval);
+			var hr = instance.TryCreateEval(out var ppEval);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEval;
 		}
 
 		public ICorDebugStepper CreateStepper()
 		{
-			var hr = instance.CreateStepper(out var ppStepper);
+			var hr = instance.TryCreateStepper(out var ppStepper);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppStepper;
 		}
@@ -37,7 +37,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveChain(out var ppChain);
+				var hr = instance.TryGetActiveChain(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -47,7 +47,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveFrame(out var ppFrame);
+				var hr = instance.TryGetActiveFrame(out var ppFrame);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFrame;
 			}
@@ -57,7 +57,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetAppDomain(out var ppAppDomain);
+				var hr = instance.TryGetAppDomain(out var ppAppDomain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAppDomain;
 			}
@@ -67,7 +67,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentException(out var ppExceptionObject);
+				var hr = instance.TryGetCurrentException(out var ppExceptionObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppExceptionObject;
 			}
@@ -77,7 +77,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetDebugState(out var pState);
+				var hr = instance.TryGetDebugState(out var pState);
 				Marshal.ThrowExceptionForHR(hr);
 				return pState;
 			}
@@ -87,7 +87,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandle(out var phThreadHandle);
+				var hr = instance.TryGetHandle(out var phThreadHandle);
 				Marshal.ThrowExceptionForHR(hr);
 				return phThreadHandle;
 			}
@@ -97,7 +97,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var pdwThreadId);
+				var hr = instance.TryGetID(out var pdwThreadId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwThreadId;
 			}
@@ -107,7 +107,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var ppObject);
+				var hr = instance.TryGetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}
@@ -117,7 +117,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var ppProcess);
+				var hr = instance.TryGetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppProcess;
 			}
@@ -127,7 +127,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegisterSet(out var ppRegisters);
+				var hr = instance.TryGetRegisterSet(out var ppRegisters);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppRegisters;
 			}
@@ -137,7 +137,7 @@ public static unsafe class CorDebugThreadExtensions
 		{
 			get
 			{
-				var hr = instance.GetUserState(out var pState);
+				var hr = instance.TryGetUserState(out var pState);
 				Marshal.ThrowExceptionForHR(hr);
 				return pState;
 			}
@@ -149,7 +149,7 @@ public static unsafe class CorDebugThreadExtensions
 		while (true)
 		{
 			var values = new ICorDebugChain[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

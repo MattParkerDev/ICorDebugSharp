@@ -16,7 +16,7 @@ public static unsafe class CorDebugILCodeExtensions
 		{
 			get
 			{
-				var hr = instance.GetEHClauses(0, out var required, null!);
+				var hr = instance.TryGetEHClauses(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return [];
@@ -25,7 +25,7 @@ public static unsafe class CorDebugILCodeExtensions
 				{
 					var capacity = required;
 					var buffer = new CorDebugEHClause[checked((int)capacity)];
-					hr = instance.GetEHClauses(capacity, out var actual, buffer);
+					hr = instance.TryGetEHClauses(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -45,7 +45,7 @@ public static unsafe class CorDebugILCodeExtensions
 
 		public uint GetEHClauses(uint cClauses, CorDebugEHClause[]? clauses)
 		{
-			var hr = instance.GetEHClauses(cClauses, out var pcClauses, clauses);
+			var hr = instance.TryGetEHClauses(cClauses, out var pcClauses, clauses);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcClauses;
 		}

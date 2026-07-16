@@ -16,7 +16,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugModuleExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -46,7 +46,7 @@ public static unsafe class CorDebugModuleExtensions
 
 		public ICorDebugModuleBreakpoint CreateBreakpoint()
 		{
-			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
+			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
@@ -55,7 +55,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetAssembly(out var ppAssembly);
+				var hr = instance.TryGetAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAssembly;
 			}
@@ -65,7 +65,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetBaseAddress(out var pAddress);
+				var hr = instance.TryGetBaseAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
 				return pAddress;
 			}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugModuleExtensions
 
 		public ICorDebugClass GetClassFromToken(mdTypeDef typeDef)
 		{
-			var hr = instance.GetClassFromToken(typeDef, out var ppClass);
+			var hr = instance.TryGetClassFromToken(typeDef, out var ppClass);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppClass;
 		}
@@ -82,7 +82,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetEditAndContinueSnapshot(out var ppEditAndContinueSnapshot);
+				var hr = instance.TryGetEditAndContinueSnapshot(out var ppEditAndContinueSnapshot);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppEditAndContinueSnapshot;
 			}
@@ -90,35 +90,35 @@ public static unsafe class CorDebugModuleExtensions
 
 		public ICorDebugFunction GetFunctionFromRVA(CORDB_ADDRESS rva)
 		{
-			var hr = instance.GetFunctionFromRVA(rva, out var ppFunction);
+			var hr = instance.TryGetFunctionFromRVA(rva, out var ppFunction);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppFunction;
 		}
 
 		public ICorDebugFunction GetFunctionFromToken(mdMethodDef methodDef)
 		{
-			var hr = instance.GetFunctionFromToken(methodDef, out var ppFunction);
+			var hr = instance.TryGetFunctionFromToken(methodDef, out var ppFunction);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppFunction;
 		}
 
 		public ICorDebugValue GetGlobalVariableValue(mdFieldDef fieldDef)
 		{
-			var hr = instance.GetGlobalVariableValue(fieldDef, out var ppValue);
+			var hr = instance.TryGetGlobalVariableValue(fieldDef, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public object? GetMetaDataInterface(ref Guid riid)
 		{
-			var hr = instance.GetMetaDataInterface(ref riid, out var ppObj);
+			var hr = instance.TryGetMetaDataInterface(ref riid, out var ppObj);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppObj;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -127,7 +127,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var ppProcess);
+				var hr = instance.TryGetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppProcess;
 			}
@@ -137,7 +137,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pcBytes);
+				var hr = instance.TryGetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcBytes;
 			}
@@ -147,7 +147,7 @@ public static unsafe class CorDebugModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetToken(out var pToken);
+				var hr = instance.TryGetToken(out var pToken);
 				Marshal.ThrowExceptionForHR(hr);
 				return pToken;
 			}
@@ -155,14 +155,14 @@ public static unsafe class CorDebugModuleExtensions
 
 		public bool IsDynamic()
 		{
-			var hr = instance.IsDynamic(out var pDynamic);
+			var hr = instance.TryIsDynamic(out var pDynamic);
 			Marshal.ThrowExceptionForHR(hr);
 			return pDynamic;
 		}
 
 		public bool IsInMemory()
 		{
-			var hr = instance.IsInMemory(out var pInMemory);
+			var hr = instance.TryIsInMemory(out var pInMemory);
 			Marshal.ThrowExceptionForHR(hr);
 			return pInMemory;
 		}

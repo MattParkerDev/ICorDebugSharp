@@ -14,7 +14,7 @@ public static unsafe class CorDebugBreakpointExtensions
 	{
 		public bool IsActive()
 		{
-			var hr = instance.IsActive(out var pbActive);
+			var hr = instance.TryIsActive(out var pbActive);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbActive;
 		}

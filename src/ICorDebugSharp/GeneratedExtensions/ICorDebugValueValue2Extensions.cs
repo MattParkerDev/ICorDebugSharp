@@ -21,7 +21,7 @@ public static unsafe class CorDebugValueValue2Extensions
 		{
 			get
 			{
-				var hr = instance.Value2.GetExactType(out var ppType);
+				var hr = instance.Value2.TryGetExactType(out var ppType);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppType;
 			}

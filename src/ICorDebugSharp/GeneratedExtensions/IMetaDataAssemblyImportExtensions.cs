@@ -28,7 +28,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
 		{
-			var hr = instance.GetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
+			var hr = instance.TryGetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPpbPublicKey, queryPcbPublicKey, queryPulHashAlgId, queryPMetaData, queryPdwAssemblyFlags);
@@ -37,7 +37,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, buffer, capacity, out var actual, out var pMetaData, out var pdwAssemblyFlags);
+				hr = instance.TryGetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, buffer, capacity, out var actual, out var pMetaData, out var pdwAssemblyFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -53,7 +53,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
 		{
-			var hr = instance.GetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
+			var hr = instance.TryGetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPpbPublicKeyOrToken, queryPcbPublicKeyOrToken, queryPMetaData, queryPpbHashValue, queryPcbHashValue, queryPdwAssemblyRefFlags);
@@ -62,7 +62,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, buffer, capacity, out var actual, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
+				hr = instance.TryGetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, buffer, capacity, out var actual, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -78,49 +78,49 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public (mdAssemblyRef rAssemblyRefs, uint pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
+			var hr = instance.TryEnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rAssemblyRefs, pcTokens);
 		}
 
 		public (mdExportedType rExportedTypes, uint pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
+			var hr = instance.TryEnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rExportedTypes, pcTokens);
 		}
 
 		public (mdFile rFiles, uint pcTokens) EnumFiles(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
+			var hr = instance.TryEnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFiles, pcTokens);
 		}
 
 		public (mdManifestResource rManifestResources, uint pcTokens) EnumManifestResources(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
+			var hr = instance.TryEnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rManifestResources, pcTokens);
 		}
 
 		public (nint ppIUnk, uint pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
 		{
-			var hr = instance.FindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
+			var hr = instance.TryFindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppIUnk, pcAssemblies);
 		}
 
 		public mdExportedType FindExportedTypeByName(string szName, mdToken mdtExportedType)
 		{
-			var hr = instance.FindExportedTypeByName(szName, mdtExportedType, out var ptkExportedType);
+			var hr = instance.TryFindExportedTypeByName(szName, mdtExportedType, out var ptkExportedType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ptkExportedType;
 		}
 
 		public mdManifestResource FindManifestResourceByName(string szName)
 		{
-			var hr = instance.FindManifestResourceByName(szName, out var ptkManifestResource);
+			var hr = instance.TryFindManifestResourceByName(szName, out var ptkManifestResource);
 			Marshal.ThrowExceptionForHR(hr);
 			return ptkManifestResource;
 		}
@@ -129,7 +129,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			get
 			{
-				var hr = instance.GetAssemblyFromScope(out var ptkAssembly);
+				var hr = instance.TryGetAssemblyFromScope(out var ptkAssembly);
 				Marshal.ThrowExceptionForHR(hr);
 				return ptkAssembly;
 			}
@@ -137,35 +137,35 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, cchName, out var pchName, out var pMetaData, out var pdwAssemblyFlags);
+			var hr = instance.TryGetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, cchName, out var pchName, out var pMetaData, out var pdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppbPublicKey, pcbPublicKey, pulHashAlgId, pchName, pMetaData, pdwAssemblyFlags);
 		}
 
 		public (nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, uint pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, cchName, out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
+			var hr = instance.TryGetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, cchName, out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppbPublicKeyOrToken, pcbPublicKeyOrToken, pchName, pMetaData, ppbHashValue, pcbHashValue, pdwAssemblyRefFlags);
 		}
 
 		public (uint pchName, mdToken ptkImplementation, mdTypeDef ptkTypeDef, CorTypeAttr pdwExportedTypeFlags) GetExportedTypeProps(mdExportedType mdct, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetExportedTypeProps(mdct, szName, cchName, out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
+			var hr = instance.TryGetExportedTypeProps(mdct, szName, cchName, out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pchName, ptkImplementation, ptkTypeDef, pdwExportedTypeFlags);
 		}
 
 		public (uint pchName, nint ppbHashValue, uint pcbHashValue, CorFileFlags pdwFileFlags) GetFileProps(mdFile mdf, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetFileProps(mdf, szName, cchName, out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
+			var hr = instance.TryGetFileProps(mdf, szName, cchName, out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pchName, ppbHashValue, pcbHashValue, pdwFileFlags);
 		}
 
 		public (uint pchName, mdToken ptkImplementation, uint pdwOffset, CorManifestResourceFlags pdwResourceFlags) GetManifestResourceProps(mdManifestResource mdmr, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetManifestResourceProps(mdmr, szName, cchName, out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);
+			var hr = instance.TryGetManifestResourceProps(mdmr, szName, cchName, out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pchName, ptkImplementation, pdwOffset, pdwResourceFlags);
 		}
@@ -178,7 +178,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumAssemblyRefs(ref handle, out var assemblyRef, 1, out var count);
+				var hr = instance.TryEnumAssemblyRefs(ref handle, out var assemblyRef, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -190,7 +190,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -201,7 +201,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumFiles(ref handle, out var file, 1, out var count);
+				var hr = instance.TryEnumFiles(ref handle, out var file, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -213,7 +213,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -224,7 +224,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumExportedTypes(ref handle, out var exportedType, 1, out var count);
+				var hr = instance.TryEnumExportedTypes(ref handle, out var exportedType, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -236,7 +236,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -247,7 +247,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumManifestResources(ref handle, out var manifestResource, 1, out var count);
+				var hr = instance.TryEnumManifestResources(ref handle, out var manifestResource, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -259,13 +259,13 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
 	private static string QueryGetFileProps(IMetaDataAssemblyImport instance, mdFile file)
 	{
-		var hr = instance.GetFileProps(file, null, 0, out var required, out _, out _, out _);
+		var hr = instance.TryGetFileProps(file, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -274,7 +274,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetFileProps(file, buffer, capacity, out var actual, out _, out _, out _);
+			hr = instance.TryGetFileProps(file, buffer, capacity, out var actual, out _, out _, out _);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -290,7 +290,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 	private static string QueryGetExportedTypeProps(IMetaDataAssemblyImport instance, mdExportedType exportedType)
 	{
-		var hr = instance.GetExportedTypeProps(exportedType, null, 0, out var required, out _, out _, out _);
+		var hr = instance.TryGetExportedTypeProps(exportedType, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -299,7 +299,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetExportedTypeProps(exportedType, buffer, capacity, out var actual, out _, out _, out _);
+			hr = instance.TryGetExportedTypeProps(exportedType, buffer, capacity, out var actual, out _, out _, out _);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -315,7 +315,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 	private static string QueryGetManifestResourceProps(IMetaDataAssemblyImport instance, mdManifestResource resource)
 	{
-		var hr = instance.GetManifestResourceProps(resource, null, 0, out var required, out _, out _, out _);
+		var hr = instance.TryGetManifestResourceProps(resource, null, 0, out var required, out _, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -324,7 +324,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetManifestResourceProps(resource, buffer, capacity, out var actual, out _, out _, out _);
+			hr = instance.TryGetManifestResourceProps(resource, buffer, capacity, out var actual, out _, out _, out _);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{

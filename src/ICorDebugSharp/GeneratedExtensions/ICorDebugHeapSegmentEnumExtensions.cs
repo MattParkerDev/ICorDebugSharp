@@ -14,7 +14,7 @@ public static unsafe class CorDebugHeapSegmentEnumExtensions
 	{
 		public uint Next(uint celt, COR_SEGMENT[] segments)
 		{
-			var hr = instance.Next(celt, segments, out var pceltFetched);
+			var hr = instance.TryNext(celt, segments, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

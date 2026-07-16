@@ -14,7 +14,7 @@ public static unsafe class CorDebugVirtualUnwinderExtensions
 	{
 		public uint GetContext(uint contextFlags, uint cbContextBuf, byte[] contextBuf)
 		{
-			var hr = instance.GetContext(contextFlags, cbContextBuf, out var contextSize, contextBuf);
+			var hr = instance.TryGetContext(contextFlags, cbContextBuf, out var contextSize, contextBuf);
 			Marshal.ThrowExceptionForHR(hr);
 			return contextSize;
 		}

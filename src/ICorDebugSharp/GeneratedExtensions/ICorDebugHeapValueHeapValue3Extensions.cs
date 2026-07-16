@@ -21,7 +21,7 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 		{
 			get
 			{
-				var hr = instance.HeapValue3.GetMonitorEventWaitList(out var ppThreadEnum);
+				var hr = instance.HeapValue3.TryGetMonitorEventWaitList(out var ppThreadEnum);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppThreadEnum;
 			}
@@ -31,7 +31,7 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 		{
 			get
 			{
-				var hr = instance.HeapValue3.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+				var hr = instance.HeapValue3.TryGetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
 				Marshal.ThrowExceptionForHR(hr);
 				return (ppThread, pAcquisitionCount);
 			}

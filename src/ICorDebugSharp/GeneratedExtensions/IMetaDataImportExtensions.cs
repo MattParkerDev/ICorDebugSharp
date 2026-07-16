@@ -68,7 +68,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szEvent, mdTypeDef pClass, CorEventAttr pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev)
 		{
-			var hr = instance.GetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
+			var hr = instance.TryGetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwEventFlags, queryPtkEventType, queryPmdAddOn, queryPmdRemoveOn, queryPmdFire, queryRmdOtherMethod, queryPcOtherMethod);
@@ -77,7 +77,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetEventProps(ev, out var pClass, buffer, capacity, out var actual, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
+				hr = instance.TryGetEventProps(ev, out var pClass, buffer, capacity, out var actual, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -93,7 +93,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb)
 		{
-			var hr = instance.GetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			var hr = instance.TryGetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
@@ -102,7 +102,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetFieldProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				hr = instance.TryGetFieldProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -118,7 +118,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szMember, mdTypeDef pClass, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb)
 		{
-			var hr = instance.GetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			var hr = instance.TryGetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPulCodeRVA, queryPdwImplFlags, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
@@ -127,7 +127,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetMemberProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				hr = instance.TryGetMemberProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -143,7 +143,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szMember, mdToken ptk, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr)
 		{
-			var hr = instance.GetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
+			var hr = instance.TryGetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPtk, queryPpvSigBlob.ToArray(), queryPbSig);
@@ -152,7 +152,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetMemberRefProps(mr, out var ptk, buffer, capacity, out var actual, out var ppvSigBlob, out var pbSig);
+				hr = instance.TryGetMemberRefProps(mr, out var ptk, buffer, capacity, out var actual, out var ppvSigBlob, out var pbSig);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -168,7 +168,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szMethod, mdTypeDef pClass, CorMethodAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb)
 		{
-			var hr = instance.GetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
+			var hr = instance.TryGetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob.ToArray(), queryPcbSigBlob, queryPulCodeRVA, queryPdwImplFlags);
@@ -177,7 +177,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetMethodProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
+				hr = instance.TryGetMethodProps(mb, out var pClass, buffer, capacity, out var actual, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -193,7 +193,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szName, mdMethodDef pmd, uint pulSequence, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk)
 		{
-			var hr = instance.GetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
+			var hr = instance.TryGetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPmd, queryPulSequence, queryPdwAttr, queryPdwCPlusTypeFlag, queryPpValue, queryPcchValue);
@@ -202,7 +202,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetParamProps(tk, out var pmd, out var pulSequence, buffer, capacity, out var actual, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+				hr = instance.TryGetParamProps(tk, out var pmd, out var pulSequence, buffer, capacity, out var actual, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -218,7 +218,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szImportName, uint pdwMappingFlags, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk)
 		{
-			var hr = instance.GetPinvokeMap(tk, out var queryPdwMappingFlags, null, 0, out var required, out var queryPmrImportDLL);
+			var hr = instance.TryGetPinvokeMap(tk, out var queryPdwMappingFlags, null, 0, out var required, out var queryPmrImportDLL);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPdwMappingFlags, queryPmrImportDLL);
@@ -227,7 +227,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetPinvokeMap(tk, out var pdwMappingFlags, buffer, capacity, out var actual, out var pmrImportDLL);
+				hr = instance.TryGetPinvokeMap(tk, out var pdwMappingFlags, buffer, capacity, out var actual, out var pmrImportDLL);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -243,7 +243,7 @@ public static unsafe class MetaDataImportExtensions
 
 		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
-			var hr = instance.GetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
+			var hr = instance.TryGetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPClass, queryPdwPropFlags, queryPpvSig.ToArray(), queryPbSig, queryPdwCPlusTypeFlag, queryPpDefaultValue, queryPcchDefaultValue, queryPmdSetter, queryPmdGetter, queryRmdOtherMethod, queryPcOtherMethod);
@@ -252,7 +252,7 @@ public static unsafe class MetaDataImportExtensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetPropertyProps(prop, out var pClass, buffer, capacity, out var actual, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
+				hr = instance.TryGetPropertyProps(prop, out var pClass, buffer, capacity, out var actual, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -268,280 +268,280 @@ public static unsafe class MetaDataImportExtensions
 
 		public uint CountEnum(HCorEnum hEnum)
 		{
-			var hr = instance.CountEnum(hEnum, out var pulCount);
+			var hr = instance.TryCountEnum(hEnum, out var pulCount);
 			Marshal.ThrowExceptionForHR(hr);
 			return pulCount;
 		}
 
 		public (mdCustomAttribute rCustomAttributes, uint pcCustomAttributes) EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType)
 		{
-			var hr = instance.EnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, 1, out var pcCustomAttributes);
+			var hr = instance.TryEnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, 1, out var pcCustomAttributes);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rCustomAttributes, pcCustomAttributes);
 		}
 
 		public (mdEvent rEvents, uint pcEvents) EnumEvents(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumEvents(ref phEnum, td, out var rEvents, 1, out var pcEvents);
+			var hr = instance.TryEnumEvents(ref phEnum, td, out var rEvents, 1, out var pcEvents);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rEvents, pcEvents);
 		}
 
 		public (mdFieldDef rFields, uint pcTokens) EnumFields(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumFields(ref phEnum, cl, out var rFields, 1, out var pcTokens);
+			var hr = instance.TryEnumFields(ref phEnum, cl, out var rFields, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFields, pcTokens);
 		}
 
 		public (mdFieldDef rFields, uint pcTokens) EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumFieldsWithName(ref phEnum, cl, szName, out var rFields, 1, out var pcTokens);
+			var hr = instance.TryEnumFieldsWithName(ref phEnum, cl, szName, out var rFields, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rFields, pcTokens);
 		}
 
 		public (mdInterfaceImpl rImpls, uint pcImpls) EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumInterfaceImpls(ref phEnum, td, out var rImpls, 1, out var pcImpls);
+			var hr = instance.TryEnumInterfaceImpls(ref phEnum, td, out var rImpls, 1, out var pcImpls);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rImpls, pcImpls);
 		}
 
 		public (mdMemberRef rMemberRefs, uint pcTokens) EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent)
 		{
-			var hr = instance.EnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, 1, out var pcTokens);
+			var hr = instance.TryEnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMemberRefs, pcTokens);
 		}
 
 		public (mdToken rMembers, uint pcTokens) EnumMembers(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumMembers(ref phEnum, cl, out var rMembers, 1, out var pcTokens);
+			var hr = instance.TryEnumMembers(ref phEnum, cl, out var rMembers, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMembers, pcTokens);
 		}
 
 		public (mdToken rMembers, uint pcTokens) EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumMembersWithName(ref phEnum, cl, szName, out var rMembers, 1, out var pcTokens);
+			var hr = instance.TryEnumMembersWithName(ref phEnum, cl, szName, out var rMembers, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMembers, pcTokens);
 		}
 
 		public (mdToken rMethodBody, mdToken rMethodDecl, uint pcTokens) EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, 1, out var pcTokens);
+			var hr = instance.TryEnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethodBody, rMethodDecl, pcTokens);
 		}
 
 		public (mdToken rEventProp, uint pcEventProp) EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb)
 		{
-			var hr = instance.EnumMethodSemantics(ref phEnum, mb, out var rEventProp, 1, out var pcEventProp);
+			var hr = instance.TryEnumMethodSemantics(ref phEnum, mb, out var rEventProp, 1, out var pcEventProp);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rEventProp, pcEventProp);
 		}
 
 		public (mdMethodDef rMethods, uint pcTokens) EnumMethods(ref HCorEnum phEnum, mdTypeDef cl)
 		{
-			var hr = instance.EnumMethods(ref phEnum, cl, out var rMethods, 1, out var pcTokens);
+			var hr = instance.TryEnumMethods(ref phEnum, cl, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
 		public (mdMethodDef rMethods, uint pcTokens) EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
-			var hr = instance.EnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, 1, out var pcTokens);
+			var hr = instance.TryEnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
 		public (mdModuleRef rModuleRefs, uint pcModuleRefs) EnumModuleRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumModuleRefs(ref phEnum, out var rModuleRefs, 1, out var pcModuleRefs);
+			var hr = instance.TryEnumModuleRefs(ref phEnum, out var rModuleRefs, 1, out var pcModuleRefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rModuleRefs, pcModuleRefs);
 		}
 
 		public (mdParamDef rParams, uint pcTokens) EnumParams(ref HCorEnum phEnum, mdMethodDef mb)
 		{
-			var hr = instance.EnumParams(ref phEnum, mb, out var rParams, 1, out var pcTokens);
+			var hr = instance.TryEnumParams(ref phEnum, mb, out var rParams, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rParams, pcTokens);
 		}
 
 		public (mdPermission rPermission, uint pcTokens) EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions)
 		{
-			var hr = instance.EnumPermissionSets(ref phEnum, tk, dwActions, out var rPermission, 1, out var pcTokens);
+			var hr = instance.TryEnumPermissionSets(ref phEnum, tk, dwActions, out var rPermission, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rPermission, pcTokens);
 		}
 
 		public (mdProperty rProperties, uint pcProperties) EnumProperties(ref HCorEnum phEnum, mdTypeDef td)
 		{
-			var hr = instance.EnumProperties(ref phEnum, td, out var rProperties, 1, out var pcProperties);
+			var hr = instance.TryEnumProperties(ref phEnum, td, out var rProperties, 1, out var pcProperties);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rProperties, pcProperties);
 		}
 
 		public (mdSignature rSignatures, uint pcSignatures) EnumSignatures(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumSignatures(ref phEnum, out var rSignatures, 1, out var pcSignatures);
+			var hr = instance.TryEnumSignatures(ref phEnum, out var rSignatures, 1, out var pcSignatures);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rSignatures, pcSignatures);
 		}
 
 		public (mdTypeDef rTypeDefs, uint pcTypeDefs) EnumTypeDefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeDefs(ref phEnum, out var rTypeDefs, 1, out var pcTypeDefs);
+			var hr = instance.TryEnumTypeDefs(ref phEnum, out var rTypeDefs, 1, out var pcTypeDefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeDefs, pcTypeDefs);
 		}
 
 		public (mdTypeRef rTypeRefs, uint pcTypeRefs) EnumTypeRefs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeRefs(ref phEnum, out var rTypeRefs, 1, out var pcTypeRefs);
+			var hr = instance.TryEnumTypeRefs(ref phEnum, out var rTypeRefs, 1, out var pcTypeRefs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeRefs, pcTypeRefs);
 		}
 
 		public (mdTypeSpec rTypeSpecs, uint pcTypeSpecs) EnumTypeSpecs(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumTypeSpecs(ref phEnum, out var rTypeSpecs, 1, out var pcTypeSpecs);
+			var hr = instance.TryEnumTypeSpecs(ref phEnum, out var rTypeSpecs, 1, out var pcTypeSpecs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rTypeSpecs, pcTypeSpecs);
 		}
 
 		public (mdToken rMethods, uint pcTokens) EnumUnresolvedMethods(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumUnresolvedMethods(ref phEnum, out var rMethods, 1, out var pcTokens);
+			var hr = instance.TryEnumUnresolvedMethods(ref phEnum, out var rMethods, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethods, pcTokens);
 		}
 
 		public (mdString rStrings, uint pcStrings) EnumUserStrings(ref HCorEnum phEnum)
 		{
-			var hr = instance.EnumUserStrings(ref phEnum, out var rStrings, 1, out var pcStrings);
+			var hr = instance.TryEnumUserStrings(ref phEnum, out var rStrings, 1, out var pcStrings);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rStrings, pcStrings);
 		}
 
 		public mdFieldDef FindField(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
 		{
-			var hr = instance.FindField(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			var hr = instance.TryFindField(td, szName, pvSigBlob, cbSigBlob, out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
 
 		public mdToken FindMember(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
 		{
-			var hr = instance.FindMember(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			var hr = instance.TryFindMember(td, szName, pvSigBlob, cbSigBlob, out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
 
 		public mdMemberRef FindMemberRef(mdTypeRef td, string szName, byte* pvSigBlob, uint cbSigBlob)
 		{
-			var hr = instance.FindMemberRef(td, szName, pvSigBlob, cbSigBlob, out var pmr);
+			var hr = instance.TryFindMemberRef(td, szName, pvSigBlob, cbSigBlob, out var pmr);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmr;
 		}
 
 		public mdMethodDef FindMethod(mdTypeDef td, string szName, byte* pvSigBlob, uint cbSigBlob)
 		{
-			var hr = instance.FindMethod(td, szName, pvSigBlob, cbSigBlob, out var pmb);
+			var hr = instance.TryFindMethod(td, szName, pvSigBlob, cbSigBlob, out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
 
 		public mdTypeDef FindTypeDefByName(string szTypeDef, mdToken tkEnclosingClass)
 		{
-			var hr = instance.FindTypeDefByName(szTypeDef, tkEnclosingClass, out var ptd);
+			var hr = instance.TryFindTypeDefByName(szTypeDef, tkEnclosingClass, out var ptd);
 			Marshal.ThrowExceptionForHR(hr);
 			return ptd;
 		}
 
 		public mdTypeRef FindTypeRef(mdToken tkResolutionScope, string szName)
 		{
-			var hr = instance.FindTypeRef(tkResolutionScope, szName, out var ptr);
+			var hr = instance.TryFindTypeRef(tkResolutionScope, szName, out var ptr);
 			Marshal.ThrowExceptionForHR(hr);
 			return ptr;
 		}
 
 		public (uint pdwPackSize, COR_FIELD_OFFSET rFieldOffset, uint pcFieldOffset, uint pulClassSize) GetClassLayout(mdTypeDef td)
 		{
-			var hr = instance.GetClassLayout(td, out var pdwPackSize, out var rFieldOffset, 1, out var pcFieldOffset, out var pulClassSize);
+			var hr = instance.TryGetClassLayout(td, out var pdwPackSize, out var rFieldOffset, 1, out var pcFieldOffset, out var pulClassSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pdwPackSize, rFieldOffset, pcFieldOffset, pulClassSize);
 		}
 
 		public (nint ppData, uint pcbData) GetCustomAttributeByName(mdToken tkObj, string szName)
 		{
-			var hr = instance.GetCustomAttributeByName(tkObj, szName, out var ppData, out var pcbData);
+			var hr = instance.TryGetCustomAttributeByName(tkObj, szName, out var ppData, out var pcbData);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppData, pcbData);
 		}
 
 		public (mdToken ptkObj, mdToken ptkType, nint ppBlob, uint pcbSize) GetCustomAttributeProps(mdCustomAttribute cv)
 		{
-			var hr = instance.GetCustomAttributeProps(cv, out var ptkObj, out var ptkType, out var ppBlob, out var pcbSize);
+			var hr = instance.TryGetCustomAttributeProps(cv, out var ptkObj, out var ptkType, out var ppBlob, out var pcbSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ptkObj, ptkType, ppBlob, pcbSize);
 		}
 
 		public (mdTypeDef pClass, uint pchEvent, CorEventAttr pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetEventProps(mdEvent ev, char[]? szEvent, uint cchEvent)
 		{
-			var hr = instance.GetEventProps(ev, out var pClass, szEvent, cchEvent, out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
+			var hr = instance.TryGetEventProps(ev, out var pClass, szEvent, cchEvent, out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchEvent, pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, pcOtherMethod);
 		}
 
 		public (byte[] ppvNativeType, uint pcbNativeType) GetFieldMarshal(mdToken tk)
 		{
-			var hr = instance.GetFieldMarshal(tk, out var ppvNativeType, out var pcbNativeType);
+			var hr = instance.TryGetFieldMarshal(tk, out var ppvNativeType, out var pcbNativeType);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppvNativeType.ToArray(), pcbNativeType);
 		}
 
 		public (mdTypeDef pClass, uint pchField, CorFieldAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, uint cchField)
 		{
-			var hr = instance.GetFieldProps(mb, out var pClass, szField, cchField, out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			var hr = instance.TryGetFieldProps(mb, out var pClass, szField, cchField, out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchField, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pdwCPlusTypeFlag, ppValue, pcchValue);
 		}
 
 		public (mdTypeDef pClass, mdToken ptkIface) GetInterfaceImplProps(mdInterfaceImpl iiImpl)
 		{
-			var hr = instance.GetInterfaceImplProps(iiImpl, out var pClass, out var ptkIface);
+			var hr = instance.TryGetInterfaceImplProps(iiImpl, out var pClass, out var ptkIface);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, ptkIface);
 		}
 
 		public (mdTypeDef pClass, uint pchMember, uint pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetMemberProps(mdToken mb, char[]? szMember, uint cchMember)
 		{
-			var hr = instance.GetMemberProps(mb, out var pClass, szMember, cchMember, out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			var hr = instance.TryGetMemberProps(mb, out var pClass, szMember, cchMember, out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchMember, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags, pdwCPlusTypeFlag, ppValue, pcchValue);
 		}
 
 		public (mdToken ptk, uint pchMember, byte[] ppvSigBlob, uint pbSig) GetMemberRefProps(mdMemberRef mr, char[]? szMember, uint cchMember)
 		{
-			var hr = instance.GetMemberRefProps(mr, out var ptk, szMember, cchMember, out var pchMember, out var ppvSigBlob, out var pbSig);
+			var hr = instance.TryGetMemberRefProps(mr, out var ptk, szMember, cchMember, out var pchMember, out var ppvSigBlob, out var pbSig);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ptk, pchMember, ppvSigBlob.ToArray(), pbSig);
 		}
 
 		public (mdTypeDef pClass, uint pchMethod, CorMethodAttr pdwAttr, byte[] ppvSigBlob, uint pcbSigBlob, uint pulCodeRVA, uint pdwImplFlags) GetMethodProps(mdMethodDef mb, char[]? szMethod, uint cchMethod)
 		{
-			var hr = instance.GetMethodProps(mb, out var pClass, szMethod, cchMethod, out var pchMethod, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
+			var hr = instance.TryGetMethodProps(mb, out var pClass, szMethod, cchMethod, out var pchMethod, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchMethod, pdwAttr, ppvSigBlob.ToArray(), pcbSigBlob, pulCodeRVA, pdwImplFlags);
 		}
 
 		public uint GetMethodSemantics(mdMethodDef mb, mdToken tkEventProp)
 		{
-			var hr = instance.GetMethodSemantics(mb, tkEventProp, out var pdwSemanticsFlags);
+			var hr = instance.TryGetMethodSemantics(mb, tkEventProp, out var pdwSemanticsFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return pdwSemanticsFlags;
 		}
@@ -550,7 +550,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			get
 			{
-				var hr = instance.GetModuleFromScope(out var pmd);
+				var hr = instance.TryGetModuleFromScope(out var pmd);
 				Marshal.ThrowExceptionForHR(hr);
 				return pmd;
 			}
@@ -558,126 +558,126 @@ public static unsafe class MetaDataImportExtensions
 
 		public uint GetModuleRefProps(mdModuleRef mur, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetModuleRefProps(mur, szName, cchName, out var pchName);
+			var hr = instance.TryGetModuleRefProps(mur, szName, cchName, out var pchName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pchName;
 		}
 
 		public sbyte* GetNameFromToken(mdToken tk)
 		{
-			var hr = instance.GetNameFromToken(tk, out var pszUtf8NamePtr);
+			var hr = instance.TryGetNameFromToken(tk, out var pszUtf8NamePtr);
 			Marshal.ThrowExceptionForHR(hr);
 			return pszUtf8NamePtr;
 		}
 
 		public uint GetNativeCallConvFromSig(nint pvSig, uint cbSig)
 		{
-			var hr = instance.GetNativeCallConvFromSig(pvSig, cbSig, out var pCallConv);
+			var hr = instance.TryGetNativeCallConvFromSig(pvSig, cbSig, out var pCallConv);
 			Marshal.ThrowExceptionForHR(hr);
 			return pCallConv;
 		}
 
 		public mdTypeDef GetNestedClassProps(mdTypeDef tdNestedClass)
 		{
-			var hr = instance.GetNestedClassProps(tdNestedClass, out var ptdEnclosingClass);
+			var hr = instance.TryGetNestedClassProps(tdNestedClass, out var ptdEnclosingClass);
 			Marshal.ThrowExceptionForHR(hr);
 			return ptdEnclosingClass;
 		}
 
 		public mdParamDef GetParamForMethodIndex(mdMethodDef md, uint ulParamSeq)
 		{
-			var hr = instance.GetParamForMethodIndex(md, ulParamSeq, out var ppd);
+			var hr = instance.TryGetParamForMethodIndex(md, ulParamSeq, out var ppd);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppd;
 		}
 
 		public (mdMethodDef pmd, uint pulSequence, uint pchName, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, uint pcchValue) GetParamProps(mdParamDef tk, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetParamProps(tk, out var pmd, out var pulSequence, szName, cchName, out var pchName, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
+			var hr = instance.TryGetParamProps(tk, out var pmd, out var pulSequence, szName, cchName, out var pchName, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pmd, pulSequence, pchName, pdwAttr, pdwCPlusTypeFlag, ppValue, pcchValue);
 		}
 
 		public (uint pdwAction, nint ppvPermission, uint pcbPermission) GetPermissionSetProps(mdPermission pm)
 		{
-			var hr = instance.GetPermissionSetProps(pm, out var pdwAction, out var ppvPermission, out var pcbPermission);
+			var hr = instance.TryGetPermissionSetProps(pm, out var pdwAction, out var ppvPermission, out var pcbPermission);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pdwAction, ppvPermission, pcbPermission);
 		}
 
 		public (uint pdwMappingFlags, uint pchImportName, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk, char[]? szImportName, uint cchImportName)
 		{
-			var hr = instance.GetPinvokeMap(tk, out var pdwMappingFlags, szImportName, cchImportName, out var pchImportName, out var pmrImportDLL);
+			var hr = instance.TryGetPinvokeMap(tk, out var pdwMappingFlags, szImportName, cchImportName, out var pchImportName, out var pmrImportDLL);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pdwMappingFlags, pchImportName, pmrImportDLL);
 		}
 
 		public (mdTypeDef pClass, uint pchProperty, CorPropertyAttr pdwPropFlags, byte[] ppvSig, uint pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, uint pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, uint pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, uint cchProperty)
 		{
-			var hr = instance.GetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
+			var hr = instance.TryGetPropertyProps(prop, out var pClass, szProperty, cchProperty, out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pClass, pchProperty, pdwPropFlags, ppvSig.ToArray(), pbSig, pdwCPlusTypeFlag, ppDefaultValue, pcchDefaultValue, pmdSetter, pmdGetter, rmdOtherMethod, pcOtherMethod);
 		}
 
 		public (uint pulCodeRVA, uint pdwImplFlags) GetRVA(mdToken tk)
 		{
-			var hr = instance.GetRVA(tk, out var pulCodeRVA, out var pdwImplFlags);
+			var hr = instance.TryGetRVA(tk, out var pulCodeRVA, out var pdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pulCodeRVA, pdwImplFlags);
 		}
 
 		public (uint pchName, Guid pmvid) GetScopeProps(char[]? szName, uint cchName)
 		{
-			var hr = instance.GetScopeProps(szName, cchName, out var pchName, out var pmvid);
+			var hr = instance.TryGetScopeProps(szName, cchName, out var pchName, out var pmvid);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pchName, pmvid);
 		}
 
 		public (byte[] ppvSig, uint pcbSig) GetSigFromToken(mdSignature mdSig)
 		{
-			var hr = instance.GetSigFromToken(mdSig, out var ppvSig, out var pcbSig);
+			var hr = instance.TryGetSigFromToken(mdSig, out var ppvSig, out var pcbSig);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppvSig.ToArray(), pcbSig);
 		}
 
 		public (uint pchTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef td, char[]? szTypeDef, uint cchTypeDef)
 		{
-			var hr = instance.GetTypeDefProps(td, szTypeDef, cchTypeDef, out var pchTypeDef, out var pdwTypeDefFlags, out var ptkExtends);
+			var hr = instance.TryGetTypeDefProps(td, szTypeDef, cchTypeDef, out var pchTypeDef, out var pdwTypeDefFlags, out var ptkExtends);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pchTypeDef, pdwTypeDefFlags, ptkExtends);
 		}
 
 		public (mdToken ptkResolutionScope, uint pchName) GetTypeRefProps(mdTypeRef tr, char[]? szName, uint cchName)
 		{
-			var hr = instance.GetTypeRefProps(tr, out var ptkResolutionScope, szName, cchName, out var pchName);
+			var hr = instance.TryGetTypeRefProps(tr, out var ptkResolutionScope, szName, cchName, out var pchName);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ptkResolutionScope, pchName);
 		}
 
 		public (byte[] ppvSig, uint pcbSig) GetTypeSpecFromToken(mdTypeSpec typespec)
 		{
-			var hr = instance.GetTypeSpecFromToken(typespec, out var ppvSig, out var pcbSig);
+			var hr = instance.TryGetTypeSpecFromToken(typespec, out var ppvSig, out var pcbSig);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppvSig.ToArray(), pcbSig);
 		}
 
 		public uint GetUserString(mdString stk, char[]? szString, uint cchString)
 		{
-			var hr = instance.GetUserString(stk, szString, cchString, out var pchString);
+			var hr = instance.TryGetUserString(stk, szString, cchString, out var pchString);
 			Marshal.ThrowExceptionForHR(hr);
 			return pchString;
 		}
 
 		public int IsGlobal(mdToken pd)
 		{
-			var hr = instance.IsGlobal(pd, out var pbGlobal);
+			var hr = instance.TryIsGlobal(pd, out var pbGlobal);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbGlobal;
 		}
 
 		public (nint ppIScope, mdTypeDef ptd) ResolveTypeRef(mdTypeRef tr, ref Guid riid)
 		{
-			var hr = instance.ResolveTypeRef(tr, ref riid, out var ppIScope, out var ptd);
+			var hr = instance.TryResolveTypeRef(tr, ref riid, out var ppIScope, out var ptd);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppIScope, ptd);
 		}
@@ -690,7 +690,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumTypeDefs(ref handle, out var typeDef, 1, out var count);
+				var hr = instance.TryEnumTypeDefs(ref handle, out var typeDef, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -702,7 +702,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -713,7 +713,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumInterfaceImpls(ref handle, td, out var interfaceImpl, 1, out var count);
+				var hr = instance.TryEnumInterfaceImpls(ref handle, td, out var interfaceImpl, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -725,7 +725,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -736,7 +736,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumTypeRefs(ref handle, out var typeRef, 1, out var count);
+				var hr = instance.TryEnumTypeRefs(ref handle, out var typeRef, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -748,7 +748,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -759,7 +759,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMembers(ref handle, cl, out var member, 1, out var count);
+				var hr = instance.TryEnumMembers(ref handle, cl, out var member, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -771,7 +771,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -782,7 +782,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMembersWithName(ref handle, cl, szName, out var member, 1, out var count);
+				var hr = instance.TryEnumMembersWithName(ref handle, cl, szName, out var member, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -794,7 +794,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -805,7 +805,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMethods(ref handle, cl, out var method, 1, out var count);
+				var hr = instance.TryEnumMethods(ref handle, cl, out var method, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -817,7 +817,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -828,7 +828,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMethodsWithName(ref handle, cl, szName, out var method, 1, out var count);
+				var hr = instance.TryEnumMethodsWithName(ref handle, cl, szName, out var method, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -840,7 +840,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -851,7 +851,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumFields(ref handle, cl, out var field, 1, out var count);
+				var hr = instance.TryEnumFields(ref handle, cl, out var field, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -863,7 +863,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -874,7 +874,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumFieldsWithName(ref handle, cl, szName, out var field, 1, out var count);
+				var hr = instance.TryEnumFieldsWithName(ref handle, cl, szName, out var field, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -886,7 +886,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -897,7 +897,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumParams(ref handle, mb, out var parameter, 1, out var count);
+				var hr = instance.TryEnumParams(ref handle, mb, out var parameter, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -909,7 +909,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -920,7 +920,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMemberRefs(ref handle, tkParent, out var memberRef, 1, out var count);
+				var hr = instance.TryEnumMemberRefs(ref handle, tkParent, out var memberRef, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -932,7 +932,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -943,7 +943,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMethodImpls(ref handle, td, out var methodBody, out var methodDeclaration, 1, out var count);
+				var hr = instance.TryEnumMethodImpls(ref handle, td, out var methodBody, out var methodDeclaration, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -955,7 +955,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -966,7 +966,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumPermissionSets(ref handle, tk, dwActions, out var permission, 1, out var count);
+				var hr = instance.TryEnumPermissionSets(ref handle, tk, dwActions, out var permission, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -978,7 +978,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -989,7 +989,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumProperties(ref handle, td, out var property, 1, out var count);
+				var hr = instance.TryEnumProperties(ref handle, td, out var property, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1001,7 +1001,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1012,7 +1012,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumEvents(ref handle, td, out var @event, 1, out var count);
+				var hr = instance.TryEnumEvents(ref handle, td, out var @event, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1024,7 +1024,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1035,7 +1035,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMethodSemantics(ref handle, mb, out var eventOrProperty, 1, out var count);
+				var hr = instance.TryEnumMethodSemantics(ref handle, mb, out var eventOrProperty, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1047,7 +1047,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1058,7 +1058,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumModuleRefs(ref handle, out var moduleRef, 1, out var count);
+				var hr = instance.TryEnumModuleRefs(ref handle, out var moduleRef, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1070,7 +1070,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1081,7 +1081,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumUnresolvedMethods(ref handle, out var method, 1, out var count);
+				var hr = instance.TryEnumUnresolvedMethods(ref handle, out var method, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1093,7 +1093,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1104,7 +1104,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumSignatures(ref handle, out var signature, 1, out var count);
+				var hr = instance.TryEnumSignatures(ref handle, out var signature, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1116,7 +1116,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1127,7 +1127,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumTypeSpecs(ref handle, out var typeSpec, 1, out var count);
+				var hr = instance.TryEnumTypeSpecs(ref handle, out var typeSpec, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1139,7 +1139,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1150,7 +1150,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumUserStrings(ref handle, out var userString, 1, out var count);
+				var hr = instance.TryEnumUserStrings(ref handle, out var userString, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1162,7 +1162,7 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -1173,7 +1173,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumCustomAttributes(ref handle, tk, tkType, out var customAttribute, 1, out var count);
+				var hr = instance.TryEnumCustomAttributes(ref handle, tk, tkType, out var customAttribute, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -1185,13 +1185,13 @@ public static unsafe class MetaDataImportExtensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
 	private static (string szName, Guid pmvid) QueryGetScopeProps(IMetaDataImport instance)
 	{
-		var hr = instance.GetScopeProps(null, 0, out var required, out _);
+		var hr = instance.TryGetScopeProps(null, 0, out var required, out _);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return (string.Empty, default);
@@ -1200,7 +1200,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetScopeProps(buffer, capacity, out var actual, out var pmvid);
+			hr = instance.TryGetScopeProps(buffer, capacity, out var actual, out var pmvid);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -1216,7 +1216,7 @@ public static unsafe class MetaDataImportExtensions
 
 	private static (string szTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) QueryGetTypeDefProps(IMetaDataImport instance, mdTypeDef typeDefinition)
 	{
-		var hr = instance.GetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
+		var hr = instance.TryGetTypeDefProps(typeDefinition, null, 0, out var required, out _, out _);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return (string.Empty, default, default);
@@ -1225,7 +1225,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetTypeDefProps(typeDefinition, buffer, capacity, out var actual, out var pdwTypeDefFlags, out var ptkExtends);
+			hr = instance.TryGetTypeDefProps(typeDefinition, buffer, capacity, out var actual, out var pdwTypeDefFlags, out var ptkExtends);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -1241,7 +1241,7 @@ public static unsafe class MetaDataImportExtensions
 
 	private static (mdToken ptkResolutionScope, string szName) QueryGetTypeRefProps(IMetaDataImport instance, mdTypeRef typeReference)
 	{
-		var hr = instance.GetTypeRefProps(typeReference, out _, null, 0, out var required);
+		var hr = instance.TryGetTypeRefProps(typeReference, out _, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return (default, string.Empty);
@@ -1250,7 +1250,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetTypeRefProps(typeReference, out var ptkResolutionScope, buffer, capacity, out var actual);
+			hr = instance.TryGetTypeRefProps(typeReference, out var ptkResolutionScope, buffer, capacity, out var actual);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -1266,7 +1266,7 @@ public static unsafe class MetaDataImportExtensions
 
 	private static string QueryGetModuleRefProps(IMetaDataImport instance, mdModuleRef moduleReference)
 	{
-		var hr = instance.GetModuleRefProps(moduleReference, null, 0, out var required);
+		var hr = instance.TryGetModuleRefProps(moduleReference, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -1275,7 +1275,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetModuleRefProps(moduleReference, buffer, capacity, out var actual);
+			hr = instance.TryGetModuleRefProps(moduleReference, buffer, capacity, out var actual);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{
@@ -1291,7 +1291,7 @@ public static unsafe class MetaDataImportExtensions
 
 	private static string QueryGetUserString(IMetaDataImport instance, mdString userString)
 	{
-		var hr = instance.GetUserString(userString, null, 0, out var required);
+		var hr = instance.TryGetUserString(userString, null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -1300,7 +1300,7 @@ public static unsafe class MetaDataImportExtensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetUserString(userString, buffer, capacity, out var actual);
+			hr = instance.TryGetUserString(userString, buffer, capacity, out var actual);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{

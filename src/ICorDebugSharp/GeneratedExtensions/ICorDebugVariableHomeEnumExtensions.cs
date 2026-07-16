@@ -14,7 +14,7 @@ public static unsafe class CorDebugVariableHomeEnumExtensions
 	{
 		public uint Next(uint celt, ICorDebugVariableHome[] homes)
 		{
-			var hr = instance.Next(celt, homes, out var pceltFetched);
+			var hr = instance.TryNext(celt, homes, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

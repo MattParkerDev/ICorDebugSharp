@@ -16,7 +16,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugAppDomainExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -46,21 +46,21 @@ public static unsafe class CorDebugAppDomainExtensions
 
 		public IEnumerable<ICorDebugAssembly> EnumerateAssemblies()
 		{
-			var hr = instance.EnumerateAssemblies(out var ppAssemblies);
+			var hr = instance.TryEnumerateAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateAssembliesCore(ppAssemblies);
 		}
 
 		public IEnumerable<ICorDebugBreakpoint> EnumerateBreakpoints()
 		{
-			var hr = instance.EnumerateBreakpoints(out var ppBreakpoints);
+			var hr = instance.TryEnumerateBreakpoints(out var ppBreakpoints);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateBreakpointsCore(ppBreakpoints);
 		}
 
 		public IEnumerable<ICorDebugStepper> EnumerateSteppers()
 		{
-			var hr = instance.EnumerateSteppers(out var ppSteppers);
+			var hr = instance.TryEnumerateSteppers(out var ppSteppers);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateSteppersCore(ppSteppers);
 		}
@@ -69,7 +69,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			get
 			{
-				var hr = instance.GetID(out var pId);
+				var hr = instance.TryGetID(out var pId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pId;
 			}
@@ -77,14 +77,14 @@ public static unsafe class CorDebugAppDomainExtensions
 
 		public ICorDebugModule GetModuleFromMetaDataInterface(nint pIMetaData)
 		{
-			var hr = instance.GetModuleFromMetaDataInterface(pIMetaData, out var ppModule);
+			var hr = instance.TryGetModuleFromMetaDataInterface(pIMetaData, out var ppModule);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppModule;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -93,7 +93,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			get
 			{
-				var hr = instance.GetObject(out var ppObject);
+				var hr = instance.TryGetObject(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}
@@ -103,7 +103,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var ppProcess);
+				var hr = instance.TryGetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppProcess;
 			}
@@ -111,7 +111,7 @@ public static unsafe class CorDebugAppDomainExtensions
 
 		public bool IsAttached()
 		{
-			var hr = instance.IsAttached(out var pbAttached);
+			var hr = instance.TryIsAttached(out var pbAttached);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbAttached;
 		}
@@ -122,7 +122,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		while (true)
 		{
 			var values = new ICorDebugAssembly[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -137,7 +137,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		while (true)
 		{
 			var values = new ICorDebugBreakpoint[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -152,7 +152,7 @@ public static unsafe class CorDebugAppDomainExtensions
 		while (true)
 		{
 			var values = new ICorDebugStepper[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

@@ -14,7 +14,7 @@ public static unsafe class CorDebugThread4Extensions
 	{
 		public IEnumerable<CorDebugBlockingObject> GetBlockingObjects()
 		{
-			var hr = instance.GetBlockingObjects(out var ppBlockingObjectEnum);
+			var hr = instance.TryGetBlockingObjects(out var ppBlockingObjectEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return GetBlockingObjectsCore(ppBlockingObjectEnum);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugThread4Extensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
+				var hr = instance.TryGetCurrentCustomDebuggerNotification(out var ppNotificationObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppNotificationObject;
 			}
@@ -35,7 +35,7 @@ public static unsafe class CorDebugThread4Extensions
 		while (true)
 		{
 			var values = new CorDebugBlockingObject[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

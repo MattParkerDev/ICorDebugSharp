@@ -19,21 +19,21 @@ public static unsafe class CorDebugILFrameILFrame4Extensions
 
 		public ICorDebugValueEnum EnumerateLocalVariablesEx(ILCodeKind flags)
 		{
-			var hr = instance.ILFrame4.EnumerateLocalVariablesEx(flags, out var ppValueEnum);
+			var hr = instance.ILFrame4.TryEnumerateLocalVariablesEx(flags, out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValueEnum;
 		}
 
 		public ICorDebugCode GetCodeEx(ILCodeKind flags)
 		{
-			var hr = instance.ILFrame4.GetCodeEx(flags, out var ppCode);
+			var hr = instance.ILFrame4.TryGetCodeEx(flags, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex)
 		{
-			var hr = instance.ILFrame4.GetLocalVariableEx(flags, dwIndex, out var ppValue);
+			var hr = instance.ILFrame4.TryGetLocalVariableEx(flags, dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}

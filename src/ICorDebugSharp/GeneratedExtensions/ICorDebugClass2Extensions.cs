@@ -14,7 +14,7 @@ public static unsafe class CorDebugClass2Extensions
 	{
 		public ICorDebugType GetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}

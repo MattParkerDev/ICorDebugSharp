@@ -16,7 +16,7 @@ public static unsafe class CorDebugDelegateObjectValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetFunction(out var ppFunction);
+				var hr = instance.TryGetFunction(out var ppFunction);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFunction;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugDelegateObjectValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetTarget(out var ppObject);
+				var hr = instance.TryGetTarget(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}

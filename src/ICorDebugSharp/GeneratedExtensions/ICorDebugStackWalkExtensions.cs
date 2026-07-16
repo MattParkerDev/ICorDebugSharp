@@ -14,7 +14,7 @@ public static unsafe class CorDebugStackWalkExtensions
 	{
 		public uint GetContext(uint contextFlags, uint contextBufSize, byte[] contextBuf)
 		{
-			var hr = instance.GetContext(contextFlags, contextBufSize, out var contextSize, contextBuf);
+			var hr = instance.TryGetContext(contextFlags, contextBufSize, out var contextSize, contextBuf);
 			Marshal.ThrowExceptionForHR(hr);
 			return contextSize;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugStackWalkExtensions
 		{
 			get
 			{
-				var hr = instance.GetFrame(out var pFrame);
+				var hr = instance.TryGetFrame(out var pFrame);
 				Marshal.ThrowExceptionForHR(hr);
 				return pFrame;
 			}

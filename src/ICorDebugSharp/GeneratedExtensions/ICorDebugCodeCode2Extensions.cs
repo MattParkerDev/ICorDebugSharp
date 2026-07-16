@@ -19,7 +19,7 @@ public static unsafe class CorDebugCodeCode2Extensions
 
 		public uint GetCodeChunks(uint cbufSize, CodeChunkInfo[]? chunks)
 		{
-			var hr = instance.Code2.GetCodeChunks(cbufSize, out var pcnumChunks, chunks);
+			var hr = instance.Code2.TryGetCodeChunks(cbufSize, out var pcnumChunks, chunks);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcnumChunks;
 		}
@@ -28,7 +28,7 @@ public static unsafe class CorDebugCodeCode2Extensions
 		{
 			get
 			{
-				var hr = instance.Code2.GetCompilerFlags(out var pdwFlags);
+				var hr = instance.Code2.TryGetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}

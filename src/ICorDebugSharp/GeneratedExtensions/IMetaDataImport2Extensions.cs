@@ -22,7 +22,7 @@ public static unsafe class MetaDataImport2Extensions
 
 		public (string wzname, uint pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, uint reserved) GetGenericParamProps(mdGenericParam gp)
 		{
-			var hr = instance.GetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
+			var hr = instance.TryGetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
 				return (string.Empty, queryPulParamSeq, queryPdwParamFlags, queryPtOwner, queryReserved);
@@ -31,7 +31,7 @@ public static unsafe class MetaDataImport2Extensions
 			{
 				var capacity = required;
 				var buffer = new char[checked((int)capacity)];
-				hr = instance.GetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, buffer, capacity, out var actual);
+				hr = instance.TryGetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, buffer, capacity, out var actual);
 				Marshal.ThrowExceptionForHR(hr);
 				if (actual > capacity)
 				{
@@ -47,42 +47,42 @@ public static unsafe class MetaDataImport2Extensions
 
 		public (mdGenericParamConstraint rGenericParamConstraints, uint pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk)
 		{
-			var hr = instance.EnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
+			var hr = instance.TryEnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rGenericParamConstraints, pcGenericParamConstraints);
 		}
 
 		public (mdGenericParam rGenericParams, uint pcGenericParams) EnumGenericParams(ref HCorEnum phEnum, mdToken tk)
 		{
-			var hr = instance.EnumGenericParams(ref phEnum, tk, out var rGenericParams, 1, out var pcGenericParams);
+			var hr = instance.TryEnumGenericParams(ref phEnum, tk, out var rGenericParams, 1, out var pcGenericParams);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rGenericParams, pcGenericParams);
 		}
 
 		public (mdMethodSpec rMethodSpecs, uint pcMethodSpecs) EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk)
 		{
-			var hr = instance.EnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, 1, out var pcMethodSpecs);
+			var hr = instance.TryEnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, 1, out var pcMethodSpecs);
 			Marshal.ThrowExceptionForHR(hr);
 			return (rMethodSpecs, pcMethodSpecs);
 		}
 
 		public (mdGenericParam ptGenericParam, mdToken ptkConstraintType) GetGenericParamConstraintProps(mdGenericParamConstraint gpc)
 		{
-			var hr = instance.GetGenericParamConstraintProps(gpc, out var ptGenericParam, out var ptkConstraintType);
+			var hr = instance.TryGetGenericParamConstraintProps(gpc, out var ptGenericParam, out var ptkConstraintType);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ptGenericParam, ptkConstraintType);
 		}
 
 		public (uint pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, uint reserved, uint pchName) GetGenericParamProps(mdGenericParam gp, char[]? wzname, uint cchName)
 		{
-			var hr = instance.GetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, wzname, cchName, out var pchName);
+			var hr = instance.TryGetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, wzname, cchName, out var pchName);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pulParamSeq, pdwParamFlags, ptOwner, reserved, pchName);
 		}
 
 		public (mdToken tkParent, byte[] ppvSigBlob, uint pcbSigBlob) GetMethodSpecProps(mdMethodSpec mi)
 		{
-			var hr = instance.GetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
+			var hr = instance.TryGetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
 			Marshal.ThrowExceptionForHR(hr);
 			return (tkParent, ppvSigBlob.ToArray(), pcbSigBlob);
 		}
@@ -91,7 +91,7 @@ public static unsafe class MetaDataImport2Extensions
 		{
 			get
 			{
-				var hr = instance.GetPEKind(out var pdwPEKind, out var pdwMAchine);
+				var hr = instance.TryGetPEKind(out var pdwPEKind, out var pdwMAchine);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pdwPEKind, pdwMAchine);
 			}
@@ -99,7 +99,7 @@ public static unsafe class MetaDataImport2Extensions
 
 		public uint GetVersionString(char[]? pwzBuf, uint ccBufSize)
 		{
-			var hr = instance.GetVersionString(pwzBuf, ccBufSize, out var pccBufSize);
+			var hr = instance.TryGetVersionString(pwzBuf, ccBufSize, out var pccBufSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return pccBufSize;
 		}
@@ -112,7 +112,7 @@ public static unsafe class MetaDataImport2Extensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumGenericParams(ref handle, tk, out var genericParameter, 1, out var count);
+				var hr = instance.TryEnumGenericParams(ref handle, tk, out var genericParameter, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -124,7 +124,7 @@ public static unsafe class MetaDataImport2Extensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -135,7 +135,7 @@ public static unsafe class MetaDataImport2Extensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumGenericParamConstraints(ref handle, tk, out var constraint, 1, out var count);
+				var hr = instance.TryEnumGenericParamConstraints(ref handle, tk, out var constraint, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -147,7 +147,7 @@ public static unsafe class MetaDataImport2Extensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
@@ -158,7 +158,7 @@ public static unsafe class MetaDataImport2Extensions
 		{
 			while (true)
 			{
-				var hr = instance.EnumMethodSpecs(ref handle, tk, out var methodSpec, 1, out var count);
+				var hr = instance.TryEnumMethodSpecs(ref handle, tk, out var methodSpec, 1, out var count);
 				Marshal.ThrowExceptionForHR(hr);
 				if (count == 0)
 					yield break;
@@ -170,13 +170,13 @@ public static unsafe class MetaDataImport2Extensions
 		finally
 		{
 			if (!handle.IsNull)
-				instance.CloseEnum(handle);
+				instance.TryCloseEnum(handle);
 		}
 	}
 
 	private static string QueryGetVersionString(IMetaDataImport2 instance)
 	{
-		var hr = instance.GetVersionString(null, 0, out var required);
+		var hr = instance.TryGetVersionString(null, 0, out var required);
 		Marshal.ThrowExceptionForHR(hr);
 		if (required == 0)
 			return string.Empty;
@@ -185,7 +185,7 @@ public static unsafe class MetaDataImport2Extensions
 		{
 			var capacity = required;
 			var buffer = new char[checked((int)capacity)];
-			hr = instance.GetVersionString(buffer, capacity, out var actual);
+			hr = instance.TryGetVersionString(buffer, capacity, out var actual);
 			Marshal.ThrowExceptionForHR(hr);
 			if (actual > capacity)
 			{

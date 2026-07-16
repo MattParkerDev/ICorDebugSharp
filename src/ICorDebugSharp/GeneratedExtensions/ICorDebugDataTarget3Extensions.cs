@@ -14,7 +14,7 @@ public static unsafe class CorDebugDataTarget3Extensions
 	{
 		public uint GetLoadedModules(uint cRequestedModules, ICorDebugLoadedModule[] pLoadedModules)
 		{
-			var hr = instance.GetLoadedModules(cRequestedModules, out var pcFetchedModules, pLoadedModules);
+			var hr = instance.TryGetLoadedModules(cRequestedModules, out var pcFetchedModules, pLoadedModules);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcFetchedModules;
 		}

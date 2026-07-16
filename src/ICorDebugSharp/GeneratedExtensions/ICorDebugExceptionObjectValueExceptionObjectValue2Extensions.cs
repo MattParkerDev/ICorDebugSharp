@@ -19,7 +19,7 @@ public static unsafe class CorDebugExceptionObjectValueExceptionObjectValue2Exte
 
 		public void ForceCatchHandlerFoundEvents(bool enableEvents)
 		{
-			var hr = instance.ExceptionObjectValue2.ForceCatchHandlerFoundEvents(enableEvents);
+			var hr = instance.ExceptionObjectValue2.TryForceCatchHandlerFoundEvents(enableEvents);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

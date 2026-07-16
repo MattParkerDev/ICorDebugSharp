@@ -14,7 +14,7 @@ public static unsafe class CorDebugGCReferenceEnumExtensions
 	{
 		public uint Next(uint celt, COR_GC_REFERENCE[] roots)
 		{
-			var hr = instance.Next(celt, roots, out var pceltFetched);
+			var hr = instance.TryNext(celt, roots, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

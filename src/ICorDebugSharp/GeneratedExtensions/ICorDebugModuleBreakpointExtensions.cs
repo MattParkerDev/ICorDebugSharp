@@ -16,7 +16,7 @@ public static unsafe class CorDebugModuleBreakpointExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var ppModule);
+				var hr = instance.TryGetModule(out var ppModule);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppModule;
 			}

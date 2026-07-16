@@ -14,7 +14,7 @@ public static unsafe class CorDebugFunctionExtensions
 	{
 		public ICorDebugFunctionBreakpoint CreateBreakpoint()
 		{
-			var hr = instance.CreateBreakpoint(out var ppBreakpoint);
+			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var ppClass);
+				var hr = instance.TryGetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppClass;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetCurrentVersionNumber(out var pnCurrentVersion);
+				var hr = instance.TryGetCurrentVersionNumber(out var pnCurrentVersion);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnCurrentVersion;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetILCode(out var ppCode);
+				var hr = instance.TryGetILCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppCode;
 			}
@@ -53,7 +53,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetLocalVarSigToken(out var pmdSig);
+				var hr = instance.TryGetLocalVarSigToken(out var pmdSig);
 				Marshal.ThrowExceptionForHR(hr);
 				return pmdSig;
 			}
@@ -63,7 +63,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetModule(out var ppModule);
+				var hr = instance.TryGetModule(out var ppModule);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppModule;
 			}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetNativeCode(out var ppCode);
+				var hr = instance.TryGetNativeCode(out var ppCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppCode;
 			}
@@ -83,7 +83,7 @@ public static unsafe class CorDebugFunctionExtensions
 		{
 			get
 			{
-				var hr = instance.GetToken(out var pMethodDef);
+				var hr = instance.TryGetToken(out var pMethodDef);
 				Marshal.ThrowExceptionForHR(hr);
 				return pMethodDef;
 			}

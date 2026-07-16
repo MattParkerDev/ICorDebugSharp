@@ -21,7 +21,7 @@ public static unsafe class CorDebugThreadThread4Extensions
 		{
 			get
 			{
-				var hr = instance.Thread4.GetBlockingObjects(out var ppBlockingObjectEnum);
+				var hr = instance.Thread4.TryGetBlockingObjects(out var ppBlockingObjectEnum);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppBlockingObjectEnum;
 			}
@@ -31,7 +31,7 @@ public static unsafe class CorDebugThreadThread4Extensions
 		{
 			get
 			{
-				var hr = instance.Thread4.GetCurrentCustomDebuggerNotification(out var ppNotificationObject);
+				var hr = instance.Thread4.TryGetCurrentCustomDebuggerNotification(out var ppNotificationObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppNotificationObject;
 			}
@@ -39,7 +39,7 @@ public static unsafe class CorDebugThreadThread4Extensions
 
 		public void HasUnhandledException()
 		{
-			var hr = instance.Thread4.HasUnhandledException();
+			var hr = instance.Thread4.TryHasUnhandledException();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcessProcess8Extensions
 
 		public void EnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC)
 		{
-			var hr = instance.Process8.EnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
+			var hr = instance.Process8.TryEnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

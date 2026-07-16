@@ -14,7 +14,7 @@ public static unsafe class CorDebugStepperEnumExtensions
 	{
 		public uint Next(uint celt, ICorDebugStepper[] steppers)
 		{
-			var hr = instance.Next(celt, steppers, out var pceltFetched);
+			var hr = instance.TryNext(celt, steppers, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

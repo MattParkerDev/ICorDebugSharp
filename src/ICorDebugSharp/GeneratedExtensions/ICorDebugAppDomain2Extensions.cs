@@ -14,14 +14,14 @@ public static unsafe class CorDebugAppDomain2Extensions
 	{
 		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg)
 		{
-			var hr = instance.GetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
+			var hr = instance.TryGetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public ICorDebugType GetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.GetFunctionPointerType(nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.TryGetFunctionPointerType(nTypeArgs, ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}

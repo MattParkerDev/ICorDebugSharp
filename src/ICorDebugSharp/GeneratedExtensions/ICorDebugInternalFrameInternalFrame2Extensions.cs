@@ -21,7 +21,7 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 		{
 			get
 			{
-				var hr = instance.InternalFrame2.GetAddress(out var pAddress);
+				var hr = instance.InternalFrame2.TryGetAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
 				return pAddress;
 			}
@@ -29,7 +29,7 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 
 		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
 		{
-			var hr = instance.InternalFrame2.IsCloserToLeaf(pFrameToCompare, out var pIsCloser);
+			var hr = instance.InternalFrame2.TryIsCloserToLeaf(pFrameToCompare, out var pIsCloser);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsCloser;
 		}

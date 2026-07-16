@@ -16,7 +16,7 @@ public static unsafe class CorDebugRemoteTargetExtensions
 		{
 			get
 			{
-				var hr = instance.GetHostName(0, out var required, null!);
+				var hr = instance.TryGetHostName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugRemoteTargetExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetHostName(capacity, out var actual, buffer);
+					hr = instance.TryGetHostName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -46,7 +46,7 @@ public static unsafe class CorDebugRemoteTargetExtensions
 
 		public uint GetHostName(uint cchHostName, char[]? szHostName)
 		{
-			var hr = instance.GetHostName(cchHostName, out var pcchHostName, szHostName);
+			var hr = instance.TryGetHostName(cchHostName, out var pcchHostName, szHostName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchHostName;
 		}

@@ -16,7 +16,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetBaseAddress(out var pAddress);
+				var hr = instance.TryGetBaseAddress(out var pAddress);
 				Marshal.ThrowExceptionForHR(hr);
 				return pAddress;
 			}
@@ -56,7 +56,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -65,7 +65,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pcBytes);
+				var hr = instance.TryGetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcBytes;
 			}

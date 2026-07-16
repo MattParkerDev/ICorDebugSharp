@@ -14,7 +14,7 @@ public static unsafe class CorDebugCode4Extensions
 	{
 		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes()
 		{
-			var hr = instance.EnumerateVariableHomes(out var ppEnum);
+			var hr = instance.TryEnumerateVariableHomes(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateVariableHomesCore(ppEnum);
 		}
@@ -25,7 +25,7 @@ public static unsafe class CorDebugCode4Extensions
 		while (true)
 		{
 			var values = new ICorDebugVariableHome[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

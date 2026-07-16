@@ -14,7 +14,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 	{
 		public Guid CopyMetaData(nint pIStream)
 		{
-			var hr = instance.CopyMetaData(pIStream, out var pMvid);
+			var hr = instance.TryCopyMetaData(pIStream, out var pMvid);
 			Marshal.ThrowExceptionForHR(hr);
 			return pMvid;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 		{
 			get
 			{
-				var hr = instance.GetMvid(out var pMvid);
+				var hr = instance.TryGetMvid(out var pMvid);
 				Marshal.ThrowExceptionForHR(hr);
 				return pMvid;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 		{
 			get
 			{
-				var hr = instance.GetRoDataRVA(out var pRoDataRVA);
+				var hr = instance.TryGetRoDataRVA(out var pRoDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
 				return pRoDataRVA;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 		{
 			get
 			{
-				var hr = instance.GetRwDataRVA(out var pRwDataRVA);
+				var hr = instance.TryGetRwDataRVA(out var pRwDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
 				return pRwDataRVA;
 			}

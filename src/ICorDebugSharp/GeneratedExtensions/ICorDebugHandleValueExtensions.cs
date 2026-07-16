@@ -16,7 +16,7 @@ public static unsafe class CorDebugHandleValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetHandleType(out var pType);
+				var hr = instance.TryGetHandleType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
 				return pType;
 			}

@@ -14,7 +14,7 @@ public static unsafe class CorDebugGuidToTypeEnumExtensions
 	{
 		public uint Next(uint celt, CorDebugGuidToTypeMapping[] values)
 		{
-			var hr = instance.Next(celt, values, out var pceltFetched);
+			var hr = instance.TryNext(celt, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

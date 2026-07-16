@@ -16,7 +16,7 @@ public static unsafe class CorDebugValue3Extensions
 		{
 			get
 			{
-				var hr = instance.GetSize64(out var pSize);
+				var hr = instance.TryGetSize64(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pSize;
 			}

@@ -14,7 +14,7 @@ public static unsafe class CorDebugHeapValue3Extensions
 	{
 		public IEnumerable<ICorDebugThread> GetMonitorEventWaitList()
 		{
-			var hr = instance.GetMonitorEventWaitList(out var ppThreadEnum);
+			var hr = instance.TryGetMonitorEventWaitList(out var ppThreadEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return GetMonitorEventWaitListCore(ppThreadEnum);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugHeapValue3Extensions
 		{
 			get
 			{
-				var hr = instance.GetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
+				var hr = instance.TryGetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
 				Marshal.ThrowExceptionForHR(hr);
 				return (ppThread, pAcquisitionCount);
 			}
@@ -35,7 +35,7 @@ public static unsafe class CorDebugHeapValue3Extensions
 		while (true)
 		{
 			var values = new ICorDebugThread[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

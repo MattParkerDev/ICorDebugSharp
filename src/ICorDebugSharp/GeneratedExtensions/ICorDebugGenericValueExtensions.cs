@@ -16,7 +16,7 @@ public static unsafe class CorDebugGenericValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetValue(out var pTo);
+				var hr = instance.TryGetValue(out var pTo);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTo;
 			}

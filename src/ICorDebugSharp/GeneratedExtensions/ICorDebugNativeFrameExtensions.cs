@@ -16,7 +16,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetIP(out var pnOffset);
+				var hr = instance.TryGetIP(out var pnOffset);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnOffset;
 			}
@@ -24,35 +24,35 @@ public static unsafe class CorDebugNativeFrameExtensions
 
 		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.GetLocalDoubleRegisterValue(highWordReg, lowWordReg, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalDoubleRegisterValue(highWordReg, lowWordReg, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.GetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue GetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.GetLocalMemoryValue(address, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalMemoryValue(address, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.GetLocalRegisterMemoryValue(highWordReg, lowWordAddress, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalRegisterMemoryValue(highWordReg, lowWordAddress, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.GetLocalRegisterValue(reg, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalRegisterValue(reg, cbSigBlob, pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -61,7 +61,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegisterSet(out var ppRegisters);
+				var hr = instance.TryGetRegisterSet(out var ppRegisters);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppRegisters;
 			}

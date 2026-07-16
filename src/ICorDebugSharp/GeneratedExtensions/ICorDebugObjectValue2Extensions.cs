@@ -14,7 +14,7 @@ public static unsafe class CorDebugObjectValue2Extensions
 	{
 		public (ICorDebugFunction ppFunction, ICorDebugType ppType) GetVirtualMethodAndType(mdMemberRef memberRef)
 		{
-			var hr = instance.GetVirtualMethodAndType(memberRef, out var ppFunction, out var ppType);
+			var hr = instance.TryGetVirtualMethodAndType(memberRef, out var ppFunction, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return (ppFunction, ppType);
 		}

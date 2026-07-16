@@ -16,7 +16,7 @@ public static unsafe class CorDebugCode2Extensions
 		{
 			get
 			{
-				var hr = instance.GetCodeChunks(0, out var required, null!);
+				var hr = instance.TryGetCodeChunks(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return [];
@@ -25,7 +25,7 @@ public static unsafe class CorDebugCode2Extensions
 				{
 					var capacity = required;
 					var buffer = new CodeChunkInfo[checked((int)capacity)];
-					hr = instance.GetCodeChunks(capacity, out var actual, buffer);
+					hr = instance.TryGetCodeChunks(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -45,7 +45,7 @@ public static unsafe class CorDebugCode2Extensions
 
 		public uint GetCodeChunks(uint cbufSize, CodeChunkInfo[]? chunks)
 		{
-			var hr = instance.GetCodeChunks(cbufSize, out var pcnumChunks, chunks);
+			var hr = instance.TryGetCodeChunks(cbufSize, out var pcnumChunks, chunks);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcnumChunks;
 		}
@@ -54,7 +54,7 @@ public static unsafe class CorDebugCode2Extensions
 		{
 			get
 			{
-				var hr = instance.GetCompilerFlags(out var pdwFlags);
+				var hr = instance.TryGetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}

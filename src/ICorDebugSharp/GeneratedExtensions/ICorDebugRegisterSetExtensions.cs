@@ -16,7 +16,7 @@ public static unsafe class CorDebugRegisterSetExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegistersAvailable(out var pAvailable);
+				var hr = instance.TryGetRegistersAvailable(out var pAvailable);
 				Marshal.ThrowExceptionForHR(hr);
 				return pAvailable;
 			}

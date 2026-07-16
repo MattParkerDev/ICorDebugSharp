@@ -16,7 +16,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 		{
 			get
 			{
-				var hr = instance.GetFlags(out var pdwFlags);
+				var hr = instance.TryGetFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 		{
 			get
 			{
-				var hr = instance.GetNativeIP(out var pIP);
+				var hr = instance.TryGetNativeIP(out var pIP);
 				Marshal.ThrowExceptionForHR(hr);
 				return pIP;
 			}
@@ -36,7 +36,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackPointer(out var pStackPointer);
+				var hr = instance.TryGetStackPointer(out var pStackPointer);
 				Marshal.ThrowExceptionForHR(hr);
 				return pStackPointer;
 			}

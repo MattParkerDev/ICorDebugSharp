@@ -14,7 +14,7 @@ public static unsafe class CorDebugEnumExtensions
 	{
 		public ICorDebugEnum Clone()
 		{
-			var hr = instance.Clone(out var ppEnum);
+			var hr = instance.TryClone(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugEnumExtensions
 		{
 			get
 			{
-				var hr = instance.GetCount(out var pcelt);
+				var hr = instance.TryGetCount(out var pcelt);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcelt;
 			}

@@ -16,7 +16,7 @@ public static unsafe class CorDebugMemoryBufferExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pcbBufferLength);
+				var hr = instance.TryGetSize(out var pcbBufferLength);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcbBufferLength;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugMemoryBufferExtensions
 		{
 			get
 			{
-				var hr = instance.GetStartAddress(out var address);
+				var hr = instance.TryGetStartAddress(out var address);
 				Marshal.ThrowExceptionForHR(hr);
 				return address;
 			}

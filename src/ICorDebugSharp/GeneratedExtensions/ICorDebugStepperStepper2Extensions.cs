@@ -19,7 +19,7 @@ public static unsafe class CorDebugStepperStepper2Extensions
 
 		public void SetJMC(bool fIsJMCStepper)
 		{
-			var hr = instance.Stepper2.SetJMC(fIsJMCStepper);
+			var hr = instance.Stepper2.TrySetJMC(fIsJMCStepper);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

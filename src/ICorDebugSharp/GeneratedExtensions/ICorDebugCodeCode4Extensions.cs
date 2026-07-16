@@ -19,7 +19,7 @@ public static unsafe class CorDebugCodeCode4Extensions
 
 		public ICorDebugVariableHomeEnum EnumerateVariableHomes()
 		{
-			var hr = instance.Code4.EnumerateVariableHomes(out var ppEnum);
+			var hr = instance.Code4.TryEnumerateVariableHomes(out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEnum;
 		}

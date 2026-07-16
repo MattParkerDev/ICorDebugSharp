@@ -16,7 +16,7 @@ public static unsafe class CorDebugStringValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetString(0, out var required, null!);
+				var hr = instance.TryGetString(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugStringValueExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetString(capacity, out var actual, buffer);
+					hr = instance.TryGetString(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugStringValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetLength(out var pcchString);
+				var hr = instance.TryGetLength(out var pcchString);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcchString;
 			}
@@ -56,7 +56,7 @@ public static unsafe class CorDebugStringValueExtensions
 
 		public uint GetString(uint cchString, char[]? szString)
 		{
-			var hr = instance.GetString(cchString, out var pcchString, szString);
+			var hr = instance.TryGetString(cchString, out var pcchString, szString);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchString;
 		}

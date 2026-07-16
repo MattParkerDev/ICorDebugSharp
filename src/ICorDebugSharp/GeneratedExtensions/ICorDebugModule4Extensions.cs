@@ -14,7 +14,7 @@ public static unsafe class CorDebugModule4Extensions
 	{
 		public bool IsMappedLayout()
 		{
-			var hr = instance.IsMappedLayout(out var pIsMapped);
+			var hr = instance.TryIsMappedLayout(out var pIsMapped);
 			Marshal.ThrowExceptionForHR(hr);
 			return pIsMapped;
 		}

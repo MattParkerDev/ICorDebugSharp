@@ -21,7 +21,7 @@ public static unsafe class CorDebugFunctionFunction3Extensions
 		{
 			get
 			{
-				var hr = instance.Function3.GetActiveReJitRequestILCode(out var ppReJitedILCode);
+				var hr = instance.Function3.TryGetActiveReJitRequestILCode(out var ppReJitedILCode);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppReJitedILCode;
 			}

@@ -14,7 +14,7 @@ public static unsafe class CorDebugILFrame3Extensions
 	{
 		public ICorDebugValue GetReturnValueForILOffset(uint ILoffset)
 		{
-			var hr = instance.GetReturnValueForILOffset(ILoffset, out var ppReturnValue);
+			var hr = instance.TryGetReturnValueForILOffset(ILoffset, out var ppReturnValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppReturnValue;
 		}

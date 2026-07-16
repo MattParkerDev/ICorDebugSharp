@@ -21,7 +21,7 @@ public static unsafe class CorDebugTypeType2Extensions
 		{
 			get
 			{
-				var hr = instance.Type2.GetTypeID(out var id);
+				var hr = instance.Type2.TryGetTypeID(out var id);
 				Marshal.ThrowExceptionForHR(hr);
 				return id;
 			}

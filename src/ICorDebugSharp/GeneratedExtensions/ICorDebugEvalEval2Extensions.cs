@@ -19,44 +19,44 @@ public static unsafe class CorDebugEvalEval2Extensions
 
 		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			var hr = instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public ICorDebugValue CreateValueForType(ICorDebugType pType)
 		{
-			var hr = instance.Eval2.CreateValueForType(pType, out var ppValue);
+			var hr = instance.Eval2.TryCreateValueForType(pType, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds)
 		{
-			var hr = instance.Eval2.NewParameterizedArray(pElementType, rank, dims, lowBounds);
+			var hr = instance.Eval2.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			var hr = instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+			var hr = instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void NewStringWithLength(string @string, uint uiLength)
 		{
-			var hr = instance.Eval2.NewStringWithLength(@string, uiLength);
+			var hr = instance.Eval2.TryNewStringWithLength(@string, uiLength);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void RudeAbort()
 		{
-			var hr = instance.Eval2.RudeAbort();
+			var hr = instance.Eval2.TryRudeAbort();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -19,7 +19,7 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 
 		public ICorDebugAssemblyEnum EnumerateContainedAssemblies()
 		{
-			var hr = instance.Assembly3.EnumerateContainedAssemblies(out var ppAssemblies);
+			var hr = instance.Assembly3.TryEnumerateContainedAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssemblies;
 		}
@@ -28,7 +28,7 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 		{
 			get
 			{
-				var hr = instance.Assembly3.GetContainerAssembly(out var ppAssembly);
+				var hr = instance.Assembly3.TryGetContainerAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAssembly;
 			}

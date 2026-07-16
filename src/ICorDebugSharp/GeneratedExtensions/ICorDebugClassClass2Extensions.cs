@@ -19,14 +19,14 @@ public static unsafe class CorDebugClassClass2Extensions
 
 		public ICorDebugType GetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.Class2.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.Class2.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public void SetJMCStatus(bool bIsJustMyCode)
 		{
-			var hr = instance.Class2.SetJMCStatus(bIsJustMyCode);
+			var hr = instance.Class2.TrySetJMCStatus(bIsJustMyCode);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

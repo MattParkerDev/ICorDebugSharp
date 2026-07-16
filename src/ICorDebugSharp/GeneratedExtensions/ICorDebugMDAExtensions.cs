@@ -16,7 +16,7 @@ public static unsafe class CorDebugMDAExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugMDAExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugMDAExtensions
 		{
 			get
 			{
-				var hr = instance.GetDescription(0, out var required, null!);
+				var hr = instance.TryGetDescription(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -57,7 +57,7 @@ public static unsafe class CorDebugMDAExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetDescription(capacity, out var actual, buffer);
+					hr = instance.TryGetDescription(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -80,7 +80,7 @@ public static unsafe class CorDebugMDAExtensions
 		{
 			get
 			{
-				var hr = instance.GetXML(0, out var required, null!);
+				var hr = instance.TryGetXML(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -89,7 +89,7 @@ public static unsafe class CorDebugMDAExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetXML(capacity, out var actual, buffer);
+					hr = instance.TryGetXML(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -110,14 +110,14 @@ public static unsafe class CorDebugMDAExtensions
 
 		public uint GetDescription(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetDescription(cchName, out var pcchName, szName);
+			var hr = instance.TryGetDescription(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -126,7 +126,7 @@ public static unsafe class CorDebugMDAExtensions
 		{
 			get
 			{
-				var hr = instance.GetOSThreadId(out var pOsTid);
+				var hr = instance.TryGetOSThreadId(out var pOsTid);
 				Marshal.ThrowExceptionForHR(hr);
 				return pOsTid;
 			}
@@ -134,7 +134,7 @@ public static unsafe class CorDebugMDAExtensions
 
 		public uint GetXML(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetXML(cchName, out var pcchName, szName);
+			var hr = instance.TryGetXML(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}

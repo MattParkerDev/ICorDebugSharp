@@ -14,7 +14,7 @@ public static unsafe class CorDebugBreakpointEnumExtensions
 	{
 		public uint Next(uint celt, ICorDebugBreakpoint[] breakpoints)
 		{
-			var hr = instance.Next(celt, breakpoints, out var pceltFetched);
+			var hr = instance.TryNext(celt, breakpoints, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltFetched;
 		}

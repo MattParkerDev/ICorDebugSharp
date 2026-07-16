@@ -19,7 +19,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 
 		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
 		{
-			var hr = instance.Thread2.GetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
+			var hr = instance.Thread2.TryGetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcFunctions;
 		}
@@ -28,7 +28,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = instance.Thread2.GetConnectionID(out var pdwConnectionId);
+				var hr = instance.Thread2.TryGetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwConnectionId;
 			}
@@ -38,7 +38,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = instance.Thread2.GetTaskID(out var pTaskId);
+				var hr = instance.Thread2.TryGetTaskID(out var pTaskId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTaskId;
 			}
@@ -48,7 +48,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 		{
 			get
 			{
-				var hr = instance.Thread2.GetVolatileOSThreadID(out var pdwTid);
+				var hr = instance.Thread2.TryGetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwTid;
 			}
@@ -56,7 +56,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 
 		public void InterceptCurrentException(ICorDebugFrame pFrame)
 		{
-			var hr = instance.Thread2.InterceptCurrentException(pFrame);
+			var hr = instance.Thread2.TryInterceptCurrentException(pFrame);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

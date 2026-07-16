@@ -16,7 +16,7 @@ public static unsafe class CorDebugValueBreakpointExtensions
 		{
 			get
 			{
-				var hr = instance.GetValue(out var ppValue);
+				var hr = instance.TryGetValue(out var ppValue);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppValue;
 			}

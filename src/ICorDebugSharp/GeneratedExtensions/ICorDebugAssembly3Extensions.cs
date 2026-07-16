@@ -14,7 +14,7 @@ public static unsafe class CorDebugAssembly3Extensions
 	{
 		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies()
 		{
-			var hr = instance.EnumerateContainedAssemblies(out var ppAssemblies);
+			var hr = instance.TryEnumerateContainedAssemblies(out var ppAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateContainedAssembliesCore(ppAssemblies);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugAssembly3Extensions
 		{
 			get
 			{
-				var hr = instance.GetContainerAssembly(out var ppAssembly);
+				var hr = instance.TryGetContainerAssembly(out var ppAssembly);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAssembly;
 			}
@@ -35,7 +35,7 @@ public static unsafe class CorDebugAssembly3Extensions
 		while (true)
 		{
 			var values = new ICorDebugAssembly[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

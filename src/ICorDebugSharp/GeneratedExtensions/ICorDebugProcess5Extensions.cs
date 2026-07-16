@@ -14,35 +14,35 @@ public static unsafe class CorDebugProcess5Extensions
 	{
 		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences)
 		{
-			var hr = instance.EnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
+			var hr = instance.TryEnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateGCReferencesCore(ppEnum);
 		}
 
 		public IEnumerable<COR_GC_REFERENCE> EnumerateHandles(CorGCReferenceType types)
 		{
-			var hr = instance.EnumerateHandles(types, out var ppEnum);
+			var hr = instance.TryEnumerateHandles(types, out var ppEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateHandlesCore(ppEnum);
 		}
 
 		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap()
 		{
-			var hr = instance.EnumerateHeap(out var ppObjects);
+			var hr = instance.TryEnumerateHeap(out var ppObjects);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateHeapCore(ppObjects);
 		}
 
 		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions()
 		{
-			var hr = instance.EnumerateHeapRegions(out var ppRegions);
+			var hr = instance.TryEnumerateHeapRegions(out var ppRegions);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateHeapRegionsCore(ppRegions);
 		}
 
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
 		{
-			var hr = instance.GetArrayLayout(id, out var pLayout);
+			var hr = instance.TryGetArrayLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
 		}
@@ -51,7 +51,7 @@ public static unsafe class CorDebugProcess5Extensions
 		{
 			get
 			{
-				var hr = instance.GetGCHeapInformation(out var pHeapInfo);
+				var hr = instance.TryGetGCHeapInformation(out var pHeapInfo);
 				Marshal.ThrowExceptionForHR(hr);
 				return pHeapInfo;
 			}
@@ -59,35 +59,35 @@ public static unsafe class CorDebugProcess5Extensions
 
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)
 		{
-			var hr = instance.GetObject(addr, out var pObject);
+			var hr = instance.TryGetObject(addr, out var pObject);
 			Marshal.ThrowExceptionForHR(hr);
 			return pObject;
 		}
 
 		public uint GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields)
 		{
-			var hr = instance.GetTypeFields(id, celt, fields, out var pceltNeeded);
+			var hr = instance.TryGetTypeFields(id, celt, fields, out var pceltNeeded);
 			Marshal.ThrowExceptionForHR(hr);
 			return pceltNeeded;
 		}
 
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)
 		{
-			var hr = instance.GetTypeForTypeID(id, out var ppType);
+			var hr = instance.TryGetTypeForTypeID(id, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
 		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj)
 		{
-			var hr = instance.GetTypeID(obj, out var pId);
+			var hr = instance.TryGetTypeID(obj, out var pId);
 			Marshal.ThrowExceptionForHR(hr);
 			return pId;
 		}
 
 		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id)
 		{
-			var hr = instance.GetTypeLayout(id, out var pLayout);
+			var hr = instance.TryGetTypeLayout(id, out var pLayout);
 			Marshal.ThrowExceptionForHR(hr);
 			return pLayout;
 		}
@@ -98,7 +98,7 @@ public static unsafe class CorDebugProcess5Extensions
 		while (true)
 		{
 			var values = new COR_GC_REFERENCE[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -113,7 +113,7 @@ public static unsafe class CorDebugProcess5Extensions
 		while (true)
 		{
 			var values = new COR_GC_REFERENCE[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -128,7 +128,7 @@ public static unsafe class CorDebugProcess5Extensions
 		while (true)
 		{
 			var values = new COR_HEAPOBJECT[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -143,7 +143,7 @@ public static unsafe class CorDebugProcess5Extensions
 		while (true)
 		{
 			var values = new COR_SEGMENT[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

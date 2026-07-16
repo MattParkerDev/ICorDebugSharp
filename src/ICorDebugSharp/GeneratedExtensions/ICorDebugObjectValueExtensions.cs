@@ -16,7 +16,7 @@ public static unsafe class CorDebugObjectValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetClass(out var ppClass);
+				var hr = instance.TryGetClass(out var ppClass);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppClass;
 			}
@@ -26,7 +26,7 @@ public static unsafe class CorDebugObjectValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetContext(out var ppContext);
+				var hr = instance.TryGetContext(out var ppContext);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppContext;
 			}
@@ -34,7 +34,7 @@ public static unsafe class CorDebugObjectValueExtensions
 
 		public ICorDebugValue GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef)
 		{
-			var hr = instance.GetFieldValue(pClass, fieldDef, out var ppValue);
+			var hr = instance.TryGetFieldValue(pClass, fieldDef, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugObjectValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetManagedCopy(out var ppObject);
+				var hr = instance.TryGetManagedCopy(out var ppObject);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppObject;
 			}
@@ -51,14 +51,14 @@ public static unsafe class CorDebugObjectValueExtensions
 
 		public ICorDebugFunction GetVirtualMethod(mdMemberRef memberRef)
 		{
-			var hr = instance.GetVirtualMethod(memberRef, out var ppFunction);
+			var hr = instance.TryGetVirtualMethod(memberRef, out var ppFunction);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppFunction;
 		}
 
 		public bool IsValueClass()
 		{
-			var hr = instance.IsValueClass(out var pbIsValueClass);
+			var hr = instance.TryIsValueClass(out var pbIsValueClass);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbIsValueClass;
 		}

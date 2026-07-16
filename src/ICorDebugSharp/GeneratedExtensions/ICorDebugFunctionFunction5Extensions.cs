@@ -19,14 +19,14 @@ public static unsafe class CorDebugFunctionFunction5Extensions
 
 		public bool AreOptimizationsDisabled()
 		{
-			var hr = instance.Function5.AreOptimizationsDisabled(out var pOptimizationsDisabled);
+			var hr = instance.Function5.TryAreOptimizationsDisabled(out var pOptimizationsDisabled);
 			Marshal.ThrowExceptionForHR(hr);
 			return pOptimizationsDisabled;
 		}
 
 		public void DisableOptimizations()
 		{
-			var hr = instance.Function5.DisableOptimizations();
+			var hr = instance.Function5.TryDisableOptimizations();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

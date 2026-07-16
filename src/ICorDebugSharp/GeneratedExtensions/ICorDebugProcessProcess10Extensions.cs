@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcessProcess10Extensions
 
 		public void EnableGCNotificationEvents(bool fEnable)
 		{
-			var hr = instance.Process10.EnableGCNotificationEvents(fEnable);
+			var hr = instance.Process10.TryEnableGCNotificationEvents(fEnable);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -14,7 +14,7 @@ public static unsafe class CorDebugFunction5Extensions
 	{
 		public bool AreOptimizationsDisabled()
 		{
-			var hr = instance.AreOptimizationsDisabled(out var pOptimizationsDisabled);
+			var hr = instance.TryAreOptimizationsDisabled(out var pOptimizationsDisabled);
 			Marshal.ThrowExceptionForHR(hr);
 			return pOptimizationsDisabled;
 		}

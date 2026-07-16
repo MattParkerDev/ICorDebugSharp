@@ -16,7 +16,7 @@ public static unsafe class CorDebugAssemblyExtensions
 		{
 			get
 			{
-				var hr = instance.GetCodeBase(0, out var required, null!);
+				var hr = instance.TryGetCodeBase(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugAssemblyExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetCodeBase(capacity, out var actual, buffer);
+					hr = instance.TryGetCodeBase(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -48,7 +48,7 @@ public static unsafe class CorDebugAssemblyExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -57,7 +57,7 @@ public static unsafe class CorDebugAssemblyExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -78,7 +78,7 @@ public static unsafe class CorDebugAssemblyExtensions
 
 		public IEnumerable<ICorDebugModule> EnumerateModules()
 		{
-			var hr = instance.EnumerateModules(out var ppModules);
+			var hr = instance.TryEnumerateModules(out var ppModules);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateModulesCore(ppModules);
 		}
@@ -87,7 +87,7 @@ public static unsafe class CorDebugAssemblyExtensions
 		{
 			get
 			{
-				var hr = instance.GetAppDomain(out var ppAppDomain);
+				var hr = instance.TryGetAppDomain(out var ppAppDomain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppAppDomain;
 			}
@@ -95,14 +95,14 @@ public static unsafe class CorDebugAssemblyExtensions
 
 		public uint GetCodeBase(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetCodeBase(cchName, out var pcchName, szName);
+			var hr = instance.TryGetCodeBase(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -111,7 +111,7 @@ public static unsafe class CorDebugAssemblyExtensions
 		{
 			get
 			{
-				var hr = instance.GetProcess(out var ppProcess);
+				var hr = instance.TryGetProcess(out var ppProcess);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppProcess;
 			}
@@ -123,7 +123,7 @@ public static unsafe class CorDebugAssemblyExtensions
 		while (true)
 		{
 			var values = new ICorDebugModule[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

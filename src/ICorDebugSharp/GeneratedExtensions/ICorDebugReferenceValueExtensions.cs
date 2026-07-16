@@ -14,14 +14,14 @@ public static unsafe class CorDebugReferenceValueExtensions
 	{
 		public ICorDebugValue Dereference()
 		{
-			var hr = instance.Dereference(out var ppValue);
+			var hr = instance.TryDereference(out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue DereferenceStrong()
 		{
-			var hr = instance.DereferenceStrong(out var ppValue);
+			var hr = instance.TryDereferenceStrong(out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -30,12 +30,12 @@ public static unsafe class CorDebugReferenceValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetValue(out var pValue);
+				var hr = instance.TryGetValue(out var pValue);
 				Marshal.ThrowExceptionForHR(hr);
 				return pValue;
 			}
 		}
 
-		public bool IsNull => instance.IsNull();
+		public bool IsNull => instance.TryIsNull();
 	}
 }

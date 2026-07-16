@@ -19,40 +19,40 @@ public static unsafe class CorDebugProcessProcess6Extensions
 
 		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId)
 		{
-			var hr = instance.Process6.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
+			var hr = instance.Process6.TryDecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEvent;
 		}
 
 		public void EnableVirtualModuleSplitting(bool enableSplitting)
 		{
-			var hr = instance.Process6.EnableVirtualModuleSplitting(enableSplitting);
+			var hr = instance.Process6.TryEnableVirtualModuleSplitting(enableSplitting);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress)
 		{
-			var hr = instance.Process6.GetCode(codeAddress, out var ppCode);
+			var hr = instance.Process6.TryGetCode(codeAddress, out var ppCode);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppCode;
 		}
 
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName)
 		{
-			var hr = instance.Process6.GetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
+			var hr = instance.Process6.TryGetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
 			Marshal.ThrowExceptionForHR(hr);
 			return (pInvokeKind, pInvokePurpose);
 		}
 
 		public void MarkDebuggerAttached(bool fIsAttached)
 		{
-			var hr = instance.Process6.MarkDebuggerAttached(fIsAttached);
+			var hr = instance.Process6.TryMarkDebuggerAttached(fIsAttached);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void ProcessStateChanged(CorDebugStateChange change)
 		{
-			var hr = instance.Process6.ProcessStateChanged(change);
+			var hr = instance.Process6.TryProcessStateChanged(change);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

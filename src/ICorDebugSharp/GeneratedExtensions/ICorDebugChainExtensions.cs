@@ -14,7 +14,7 @@ public static unsafe class CorDebugChainExtensions
 	{
 		public IEnumerable<ICorDebugFrame> EnumerateFrames()
 		{
-			var hr = instance.EnumerateFrames(out var ppFrames);
+			var hr = instance.TryEnumerateFrames(out var ppFrames);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateFramesCore(ppFrames);
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetActiveFrame(out var ppFrame);
+				var hr = instance.TryGetActiveFrame(out var ppFrame);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppFrame;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetCallee(out var ppChain);
+				var hr = instance.TryGetCallee(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -43,7 +43,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetCaller(out var ppChain);
+				var hr = instance.TryGetCaller(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -53,7 +53,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetContext(out var ppContext);
+				var hr = instance.TryGetContext(out var ppContext);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppContext;
 			}
@@ -63,7 +63,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetNext(out var ppChain);
+				var hr = instance.TryGetNext(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetPrevious(out var ppChain);
+				var hr = instance.TryGetPrevious(out var ppChain);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppChain;
 			}
@@ -83,7 +83,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetReason(out var pReason);
+				var hr = instance.TryGetReason(out var pReason);
 				Marshal.ThrowExceptionForHR(hr);
 				return pReason;
 			}
@@ -93,7 +93,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetRegisterSet(out var ppRegisters);
+				var hr = instance.TryGetRegisterSet(out var ppRegisters);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppRegisters;
 			}
@@ -103,7 +103,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackRange(out var pStart, out var pEnd);
+				var hr = instance.TryGetStackRange(out var pStart, out var pEnd);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pStart, pEnd);
 			}
@@ -113,7 +113,7 @@ public static unsafe class CorDebugChainExtensions
 		{
 			get
 			{
-				var hr = instance.GetThread(out var ppThread);
+				var hr = instance.TryGetThread(out var ppThread);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppThread;
 			}
@@ -121,7 +121,7 @@ public static unsafe class CorDebugChainExtensions
 
 		public bool IsManaged()
 		{
-			var hr = instance.IsManaged(out var pManaged);
+			var hr = instance.TryIsManaged(out var pManaged);
 			Marshal.ThrowExceptionForHR(hr);
 			return pManaged;
 		}
@@ -132,7 +132,7 @@ public static unsafe class CorDebugChainExtensions
 		while (true)
 		{
 			var values = new ICorDebugFrame[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

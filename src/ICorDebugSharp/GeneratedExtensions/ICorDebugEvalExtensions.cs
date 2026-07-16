@@ -14,7 +14,7 @@ public static unsafe class CorDebugEvalExtensions
 	{
 		public ICorDebugValue CreateValue(CorElementType elementType, ICorDebugClass pElementClass)
 		{
-			var hr = instance.CreateValue(elementType, pElementClass, out var ppValue);
+			var hr = instance.TryCreateValue(elementType, pElementClass, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -23,7 +23,7 @@ public static unsafe class CorDebugEvalExtensions
 		{
 			get
 			{
-				var hr = instance.GetResult(out var ppResult);
+				var hr = instance.TryGetResult(out var ppResult);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppResult;
 			}
@@ -33,7 +33,7 @@ public static unsafe class CorDebugEvalExtensions
 		{
 			get
 			{
-				var hr = instance.GetThread(out var ppThread);
+				var hr = instance.TryGetThread(out var ppThread);
 				Marshal.ThrowExceptionForHR(hr);
 				return ppThread;
 			}
@@ -41,7 +41,7 @@ public static unsafe class CorDebugEvalExtensions
 
 		public bool IsActive()
 		{
-			var hr = instance.IsActive(out var pbActive);
+			var hr = instance.TryIsActive(out var pbActive);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbActive;
 		}

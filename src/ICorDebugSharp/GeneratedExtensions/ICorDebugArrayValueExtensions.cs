@@ -16,7 +16,7 @@ public static unsafe class CorDebugArrayValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetCount(out var pnCount);
+				var hr = instance.TryGetCount(out var pnCount);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnCount;
 			}
@@ -24,14 +24,14 @@ public static unsafe class CorDebugArrayValueExtensions
 
 		public ICorDebugValue GetElement(uint cdim, uint[] indices)
 		{
-			var hr = instance.GetElement(cdim, indices, out var ppValue);
+			var hr = instance.TryGetElement(cdim, indices, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
 		public ICorDebugValue GetElementAtPosition(uint nPosition)
 		{
-			var hr = instance.GetElementAtPosition(nPosition, out var ppValue);
+			var hr = instance.TryGetElementAtPosition(nPosition, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -40,7 +40,7 @@ public static unsafe class CorDebugArrayValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetElementType(out var pType);
+				var hr = instance.TryGetElementType(out var pType);
 				Marshal.ThrowExceptionForHR(hr);
 				return pType;
 			}
@@ -50,7 +50,7 @@ public static unsafe class CorDebugArrayValueExtensions
 		{
 			get
 			{
-				var hr = instance.GetRank(out var pnRank);
+				var hr = instance.TryGetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
 				return pnRank;
 			}
@@ -58,7 +58,7 @@ public static unsafe class CorDebugArrayValueExtensions
 
 		public bool HasBaseIndicies()
 		{
-			var hr = instance.HasBaseIndicies(out var pbHasBaseIndicies);
+			var hr = instance.TryHasBaseIndicies(out var pbHasBaseIndicies);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbHasBaseIndicies;
 		}

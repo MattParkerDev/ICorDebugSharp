@@ -14,21 +14,21 @@ public static unsafe class CorDebugILFrameExtensions
 	{
 		public IEnumerable<ICorDebugValue> EnumerateArguments()
 		{
-			var hr = instance.EnumerateArguments(out var ppValueEnum);
+			var hr = instance.TryEnumerateArguments(out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateArgumentsCore(ppValueEnum);
 		}
 
 		public IEnumerable<ICorDebugValue> EnumerateLocalVariables()
 		{
-			var hr = instance.EnumerateLocalVariables(out var ppValueEnum);
+			var hr = instance.TryEnumerateLocalVariables(out var ppValueEnum);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateLocalVariablesCore(ppValueEnum);
 		}
 
 		public ICorDebugValue GetArgument(uint dwIndex)
 		{
-			var hr = instance.GetArgument(dwIndex, out var ppValue);
+			var hr = instance.TryGetArgument(dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -37,7 +37,7 @@ public static unsafe class CorDebugILFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetIP(out var pnOffset, out var pMappingResult);
+				var hr = instance.TryGetIP(out var pnOffset, out var pMappingResult);
 				Marshal.ThrowExceptionForHR(hr);
 				return (pnOffset, pMappingResult);
 			}
@@ -45,7 +45,7 @@ public static unsafe class CorDebugILFrameExtensions
 
 		public ICorDebugValue GetLocalVariable(uint dwIndex)
 		{
-			var hr = instance.GetLocalVariable(dwIndex, out var ppValue);
+			var hr = instance.TryGetLocalVariable(dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -54,7 +54,7 @@ public static unsafe class CorDebugILFrameExtensions
 		{
 			get
 			{
-				var hr = instance.GetStackDepth(out var pDepth);
+				var hr = instance.TryGetStackDepth(out var pDepth);
 				Marshal.ThrowExceptionForHR(hr);
 				return pDepth;
 			}
@@ -62,7 +62,7 @@ public static unsafe class CorDebugILFrameExtensions
 
 		public ICorDebugValue GetStackValue(uint dwIndex)
 		{
-			var hr = instance.GetStackValue(dwIndex, out var ppValue);
+			var hr = instance.TryGetStackValue(dwIndex, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -73,7 +73,7 @@ public static unsafe class CorDebugILFrameExtensions
 		while (true)
 		{
 			var values = new ICorDebugValue[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -88,7 +88,7 @@ public static unsafe class CorDebugILFrameExtensions
 		while (true)
 		{
 			var values = new ICorDebugValue[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

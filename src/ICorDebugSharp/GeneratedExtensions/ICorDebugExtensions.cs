@@ -14,28 +14,28 @@ public static unsafe class CorDebugExtensions
 	{
 		public IEnumerable<ICorDebugProcess> EnumerateProcesses()
 		{
-			var hr = instance.EnumerateProcesses(out var ppProcess);
+			var hr = instance.TryEnumerateProcesses(out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateProcessesCore(ppProcess);
 		}
 
 		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
-			var hr = instance.CreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
+			var hr = instance.TryCreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
 		public ICorDebugProcess DebugActiveProcess(uint id, bool win32Attach)
 		{
-			var hr = instance.DebugActiveProcess(id, win32Attach, out var ppProcess);
+			var hr = instance.TryDebugActiveProcess(id, win32Attach, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
 		public ICorDebugProcess GetProcess(uint dwProcessId)
 		{
-			var hr = instance.GetProcess(dwProcessId, out var ppProcess);
+			var hr = instance.TryGetProcess(dwProcessId, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
@@ -46,7 +46,7 @@ public static unsafe class CorDebugExtensions
 		while (true)
 		{
 			var values = new ICorDebugProcess[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

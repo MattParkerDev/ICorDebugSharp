@@ -16,7 +16,7 @@ public static unsafe class CorDebugThread2Extensions
 		{
 			get
 			{
-				var hr = instance.GetActiveFunctions(0, out var required, null!);
+				var hr = instance.TryGetActiveFunctions(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return [];
@@ -25,7 +25,7 @@ public static unsafe class CorDebugThread2Extensions
 				{
 					var capacity = required;
 					var buffer = new COR_ACTIVE_FUNCTION[checked((int)capacity)];
-					hr = instance.GetActiveFunctions(capacity, out var actual, buffer);
+					hr = instance.TryGetActiveFunctions(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -45,7 +45,7 @@ public static unsafe class CorDebugThread2Extensions
 
 		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
 		{
-			var hr = instance.GetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
+			var hr = instance.TryGetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcFunctions;
 		}
@@ -54,7 +54,7 @@ public static unsafe class CorDebugThread2Extensions
 		{
 			get
 			{
-				var hr = instance.GetConnectionID(out var pdwConnectionId);
+				var hr = instance.TryGetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwConnectionId;
 			}
@@ -64,7 +64,7 @@ public static unsafe class CorDebugThread2Extensions
 		{
 			get
 			{
-				var hr = instance.GetTaskID(out var pTaskId);
+				var hr = instance.TryGetTaskID(out var pTaskId);
 				Marshal.ThrowExceptionForHR(hr);
 				return pTaskId;
 			}
@@ -74,7 +74,7 @@ public static unsafe class CorDebugThread2Extensions
 		{
 			get
 			{
-				var hr = instance.GetVolatileOSThreadID(out var pdwTid);
+				var hr = instance.TryGetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwTid;
 			}

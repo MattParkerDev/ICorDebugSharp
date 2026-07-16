@@ -16,7 +16,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetName(0, out var required, null!);
+				var hr = instance.TryGetName(0, out var required, null!);
 				Marshal.ThrowExceptionForHR(hr);
 				if (required == 0)
 					return string.Empty;
@@ -25,7 +25,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 				{
 					var capacity = required;
 					var buffer = new char[checked((int)capacity)];
-					hr = instance.GetName(capacity, out var actual, buffer);
+					hr = instance.TryGetName(capacity, out var actual, buffer);
 					Marshal.ThrowExceptionForHR(hr);
 					if (actual > capacity)
 					{
@@ -46,7 +46,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 
 		public uint GetName(uint cchName, char[]? szName)
 		{
-			var hr = instance.GetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(cchName, out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
 			return pcchName;
 		}
@@ -55,7 +55,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetOffset(out var pcbOffset);
+				var hr = instance.TryGetOffset(out var pcbOffset);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcbOffset;
 			}
@@ -65,7 +65,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 		{
 			get
 			{
-				var hr = instance.GetSize(out var pcbSize);
+				var hr = instance.TryGetSize(out var pcbSize);
 				Marshal.ThrowExceptionForHR(hr);
 				return pcbSize;
 			}

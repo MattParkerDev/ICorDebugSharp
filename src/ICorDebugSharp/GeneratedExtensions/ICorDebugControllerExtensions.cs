@@ -14,35 +14,35 @@ public static unsafe class CorDebugControllerExtensions
 	{
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
-			var hr = instance.CanCommitChanges(cSnapshots, pSnapshots, out var pError);
+			var hr = instance.TryCanCommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
 			return CanCommitChangesCore(pError);
 		}
 
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
-			var hr = instance.CommitChanges(cSnapshots, pSnapshots, out var pError);
+			var hr = instance.TryCommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
 			return CommitChangesCore(pError);
 		}
 
 		public IEnumerable<ICorDebugThread> EnumerateThreads()
 		{
-			var hr = instance.EnumerateThreads(out var ppThreads);
+			var hr = instance.TryEnumerateThreads(out var ppThreads);
 			Marshal.ThrowExceptionForHR(hr);
 			return EnumerateThreadsCore(ppThreads);
 		}
 
 		public bool HasQueuedCallbacks(ICorDebugThread pThread)
 		{
-			var hr = instance.HasQueuedCallbacks(pThread, out var pbQueued);
+			var hr = instance.TryHasQueuedCallbacks(pThread, out var pbQueued);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbQueued;
 		}
 
 		public bool IsRunning()
 		{
-			var hr = instance.IsRunning(out var pbRunning);
+			var hr = instance.TryIsRunning(out var pbRunning);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbRunning;
 		}
@@ -53,7 +53,7 @@ public static unsafe class CorDebugControllerExtensions
 		while (true)
 		{
 			var values = new ICorDebugEditAndContinueErrorInfo[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -68,7 +68,7 @@ public static unsafe class CorDebugControllerExtensions
 		while (true)
 		{
 			var values = new ICorDebugEditAndContinueErrorInfo[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
@@ -83,7 +83,7 @@ public static unsafe class CorDebugControllerExtensions
 		while (true)
 		{
 			var values = new ICorDebugThread[1];
-			var hr = enumerator.Next(1, values, out var pceltFetched);
+			var hr = enumerator.TryNext(1, values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;

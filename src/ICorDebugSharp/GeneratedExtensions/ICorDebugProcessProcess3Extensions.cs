@@ -19,7 +19,7 @@ public static unsafe class CorDebugProcessProcess3Extensions
 
 		public void SetEnableCustomNotification(ICorDebugClass pClass, bool fEnable)
 		{
-			var hr = instance.Process3.SetEnableCustomNotification(pClass, fEnable);
+			var hr = instance.Process3.TrySetEnableCustomNotification(pClass, fEnable);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
