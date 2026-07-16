@@ -20,6 +20,11 @@ public static unsafe class CorDebugProcess2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
+			set
+			{
+				var hr = instance.TrySetDesiredNGENCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
@@ -56,12 +61,6 @@ public static unsafe class CorDebugProcess2Extensions
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
 		{
 			var hr = instance.TryClearUnmanagedBreakpoint(address);
-			Marshal.ThrowExceptionForHR(hr);
-		}
-
-		public void SetDesiredNGENCompilerFlags(uint pdwFlags)
-		{
-			var hr = instance.TrySetDesiredNGENCompilerFlags(pdwFlags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -20,6 +20,11 @@ public static unsafe class CorDebugNativeFrameExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pnOffset;
 			}
+			set
+			{
+				var hr = instance.TrySetIP(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
@@ -70,12 +75,6 @@ public static unsafe class CorDebugNativeFrameExtensions
 		public void CanSetIP(uint nOffset)
 		{
 			var hr = instance.TryCanSetIP(nOffset);
-			Marshal.ThrowExceptionForHR(hr);
-		}
-
-		public void SetIP(uint nOffset)
-		{
-			var hr = instance.TrySetIP(nOffset);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

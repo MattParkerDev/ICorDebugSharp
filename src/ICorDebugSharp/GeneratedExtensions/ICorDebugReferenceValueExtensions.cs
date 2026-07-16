@@ -34,6 +34,11 @@ public static unsafe class CorDebugReferenceValueExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pValue;
 			}
+			set
+			{
+				var hr = instance.TrySetValue(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public bool IsNull
@@ -44,12 +49,6 @@ public static unsafe class CorDebugReferenceValueExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pbNull;
 			}
-		}
-
-		public void SetValue(CORDB_ADDRESS value)
-		{
-			var hr = instance.TrySetValue(value);
-			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
 }

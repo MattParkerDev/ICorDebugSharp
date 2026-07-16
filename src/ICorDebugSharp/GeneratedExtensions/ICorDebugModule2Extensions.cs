@@ -20,6 +20,11 @@ public static unsafe class CorDebugModule2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
+			set
+			{
+				var hr = instance.TrySetJITCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
@@ -32,12 +37,6 @@ public static unsafe class CorDebugModule2Extensions
 		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL)
 		{
 			var hr = instance.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
-			Marshal.ThrowExceptionForHR(hr);
-		}
-
-		public void SetJITCompilerFlags(uint dwFlags)
-		{
-			var hr = instance.TrySetJITCompilerFlags(dwFlags);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

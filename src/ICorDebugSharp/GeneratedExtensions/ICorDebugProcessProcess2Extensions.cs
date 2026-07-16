@@ -31,6 +31,11 @@ public static unsafe class CorDebugProcessProcess2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
+			set
+			{
+				var hr = instance.Process2.TrySetDesiredNGENCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
@@ -55,12 +60,6 @@ public static unsafe class CorDebugProcessProcess2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return version;
 			}
-		}
-
-		public void SetDesiredNGENCompilerFlags(uint pdwFlags)
-		{
-			var hr = instance.Process2.TrySetDesiredNGENCompilerFlags(pdwFlags);
-			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)

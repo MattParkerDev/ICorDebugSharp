@@ -32,6 +32,11 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pbIsJustMyCode;
 			}
+			set
+			{
+				var hr = instance.Function2.TrySetJMCStatus(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public uint VersionNumber
@@ -42,12 +47,6 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pnVersion;
 			}
-		}
-
-		public void SetJMCStatus(bool bIsJustMyCode)
-		{
-			var hr = instance.Function2.TrySetJMCStatus(bIsJustMyCode);
-			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
 }

@@ -31,6 +31,11 @@ public static unsafe class CorDebugModuleModule2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pdwFlags;
 			}
+			set
+			{
+				var hr = instance.Module2.TrySetJITCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
@@ -38,12 +43,6 @@ public static unsafe class CorDebugModuleModule2Extensions
 			var hr = instance.Module2.TryResolveAssembly(tkAssemblyRef, out var ppAssembly);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppAssembly;
-		}
-
-		public void SetJITCompilerFlags(uint dwFlags)
-		{
-			var hr = instance.Module2.TrySetJITCompilerFlags(dwFlags);
-			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens)

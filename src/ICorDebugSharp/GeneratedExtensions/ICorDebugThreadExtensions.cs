@@ -81,6 +81,11 @@ public static unsafe class CorDebugThreadExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pState;
 			}
+			set
+			{
+				var hr = instance.TrySetDebugState(value);
+				Marshal.ThrowExceptionForHR(hr);
+			}
 		}
 
 		public uint Id
@@ -142,12 +147,6 @@ public static unsafe class CorDebugThreadExtensions
 		public void GetHandle(nint phThreadHandle)
 		{
 			var hr = instance.TryGetHandle(phThreadHandle);
-			Marshal.ThrowExceptionForHR(hr);
-		}
-
-		public void SetDebugState(CorDebugThreadState state)
-		{
-			var hr = instance.TrySetDebugState(state);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}
