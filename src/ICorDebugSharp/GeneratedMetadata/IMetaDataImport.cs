@@ -14,189 +14,189 @@ namespace ICorDebugSharp;
 public unsafe partial interface IMetaDataImport
 {
 	[PreserveSig]
-	void CloseEnum(HCorEnum hEnum);
+	void TryCloseEnum(HCorEnum hEnum);
 
 	[PreserveSig]
-	int CountEnum(HCorEnum hEnum, out uint pulCount);
+	int TryCountEnum(HCorEnum hEnum, out uint pulCount);
 
 	[PreserveSig]
-	int ResetEnum(HCorEnum hEnum, uint ulPos);
+	int TryResetEnum(HCorEnum hEnum, uint ulPos);
 
 	[PreserveSig]
-	int EnumTypeDefs(ref HCorEnum phEnum, out mdTypeDef rTypeDefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeDefs);
+	int TryEnumTypeDefs(ref HCorEnum phEnum, out mdTypeDef rTypeDefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeDefs);
 
 	[PreserveSig]
-	int EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td, out mdInterfaceImpl rImpls, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcImpls);
+	int TryEnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td, out mdInterfaceImpl rImpls, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcImpls);
 
 	[PreserveSig]
-	int EnumTypeRefs(ref HCorEnum phEnum, out mdTypeRef rTypeRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeRefs);
+	int TryEnumTypeRefs(ref HCorEnum phEnum, out mdTypeRef rTypeRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeRefs);
 
 	[PreserveSig]
-	int FindTypeDefByName([MarshalAs(UnmanagedType.LPWStr)] string szTypeDef, mdToken tkEnclosingClass, out mdTypeDef ptd);
+	int TryFindTypeDefByName([MarshalAs(UnmanagedType.LPWStr)] string szTypeDef, mdToken tkEnclosingClass, out mdTypeDef ptd);
 
 	[PreserveSig]
-	int GetScopeProps([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? szName, uint cchName, out uint pchName, out Guid pmvid);
+	int TryGetScopeProps([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? szName, uint cchName, out uint pchName, out Guid pmvid);
 
 	[PreserveSig]
-	int GetModuleFromScope(out mdModule pmd);
+	int TryGetModuleFromScope(out mdModule pmd);
 
 	[PreserveSig]
-	int GetTypeDefProps(mdTypeDef td, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szTypeDef, uint cchTypeDef, out uint pchTypeDef, out CorTypeAttr pdwTypeDefFlags, out mdToken ptkExtends);
+	int TryGetTypeDefProps(mdTypeDef td, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szTypeDef, uint cchTypeDef, out uint pchTypeDef, out CorTypeAttr pdwTypeDefFlags, out mdToken ptkExtends);
 
 	[PreserveSig]
-	int GetInterfaceImplProps(mdInterfaceImpl iiImpl, out mdTypeDef pClass, out mdToken ptkIface);
+	int TryGetInterfaceImplProps(mdInterfaceImpl iiImpl, out mdTypeDef pClass, out mdToken ptkIface);
 
 	[PreserveSig]
-	int GetTypeRefProps(mdTypeRef tr, out mdToken ptkResolutionScope, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szName, uint cchName, out uint pchName);
+	int TryGetTypeRefProps(mdTypeRef tr, out mdToken ptkResolutionScope, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int ResolveTypeRef(mdTypeRef tr, ref Guid riid, out nint ppIScope, out mdTypeDef ptd);
+	int TryResolveTypeRef(mdTypeRef tr, ref Guid riid, out nint ppIScope, out mdTypeDef ptd);
 
 	[PreserveSig]
-	int EnumMembers(ref HCorEnum phEnum, mdTypeDef cl, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMembers(ref HCorEnum phEnum, mdTypeDef cl, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethods(ref HCorEnum phEnum, mdTypeDef cl, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMethods(ref HCorEnum phEnum, mdTypeDef cl, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFields(ref HCorEnum phEnum, mdTypeDef cl, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumFields(ref HCorEnum phEnum, mdTypeDef cl, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumParams(ref HCorEnum phEnum, mdMethodDef mb, out mdParamDef rParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumParams(ref HCorEnum phEnum, mdMethodDef mb, out mdParamDef rParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent, out mdMemberRef rMemberRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent, out mdMemberRef rMemberRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td, out mdToken rMethodBody, out mdToken rMethodDecl, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td, out mdToken rMethodBody, out mdToken rMethodDecl, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions, out mdPermission rPermission, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions, out mdPermission rPermission, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int FindMember(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdToken pmb);
+	int TryFindMember(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdToken pmb);
 
 	[PreserveSig]
-	int FindMethod(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMethodDef pmb);
+	int TryFindMethod(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMethodDef pmb);
 
 	[PreserveSig]
-	int FindField(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdFieldDef pmb);
+	int TryFindField(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdFieldDef pmb);
 
 	[PreserveSig]
-	int FindMemberRef(mdTypeRef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMemberRef pmr);
+	int TryFindMemberRef(mdTypeRef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMemberRef pmr);
 
 	[PreserveSig]
-	int GetMethodProps(mdMethodDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out CorMethodAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
+	int TryGetMethodProps(mdMethodDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out CorMethodAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetMemberRefProps(mdMemberRef mr, out mdToken ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pbSig);
+	int TryGetMemberRefProps(mdMemberRef mr, out mdToken ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
-	int EnumProperties(ref HCorEnum phEnum, mdTypeDef td, out mdProperty rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
+	int TryEnumProperties(ref HCorEnum phEnum, mdTypeDef td, out mdProperty rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
 
 	[PreserveSig]
-	int EnumEvents(ref HCorEnum phEnum, mdTypeDef td, out mdEvent rEvents, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEvents);
+	int TryEnumEvents(ref HCorEnum phEnum, mdTypeDef td, out mdEvent rEvents, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEvents);
 
 	[PreserveSig]
-	int GetEventProps(mdEvent ev, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out CorEventAttr pdwEventFlags, out mdToken ptkEventType, out mdMethodDef pmdAddOn, out mdMethodDef pmdRemoveOn, out mdMethodDef pmdFire, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
+	int TryGetEventProps(mdEvent ev, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out CorEventAttr pdwEventFlags, out mdToken ptkEventType, out mdMethodDef pmdAddOn, out mdMethodDef pmdRemoveOn, out mdMethodDef pmdFire, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb, out mdToken rEventProp, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEventProp);
+	int TryEnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb, out mdToken rEventProp, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEventProp);
 
 	[PreserveSig]
-	int GetMethodSemantics(mdMethodDef mb, mdToken tkEventProp, out uint pdwSemanticsFlags);
+	int TryGetMethodSemantics(mdMethodDef mb, mdToken tkEventProp, out uint pdwSemanticsFlags);
 
 	[PreserveSig]
-	int GetClassLayout(mdTypeDef td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
+	int TryGetClassLayout(mdTypeDef td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
 	[PreserveSig]
-	int GetFieldMarshal(mdToken tk, [MarshalUsing(CountElementName = nameof(pcbNativeType))] scoped out ReadOnlySpan<byte> ppvNativeType, out uint pcbNativeType);
+	int TryGetFieldMarshal(mdToken tk, [MarshalUsing(CountElementName = nameof(pcbNativeType))] scoped out ReadOnlySpan<byte> ppvNativeType, out uint pcbNativeType);
 
 	[PreserveSig]
-	int GetRVA(mdToken tk, out uint pulCodeRVA, out uint pdwImplFlags);
+	int TryGetRVA(mdToken tk, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int GetPermissionSetProps(mdPermission pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
+	int TryGetPermissionSetProps(mdPermission pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
 
 	[PreserveSig]
-	int GetSigFromToken(mdSignature mdSig, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
+	int TryGetSigFromToken(mdSignature mdSig, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
 
 	[PreserveSig]
-	int GetModuleRefProps(mdModuleRef mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
+	int TryGetModuleRefProps(mdModuleRef mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int EnumModuleRefs(ref HCorEnum phEnum, out mdModuleRef rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
+	int TryEnumModuleRefs(ref HCorEnum phEnum, out mdModuleRef rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
-	int GetTypeSpecFromToken(mdTypeSpec typespec, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
+	int TryGetTypeSpecFromToken(mdTypeSpec typespec, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
 
 	[PreserveSig]
-	int GetNameFromToken(mdToken tk, out sbyte* pszUtf8NamePtr);
+	int TryGetNameFromToken(mdToken tk, out sbyte* pszUtf8NamePtr);
 
 	[PreserveSig]
-	int EnumUnresolvedMethods(ref HCorEnum phEnum, out mdToken rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
+	int TryEnumUnresolvedMethods(ref HCorEnum phEnum, out mdToken rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
 	[PreserveSig]
-	int GetUserString(mdString stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
+	int TryGetUserString(mdString stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
 
 	[PreserveSig]
-	int GetPinvokeMap(mdToken tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out mdModuleRef pmrImportDLL);
+	int TryGetPinvokeMap(mdToken tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out mdModuleRef pmrImportDLL);
 
 	[PreserveSig]
-	int EnumSignatures(ref HCorEnum phEnum, out mdSignature rSignatures, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcSignatures);
+	int TryEnumSignatures(ref HCorEnum phEnum, out mdSignature rSignatures, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcSignatures);
 
 	[PreserveSig]
-	int EnumTypeSpecs(ref HCorEnum phEnum, out mdTypeSpec rTypeSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcTypeSpecs);
+	int TryEnumTypeSpecs(ref HCorEnum phEnum, out mdTypeSpec rTypeSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcTypeSpecs);
 
 	[PreserveSig]
-	int EnumUserStrings(ref HCorEnum phEnum, out mdString rStrings, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcStrings);
+	int TryEnumUserStrings(ref HCorEnum phEnum, out mdString rStrings, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcStrings);
 
 	[PreserveSig]
-	int GetParamForMethodIndex(mdMethodDef md, uint ulParamSeq, out mdParamDef ppd);
+	int TryGetParamForMethodIndex(mdMethodDef md, uint ulParamSeq, out mdParamDef ppd);
 
 	[PreserveSig]
-	int EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType, out mdCustomAttribute rCustomAttributes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcCustomAttributes);
+	int TryEnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType, out mdCustomAttribute rCustomAttributes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcCustomAttributes);
 
 	[PreserveSig]
-	int GetCustomAttributeProps(mdCustomAttribute cv, out mdToken ptkObj, out mdToken ptkType, out nint ppBlob, out uint pcbSize);
+	int TryGetCustomAttributeProps(mdCustomAttribute cv, out mdToken ptkObj, out mdToken ptkType, out nint ppBlob, out uint pcbSize);
 
 	[PreserveSig]
-	int FindTypeRef(mdToken tkResolutionScope, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdTypeRef ptr);
+	int TryFindTypeRef(mdToken tkResolutionScope, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdTypeRef ptr);
 
 	[PreserveSig]
-	int GetMemberProps(mdToken mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int TryGetMemberProps(mdToken mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetFieldProps(mdFieldDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out CorFieldAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int TryGetFieldProps(mdFieldDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out CorFieldAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetPropertyProps(mdProperty prop, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out CorPropertyAttr pdwPropFlags, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pbSig, out CorElementType pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out mdMethodDef pmdSetter, out mdMethodDef pmdGetter, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
+	int TryGetPropertyProps(mdProperty prop, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out CorPropertyAttr pdwPropFlags, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pbSig, out CorElementType pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out mdMethodDef pmdSetter, out mdMethodDef pmdGetter, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
-	int GetParamProps(mdParamDef tk, out mdMethodDef pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out CorParamAttr pdwAttr, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int TryGetParamProps(mdParamDef tk, out mdMethodDef pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out CorParamAttr pdwAttr, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int GetCustomAttributeByName(mdToken tkObj, [MarshalAs(UnmanagedType.LPWStr)] string szName, out nint ppData, out uint pcbData);
+	int TryGetCustomAttributeByName(mdToken tkObj, [MarshalAs(UnmanagedType.LPWStr)] string szName, out nint ppData, out uint pcbData);
 
 	[PreserveSig]
 	[return: MarshalAs(UnmanagedType.Bool)]
-	bool IsValidToken(mdToken tk);
+	bool TryIsValidToken(mdToken tk);
 
 	[PreserveSig]
-	int GetNestedClassProps(mdTypeDef tdNestedClass, out mdTypeDef ptdEnclosingClass);
+	int TryGetNestedClassProps(mdTypeDef tdNestedClass, out mdTypeDef ptdEnclosingClass);
 
 	[PreserveSig]
-	int GetNativeCallConvFromSig(nint pvSig, uint cbSig, out uint pCallConv);
+	int TryGetNativeCallConvFromSig(nint pvSig, uint cbSig, out uint pCallConv);
 
 	[PreserveSig]
-	int IsGlobal(mdToken pd, out int pbGlobal);
+	int TryIsGlobal(mdToken pd, out int pbGlobal);
 }
