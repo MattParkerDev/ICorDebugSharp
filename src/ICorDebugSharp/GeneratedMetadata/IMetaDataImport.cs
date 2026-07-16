@@ -188,8 +188,7 @@ public unsafe partial interface IMetaDataImport
 	int TryGetCustomAttributeByName(mdToken tkObj, [MarshalAs(UnmanagedType.LPWStr)] string szName, out nint ppData, out uint pcbData);
 
 	[PreserveSig]
-	[return: MarshalAs(UnmanagedType.Bool)]
-	bool TryIsValidToken(mdToken tk);
+	int TryIsValidToken(mdToken tk);
 
 	[PreserveSig]
 	int TryGetNestedClassProps(mdTypeDef tdNestedClass, out mdTypeDef ptdEnclosingClass);

@@ -120,9 +120,7 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		{
 			var method = methods[index];
 			builder.AppendLine("\t[PreserveSig]");
-			if (GetTypedefName(method.ReturnType) == "BOOL")
-				builder.AppendLine("\t[return: MarshalAs(UnmanagedType.Bool)]");
-			builder.Append('\t').Append(MapReturnType(method.ReturnType)).Append(' ')
+			builder.Append('\t').Append(_typeMapper.Map(method.ReturnType)).Append(' ')
 				.Append(EscapeIdentifier($"Try{method.Name}")).Append('(');
 			for (var parameterIndex = 0; parameterIndex < method.Parameters.Count; parameterIndex++)
 			{
@@ -137,9 +135,6 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 
 		return builder.AppendLine("}").ToString();
 	}
-
-	private string MapReturnType(ClangType returnType) =>
-		GetTypedefName(returnType) == "BOOL" ? "bool" : _typeMapper.Map(returnType);
 
 	private string RenderParameter(string interfaceName, CXXMethodDecl method, ParmVarDecl parameter, int parameterIndex)
 	{
