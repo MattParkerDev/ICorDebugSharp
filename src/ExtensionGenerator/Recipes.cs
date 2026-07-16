@@ -35,6 +35,8 @@ internal sealed record StringQueryRecipe(
 	string ReturnExpression,
 	bool TrimTerminator = true);
 
+internal sealed record BoolResultRecipe(string Interface, string Method);
+
 internal sealed record CapabilityFamily(string BaseInterface, string CapabilityInterface);
 
 internal static class Recipes
@@ -164,5 +166,10 @@ internal static class Recipes
 		new("IMetaDataAssemblyImport", "GetFileProps", "FileName", "string", "mdFile file", "file, null, 0, out var required, out _, out _, out _", "file, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
 		new("IMetaDataAssemblyImport", "GetExportedTypeProps", "ExportedTypeName", "string", "mdExportedType exportedType", "exportedType, null, 0, out var required, out _, out _, out _", "exportedType, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
 		new("IMetaDataAssemblyImport", "GetManifestResourceProps", "ManifestResourceName", "string", "mdManifestResource resource", "resource, null, 0, out var required, out _, out _, out _", "resource, buffer, capacity, out var actual, out _, out _, out _", "CreateString(buffer, actual, true)"),
+	];
+
+	public static readonly BoolResultRecipe[] BoolResults =
+	[
+		new("IMetaDataImport", "IsValidToken"),
 	];
 }

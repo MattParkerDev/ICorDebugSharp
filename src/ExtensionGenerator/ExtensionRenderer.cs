@@ -28,6 +28,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var queryBuffers = Recipes.QueryBuffers.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var enumerations = Recipes.Enumerations.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var metadataStrings = Recipes.MetadataStrings.Where(recipe => recipe.Interface == @interface.Name).ToArray();
+		var boolResults = Recipes.BoolResults.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var comEnumerations = @interface.Methods.Values
 			.Where(IsComEnumeration)
 			.OrderBy(method => method.Name, StringComparer.Ordinal)
@@ -41,24 +42,33 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Where(method => CanProjectOutputs(method) && !comEnumerations.Contains(method))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+		var boolResultMethods = boolResults.Select(recipe => catalog.GetMethod(recipe.Interface, recipe.Method)).ToHashSet();
+		var voidMethods = @interface.Methods.Values
+			.Where(method => method.ReturnType == "int" && !method.Parameters.Any(parameter => parameter.IsOut) && !boolResultMethods.Contains(method))
+			.OrderBy(method => method.Name, StringComparer.Ordinal)
+			.ToArray();
 
-		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && comEnumerations.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0)
+		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && boolResults.Length == 0 && comEnumerations.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0 && voidMethods.Length == 0)
 			return null;
 
 		foreach (var recipe in enumerations)
 			ValidateEnumeration(recipe);
 		foreach (var recipe in metadataStrings)
 			ValidateHResult(catalog.GetMethod(recipe.Interface, recipe.Method), recipe.Interface);
+		foreach (var recipe in boolResults)
+			ValidateBoolResult(catalog.GetMethod(recipe.Interface, recipe.Method), recipe.Interface);
 
 		var members = queryBuffers.Select(RenderQueryBuffer)
 			.Concat(enumerations.Select(RenderEnumerationMember))
 			.Concat(metadataStrings.Select(RenderStringMember))
+			.Concat(boolResults.Select(RenderBoolResult))
 			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
 				? RenderOutputProperty(method, $"instance.{method.InvocationName}")
 				: RenderProjectedMethod(method)))
-			.Concat(returnProperties.Select(RenderReturnProperty));
+			.Concat(returnProperties.Select(RenderReturnProperty))
+			.Concat(voidMethods.Select(RenderVoidMethod));
 		var helpers = enumerations.Select(RenderEnumerationHelper).ToList();
 		helpers.AddRange(comEnumerations.Select(RenderComEnumerationHelper));
 		helpers.AddRange(metadataStrings.Select(RenderStringHelper));
@@ -234,6 +244,24 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderReturnProperty(ManagedMethod method) =>
 		$"\t\tpublic {method.ReturnType} {method.Name} => instance.{method.InvocationName}();";
+
+	private string RenderBoolResult(BoolResultRecipe recipe)
+	{
+		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
+		var parameters = string.Join(", ", method.Parameters.Select(RenderProjectedInputParameter));
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		return $"\t\tpublic bool {method.Name}({parameters}) => instance.{method.InvocationName}({arguments}) != 0;";
+	}
+
+	private static string RenderVoidMethod(ManagedMethod method)
+	{
+		var parameters = string.Join(", ", method.Parameters.Where(parameter => !parameter.IsEnumeratorMaxOne).Select(RenderProjectedInputParameter));
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
+			? "1"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
+			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
+	}
 
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
@@ -447,6 +475,12 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		if (method.ReturnType != "int")
 			throw new InvalidOperationException($"{interfaceName}.{method.Name} must return an HRESULT-compatible int.");
+	}
+
+	private static void ValidateBoolResult(ManagedMethod method, string interfaceName)
+	{
+		if (method.ReturnType != "int" || method.Parameters.Any(parameter => parameter.IsOut))
+			throw new InvalidOperationException($"{interfaceName}.{method.Name} no longer has the configured BOOL result shape.");
 	}
 
 	private string EnumerationReturnType(EnumerationRecipe recipe)
