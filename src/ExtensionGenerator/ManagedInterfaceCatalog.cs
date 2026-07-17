@@ -81,7 +81,10 @@ internal sealed record ManagedParameter(
 	bool IsOut,
 	bool IsRef,
 	int? SizeParamIndex,
-	bool IsEnumeratorMaxOne)
+	bool IsEnumeratorMaxOne,
+	string? CountElementName,
+	bool IsOutAttribute,
+	bool IsInAttribute)
 {
 	public static ManagedParameter Create(ParameterSyntax parameter)
 	{
@@ -90,12 +93,25 @@ internal sealed record ManagedParameter(
 			.SelectMany(attribute => attribute.ArgumentList?.Arguments ?? [])
 			.FirstOrDefault(argument => argument.NameEquals?.Name.Identifier.ValueText == "SizeParamIndex");
 		int? sizeParamIndex = sizeArgument is null || !int.TryParse(sizeArgument.Expression.ToString(), out var value) ? null : value;
+		var countElementArgument = attributes
+			.Where(attribute => attribute.Name.ToString().Contains("MarshalUsing", StringComparison.Ordinal))
+			.SelectMany(attribute => attribute.ArgumentList?.Arguments ?? [])
+			.FirstOrDefault(argument => argument.NameEquals?.Name.Identifier.ValueText == "CountElementName");
+		var countElementName = countElementArgument?.Expression is InvocationExpressionSyntax invocation &&
+			invocation.Expression is IdentifierNameSyntax { Identifier.ValueText: "nameof" } &&
+			invocation.ArgumentList.Arguments.Count == 1 &&
+			invocation.ArgumentList.Arguments[0].Expression is IdentifierNameSyntax identifier
+			? identifier.Identifier.ValueText
+			: null;
 		return new(
 			parameter.Identifier.ValueText,
 			parameter.Type?.ToString() ?? throw new InvalidOperationException($"Parameter {parameter.Identifier.ValueText} has no type."),
 			parameter.Modifiers.Any(modifier => modifier.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.OutKeyword)),
 			parameter.Modifiers.Any(modifier => modifier.IsKind(Microsoft.CodeAnalysis.CSharp.SyntaxKind.RefKeyword)),
 			sizeParamIndex,
-			attributes.Any(attribute => attribute.ToString().Contains("EnumeratorMax1Marshaller", StringComparison.Ordinal)));
+			attributes.Any(attribute => attribute.ToString().Contains("EnumeratorMax1Marshaller", StringComparison.Ordinal)),
+			countElementName,
+			attributes.Any(attribute => attribute.Name.ToString() is "Out" or "OutAttribute"),
+			attributes.Any(attribute => attribute.Name.ToString() is "In" or "InAttribute"));
 	}
 }

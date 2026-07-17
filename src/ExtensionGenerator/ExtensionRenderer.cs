@@ -38,8 +38,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var automaticStrings = @interface.Methods.Values
 			.Where(method => TryGetStringBuffer(method, out _) && !configuredStringMethods.Contains(method.Name))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
+		var outputArrays = @interface.Methods.Values
+			.Where(method => TryGetOutputArrayBuffer(method, out _) && !configuredStringMethods.Contains(method.Name) && !comEnumerations.Contains(method))
+			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var projected = @interface.Methods.Values
-			.Where(method => CanProjectOutputs(method) && !comEnumerations.Contains(method))
+			.Where(method => CanProjectOutputs(method) && !comEnumerations.Contains(method) && !outputArrays.Contains(method))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var boolResultMethods = boolResults.Select(recipe => catalog.GetMethod(recipe.Interface, recipe.Method)).ToHashSet();
@@ -52,7 +55,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.OrderBy(method => method.Name, StringComparer.Ordinal)
 			.ToArray();
 
-		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && boolResults.Length == 0 && comEnumerations.Length == 0 && automaticStrings.Length == 0 && projected.Length == 0 && returnProperties.Length == 0 && voidMethods.Length == 0)
+		if (queryBuffers.Length == 0 && enumerations.Length == 0 && metadataStrings.Length == 0 && boolResults.Length == 0 && comEnumerations.Length == 0 && automaticStrings.Length == 0 && outputArrays.Length == 0 && projected.Length == 0 && returnProperties.Length == 0 && voidMethods.Length == 0)
 			return null;
 
 		foreach (var recipe in enumerations)
@@ -69,6 +72,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Concat(comEnumerations.Select(method => RenderComEnumerationMember(@interface, method)))
 			.Concat(comEnumerations.Where(IsParameterlessEnumeration).Select(RenderEnumerationArrayProperty))
 			.Concat(automaticStrings.Select(RenderAutomaticStringQuery))
+			.Concat(outputArrays.Select(RenderOutputArrayMethod))
 			.Concat(projected.Select(method => IsParameterlessGetter(method)
 				? RenderOutputProperty(method, GetPropertyName(method), $"instance.{method.InvocationName}", FindPropertySetter(@interface, method))
 				: RenderProjectedMethod(method)))
@@ -211,6 +215,22 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		method.ReturnType == "int" &&
 		method.Parameters.Any(parameter => parameter.IsOut);
 
+	private static bool TryGetOutputArrayBuffer(ManagedMethod method, out ManagedParameter buffer)
+	{
+		var candidate = method.Parameters.SingleOrDefault(parameter =>
+			parameter.Type is not "char[]" and not "char[]?" &&
+			parameter.Type.Contains("[]", StringComparison.Ordinal) &&
+			parameter.IsOutAttribute && !parameter.IsInAttribute &&
+			parameter.CountElementName is not null);
+		if (candidate is null || !method.Parameters.Any(parameter => parameter.Name == candidate.CountElementName && !parameter.IsOut && !parameter.IsRef))
+		{
+			buffer = null!;
+			return false;
+		}
+		buffer = candidate;
+		return true;
+	}
+
 	private static bool IsComEnumeration(ManagedMethod method) =>
 		method.ReturnType == "int" &&
 		method.Parameters.Count(parameter => parameter.IsOut) == 1 &&
@@ -290,6 +310,30 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		return $"\t\tpublic {returnType} {publicName ?? method.Name}({parameters})\n\t\t{{\n" +
 			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
 			$"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+	}
+
+	private static string RenderOutputArrayMethod(ManagedMethod method)
+	{
+		if (!TryGetOutputArrayBuffer(method, out var buffer))
+			throw new InvalidOperationException($"{method.Name} does not have a supported output array buffer.");
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && parameter != buffer && !parameter.IsEnumeratorMaxOne).ToArray();
+		var outputs = method.Parameters.Where(parameter => parameter.IsOut).Prepend(buffer).ToArray();
+		var bufferType = buffer.Type.Replace("?", "", StringComparison.Ordinal);
+		var returnType = outputs.Length == 1
+			? bufferType
+			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
+		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
+		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter == buffer
+			? Escape(buffer.Name)
+			: parameter.IsOut ? $"out var {Escape(parameter.Name)}"
+			: parameter.IsEnumeratorMaxOne ? "1"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
+		var result = outputs.Length == 1
+			? Escape(buffer.Name)
+			: $"({string.Join(", ", outputs.Select(output => output == buffer ? Escape(output.Name) : ProjectedOutputValue(output)))})";
+		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
+			$"\t\t\tvar {Escape(buffer.Name)} = new {ElementType(buffer.Type)}[checked((int){Escape(buffer.CountElementName!)})];\n" +
+			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
 	private static string RenderOutputProperty(ManagedMethod method, string propertyName, string call, ManagedMethod? setter = null, string? setterCall = null)
