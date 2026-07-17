@@ -20,15 +20,15 @@ public static unsafe partial class DbgShim
 
     [LibraryImport("dbgshim")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int RegisterForRuntimeStartup(uint dwProcessId, delegate* unmanaged[Cdecl]<IUnknown*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
+    public static partial int RegisterForRuntimeStartup(uint dwProcessId, delegate* unmanaged[Cdecl]<void*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int RegisterForRuntimeStartupEx(uint dwProcessId, string? szApplicationGroupId, delegate* unmanaged[Cdecl]<IUnknown*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
+    public static partial int RegisterForRuntimeStartupEx(uint dwProcessId, string? szApplicationGroupId, delegate* unmanaged[Cdecl]<void*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int RegisterForRuntimeStartup3(uint dwProcessId, string? szApplicationGroupId, ICLRDebuggingLibraryProvider3 pLibraryProvider, delegate* unmanaged[Cdecl]<IUnknown*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
+    public static partial int RegisterForRuntimeStartup3(uint dwProcessId, string? szApplicationGroupId, ICLRDebuggingLibraryProvider3 pLibraryProvider, delegate* unmanaged[Cdecl]<void*, void*, int, void> pfnCallback, nint parameter, out nint pUnregisterToken);
 
     [LibraryImport("dbgshim")]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
