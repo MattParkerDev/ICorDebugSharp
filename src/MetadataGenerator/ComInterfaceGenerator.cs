@@ -167,11 +167,11 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 
 		if (GetPointerType(parameter.Type) is { } pointer)
 		{
-			if (GetTypedefName(pointer.PointeeType) == "PCCOR_SIGNATURE")
-			{
-				var countParameterName = GetFollowingParameterName(method, parameterIndex, "signature byte count");
-				return $"[MarshalUsing(CountElementName = nameof({EscapeIdentifier(countParameterName)}))] scoped out ReadOnlySpan<byte> {EscapeIdentifier(parameter.Name)}";
-			}
+			// if (GetTypedefName(pointer.PointeeType) == "PCCOR_SIGNATURE")
+			// {
+			// 	var countParameterName = GetFollowingParameterName(method, parameterIndex, "signature byte count");
+			// 	return $"[MarshalUsing(CountElementName = nameof({EscapeIdentifier(countParameterName)}))] scoped out ReadOnlySpan<byte> {EscapeIdentifier(parameter.Name)}";
+			// }
 			if (_typeMapper.Map(pointer.PointeeType) == "void")
 				return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 			var modifier = GetTypedefName(pointer.PointeeType) == "HCORENUM" ? "ref" : "out";
@@ -181,13 +181,13 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 		return $"{_typeMapper.Map(parameter.Type)} {EscapeIdentifier(parameter.Name)}";
 	}
 
-	private static string GetFollowingParameterName(CXXMethodDecl method, int parameterIndex, string purpose)
-	{
-		var followingParameterIndex = parameterIndex + 1;
-		if (followingParameterIndex >= method.Parameters.Count)
-			throw new InvalidOperationException($"No {purpose} parameter follows {method.Name}.{method.Parameters[parameterIndex].Name}.");
-		return method.Parameters[followingParameterIndex].Name;
-	}
+	// private static string GetFollowingParameterName(CXXMethodDecl method, int parameterIndex, string purpose)
+	// {
+	// 	var followingParameterIndex = parameterIndex + 1;
+	// 	if (followingParameterIndex >= method.Parameters.Count)
+	// 		throw new InvalidOperationException($"No {purpose} parameter follows {method.Name}.{method.Parameters[parameterIndex].Name}.");
+	// 	return method.Parameters[followingParameterIndex].Name;
+	// }
 
 	private static ReferenceType? GetReferenceType(ClangType type)
 	{

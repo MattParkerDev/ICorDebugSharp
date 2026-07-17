@@ -20,7 +20,7 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	int TryGetGenericParamProps(mdGenericParam gp, out uint pulParamSeq, out CorGenericParamAttr pdwParamFlags, out mdToken ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
 
 	[PreserveSig]
-	int TryGetMethodSpecProps(mdMethodSpec mi, out mdToken tkParent, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob);
+	int TryGetMethodSpecProps(mdMethodSpec mi, out mdToken tkParent, out byte* ppvSigBlob, out uint pcbSigBlob);
 
 	[PreserveSig]
 	int TryEnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk, out mdGenericParamConstraint rGenericParamConstraints, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParamConstraints);

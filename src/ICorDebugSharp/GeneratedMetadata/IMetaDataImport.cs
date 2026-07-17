@@ -95,10 +95,10 @@ public unsafe partial interface IMetaDataImport
 	int TryFindMemberRef(mdTypeRef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMemberRef pmr);
 
 	[PreserveSig]
-	int TryGetMethodProps(mdMethodDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out CorMethodAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
+	int TryGetMethodProps(mdMethodDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out CorMethodAttr pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
 
 	[PreserveSig]
-	int TryGetMemberRefProps(mdMemberRef mr, out mdToken ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pbSig);
+	int TryGetMemberRefProps(mdMemberRef mr, out mdToken ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
 
 	[PreserveSig]
 	int TryEnumProperties(ref HCorEnum phEnum, mdTypeDef td, out mdProperty rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
@@ -119,7 +119,7 @@ public unsafe partial interface IMetaDataImport
 	int TryGetClassLayout(mdTypeDef td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
 	[PreserveSig]
-	int TryGetFieldMarshal(mdToken tk, [MarshalUsing(CountElementName = nameof(pcbNativeType))] scoped out ReadOnlySpan<byte> ppvNativeType, out uint pcbNativeType);
+	int TryGetFieldMarshal(mdToken tk, out byte* ppvNativeType, out uint pcbNativeType);
 
 	[PreserveSig]
 	int TryGetRVA(mdToken tk, out uint pulCodeRVA, out uint pdwImplFlags);
@@ -128,7 +128,7 @@ public unsafe partial interface IMetaDataImport
 	int TryGetPermissionSetProps(mdPermission pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
 
 	[PreserveSig]
-	int TryGetSigFromToken(mdSignature mdSig, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
+	int TryGetSigFromToken(mdSignature mdSig, out byte* ppvSig, out uint pcbSig);
 
 	[PreserveSig]
 	int TryGetModuleRefProps(mdModuleRef mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
@@ -137,7 +137,7 @@ public unsafe partial interface IMetaDataImport
 	int TryEnumModuleRefs(ref HCorEnum phEnum, out mdModuleRef rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
 
 	[PreserveSig]
-	int TryGetTypeSpecFromToken(mdTypeSpec typespec, [MarshalUsing(CountElementName = nameof(pcbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pcbSig);
+	int TryGetTypeSpecFromToken(mdTypeSpec typespec, out byte* ppvSig, out uint pcbSig);
 
 	[PreserveSig]
 	int TryGetNameFromToken(mdToken tk, out sbyte* pszUtf8NamePtr);
@@ -173,13 +173,13 @@ public unsafe partial interface IMetaDataImport
 	int TryFindTypeRef(mdToken tkResolutionScope, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdTypeRef ptr);
 
 	[PreserveSig]
-	int TryGetMemberProps(mdToken mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int TryGetMemberProps(mdToken mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int TryGetFieldProps(mdFieldDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out CorFieldAttr pdwAttr, [MarshalUsing(CountElementName = nameof(pcbSigBlob))] scoped out ReadOnlySpan<byte> ppvSigBlob, out uint pcbSigBlob, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
+	int TryGetFieldProps(mdFieldDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out CorFieldAttr pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
 	[PreserveSig]
-	int TryGetPropertyProps(mdProperty prop, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out CorPropertyAttr pdwPropFlags, [MarshalUsing(CountElementName = nameof(pbSig))] scoped out ReadOnlySpan<byte> ppvSig, out uint pbSig, out CorElementType pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out mdMethodDef pmdSetter, out mdMethodDef pmdGetter, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
+	int TryGetPropertyProps(mdProperty prop, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out CorPropertyAttr pdwPropFlags, out byte* ppvSig, out uint pbSig, out CorElementType pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out mdMethodDef pmdSetter, out mdMethodDef pmdGetter, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
 	[PreserveSig]
 	int TryGetParamProps(mdParamDef tk, out mdMethodDef pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out CorParamAttr pdwAttr, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
