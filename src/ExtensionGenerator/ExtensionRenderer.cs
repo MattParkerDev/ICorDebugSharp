@@ -136,17 +136,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderCapabilityTryMethod(ManagedMethod method, string capabilityName)
 	{
-		var parameters = string.Join(", ", method.Parameters.Select(RenderProjectedInputParameter));
-		var hasProjectedOutputs = method.Parameters.Any(parameter => parameter.IsOut && IsUInt(parameter));
+		var parameters = string.Join(", ", method.Parameters.Select(RenderRawParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
-			? $"out var {RawName(parameter)}"
-			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
-		if (!hasProjectedOutputs)
-			return $"\t\tpublic int Try{method.Name}({parameters}) => instance.{capabilityName}.{method.InvocationName}({arguments});";
-
-		var assignments = string.Join("\n", method.Parameters.Where(parameter => parameter.IsOut && IsUInt(parameter))
-			.Select(parameter => $"\t\t\t{Escape(parameter.Name)} = checked((int){RawName(parameter)});"));
-		return $"\t\tpublic int Try{method.Name}({parameters})\n\t\t{{\n\t\t\tvar hr = instance.{capabilityName}.{method.InvocationName}({arguments});\n{assignments}\n\t\t\treturn hr;\n\t\t}}";
+			? $"out {Escape(parameter.Name)}"
+			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
+		return $"\t\tpublic int Try{method.Name}({parameters}) => instance.{capabilityName}.{method.InvocationName}({arguments});";
 	}
 
 	private string RenderCapabilityProjectedMethod(ManagedMethod method, string capabilityName)
@@ -351,10 +345,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
 		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{PublicType(parameter.Type)} {Escape(parameter.Name)}";
 
+	private static string RenderRawParameter(ManagedParameter parameter) =>
+		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
+
 	private static string RenderRawArgument(ManagedParameter parameter, string? name = null) =>
 		IsUInt(parameter) ? $"checked((uint){name ?? Escape(parameter.Name)})" : name ?? Escape(parameter.Name);
-
-	private static string RawName(ManagedParameter parameter) => $"raw{char.ToUpperInvariant(parameter.Name[0])}{parameter.Name[1..]}";
 
 	private static bool TryGetStringBuffer(ManagedMethod method, out (ManagedParameter Buffer, ManagedParameter Capacity, ManagedParameter Count) value)
 	{
