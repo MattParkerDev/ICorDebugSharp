@@ -49,7 +49,9 @@ public static unsafe class CLRMetaHostExtensions
 
 		public void GetVersionFromFile(string pwzFilePath, string[] pwzBuffer, ref int pcchBuffer)
 		{
-			var hr = instance.TryGetVersionFromFile(pwzFilePath, pwzBuffer, ref pcchBuffer);
+			var pcchBufferNative = checked((uint)pcchBuffer);
+			var hr = instance.TryGetVersionFromFile(pwzFilePath, pwzBuffer, ref pcchBufferNative);
+			pcchBuffer = checked((int)pcchBufferNative);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

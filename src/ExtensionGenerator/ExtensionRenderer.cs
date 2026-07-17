@@ -274,6 +274,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
 		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && !parameter.IsEnumeratorMaxOne).ToArray();
+		var refUInts = inputs.Where(IsRefUInt).ToArray();
 		var returnType = outputs.Length == 1
 			? ProjectedOutputType(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
@@ -281,12 +282,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
 			? $"out var {Escape(parameter.Name)}"
 			: parameter.IsEnumeratorMaxOne ? "1"
+			: IsRefUInt(parameter) ? $"ref {RefUIntLocalName(parameter)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
 		var result = outputs.Length == 1
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
 		return $"\t\tpublic {returnType} {publicName ?? method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
+			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
+			$"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
 
 	private static string RenderOutputProperty(ManagedMethod method, string propertyName, string call, ManagedMethod? setter = null, string? setterCall = null)
@@ -333,12 +336,16 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderVoidMethod(ManagedMethod method)
 	{
-		var parameters = string.Join(", ", method.Parameters.Where(parameter => !parameter.IsEnumeratorMaxOne).Select(RenderProjectedInputParameter));
+		var inputs = method.Parameters.Where(parameter => !parameter.IsEnumeratorMaxOne).ToArray();
+		var refUInts = inputs.Where(IsRefUInt).ToArray();
+		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
 			? "1"
+			: IsRefUInt(parameter) ? $"ref {RefUIntLocalName(parameter)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
 		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
-			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}}";
+			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
+			"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}";
 	}
 
 
@@ -590,7 +597,13 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string RenderInputParameter(ManagedParameter parameter) => $"{PublicType(parameter)} {Escape(parameter.Name)}";
 	private static bool IsUInt(ManagedParameter parameter) => parameter.Type == "uint";
+	private static bool IsRefUInt(ManagedParameter parameter) => parameter.IsRef && IsUInt(parameter);
 	private static bool IsSignatureBlob(ManagedParameter parameter) => parameter.Type == "byte*" && parameter.Name == "pvSigBlob";
+	private static string RefUIntLocalName(ManagedParameter parameter) => Escape(parameter.Name + "Native");
+	private static string RenderRefUIntLocals(IEnumerable<ManagedParameter> parameters, string indentation) =>
+		string.Concat(parameters.Select(parameter => $"{indentation}var {RefUIntLocalName(parameter)} = checked((uint){Escape(parameter.Name)});\n"));
+	private static string RenderRefUIntAssignments(IEnumerable<ManagedParameter> parameters, string indentation) =>
+		string.Concat(parameters.Select(parameter => $"{indentation}{Escape(parameter.Name)} = checked((int){RefUIntLocalName(parameter)});\n"));
 	private static string PublicType(ManagedParameter parameter) => IsSignatureBlob(parameter) ? "nint" : PublicType(parameter.Type);
 	private static string PublicType(string type) => type == "uint" ? "int" : type;
 	private static string ProjectValue(string type, string value) => type == "uint" ? $"checked((int){value})" : value;

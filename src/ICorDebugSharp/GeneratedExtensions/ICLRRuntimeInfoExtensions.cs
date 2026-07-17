@@ -15,7 +15,9 @@ public static unsafe class CLRRuntimeInfoExtensions
 	{
 		public int GetDefaultStartupFlags(string[]? pwzHostConfigFile, ref int pcchHostConfigFile)
 		{
-			var hr = instance.TryGetDefaultStartupFlags(out var pdwStartupFlags, pwzHostConfigFile, ref pcchHostConfigFile);
+			var pcchHostConfigFileNative = checked((uint)pcchHostConfigFile);
+			var hr = instance.TryGetDefaultStartupFlags(out var pdwStartupFlags, pwzHostConfigFile, ref pcchHostConfigFileNative);
+			pcchHostConfigFile = checked((int)pcchHostConfigFileNative);
 			Marshal.ThrowExceptionForHR(hr);
 			return checked((int)pdwStartupFlags);
 		}
@@ -76,19 +78,25 @@ public static unsafe class CLRRuntimeInfoExtensions
 
 		public void GetRuntimeDirectory(string[] pwzBuffer, ref int pcchBuffer)
 		{
-			var hr = instance.TryGetRuntimeDirectory(pwzBuffer, ref pcchBuffer);
+			var pcchBufferNative = checked((uint)pcchBuffer);
+			var hr = instance.TryGetRuntimeDirectory(pwzBuffer, ref pcchBufferNative);
+			pcchBuffer = checked((int)pcchBufferNative);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void GetVersionString(string[]? pwzBuffer, ref int pcchBuffer)
 		{
-			var hr = instance.TryGetVersionString(pwzBuffer, ref pcchBuffer);
+			var pcchBufferNative = checked((uint)pcchBuffer);
+			var hr = instance.TryGetVersionString(pwzBuffer, ref pcchBufferNative);
+			pcchBuffer = checked((int)pcchBufferNative);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		public void LoadErrorString(int iResourceID, string[] pwzBuffer, ref int pcchBuffer, int iLocaleID)
 		{
-			var hr = instance.TryLoadErrorString(checked((uint)iResourceID), pwzBuffer, ref pcchBuffer, iLocaleID);
+			var pcchBufferNative = checked((uint)pcchBuffer);
+			var hr = instance.TryLoadErrorString(checked((uint)iResourceID), pwzBuffer, ref pcchBufferNative, iLocaleID);
+			pcchBuffer = checked((int)pcchBufferNative);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
