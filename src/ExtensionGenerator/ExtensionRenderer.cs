@@ -106,7 +106,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			members.Add(RenderCapabilityTryMethod(method, capabilityName));
 			if (method.Name.StartsWith("Set", StringComparison.Ordinal) && capabilityInterface.Methods.TryGetValue("Get" + method.Name[3..], out var getter) && IsPropertySetter(getter, method))
 				continue;
-			members.Add(method.Parameters.Any(parameter => parameter.IsOut)
+			members.Add(TryGetOutputArrayBuffer(method, out var outputBuffer)
+				? RenderCapabilityOutputArrayMethod(method, capabilityName, outputBuffer)
+				: method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
 					? RenderOutputProperty(method, GetPropertyName(method), $"instance.{capabilityName}.{method.InvocationName}", FindPropertySetter(capabilityInterface, method), $"instance.{capabilityName}.{FindPropertySetter(capabilityInterface, method)?.InvocationName}")
 					: RenderCapabilityProjectedMethod(method, capabilityName))
@@ -229,6 +231,19 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		}
 		buffer = candidate;
 		return true;
+	}
+
+	private static string RenderCapabilityOutputArrayMethod(ManagedMethod method, string capabilityName, ManagedParameter buffer)
+	{
+		var inputs = method.Parameters.Where(parameter => !parameter.IsOut && parameter != buffer && !parameter.IsEnumeratorMaxOne).ToArray();
+		var outputs = method.Parameters.Where(parameter => parameter.IsOut).Prepend(buffer).ToArray();
+		var bufferType = buffer.Type.Replace("?", "", StringComparison.Ordinal);
+		var returnType = outputs.Length == 1
+			? bufferType
+			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
+		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
+		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
+			$"instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
 	private static bool IsComEnumeration(ManagedMethod method) =>

@@ -60,6 +60,6 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer, out uint bufLen) => instance.Process2.TrySetUnmanagedBreakpoint(address, bufsize, buffer, out bufLen);
 
-		public int SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize, byte[] buffer) => instance.Process2.SetUnmanagedBreakpoint(address, bufsize, buffer);
+		public (byte[] buffer, int bufLen) SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize) => instance.Process2.SetUnmanagedBreakpoint(address, checked((uint)bufsize));
 	}
 }

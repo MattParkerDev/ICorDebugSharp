@@ -20,6 +20,6 @@ public static unsafe class CorDebugCodeCode3Extensions
 
 		public int TryGetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, uint[] pOffsets) => instance.Code3.TryGetReturnValueLiveOffset(ILoffset, bufferSize, out pFetched, pOffsets);
 
-		public int GetReturnValueLiveOffset(int ILoffset, int bufferSize, uint[] pOffsets) => instance.Code3.GetReturnValueLiveOffset(ILoffset, bufferSize, pOffsets);
+		public (uint[] pOffsets, int pFetched) GetReturnValueLiveOffset(int ILoffset, int bufferSize) => instance.Code3.GetReturnValueLiveOffset(checked((uint)ILoffset), checked((uint)bufferSize));
 	}
 }

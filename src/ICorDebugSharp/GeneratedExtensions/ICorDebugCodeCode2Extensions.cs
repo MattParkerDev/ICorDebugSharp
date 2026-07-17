@@ -20,7 +20,7 @@ public static unsafe class CorDebugCodeCode2Extensions
 
 		public int TryGetCodeChunks(uint cbufSize, out uint pcnumChunks, CodeChunkInfo[]? chunks) => instance.Code2.TryGetCodeChunks(cbufSize, out pcnumChunks, chunks);
 
-		public int GetCodeChunks(int cbufSize, CodeChunkInfo[]? chunks) => instance.Code2.GetCodeChunks(cbufSize, chunks);
+		public (CodeChunkInfo[] chunks, int pcnumChunks) GetCodeChunks(int cbufSize) => instance.Code2.GetCodeChunks(checked((uint)cbufSize));
 
 		public int TryGetCompilerFlags(out uint pdwFlags) => instance.Code2.TryGetCompilerFlags(out pdwFlags);
 
