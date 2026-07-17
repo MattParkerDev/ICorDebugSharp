@@ -106,7 +106,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			members.Add(RenderCapabilityTryMethod(method, capabilityName));
 			if (method.Name.StartsWith("Set", StringComparison.Ordinal) && capabilityInterface.Methods.TryGetValue("Get" + method.Name[3..], out var getter) && IsPropertySetter(getter, method))
 				continue;
-			members.Add(TryGetOutputArrayBuffer(method, out var outputBuffer)
+			members.Add(TryGetOutputArrayBuffer(method, out var outputBuffer) && !Recipes.QueryBuffers.Any(recipe => recipe.Interface == capabilityInterface.Name && recipe.Method == method.Name)
 				? RenderCapabilityOutputArrayMethod(method, capabilityName, outputBuffer)
 				: method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
@@ -241,7 +241,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var returnType = outputs.Length == 1
 			? bufferType
 			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
-		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
+		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.Name}({arguments});";
 	}

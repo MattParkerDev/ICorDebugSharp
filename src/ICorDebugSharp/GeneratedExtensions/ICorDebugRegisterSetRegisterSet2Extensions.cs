@@ -20,11 +20,11 @@ public static unsafe class CorDebugRegisterSetRegisterSet2Extensions
 
 		public int TryGetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TryGetRegisters(maskCount, mask, regCount, regBuffer);
 
-		public ulong[] GetRegisters(int maskCount, byte[] mask, int regCount) => instance.RegisterSet2.GetRegisters(checked((uint)maskCount), mask, checked((uint)regCount));
+		public ulong[] GetRegisters(int maskCount, byte[] mask, int regCount) => instance.RegisterSet2.GetRegisters(maskCount, mask, regCount);
 
 		public int TryGetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.TryGetRegistersAvailable(numChunks, availableRegChunks);
 
-		public byte[] GetRegistersAvailable(int numChunks) => instance.RegisterSet2.GetRegistersAvailable(checked((uint)numChunks));
+		public byte[] GetRegistersAvailable(int numChunks) => instance.RegisterSet2.GetRegistersAvailable(numChunks);
 
 		public int TrySetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TrySetRegisters(maskCount, mask, regCount, regBuffer);
 
