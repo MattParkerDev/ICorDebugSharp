@@ -14,6 +14,7 @@ unmanaged-constants
 vtbl-index-attribute
 helper-types
 enum-member-type-name=false
+generated-code=none
 --log
 potential-typedef-remappings
 exclusions
