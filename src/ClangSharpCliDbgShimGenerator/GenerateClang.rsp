@@ -1,0 +1,65 @@
+--generate
+enum-operators=false
+aggressive-inlining
+callconv-member-function
+cpp-attributes
+disable-runtime-marshalling
+file-scoped-namespaces
+guid-member
+macro-bindings
+marker-interfaces
+native-inheritance-attribute
+setslastsystemerror-attribute
+unmanaged-constants
+vtbl-index-attribute
+helper-types
+enum-member-type-name=false
+--log
+potential-typedef-remappings
+exclusions
+--config
+file=multi
+codegen=preview
+vtbls=trimmable
+types=windows
+# --file-directory
+# C:/src/dotnet/src/runtime/src/coreclr/inc/
+--include-directory
+C:/src/dotnet/src/runtime/src/coreclr/inc/
+C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc
+C:/src/dotnet/src/diagnostics/src/dbgshim
+C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um
+C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared
+C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt
+C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt
+C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include
+--file
+C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h
+C:/src/dotnet/src/diagnostics/src/dbgshim/dbgshim.h
+# --libraryPath
+# git2-3f4182d
+--namespace
+ICorDebugSharp
+# --method-class-name
+# Cor
+--with-class
+DbgShim* = DbgShimNative
+--output
+../ICorDebugSharp/GeneratedMetadata
+--header-file
+Header.txt
+--remap
+_GUID=Guid
+# --prefixStrip
+# git_
+--language
+c++
+# --with-type
+# git_status_opt_t=uint
+# git_submodule_status_t=uint
+--traverse
+C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h
+C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h
+C:/src/dotnet/src/diagnostics/src/dbgshim/dbgshim.h
+# C:/Users/Matthew/Documents/Git/libgit2/include/git2/annotated_commit.h
+# C:/Users/Matthew/Documents/Git/libgit2/include/git2/apply.h
