@@ -50,6 +50,8 @@ _GUID=Guid
 # git_
 --language
 c++
+# --with-attribute
+# pLibraryProvider=MarshalUsing(typeof(ComInterfaceMarshaller<ICLRDebuggingLibraryProvider3>))
 # --with-type
 # git_status_opt_t=uint
 # git_submodule_status_t=uint
