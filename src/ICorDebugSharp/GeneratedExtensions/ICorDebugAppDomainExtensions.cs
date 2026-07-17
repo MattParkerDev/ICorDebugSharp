@@ -139,9 +139,9 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			var values = new ICorDebugAssembly[1];
 			var hr = enumerator.TryNext(1, values, out var pceltFetched);
-			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
+			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched != 1)
 				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
 			yield return values[0];
@@ -154,9 +154,9 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			var values = new ICorDebugBreakpoint[1];
 			var hr = enumerator.TryNext(1, values, out var pceltFetched);
-			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
+			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched != 1)
 				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
 			yield return values[0];
@@ -169,9 +169,9 @@ public static unsafe class CorDebugAppDomainExtensions
 		{
 			var values = new ICorDebugStepper[1];
 			var hr = enumerator.TryNext(1, values, out var pceltFetched);
-			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched == 0)
 				yield break;
+			Marshal.ThrowExceptionForHR(hr);
 			if (pceltFetched != 1)
 				throw new InvalidOperationException("Native debugger enumerator returned an invalid item count.");
 			yield return values[0];
