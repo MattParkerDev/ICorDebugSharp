@@ -287,8 +287,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var count = next.Parameters.Single(parameter => parameter.IsOut);
 		var elementType = ElementType(values.Type);
 		return $"\tprivate static IEnumerable<{elementType}> {method.Name}Core({enumerator.Type} enumerator)\n\t{{\n\t\twhile (true)\n\t\t{{\n" +
-			$"\t\t\tvar values = new {elementType}[1];\n\t\t\tvar hr = enumerator.{next.InvocationName}(1, values, out var {Escape(count.Name)});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n" +
-			$"\t\t\tif ({Escape(count.Name)} == 0)\n\t\t\t\tyield break;\n\t\t\tif ({Escape(count.Name)} != 1)\n\t\t\t\tthrow new InvalidOperationException(\"Native debugger enumerator returned an invalid item count.\");\n\t\t\tyield return values[0];\n\t\t}}\n\t}}";
+			$"\t\t\tvar values = new {elementType}[1];\n\t\t\tvar hr = enumerator.{next.InvocationName}(1, values, out var {Escape(count.Name)});\n" +
+			$"\t\t\tif ({Escape(count.Name)} == 0)\n\t\t\t\tyield break;\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif ({Escape(count.Name)} != 1)\n\t\t\t\tthrow new InvalidOperationException(\"Native debugger enumerator returned an invalid item count.\");\n\t\t\tyield return values[0];\n\t\t}}\n\t}}";
 	}
 
 	private static string ElementType(string arrayType) => arrayType.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
