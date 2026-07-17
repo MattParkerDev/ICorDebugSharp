@@ -21,7 +21,7 @@ exclusions
 file=multi
 codegen=preview
 vtbls=trimmable
-types=unix
+types=windows
 --file-directory
 C:/src/dotnet/src/runtime/src/coreclr/inc/
 --include-directory
