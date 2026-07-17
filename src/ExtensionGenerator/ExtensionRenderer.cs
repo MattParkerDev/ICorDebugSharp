@@ -485,6 +485,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 	private static string ProjectedOutputType(ManagedParameter parameter)
 	{
+		if (parameter.Type == "byte*")
+			return "nint";
 		const string readOnlySpanPrefix = "ReadOnlySpan<";
 		const string spanPrefix = "Span<";
 		if (parameter.Type.StartsWith(readOnlySpanPrefix, StringComparison.Ordinal) && parameter.Type.EndsWith('>'))
@@ -665,7 +667,12 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		string.Concat(parameters.Select(parameter => $"{indentation}{Escape(parameter.Name)} = checked((int){RefUIntLocalName(parameter)});\n"));
 	private static string PublicType(ManagedParameter parameter) => IsSignatureBlob(parameter) ? "nint" : PublicType(parameter.Type);
 	private static string PublicType(string type) => type == "uint" ? "int" : type;
-	private static string ProjectValue(string type, string value) => type == "uint" ? $"checked((int){value})" : value;
+	private static string ProjectValue(string type, string value) => type switch
+	{
+		"uint" => $"checked((int){value})",
+		"byte*" => $"(nint){value}",
+		_ => value,
+	};
 	private static string PropertyName(string name) => name == "ID" ? "Id" : name;
 	private static string Escape(string name) => name is "base" or "event" or "params" or "ref" or "string" ? $"@{name}" : name;
 	private static string Camel(string value) => char.ToLowerInvariant(value[0]) + value[1..];

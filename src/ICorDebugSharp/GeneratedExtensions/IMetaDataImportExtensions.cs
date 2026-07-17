@@ -94,12 +94,12 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, byte* ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb)
+		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb)
 		{
 			var hr = instance.TryGetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob, checked((int)queryPcbSigBlob), queryPdwCPlusTypeFlag, queryPpValue, checked((int)queryPcchValue));
+				return (string.Empty, queryPClass, queryPdwAttr, (nint)queryPpvSigBlob, checked((int)queryPcbSigBlob), queryPdwCPlusTypeFlag, queryPpValue, checked((int)queryPcchValue));
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -113,18 +113,18 @@ public static unsafe class MetaDataImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), pClass, pdwAttr, ppvSigBlob, checked((int)pcbSigBlob), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
+				return (CreateString(buffer, actual, true), pClass, pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szMember, mdTypeDef pClass, int pdwAttr, byte* ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb)
+		public (string szMember, mdTypeDef pClass, int pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb)
 		{
 			var hr = instance.TryGetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPClass, checked((int)queryPdwAttr), queryPpvSigBlob, checked((int)queryPcbSigBlob), checked((int)queryPulCodeRVA), checked((int)queryPdwImplFlags), queryPdwCPlusTypeFlag, queryPpValue, checked((int)queryPcchValue));
+				return (string.Empty, queryPClass, checked((int)queryPdwAttr), (nint)queryPpvSigBlob, checked((int)queryPcbSigBlob), checked((int)queryPulCodeRVA), checked((int)queryPdwImplFlags), queryPdwCPlusTypeFlag, queryPpValue, checked((int)queryPcchValue));
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -138,18 +138,18 @@ public static unsafe class MetaDataImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), pClass, checked((int)pdwAttr), ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
+				return (CreateString(buffer, actual, true), pClass, checked((int)pdwAttr), (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szMember, mdToken ptk, byte* ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr)
+		public (string szMember, mdToken ptk, nint ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr)
 		{
 			var hr = instance.TryGetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPtk, queryPpvSigBlob, checked((int)queryPbSig));
+				return (string.Empty, queryPtk, (nint)queryPpvSigBlob, checked((int)queryPbSig));
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -163,18 +163,18 @@ public static unsafe class MetaDataImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), ptk, ppvSigBlob, checked((int)pbSig));
+				return (CreateString(buffer, actual, true), ptk, (nint)ppvSigBlob, checked((int)pbSig));
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szMethod, mdTypeDef pClass, CorMethodAttr pdwAttr, byte* ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb)
+		public (string szMethod, mdTypeDef pClass, CorMethodAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb)
 		{
 			var hr = instance.TryGetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPClass, queryPdwAttr, queryPpvSigBlob, checked((int)queryPcbSigBlob), checked((int)queryPulCodeRVA), checked((int)queryPdwImplFlags));
+				return (string.Empty, queryPClass, queryPdwAttr, (nint)queryPpvSigBlob, checked((int)queryPcbSigBlob), checked((int)queryPulCodeRVA), checked((int)queryPdwImplFlags));
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -188,7 +188,7 @@ public static unsafe class MetaDataImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), pClass, pdwAttr, ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags));
+				return (CreateString(buffer, actual, true), pClass, pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags));
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
@@ -244,12 +244,12 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, byte* ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop)
+		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, nint ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
 			var hr = instance.TryGetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPClass, queryPdwPropFlags, queryPpvSig, checked((int)queryPbSig), queryPdwCPlusTypeFlag, queryPpDefaultValue, checked((int)queryPcchDefaultValue), queryPmdSetter, queryPmdGetter, queryRmdOtherMethod, checked((int)queryPcOtherMethod));
+				return (string.Empty, queryPClass, queryPdwPropFlags, (nint)queryPpvSig, checked((int)queryPbSig), queryPdwCPlusTypeFlag, queryPpDefaultValue, checked((int)queryPcchDefaultValue), queryPmdSetter, queryPmdGetter, queryRmdOtherMethod, checked((int)queryPcOtherMethod));
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -263,7 +263,7 @@ public static unsafe class MetaDataImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), pClass, pdwPropFlags, ppvSig, checked((int)pbSig), pdwCPlusTypeFlag, ppDefaultValue, checked((int)pcchDefaultValue), pmdSetter, pmdGetter, rmdOtherMethod, checked((int)pcOtherMethod));
+				return (CreateString(buffer, actual, true), pClass, pdwPropFlags, (nint)ppvSig, checked((int)pbSig), pdwCPlusTypeFlag, ppDefaultValue, checked((int)pcchDefaultValue), pmdSetter, pmdGetter, rmdOtherMethod, checked((int)pcOtherMethod));
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
@@ -500,18 +500,18 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchEvent), pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, checked((int)pcOtherMethod));
 		}
 
-		public (byte* ppvNativeType, int pcbNativeType) GetFieldMarshal(mdToken tk)
+		public (nint ppvNativeType, int pcbNativeType) GetFieldMarshal(mdToken tk)
 		{
 			var hr = instance.TryGetFieldMarshal(tk, out var ppvNativeType, out var pcbNativeType);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppvNativeType, checked((int)pcbNativeType));
+			return ((nint)ppvNativeType, checked((int)pcbNativeType));
 		}
 
-		public (mdTypeDef pClass, int pchField, CorFieldAttr pdwAttr, byte* ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, int cchField)
+		public (mdTypeDef pClass, int pchField, CorFieldAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, int cchField)
 		{
 			var hr = instance.TryGetFieldProps(mb, out var pClass, szField, checked((uint)cchField), out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pClass, checked((int)pchField), pdwAttr, ppvSigBlob, checked((int)pcbSigBlob), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
+			return (pClass, checked((int)pchField), pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 		}
 
 		public (mdTypeDef pClass, mdToken ptkIface) GetInterfaceImplProps(mdInterfaceImpl iiImpl)
@@ -521,25 +521,25 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, ptkIface);
 		}
 
-		public (mdTypeDef pClass, int pchMember, int pdwAttr, byte* ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb, char[]? szMember, int cchMember)
+		public (mdTypeDef pClass, int pchMember, int pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb, char[]? szMember, int cchMember)
 		{
 			var hr = instance.TryGetMemberProps(mb, out var pClass, szMember, checked((uint)cchMember), out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pClass, checked((int)pchMember), checked((int)pdwAttr), ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
+			return (pClass, checked((int)pchMember), checked((int)pdwAttr), (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 		}
 
-		public (mdToken ptk, int pchMember, byte* ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr, char[]? szMember, int cchMember)
+		public (mdToken ptk, int pchMember, nint ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr, char[]? szMember, int cchMember)
 		{
 			var hr = instance.TryGetMemberRefProps(mr, out var ptk, szMember, checked((uint)cchMember), out var pchMember, out var ppvSigBlob, out var pbSig);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ptk, checked((int)pchMember), ppvSigBlob, checked((int)pbSig));
+			return (ptk, checked((int)pchMember), (nint)ppvSigBlob, checked((int)pbSig));
 		}
 
-		public (mdTypeDef pClass, int pchMethod, CorMethodAttr pdwAttr, byte* ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb, char[]? szMethod, int cchMethod)
+		public (mdTypeDef pClass, int pchMethod, CorMethodAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb, char[]? szMethod, int cchMethod)
 		{
 			var hr = instance.TryGetMethodProps(mb, out var pClass, szMethod, checked((uint)cchMethod), out var pchMethod, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pClass, checked((int)pchMethod), pdwAttr, ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags));
+			return (pClass, checked((int)pchMethod), pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags));
 		}
 
 		public int GetMethodSemantics(mdMethodDef mb, mdToken tkEventProp)
@@ -615,11 +615,11 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pdwMappingFlags), checked((int)pchImportName), pmrImportDLL);
 		}
 
-		public (mdTypeDef pClass, int pchProperty, CorPropertyAttr pdwPropFlags, byte* ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, int cchProperty)
+		public (mdTypeDef pClass, int pchProperty, CorPropertyAttr pdwPropFlags, nint ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, int cchProperty)
 		{
 			var hr = instance.TryGetPropertyProps(prop, out var pClass, szProperty, checked((uint)cchProperty), out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pClass, checked((int)pchProperty), pdwPropFlags, ppvSig, checked((int)pbSig), pdwCPlusTypeFlag, ppDefaultValue, checked((int)pcchDefaultValue), pmdSetter, pmdGetter, rmdOtherMethod, checked((int)pcOtherMethod));
+			return (pClass, checked((int)pchProperty), pdwPropFlags, (nint)ppvSig, checked((int)pbSig), pdwCPlusTypeFlag, ppDefaultValue, checked((int)pcchDefaultValue), pmdSetter, pmdGetter, rmdOtherMethod, checked((int)pcOtherMethod));
 		}
 
 		public (int pulCodeRVA, int pdwImplFlags) GetRVA(mdToken tk)
@@ -636,11 +636,11 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pchName), pmvid);
 		}
 
-		public (byte* ppvSig, int pcbSig) GetSigFromToken(mdSignature mdSig)
+		public (nint ppvSig, int pcbSig) GetSigFromToken(mdSignature mdSig)
 		{
 			var hr = instance.TryGetSigFromToken(mdSig, out var ppvSig, out var pcbSig);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppvSig, checked((int)pcbSig));
+			return ((nint)ppvSig, checked((int)pcbSig));
 		}
 
 		public (int pchTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef td, char[]? szTypeDef, int cchTypeDef)
@@ -657,11 +657,11 @@ public static unsafe class MetaDataImportExtensions
 			return (ptkResolutionScope, checked((int)pchName));
 		}
 
-		public (byte* ppvSig, int pcbSig) GetTypeSpecFromToken(mdTypeSpec typespec)
+		public (nint ppvSig, int pcbSig) GetTypeSpecFromToken(mdTypeSpec typespec)
 		{
 			var hr = instance.TryGetTypeSpecFromToken(typespec, out var ppvSig, out var pcbSig);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppvSig, checked((int)pcbSig));
+			return ((nint)ppvSig, checked((int)pcbSig));
 		}
 
 		public int GetUserString(mdString stk, char[]? szString, int cchString)
