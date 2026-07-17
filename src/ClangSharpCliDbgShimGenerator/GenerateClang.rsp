@@ -34,8 +34,8 @@ C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt
 C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include
 --file
 C:/src/dotnet/src/diagnostics/src/dbgshim/dbgshim.h
-# --libraryPath
-# git2-3f4182d
+--library-path
+dbgshim
 --namespace
 ICorDebugSharp
 --method-class-name
