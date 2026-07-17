@@ -1091,6 +1091,8 @@ class CSharpGenerator:
         # pointee [out]. Only an additional indirection is an opaque pointer output.
         if base_name == "void" and parameter.type_spec.pointer_depth == 1:
             return "", csharp_type
+        if is_opaque_pointer and parameter.type_spec.pointer_depth == 1 and parameter.is_in:
+            return "", csharp_type
 
         if parameter.is_out and not parameter.is_in:
             return "out ", csharp_type

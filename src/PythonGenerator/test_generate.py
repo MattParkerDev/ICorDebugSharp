@@ -274,21 +274,20 @@ class CSharpGeneratorTests(unittest.TestCase):
             {
                 HRESULT M(
                     [in] HANDLE process,
-                    [out] HMODULE *module,
+                    [out] HMODULE *moduleHandle,
                     [in] LPCSTR name,
                     [in] REFCLSID clsid,
                     [out] IEnumUnknown **enumerator,
-                    [in] RuntimeLoadedCallbackFnPtr callback,
-                    [in] int count);
+                    [in] RuntimeLoadedCallbackFnPtr callback);
             };
         """)
 
         source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
 
         self.assertIn(
-            "int TryM(nint process, out nint module, "
+            "int TryM(nint process, out nint moduleHandle, "
             "[MarshalAs(UnmanagedType.LPStr)] string name, ref Guid clsid, "
-            "out nint enumerator, nint callback, int count);",
+            "out nint enumerator, nint callback);",
             source,
         )
 
