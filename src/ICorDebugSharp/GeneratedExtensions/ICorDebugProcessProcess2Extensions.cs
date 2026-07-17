@@ -22,32 +22,32 @@ public static unsafe class CorDebugProcessProcess2Extensions
 
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address) => instance.Process2.ClearUnmanagedBreakpoint(address);
 
-		public int TryGetDesiredNGENCompilerFlags(out uint pdwFlags) => instance.Process2.TryGetDesiredNGENCompilerFlags(out pdwFlags);
+		public int TryGetDesiredNGENCompilerFlags(out int pdwFlags)
+		{
+			var hr = instance.Process2.TryGetDesiredNGENCompilerFlags(out var rawPdwFlags);
+			pdwFlags = checked((int)rawPdwFlags);
+			return hr;
+		}
 
-		public uint DesiredNGENCompilerFlags
+		public int DesiredNGENCompilerFlags
 		{
 			get
 			{
 				var hr = instance.Process2.TryGetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
-			}
-			set
-			{
-				var hr = instance.Process2.TrySetDesiredNGENCompilerFlags(value);
-				Marshal.ThrowExceptionForHR(hr);
+				return checked((int)pdwFlags);
 			}
 		}
 
-		public int TryGetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue) => instance.Process2.TryGetReferenceValueFromGCHandle(handle, out pOutValue);
+		public int TryGetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue) => instance.Process2.TryGetReferenceValueFromGCHandle(handle, out var rawPOutValue);
 
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle) => instance.Process2.GetReferenceValueFromGCHandle(handle);
 
-		public int TryGetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread) => instance.Process2.TryGetThreadForTaskID(taskid, out ppThread);
+		public int TryGetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread) => instance.Process2.TryGetThreadForTaskID(taskid, out var rawPpThread);
 
 		public ICorDebugThread2 GetThreadForTaskID(ulong taskid) => instance.Process2.GetThreadForTaskID(taskid);
 
-		public int TryGetVersion(out COR_VERSION version) => instance.Process2.TryGetVersion(out version);
+		public int TryGetVersion(out COR_VERSION version) => instance.Process2.TryGetVersion(out var rawVersion);
 
 		public COR_VERSION Version
 		{
@@ -59,10 +59,17 @@ public static unsafe class CorDebugProcessProcess2Extensions
 			}
 		}
 
-		public int TrySetDesiredNGENCompilerFlags(uint pdwFlags) => instance.Process2.TrySetDesiredNGENCompilerFlags(pdwFlags);
+		public int TrySetDesiredNGENCompilerFlags(int pdwFlags) => instance.Process2.TrySetDesiredNGENCompilerFlags(checked((uint)pdwFlags));
 
-		public int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer, out uint bufLen) => instance.Process2.TrySetUnmanagedBreakpoint(address, bufsize, buffer, out bufLen);
+		public void SetDesiredNGENCompilerFlags(int pdwFlags) => instance.Process2.SetDesiredNGENCompilerFlags(pdwFlags);
 
-		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer) => instance.Process2.SetUnmanagedBreakpoint(address, bufsize, buffer);
+		public int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize, byte[] buffer, out int bufLen)
+		{
+			var hr = instance.Process2.TrySetUnmanagedBreakpoint(address, checked((uint)bufsize), buffer, out var rawBufLen);
+			bufLen = checked((int)rawBufLen);
+			return hr;
+		}
+
+		public int SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize, byte[] buffer) => instance.Process2.SetUnmanagedBreakpoint(address, bufsize, buffer);
 	}
 }

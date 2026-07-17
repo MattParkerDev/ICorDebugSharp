@@ -18,12 +18,12 @@ public static unsafe class CorDebugAppDomainAppDomain2Extensions
 		public ICorDebugAppDomain2 AppDomain2 =>
 			instance as ICorDebugAppDomain2 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain2.");
 
-		public int TryGetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType) => instance.AppDomain2.TryGetArrayOrPointerType(elementType, nRank, pTypeArg, out ppType);
+		public int TryGetArrayOrPointerType(CorElementType elementType, int nRank, ICorDebugType pTypeArg, out ICorDebugType ppType) => instance.AppDomain2.TryGetArrayOrPointerType(elementType, checked((uint)nRank), pTypeArg, out var rawPpType);
 
-		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg) => instance.AppDomain2.GetArrayOrPointerType(elementType, nRank, pTypeArg);
+		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, int nRank, ICorDebugType pTypeArg) => instance.AppDomain2.GetArrayOrPointerType(elementType, nRank, pTypeArg);
 
-		public int TryGetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.AppDomain2.TryGetFunctionPointerType(nTypeArgs, ppTypeArgs, out ppType);
+		public int TryGetFunctionPointerType(int nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.AppDomain2.TryGetFunctionPointerType(checked((uint)nTypeArgs), ppTypeArgs, out var rawPpType);
 
-		public ICorDebugType GetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.AppDomain2.GetFunctionPointerType(nTypeArgs, ppTypeArgs);
+		public ICorDebugType GetFunctionPointerType(int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.AppDomain2.GetFunctionPointerType(nTypeArgs, ppTypeArgs);
 	}
 }

@@ -27,9 +27,9 @@ public static unsafe class CorDebugILFrame4Extensions
 			return ppCode;
 		}
 
-		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, uint dwIndex)
+		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, int dwIndex)
 		{
-			var hr = instance.TryGetLocalVariableEx(flags, dwIndex, out var ppValue);
+			var hr = instance.TryGetLocalVariableEx(flags, checked((uint)dwIndex), out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}

@@ -48,11 +48,11 @@ public static unsafe class CorDebugComObjectValueExtensions
 			return GetCachedInterfaceTypesCore(ppInterfacesEnum);
 		}
 
-		public uint GetCachedInterfacePointers(bool bIInspectableOnly, uint celt, CORDB_ADDRESS[]? ptrs)
+		public int GetCachedInterfacePointers(bool bIInspectableOnly, int celt, CORDB_ADDRESS[]? ptrs)
 		{
-			var hr = instance.TryGetCachedInterfacePointers(bIInspectableOnly, celt, out var pcEltFetched, ptrs);
+			var hr = instance.TryGetCachedInterfacePointers(bIInspectableOnly, checked((uint)celt), out var pcEltFetched, ptrs);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcEltFetched;
+			return checked((int)pcEltFetched);
 		}
 	}
 

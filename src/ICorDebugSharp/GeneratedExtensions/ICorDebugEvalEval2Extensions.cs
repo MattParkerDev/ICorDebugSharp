@@ -18,29 +18,29 @@ public static unsafe class CorDebugEvalEval2Extensions
 		public ICorDebugEval2 Eval2 =>
 			instance as ICorDebugEval2 ?? throw new NotSupportedException("ICorDebugEval does not support ICorDebugEval2.");
 
-		public int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public int TryCallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryCallParameterizedFunction(pFunction, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 
-		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
-		public int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue) => instance.Eval2.TryCreateValueForType(pType, out ppValue);
+		public int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue) => instance.Eval2.TryCreateValueForType(pType, out var rawPpValue);
 
 		public ICorDebugValue CreateValueForType(ICorDebugType pType) => instance.Eval2.CreateValueForType(pType);
 
-		public int TryNewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds) => instance.Eval2.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
+		public int TryNewParameterizedArray(ICorDebugType pElementType, int rank, uint[] dims, uint[] lowBounds) => instance.Eval2.TryNewParameterizedArray(pElementType, checked((uint)rank), dims, lowBounds);
 
-		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds) => instance.Eval2.NewParameterizedArray(pElementType, rank, dims, lowBounds);
+		public void NewParameterizedArray(ICorDebugType pElementType, int rank, uint[] dims, uint[] lowBounds) => instance.Eval2.NewParameterizedArray(pElementType, rank, dims, lowBounds);
 
-		public int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public int TryNewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryNewParameterizedObject(pConstructor, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 
-		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
-		public int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+		public int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, checked((uint)nTypeArgs), ppTypeArgs);
 
-		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
 
-		public int TryNewStringWithLength(string @string, uint uiLength) => instance.Eval2.TryNewStringWithLength(@string, uiLength);
+		public int TryNewStringWithLength(string @string, int uiLength) => instance.Eval2.TryNewStringWithLength(@string, checked((uint)uiLength));
 
-		public void NewStringWithLength(string @string, uint uiLength) => instance.Eval2.NewStringWithLength(@string, uiLength);
+		public void NewStringWithLength(string @string, int uiLength) => instance.Eval2.NewStringWithLength(@string, uiLength);
 
 		public int TryRudeAbort() => instance.Eval2.TryRudeAbort();
 

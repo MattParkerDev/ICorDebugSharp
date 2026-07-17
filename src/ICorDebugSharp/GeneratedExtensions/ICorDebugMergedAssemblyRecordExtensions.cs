@@ -77,42 +77,42 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			}
 		}
 
-		public uint GetCulture(uint cchCulture, char[]? szCulture)
+		public int GetCulture(int cchCulture, char[]? szCulture)
 		{
-			var hr = instance.TryGetCulture(cchCulture, out var pcchCulture, szCulture);
+			var hr = instance.TryGetCulture(checked((uint)cchCulture), out var pcchCulture, szCulture);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchCulture;
+			return checked((int)pcchCulture);
 		}
 
-		public uint Index
+		public int Index
 		{
 			get
 			{
 				var hr = instance.TryGetIndex(out var pIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return pIndex;
+				return checked((int)pIndex);
 			}
 		}
 
-		public uint GetPublicKey(uint cbPublicKey, byte[] pbPublicKey)
+		public int GetPublicKey(int cbPublicKey, byte[] pbPublicKey)
 		{
-			var hr = instance.TryGetPublicKey(cbPublicKey, out var pcbPublicKey, pbPublicKey);
+			var hr = instance.TryGetPublicKey(checked((uint)cbPublicKey), out var pcbPublicKey, pbPublicKey);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcbPublicKey;
+			return checked((int)pcbPublicKey);
 		}
 
-		public uint GetPublicKeyToken(uint cbPublicKeyToken, byte[] pbPublicKeyToken)
+		public int GetPublicKeyToken(int cbPublicKeyToken, byte[] pbPublicKeyToken)
 		{
-			var hr = instance.TryGetPublicKeyToken(cbPublicKeyToken, out var pcbPublicKeyToken, pbPublicKeyToken);
+			var hr = instance.TryGetPublicKeyToken(checked((uint)cbPublicKeyToken), out var pcbPublicKeyToken, pbPublicKeyToken);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcbPublicKeyToken;
+			return checked((int)pcbPublicKeyToken);
 		}
 
-		public uint GetSimpleName(uint cchName, char[]? szName)
+		public int GetSimpleName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetSimpleName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetSimpleName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
 		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) Version

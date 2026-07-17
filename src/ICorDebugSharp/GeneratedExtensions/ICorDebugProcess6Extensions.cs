@@ -13,9 +13,9 @@ public static unsafe class CorDebugProcess6Extensions
 {
 	extension(ICorDebugProcess6 instance)
 	{
-		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId)
+		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, int countBytes, CorDebugRecordFormat format, int dwFlags, int dwThreadId)
 		{
-			var hr = instance.TryDecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out var ppEvent);
+			var hr = instance.TryDecodeEvent(pRecord, checked((uint)countBytes), format, checked((uint)dwFlags), checked((uint)dwThreadId), out var ppEvent);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppEvent;
 		}

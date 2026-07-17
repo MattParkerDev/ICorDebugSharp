@@ -59,9 +59,9 @@ public static unsafe class CorDebugStepperExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void StepRange(bool bStepIn, COR_DEBUG_STEP_RANGE[] ranges, uint cRangeCount)
+		public void StepRange(bool bStepIn, COR_DEBUG_STEP_RANGE[] ranges, int cRangeCount)
 		{
-			var hr = instance.TryStepRange(bStepIn, ranges, cRangeCount);
+			var hr = instance.TryStepRange(bStepIn, ranges, checked((uint)cRangeCount));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

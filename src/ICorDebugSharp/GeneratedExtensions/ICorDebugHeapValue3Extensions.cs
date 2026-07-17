@@ -20,13 +20,13 @@ public static unsafe class CorDebugHeapValue3Extensions
 			return GetMonitorEventWaitListCore(ppThreadEnum);
 		}
 
-		public (ICorDebugThread ppThread, uint pAcquisitionCount) ThreadOwningMonitorLock
+		public (ICorDebugThread ppThread, int pAcquisitionCount) ThreadOwningMonitorLock
 		{
 			get
 			{
 				var hr = instance.TryGetThreadOwningMonitorLock(out var ppThread, out var pAcquisitionCount);
 				Marshal.ThrowExceptionForHR(hr);
-				return (ppThread, pAcquisitionCount);
+				return (ppThread, checked((int)pAcquisitionCount));
 			}
 		}
 	}

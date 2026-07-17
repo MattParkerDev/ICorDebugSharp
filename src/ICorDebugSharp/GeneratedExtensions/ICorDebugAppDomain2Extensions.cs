@@ -13,16 +13,16 @@ public static unsafe class CorDebugAppDomain2Extensions
 {
 	extension(ICorDebugAppDomain2 instance)
 	{
-		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg)
+		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, int nRank, ICorDebugType pTypeArg)
 		{
-			var hr = instance.TryGetArrayOrPointerType(elementType, nRank, pTypeArg, out var ppType);
+			var hr = instance.TryGetArrayOrPointerType(elementType, checked((uint)nRank), pTypeArg, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}
 
-		public ICorDebugType GetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs)
+		public ICorDebugType GetFunctionPointerType(int nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.TryGetFunctionPointerType(nTypeArgs, ppTypeArgs, out var ppType);
+			var hr = instance.TryGetFunctionPointerType(checked((uint)nTypeArgs), ppTypeArgs, out var ppType);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppType;
 		}

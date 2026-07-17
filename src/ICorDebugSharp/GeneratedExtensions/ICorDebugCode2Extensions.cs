@@ -44,20 +44,20 @@ public static unsafe class CorDebugCode2Extensions
 			}
 		}
 
-		public uint GetCodeChunks(uint cbufSize, CodeChunkInfo[]? chunks)
+		public int GetCodeChunks(int cbufSize, CodeChunkInfo[]? chunks)
 		{
-			var hr = instance.TryGetCodeChunks(cbufSize, out var pcnumChunks, chunks);
+			var hr = instance.TryGetCodeChunks(checked((uint)cbufSize), out var pcnumChunks, chunks);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcnumChunks;
+			return checked((int)pcnumChunks);
 		}
 
-		public uint CompilerFlags
+		public int CompilerFlags
 		{
 			get
 			{
 				var hr = instance.TryGetCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
+				return checked((int)pdwFlags);
 			}
 		}
 	}

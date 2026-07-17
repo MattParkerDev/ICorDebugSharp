@@ -44,11 +44,11 @@ public static unsafe class CorDebugILCodeExtensions
 			}
 		}
 
-		public uint GetEHClauses(uint cClauses, CorDebugEHClause[]? clauses)
+		public int GetEHClauses(int cClauses, CorDebugEHClause[]? clauses)
 		{
-			var hr = instance.TryGetEHClauses(cClauses, out var pcClauses, clauses);
+			var hr = instance.TryGetEHClauses(checked((uint)cClauses), out var pcClauses, clauses);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcClauses;
+			return checked((int)pcClauses);
 		}
 	}
 }

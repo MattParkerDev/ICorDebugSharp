@@ -18,23 +18,33 @@ public static unsafe class CorDebugThreadThread2Extensions
 		public ICorDebugThread2 Thread2 =>
 			instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 
-		public int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.TryGetActiveFunctions(cFunctions, out pcFunctions, pFunctions);
+		public int TryGetActiveFunctions(int cFunctions, out int pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
+		{
+			var hr = instance.Thread2.TryGetActiveFunctions(checked((uint)cFunctions), out var rawPcFunctions, pFunctions);
+			pcFunctions = checked((int)rawPcFunctions);
+			return hr;
+		}
 
-		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.GetActiveFunctions(cFunctions, pFunctions);
+		public int GetActiveFunctions(int cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.GetActiveFunctions(cFunctions, pFunctions);
 
-		public int TryGetConnectionID(out uint pdwConnectionId) => instance.Thread2.TryGetConnectionID(out pdwConnectionId);
+		public int TryGetConnectionID(out int pdwConnectionId)
+		{
+			var hr = instance.Thread2.TryGetConnectionID(out var rawPdwConnectionId);
+			pdwConnectionId = checked((int)rawPdwConnectionId);
+			return hr;
+		}
 
-		public uint ConnectionID
+		public int ConnectionID
 		{
 			get
 			{
 				var hr = instance.Thread2.TryGetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwConnectionId;
+				return checked((int)pdwConnectionId);
 			}
 		}
 
-		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out pTaskId);
+		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out var rawPTaskId);
 
 		public ulong TaskID
 		{
@@ -46,15 +56,20 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
-		public int TryGetVolatileOSThreadID(out uint pdwTid) => instance.Thread2.TryGetVolatileOSThreadID(out pdwTid);
+		public int TryGetVolatileOSThreadID(out int pdwTid)
+		{
+			var hr = instance.Thread2.TryGetVolatileOSThreadID(out var rawPdwTid);
+			pdwTid = checked((int)rawPdwTid);
+			return hr;
+		}
 
-		public uint VolatileOSThreadID
+		public int VolatileOSThreadID
 		{
 			get
 			{
 				var hr = instance.Thread2.TryGetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwTid;
+				return checked((int)pdwTid);
 			}
 		}
 

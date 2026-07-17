@@ -96,18 +96,18 @@ public static unsafe class CorDebugAssemblyExtensions
 			}
 		}
 
-		public uint GetCodeBase(uint cchName, char[]? szName)
+		public int GetCodeBase(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetCodeBase(cchName, out var pcchName, szName);
+			var hr = instance.TryGetCodeBase(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
-		public uint GetName(uint cchName, char[]? szName)
+		public int GetName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
 		public ICorDebugProcess Process

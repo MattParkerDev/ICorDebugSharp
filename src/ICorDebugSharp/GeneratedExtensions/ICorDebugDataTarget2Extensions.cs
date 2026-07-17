@@ -42,32 +42,32 @@ public static unsafe class CorDebugDataTarget2Extensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public ICorDebugVirtualUnwinder CreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, byte[] initialContext)
+		public ICorDebugVirtualUnwinder CreateVirtualUnwinder(int nativeThreadID, int contextFlags, int cbContext, byte[] initialContext)
 		{
-			var hr = instance.TryCreateVirtualUnwinder(nativeThreadID, contextFlags, cbContext, initialContext, out var ppUnwinder);
+			var hr = instance.TryCreateVirtualUnwinder(checked((uint)nativeThreadID), checked((uint)contextFlags), checked((uint)cbContext), initialContext, out var ppUnwinder);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppUnwinder;
 		}
 
-		public uint EnumerateThreadIDs(uint cThreadIds, uint[] pThreadIds)
+		public int EnumerateThreadIDs(int cThreadIds, uint[] pThreadIds)
 		{
-			var hr = instance.TryEnumerateThreadIDs(cThreadIds, out var pcThreadIds, pThreadIds);
+			var hr = instance.TryEnumerateThreadIDs(checked((uint)cThreadIds), out var pcThreadIds, pThreadIds);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcThreadIds;
+			return checked((int)pcThreadIds);
 		}
 
-		public (CORDB_ADDRESS pImageBase, uint pSize) GetImageFromPointer(CORDB_ADDRESS addr)
+		public (CORDB_ADDRESS pImageBase, int pSize) GetImageFromPointer(CORDB_ADDRESS addr)
 		{
 			var hr = instance.TryGetImageFromPointer(addr, out var pImageBase, out var pSize);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pImageBase, pSize);
+			return (pImageBase, checked((int)pSize));
 		}
 
-		public uint GetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, char[]? szName)
+		public int GetImageLocation(CORDB_ADDRESS baseAddress, int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetImageLocation(baseAddress, cchName, out var pcchName, szName);
+			var hr = instance.TryGetImageLocation(baseAddress, checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
 		public ICorDebugSymbolProvider GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress)

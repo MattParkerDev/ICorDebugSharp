@@ -69,11 +69,11 @@ public static unsafe class CorDebugProcess5Extensions
 			return pObject;
 		}
 
-		public uint GetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields)
+		public int GetTypeFields(COR_TYPEID id, int celt, COR_FIELD[] fields)
 		{
-			var hr = instance.TryGetTypeFields(id, celt, fields, out var pceltNeeded);
+			var hr = instance.TryGetTypeFields(id, checked((uint)celt), fields, out var pceltNeeded);
 			Marshal.ThrowExceptionForHR(hr);
-			return pceltNeeded;
+			return checked((int)pceltNeeded);
 		}
 
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)

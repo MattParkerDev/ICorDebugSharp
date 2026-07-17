@@ -30,29 +30,29 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			}
 		}
 
-		public uint RoDataRVA
+		public int RoDataRVA
 		{
 			get
 			{
 				var hr = instance.TryGetRoDataRVA(out var pRoDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
-				return pRoDataRVA;
+				return checked((int)pRoDataRVA);
 			}
 		}
 
-		public uint RwDataRVA
+		public int RwDataRVA
 		{
 			get
 			{
 				var hr = instance.TryGetRwDataRVA(out var pRwDataRVA);
 				Marshal.ThrowExceptionForHR(hr);
-				return pRwDataRVA;
+				return checked((int)pRwDataRVA);
 			}
 		}
 
-		public void SetILMap(mdToken mdFunction, uint cMapSize, COR_IL_MAP[] map)
+		public void SetILMap(mdToken mdFunction, int cMapSize, COR_IL_MAP[] map)
 		{
-			var hr = instance.TrySetILMap(mdFunction, cMapSize, map);
+			var hr = instance.TrySetILMap(mdFunction, checked((uint)cMapSize), map);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

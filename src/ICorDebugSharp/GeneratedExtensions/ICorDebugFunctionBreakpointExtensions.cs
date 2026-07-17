@@ -23,13 +23,13 @@ public static unsafe class CorDebugFunctionBreakpointExtensions
 			}
 		}
 
-		public uint Offset
+		public int Offset
 		{
 			get
 			{
 				var hr = instance.TryGetOffset(out var pnOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnOffset;
+				return checked((int)pnOffset);
 			}
 		}
 	}

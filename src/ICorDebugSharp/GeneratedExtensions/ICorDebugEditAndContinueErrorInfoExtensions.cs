@@ -65,11 +65,11 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 			}
 		}
 
-		public uint GetString(uint cchString, char[]? szString)
+		public int GetString(int cchString, char[]? szString)
 		{
-			var hr = instance.TryGetString(cchString, out var pcchString, szString);
+			var hr = instance.TryGetString(checked((uint)cchString), out var pcchString, szString);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchString;
+			return checked((int)pcchString);
 		}
 
 		public mdToken Token

@@ -52,13 +52,13 @@ public static unsafe class CorDebugTypeExtensions
 			}
 		}
 
-		public uint Rank
+		public int Rank
 		{
 			get
 			{
 				var hr = instance.TryGetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnRank;
+				return checked((int)pnRank);
 			}
 		}
 

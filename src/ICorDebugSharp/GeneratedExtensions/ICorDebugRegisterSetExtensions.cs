@@ -23,27 +23,27 @@ public static unsafe class CorDebugRegisterSetExtensions
 			}
 		}
 
-		public void GetRegisters(ulong mask, uint regCount, ulong[] regBuffer)
+		public void GetRegisters(ulong mask, int regCount, ulong[] regBuffer)
 		{
-			var hr = instance.TryGetRegisters(mask, regCount, regBuffer);
+			var hr = instance.TryGetRegisters(mask, checked((uint)regCount), regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void GetThreadContext(uint contextSize, byte[] context)
+		public void GetThreadContext(int contextSize, byte[] context)
 		{
-			var hr = instance.TryGetThreadContext(contextSize, context);
+			var hr = instance.TryGetThreadContext(checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void SetRegisters(ulong mask, uint regCount, ulong[] regBuffer)
+		public void SetRegisters(ulong mask, int regCount, ulong[] regBuffer)
 		{
-			var hr = instance.TrySetRegisters(mask, regCount, regBuffer);
+			var hr = instance.TrySetRegisters(mask, checked((uint)regCount), regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void SetThreadContext(uint contextSize, byte[] context)
+		public void SetThreadContext(int contextSize, byte[] context)
 		{
-			var hr = instance.TrySetThreadContext(contextSize, context);
+			var hr = instance.TrySetThreadContext(checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

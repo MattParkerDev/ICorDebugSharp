@@ -18,16 +18,16 @@ public static unsafe class CorDebugRegisterSetRegisterSet2Extensions
 		public ICorDebugRegisterSet2 RegisterSet2 =>
 			instance as ICorDebugRegisterSet2 ?? throw new NotSupportedException("ICorDebugRegisterSet does not support ICorDebugRegisterSet2.");
 
-		public int TryGetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TryGetRegisters(maskCount, mask, regCount, regBuffer);
+		public int TryGetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer) => instance.RegisterSet2.TryGetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);
 
-		public void GetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.GetRegisters(maskCount, mask, regCount, regBuffer);
+		public void GetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer) => instance.RegisterSet2.GetRegisters(maskCount, mask, regCount, regBuffer);
 
-		public int TryGetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.TryGetRegistersAvailable(numChunks, availableRegChunks);
+		public int TryGetRegistersAvailable(int numChunks, byte[] availableRegChunks) => instance.RegisterSet2.TryGetRegistersAvailable(checked((uint)numChunks), availableRegChunks);
 
-		public void GetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.GetRegistersAvailable(numChunks, availableRegChunks);
+		public void GetRegistersAvailable(int numChunks, byte[] availableRegChunks) => instance.RegisterSet2.GetRegistersAvailable(numChunks, availableRegChunks);
 
-		public int TrySetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TrySetRegisters(maskCount, mask, regCount, regBuffer);
+		public int TrySetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer) => instance.RegisterSet2.TrySetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);
 
-		public void SetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.SetRegisters(maskCount, mask, regCount, regBuffer);
+		public void SetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer) => instance.RegisterSet2.SetRegisters(maskCount, mask, regCount, regBuffer);
 	}
 }

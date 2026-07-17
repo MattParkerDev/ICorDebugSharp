@@ -56,21 +56,21 @@ public static unsafe class CorDebugEvalExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void CallFunction(ICorDebugFunction pFunction, uint nArgs, ICorDebugValue[] ppArgs)
+		public void CallFunction(ICorDebugFunction pFunction, int nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.TryCallFunction(pFunction, nArgs, ppArgs);
+			var hr = instance.TryCallFunction(pFunction, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, uint[] dims, uint[] lowBounds)
+		public void NewArray(CorElementType elementType, ICorDebugClass pElementClass, int rank, uint[] dims, uint[] lowBounds)
 		{
-			var hr = instance.TryNewArray(elementType, pElementClass, rank, dims, lowBounds);
+			var hr = instance.TryNewArray(elementType, pElementClass, checked((uint)rank), dims, lowBounds);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewObject(ICorDebugFunction pConstructor, uint nArgs, ICorDebugValue[] ppArgs)
+		public void NewObject(ICorDebugFunction pConstructor, int nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.TryNewObject(pConstructor, nArgs, ppArgs);
+			var hr = instance.TryNewObject(pConstructor, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

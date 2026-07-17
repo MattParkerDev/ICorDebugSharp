@@ -13,33 +13,33 @@ public static unsafe class CorDebugManagedCallback2Extensions
 {
 	extension(ICorDebugManagedCallback2 instance)
 	{
-		public void ChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId)
+		public void ChangeConnection(ICorDebugProcess pProcess, int dwConnectionId)
 		{
-			var hr = instance.TryChangeConnection(pProcess, dwConnectionId);
+			var hr = instance.TryChangeConnection(pProcess, checked((uint)dwConnectionId));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void CreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName)
+		public void CreateConnection(ICorDebugProcess pProcess, int dwConnectionId, string pConnName)
 		{
-			var hr = instance.TryCreateConnection(pProcess, dwConnectionId, pConnName);
+			var hr = instance.TryCreateConnection(pProcess, checked((uint)dwConnectionId), pConnName);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void DestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId)
+		public void DestroyConnection(ICorDebugProcess pProcess, int dwConnectionId)
 		{
-			var hr = instance.TryDestroyConnection(pProcess, dwConnectionId);
+			var hr = instance.TryDestroyConnection(pProcess, checked((uint)dwConnectionId));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags)
+		public void Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, int nOffset, CorDebugExceptionCallbackType dwEventType, int dwFlags)
 		{
-			var hr = instance.TryException(pAppDomain, pThread, pFrame, nOffset, dwEventType, dwFlags);
+			var hr = instance.TryException(pAppDomain, pThread, pFrame, checked((uint)nOffset), dwEventType, checked((uint)dwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags)
+		public void ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, int dwFlags)
 		{
-			var hr = instance.TryExceptionUnwind(pAppDomain, pThread, dwEventType, dwFlags);
+			var hr = instance.TryExceptionUnwind(pAppDomain, pThread, dwEventType, checked((uint)dwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -49,9 +49,9 @@ public static unsafe class CorDebugManagedCallback2Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset)
+		public void FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, int oldILOffset)
 		{
-			var hr = instance.TryFunctionRemapOpportunity(pAppDomain, pThread, pOldFunction, pNewFunction, oldILOffset);
+			var hr = instance.TryFunctionRemapOpportunity(pAppDomain, pThread, pOldFunction, pNewFunction, checked((uint)oldILOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

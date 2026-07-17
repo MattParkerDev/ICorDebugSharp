@@ -18,19 +18,19 @@ public static unsafe class CorDebugProcessProcess6Extensions
 		public ICorDebugProcess6 Process6 =>
 			instance as ICorDebugProcess6 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess6.");
 
-		public int TryDecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId, out ICorDebugDebugEvent ppEvent) => instance.Process6.TryDecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out ppEvent);
+		public int TryDecodeEvent(byte[] pRecord, int countBytes, CorDebugRecordFormat format, int dwFlags, int dwThreadId, out ICorDebugDebugEvent ppEvent) => instance.Process6.TryDecodeEvent(pRecord, checked((uint)countBytes), format, checked((uint)dwFlags), checked((uint)dwThreadId), out var rawPpEvent);
 
-		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId) => instance.Process6.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId);
+		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, int countBytes, CorDebugRecordFormat format, int dwFlags, int dwThreadId) => instance.Process6.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId);
 
 		public int TryEnableVirtualModuleSplitting(bool enableSplitting) => instance.Process6.TryEnableVirtualModuleSplitting(enableSplitting);
 
 		public void EnableVirtualModuleSplitting(bool enableSplitting) => instance.Process6.EnableVirtualModuleSplitting(enableSplitting);
 
-		public int TryGetCode(CORDB_ADDRESS codeAddress, out ICorDebugCode ppCode) => instance.Process6.TryGetCode(codeAddress, out ppCode);
+		public int TryGetCode(CORDB_ADDRESS codeAddress, out ICorDebugCode ppCode) => instance.Process6.TryGetCode(codeAddress, out var rawPpCode);
 
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress) => instance.Process6.GetCode(codeAddress);
 
-		public int TryGetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose) => instance.Process6.TryGetExportStepInfo(pszExportName, out pInvokeKind, out pInvokePurpose);
+		public int TryGetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose) => instance.Process6.TryGetExportStepInfo(pszExportName, out var rawPInvokeKind, out var rawPInvokePurpose);
 
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName) => instance.Process6.GetExportStepInfo(pszExportName);
 

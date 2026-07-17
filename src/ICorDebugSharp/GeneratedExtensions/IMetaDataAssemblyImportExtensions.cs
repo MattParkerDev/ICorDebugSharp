@@ -27,12 +27,12 @@ public static unsafe class MetaDataAssemblyImportExtensions
 
 		public string GetManifestResourceProps(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
 
-		public (string szName, nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
+		public (string szName, nint ppbPublicKey, int pcbPublicKey, int pulHashAlgId, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
 		{
 			var hr = instance.TryGetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPpbPublicKey, queryPcbPublicKey, queryPulHashAlgId, queryPMetaData, queryPdwAssemblyFlags);
+				return (string.Empty, queryPpbPublicKey, checked((int)queryPcbPublicKey), checked((int)queryPulHashAlgId), queryPMetaData, queryPdwAssemblyFlags);
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -46,18 +46,18 @@ public static unsafe class MetaDataAssemblyImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), ppbPublicKey, pcbPublicKey, pulHashAlgId, pMetaData, pdwAssemblyFlags);
+				return (CreateString(buffer, actual, true), ppbPublicKey, checked((int)pcbPublicKey), checked((int)pulHashAlgId), pMetaData, pdwAssemblyFlags);
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (string szName, nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
+		public (string szName, nint ppbPublicKeyOrToken, int pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, int pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
 		{
 			var hr = instance.TryGetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
 			if (required == 0)
-				return (string.Empty, queryPpbPublicKeyOrToken, queryPcbPublicKeyOrToken, queryPMetaData, queryPpbHashValue, queryPcbHashValue, queryPdwAssemblyRefFlags);
+				return (string.Empty, queryPpbPublicKeyOrToken, checked((int)queryPcbPublicKeyOrToken), queryPMetaData, queryPpbHashValue, checked((int)queryPcbHashValue), queryPdwAssemblyRefFlags);
 
 			for (var attempt = 0; attempt < 3; attempt++)
 			{
@@ -71,45 +71,45 @@ public static unsafe class MetaDataAssemblyImportExtensions
 					continue;
 				}
 
-				return (CreateString(buffer, actual, true), ppbPublicKeyOrToken, pcbPublicKeyOrToken, pMetaData, ppbHashValue, pcbHashValue, pdwAssemblyRefFlags);
+				return (CreateString(buffer, actual, true), ppbPublicKeyOrToken, checked((int)pcbPublicKeyOrToken), pMetaData, ppbHashValue, checked((int)pcbHashValue), pdwAssemblyRefFlags);
 			}
 
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
-		public (mdAssemblyRef rAssemblyRefs, uint pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
+		public (mdAssemblyRef rAssemblyRefs, int pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
-			return (rAssemblyRefs, pcTokens);
+			return (rAssemblyRefs, checked((int)pcTokens));
 		}
 
-		public (mdExportedType rExportedTypes, uint pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
+		public (mdExportedType rExportedTypes, int pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
-			return (rExportedTypes, pcTokens);
+			return (rExportedTypes, checked((int)pcTokens));
 		}
 
-		public (mdFile rFiles, uint pcTokens) EnumFiles(ref HCorEnum phEnum)
+		public (mdFile rFiles, int pcTokens) EnumFiles(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
-			return (rFiles, pcTokens);
+			return (rFiles, checked((int)pcTokens));
 		}
 
-		public (mdManifestResource rManifestResources, uint pcTokens) EnumManifestResources(ref HCorEnum phEnum)
+		public (mdManifestResource rManifestResources, int pcTokens) EnumManifestResources(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
 			Marshal.ThrowExceptionForHR(hr);
-			return (rManifestResources, pcTokens);
+			return (rManifestResources, checked((int)pcTokens));
 		}
 
-		public (nint ppIUnk, uint pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
+		public (nint ppIUnk, int pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
 		{
 			var hr = instance.TryFindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppIUnk, pcAssemblies);
+			return (ppIUnk, checked((int)pcAssemblies));
 		}
 
 		public mdExportedType FindExportedTypeByName(string szName, mdToken mdtExportedType)
@@ -136,39 +136,39 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			}
 		}
 
-		public (nint ppbPublicKey, uint pcbPublicKey, uint pulHashAlgId, uint pchName, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, uint cchName)
+		public (nint ppbPublicKey, int pcbPublicKey, int pulHashAlgId, int pchName, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, int cchName)
 		{
-			var hr = instance.TryGetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, cchName, out var pchName, out var pMetaData, out var pdwAssemblyFlags);
+			var hr = instance.TryGetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, checked((uint)cchName), out var pchName, out var pMetaData, out var pdwAssemblyFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppbPublicKey, pcbPublicKey, pulHashAlgId, pchName, pMetaData, pdwAssemblyFlags);
+			return (ppbPublicKey, checked((int)pcbPublicKey), checked((int)pulHashAlgId), checked((int)pchName), pMetaData, pdwAssemblyFlags);
 		}
 
-		public (nint ppbPublicKeyOrToken, uint pcbPublicKeyOrToken, uint pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, uint pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, uint cchName)
+		public (nint ppbPublicKeyOrToken, int pcbPublicKeyOrToken, int pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, int pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, int cchName)
 		{
-			var hr = instance.TryGetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, cchName, out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
+			var hr = instance.TryGetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, checked((uint)cchName), out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppbPublicKeyOrToken, pcbPublicKeyOrToken, pchName, pMetaData, ppbHashValue, pcbHashValue, pdwAssemblyRefFlags);
+			return (ppbPublicKeyOrToken, checked((int)pcbPublicKeyOrToken), checked((int)pchName), pMetaData, ppbHashValue, checked((int)pcbHashValue), pdwAssemblyRefFlags);
 		}
 
-		public (uint pchName, mdToken ptkImplementation, mdTypeDef ptkTypeDef, CorTypeAttr pdwExportedTypeFlags) GetExportedTypeProps(mdExportedType mdct, char[]? szName, uint cchName)
+		public (int pchName, mdToken ptkImplementation, mdTypeDef ptkTypeDef, CorTypeAttr pdwExportedTypeFlags) GetExportedTypeProps(mdExportedType mdct, char[]? szName, int cchName)
 		{
-			var hr = instance.TryGetExportedTypeProps(mdct, szName, cchName, out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
+			var hr = instance.TryGetExportedTypeProps(mdct, szName, checked((uint)cchName), out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pchName, ptkImplementation, ptkTypeDef, pdwExportedTypeFlags);
+			return (checked((int)pchName), ptkImplementation, ptkTypeDef, pdwExportedTypeFlags);
 		}
 
-		public (uint pchName, nint ppbHashValue, uint pcbHashValue, CorFileFlags pdwFileFlags) GetFileProps(mdFile mdf, char[]? szName, uint cchName)
+		public (int pchName, nint ppbHashValue, int pcbHashValue, CorFileFlags pdwFileFlags) GetFileProps(mdFile mdf, char[]? szName, int cchName)
 		{
-			var hr = instance.TryGetFileProps(mdf, szName, cchName, out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
+			var hr = instance.TryGetFileProps(mdf, szName, checked((uint)cchName), out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pchName, ppbHashValue, pcbHashValue, pdwFileFlags);
+			return (checked((int)pchName), ppbHashValue, checked((int)pcbHashValue), pdwFileFlags);
 		}
 
-		public (uint pchName, mdToken ptkImplementation, uint pdwOffset, CorManifestResourceFlags pdwResourceFlags) GetManifestResourceProps(mdManifestResource mdmr, char[]? szName, uint cchName)
+		public (int pchName, mdToken ptkImplementation, int pdwOffset, CorManifestResourceFlags pdwResourceFlags) GetManifestResourceProps(mdManifestResource mdmr, char[]? szName, int cchName)
 		{
-			var hr = instance.TryGetManifestResourceProps(mdmr, szName, cchName, out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);
+			var hr = instance.TryGetManifestResourceProps(mdmr, szName, checked((uint)cchName), out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);
 			Marshal.ThrowExceptionForHR(hr);
-			return (pchName, ptkImplementation, pdwOffset, pdwResourceFlags);
+			return (checked((int)pchName), ptkImplementation, checked((int)pdwOffset), pdwResourceFlags);
 		}
 	}
 

@@ -18,7 +18,7 @@ public static unsafe class CorDebugFunctionFunction4Extensions
 		public ICorDebugFunction4 Function4 =>
 			instance as ICorDebugFunction4 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction4.");
 
-		public int TryCreateNativeBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint) => instance.Function4.TryCreateNativeBreakpoint(out ppBreakpoint);
+		public int TryCreateNativeBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint) => instance.Function4.TryCreateNativeBreakpoint(out var rawPpBreakpoint);
 
 		public ICorDebugFunctionBreakpoint CreateNativeBreakpoint() => instance.Function4.CreateNativeBreakpoint();
 	}

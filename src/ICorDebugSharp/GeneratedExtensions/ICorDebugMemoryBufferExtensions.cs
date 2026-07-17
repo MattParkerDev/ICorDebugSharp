@@ -13,13 +13,13 @@ public static unsafe class CorDebugMemoryBufferExtensions
 {
 	extension(ICorDebugMemoryBuffer instance)
 	{
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pcbBufferLength);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcbBufferLength;
+				return checked((int)pcbBufferLength);
 			}
 		}
 

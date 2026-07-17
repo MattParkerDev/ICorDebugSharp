@@ -20,7 +20,7 @@ public static unsafe class CorDebugAppDomain3Extensions
 			return GetCachedWinRTTypesCore(ppGuidToTypeEnum);
 		}
 
-		public IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDs(uint cReqTypes, Guid[] iidsToResolve)
+		public IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDs(int cReqTypes, Guid[] iidsToResolve)
 		{
 			var hr = instance.TryGetCachedWinRTTypesForIIDs(cReqTypes, iidsToResolve, out var ppTypesEnum);
 			Marshal.ThrowExceptionForHR(hr);

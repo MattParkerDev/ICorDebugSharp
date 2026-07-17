@@ -13,11 +13,11 @@ public static unsafe class CorDebugDataTarget3Extensions
 {
 	extension(ICorDebugDataTarget3 instance)
 	{
-		public uint GetLoadedModules(uint cRequestedModules, ICorDebugLoadedModule[] pLoadedModules)
+		public int GetLoadedModules(int cRequestedModules, ICorDebugLoadedModule[] pLoadedModules)
 		{
-			var hr = instance.TryGetLoadedModules(cRequestedModules, out var pcFetchedModules, pLoadedModules);
+			var hr = instance.TryGetLoadedModules(checked((uint)cRequestedModules), out var pcFetchedModules, pLoadedModules);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcFetchedModules;
+			return checked((int)pcFetchedModules);
 		}
 	}
 }

@@ -13,16 +13,16 @@ public static unsafe class CorDebugRemoteExtensions
 {
 	extension(ICorDebugRemote instance)
 	{
-		public ICorDebugProcess CreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
+		public ICorDebugProcess CreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, int dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
-			var hr = instance.TryCreateProcessEx(pRemoteTarget, lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
+			var hr = instance.TryCreateProcessEx(pRemoteTarget, lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, checked((uint)dwCreationFlags), lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
-		public ICorDebugProcess DebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, bool fWin32Attach)
+		public ICorDebugProcess DebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, int dwProcessId, bool fWin32Attach)
 		{
-			var hr = instance.TryDebugActiveProcessEx(pRemoteTarget, dwProcessId, fWin32Attach, out var ppProcess);
+			var hr = instance.TryDebugActiveProcessEx(pRemoteTarget, checked((uint)dwProcessId), fWin32Attach, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}

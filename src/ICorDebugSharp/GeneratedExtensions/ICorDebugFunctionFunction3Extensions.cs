@@ -18,7 +18,7 @@ public static unsafe class CorDebugFunctionFunction3Extensions
 		public ICorDebugFunction3 Function3 =>
 			instance as ICorDebugFunction3 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction3.");
 
-		public int TryGetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode) => instance.Function3.TryGetActiveReJitRequestILCode(out ppReJitedILCode);
+		public int TryGetActiveReJitRequestILCode(out ICorDebugILCode ppReJitedILCode) => instance.Function3.TryGetActiveReJitRequestILCode(out var rawPpReJitedILCode);
 
 		public ICorDebugILCode ActiveReJitRequestILCode
 		{

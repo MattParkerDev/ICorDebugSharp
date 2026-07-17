@@ -30,13 +30,13 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
-		public uint CurrentVersionNumber
+		public int CurrentVersionNumber
 		{
 			get
 			{
 				var hr = instance.TryGetCurrentVersionNumber(out var pnCurrentVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnCurrentVersion;
+				return checked((int)pnCurrentVersion);
 			}
 		}
 

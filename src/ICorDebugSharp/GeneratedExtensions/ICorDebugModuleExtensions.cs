@@ -117,11 +117,11 @@ public static unsafe class CorDebugModuleExtensions
 			return ppObj;
 		}
 
-		public uint GetName(uint cchName, char[]? szName)
+		public int GetName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
 		public ICorDebugProcess Process
@@ -134,13 +134,13 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcBytes;
+				return checked((int)pcBytes);
 			}
 		}
 

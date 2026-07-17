@@ -18,7 +18,7 @@ public static unsafe class CorDebugModuleModule4Extensions
 		public ICorDebugModule4 Module4 =>
 			instance as ICorDebugModule4 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule4.");
 
-		public int TryIsMappedLayout(out bool pIsMapped) => instance.Module4.TryIsMappedLayout(out pIsMapped);
+		public int TryIsMappedLayout(out bool pIsMapped) => instance.Module4.TryIsMappedLayout(out var rawPIsMapped);
 
 		public bool IsMappedLayout
 		{

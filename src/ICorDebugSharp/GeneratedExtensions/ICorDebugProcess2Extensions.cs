@@ -13,18 +13,13 @@ public static unsafe class CorDebugProcess2Extensions
 {
 	extension(ICorDebugProcess2 instance)
 	{
-		public uint DesiredNGENCompilerFlags
+		public int DesiredNGENCompilerFlags
 		{
 			get
 			{
 				var hr = instance.TryGetDesiredNGENCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
-			}
-			set
-			{
-				var hr = instance.TrySetDesiredNGENCompilerFlags(value);
-				Marshal.ThrowExceptionForHR(hr);
+				return checked((int)pdwFlags);
 			}
 		}
 
@@ -52,16 +47,22 @@ public static unsafe class CorDebugProcess2Extensions
 			}
 		}
 
-		public uint SetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer)
+		public int SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize, byte[] buffer)
 		{
-			var hr = instance.TrySetUnmanagedBreakpoint(address, bufsize, buffer, out var bufLen);
+			var hr = instance.TrySetUnmanagedBreakpoint(address, checked((uint)bufsize), buffer, out var bufLen);
 			Marshal.ThrowExceptionForHR(hr);
-			return bufLen;
+			return checked((int)bufLen);
 		}
 
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
 		{
 			var hr = instance.TryClearUnmanagedBreakpoint(address);
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetDesiredNGENCompilerFlags(int pdwFlags)
+		{
+			var hr = instance.TrySetDesiredNGENCompilerFlags(checked((uint)pdwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

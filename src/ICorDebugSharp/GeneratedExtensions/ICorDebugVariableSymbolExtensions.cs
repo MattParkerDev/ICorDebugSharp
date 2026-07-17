@@ -45,43 +45,43 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			}
 		}
 
-		public uint GetName(uint cchName, char[]? szName)
+		public int GetName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pcbValue);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcbValue;
+				return checked((int)pcbValue);
 			}
 		}
 
-		public uint SlotIndex
+		public int SlotIndex
 		{
 			get
 			{
 				var hr = instance.TryGetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return pSlotIndex;
+				return checked((int)pSlotIndex);
 			}
 		}
 
-		public uint GetValue(uint offset, uint cbContext, byte[] context, uint cbValue, byte[] pValue)
+		public int GetValue(int offset, int cbContext, byte[] context, int cbValue, byte[] pValue)
 		{
-			var hr = instance.TryGetValue(offset, cbContext, context, cbValue, out var pcbValue, pValue);
+			var hr = instance.TryGetValue(checked((uint)offset), checked((uint)cbContext), context, checked((uint)cbValue), out var pcbValue, pValue);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcbValue;
+			return checked((int)pcbValue);
 		}
 
-		public void SetValue(uint offset, uint threadID, uint cbContext, byte[] context, uint cbValue, byte[] pValue)
+		public void SetValue(int offset, int threadID, int cbContext, byte[] context, int cbValue, byte[] pValue)
 		{
-			var hr = instance.TrySetValue(offset, threadID, cbContext, context, cbValue, pValue);
+			var hr = instance.TrySetValue(checked((uint)offset), checked((uint)threadID), checked((uint)cbContext), context, checked((uint)cbValue), pValue);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

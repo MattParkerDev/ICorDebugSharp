@@ -20,13 +20,13 @@ public static unsafe class CorDebugEnumExtensions
 			return ppEnum;
 		}
 
-		public uint Count
+		public int Count
 		{
 			get
 			{
 				var hr = instance.TryGetCount(out var pcelt);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcelt;
+				return checked((int)pcelt);
 			}
 		}
 
@@ -36,9 +36,9 @@ public static unsafe class CorDebugEnumExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void Skip(uint celt)
+		public void Skip(int celt)
 		{
-			var hr = instance.TrySkip(celt);
+			var hr = instance.TrySkip(checked((uint)celt));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

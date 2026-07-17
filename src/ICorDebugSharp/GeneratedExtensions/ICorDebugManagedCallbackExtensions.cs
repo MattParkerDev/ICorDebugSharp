@@ -25,9 +25,9 @@ public static unsafe class CorDebugManagedCallbackExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError)
+		public void BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, int dwError)
 		{
-			var hr = instance.TryBreakpointSetError(pAppDomain, pThread, pBreakpoint, dwError);
+			var hr = instance.TryBreakpointSetError(pAppDomain, pThread, pBreakpoint, checked((uint)dwError));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -55,9 +55,9 @@ public static unsafe class CorDebugManagedCallbackExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void DebuggerError(ICorDebugProcess pProcess, int errorHR, uint errorCode)
+		public void DebuggerError(ICorDebugProcess pProcess, int errorHR, int errorCode)
 		{
-			var hr = instance.TryDebuggerError(pProcess, errorHR, errorCode);
+			var hr = instance.TryDebuggerError(pProcess, errorHR, checked((uint)errorCode));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -127,9 +127,9 @@ public static unsafe class CorDebugManagedCallbackExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void LogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, uint ulReason, string pLogSwitchName, string pParentName)
+		public void LogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, int ulReason, string pLogSwitchName, string pParentName)
 		{
-			var hr = instance.TryLogSwitch(pAppDomain, pThread, lLevel, ulReason, pLogSwitchName, pParentName);
+			var hr = instance.TryLogSwitch(pAppDomain, pThread, lLevel, checked((uint)ulReason), pLogSwitchName, pParentName);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

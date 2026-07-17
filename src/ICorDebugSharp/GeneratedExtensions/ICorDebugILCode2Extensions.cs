@@ -44,11 +44,11 @@ public static unsafe class CorDebugILCode2Extensions
 			}
 		}
 
-		public uint GetInstrumentedILMap(uint cMap, COR_IL_MAP[]? map)
+		public int GetInstrumentedILMap(int cMap, COR_IL_MAP[]? map)
 		{
-			var hr = instance.TryGetInstrumentedILMap(cMap, out var pcMap, map);
+			var hr = instance.TryGetInstrumentedILMap(checked((uint)cMap), out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcMap;
+			return checked((int)pcMap);
 		}
 
 		public mdSignature LocalVarSigToken

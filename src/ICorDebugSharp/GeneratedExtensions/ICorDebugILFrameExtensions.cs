@@ -31,56 +31,56 @@ public static unsafe class CorDebugILFrameExtensions
 
 		public ICorDebugValue[] LocalVariables => instance.EnumerateLocalVariables().ToArray();
 
-		public ICorDebugValue GetArgument(uint dwIndex)
+		public ICorDebugValue GetArgument(int dwIndex)
 		{
-			var hr = instance.TryGetArgument(dwIndex, out var ppValue);
+			var hr = instance.TryGetArgument(checked((uint)dwIndex), out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public (uint pnOffset, CorDebugMappingResult pMappingResult) IP
+		public (int pnOffset, CorDebugMappingResult pMappingResult) IP
 		{
 			get
 			{
 				var hr = instance.TryGetIP(out var pnOffset, out var pMappingResult);
 				Marshal.ThrowExceptionForHR(hr);
-				return (pnOffset, pMappingResult);
+				return (checked((int)pnOffset), pMappingResult);
 			}
 		}
 
-		public ICorDebugValue GetLocalVariable(uint dwIndex)
+		public ICorDebugValue GetLocalVariable(int dwIndex)
 		{
-			var hr = instance.TryGetLocalVariable(dwIndex, out var ppValue);
+			var hr = instance.TryGetLocalVariable(checked((uint)dwIndex), out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public uint StackDepth
+		public int StackDepth
 		{
 			get
 			{
 				var hr = instance.TryGetStackDepth(out var pDepth);
 				Marshal.ThrowExceptionForHR(hr);
-				return pDepth;
+				return checked((int)pDepth);
 			}
 		}
 
-		public ICorDebugValue GetStackValue(uint dwIndex)
+		public ICorDebugValue GetStackValue(int dwIndex)
 		{
-			var hr = instance.TryGetStackValue(dwIndex, out var ppValue);
+			var hr = instance.TryGetStackValue(checked((uint)dwIndex), out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public void CanSetIP(uint nOffset)
+		public void CanSetIP(int nOffset)
 		{
-			var hr = instance.TryCanSetIP(nOffset);
+			var hr = instance.TryCanSetIP(checked((uint)nOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void SetIP(uint nOffset)
+		public void SetIP(int nOffset)
 		{
-			var hr = instance.TrySetIP(nOffset);
+			var hr = instance.TrySetIP(checked((uint)nOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

@@ -25,9 +25,9 @@ public static unsafe class CorDebugManagedCallback4Extensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, uint contextSize)
+		public void DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, int contextSize)
 		{
-			var hr = instance.TryDataBreakpoint(pProcess, pThread, ref pContext, contextSize);
+			var hr = instance.TryDataBreakpoint(pProcess, pThread, ref pContext, checked((uint)contextSize));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

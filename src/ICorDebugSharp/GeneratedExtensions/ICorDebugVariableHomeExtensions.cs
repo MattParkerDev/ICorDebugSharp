@@ -13,13 +13,13 @@ public static unsafe class CorDebugVariableHomeExtensions
 {
 	extension(ICorDebugVariableHome instance)
 	{
-		public uint ArgumentIndex
+		public int ArgumentIndex
 		{
 			get
 			{
 				var hr = instance.TryGetArgumentIndex(out var pArgumentIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return pArgumentIndex;
+				return checked((int)pArgumentIndex);
 			}
 		}
 
@@ -33,13 +33,13 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
-		public (uint pStartOffset, uint pEndOffset) LiveRange
+		public (int pStartOffset, int pEndOffset) LiveRange
 		{
 			get
 			{
 				var hr = instance.TryGetLiveRange(out var pStartOffset, out var pEndOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return (pStartOffset, pEndOffset);
+				return (checked((int)pStartOffset), checked((int)pEndOffset));
 			}
 		}
 
@@ -73,13 +73,13 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
-		public uint SlotIndex
+		public int SlotIndex
 		{
 			get
 			{
 				var hr = instance.TryGetSlotIndex(out var pSlotIndex);
 				Marshal.ThrowExceptionForHR(hr);
-				return pSlotIndex;
+				return checked((int)pSlotIndex);
 			}
 		}
 	}

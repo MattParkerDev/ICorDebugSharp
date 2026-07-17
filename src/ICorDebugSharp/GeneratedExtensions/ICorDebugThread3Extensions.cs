@@ -20,11 +20,11 @@ public static unsafe class CorDebugThread3Extensions
 			return ppStackWalk;
 		}
 
-		public uint GetActiveInternalFrames(uint cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
+		public int GetActiveInternalFrames(int cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
 		{
-			var hr = instance.TryGetActiveInternalFrames(cInternalFrames, out var pcInternalFrames, ppInternalFrames);
+			var hr = instance.TryGetActiveInternalFrames(checked((uint)cInternalFrames), out var pcInternalFrames, ppInternalFrames);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcInternalFrames;
+			return checked((int)pcInternalFrames);
 		}
 	}
 }

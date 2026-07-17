@@ -20,33 +20,33 @@ public static unsafe class CorDebugEval2Extensions
 			return ppValue;
 		}
 
-		public void CallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			var hr = instance.TryCallParameterizedFunction(pFunction, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewParameterizedArray(ICorDebugType pElementType, uint rank, uint[] dims, uint[] lowBounds)
+		public void NewParameterizedArray(ICorDebugType pElementType, int rank, uint[] dims, uint[] lowBounds)
 		{
-			var hr = instance.TryNewParameterizedArray(pElementType, rank, dims, lowBounds);
+			var hr = instance.TryNewParameterizedArray(pElementType, checked((uint)rank), dims, lowBounds);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs)
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
-			var hr = instance.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+			var hr = instance.TryNewParameterizedObject(pConstructor, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs)
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
-			var hr = instance.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+			var hr = instance.TryNewParameterizedObjectNoConstructor(pClass, checked((uint)nTypeArgs), ppTypeArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void NewStringWithLength(string @string, uint uiLength)
+		public void NewStringWithLength(string @string, int uiLength)
 		{
-			var hr = instance.TryNewStringWithLength(@string, uiLength);
+			var hr = instance.TryNewStringWithLength(@string, checked((uint)uiLength));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

@@ -13,52 +13,47 @@ public static unsafe class CorDebugNativeFrameExtensions
 {
 	extension(ICorDebugNativeFrame instance)
 	{
-		public uint IP
+		public int IP
 		{
 			get
 			{
 				var hr = instance.TryGetIP(out var pnOffset);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnOffset;
-			}
-			set
-			{
-				var hr = instance.TrySetIP(value);
-				Marshal.ThrowExceptionForHR(hr);
+				return checked((int)pnOffset);
 			}
 		}
 
-		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, int cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.TryGetLocalDoubleRegisterValue(highWordReg, lowWordReg, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalDoubleRegisterValue(highWordReg, lowWordReg, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, int cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.TryGetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalMemoryValue(CORDB_ADDRESS address, int cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.TryGetLocalMemoryValue(address, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalMemoryValue(address, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, int cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.TryGetLocalRegisterMemoryValue(highWordReg, lowWordAddress, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalRegisterMemoryValue(highWordReg, lowWordAddress, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob)
+		public ICorDebugValue GetLocalRegisterValue(CorDebugRegister reg, int cbSigBlob, nuint pvSigBlob)
 		{
-			var hr = instance.TryGetLocalRegisterValue(reg, cbSigBlob, pvSigBlob, out var ppValue);
+			var hr = instance.TryGetLocalRegisterValue(reg, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -73,9 +68,15 @@ public static unsafe class CorDebugNativeFrameExtensions
 			}
 		}
 
-		public void CanSetIP(uint nOffset)
+		public void CanSetIP(int nOffset)
 		{
-			var hr = instance.TryCanSetIP(nOffset);
+			var hr = instance.TryCanSetIP(checked((uint)nOffset));
+			Marshal.ThrowExceptionForHR(hr);
+		}
+
+		public void SetIP(int nOffset)
+		{
+			var hr = instance.TrySetIP(checked((uint)nOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

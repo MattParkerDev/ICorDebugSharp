@@ -91,13 +91,13 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
-		public uint Id
+		public int Id
 		{
 			get
 			{
 				var hr = instance.TryGetID(out var pdwThreadId);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwThreadId;
+				return checked((int)pdwThreadId);
 			}
 		}
 

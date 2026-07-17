@@ -22,9 +22,9 @@ public static unsafe class CorDebugILFrame2Extensions
 
 		public ICorDebugType[] TypeParameters => instance.EnumerateTypeParameters().ToArray();
 
-		public void RemapFunction(uint newILOffset)
+		public void RemapFunction(int newILOffset)
 		{
-			var hr = instance.TryRemapFunction(newILOffset);
+			var hr = instance.TryRemapFunction(checked((uint)newILOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

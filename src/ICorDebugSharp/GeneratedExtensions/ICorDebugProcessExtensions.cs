@@ -31,23 +31,23 @@ public static unsafe class CorDebugProcessExtensions
 
 		public CORDB_ADDRESS[] Objects => instance.EnumerateObjects().ToArray();
 
-		public uint HelperThreadID
+		public int HelperThreadID
 		{
 			get
 			{
 				var hr = instance.TryGetHelperThreadID(out var pThreadID);
 				Marshal.ThrowExceptionForHR(hr);
-				return pThreadID;
+				return checked((int)pThreadID);
 			}
 		}
 
-		public uint Id
+		public int Id
 		{
 			get
 			{
 				var hr = instance.TryGetID(out var pdwProcessId);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwProcessId;
+				return checked((int)pdwProcessId);
 			}
 		}
 
@@ -61,16 +61,16 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
-		public ICorDebugThread GetThread(uint dwThreadId)
+		public ICorDebugThread GetThread(int dwThreadId)
 		{
-			var hr = instance.TryGetThread(dwThreadId, out var ppThread);
+			var hr = instance.TryGetThread(checked((uint)dwThreadId), out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
 
-		public bool IsOSSuspended(uint threadID)
+		public bool IsOSSuspended(int threadID)
 		{
-			var hr = instance.TryIsOSSuspended(threadID, out var pbSuspended);
+			var hr = instance.TryIsOSSuspended(checked((uint)threadID), out var pbSuspended);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbSuspended;
 		}
@@ -82,30 +82,30 @@ public static unsafe class CorDebugProcessExtensions
 			return pbTransitionStub;
 		}
 
-		public nuint ReadMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
+		public nuint ReadMemory(CORDB_ADDRESS address, int size, byte[] buffer)
 		{
-			var hr = instance.TryReadMemory(address, size, buffer, out var read);
+			var hr = instance.TryReadMemory(address, checked((uint)size), buffer, out var read);
 			Marshal.ThrowExceptionForHR(hr);
 			return read;
 		}
 
-		public ICorDebugThread ThreadForFiberCookie(uint fiberCookie)
+		public ICorDebugThread ThreadForFiberCookie(int fiberCookie)
 		{
-			var hr = instance.TryThreadForFiberCookie(fiberCookie, out var ppThread);
+			var hr = instance.TryThreadForFiberCookie(checked((uint)fiberCookie), out var ppThread);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppThread;
 		}
 
-		public nuint WriteMemory(CORDB_ADDRESS address, uint size, byte[] buffer)
+		public nuint WriteMemory(CORDB_ADDRESS address, int size, byte[] buffer)
 		{
-			var hr = instance.TryWriteMemory(address, size, buffer, out var written);
+			var hr = instance.TryWriteMemory(address, checked((uint)size), buffer, out var written);
 			Marshal.ThrowExceptionForHR(hr);
 			return written;
 		}
 
-		public void ClearCurrentException(uint threadID)
+		public void ClearCurrentException(int threadID)
 		{
-			var hr = instance.TryClearCurrentException(threadID);
+			var hr = instance.TryClearCurrentException(checked((uint)threadID));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -121,9 +121,9 @@ public static unsafe class CorDebugProcessExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void GetThreadContext(uint threadID, uint contextSize, byte[] context)
+		public void GetThreadContext(int threadID, int contextSize, byte[] context)
 		{
-			var hr = instance.TryGetThreadContext(threadID, contextSize, context);
+			var hr = instance.TryGetThreadContext(checked((uint)threadID), checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
@@ -133,9 +133,9 @@ public static unsafe class CorDebugProcessExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void SetThreadContext(uint threadID, uint contextSize, byte[] context)
+		public void SetThreadContext(int threadID, int contextSize, byte[] context)
 		{
-			var hr = instance.TrySetThreadContext(threadID, contextSize, context);
+			var hr = instance.TrySetThreadContext(checked((uint)threadID), checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

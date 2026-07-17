@@ -13,14 +13,14 @@ public static unsafe class CorDebugControllerExtensions
 {
 	extension(ICorDebugController instance)
 	{
-		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
+		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.TryCanCommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
 			return CanCommitChangesCore(pError);
 		}
 
-		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(uint cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
+		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.TryCommitChanges(cSnapshots, pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
@@ -71,15 +71,15 @@ public static unsafe class CorDebugControllerExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void Stop(uint dwTimeoutIgnored)
+		public void Stop(int dwTimeoutIgnored)
 		{
-			var hr = instance.TryStop(dwTimeoutIgnored);
+			var hr = instance.TryStop(checked((uint)dwTimeoutIgnored));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void Terminate(uint exitCode)
+		public void Terminate(int exitCode)
 		{
-			var hr = instance.TryTerminate(exitCode);
+			var hr = instance.TryTerminate(checked((uint)exitCode));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

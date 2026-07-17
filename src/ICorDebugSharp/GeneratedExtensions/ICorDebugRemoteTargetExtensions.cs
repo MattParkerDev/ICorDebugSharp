@@ -45,11 +45,11 @@ public static unsafe class CorDebugRemoteTargetExtensions
 			}
 		}
 
-		public uint GetHostName(uint cchHostName, char[]? szHostName)
+		public int GetHostName(int cchHostName, char[]? szHostName)
 		{
-			var hr = instance.TryGetHostName(cchHostName, out var pcchHostName, szHostName);
+			var hr = instance.TryGetHostName(checked((uint)cchHostName), out var pcchHostName, szHostName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchHostName;
+			return checked((int)pcchHostName);
 		}
 	}
 }

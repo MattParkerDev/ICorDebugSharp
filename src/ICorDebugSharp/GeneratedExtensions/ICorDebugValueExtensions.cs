@@ -30,13 +30,13 @@ public static unsafe class CorDebugValueExtensions
 			}
 		}
 
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return pSize;
+				return checked((int)pSize);
 			}
 		}
 

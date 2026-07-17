@@ -18,7 +18,7 @@ public static unsafe class CorDebugObjectValueObjectValue2Extensions
 		public ICorDebugObjectValue2 ObjectValue2 =>
 			instance as ICorDebugObjectValue2 ?? throw new NotSupportedException("ICorDebugObjectValue does not support ICorDebugObjectValue2.");
 
-		public int TryGetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType) => instance.ObjectValue2.TryGetVirtualMethodAndType(memberRef, out ppFunction, out ppType);
+		public int TryGetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType) => instance.ObjectValue2.TryGetVirtualMethodAndType(memberRef, out var rawPpFunction, out var rawPpType);
 
 		public (ICorDebugFunction ppFunction, ICorDebugType ppType) GetVirtualMethodAndType(mdMemberRef memberRef) => instance.ObjectValue2.GetVirtualMethodAndType(memberRef);
 	}

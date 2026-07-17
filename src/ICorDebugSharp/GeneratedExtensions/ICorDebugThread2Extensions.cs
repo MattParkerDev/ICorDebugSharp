@@ -44,20 +44,20 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
-		public uint GetActiveFunctions(uint cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
+		public int GetActiveFunctions(int cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
 		{
-			var hr = instance.TryGetActiveFunctions(cFunctions, out var pcFunctions, pFunctions);
+			var hr = instance.TryGetActiveFunctions(checked((uint)cFunctions), out var pcFunctions, pFunctions);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcFunctions;
+			return checked((int)pcFunctions);
 		}
 
-		public uint ConnectionID
+		public int ConnectionID
 		{
 			get
 			{
 				var hr = instance.TryGetConnectionID(out var pdwConnectionId);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwConnectionId;
+				return checked((int)pdwConnectionId);
 			}
 		}
 
@@ -71,13 +71,13 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
-		public uint VolatileOSThreadID
+		public int VolatileOSThreadID
 		{
 			get
 			{
 				var hr = instance.TryGetVolatileOSThreadID(out var pdwTid);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwTid;
+				return checked((int)pdwTid);
 			}
 		}
 

@@ -18,35 +18,37 @@ public static unsafe class CorDebugModuleModule2Extensions
 		public ICorDebugModule2 Module2 =>
 			instance as ICorDebugModule2 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule2.");
 
-		public int TryApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL) => instance.Module2.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+		public int TryApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL) => instance.Module2.TryApplyChanges(checked((uint)cbMetadata), pbMetadata, checked((uint)cbIL), pbIL);
 
-		public void ApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL) => instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
+		public void ApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL) => instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
 
-		public int TryGetJITCompilerFlags(out uint pdwFlags) => instance.Module2.TryGetJITCompilerFlags(out pdwFlags);
+		public int TryGetJITCompilerFlags(out int pdwFlags)
+		{
+			var hr = instance.Module2.TryGetJITCompilerFlags(out var rawPdwFlags);
+			pdwFlags = checked((int)rawPdwFlags);
+			return hr;
+		}
 
-		public uint JITCompilerFlags
+		public int JITCompilerFlags
 		{
 			get
 			{
 				var hr = instance.Module2.TryGetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return pdwFlags;
-			}
-			set
-			{
-				var hr = instance.Module2.TrySetJITCompilerFlags(value);
-				Marshal.ThrowExceptionForHR(hr);
+				return checked((int)pdwFlags);
 			}
 		}
 
-		public int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly) => instance.Module2.TryResolveAssembly(tkAssemblyRef, out ppAssembly);
+		public int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly) => instance.Module2.TryResolveAssembly(tkAssemblyRef, out var rawPpAssembly);
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef) => instance.Module2.ResolveAssembly(tkAssemblyRef);
 
-		public int TrySetJITCompilerFlags(uint dwFlags) => instance.Module2.TrySetJITCompilerFlags(dwFlags);
+		public int TrySetJITCompilerFlags(int dwFlags) => instance.Module2.TrySetJITCompilerFlags(checked((uint)dwFlags));
 
-		public int TrySetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
+		public void SetJITCompilerFlags(int dwFlags) => instance.Module2.SetJITCompilerFlags(dwFlags);
 
-		public void SetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
+		public int TrySetJMCStatus(bool bIsJustMyCode, int cTokens, mdToken[] pTokens) => instance.Module2.TrySetJMCStatus(bIsJustMyCode, checked((uint)cTokens), pTokens);
+
+		public void SetJMCStatus(bool bIsJustMyCode, int cTokens, mdToken[] pTokens) => instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 	}
 }

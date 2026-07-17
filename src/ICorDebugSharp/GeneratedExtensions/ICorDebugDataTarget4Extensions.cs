@@ -13,9 +13,9 @@ public static unsafe class CorDebugDataTarget4Extensions
 {
 	extension(ICorDebugDataTarget4 instance)
 	{
-		public void VirtualUnwind(uint threadId, uint contextSize, byte[] context)
+		public void VirtualUnwind(int threadId, int contextSize, byte[] context)
 		{
-			var hr = instance.TryVirtualUnwind(threadId, contextSize, context);
+			var hr = instance.TryVirtualUnwind(checked((uint)threadId), checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

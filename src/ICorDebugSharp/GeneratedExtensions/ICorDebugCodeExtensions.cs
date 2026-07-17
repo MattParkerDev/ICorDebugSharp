@@ -44,9 +44,9 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
-		public ICorDebugFunctionBreakpoint CreateBreakpoint(uint offset)
+		public ICorDebugFunctionBreakpoint CreateBreakpoint(int offset)
 		{
-			var hr = instance.TryCreateBreakpoint(offset, out var ppBreakpoint);
+			var hr = instance.TryCreateBreakpoint(checked((uint)offset), out var ppBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppBreakpoint;
 		}
@@ -61,18 +61,18 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
-		public uint GetCode(uint startOffset, uint endOffset, uint cBufferAlloc, byte[] buffer)
+		public int GetCode(int startOffset, int endOffset, int cBufferAlloc, byte[] buffer)
 		{
-			var hr = instance.TryGetCode(startOffset, endOffset, cBufferAlloc, buffer, out var pcBufferSize);
+			var hr = instance.TryGetCode(checked((uint)startOffset), checked((uint)endOffset), checked((uint)cBufferAlloc), buffer, out var pcBufferSize);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcBufferSize;
+			return checked((int)pcBufferSize);
 		}
 
-		public uint GetEnCRemapSequencePoints(uint cMap, uint[] offsets)
+		public int GetEnCRemapSequencePoints(int cMap, uint[] offsets)
 		{
-			var hr = instance.TryGetEnCRemapSequencePoints(cMap, out var pcMap, offsets);
+			var hr = instance.TryGetEnCRemapSequencePoints(checked((uint)cMap), out var pcMap, offsets);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcMap;
+			return checked((int)pcMap);
 		}
 
 		public ICorDebugFunction Function
@@ -85,30 +85,30 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
-		public uint GetILToNativeMapping(uint cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
+		public int GetILToNativeMapping(int cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
 		{
-			var hr = instance.TryGetILToNativeMapping(cMap, out var pcMap, map);
+			var hr = instance.TryGetILToNativeMapping(checked((uint)cMap), out var pcMap, map);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcMap;
+			return checked((int)pcMap);
 		}
 
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pcBytes);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcBytes;
+				return checked((int)pcBytes);
 			}
 		}
 
-		public uint VersionNumber
+		public int VersionNumber
 		{
 			get
 			{
 				var hr = instance.TryGetVersionNumber(out var nVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return nVersion;
+				return checked((int)nVersion);
 			}
 		}
 

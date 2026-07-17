@@ -13,26 +13,26 @@ public static unsafe class CorDebugArrayValueExtensions
 {
 	extension(ICorDebugArrayValue instance)
 	{
-		public uint Count
+		public int Count
 		{
 			get
 			{
 				var hr = instance.TryGetCount(out var pnCount);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnCount;
+				return checked((int)pnCount);
 			}
 		}
 
-		public ICorDebugValue GetElement(uint cdim, uint[] indices)
+		public ICorDebugValue GetElement(int cdim, uint[] indices)
 		{
-			var hr = instance.TryGetElement(cdim, indices, out var ppValue);
+			var hr = instance.TryGetElement(checked((uint)cdim), indices, out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
 
-		public ICorDebugValue GetElementAtPosition(uint nPosition)
+		public ICorDebugValue GetElementAtPosition(int nPosition)
 		{
-			var hr = instance.TryGetElementAtPosition(nPosition, out var ppValue);
+			var hr = instance.TryGetElementAtPosition(checked((uint)nPosition), out var ppValue);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppValue;
 		}
@@ -47,13 +47,13 @@ public static unsafe class CorDebugArrayValueExtensions
 			}
 		}
 
-		public uint Rank
+		public int Rank
 		{
 			get
 			{
 				var hr = instance.TryGetRank(out var pnRank);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnRank;
+				return checked((int)pnRank);
 			}
 		}
 
@@ -64,15 +64,15 @@ public static unsafe class CorDebugArrayValueExtensions
 			return pbHasBaseIndicies;
 		}
 
-		public void GetBaseIndicies(uint cdim, uint[] indices)
+		public void GetBaseIndicies(int cdim, uint[] indices)
 		{
-			var hr = instance.TryGetBaseIndicies(cdim, indices);
+			var hr = instance.TryGetBaseIndicies(checked((uint)cdim), indices);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
-		public void GetDimensions(uint cdim, uint[] dims)
+		public void GetDimensions(int cdim, uint[] dims)
 		{
-			var hr = instance.TryGetDimensions(cdim, dims);
+			var hr = instance.TryGetDimensions(checked((uint)cdim), dims);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 	}

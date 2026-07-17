@@ -13,11 +13,11 @@ public static unsafe class CorDebugVirtualUnwinderExtensions
 {
 	extension(ICorDebugVirtualUnwinder instance)
 	{
-		public uint GetContext(uint contextFlags, uint cbContextBuf, byte[] contextBuf)
+		public int GetContext(int contextFlags, int cbContextBuf, byte[] contextBuf)
 		{
-			var hr = instance.TryGetContext(contextFlags, cbContextBuf, out var contextSize, contextBuf);
+			var hr = instance.TryGetContext(checked((uint)contextFlags), checked((uint)cbContextBuf), out var contextSize, contextBuf);
 			Marshal.ThrowExceptionForHR(hr);
-			return contextSize;
+			return checked((int)contextSize);
 		}
 
 		public void Next()

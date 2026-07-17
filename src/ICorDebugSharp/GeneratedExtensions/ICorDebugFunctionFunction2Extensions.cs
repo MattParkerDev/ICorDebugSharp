@@ -18,13 +18,13 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 		public ICorDebugFunction2 Function2 =>
 			instance as ICorDebugFunction2 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction2.");
 
-		public int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum) => instance.Function2.TryEnumerateNativeCode(out ppCodeEnum);
+		public int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum) => instance.Function2.TryEnumerateNativeCode(out var rawPpCodeEnum);
 
 		public IEnumerable<ICorDebugCode> EnumerateNativeCode() => instance.Function2.EnumerateNativeCode();
 
 		public ICorDebugCode[] NativeCode => instance.Function2.EnumerateNativeCode().ToArray();
 
-		public int TryGetJMCStatus(out bool pbIsJustMyCode) => instance.Function2.TryGetJMCStatus(out pbIsJustMyCode);
+		public int TryGetJMCStatus(out bool pbIsJustMyCode) => instance.Function2.TryGetJMCStatus(out var rawPbIsJustMyCode);
 
 		public bool JMCStatus
 		{
@@ -41,15 +41,20 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			}
 		}
 
-		public int TryGetVersionNumber(out uint pnVersion) => instance.Function2.TryGetVersionNumber(out pnVersion);
+		public int TryGetVersionNumber(out int pnVersion)
+		{
+			var hr = instance.Function2.TryGetVersionNumber(out var rawPnVersion);
+			pnVersion = checked((int)rawPnVersion);
+			return hr;
+		}
 
-		public uint VersionNumber
+		public int VersionNumber
 		{
 			get
 			{
 				var hr = instance.Function2.TryGetVersionNumber(out var pnVersion);
 				Marshal.ThrowExceptionForHR(hr);
-				return pnVersion;
+				return checked((int)pnVersion);
 			}
 		}
 

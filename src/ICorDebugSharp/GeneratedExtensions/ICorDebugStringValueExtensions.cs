@@ -45,21 +45,21 @@ public static unsafe class CorDebugStringValueExtensions
 			}
 		}
 
-		public uint Length
+		public int Length
 		{
 			get
 			{
 				var hr = instance.TryGetLength(out var pcchString);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcchString;
+				return checked((int)pcchString);
 			}
 		}
 
-		public uint GetString(uint cchString, char[]? szString)
+		public int GetString(int cchString, char[]? szString)
 		{
-			var hr = instance.TryGetString(cchString, out var pcchString, szString);
+			var hr = instance.TryGetString(checked((uint)cchString), out var pcchString, szString);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchString;
+			return checked((int)pcchString);
 		}
 	}
 }

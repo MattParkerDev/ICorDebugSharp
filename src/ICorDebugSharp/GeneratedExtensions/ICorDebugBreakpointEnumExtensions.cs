@@ -13,11 +13,11 @@ public static unsafe class CorDebugBreakpointEnumExtensions
 {
 	extension(ICorDebugBreakpointEnum instance)
 	{
-		public uint Next(uint celt, ICorDebugBreakpoint[] breakpoints)
+		public int Next(int celt, ICorDebugBreakpoint[] breakpoints)
 		{
-			var hr = instance.TryNext(celt, breakpoints, out var pceltFetched);
+			var hr = instance.TryNext(checked((uint)celt), breakpoints, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return pceltFetched;
+			return checked((int)pceltFetched);
 		}
 	}
 }

@@ -72,13 +72,13 @@ public static unsafe class CorDebugAppDomainExtensions
 
 		public ICorDebugStepper[] Steppers => instance.EnumerateSteppers().ToArray();
 
-		public uint Id
+		public int Id
 		{
 			get
 			{
 				var hr = instance.TryGetID(out var pId);
 				Marshal.ThrowExceptionForHR(hr);
-				return pId;
+				return checked((int)pId);
 			}
 		}
 
@@ -89,11 +89,11 @@ public static unsafe class CorDebugAppDomainExtensions
 			return ppModule;
 		}
 
-		public uint GetName(uint cchName, char[]? szName)
+		public int GetName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
 		public ICorDebugValue Object

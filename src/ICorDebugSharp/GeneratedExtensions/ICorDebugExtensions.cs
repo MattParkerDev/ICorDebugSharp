@@ -22,30 +22,30 @@ public static unsafe class CorDebugExtensions
 
 		public ICorDebugProcess[] Processes => instance.EnumerateProcesses().ToArray();
 
-		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
+		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, int dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
-			var hr = instance.TryCreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, dwCreationFlags, lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
+			var hr = instance.TryCreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, checked((uint)dwCreationFlags), lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
-		public ICorDebugProcess DebugActiveProcess(uint id, bool win32Attach)
+		public ICorDebugProcess DebugActiveProcess(int id, bool win32Attach)
 		{
-			var hr = instance.TryDebugActiveProcess(id, win32Attach, out var ppProcess);
+			var hr = instance.TryDebugActiveProcess(checked((uint)id), win32Attach, out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
-		public ICorDebugProcess GetProcess(uint dwProcessId)
+		public ICorDebugProcess GetProcess(int dwProcessId)
 		{
-			var hr = instance.TryGetProcess(dwProcessId, out var ppProcess);
+			var hr = instance.TryGetProcess(checked((uint)dwProcessId), out var ppProcess);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppProcess;
 		}
 
-		public void CanLaunchOrAttach(uint dwProcessId, bool win32DebuggingEnabled)
+		public void CanLaunchOrAttach(int dwProcessId, bool win32DebuggingEnabled)
 		{
-			var hr = instance.TryCanLaunchOrAttach(dwProcessId, win32DebuggingEnabled);
+			var hr = instance.TryCanLaunchOrAttach(checked((uint)dwProcessId), win32DebuggingEnabled);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 

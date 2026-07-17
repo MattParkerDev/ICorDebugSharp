@@ -55,20 +55,20 @@ public static unsafe class CorDebugStaticFieldSymbolExtensions
 			}
 		}
 
-		public uint GetName(uint cchName, char[]? szName)
+		public int GetName(int cchName, char[]? szName)
 		{
-			var hr = instance.TryGetName(cchName, out var pcchName, szName);
+			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
 			Marshal.ThrowExceptionForHR(hr);
-			return pcchName;
+			return checked((int)pcchName);
 		}
 
-		public uint Size
+		public int Size
 		{
 			get
 			{
 				var hr = instance.TryGetSize(out var pcbSize);
 				Marshal.ThrowExceptionForHR(hr);
-				return pcbSize;
+				return checked((int)pcbSize);
 			}
 		}
 	}
