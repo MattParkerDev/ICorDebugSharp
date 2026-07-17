@@ -18,7 +18,7 @@ public static unsafe class CorDebugClassClass2Extensions
 		public ICorDebugClass2 Class2 =>
 			instance as ICorDebugClass2 ?? throw new NotSupportedException("ICorDebugClass does not support ICorDebugClass2.");
 
-		public int TryGetParameterizedType(CorElementType elementType, int nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.Class2.TryGetParameterizedType(elementType, checked((uint)nTypeArgs), ppTypeArgs, out var rawPpType);
+		public int TryGetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.Class2.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out ppType);
 
 		public ICorDebugType GetParameterizedType(CorElementType elementType, int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Class2.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs);
 

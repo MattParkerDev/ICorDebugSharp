@@ -18,7 +18,7 @@ public static unsafe class CorDebugAppDomainAppDomain4Extensions
 		public ICorDebugAppDomain4 AppDomain4 =>
 			instance as ICorDebugAppDomain4 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain4.");
 
-		public int TryGetObjectForCCW(CORDB_ADDRESS ccwPointer, out ICorDebugValue ppManagedObject) => instance.AppDomain4.TryGetObjectForCCW(ccwPointer, out var rawPpManagedObject);
+		public int TryGetObjectForCCW(CORDB_ADDRESS ccwPointer, out ICorDebugValue ppManagedObject) => instance.AppDomain4.TryGetObjectForCCW(ccwPointer, out ppManagedObject);
 
 		public ICorDebugValue GetObjectForCCW(CORDB_ADDRESS ccwPointer) => instance.AppDomain4.GetObjectForCCW(ccwPointer);
 	}

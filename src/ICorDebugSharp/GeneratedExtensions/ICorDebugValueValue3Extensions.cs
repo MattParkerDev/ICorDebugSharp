@@ -18,7 +18,7 @@ public static unsafe class CorDebugValueValue3Extensions
 		public ICorDebugValue3 Value3 =>
 			instance as ICorDebugValue3 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue3.");
 
-		public int TryGetSize64(out ulong pSize) => instance.Value3.TryGetSize64(out var rawPSize);
+		public int TryGetSize64(out ulong pSize) => instance.Value3.TryGetSize64(out pSize);
 
 		public ulong Size64
 		{

@@ -18,21 +18,11 @@ public static unsafe class CorDebugThreadThread2Extensions
 		public ICorDebugThread2 Thread2 =>
 			instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 
-		public int TryGetActiveFunctions(int cFunctions, out int pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
-		{
-			var hr = instance.Thread2.TryGetActiveFunctions(checked((uint)cFunctions), out var rawPcFunctions, pFunctions);
-			pcFunctions = checked((int)rawPcFunctions);
-			return hr;
-		}
+		public int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.TryGetActiveFunctions(cFunctions, out pcFunctions, pFunctions);
 
 		public int GetActiveFunctions(int cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.GetActiveFunctions(cFunctions, pFunctions);
 
-		public int TryGetConnectionID(out int pdwConnectionId)
-		{
-			var hr = instance.Thread2.TryGetConnectionID(out var rawPdwConnectionId);
-			pdwConnectionId = checked((int)rawPdwConnectionId);
-			return hr;
-		}
+		public int TryGetConnectionID(out uint pdwConnectionId) => instance.Thread2.TryGetConnectionID(out pdwConnectionId);
 
 		public int ConnectionID
 		{
@@ -44,7 +34,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
-		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out var rawPTaskId);
+		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out pTaskId);
 
 		public ulong TaskID
 		{
@@ -56,12 +46,7 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
-		public int TryGetVolatileOSThreadID(out int pdwTid)
-		{
-			var hr = instance.Thread2.TryGetVolatileOSThreadID(out var rawPdwTid);
-			pdwTid = checked((int)rawPdwTid);
-			return hr;
-		}
+		public int TryGetVolatileOSThreadID(out uint pdwTid) => instance.Thread2.TryGetVolatileOSThreadID(out pdwTid);
 
 		public int VolatileOSThreadID
 		{

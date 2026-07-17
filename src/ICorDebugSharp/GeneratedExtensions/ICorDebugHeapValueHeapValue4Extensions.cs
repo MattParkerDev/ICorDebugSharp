@@ -18,7 +18,7 @@ public static unsafe class CorDebugHeapValueHeapValue4Extensions
 		public ICorDebugHeapValue4 HeapValue4 =>
 			instance as ICorDebugHeapValue4 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue4.");
 
-		public int TryCreatePinnedHandle(out ICorDebugHandleValue ppHandle) => instance.HeapValue4.TryCreatePinnedHandle(out var rawPpHandle);
+		public int TryCreatePinnedHandle(out ICorDebugHandleValue ppHandle) => instance.HeapValue4.TryCreatePinnedHandle(out ppHandle);
 
 		public ICorDebugHandleValue CreatePinnedHandle() => instance.HeapValue4.CreatePinnedHandle();
 	}

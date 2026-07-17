@@ -18,12 +18,7 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 		public ICorDebugNativeFrame2 NativeFrame2 =>
 			instance as ICorDebugNativeFrame2 ?? throw new NotSupportedException("ICorDebugNativeFrame does not support ICorDebugNativeFrame2.");
 
-		public int TryGetStackParameterSize(out int pSize)
-		{
-			var hr = instance.NativeFrame2.TryGetStackParameterSize(out var rawPSize);
-			pSize = checked((int)rawPSize);
-			return hr;
-		}
+		public int TryGetStackParameterSize(out uint pSize) => instance.NativeFrame2.TryGetStackParameterSize(out pSize);
 
 		public int StackParameterSize
 		{
@@ -35,7 +30,7 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 			}
 		}
 
-		public int TryIsChild(out bool pIsChild) => instance.NativeFrame2.TryIsChild(out var rawPIsChild);
+		public int TryIsChild(out bool pIsChild) => instance.NativeFrame2.TryIsChild(out pIsChild);
 
 		public bool IsChild
 		{
@@ -47,7 +42,7 @@ public static unsafe class CorDebugNativeFrameNativeFrame2Extensions
 			}
 		}
 
-		public int TryIsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, out bool pIsParent) => instance.NativeFrame2.TryIsMatchingParentFrame(pPotentialParentFrame, out var rawPIsParent);
+		public int TryIsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, out bool pIsParent) => instance.NativeFrame2.TryIsMatchingParentFrame(pPotentialParentFrame, out pIsParent);
 
 		public bool IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame) => instance.NativeFrame2.IsMatchingParentFrame(pPotentialParentFrame);
 	}

@@ -18,13 +18,13 @@ public static unsafe class CorDebugILFrameILFrame2Extensions
 		public ICorDebugILFrame2 ILFrame2 =>
 			instance as ICorDebugILFrame2 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame2.");
 
-		public int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum) => instance.ILFrame2.TryEnumerateTypeParameters(out var rawPpTyParEnum);
+		public int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum) => instance.ILFrame2.TryEnumerateTypeParameters(out ppTyParEnum);
 
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters() => instance.ILFrame2.EnumerateTypeParameters();
 
 		public ICorDebugType[] TypeParameters => instance.ILFrame2.EnumerateTypeParameters().ToArray();
 
-		public int TryRemapFunction(int newILOffset) => instance.ILFrame2.TryRemapFunction(checked((uint)newILOffset));
+		public int TryRemapFunction(uint newILOffset) => instance.ILFrame2.TryRemapFunction(newILOffset);
 
 		public void RemapFunction(int newILOffset) => instance.ILFrame2.RemapFunction(newILOffset);
 	}

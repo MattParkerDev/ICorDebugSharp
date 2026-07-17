@@ -15,14 +15,14 @@ public static unsafe class CorDebugControllerExtensions
 	{
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
-			var hr = instance.TryCanCommitChanges(cSnapshots, pSnapshots, out var pError);
+			var hr = instance.TryCanCommitChanges(checked((uint)cSnapshots), pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
 			return CanCommitChangesCore(pError);
 		}
 
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
-			var hr = instance.TryCommitChanges(cSnapshots, pSnapshots, out var pError);
+			var hr = instance.TryCommitChanges(checked((uint)cSnapshots), pSnapshots, out var pError);
 			Marshal.ThrowExceptionForHR(hr);
 			return CommitChangesCore(pError);
 		}

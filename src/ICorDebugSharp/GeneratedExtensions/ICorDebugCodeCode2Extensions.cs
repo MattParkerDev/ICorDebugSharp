@@ -18,21 +18,11 @@ public static unsafe class CorDebugCodeCode2Extensions
 		public ICorDebugCode2 Code2 =>
 			instance as ICorDebugCode2 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode2.");
 
-		public int TryGetCodeChunks(int cbufSize, out int pcnumChunks, CodeChunkInfo[]? chunks)
-		{
-			var hr = instance.Code2.TryGetCodeChunks(checked((uint)cbufSize), out var rawPcnumChunks, chunks);
-			pcnumChunks = checked((int)rawPcnumChunks);
-			return hr;
-		}
+		public int TryGetCodeChunks(uint cbufSize, out uint pcnumChunks, CodeChunkInfo[]? chunks) => instance.Code2.TryGetCodeChunks(cbufSize, out pcnumChunks, chunks);
 
 		public int GetCodeChunks(int cbufSize, CodeChunkInfo[]? chunks) => instance.Code2.GetCodeChunks(cbufSize, chunks);
 
-		public int TryGetCompilerFlags(out int pdwFlags)
-		{
-			var hr = instance.Code2.TryGetCompilerFlags(out var rawPdwFlags);
-			pdwFlags = checked((int)rawPdwFlags);
-			return hr;
-		}
+		public int TryGetCompilerFlags(out uint pdwFlags) => instance.Code2.TryGetCompilerFlags(out pdwFlags);
 
 		public int CompilerFlags
 		{

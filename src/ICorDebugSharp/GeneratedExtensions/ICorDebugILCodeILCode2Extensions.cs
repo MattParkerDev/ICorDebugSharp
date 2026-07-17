@@ -18,16 +18,11 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 		public ICorDebugILCode2 ILCode2 =>
 			instance as ICorDebugILCode2 ?? throw new NotSupportedException("ICorDebugILCode does not support ICorDebugILCode2.");
 
-		public int TryGetInstrumentedILMap(int cMap, out int pcMap, COR_IL_MAP[]? map)
-		{
-			var hr = instance.ILCode2.TryGetInstrumentedILMap(checked((uint)cMap), out var rawPcMap, map);
-			pcMap = checked((int)rawPcMap);
-			return hr;
-		}
+		public int TryGetInstrumentedILMap(uint cMap, out uint pcMap, COR_IL_MAP[]? map) => instance.ILCode2.TryGetInstrumentedILMap(cMap, out pcMap, map);
 
 		public int GetInstrumentedILMap(int cMap, COR_IL_MAP[]? map) => instance.ILCode2.GetInstrumentedILMap(cMap, map);
 
-		public int TryGetLocalVarSigToken(out mdSignature pmdSig) => instance.ILCode2.TryGetLocalVarSigToken(out var rawPmdSig);
+		public int TryGetLocalVarSigToken(out mdSignature pmdSig) => instance.ILCode2.TryGetLocalVarSigToken(out pmdSig);
 
 		public mdSignature LocalVarSigToken
 		{

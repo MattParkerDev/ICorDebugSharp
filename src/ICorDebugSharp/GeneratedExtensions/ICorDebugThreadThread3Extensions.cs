@@ -18,16 +18,11 @@ public static unsafe class CorDebugThreadThread3Extensions
 		public ICorDebugThread3 Thread3 =>
 			instance as ICorDebugThread3 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread3.");
 
-		public int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk) => instance.Thread3.TryCreateStackWalk(out var rawPpStackWalk);
+		public int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk) => instance.Thread3.TryCreateStackWalk(out ppStackWalk);
 
 		public ICorDebugStackWalk CreateStackWalk() => instance.Thread3.CreateStackWalk();
 
-		public int TryGetActiveInternalFrames(int cInternalFrames, out int pcInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
-		{
-			var hr = instance.Thread3.TryGetActiveInternalFrames(checked((uint)cInternalFrames), out var rawPcInternalFrames, ppInternalFrames);
-			pcInternalFrames = checked((int)rawPcInternalFrames);
-			return hr;
-		}
+		public int TryGetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames) => instance.Thread3.TryGetActiveInternalFrames(cInternalFrames, out pcInternalFrames, ppInternalFrames);
 
 		public int GetActiveInternalFrames(int cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames) => instance.Thread3.GetActiveInternalFrames(cInternalFrames, ppInternalFrames);
 	}

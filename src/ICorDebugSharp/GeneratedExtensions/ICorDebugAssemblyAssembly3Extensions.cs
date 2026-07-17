@@ -18,13 +18,13 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 		public ICorDebugAssembly3 Assembly3 =>
 			instance as ICorDebugAssembly3 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly3.");
 
-		public int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies) => instance.Assembly3.TryEnumerateContainedAssemblies(out var rawPpAssemblies);
+		public int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies) => instance.Assembly3.TryEnumerateContainedAssemblies(out ppAssemblies);
 
 		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies() => instance.Assembly3.EnumerateContainedAssemblies();
 
 		public ICorDebugAssembly[] ContainedAssemblies => instance.Assembly3.EnumerateContainedAssemblies().ToArray();
 
-		public int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly) => instance.Assembly3.TryGetContainerAssembly(out var rawPpAssembly);
+		public int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly) => instance.Assembly3.TryGetContainerAssembly(out ppAssembly);
 
 		public ICorDebugAssembly ContainerAssembly
 		{

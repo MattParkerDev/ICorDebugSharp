@@ -18,12 +18,7 @@ public static unsafe class CorDebugCodeCode3Extensions
 		public ICorDebugCode3 Code3 =>
 			instance as ICorDebugCode3 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode3.");
 
-		public int TryGetReturnValueLiveOffset(int ILoffset, int bufferSize, out int pFetched, uint[] pOffsets)
-		{
-			var hr = instance.Code3.TryGetReturnValueLiveOffset(checked((uint)ILoffset), checked((uint)bufferSize), out var rawPFetched, pOffsets);
-			pFetched = checked((int)rawPFetched);
-			return hr;
-		}
+		public int TryGetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, uint[] pOffsets) => instance.Code3.TryGetReturnValueLiveOffset(ILoffset, bufferSize, out pFetched, pOffsets);
 
 		public int GetReturnValueLiveOffset(int ILoffset, int bufferSize, uint[] pOffsets) => instance.Code3.GetReturnValueLiveOffset(ILoffset, bufferSize, pOffsets);
 	}
