@@ -343,13 +343,15 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 
 
 	private static string RenderProjectedInputParameter(ManagedParameter parameter) =>
-		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{PublicType(parameter.Type)} {Escape(parameter.Name)}";
+		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{PublicType(parameter)} {Escape(parameter.Name)}";
 
 	private static string RenderRawParameter(ManagedParameter parameter) =>
-		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{parameter.Type} {Escape(parameter.Name)}";
+		$"{(parameter.IsOut ? "out " : parameter.IsRef ? "ref " : "")}{(IsSignatureBlob(parameter) ? "nint" : parameter.Type)} {Escape(parameter.Name)}";
 
 	private static string RenderRawArgument(ManagedParameter parameter, string? name = null) =>
-		IsUInt(parameter) ? $"checked((uint){name ?? Escape(parameter.Name)})" : name ?? Escape(parameter.Name);
+		IsUInt(parameter) ? $"checked((uint){name ?? Escape(parameter.Name)})" :
+		IsSignatureBlob(parameter) ? $"(byte*){name ?? Escape(parameter.Name)}" :
+		name ?? Escape(parameter.Name);
 
 	private static bool TryGetStringBuffer(ManagedMethod method, out (ManagedParameter Buffer, ManagedParameter Capacity, ManagedParameter Count) value)
 	{
@@ -586,8 +588,10 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string Indent(string value, string indentation) =>
 		string.Join("\n", value.Split('\n').Select(line => line.Length == 0 ? "" : indentation + line));
 
-	private static string RenderInputParameter(ManagedParameter parameter) => $"{PublicType(parameter.Type)} {Escape(parameter.Name)}";
+	private static string RenderInputParameter(ManagedParameter parameter) => $"{PublicType(parameter)} {Escape(parameter.Name)}";
 	private static bool IsUInt(ManagedParameter parameter) => parameter.Type == "uint";
+	private static bool IsSignatureBlob(ManagedParameter parameter) => parameter.Type == "byte*" && parameter.Name == "pvSigBlob";
+	private static string PublicType(ManagedParameter parameter) => IsSignatureBlob(parameter) ? "nint" : PublicType(parameter.Type);
 	private static string PublicType(string type) => type == "uint" ? "int" : type;
 	private static string ProjectValue(string type, string value) => type == "uint" ? $"checked((int){value})" : value;
 	private static string PropertyName(string name) => name == "ID" ? "Id" : name;

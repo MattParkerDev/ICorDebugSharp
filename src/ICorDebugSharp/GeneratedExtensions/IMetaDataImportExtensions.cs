@@ -430,30 +430,30 @@ public static unsafe class MetaDataImportExtensions
 			return (rStrings, checked((int)pcStrings));
 		}
 
-		public mdFieldDef FindField(mdTypeDef td, string szName, byte* pvSigBlob, int cbSigBlob)
+		public mdFieldDef FindField(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
-			var hr = instance.TryFindField(td, szName, pvSigBlob, checked((uint)cbSigBlob), out var pmb);
+			var hr = instance.TryFindField(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
 
-		public mdToken FindMember(mdTypeDef td, string szName, byte* pvSigBlob, int cbSigBlob)
+		public mdToken FindMember(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
-			var hr = instance.TryFindMember(td, szName, pvSigBlob, checked((uint)cbSigBlob), out var pmb);
+			var hr = instance.TryFindMember(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
 
-		public mdMemberRef FindMemberRef(mdTypeRef td, string szName, byte* pvSigBlob, int cbSigBlob)
+		public mdMemberRef FindMemberRef(mdTypeRef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
-			var hr = instance.TryFindMemberRef(td, szName, pvSigBlob, checked((uint)cbSigBlob), out var pmr);
+			var hr = instance.TryFindMemberRef(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmr);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmr;
 		}
 
-		public mdMethodDef FindMethod(mdTypeDef td, string szName, byte* pvSigBlob, int cbSigBlob)
+		public mdMethodDef FindMethod(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
-			var hr = instance.TryFindMethod(td, szName, pvSigBlob, checked((uint)cbSigBlob), out var pmb);
+			var hr = instance.TryFindMethod(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
 			Marshal.ThrowExceptionForHR(hr);
 			return pmb;
 		}
