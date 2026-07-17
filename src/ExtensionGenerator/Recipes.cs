@@ -12,7 +12,8 @@ internal sealed record QueryBufferRecipe(
 	BufferKind Kind,
 	string Capacity,
 	string Count,
-	string Buffer);
+	string Buffer,
+	string? CapacityProperty = null);
 
 internal sealed record EnumerationInput(string Type, string Name);
 internal sealed record EnumerationOutput(string Type, string RawName, string PublicName);
@@ -106,7 +107,7 @@ internal static class Recipes
 		new("ICorDebugAssembly", "GetCodeBase", BufferKind.String, "cchName", "pcchName", "szName"),
 		new("ICorDebugAssembly", "GetName", BufferKind.String, "cchName", "pcchName", "szName"),
 		new("ICorDebugModule", "GetName", BufferKind.String, "cchName", "pcchName", "szName"),
-		new("ICorDebugStringValue", "GetString", BufferKind.String, "cchString", "pcchString", "szString"),
+		new("ICorDebugStringValue", "GetString", BufferKind.String, "cchString", "pcchString", "szString", "Length"),
 		new("ICorDebugMDA", "GetName", BufferKind.String, "cchName", "pcchName", "szName"),
 		new("ICorDebugMDA", "GetDescription", BufferKind.String, "cchName", "pcchName", "szName"),
 		new("ICorDebugMDA", "GetXML", BufferKind.String, "cchName", "pcchName", "szName"),

@@ -525,6 +525,21 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private static string RenderQueryBody(ManagedMethod method, QueryBufferRecipe recipe, IReadOnlyList<ManagedParameter> retained, string elementType, int indent)
 	{
 		var prefix = new string('\t', indent);
+		if (recipe.CapacityProperty is not null)
+		{
+			var arguments = RenderArguments(method, recipe, retained, "checked((uint)capacity)", "actual", "buffer");
+			var directEmpty = recipe.Kind == BufferKind.String ? "string.Empty" : "[]";
+			var directResult = recipe.Kind == BufferKind.String
+				? "var length = checked((int)actual);\nif (length > 0 && buffer[length - 1] == '\\0')\n\tlength--;\n\nreturn new string(buffer, 0, length);"
+				: "if (actual != capacity)\n\tArray.Resize(ref buffer, checked((int)actual));\n\nreturn buffer;";
+			return $"{prefix}var capacity = instance.{recipe.CapacityProperty};\n" +
+				$"{prefix}if (capacity == 0)\n{prefix}\treturn {directEmpty};\n\n" +
+				$"{prefix}var buffer = new {elementType}[capacity];\n" +
+				$"{prefix}var hr = instance.{method.InvocationName}({arguments});\n" +
+				$"{prefix}Marshal.ThrowExceptionForHR(hr);\n" +
+				$"{prefix}if (actual > capacity)\n{prefix}\tthrow new InvalidOperationException(\"Native buffer size exceeded the reported capacity.\");\n\n" +
+				Indent(directResult, prefix);
+		}
 		var first = RenderArguments(method, recipe, retained, "0", "required", "null!");
 		var second = RenderArguments(method, recipe, retained, "capacity", "actual", "buffer");
 		var empty = recipe.Kind == BufferKind.String ? "string.Empty" : "[]";

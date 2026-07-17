@@ -17,31 +17,21 @@ public static unsafe class CorDebugStringValueExtensions
 		{
 			get
 			{
-				var hr = instance.TryGetString(0, out var required, null!);
-				Marshal.ThrowExceptionForHR(hr);
-				if (required == 0)
+				var capacity = instance.Length;
+				if (capacity == 0)
 					return string.Empty;
 
-				for (var attempt = 0; attempt < 3; attempt++)
-				{
-					var capacity = required;
-					var buffer = new char[checked((int)capacity)];
-					hr = instance.TryGetString(capacity, out var actual, buffer);
-					Marshal.ThrowExceptionForHR(hr);
-					if (actual > capacity)
-					{
-						required = actual;
-						continue;
-					}
+				var buffer = new char[capacity];
+				var hr = instance.TryGetString(checked((uint)capacity), out var actual, buffer);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+					throw new InvalidOperationException("Native buffer size exceeded the reported capacity.");
 
-					var length = checked((int)actual);
-					if (length > 0 && buffer[length - 1] == '\0')
-						length--;
+				var length = checked((int)actual);
+				if (length > 0 && buffer[length - 1] == '\0')
+					length--;
 
-					return new string(buffer, 0, length);
-				}
-
-				throw new InvalidOperationException("Native buffer size did not stabilize.");
+				return new string(buffer, 0, length);
 			}
 		}
 
