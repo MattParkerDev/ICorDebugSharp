@@ -196,6 +196,29 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("int TryGetValue(nint pTo);", source)
         self.assertNotIn("TryGetValue(out nint pTo)", source)
 
+    def test_projects_jit_compiler_flags_as_its_enum(self) -> None:
+        midl = parse_string("""
+            typedef enum CorDebugJITCompilerFlags
+            {
+                CORDEBUG_JIT_DEFAULT = 0x1
+            } CorDebugJITCompilerFlags;
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface ICorDebugModule2 : IUnknown
+            {
+                HRESULT SetJITCompilerFlags(DWORD dwFlags);
+                HRESULT GetJITCompilerFlags([out] DWORD *pdwFlags);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn(
+            "int TrySetJITCompilerFlags(CorDebugJITCompilerFlags dwFlags);", source
+        )
+        self.assertIn(
+            "int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags);", source
+        )
+
     def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:
         source = self.generate("ICorDebugModule")
 

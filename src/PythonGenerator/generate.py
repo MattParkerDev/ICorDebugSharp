@@ -132,6 +132,12 @@ IID_SELECTED_OUTPUT_OVERRIDES = {
     ("ICorDebugModule", "GetMetaDataInterface", "ppObj"): "riid",
 }
 
+# The IDL exposes these flags as DWORD rather than its corresponding enum.
+METHOD_PARAMETER_TYPE_OVERRIDES = {
+    ("ICorDebugModule2", "GetJITCompilerFlags", "pdwFlags"): "CorDebugJITCompilerFlags",
+    ("ICorDebugModule2", "SetJITCompilerFlags", "dwFlags"): "CorDebugJITCompilerFlags",
+}
+
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 NAMESPACE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$")
 METADATA_TYPEDEF_RE = re.compile(r"^md[A-Z][A-Za-z0-9_]*$")
@@ -936,7 +942,10 @@ class CSharpGenerator:
             )
 
         base_name = parameter.type_spec.base_name
-        csharp_type = self.map_type(parameter.type_spec)
+        csharp_type = METHOD_PARAMETER_TYPE_OVERRIDES.get(
+            (interface.name, method.name, parameter.name),
+            self.map_type(parameter.type_spec),
+        )
         is_array = bool(parameter.array_dimensions) or parameter.size_is is not None
         attributes: list[str] = []
         modifier = ""
