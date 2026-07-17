@@ -236,6 +236,36 @@ class CSharpGeneratorTests(unittest.TestCase):
         )
         self.assertIn("int TryGetUnknown(out nint value);", source)
 
+    def test_generates_unique_marshalling_for_lpvoid_iid_selected_output(self) -> None:
+        midl = parse_string("""
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface IFoo : IUnknown
+            {
+                HRESULT GetInterface([in] REFIID riid, [out, iid_is(riid)] LPVOID *value);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn(
+            "int TryGetInterface(ref Guid riid, "
+            "[MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? value);",
+            source,
+        )
+
+    def test_projects_allocated_lp_wstr_output_as_pointer(self) -> None:
+        midl = parse_string("""
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface IFoo : IUnknown
+            {
+                HRESULT GetPath([out] LPWSTR *value);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn("int TryGetPath(out nint value);", source)
+
     def test_generates_throwing_string_buffer_extension(self) -> None:
         extensions = dict(self.generator.generate_buffer_extensions())
 

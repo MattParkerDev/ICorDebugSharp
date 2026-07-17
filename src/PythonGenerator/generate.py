@@ -977,10 +977,14 @@ class CSharpGenerator:
             csharp_type += "[]"
         elif base_name in {"LPCWSTR", "LPWSTR"}:
             if parameter.is_out:
-                raise self.parameter_error(
-                    interface, method.name, parameter,
-                    f"output {base_name} requires an explicit buffer size",
-                )
+                if base_name == "LPWSTR" and parameter.type_spec.pointer_depth == 1:
+                    modifier = "out "
+                    csharp_type = "nint"
+                else:
+                    raise self.parameter_error(
+                        interface, method.name, parameter,
+                        f"output {base_name} requires an explicit buffer size",
+                    )
         elif base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
             csharp_type = "string"
         elif parameter.type_spec.is_pointer:
@@ -1029,14 +1033,21 @@ class CSharpGenerator:
         if (
             not parameter.is_out
             or parameter.is_in
-            or parameter.type_spec.base_name not in {"IUnknown", "void"}
-            or parameter.type_spec.pointer_depth != 2
+            or (
+                parameter.type_spec.base_name in {"IUnknown", "void"}
+                and parameter.type_spec.pointer_depth != 2
+            )
+            or (
+                parameter.type_spec.base_name == "LPVOID"
+                and parameter.type_spec.pointer_depth != 1
+            )
+            or parameter.type_spec.base_name not in {"IUnknown", "LPVOID", "void"}
         ):
             raise self.parameter_error(
                 interface,
                 method.name,
                 parameter,
-                "IID-selected outputs must be [out] void** or IUnknown**",
+                "IID-selected outputs must be [out] void**, LPVOID*, or IUnknown**",
             )
 
         selector_parameter = next(
