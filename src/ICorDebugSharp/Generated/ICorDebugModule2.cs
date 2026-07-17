@@ -18,10 +18,10 @@ public partial interface ICorDebugModule2
 	int TryApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
 
 	[PreserveSig]
-	int TrySetJITCompilerFlags(uint dwFlags);
+	int TrySetJITCompilerFlags(CorDebugJITCompilerFlags dwFlags);
 
 	[PreserveSig]
-	int TryGetJITCompilerFlags(out uint pdwFlags);
+	int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags);
 
 	[PreserveSig]
 	int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly);

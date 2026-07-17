@@ -22,15 +22,20 @@ public static unsafe class CorDebugModuleModule2Extensions
 
 		public void ApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL) => instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
 
-		public int TryGetJITCompilerFlags(out uint pdwFlags) => instance.Module2.TryGetJITCompilerFlags(out pdwFlags);
+		public int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags) => instance.Module2.TryGetJITCompilerFlags(out pdwFlags);
 
-		public int JITCompilerFlags
+		public CorDebugJITCompilerFlags JITCompilerFlags
 		{
 			get
 			{
 				var hr = instance.Module2.TryGetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return checked((int)pdwFlags);
+				return pdwFlags;
+			}
+			set
+			{
+				var hr = instance.Module2.TrySetJITCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
 			}
 		}
 
@@ -38,9 +43,7 @@ public static unsafe class CorDebugModuleModule2Extensions
 
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef) => instance.Module2.ResolveAssembly(tkAssemblyRef);
 
-		public int TrySetJITCompilerFlags(uint dwFlags) => instance.Module2.TrySetJITCompilerFlags(dwFlags);
-
-		public void SetJITCompilerFlags(int dwFlags) => instance.Module2.SetJITCompilerFlags(dwFlags);
+		public int TrySetJITCompilerFlags(CorDebugJITCompilerFlags dwFlags) => instance.Module2.TrySetJITCompilerFlags(dwFlags);
 
 		public int TrySetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 

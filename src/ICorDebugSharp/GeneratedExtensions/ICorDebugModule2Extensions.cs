@@ -13,13 +13,18 @@ public static unsafe class CorDebugModule2Extensions
 {
 	extension(ICorDebugModule2 instance)
 	{
-		public int JITCompilerFlags
+		public CorDebugJITCompilerFlags JITCompilerFlags
 		{
 			get
 			{
 				var hr = instance.TryGetJITCompilerFlags(out var pdwFlags);
 				Marshal.ThrowExceptionForHR(hr);
-				return checked((int)pdwFlags);
+				return pdwFlags;
+			}
+			set
+			{
+				var hr = instance.TrySetJITCompilerFlags(value);
+				Marshal.ThrowExceptionForHR(hr);
 			}
 		}
 
@@ -33,12 +38,6 @@ public static unsafe class CorDebugModule2Extensions
 		public void ApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL)
 		{
 			var hr = instance.TryApplyChanges(checked((uint)cbMetadata), pbMetadata, checked((uint)cbIL), pbIL);
-			Marshal.ThrowExceptionForHR(hr);
-		}
-
-		public void SetJITCompilerFlags(int dwFlags)
-		{
-			var hr = instance.TrySetJITCompilerFlags(checked((uint)dwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
