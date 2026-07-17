@@ -18,7 +18,7 @@ public partial interface ICorDebugThread
 	int TryGetID(out uint pdwThreadId);
 
 	[PreserveSig]
-	int TryGetHandle(nint phThreadHandle);
+	int TryGetHandle(out nint phThreadHandle);
 
 	[PreserveSig]
 	int TryGetAppDomain(out ICorDebugAppDomain ppAppDomain);

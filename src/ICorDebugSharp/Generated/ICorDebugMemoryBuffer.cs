@@ -12,7 +12,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMemoryBuffer
 {
 	[PreserveSig]
-	int TryGetStartAddress(nint address);
+	int TryGetStartAddress(out nint address);
 
 	[PreserveSig]
 	int TryGetSize(out uint pcbBufferLength);
