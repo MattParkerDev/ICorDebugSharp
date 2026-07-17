@@ -18,10 +18,10 @@ enum-member-type-name=false
 potential-typedef-remappings
 exclusions
 --config
-multi-file
-preview-codegen
-trimmable-vtbls
-unix-types
+file=multi
+codegen=preview
+vtbls=trimmable
+types=unix
 --file-directory
 C:/src/dotnet/src/runtime/src/coreclr/inc/
 --include-directory
@@ -43,7 +43,7 @@ ICorDebugSharp
 Cor
 --output
 ../ICorDebugSharp/GeneratedMetadata
---headerFile
+--header-file
 Header.txt
 --remap
 _GUID=Guid
