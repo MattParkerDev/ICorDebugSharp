@@ -3,7 +3,7 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
-public static unsafe partial class DbgShim
+public static unsafe partial class DbgShimNative
 {
     [DllImport("dbgshim", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     [return: NativeTypeName("HRESULT")]

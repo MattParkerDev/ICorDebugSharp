@@ -39,7 +39,7 @@ dbgshim
 --namespace
 ICorDebugSharp
 --method-class-name
-DbgShim
+DbgShimNative
 --output
 ../ICorDebugSharp/GeneratedMetadata
 --header-file
