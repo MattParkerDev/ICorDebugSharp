@@ -267,6 +267,31 @@ class CSharpGeneratorTests(unittest.TestCase):
 
         self.assertIn("int TryGetPath(out nint value);", source)
 
+    def test_maps_metahost_imported_types(self) -> None:
+        midl = parse_string("""
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface IFoo : IUnknown
+            {
+                HRESULT M(
+                    [in] HANDLE process,
+                    [out] HMODULE *module,
+                    [in] LPCSTR name,
+                    [in] REFCLSID clsid,
+                    [out] IEnumUnknown **enumerator,
+                    [in] RuntimeLoadedCallbackFnPtr callback,
+                    [in] int count);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn(
+            "int TryM(nint process, out nint module, "
+            "[MarshalAs(UnmanagedType.LPStr)] string name, ref Guid clsid, "
+            "out nint enumerator, nint callback, int count);",
+            source,
+        )
+
     def test_generates_throwing_string_buffer_extension(self) -> None:
         extensions = dict(self.generator.generate_buffer_extensions())
 

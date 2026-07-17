@@ -105,6 +105,7 @@ PRIMITIVE_TYPES = {
     "USHORT": "ushort",
     "WCHAR": "char",
     "WORD": "ushort",
+    "int": "int",
     "void": "void",
 }
 
@@ -112,11 +113,15 @@ PRIMITIVE_TYPES = {
 # from their parser-visible typedef target.
 SPECIAL_TYPES = {
     "GUID": "Guid",
+    "HANDLE": "nint",
     "HPROCESS": "nint",
     "HTHREAD": "nint",
+    "HMODULE": "nint",
     "IStream": "nint",
+    "IEnumUnknown": "nint",
     "IUnknown": "nint",
     "LPCVOID": "nint",
+    "LPCSTR": "string",
     "LPCWSTR": "string",
     "LPDEBUG_EVENT": "nint",
     "LPPROCESS_INFORMATION": "nint",
@@ -127,6 +132,8 @@ SPECIAL_TYPES = {
     "PCCOR_SIGNATURE": "nuint",
     "PVOID": "nint",
     "REFIID": "Guid",
+    "REFCLSID": "Guid",
+    "RuntimeLoadedCallbackFnPtr": "nint",
 }
 
 IID_SELECTED_OUTPUT_OVERRIDES = {
@@ -988,9 +995,11 @@ class CSharpGenerator:
                     )
         elif base_name == "WCHAR" and parameter.type_spec.is_pointer and parameter.is_in:
             csharp_type = "string"
+        elif base_name == "LPCSTR":
+            attributes.append("MarshalAs(UnmanagedType.LPStr)")
         elif parameter.type_spec.is_pointer:
             modifier, csharp_type = self.project_pointer(parameter, csharp_type)
-        elif base_name == "REFIID":
+        elif base_name in {"REFIID", "REFCLSID"}:
             modifier = "ref "
 
         if parameter.is_optional and (is_array or csharp_type in self.interfaces or csharp_type == "string"):
@@ -1080,7 +1089,7 @@ class CSharpGenerator:
 
         # A direct void* is caller-provided storage even when IDL marks the
         # pointee [out]. Only an additional indirection is an opaque pointer output.
-        if is_opaque_pointer and parameter.type_spec.pointer_depth == 1:
+        if base_name == "void" and parameter.type_spec.pointer_depth == 1:
             return "", csharp_type
 
         if parameter.is_out and not parameter.is_in:
