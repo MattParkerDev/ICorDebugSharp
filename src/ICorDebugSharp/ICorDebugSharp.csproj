@@ -7,4 +7,9 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="GeneratedMetadata\DbgShimNative.cs" />
+    <None Include="GeneratedMetadata\DbgShimNative.cs" />
+  </ItemGroup>
+
 </Project>
