@@ -13,10 +13,11 @@ setslastsystemerror-attribute
 unmanaged-constants
 vtbl-index-attribute
 helper-types
+enum-member-type-name=false
+--log
+potential-typedef-remappings
+exclusions
 --config
-log-potential-typedef-remappings
-log-exclusions
-strip-enum-member-type-name
 multi-file
 preview-codegen
 trimmable-vtbls
