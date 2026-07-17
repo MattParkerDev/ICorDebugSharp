@@ -77,6 +77,22 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			}
 		}
 
+		public (byte[] pbPublicKey, int pcbPublicKey) GetPublicKey(int cbPublicKey)
+		{
+			var pbPublicKey = new byte[checked((int)cbPublicKey)];
+			var hr = instance.TryGetPublicKey(checked((uint)cbPublicKey), out var pcbPublicKey, pbPublicKey);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pbPublicKey, checked((int)pcbPublicKey));
+		}
+
+		public (byte[] pbPublicKeyToken, int pcbPublicKeyToken) GetPublicKeyToken(int cbPublicKeyToken)
+		{
+			var pbPublicKeyToken = new byte[checked((int)cbPublicKeyToken)];
+			var hr = instance.TryGetPublicKeyToken(checked((uint)cbPublicKeyToken), out var pcbPublicKeyToken, pbPublicKeyToken);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pbPublicKeyToken, checked((int)pcbPublicKeyToken));
+		}
+
 		public int GetCulture(int cchCulture, char[]? szCulture)
 		{
 			var hr = instance.TryGetCulture(checked((uint)cchCulture), out var pcchCulture, szCulture);
@@ -92,20 +108,6 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return checked((int)pIndex);
 			}
-		}
-
-		public int GetPublicKey(int cbPublicKey, byte[] pbPublicKey)
-		{
-			var hr = instance.TryGetPublicKey(checked((uint)cbPublicKey), out var pcbPublicKey, pbPublicKey);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcbPublicKey);
-		}
-
-		public int GetPublicKeyToken(int cbPublicKeyToken, byte[] pbPublicKeyToken)
-		{
-			var hr = instance.TryGetPublicKeyToken(checked((uint)cbPublicKeyToken), out var pcbPublicKeyToken, pbPublicKeyToken);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcbPublicKeyToken);
 		}
 
 		public int GetSimpleName(int cchName, char[]? szName)

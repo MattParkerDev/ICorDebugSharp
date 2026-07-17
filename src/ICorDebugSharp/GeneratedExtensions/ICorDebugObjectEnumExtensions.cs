@@ -13,11 +13,12 @@ public static unsafe class CorDebugObjectEnumExtensions
 {
 	extension(ICorDebugObjectEnum instance)
 	{
-		public int Next(int celt, CORDB_ADDRESS[] objects)
+		public (CORDB_ADDRESS[] objects, int pceltFetched) Next(int celt)
 		{
+			var objects = new CORDB_ADDRESS[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), objects, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (objects, checked((int)pceltFetched));
 		}
 	}
 }

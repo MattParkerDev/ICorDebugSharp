@@ -45,6 +45,14 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			}
 		}
 
+		public (byte[] pValue, int pcbValue) GetValue(int offset, int cbContext, byte[] context, int cbValue)
+		{
+			var pValue = new byte[checked((int)cbValue)];
+			var hr = instance.TryGetValue(checked((uint)offset), checked((uint)cbContext), context, checked((uint)cbValue), out var pcbValue, pValue);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pValue, checked((int)pcbValue));
+		}
+
 		public int GetName(int cchName, char[]? szName)
 		{
 			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
@@ -70,13 +78,6 @@ public static unsafe class CorDebugVariableSymbolExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return checked((int)pSlotIndex);
 			}
-		}
-
-		public int GetValue(int offset, int cbContext, byte[] context, int cbValue, byte[] pValue)
-		{
-			var hr = instance.TryGetValue(checked((uint)offset), checked((uint)cbContext), context, checked((uint)cbValue), out var pcbValue, pValue);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcbValue);
 		}
 
 		public void SetValue(int offset, int threadID, int cbContext, byte[] context, int cbValue, byte[] pValue)

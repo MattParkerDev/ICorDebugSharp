@@ -42,18 +42,19 @@ public static unsafe class CorDebugDataTarget2Extensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		public (uint[] pThreadIds, int pcThreadIds) EnumerateThreadIDs(int cThreadIds)
+		{
+			var pThreadIds = new uint[checked((int)cThreadIds)];
+			var hr = instance.TryEnumerateThreadIDs(checked((uint)cThreadIds), out var pcThreadIds, pThreadIds);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pThreadIds, checked((int)pcThreadIds));
+		}
+
 		public ICorDebugVirtualUnwinder CreateVirtualUnwinder(int nativeThreadID, int contextFlags, int cbContext, byte[] initialContext)
 		{
 			var hr = instance.TryCreateVirtualUnwinder(checked((uint)nativeThreadID), checked((uint)contextFlags), checked((uint)cbContext), initialContext, out var ppUnwinder);
 			Marshal.ThrowExceptionForHR(hr);
 			return ppUnwinder;
-		}
-
-		public int EnumerateThreadIDs(int cThreadIds, uint[] pThreadIds)
-		{
-			var hr = instance.TryEnumerateThreadIDs(checked((uint)cThreadIds), out var pcThreadIds, pThreadIds);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcThreadIds);
 		}
 
 		public (CORDB_ADDRESS pImageBase, int pSize) GetImageFromPointer(CORDB_ADDRESS addr)

@@ -13,6 +13,22 @@ public static unsafe class CorDebugRegisterSet2Extensions
 {
 	extension(ICorDebugRegisterSet2 instance)
 	{
+		public ulong[] GetRegisters(int maskCount, byte[] mask, int regCount)
+		{
+			var regBuffer = new ulong[checked((int)regCount)];
+			var hr = instance.TryGetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);
+			Marshal.ThrowExceptionForHR(hr);
+			return regBuffer;
+		}
+
+		public byte[] GetRegistersAvailable(int numChunks)
+		{
+			var availableRegChunks = new byte[checked((int)numChunks)];
+			var hr = instance.TryGetRegistersAvailable(checked((uint)numChunks), availableRegChunks);
+			Marshal.ThrowExceptionForHR(hr);
+			return availableRegChunks;
+		}
+
 		public void GetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer)
 		{
 			var hr = instance.TryGetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);

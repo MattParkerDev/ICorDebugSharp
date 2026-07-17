@@ -13,11 +13,12 @@ public static unsafe class CorDebugStackWalkExtensions
 {
 	extension(ICorDebugStackWalk instance)
 	{
-		public int GetContext(int contextFlags, int contextBufSize, byte[] contextBuf)
+		public (byte[] contextBuf, int contextSize) GetContext(int contextFlags, int contextBufSize)
 		{
+			var contextBuf = new byte[checked((int)contextBufSize)];
 			var hr = instance.TryGetContext(checked((uint)contextFlags), checked((uint)contextBufSize), out var contextSize, contextBuf);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)contextSize);
+			return (contextBuf, checked((int)contextSize));
 		}
 
 		public ICorDebugFrame Frame

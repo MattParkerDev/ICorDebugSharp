@@ -13,6 +13,14 @@ public static unsafe class CorDebugProcess2Extensions
 {
 	extension(ICorDebugProcess2 instance)
 	{
+		public (byte[] buffer, int bufLen) SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize)
+		{
+			var buffer = new byte[checked((int)bufsize)];
+			var hr = instance.TrySetUnmanagedBreakpoint(address, checked((uint)bufsize), buffer, out var bufLen);
+			Marshal.ThrowExceptionForHR(hr);
+			return (buffer, checked((int)bufLen));
+		}
+
 		public int DesiredNGENCompilerFlags
 		{
 			get
@@ -45,13 +53,6 @@ public static unsafe class CorDebugProcess2Extensions
 				Marshal.ThrowExceptionForHR(hr);
 				return version;
 			}
-		}
-
-		public int SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize, byte[] buffer)
-		{
-			var hr = instance.TrySetUnmanagedBreakpoint(address, checked((uint)bufsize), buffer, out var bufLen);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)bufLen);
 		}
 
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)

@@ -13,11 +13,12 @@ public static unsafe class CorDebugVariableHomeEnumExtensions
 {
 	extension(ICorDebugVariableHomeEnum instance)
 	{
-		public int Next(int celt, ICorDebugVariableHome[] homes)
+		public (ICorDebugVariableHome[] homes, int pceltFetched) Next(int celt)
 		{
+			var homes = new ICorDebugVariableHome[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), homes, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (homes, checked((int)pceltFetched));
 		}
 	}
 }

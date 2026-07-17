@@ -31,6 +31,14 @@ public static unsafe class CorDebugProcessExtensions
 
 		public CORDB_ADDRESS[] Objects => instance.EnumerateObjects().ToArray();
 
+		public (byte[] buffer, nuint read) ReadMemory(CORDB_ADDRESS address, int size)
+		{
+			var buffer = new byte[checked((int)size)];
+			var hr = instance.TryReadMemory(address, checked((uint)size), buffer, out var read);
+			Marshal.ThrowExceptionForHR(hr);
+			return (buffer, read);
+		}
+
 		public int HelperThreadID
 		{
 			get
@@ -80,13 +88,6 @@ public static unsafe class CorDebugProcessExtensions
 			var hr = instance.TryIsTransitionStub(address, out var pbTransitionStub);
 			Marshal.ThrowExceptionForHR(hr);
 			return pbTransitionStub;
-		}
-
-		public nuint ReadMemory(CORDB_ADDRESS address, int size, byte[] buffer)
-		{
-			var hr = instance.TryReadMemory(address, checked((uint)size), buffer, out var read);
-			Marshal.ThrowExceptionForHR(hr);
-			return read;
 		}
 
 		public ICorDebugThread ThreadForFiberCookie(int fiberCookie)

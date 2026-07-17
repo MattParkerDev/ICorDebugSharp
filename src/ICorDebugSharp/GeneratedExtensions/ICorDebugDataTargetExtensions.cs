@@ -13,6 +13,22 @@ public static unsafe class CorDebugDataTargetExtensions
 {
 	extension(ICorDebugDataTarget instance)
 	{
+		public byte[] GetThreadContext(int dwThreadID, int contextFlags, int contextSize)
+		{
+			var pContext = new byte[checked((int)contextSize)];
+			var hr = instance.TryGetThreadContext(checked((uint)dwThreadID), checked((uint)contextFlags), checked((uint)contextSize), pContext);
+			Marshal.ThrowExceptionForHR(hr);
+			return pContext;
+		}
+
+		public (byte[] pBuffer, int pBytesRead) ReadVirtual(CORDB_ADDRESS address, int bytesRequested)
+		{
+			var pBuffer = new byte[checked((int)bytesRequested)];
+			var hr = instance.TryReadVirtual(address, pBuffer, checked((uint)bytesRequested), out var pBytesRead);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pBuffer, checked((int)pBytesRead));
+		}
+
 		public CorDebugPlatform Platform
 		{
 			get
@@ -21,13 +37,6 @@ public static unsafe class CorDebugDataTargetExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pTargetPlatform;
 			}
-		}
-
-		public int ReadVirtual(CORDB_ADDRESS address, byte[] pBuffer, int bytesRequested)
-		{
-			var hr = instance.TryReadVirtual(address, pBuffer, checked((uint)bytesRequested), out var pBytesRead);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pBytesRead);
 		}
 
 		public void GetThreadContext(int dwThreadID, int contextFlags, int contextSize, byte[] pContext)

@@ -13,11 +13,12 @@ public static unsafe class CorDebugErrorInfoEnumExtensions
 {
 	extension(ICorDebugErrorInfoEnum instance)
 	{
-		public int Next(int celt, ICorDebugEditAndContinueErrorInfo[] errors)
+		public (ICorDebugEditAndContinueErrorInfo[] errors, int pceltFetched) Next(int celt)
 		{
+			var errors = new ICorDebugEditAndContinueErrorInfo[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), errors, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (errors, checked((int)pceltFetched));
 		}
 	}
 }

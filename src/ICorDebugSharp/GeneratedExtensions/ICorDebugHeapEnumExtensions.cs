@@ -13,11 +13,12 @@ public static unsafe class CorDebugHeapEnumExtensions
 {
 	extension(ICorDebugHeapEnum instance)
 	{
-		public int Next(int celt, COR_HEAPOBJECT[] objects)
+		public (COR_HEAPOBJECT[] objects, int pceltFetched) Next(int celt)
 		{
+			var objects = new COR_HEAPOBJECT[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), objects, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (objects, checked((int)pceltFetched));
 		}
 	}
 }

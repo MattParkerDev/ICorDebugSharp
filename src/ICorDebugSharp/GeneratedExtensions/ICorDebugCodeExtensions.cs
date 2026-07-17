@@ -44,6 +44,22 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		public (byte[] buffer, int pcBufferSize) GetCode(int startOffset, int endOffset, int cBufferAlloc)
+		{
+			var buffer = new byte[checked((int)cBufferAlloc)];
+			var hr = instance.TryGetCode(checked((uint)startOffset), checked((uint)endOffset), checked((uint)cBufferAlloc), buffer, out var pcBufferSize);
+			Marshal.ThrowExceptionForHR(hr);
+			return (buffer, checked((int)pcBufferSize));
+		}
+
+		public (uint[] offsets, int pcMap) GetEnCRemapSequencePoints(int cMap)
+		{
+			var offsets = new uint[checked((int)cMap)];
+			var hr = instance.TryGetEnCRemapSequencePoints(checked((uint)cMap), out var pcMap, offsets);
+			Marshal.ThrowExceptionForHR(hr);
+			return (offsets, checked((int)pcMap));
+		}
+
 		public ICorDebugFunctionBreakpoint CreateBreakpoint(int offset)
 		{
 			var hr = instance.TryCreateBreakpoint(checked((uint)offset), out var ppBreakpoint);
@@ -59,20 +75,6 @@ public static unsafe class CorDebugCodeExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return pStart;
 			}
-		}
-
-		public int GetCode(int startOffset, int endOffset, int cBufferAlloc, byte[] buffer)
-		{
-			var hr = instance.TryGetCode(checked((uint)startOffset), checked((uint)endOffset), checked((uint)cBufferAlloc), buffer, out var pcBufferSize);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcBufferSize);
-		}
-
-		public int GetEnCRemapSequencePoints(int cMap, uint[] offsets)
-		{
-			var hr = instance.TryGetEnCRemapSequencePoints(checked((uint)cMap), out var pcMap, offsets);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcMap);
 		}
 
 		public ICorDebugFunction Function

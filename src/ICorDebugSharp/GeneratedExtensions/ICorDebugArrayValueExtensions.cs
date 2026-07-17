@@ -13,6 +13,22 @@ public static unsafe class CorDebugArrayValueExtensions
 {
 	extension(ICorDebugArrayValue instance)
 	{
+		public uint[] GetBaseIndicies(int cdim)
+		{
+			var indices = new uint[checked((int)cdim)];
+			var hr = instance.TryGetBaseIndicies(checked((uint)cdim), indices);
+			Marshal.ThrowExceptionForHR(hr);
+			return indices;
+		}
+
+		public uint[] GetDimensions(int cdim)
+		{
+			var dims = new uint[checked((int)cdim)];
+			var hr = instance.TryGetDimensions(checked((uint)cdim), dims);
+			Marshal.ThrowExceptionForHR(hr);
+			return dims;
+		}
+
 		public int Count
 		{
 			get

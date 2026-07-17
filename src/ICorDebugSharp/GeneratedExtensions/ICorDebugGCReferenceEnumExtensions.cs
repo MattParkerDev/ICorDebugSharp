@@ -13,11 +13,12 @@ public static unsafe class CorDebugGCReferenceEnumExtensions
 {
 	extension(ICorDebugGCReferenceEnum instance)
 	{
-		public int Next(int celt, COR_GC_REFERENCE[] roots)
+		public (COR_GC_REFERENCE[] roots, int pceltFetched) Next(int celt)
 		{
+			var roots = new COR_GC_REFERENCE[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), roots, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (roots, checked((int)pceltFetched));
 		}
 	}
 }

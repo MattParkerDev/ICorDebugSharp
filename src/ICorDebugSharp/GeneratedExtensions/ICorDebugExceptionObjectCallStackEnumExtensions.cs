@@ -13,11 +13,12 @@ public static unsafe class CorDebugExceptionObjectCallStackEnumExtensions
 {
 	extension(ICorDebugExceptionObjectCallStackEnum instance)
 	{
-		public int Next(int celt, CorDebugExceptionObjectStackFrame[] values)
+		public (CorDebugExceptionObjectStackFrame[] values, int pceltFetched) Next(int celt)
 		{
+			var values = new CorDebugExceptionObjectStackFrame[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (values, checked((int)pceltFetched));
 		}
 	}
 }

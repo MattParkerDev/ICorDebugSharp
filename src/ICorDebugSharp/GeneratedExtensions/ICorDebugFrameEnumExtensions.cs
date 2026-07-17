@@ -13,11 +13,12 @@ public static unsafe class CorDebugFrameEnumExtensions
 {
 	extension(ICorDebugFrameEnum instance)
 	{
-		public int Next(int celt, ICorDebugFrame[] frames)
+		public (ICorDebugFrame[] frames, int pceltFetched) Next(int celt)
 		{
+			var frames = new ICorDebugFrame[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), frames, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (frames, checked((int)pceltFetched));
 		}
 	}
 }

@@ -13,11 +13,12 @@ public static unsafe class CorDebugCode3Extensions
 {
 	extension(ICorDebugCode3 instance)
 	{
-		public int GetReturnValueLiveOffset(int ILoffset, int bufferSize, uint[] pOffsets)
+		public (uint[] pOffsets, int pFetched) GetReturnValueLiveOffset(int ILoffset, int bufferSize)
 		{
+			var pOffsets = new uint[checked((int)bufferSize)];
 			var hr = instance.TryGetReturnValueLiveOffset(checked((uint)ILoffset), checked((uint)bufferSize), out var pFetched, pOffsets);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pFetched);
+			return (pOffsets, checked((int)pFetched));
 		}
 	}
 }

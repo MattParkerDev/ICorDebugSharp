@@ -13,11 +13,12 @@ public static unsafe class CorDebugThreadEnumExtensions
 {
 	extension(ICorDebugThreadEnum instance)
 	{
-		public int Next(int celt, ICorDebugThread[] threads)
+		public (ICorDebugThread[] threads, int pceltFetched) Next(int celt)
 		{
+			var threads = new ICorDebugThread[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), threads, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (threads, checked((int)pceltFetched));
 		}
 	}
 }

@@ -13,11 +13,12 @@ public static unsafe class CorDebugStepperEnumExtensions
 {
 	extension(ICorDebugStepperEnum instance)
 	{
-		public int Next(int celt, ICorDebugStepper[] steppers)
+		public (ICorDebugStepper[] steppers, int pceltFetched) Next(int celt)
 		{
+			var steppers = new ICorDebugStepper[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), steppers, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (steppers, checked((int)pceltFetched));
 		}
 	}
 }

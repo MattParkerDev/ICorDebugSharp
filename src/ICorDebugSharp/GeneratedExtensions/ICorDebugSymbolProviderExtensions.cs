@@ -13,6 +13,62 @@ public static unsafe class CorDebugSymbolProviderExtensions
 {
 	extension(ICorDebugSymbolProvider instance)
 	{
+		public (ICorDebugInstanceFieldSymbol[] pSymbols, int pcFetchedSymbols) GetInstanceFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols)
+		{
+			var pSymbols = new ICorDebugInstanceFieldSymbol[checked((int)cRequestedSymbols)];
+			var hr = instance.TryGetInstanceFieldSymbols(checked((uint)cbSignature), typeSig, checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pSymbols, checked((int)pcFetchedSymbols));
+		}
+
+		public (ICorDebugMergedAssemblyRecord[] pRecords, int pcFetchedRecords) GetMergedAssemblyRecords(int cRequestedRecords)
+		{
+			var pRecords = new ICorDebugMergedAssemblyRecord[checked((int)cRequestedRecords)];
+			var hr = instance.TryGetMergedAssemblyRecords(checked((uint)cRequestedRecords), out var pcFetchedRecords, pRecords);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pRecords, checked((int)pcFetchedRecords));
+		}
+
+		public (ICorDebugVariableSymbol[] pSymbols, int pcFetchedSymbols) GetMethodLocalSymbols(int nativeRVA, int cRequestedSymbols)
+		{
+			var pSymbols = new ICorDebugVariableSymbol[checked((int)cRequestedSymbols)];
+			var hr = instance.TryGetMethodLocalSymbols(checked((uint)nativeRVA), checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pSymbols, checked((int)pcFetchedSymbols));
+		}
+
+		public (ICorDebugVariableSymbol[] pSymbols, int pcFetchedSymbols) GetMethodParameterSymbols(int nativeRVA, int cRequestedSymbols)
+		{
+			var pSymbols = new ICorDebugVariableSymbol[checked((int)cRequestedSymbols)];
+			var hr = instance.TryGetMethodParameterSymbols(checked((uint)nativeRVA), checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pSymbols, checked((int)pcFetchedSymbols));
+		}
+
+		public (byte[] signature, mdToken pMethodToken, int pcGenericParams, int pcbSignature) GetMethodProps(int codeRva, int cbSignature)
+		{
+			var signature = new byte[checked((int)cbSignature)];
+			var hr = instance.TryGetMethodProps(checked((uint)codeRva), out var pMethodToken, out var pcGenericParams, checked((uint)cbSignature), out var pcbSignature, signature);
+			Marshal.ThrowExceptionForHR(hr);
+			return (signature, pMethodToken, checked((int)pcGenericParams), checked((int)pcbSignature));
+		}
+
+		public (ICorDebugStaticFieldSymbol[] pSymbols, int pcFetchedSymbols) GetStaticFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols)
+		{
+			var pSymbols = new ICorDebugStaticFieldSymbol[checked((int)cRequestedSymbols)];
+			var hr = instance.TryGetStaticFieldSymbols(checked((uint)cbSignature), typeSig, checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
+			Marshal.ThrowExceptionForHR(hr);
+			return (pSymbols, checked((int)pcFetchedSymbols));
+		}
+
+		public (byte[] signature, int pcbSignature) GetTypeProps(int vtableRva, int cbSignature)
+		{
+			var signature = new byte[checked((int)cbSignature)];
+			var hr = instance.TryGetTypeProps(checked((uint)vtableRva), checked((uint)cbSignature), out var pcbSignature, signature);
+			Marshal.ThrowExceptionForHR(hr);
+			return (signature, checked((int)pcbSignature));
+		}
+
 		public ICorDebugMemoryBuffer GetAssemblyImageBytes(CORDB_ADDRESS rva, int length)
 		{
 			var hr = instance.TryGetAssemblyImageBytes(rva, checked((uint)length), out var ppMemoryBuffer);
@@ -37,60 +93,11 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (checked((int)pCodeStartAddress), checked((int)pCodeSize));
 		}
 
-		public int GetInstanceFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols, ICorDebugInstanceFieldSymbol[] pSymbols)
-		{
-			var hr = instance.TryGetInstanceFieldSymbols(checked((uint)cbSignature), typeSig, checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFetchedSymbols);
-		}
-
-		public int GetMergedAssemblyRecords(int cRequestedRecords, ICorDebugMergedAssemblyRecord[] pRecords)
-		{
-			var hr = instance.TryGetMergedAssemblyRecords(checked((uint)cRequestedRecords), out var pcFetchedRecords, pRecords);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFetchedRecords);
-		}
-
-		public int GetMethodLocalSymbols(int nativeRVA, int cRequestedSymbols, ICorDebugVariableSymbol[] pSymbols)
-		{
-			var hr = instance.TryGetMethodLocalSymbols(checked((uint)nativeRVA), checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFetchedSymbols);
-		}
-
-		public int GetMethodParameterSymbols(int nativeRVA, int cRequestedSymbols, ICorDebugVariableSymbol[] pSymbols)
-		{
-			var hr = instance.TryGetMethodParameterSymbols(checked((uint)nativeRVA), checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFetchedSymbols);
-		}
-
-		public (mdToken pMethodToken, int pcGenericParams, int pcbSignature) GetMethodProps(int codeRva, int cbSignature, byte[] signature)
-		{
-			var hr = instance.TryGetMethodProps(checked((uint)codeRva), out var pMethodToken, out var pcGenericParams, checked((uint)cbSignature), out var pcbSignature, signature);
-			Marshal.ThrowExceptionForHR(hr);
-			return (pMethodToken, checked((int)pcGenericParams), checked((int)pcbSignature));
-		}
-
 		public int GetObjectSize(int cbSignature, byte[] typeSig)
 		{
 			var hr = instance.TryGetObjectSize(checked((uint)cbSignature), typeSig, out var pObjectSize);
 			Marshal.ThrowExceptionForHR(hr);
 			return checked((int)pObjectSize);
-		}
-
-		public int GetStaticFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols, ICorDebugStaticFieldSymbol[] pSymbols)
-		{
-			var hr = instance.TryGetStaticFieldSymbols(checked((uint)cbSignature), typeSig, checked((uint)cRequestedSymbols), out var pcFetchedSymbols, pSymbols);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFetchedSymbols);
-		}
-
-		public int GetTypeProps(int vtableRva, int cbSignature, byte[] signature)
-		{
-			var hr = instance.TryGetTypeProps(checked((uint)vtableRva), checked((uint)cbSignature), out var pcbSignature, signature);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcbSignature);
 		}
 	}
 }

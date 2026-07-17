@@ -13,11 +13,12 @@ public static unsafe class CorDebugGuidToTypeEnumExtensions
 {
 	extension(ICorDebugGuidToTypeEnum instance)
 	{
-		public int Next(int celt, CorDebugGuidToTypeMapping[] values)
+		public (CorDebugGuidToTypeMapping[] values, int pceltFetched) Next(int celt)
 		{
+			var values = new CorDebugGuidToTypeMapping[checked((int)celt)];
 			var hr = instance.TryNext(checked((uint)celt), values, out var pceltFetched);
 			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltFetched);
+			return (values, checked((int)pceltFetched));
 		}
 	}
 }
