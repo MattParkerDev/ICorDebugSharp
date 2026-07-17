@@ -101,6 +101,7 @@ typedef struct Plain
 {
     ULONG32 count;
     UINT64 address;
+    WORD version;
 } Plain;
 
 typedef struct WithInterface
@@ -420,6 +421,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("[StructLayout(LayoutKind.Sequential)]", plain)
         self.assertIn("public uint count;", plain)
         self.assertIn("public ulong address;", plain)
+        self.assertIn("public ushort version;", plain)
         self.assertIn("public struct LocalStruct", local)
 
     def test_generates_custom_marshaller_for_interface_struct_fields(self) -> None:

@@ -8,13 +8,13 @@ namespace ICorDebugSharp;
 [StructLayout(LayoutKind.Sequential)]
 public struct CLR_DEBUGGING_VERSION
 {
-	public WORD wStructVersion;
+	public ushort wStructVersion;
 
-	public WORD wMajor;
+	public ushort wMajor;
 
-	public WORD wMinor;
+	public ushort wMinor;
 
-	public WORD wBuild;
+	public ushort wBuild;
 
-	public WORD wRevision;
+	public ushort wRevision;
 }

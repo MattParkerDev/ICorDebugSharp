@@ -104,6 +104,7 @@ PRIMITIVE_TYPES = {
     "ULONG64": "ulong",
     "USHORT": "ushort",
     "WCHAR": "char",
+    "WORD": "ushort",
     "void": "void",
 }
 
