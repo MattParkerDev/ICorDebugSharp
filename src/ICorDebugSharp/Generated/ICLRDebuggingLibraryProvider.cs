@@ -12,5 +12,5 @@ namespace ICorDebugSharp;
 public partial interface ICLRDebuggingLibraryProvider
 {
 	[PreserveSig]
-	int TryProvideLibrary(string pwszFileName, uint dwTimestamp, uint dwSizeOfImage, out HMODULE phModule);
+	int TryProvideLibrary(string pwszFileName, uint dwTimestamp, uint dwSizeOfImage, out nint phModule);
 }

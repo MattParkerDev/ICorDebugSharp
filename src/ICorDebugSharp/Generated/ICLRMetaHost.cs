@@ -18,13 +18,13 @@ public partial interface ICLRMetaHost
 	int TryGetVersionFromFile(string pwzFilePath, [MarshalUsing(CountElementName = nameof(pcchBuffer))][Out] string[] pwzBuffer, ref uint pcchBuffer);
 
 	[PreserveSig]
-	int TryEnumerateInstalledRuntimes(out IEnumUnknown ppEnumerator);
+	int TryEnumerateInstalledRuntimes(out nint ppEnumerator);
 
 	[PreserveSig]
-	int TryEnumerateLoadedRuntimes(HANDLE hndProcess, out IEnumUnknown ppEnumerator);
+	int TryEnumerateLoadedRuntimes(nint hndProcess, out nint ppEnumerator);
 
 	[PreserveSig]
-	int TryRequestRuntimeLoadedNotification(RuntimeLoadedCallbackFnPtr pCallbackFunction);
+	int TryRequestRuntimeLoadedNotification(nint pCallbackFunction);
 
 	[PreserveSig]
 	int TryQueryLegacyV2RuntimeBinding(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppUnk);

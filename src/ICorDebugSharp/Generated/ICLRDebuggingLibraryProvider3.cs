@@ -15,5 +15,5 @@ public partial interface ICLRDebuggingLibraryProvider3
 	int TryProvideWindowsLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, uint dwTimestamp, uint dwSizeOfImage, out nint ppResolvedModulePath);
 
 	[PreserveSig]
-	int TryProvideUnixLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, ref byte pbBuildId, @int iBuildIdSize, out nint ppResolvedModulePath);
+	int TryProvideUnixLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, ref byte pbBuildId, int iBuildIdSize, out nint ppResolvedModulePath);
 }

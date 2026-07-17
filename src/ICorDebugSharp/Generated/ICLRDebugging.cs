@@ -15,5 +15,5 @@ public partial interface ICLRDebugging
 	int TryOpenVirtualProcess(ulong moduleBaseAddress, nint pDataTarget, ICLRDebuggingLibraryProvider pLibraryProvider, ref CLR_DEBUGGING_VERSION pMaxDebuggerSupportedVersion, ref Guid riidProcess, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppProcess, ref CLR_DEBUGGING_VERSION pVersion, out CLR_DEBUGGING_PROCESS_FLAGS pdwFlags);
 
 	[PreserveSig]
-	int TryCanUnloadNow(HMODULE hModule);
+	int TryCanUnloadNow(nint hModule);
 }

@@ -18,19 +18,19 @@ public partial interface ICLRRuntimeInfo
 	int TryGetRuntimeDirectory([MarshalUsing(CountElementName = nameof(pcchBuffer))][Out] string[] pwzBuffer, ref uint pcchBuffer);
 
 	[PreserveSig]
-	int TryIsLoaded(HANDLE hndProcess, [MarshalAs(UnmanagedType.Bool)] out bool pbLoaded);
+	int TryIsLoaded(nint hndProcess, [MarshalAs(UnmanagedType.Bool)] out bool pbLoaded);
 
 	[PreserveSig]
 	int TryLoadErrorString(uint iResourceID, [MarshalUsing(CountElementName = nameof(pcchBuffer))][Out] string[] pwzBuffer, ref uint pcchBuffer, int iLocaleID);
 
 	[PreserveSig]
-	int TryLoadLibrary(string pwzDllName, out HMODULE phndModule);
+	int TryLoadLibrary(string pwzDllName, out nint phndModule);
 
 	[PreserveSig]
-	int TryGetProcAddress(LPCSTR pszProcName, nint ppProc);
+	int TryGetProcAddress([MarshalAs(UnmanagedType.LPStr)] string pszProcName, out nint ppProc);
 
 	[PreserveSig]
-	int TryGetInterface(REFCLSID rclsid, ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppUnk);
+	int TryGetInterface(ref Guid rclsid, ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppUnk);
 
 	[PreserveSig]
 	int TryIsLoadable([MarshalAs(UnmanagedType.Bool)] out bool pbLoadable);
