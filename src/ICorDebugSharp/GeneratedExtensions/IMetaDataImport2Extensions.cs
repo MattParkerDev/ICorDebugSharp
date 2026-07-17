@@ -81,11 +81,11 @@ public static unsafe class MetaDataImport2Extensions
 			return (checked((int)pulParamSeq), pdwParamFlags, ptOwner, checked((int)reserved), checked((int)pchName));
 		}
 
-		public (mdToken tkParent, byte[] ppvSigBlob, int pcbSigBlob) GetMethodSpecProps(mdMethodSpec mi)
+		public (mdToken tkParent, byte* ppvSigBlob, int pcbSigBlob) GetMethodSpecProps(mdMethodSpec mi)
 		{
 			var hr = instance.TryGetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
 			Marshal.ThrowExceptionForHR(hr);
-			return (tkParent, ppvSigBlob.ToArray(), checked((int)pcbSigBlob));
+			return (tkParent, ppvSigBlob, checked((int)pcbSigBlob));
 		}
 
 		public (int pdwPEKind, int pdwMAchine) PEKind
