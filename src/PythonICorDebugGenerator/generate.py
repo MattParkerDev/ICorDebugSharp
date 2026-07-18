@@ -155,6 +155,12 @@ METHOD_PARAMETER_TYPE_OVERRIDES = {
     ("ICorDebugModule2", "SetJITCompilerFlags", "dwFlags"): "CorDebugJITCompilerFlags",
 }
 
+# The IDL does not consistently annotate nullable parameters. Keep documented
+# exceptions here so the generated nullable annotations remain accurate.
+NULLABLE_PARAMETERS = {
+    ("ICorDebugEval", "CreateValue", "pElementClass"),
+}
+
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
 NAMESPACE_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*(?:\.[A-Za-z_][A-Za-z0-9_]*)*$")
 METADATA_TYPEDEF_RE = re.compile(r"^md[A-Z][A-Za-z0-9_]*$")
@@ -851,6 +857,8 @@ class CSharpGenerator:
         if parameter.is_optional and (is_array or csharp_type in self.interfaces or csharp_type == "string"):
             csharp_type += "?"
         elif self.is_query_buffer(interface, method, parameter):
+            csharp_type += "?"
+        elif (interface.name, method.name, parameter.name) in NULLABLE_PARAMETERS:
             csharp_type += "?"
 
         attribute_text = "" if not attributes else "[" + "][".join(attributes) + "] "

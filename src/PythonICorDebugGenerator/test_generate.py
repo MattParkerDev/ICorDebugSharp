@@ -220,6 +220,26 @@ class CSharpGeneratorTests(unittest.TestCase):
             "int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags);", source
         )
 
+    def test_projects_documented_nullable_parameter(self) -> None:
+        midl = parse_string("""
+            [object, uuid(00000000-0000-0000-0000-000000000001)]
+            interface ICorDebugEval : IUnknown
+            {
+                HRESULT CreateValue(
+                    CorElementType elementType,
+                    ICorDebugClass pElementClass,
+                    [out] ICorDebugValue **ppValue);
+            };
+        """)
+
+        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+
+        self.assertIn(
+            "int TryCreateValue(CorElementType elementType, ICorDebugClass? pElementClass, "
+            "out ICorDebugValue ppValue);",
+            source,
+        )
+
     def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:
         source = self.generate("ICorDebugModule")
 
