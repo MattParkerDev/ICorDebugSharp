@@ -4,9 +4,9 @@ using System.Diagnostics;
 
 var repoDirectory = AppContext.GetData("EntryPointFileDirectoryPath") as string ?? throw new InvalidOperationException("Not running as a file-based app.");
 
-await Process.RunAsync(new ProcessStartInfo { FileName = "uv", Arguments = "run python generate.py C:/src/dotnet/src/runtime/src/coreclr/inc/cordebug.idl ../ICorDebugSharp/Generated", WorkingDirectory = $"{repoDirectory}/src/PythonGenerator" });
-await Process.RunAsync(new ProcessStartInfo { FileName = "uv", Arguments = "run python generate.py C:/src/dotnet/src/runtime/src/coreclr/inc/metahost.idl ../ICorDebugSharp/Generated", WorkingDirectory = $"{repoDirectory}/src/PythonGenerator" });
+await Process.RunAsync(new ProcessStartInfo { FileName = "uv", Arguments = "run python generate.py C:/src/dotnet/src/runtime/src/coreclr/inc/cordebug.idl ../ICorDebugSharp/Generated", WorkingDirectory = $"{repoDirectory}/src/PythonICorDebugGenerator" });
+await Process.RunAsync(new ProcessStartInfo { FileName = "uv", Arguments = "run python generate.py C:/src/dotnet/src/runtime/src/coreclr/inc/metahost.idl ../ICorDebugSharp/Generated", WorkingDirectory = $"{repoDirectory}/src/PythonICorDebugGenerator" });
 await Process.RunAsync(new ProcessStartInfo { FileName = "dotnet", ArgumentList = { "dnx", "clangSharpPInvokeGenerator", "--", "@GenerateClang.rsp" }, WorkingDirectory = $"{repoDirectory}/src/ClangSharpCliDbgShimGenerator" });
-await Process.RunAsync(new ProcessStartInfo { FileName = "dotnet", Arguments = "run", WorkingDirectory = $"{repoDirectory}/src/MetadataGenerator" });
+await Process.RunAsync(new ProcessStartInfo { FileName = "dotnet", Arguments = "run", WorkingDirectory = $"{repoDirectory}/src/ClangSharpMetadataGenerator" });
 await Process.RunAsync(new ProcessStartInfo { FileName = "dotnet", Arguments = "run", WorkingDirectory = $"{repoDirectory}/src/DocsGenerator" });
 await Process.RunAsync(new ProcessStartInfo { FileName = "dotnet", Arguments = "run", WorkingDirectory = $"{repoDirectory}/src/ExtensionGenerator" });
