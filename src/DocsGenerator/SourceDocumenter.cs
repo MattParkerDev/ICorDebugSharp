@@ -70,6 +70,17 @@ internal static partial class SourceDocumenter
 		: CSharpSyntaxRewriter
 	{
 		private readonly MarkdownXmlRenderer _renderer = new();
+		private static readonly IReadOnlyDictionary<string, string> ParameterAliases =
+			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+			{
+				["ICorDebugArrayValue.TryGetBaseIndicies.indices"] = "indicies",
+				["ICorDebugProcess5.TryEnumerateHeap.ppObjects"] = "ppObject",
+				["ICorDebugProcess5.TryGetObject.pObject"] = "ppObject",
+				["ICorDebugRemote.TryDebugActiveProcessEx.dwProcessId"] = "id",
+				["ICorDebugRemote.TryDebugActiveProcessEx.fWin32Attach"] = "win32Attach",
+				["ICorDebugSymbolProvider.TryGetTypeProps.vtableRva"] = "tableRva",
+				["IMetaDataImport.TryGetMemberRefProps.ppvSigBlob"] = "ppvSibBlob",
+			};
 
 		public override SyntaxNode? VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
 		{
@@ -171,19 +182,21 @@ internal static partial class SourceDocumenter
 			foreach (var parameter in method.ParameterList.Parameters)
 			{
 				var name = parameter.Identifier.ValueText;
-				if (!page.Parameters.TryGetValue(name, out var markdown))
+				var documentationName = ParameterAliases.GetValueOrDefault($"{typeName}.{methodName}.{name}", name);
+				if (!page.Parameters.TryGetValue(documentationName, out var markdown))
 				{
-					statistics.UnmatchedParameters.Add($"{typeName}.{methodName}({name})");
+					if (page.Parameters.Count > 0)
+						statistics.UnmatchedParameters.Add($"{typeName}.{methodName}({name})");
 					continue;
 				}
-				matchedParameters.Add(name);
+				matchedParameters.Add(documentationName);
 				elements.Add(WrapElement(
 					$"param name=\"{name}\"",
 					_renderer.Render(markdown, page.SourceUrl)));
 			}
 			foreach (var documentedName in page.Parameters.Keys)
 			{
-				if (!matchedParameters.Contains(documentedName))
+				if (method.ParameterList.Parameters.Count > 0 && !matchedParameters.Contains(documentedName))
 					statistics.UnmatchedParameters.Add($"{typeName}.{methodName}: documented '{documentedName}'");
 			}
 			if (!string.IsNullOrWhiteSpace(page.Returns))

@@ -293,7 +293,7 @@ internal sealed partial class DocumentationCatalog
 	[GeneratedRegex(@"^#\s+(?<type>[A-Za-z_][A-Za-z0-9_]*)\s+(?<kind>Interface|Enumeration|Structure)\s*$", RegexOptions.IgnoreCase)]
 	private static partial Regex TypeHeadingRegex();
 
-	[GeneratedRegex(@"^\s*`(?<name>[A-Za-z_][A-Za-z0-9_]*)`\s*$")]
+	[GeneratedRegex(@"^\s*`?(?<name>[A-Za-z_][A-Za-z0-9_]*)`?\s*\\?\s*$")]
 	private static partial Regex ParameterNameRegex();
 
 	[GeneratedRegex(@"^\s*\[(?:in|out)(?:\s*,[^]]+)?\]\s*", RegexOptions.IgnoreCase)]
