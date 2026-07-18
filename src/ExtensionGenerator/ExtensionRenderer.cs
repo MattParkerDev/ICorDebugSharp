@@ -184,11 +184,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		ValidateHResult(method, recipe.Interface);
+		ValidateQueryBuffer(method, recipe);
 		var retained = method.Parameters.Where(parameter => parameter.Name != recipe.Capacity && parameter.Name != recipe.Count && parameter.Name != recipe.Buffer).ToArray();
 		var buffer = method.GetParameter(recipe.Buffer);
-		var count = method.GetParameter(recipe.Count);
-		if (!count.IsOut || !buffer.Type.Contains("[]", StringComparison.Ordinal))
-			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} no longer has the configured output buffer shape.");
 		if (retained.Any(parameter => parameter.IsOut || parameter.IsRef))
 			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} has unsupported retained output parameters.");
 		var elementType = buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
@@ -508,11 +506,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		ValidateHResult(method, recipe.Interface);
-		var capacity = method.GetParameter(recipe.Capacity);
-		var count = method.GetParameter(recipe.Count);
+		ValidateQueryBuffer(method, recipe);
 		var buffer = method.GetParameter(recipe.Buffer);
-		if (!count.IsOut || !buffer.Type.Contains("[]", StringComparison.Ordinal))
-			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} no longer has the configured output buffer shape.");
 
 		var retained = method.Parameters.Where(parameter => parameter.Name != recipe.Capacity && parameter.Name != recipe.Count && parameter.Name != recipe.Buffer).ToArray();
 		if (retained.Any(parameter => parameter.IsOut || parameter.IsRef))
@@ -647,6 +642,19 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	{
 		if (method.ReturnType != "int")
 			throw new InvalidOperationException($"{interfaceName}.{method.Name} must return an HRESULT-compatible int.");
+	}
+
+	private static void ValidateQueryBuffer(ManagedMethod method, QueryBufferRecipe recipe)
+	{
+		var capacity = method.GetParameter(recipe.Capacity);
+		var count = method.GetParameter(recipe.Count);
+		var buffer = method.GetParameter(recipe.Buffer);
+		if (capacity is not { Type: "uint", IsOut: false, IsRef: false } ||
+			count is not { Type: "uint", IsOut: true, IsRef: false } ||
+			!buffer.Type.Contains("[]", StringComparison.Ordinal) ||
+			!buffer.IsOutAttribute ||
+			buffer.CountElementName != recipe.Capacity)
+			throw new InvalidOperationException($"{recipe.Interface}.{recipe.Method} no longer has the configured query-buffer shape.");
 	}
 
 	private static void ValidateBoolResult(ManagedMethod method, string interfaceName)
