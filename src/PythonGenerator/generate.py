@@ -29,7 +29,7 @@ DEFAULT_NAMESPACE = "ICorDebugSharp"
 
 # size_is describes marshalling, but not whether a method supports a null/zero
 # size probe. Only methods with a documented query/fill contract belong here.
-# Values are (kind, capacity parameter, count parameter, buffer parameter).
+# Values are (kind, capacity parameter (size_is in IDL), count parameter (length_is in IDL), buffer parameter).
 QUERY_BUFFER_METHODS = {
     ("ICorDebugStaticFieldSymbol", "GetName"): ("string", "cchName", "pcchName", "szName"),
     ("ICorDebugInstanceFieldSymbol", "GetName"): ("string", "cchName", "pcchName", "szName"),
