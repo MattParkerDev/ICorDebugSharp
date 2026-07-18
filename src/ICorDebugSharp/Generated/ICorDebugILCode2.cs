@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-interface">ICorDebugILCode</see> interface to provide methods that return the token for a function&#39;s local variable signature, and that map a profiler&#39;s instrumented intermediate language (IL) offsets to original method IL offsets.</para>
+/// <para>Logically extends the <see cref="ICorDebugILCode">ICorDebugILCode</see> interface to provide methods that return the token for a function&#39;s local variable signature, and that map a profiler&#39;s instrumented intermediate language (IL) offsets to original method IL offsets.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode2-interface">Microsoft Learn</see>.</para>

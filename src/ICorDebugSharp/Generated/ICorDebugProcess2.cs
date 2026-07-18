@@ -76,7 +76,7 @@ public partial interface ICorDebugProcess2
 	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the address at which the breakpoint was set.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The specified breakpoint would have been previously set by an earlier call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">ICorDebugProcess2::SetUnmanagedBreakpoint</see>.</para>
+	/// <para>The specified breakpoint would have been previously set by an earlier call to <see cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint">ICorDebugProcess2::SetUnmanagedBreakpoint</see>.</para>
 	/// <para>The <c>ClearUnmanagedBreakpoint</c> method can be called while the process being debugged is running.</para>
 	/// <para>The <c>ClearUnmanagedBreakpoint</c> method returns a failure code if the debugger is attached in managed-only mode or if no breakpoint exists at the specified address.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-clearunmanagedbreakpoint-method">Microsoft Learn</see>.</para>
@@ -88,12 +88,12 @@ public partial interface ICorDebugProcess2
 	/// <para>Sets the flags that must be embedded in a precompiled image in order for the runtime to load that image into the current process.</para>
 	/// </summary>
 	/// <param name="pdwFlags">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that specifies the compiler flags used to select the correct pre-compiled image.</para>
+	/// <para>A value of the <see cref="CorDebugJITCompilerFlags">CorDebugJITCompilerFlags</see> enumeration that specifies the compiler flags used to select the correct pre-compiled image.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method specifies the flags that must be embedded in a precompiled image so that the runtime will load that image into this process. The flags set by this method are used only to select the correct precompiled image. If no such image exists, the runtime will load the common intermediate language (CIL) image and the just-in-time (JIT) compiler instead. In that case, the debugger must still use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-setjitcompilerflags-method">ICorDebugModule2::SetJITCompilerFlags</see> method to set the flags as desired for the JIT compilation.</para>
+	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method specifies the flags that must be embedded in a precompiled image so that the runtime will load that image into this process. The flags set by this method are used only to select the correct precompiled image. If no such image exists, the runtime will load the common intermediate language (CIL) image and the just-in-time (JIT) compiler instead. In that case, the debugger must still use the <see cref="ICorDebugModule2.TrySetJITCompilerFlags">ICorDebugModule2::SetJITCompilerFlags</see> method to set the flags as desired for the JIT compilation.</para>
 	/// <para>If an image is loaded, but some JIT compiling must take place for that image (which will be the case if the image contains generics), the compiler flags specified by the <c>SetDesiredNGENCompilerFlags</c> method will apply to the extra JIT compilation.</para>
-	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method must be called during the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback. Attempts to call the <c>SetDesiredNGENCompilerFlags</c> method afterwards will fail. Also, attempts to set flags that are either not defined in the <c>CorDebugJITCompilerFlags</c> enumeration or are not legal for the given process will fail.</para>
+	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method must be called during the <see cref="ICorDebugManagedCallback.TryCreateProcess">ICorDebugManagedCallback::CreateProcess</see> callback. Attempts to call the <c>SetDesiredNGENCompilerFlags</c> method afterwards will fail. Also, attempts to set flags that are either not defined in the <c>CorDebugJITCompilerFlags</c> enumeration or are not legal for the given process will fail.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setdesiredngencompilerflags-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -103,10 +103,10 @@ public partial interface ICorDebugProcess2
 	/// <para>Gets the current compiler flag settings that the common language runtime (CLR) uses to select the correct precompiled (that is, native) image to be loaded into this process.</para>
 	/// </summary>
 	/// <param name="pdwFlags">
-	/// <para>A pointer to a bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration values that are used to select the correct precompiled image to be loaded.</para>
+	/// <para>A pointer to a bitwise combination of the <see cref="CorDebugJITCompilerFlags">CorDebugJITCompilerFlags</see> enumeration values that are used to select the correct precompiled image to be loaded.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setdesiredngencompilerflags-method">ICorDebugProcess2::SetDesiredNGENCompilerFlags</see> method to set the flags that the CLR will use to select the correct pre-compiled image to load.</para>
+	/// <para>Use the <see cref="ICorDebugProcess2.TrySetDesiredNGENCompilerFlags">ICorDebugProcess2::SetDesiredNGENCompilerFlags</see> method to set the flags that the CLR will use to select the correct pre-compiled image to load.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-getdesiredngencompilerflags-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

@@ -4,10 +4,10 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Indicates the type of event whose information is decoded by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-decodeevent-method">DecodeEvent</see> method.</para>
+/// <para>Indicates the type of event whose information is decoded by the <see cref="ICorDebugProcess6.TryDecodeEvent">DecodeEvent</see> method.</para>
 /// </summary>
 /// <remarks>
-/// <para>A member of the <c>CorDebugDebugEventKind</c> enumeration is returned by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-geteventkind-method">ICorDebugDebugEvent::GetEventKind</see> method.</para>
+/// <para>A member of the <c>CorDebugDebugEventKind</c> enumeration is returned by calling the <see cref="ICorDebugDebugEvent.TryGetEventKind">ICorDebugDebugEvent::GetEventKind</see> method.</para>
 /// <para><b>Note:</b> This enumeration is intended for use in .NET Native debugging scenarios only.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdebugeventkind-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>

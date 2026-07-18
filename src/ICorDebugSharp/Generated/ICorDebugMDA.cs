@@ -19,7 +19,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugMDA
 {
 	/// <summary>
-	/// <para>Gets a string containing the name of the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// <para>Gets a string containing the name of the managed debugging assistant (MDA) represented by <see cref="ICorDebugMDA">ICorDebugMDA</see>.</para>
 	/// </summary>
 	/// <param name="cchName">
 	/// <para>The size of the <c>szName</c> array.</para>
@@ -38,7 +38,7 @@ public partial interface ICorDebugMDA
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	/// <summary>
-	/// <para>Gets a string containing the description of the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// <para>Gets a string containing the description of the managed debugging assistant (MDA) represented by <see cref="ICorDebugMDA">ICorDebugMDA</see>.</para>
 	/// </summary>
 	/// <param name="cchName">
 	/// <para>The size of the string buffer that will store the description.</para>
@@ -57,7 +57,7 @@ public partial interface ICorDebugMDA
 	int TryGetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	/// <summary>
-	/// <para>Gets the full XML stream associated with the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// <para>Gets the full XML stream associated with the managed debugging assistant (MDA) represented by <see cref="ICorDebugMDA">ICorDebugMDA</see>.</para>
 	/// </summary>
 	/// <param name="cchName">
 	/// <para>The size of the <c>szName</c> array.</para>
@@ -76,10 +76,10 @@ public partial interface ICorDebugMDA
 	int TryGetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
 	/// <summary>
-	/// <para>Gets the flags associated with the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// <para>Gets the flags associated with the managed debugging assistant (MDA) represented by <see cref="ICorDebugMDA">ICorDebugMDA</see>.</para>
 	/// </summary>
 	/// <param name="pFlags">
-	/// <para>A bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugmdaflags-enumeration">CorDebugMDAFlags</see> enumeration values that specify the settings of the flags for this MDA.</para>
+	/// <para>A bitwise combination of the <see cref="CorDebugMDAFlags">CorDebugMDAFlags</see> enumeration values that specify the settings of the flags for this MDA.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getflags-method">Microsoft Learn</see>.</para>
@@ -88,7 +88,7 @@ public partial interface ICorDebugMDA
 	int TryGetFlags(ref CorDebugMDAFlags pFlags);
 
 	/// <summary>
-	/// <para>Gets the operating system (OS) thread identifier upon which the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see> is executing.</para>
+	/// <para>Gets the operating system (OS) thread identifier upon which the managed debugging assistant (MDA) represented by <see cref="ICorDebugMDA">ICorDebugMDA</see> is executing.</para>
 	/// </summary>
 	/// <param name="pOsTid">
 	/// <para>A pointer to the OS thread identifier.</para>

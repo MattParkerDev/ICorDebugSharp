@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Provides the entry point to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> and corresponding interfaces.</para>
+/// <para>Provides the entry point to the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> and corresponding interfaces.</para>
 /// </summary>
 /// <remarks>
 /// <para><c>ICorDebugThread3</c> is a logical extension to the ICorDebugThread interface.</para>
@@ -20,10 +20,10 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugThread3
 {
 	/// <summary>
-	/// <para>Creates an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
+	/// <para>Creates an <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
 	/// </summary>
 	/// <param name="ppStackWalk">
-	/// <para>A pointer to address of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
+	/// <para>A pointer to address of the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
 	/// </param>
 	/// <returns>
 	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
@@ -41,7 +41,7 @@ public partial interface ICorDebugThread3
 	int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk);
 
 	/// <summary>
-	/// <para>Returns an array of internal frames (<see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">ICorDebugInternalFrame2</see> objects) on the stack.</para>
+	/// <para>Returns an array of internal frames (<see cref="ICorDebugInternalFrame2">ICorDebugInternalFrame2</see> objects) on the stack.</para>
 	/// </summary>
 	/// <param name="cInternalFrames">
 	/// <para>The number of internal frames expected in <c>ppInternalFrames</c>.</para>
@@ -56,7 +56,7 @@ public partial interface ICorDebugThread3
 	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
 	/// <list type="table">
 	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
-	/// <item><term>S_OK</term><description>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">ICorDebugInternalFrame2</see> object was successfully created.</description></item>
+	/// <item><term>S_OK</term><description>The <see cref="ICorDebugInternalFrame2">ICorDebugInternalFrame2</see> object was successfully created.</description></item>
 	/// <item><term>E_INVALIDARG</term><description><c>cInternalFrames</c> is not zero and <c>ppInternalFrames</c> is <c>null</c>, or <c>pcInternalFrames</c> is <c>null</c>.</description></item>
 	/// <item><term>HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)</term><description><c>ppInternalFrames</c> is smaller than the count of internal frames.</description></item>
 	/// </list>
@@ -65,7 +65,7 @@ public partial interface ICorDebugThread3
 	/// <para>Internal frames are data structures pushed onto the stack by the runtime to store temporary data.</para>
 	/// <para>When you first call <c>GetActiveInternalFrames</c>, you should set the <c>cInternalFrames</c> parameter to 0 (zero), and the <c>ppInternalFrames</c> parameter to null. When <c>GetActiveInternalFrames</c> first returns, <c>pcInternalFrames</c> contains the count of the internal frames on the stack.</para>
 	/// <para><c>GetActiveInternalFrames</c> should then be called a second time. You should pass the proper count (<c>pcInternalFrames</c>) in the <c>cInternalFrames</c> parameter, and specify a pointer to an appropriately sized array in <c>ppInternalFrames</c>.</para>
-	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">ICorDebugStackWalk::GetFrame</see> method to return actual stack frames.</para>
+	/// <para>Use the <see cref="ICorDebugThread3.TryGetActiveInternalFrames">ICorDebugStackWalk::GetFrame</see> method to return actual stack frames.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

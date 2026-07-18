@@ -11,7 +11,7 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>The <c>ICorDebugExceptionObjectCallStackEnum</c> interface implements the ICorDebugEnum interface.</para>
-/// <para>An <c>ICorDebugExceptionObjectCallStackEnum</c> instance is populated with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionobjectstackframe-structure">CorDebugExceptionObjectStackFrame</see> objects by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectvalue-enumerateexceptioncallstack-method">ICorDebugExceptionObjectValue::EnumerateExceptionCallStack</see> method. The call stack items in the collection can be enumerated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-next-method">ICorDebugExceptionObjectCallStackEnum::Next</see> method</para>
+/// <para>An <c>ICorDebugExceptionObjectCallStackEnum</c> instance is populated with <see cref="CorDebugExceptionObjectStackFrame">CorDebugExceptionObjectStackFrame</see> objects by calling the <see cref="ICorDebugExceptionObjectValue.TryEnumerateExceptionCallStack">ICorDebugExceptionObjectValue::EnumerateExceptionCallStack</see> method. The call stack items in the collection can be enumerated by calling the <see cref="ICorDebugExceptionObjectCallStackEnum.TryNext">ICorDebugExceptionObjectCallStackEnum::Next</see> method</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">Microsoft Learn</see>.</para>
 /// </remarks>
 [GeneratedComInterface]
@@ -20,16 +20,16 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugExceptionObjectCallStackEnum : ICorDebugEnum
 {
 	/// <summary>
-	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionobjectstackframe-structure">CorDebugExceptionObjectStackFrame</see> instances that contain information from an exception object&#39;s call stack.</para>
+	/// <para>Gets the specified number of <see cref="CorDebugExceptionObjectStackFrame">CorDebugExceptionObjectStackFrame</see> instances that contain information from an exception object&#39;s call stack.</para>
 	/// </summary>
 	/// <param name="celt">
-	/// <para>The number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionobjectstackframe-structure">CorDebugExceptionObjectStackFrame</see> instances to be retrieved.</para>
+	/// <para>The number of <see cref="CorDebugExceptionObjectStackFrame">CorDebugExceptionObjectStackFrame</see> instances to be retrieved.</para>
 	/// </param>
 	/// <param name="values">
-	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionobjectstackframe-structure">CorDebugExceptionObjectStackFrame</see> object.</para>
+	/// <para>An array of pointers, each of which points to a <see cref="CorDebugExceptionObjectStackFrame">CorDebugExceptionObjectStackFrame</see> object.</para>
 	/// </param>
 	/// <param name="pceltFetched">
-	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionobjectstackframe-structure">CorDebugExceptionObjectStackFrame</see> instances actually returned.</para>
+	/// <para>A pointer to the number of <see cref="CorDebugExceptionObjectStackFrame">CorDebugExceptionObjectStackFrame</see> instances actually returned.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-next-method">Microsoft Learn</see>.</para>

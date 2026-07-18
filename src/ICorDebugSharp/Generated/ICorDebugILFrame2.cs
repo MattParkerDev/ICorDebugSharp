@@ -30,9 +30,9 @@ public partial interface ICorDebugILFrame2
 	/// <para><b>Note:</b> Calling  RemapFunction , like calling  ICorDebugILFrame :: SetIP , will immediately invalidate all debugging interfaces that are related to generating a stack trace for the thread. These interfaces include  ICorDebugChain , ICorDebugILFrame, ICorDebugInternalFrame, and ICorDebugNativeFrame.</para>
 	/// <para>The <c>RemapFunction</c> method can be called only in the context of the current frame, and only in one of the following cases:</para>
 	/// <list type="bullet">
-	/// <item><description><para>After receipt of a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-functionremapopportunity-method">ICorDebugManagedCallback2::FunctionRemapOpportunity</see> callback that has not yet been continued.</para>
+	/// <item><description><para>After receipt of a <see cref="ICorDebugManagedCallback2.TryFunctionRemapOpportunity">ICorDebugManagedCallback2::FunctionRemapOpportunity</see> callback that has not yet been continued.</para>
 	/// </description></item>
-	/// <item><description><para>While code execution is stopped because of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-editandcontinueremap-method">ICorDebugManagedCallback::EditAndContinueRemap</see> event for this frame.</para>
+	/// <item><description><para>While code execution is stopped because of an <see cref="ICorDebugManagedCallback.TryEditAndContinueRemap">ICorDebugManagedCallback::EditAndContinueRemap</see> event for this frame.</para>
 	/// </description></item>
 	/// </list>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-remapfunction-method">Microsoft Learn</see>.</para>
@@ -48,7 +48,7 @@ public partial interface ICorDebugILFrame2
 	/// <para>The list of type parameters include the class type parameters (if any) followed by the method type parameters (if any).</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-enumgenericparams-method">IMetaDataImport2::EnumGenericParams</see> method to determine how many class type parameters and method type parameters this list contains.</para>
+	/// <para>Use the <see cref="IMetaDataImport2.TryEnumGenericParams">IMetaDataImport2::EnumGenericParams</see> method to determine how many class type parameters and method type parameters this list contains.</para>
 	/// <para>The type parameters are not always available.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-enumeratetypeparameters-method">Microsoft Learn</see>.</para>
 	/// </remarks>

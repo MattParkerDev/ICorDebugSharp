@@ -16,7 +16,7 @@ namespace ICorDebugSharp;
 /// </description></item>
 /// <item><description><para><c>ICorDebugAssemblyEnum</c></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugblockingobjectenum-interface">ICorDebugBlockingObjectEnum</see></para>
+/// <item><description><para><see cref="ICorDebugBlockingObjectEnum">ICorDebugBlockingObjectEnum</see></para>
 /// </description></item>
 /// <item><description><para><c>ICorDebugBreakpointEnum</c></para>
 /// </description></item>
@@ -26,17 +26,17 @@ namespace ICorDebugSharp;
 /// </description></item>
 /// <item><description><para><c>ICorDebugErrorInfoEnum</c></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see></para>
+/// <item><description><para><see cref="ICorDebugExceptionObjectCallStackEnum">ICorDebugExceptionObjectCallStackEnum</see></para>
 /// </description></item>
 /// <item><description><para><c>ICorDebugFrameEnum</c></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-interface">ICorDebugGCReferenceEnum</see></para>
+/// <item><description><para><see cref="ICorDebugGCReferenceEnum">ICorDebugGCReferenceEnum</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-interface">ICorDebugGuidToTypeEnum</see></para>
+/// <item><description><para><see cref="ICorDebugGuidToTypeEnum">ICorDebugGuidToTypeEnum</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see></para>
+/// <item><description><para><see cref="ICorDebugHeapEnum">ICorDebugHeapEnum</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">ICorDebugHeapSegmentEnum</see></para>
+/// <item><description><para><see cref="ICorDebugHeapSegmentEnum">ICorDebugHeapSegmentEnum</see></para>
 /// </description></item>
 /// <item><description><para><c>ICorDebugModuleEnum</c></para>
 /// </description></item>
@@ -52,7 +52,7 @@ namespace ICorDebugSharp;
 /// </description></item>
 /// <item><description><para><c>ICorDebugValueEnum</c></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-interface">ICorDebugVariableHomeEnum</see></para>
+/// <item><description><para><see cref="ICorDebugVariableHomeEnum">ICorDebugVariableHomeEnum</see></para>
 /// </description></item>
 /// </list>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>

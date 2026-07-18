@@ -27,7 +27,7 @@ public partial interface ICorDebugILCode
 	/// <para>The number of clauses about which information is written to the <c>clauses</c> array.</para>
 	/// </param>
 	/// <param name="clauses">
-	/// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugehclause-structure">CorDebugEHClause</see> objects that contain information on exception handling clauses defined for this IL.</para>
+	/// <para>An array of <see cref="CorDebugEHClause">CorDebugEHClause</see> objects that contain information on exception handling clauses defined for this IL.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>If <c>cClauses</c> is 0 and <c>pcClauses</c> is non-<b>null</b>, <c>pcClauses</c> is set to the number of available exception handling clauses. If <c>cClauses</c> is non-zero, it represents the storage capacity of the <c>clauses</c> array. When the method returns, <c>clauses</c> contains a maximum of <c>cClauses</c> items, and <c>pcClauses</c> is set to the number of clauses actually written to the <c>clauses</c> array.</para>

@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Provides a value that determines whether a debugger loads native (NGen) images from the native image cache.</para>
 /// </summary>
 /// <remarks>
-/// <para>The <c>CorDebugNGENPolicy</c> enumeration is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enablengenpolicy-method">ICorDebugProcess5::EnableNGENPolicy</see> method. Disabling the use of images from the local native image cache provides for a consistent debugging experience by ensuring that the debugger loads debuggable JIT-compiled images instead of optimized native images.</para>
+/// <para>The <c>CorDebugNGENPolicy</c> enumeration is used by the <see cref="ICorDebugProcess5.TryEnableNGENPolicy">ICorDebugProcess5::EnableNGENPolicy</see> method. Disabling the use of images from the local native image cache provides for a consistent debugging experience by ensuring that the debugger loads debuggable JIT-compiled images instead of optimized native images.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugngenpolicy-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugNGENPolicy

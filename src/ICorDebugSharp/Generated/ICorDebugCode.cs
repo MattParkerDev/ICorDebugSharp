@@ -86,7 +86,7 @@ public partial interface ICorDebugCode
 	int TryCreateBreakpoint(uint offset, out ICorDebugFunctionBreakpoint ppBreakpoint);
 
 	/// <summary>
-	/// <para>Gets all the code for the specified function, formatted for disassembly. This method is deprecated. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcodechunks-method">ICorDebugCode2::GetCodeChunks</see> instead.</para>
+	/// <para>Gets all the code for the specified function, formatted for disassembly. This method is deprecated. Use <see cref="ICorDebugCode2.TryGetCodeChunks">ICorDebugCode2::GetCodeChunks</see> instead.</para>
 	/// </summary>
 	/// <param name="startOffset">
 	/// <para>The offset of the beginning of the function.</para>

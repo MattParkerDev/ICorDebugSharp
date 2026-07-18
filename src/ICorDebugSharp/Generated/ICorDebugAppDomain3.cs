@@ -43,7 +43,7 @@ public partial interface ICorDebugAppDomain3
 	/// <para>Gets an enumerator for all cached Windows Runtime types.</para>
 	/// </summary>
 	/// <param name="ppGuidToTypeEnum">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-interface">ICorDebugGuidToTypeEnum</see> interface object that can enumerate the managed representations of Windows Runtime types currently loaded in the application domain.</para>
+	/// <para>A pointer to an <see cref="ICorDebugGuidToTypeEnum">ICorDebugGuidToTypeEnum</see> interface object that can enumerate the managed representations of Windows Runtime types currently loaded in the application domain.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-getcachedwinrttypes-method">Microsoft Learn</see>.</para>

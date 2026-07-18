@@ -11,7 +11,7 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>In general, ownership of a value object is passed when it is returned. The recipient is responsible for removing a reference from the object when it is finished with the object.</para>
-/// <para>Depending on where the value was retrieved from, the value may not remain valid after the process is resumed. So, in general, the value shouldn&#39;t be held across a call of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> method.</para>
+/// <para>Depending on where the value was retrieved from, the value may not remain valid after the process is resumed. So, in general, the value shouldn&#39;t be held across a call of the <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> method.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -28,7 +28,7 @@ public partial interface ICorDebugValue
 	/// </param>
 	/// <remarks>
 	/// <para>If the object is a complex runtime type, that type may be examined through the appropriate subclasses of the <c>ICorDebugValue</c> interface. For example, &quot;ICorDebugObjectValue&quot;, which inherits from <c>ICorDebugValue</c>, represents a complex type.</para>
-	/// <para>The <c>GetType</c> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getclass-method">ICorDebugObjectValue::GetClass</see> methods each return information about the type of a value. They are both superseded by the generics-aware <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue2-getexacttype-method">ICorDebugValue2::GetExactType</see> method.</para>
+	/// <para>The <c>GetType</c> and <see cref="ICorDebugObjectValue.TryGetClass">ICorDebugObjectValue::GetClass</see> methods each return information about the type of a value. They are both superseded by the generics-aware <see cref="ICorDebugValue2.TryGetExactType">ICorDebugValue2::GetExactType</see> method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-gettype-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -42,7 +42,7 @@ public partial interface ICorDebugValue
 	/// </param>
 	/// <remarks>
 	/// <para>If the value&#39;s type is a reference type, this method returns the size of the pointer rather than the size of the object.</para>
-	/// <para>The <c>ICorDebugValue::GetSize</c> method returns <c>COR_E_OVERFLOW</c> for objects that are larger than 4 GB on 64-bit platforms. Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue3-getsize64-method">ICorDebugValue3::GetSize64</see> method instead for objects that are larger than 4 GB.</para>
+	/// <para>The <c>ICorDebugValue::GetSize</c> method returns <c>COR_E_OVERFLOW</c> for objects that are larger than 4 GB on 64-bit platforms. Use the <see cref="ICorDebugValue3.TryGetSize64">ICorDebugValue3::GetSize64</see> method instead for objects that are larger than 4 GB.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-getsize-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

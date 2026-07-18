@@ -28,7 +28,7 @@ public partial interface ICorDebugAssembly3
 	/// <para><c>S_OK</c> if the method call succeeds; otherwise, <c>S_FALSE</c>, and <c>ppAssembly</c> is <b>null</b>.</para>
 	/// </returns>
 	/// <remarks>
-	/// <para>If this assembly has been merged with others inside a single container assembly, this method returns the container assembly. For more information and terminology, see the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-enablevirtualmodulesplitting-method">ICorDebugProcess6::EnableVirtualModuleSplitting</see> topic.</para>
+	/// <para>If this assembly has been merged with others inside a single container assembly, this method returns the container assembly. For more information and terminology, see the <see cref="ICorDebugProcess6.TryEnableVirtualModuleSplitting">ICorDebugProcess6::EnableVirtualModuleSplitting</see> topic.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly3-getcontainerassembly-method">Microsoft Learn</see>.</para>
 	/// </remarks>

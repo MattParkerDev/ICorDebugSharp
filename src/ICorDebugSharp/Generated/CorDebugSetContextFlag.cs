@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Indicates whether the context is from the active (or leaf) frame on the stack or has been computed by unwinding from another frame.</para>
 /// </summary>
 /// <remarks>
-/// <para><c>CorDebugSetContextFlag</c> provides values that are used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-setcontext-method">ICorDebugStackWalk::SetContext</see> method.</para>
+/// <para><c>CorDebugSetContextFlag</c> provides values that are used by the <see cref="ICorDebugStackWalk.TrySetContext">ICorDebugStackWalk::SetContext</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugsetcontextflag-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugSetContextFlag

@@ -20,22 +20,22 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugType2
 {
 	/// <summary>
-	/// <para>Gets a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> for this type.</para>
+	/// <para>Gets a <see cref="COR_TYPEID">COR_TYPEID</see> for this type.</para>
 	/// </summary>
 	/// <param name="id">
-	/// <para>A pointer to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> for this ICorDebugType.</para>
+	/// <para>A pointer to the <see cref="COR_TYPEID">COR_TYPEID</see> for this ICorDebugType.</para>
 	/// </param>
 	/// <returns>
 	/// <para>The return value is <c>S_OK</c> on success, or a failure <c>HRESULT</c> code on failure. The <c>HRESULT</c> codes include the following:</para>
 	/// <list type="table">
 	/// <listheader><term>Return code</term><description>Description</description></listheader>
-	/// <item><term><c>S_OK</c></term><description>Method succeeded. The method has retrieved a valid <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see>.</description></item>
+	/// <item><term><c>S_OK</c></term><description>Method succeeded. The method has retrieved a valid <see cref="COR_TYPEID">COR_TYPEID</see>.</description></item>
 	/// <item><term><c>CORDBG_E_CLASS_NOT_LOADED</c></term><description>The type has not been loaded.</description></item>
 	/// <item><term><c>CORDBG_E_UNSUPPORTED</c></term><description>The type is not supported.</description></item>
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>This method provides a mapping from the ICorDebugType, which represents a type that may or may not have been loaded into the runtime, to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see>, which serves as an opaque handle that identifies a type loaded into the runtime.</para>
+	/// <para>This method provides a mapping from the ICorDebugType, which represents a type that may or may not have been loaded into the runtime, to a <see cref="COR_TYPEID">COR_TYPEID</see>, which serves as an opaque handle that identifies a type loaded into the runtime.</para>
 	/// <para>When the type that the ICorDebugType represents has not yet been loaded, this method returns <c>CORDBG_E_CLASS_NOT_LOADED</c>.  If the type is not supported, it returns <c>CORDBG_E_UNSUPPORTED</c>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype2-gettypeid-method">Microsoft Learn</see>.</para>
 	/// </remarks>

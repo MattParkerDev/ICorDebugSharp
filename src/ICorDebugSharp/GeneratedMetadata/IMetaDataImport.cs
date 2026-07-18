@@ -37,7 +37,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The handle for the enumerator to close.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypedefs-method">IMetaDataImport::EnumTypeDefs</see>).</para>
+	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see cref="IMetaDataImport.TryEnumTypeDefs">IMetaDataImport::EnumTypeDefs</see>).</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-closeenum-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -53,7 +53,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The number of elements enumerated.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypedefs-method">IMetaDataImport::EnumTypeDefs</see>).</para>
+	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see cref="IMetaDataImport.TryEnumTypeDefs">IMetaDataImport::EnumTypeDefs</see>).</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-countenum-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -129,7 +129,7 @@ public unsafe partial interface IMetaDataImport
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>The enumeration returns a collection of <c>mdInterfaceImpl</c> tokens for each interface implemented by the specified <c>TypeDef</c>. Interface tokens are returned in the order the interfaces were specified (through <c>DefineTypeDef</c> or <c>SetTypeDefProps</c>). Properties of the returned <c>mdInterfaceImpl</c> tokens can be queried using <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getinterfaceimplprops-method">GetInterfaceImplProps</see>.</para>
+	/// <para>The enumeration returns a collection of <c>mdInterfaceImpl</c> tokens for each interface implemented by the specified <c>TypeDef</c>. Interface tokens are returned in the order the interfaces were specified (through <c>DefineTypeDef</c> or <c>SetTypeDefProps</c>). Properties of the returned <c>mdInterfaceImpl</c> tokens can be queried using <see cref="IMetaDataImport.TryGetInterfaceImplProps">GetInterfaceImplProps</see>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enuminterfaceimpls-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -232,7 +232,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The number of wide characters returned in <c>szTypeDef</c>.</para>
 	/// </param>
 	/// <param name="pdwTypeDefFlags">
-	/// <para>A pointer to any flags that modify the type definition. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cortypeattr-enumeration">CorTypeAttr</see> enumeration.</para>
+	/// <para>A pointer to any flags that modify the type definition. This value is a bitmask from the <see cref="CorTypeAttr">CorTypeAttr</see> enumeration.</para>
 	/// </param>
 	/// <param name="ptkExtends">
 	/// <para>A TypeDef or TypeRef metadata token that represents the base type of the requested type.</para>
@@ -256,7 +256,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The metadata token representing the interface that defines the implemented method.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>You obtain the value for <c>iImpl</c> by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enuminterfaceimpls-method">EnumInterfaceImpls</see> method.</para>
+	/// <para>You obtain the value for <c>iImpl</c> by calling the <see cref="IMetaDataImport.TryEnumInterfaceImpls">EnumInterfaceImpls</see> method.</para>
 	/// <para>For example, suppose that a class has an <c>mdTypeDef</c> token value of 0x02000007 and that it implements three<br/>interfaces whose types have tokens:</para>
 	/// <list type="bullet">
 	/// <item><description><para>0x02000003 (TypeDef)</para>
@@ -363,7 +363,7 @@ public unsafe partial interface IMetaDataImport
 	/// </returns>
 	/// <remarks>
 	/// <para>When enumerating collections of members for a class, <c>EnumMembers</c> returns only members (fields and methods, but <b>not</b> properties or events) defined directly on the class. It does not return any members that the class inherits, even if the class provides an implementation for those inherited members. To enumerate inherited members, the caller must explicitly walk the inheritance chain. Note that the rules for the inheritance chain may vary depending on the language or compiler that emitted the original metadata.</para>
-	/// <para>Properties and events are not enumerated by <c>EnumMembers</c>. To enumerate those, use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumproperties-method">EnumProperties</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumevents-method">EnumEvents</see>.</para>
+	/// <para>Properties and events are not enumerated by <c>EnumMembers</c>. To enumerate those, use <see cref="IMetaDataImport.TryEnumProperties">EnumProperties</see> or <see cref="IMetaDataImport.TryEnumEvents">EnumEvents</see>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummembers-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -398,7 +398,7 @@ public unsafe partial interface IMetaDataImport
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummembers-method">IMetaDataImport::EnumMembers</see>, <c>EnumMembersWithName</c> discards all field and member tokens that do not have the specified name.</para>
+	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see cref="IMetaDataImport.TryEnumMembers">IMetaDataImport::EnumMembers</see>, <c>EnumMembersWithName</c> discards all field and member tokens that do not have the specified name.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummemberswithname-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -464,7 +464,7 @@ public unsafe partial interface IMetaDataImport
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethods-method">IMetaDataImport::EnumMethods</see>, <c>EnumMethodsWithName</c> discards all method tokens that do not have the specified name.</para>
+	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see cref="IMetaDataImport.TryEnumMethods">IMetaDataImport::EnumMethods</see>, <c>EnumMethodsWithName</c> discards all method tokens that do not have the specified name.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethodswithname-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -530,7 +530,7 @@ public unsafe partial interface IMetaDataImport
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumfields-method">IMetaDataImport::EnumFields</see>, <c>EnumFieldsWithName</c> discards all field tokens that do not have the specified name.</para>
+	/// <para>Unlike <see cref="IMetaDataImport.TryEnumFields">IMetaDataImport::EnumFields</see>, <c>EnumFieldsWithName</c> discards all field tokens that do not have the specified name.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumfieldswithname-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -996,7 +996,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>A token representing the paired property and event for which to get the method&#39;s role.</para>
 	/// </param>
 	/// <param name="pdwSemanticsFlags">
-	/// <para>A pointer to the associated semantics flags. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormethodsemanticsattr-enumeration">CorMethodSemanticsAttr</see> enumeration.</para>
+	/// <para>A pointer to the associated semantics flags. This value is a bitmask from the <see cref="CorMethodSemanticsAttr">CorMethodSemanticsAttr</see> enumeration.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-defineproperty-method">IMetaDataEmit::DefineProperty</see> method sets a method&#39;s semantics flags.</para>
@@ -1015,7 +1015,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>One of the values 1, 2, 4, 8, or 16, representing the pack size of the class.</para>
 	/// </param>
 	/// <param name="rFieldOffset">
-	/// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/structures/cor-field-offset-structure">COR_FIELD_OFFSET</see> values.</para>
+	/// <para>An array of <see cref="COR_FIELD_OFFSET">COR_FIELD_OFFSET</see> values.</para>
 	/// </param>
 	/// <param name="cMax">
 	/// <para>The maximum size of the <c>rFieldOffset</c> array.</para>
@@ -1060,7 +1060,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>A pointer to the relative virtual address of the code object represented by the token.</para>
 	/// </param>
 	/// <param name="pdwImplFlags">
-	/// <para>A pointer to the implementation flags for the method. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormethodimpl-enumeration">CorMethodImpl</see> enumeration. The value of <c>pdwImplFlags</c> is valid only if <c>tk</c> is a MethodDef token.</para>
+	/// <para>A pointer to the implementation flags for the method. This value is a bitmask from the <see cref="CorMethodImpl">CorMethodImpl</see> enumeration. The value of <c>pdwImplFlags</c> is valid only if <c>tk</c> is a MethodDef token.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getrva-method">Microsoft Learn</see>.</para>
@@ -1251,7 +1251,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>A FieldDef or MethodDef token to get the PInvoke mapping metadata for.</para>
 	/// </param>
 	/// <param name="pdwMappingFlags">
-	/// <para>A pointer to flags used for mapping. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpinvokemap-enumeration">CorPinvokeMap</see> enumeration.</para>
+	/// <para>A pointer to flags used for mapping. This value is a bitmask from the <see cref="CorPinvokeMap">CorPinvokeMap</see> enumeration.</para>
 	/// </param>
 	/// <param name="szImportName">
 	/// <para>The name of the unmanaged target DLL.</para>
@@ -1562,7 +1562,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The number of wide characters returned in <c>szProperty</c>.</para>
 	/// </param>
 	/// <param name="pdwPropFlags">
-	/// <para>A pointer to any attribute flags applied to the property. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpropertyattr-enumeration">CorPropertyAttr</see> enumeration.</para>
+	/// <para>A pointer to any attribute flags applied to the property. This value is a bitmask from the <see cref="CorPropertyAttr">CorPropertyAttr</see> enumeration.</para>
 	/// </param>
 	/// <param name="ppvSig">
 	/// <para>A pointer to the metadata signature of the property.</para>
@@ -1656,7 +1656,7 @@ public unsafe partial interface IMetaDataImport
 	/// <para>The size in bytes of the data returned in *<c>ppData</c>.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>It is legal to define multiple custom attributes for the same owner; they may even have the same name. However, <c>GetCustomAttributeByName</c> returns only one instance. (<c>GetCustomAttributeByName</c> returns the first instance that it encounters.) To find all instances of a custom attribute, call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumcustomattributes-method">IMetaDataImport::EnumCustomAttributes</see> method.</para>
+	/// <para>It is legal to define multiple custom attributes for the same owner; they may even have the same name. However, <c>GetCustomAttributeByName</c> returns only one instance. (<c>GetCustomAttributeByName</c> returns the first instance that it encounters.) To find all instances of a custom attribute, call the <see cref="IMetaDataImport.TryEnumCustomAttributes">IMetaDataImport::EnumCustomAttributes</see> method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getcustomattributebyname-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

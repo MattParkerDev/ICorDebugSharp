@@ -7,18 +7,18 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-interface">ICorDebugDebugEvent</see> interface to support exception events.</para>
+/// <para>Extends the <see cref="ICorDebugDebugEvent">ICorDebugDebugEvent</see> interface to support exception events.</para>
 /// </summary>
 /// <remarks>
 /// <para>The <c>ICorDebugExceptionDebugEvent</c> interface is implemented by the following event types:</para>
 /// <list type="bullet">
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_FIRST_CHANCE</see></para>
+/// <item><description><para><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_FIRST_CHANCE</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></para>
+/// <item><description><para><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></para>
+/// <item><description><para><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_UNHANDLED</see></para>
+/// <item><description><para><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_UNHANDLED</see></para>
 /// </description></item>
 /// </list>
 /// <para><b>Note:</b> The interface is available with .NET Native only. Attempting to call  QueryInterface  to retrieve an interface pointer returns  E_NOINTERFACE  for ICorDebug scenarios outside of .NET Native.</para>
@@ -39,13 +39,13 @@ public partial interface ICorDebugExceptionDebugEvent : ICorDebugDebugEvent
 	/// <para>The meaning of this stack pointer depends on the event type, as shown in the following table.</para>
 	/// <list type="table">
 	/// <listheader><term>Event type</term><description>Meaning of <c>pStackPointer</c> value</description></listheader>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_FIRST_CHANCE</see></term><description>The stack pointer for the frame that threw the exception.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></term><description>The stack pointer for the user-code frame closest to the point of the thrown exception.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></term><description>The stack pointer for the frame that contains the catch handler.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_UNHANDLED</see></term><description><c>pStackPointer</c> is <b>null</b>.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_FIRST_CHANCE</see></term><description>The stack pointer for the frame that threw the exception.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></term><description>The stack pointer for the user-code frame closest to the point of the thrown exception.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></term><description>The stack pointer for the frame that contains the catch handler.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_UNHANDLED</see></term><description><c>pStackPointer</c> is <b>null</b>.</description></item>
 	/// </list>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
-	/// <para>The event type is available from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-geteventkind-method">ICorDebugDebugEvent::GetEventKind</see> method.</para>
+	/// <para>The event type is available from the <see cref="ICorDebugDebugEvent.TryGetEventKind">ICorDebugDebugEvent::GetEventKind</see> method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-getstackpointer-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -61,12 +61,12 @@ public partial interface ICorDebugExceptionDebugEvent : ICorDebugDebugEvent
 	/// <para>The meaning of this instruction pointer depends on the event type, as shown in the following table.</para>
 	/// <list type="table">
 	/// <listheader><term>Event type</term><description>Meaning of <c>pStackPointer</c> value</description></listheader>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_FIRST_CHANCE</see></term><description>The address of the faulting instruction.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></term><description>The code address in the frame indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-getstackpointer-method">GetStackPointer</see> method where execution would resume if no exception had been raised. The exception may or may not cause different code, such as the catch block of a <c>try/catch/finally</c> clause, to be executed in this frame.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></term><description>The code address where <c>catch</c> handler execution will start in the frame indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-getstackpointer-method">GetStackPointer</see> method.</description></item>
-	/// <item><term><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">MANAGED_EXCEPTION_UNHANDLED</see></term><description><c>pIP</c> is 0.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_FIRST_CHANCE</see></term><description>The address of the faulting instruction.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_USER_FIRST_CHANCE</see></term><description>The code address in the frame indicated by the <see cref="ICorDebugExceptionDebugEvent.TryGetStackPointer">GetStackPointer</see> method where execution would resume if no exception had been raised. The exception may or may not cause different code, such as the catch block of a <c>try/catch/finally</c> clause, to be executed in this frame.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_CATCH_HANDLER_FOUND</see></term><description>The code address where <c>catch</c> handler execution will start in the frame indicated by the <see cref="ICorDebugExceptionDebugEvent.TryGetStackPointer">GetStackPointer</see> method.</description></item>
+	/// <item><term><see cref="CorDebugRecordFormat">MANAGED_EXCEPTION_UNHANDLED</see></term><description><c>pIP</c> is 0.</description></item>
 	/// </list>
-	/// <para>The event type is available from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-geteventkind-method">ICorDebugDebugEvent::GetEventKind</see> method.</para>
+	/// <para>The event type is available from the <see cref="ICorDebugDebugEvent.TryGetEventKind">ICorDebugDebugEvent::GetEventKind</see> method.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-getnativeip-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -77,7 +77,7 @@ public partial interface ICorDebugExceptionDebugEvent : ICorDebugDebugEvent
 	/// <para>Gets a flag that indicates whether the exception can be intercepted.</para>
 	/// </summary>
 	/// <param name="pdwFlags">
-	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">CorDebugExceptionFlags</see> value that indicates whether the exception can be intercepted.</para>
+	/// <para>A pointer to a <see cref="CorDebugExceptionFlags">CorDebugExceptionFlags</see> value that indicates whether the exception can be intercepted.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>

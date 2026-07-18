@@ -4,7 +4,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Provides target platform values that are used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method.</para>
+/// <para>Provides target platform values that are used by the <see cref="ICorDebugDataTarget.TryGetPlatform">ICorDebugDataTarget::GetPlatform</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">Microsoft Learn</see>.</para>

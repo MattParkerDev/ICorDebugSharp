@@ -25,7 +25,7 @@ public struct COR_FIELD
 	public uint offset;
 
 	/// <summary>
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> value that identifies the type of this field.</para>
+	/// <para>A <see cref="COR_TYPEID">COR_TYPEID</see> value that identifies the type of this field.</para>
 	/// </summary>
 	public COR_TYPEID id;
 

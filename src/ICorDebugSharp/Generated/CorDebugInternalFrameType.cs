@@ -4,7 +4,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Identifies the type of stack frame. This enumeration is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe-getframetype-method">ICorDebugInternalFrame::GetFrameType</see> method.</para>
+/// <para>Identifies the type of stack frame. This enumeration is used by the <see cref="ICorDebugInternalFrame.TryGetFrameType">ICorDebugInternalFrame::GetFrameType</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuginternalframetype-enumeration">Microsoft Learn</see>.</para>

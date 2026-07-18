@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Logically extends the ICorDebugProcess interface to enable or disable certain types of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see> exception callbacks.</para>
+/// <para>Logically extends the ICorDebugProcess interface to enable or disable certain types of <see cref="ICorDebugManagedCallback2">ICorDebugManagedCallback2</see> exception callbacks.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess8-interface">Microsoft Learn</see>.</para>
@@ -18,7 +18,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugProcess8
 {
 	/// <summary>
-	/// <para>Enables or disables certain types of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see> exception callbacks.</para>
+	/// <para>Enables or disables certain types of <see cref="ICorDebugManagedCallback2">ICorDebugManagedCallback2</see> exception callbacks.</para>
 	/// </summary>
 	/// <remarks>
 	/// <para>If the value of <c>enableExceptionsOutsideOfJMC</c> is <c>false</c>:</para>

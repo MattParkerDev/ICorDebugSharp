@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Indicates the severity level of a descriptive message that is written to the event log when a managed thread logs an event.</para>
 /// </summary>
 /// <remarks>
-/// <para>The common language runtime (CLR) calls the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-logmessage-method">ICorDebugManagedCallback::LogMessage</see> method to notify the debugger that a managed thread has logged an event. The CLR passes a value of the <c>LoggingLevelEnum</c> enumeration to indicate the severity level of the message that the managed thread wrote to the event log.</para>
+/// <para>The common language runtime (CLR) calls the <see cref="ICorDebugManagedCallback.TryLogMessage">ICorDebugManagedCallback::LogMessage</see> method to notify the debugger that a managed thread has logged an event. The CLR passes a value of the <c>LoggingLevelEnum</c> enumeration to indicate the severity level of the message that the managed thread wrote to the event log.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logginglevelenum-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum LoggingLevelEnum

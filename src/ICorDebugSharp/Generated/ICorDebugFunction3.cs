@@ -18,7 +18,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugFunction3
 {
 	/// <summary>
-	/// <para>Gets an interface pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-interface">ICorDebugILCode</see> that contains the IL from an active ReJIT request.</para>
+	/// <para>Gets an interface pointer to an <see cref="ICorDebugILCode">ICorDebugILCode</see> that contains the IL from an active ReJIT request.</para>
 	/// </summary>
 	/// <param name="ppReJitedILCode">
 	/// <para>A pointer to the IL from an active ReJIT request.</para>

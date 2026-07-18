@@ -31,7 +31,7 @@ public partial interface ICorDebugCode2
 	/// <para>An array of &quot;CodeChunkInfo&quot; structures, each of which represents a single chunk of code. If the value of <c>cbufSize</c> is 0, this parameter can be null.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The code chunks will never overlap, and they will follow the order in which they would have been concatenated by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getcode-method">ICorDebugCode::GetCode</see>. A common intermediate language (CIL) code object comprises a single code chunk.</para>
+	/// <para>The code chunks will never overlap, and they will follow the order in which they would have been concatenated by <see cref="ICorDebugCode.TryGetCode">ICorDebugCode::GetCode</see>. A common intermediate language (CIL) code object comprises a single code chunk.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcodechunks-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -41,7 +41,7 @@ public partial interface ICorDebugCode2
 	/// <para>Gets the flags that specify the conditions under which this code object was either just-in-time (JIT) compiled or generated using the native image generator (Ngen.exe).</para>
 	/// </summary>
 	/// <param name="pdwFlags">
-	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that specifies the behavior of the JIT compiler or the native image generator.</para>
+	/// <para>A pointer to a value of the <see cref="CorDebugJITCompilerFlags">CorDebugJITCompilerFlags</see> enumeration that specifies the behavior of the JIT compiler or the native image generator.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcompilerflags-method">Microsoft Learn</see>.</para>

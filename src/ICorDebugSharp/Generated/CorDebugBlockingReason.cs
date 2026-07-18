@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Specifies the reasons why a thread may become blocked on a given object.</para>
 /// </summary>
 /// <remarks>
-/// <para>When the <c>BLOCKING_MONITOR_CRITICAL_SECTION</c> or <c>BLOCKING_MONITOR_EVENT</c> member is used in a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> structure, the <c>pBlockingObject</c> member of the structure points to an &quot;ICorDebugValue&quot; interface that represents the object that is being entered. It is also guaranteed to implement the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue3-interface">ICorDebugHeapValue3</see> interface.</para>
+/// <para>When the <c>BLOCKING_MONITOR_CRITICAL_SECTION</c> or <c>BLOCKING_MONITOR_EVENT</c> member is used in a <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> structure, the <c>pBlockingObject</c> member of the structure points to an &quot;ICorDebugValue&quot; interface that represents the object that is being entered. It is also guaranteed to implement the <see cref="ICorDebugHeapValue3">ICorDebugHeapValue3</see> interface.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingreason-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugBlockingReason

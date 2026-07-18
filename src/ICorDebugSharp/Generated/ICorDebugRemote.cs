@@ -22,7 +22,7 @@ public partial interface ICorDebugRemote
 	/// <para>Launches a process on a remote machine under the debugger.</para>
 	/// </summary>
 	/// <param name="pRemoteTarget">
-	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-interface">ICorDebugRemoteTarget Interface</see>. Used to determine the remote machine on which the process will be launched.</para>
+	/// <para>Pointer to an <see cref="ICorDebugRemoteTarget">ICorDebugRemoteTarget Interface</see>. Used to determine the remote machine on which the process will be launched.</para>
 	/// </param>
 	/// <param name="lpApplicationName">
 	/// <para>Pointer to a null-terminated string that specifies the module to be executed by the launched process. The module is executed in the security context of the calling process.</para>
@@ -75,7 +75,7 @@ public partial interface ICorDebugRemote
 	/// <para>Launches a process on a remote machine under the debugger.</para>
 	/// </summary>
 	/// <param name="pRemoteTarget">
-	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-interface">ICorDebugRemoteTarget Interface</see>. This parameter is used to determine the machine on which the process is running.</para>
+	/// <para>Pointer to an <see cref="ICorDebugRemoteTarget">ICorDebugRemoteTarget Interface</see>. This parameter is used to determine the machine on which the process is running.</para>
 	/// </param>
 	/// <param name="dwProcessId">
 	/// <para>The ID of the process to which the debugger is to be attached.</para>

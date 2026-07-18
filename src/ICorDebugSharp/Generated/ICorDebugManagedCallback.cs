@@ -11,8 +11,8 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>All callbacks are serialized, called in the same thread, and called with the process in the synchronized state.</para>
-/// <para>Each callback implementation must call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> to resume execution. If <c>ICorDebugController::Continue</c> is not called before the callback returns, the process will remain stopped and no more event callbacks will occur until <c>ICorDebugController::Continue</c> is called.</para>
-/// <para>A debugger must implement <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setmanagedhandler-method">ICorDebug::SetManagedHandler</see>.</para>
+/// <para>Each callback implementation must call <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> to resume execution. If <c>ICorDebugController::Continue</c> is not called before the callback returns, the process will remain stopped and no more event callbacks will occur until <c>ICorDebugController::Continue</c> is called.</para>
+/// <para>A debugger must implement <see cref="ICorDebugManagedCallback2">ICorDebugManagedCallback2</see>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see cref="ICorDebug.TrySetManagedHandler">ICorDebug::SetManagedHandler</see>.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -138,7 +138,7 @@ public partial interface ICorDebugManagedCallback
 	/// <para>A pointer to an ICorDebugProcess object that represents the process that has been attached or started.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>This method is not called until the common language runtime is initialized. Most of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> methods will return CORDBG_E_NOTREADY before the <c>CreateProcess</c> callback.</para>
+	/// <para>This method is not called until the common language runtime is initialized. Most of the <see cref="ICorDebug">ICorDebug</see> methods will return CORDBG_E_NOTREADY before the <c>CreateProcess</c> callback.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -270,7 +270,7 @@ public partial interface ICorDebugManagedCallback
 	/// </param>
 	/// <remarks>
 	/// <para>The process may be placed into pass-through mode, depending on the nature of the error.</para>
-	/// <para>The <c>DebugError</c> callback indicates that debugging services have been disabled due to an error, so debuggers should make the error message available to the user. <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-getid-method">ICorDebugProcess::GetID</see> will be safe to call, but all other methods, including <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-terminate-method">ICorDebug::Terminate</see>, should not be called. The debugger should use operating-system facilities for terminating processes.</para>
+	/// <para>The <c>DebugError</c> callback indicates that debugging services have been disabled due to an error, so debuggers should make the error message available to the user. <see cref="ICorDebugProcess.TryGetID">ICorDebugProcess::GetID</see> will be safe to call, but all other methods, including <see cref="ICorDebug.TryTerminate">ICorDebug::Terminate</see>, should not be called. The debugger should use operating-system facilities for terminating processes.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-debuggererror-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -286,7 +286,7 @@ public partial interface ICorDebugManagedCallback
 	/// <para>A pointer to an ICorDebugThread object that represents the managed thread.</para>
 	/// </param>
 	/// <param name="lLevel">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logginglevelenum-enumeration">LoggingLevelEnum</see> enumeration that indicates the severity level of the descriptive message that was written to the event log.</para>
+	/// <para>A value of the <see cref="LoggingLevelEnum">LoggingLevelEnum</see> enumeration that indicates the severity level of the descriptive message that was written to the event log.</para>
 	/// </param>
 	/// <param name="pLogSwitchName">
 	/// <para>A pointer to the name of the tracing switch.</para>
@@ -313,7 +313,7 @@ public partial interface ICorDebugManagedCallback
 	/// <para>A value that indicates the severity level of the descriptive message that was written to the event log.</para>
 	/// </param>
 	/// <param name="ulReason">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logswitchcallreason-enumeration">LogSwitchCallReason</see> enumeration that indicates the operation performed on the debugging/tracing switch.</para>
+	/// <para>A value of the <see cref="LogSwitchCallReason">LogSwitchCallReason</see> enumeration that indicates the operation performed on the debugging/tracing switch.</para>
 	/// </param>
 	/// <param name="pLogSwitchName">
 	/// <para>A pointer to the name of the debugging/tracing switch.</para>

@@ -27,7 +27,7 @@ public partial interface ICorDebugType
 	/// <para>A pointer to a value of the <c>CorElementType</c> enumeration that indicates the CLR  that this <c>ICorDebugType</c> represents.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>If the value of <c>ty</c> is either ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">ICorDebugType::GetClass</see> method may be called to get the uninstantiated type for a generic type; otherwise, do not call <c>ICorDebugType::GetClass</c>.</para>
+	/// <para>If the value of <c>ty</c> is either ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, the <see cref="ICorDebugType.TryGetClass">ICorDebugType::GetClass</see> method may be called to get the uninstantiated type for a generic type; otherwise, do not call <c>ICorDebugType::GetClass</c>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -40,7 +40,7 @@ public partial interface ICorDebugType
 	/// <para>A pointer to the address of an <c>ICorDebugClass</c> interface that represents the uninstantiated generic type.</para>
 	/// </param>
 	/// <remarks>
-	/// <para><c>GetClass</c> can be called only under certain conditions. Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> before calling <c>GetClass</c>. If <c>ICorDebugType::GetType</c> returns a CorElementType value that is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, <c>GetClass</c> can be called to get the uninstantiated type for a generic type.</para>
+	/// <para><c>GetClass</c> can be called only under certain conditions. Call <see cref="ICorDebugType.TryGetType">ICorDebugType::GetType</see> before calling <c>GetClass</c>. If <c>ICorDebugType::GetType</c> returns a CorElementType value that is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, <c>GetClass</c> can be called to get the uninstantiated type for a generic type.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -53,7 +53,7 @@ public partial interface ICorDebugType
 	/// <para>A pointer to the address of an <c>ICorDebugTypeEnum</c> that contains the parameters of the type.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>You can use <c>EnumerateTypeParameters</c> if the CorElementType value returned by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> is ELEMENT_TYPE_CLASS, ELEMENT_TYPE_VALUETYPE, ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, ELEMENT_TYPE_PTR, or ELEMENT_TYPE_FNPTR. The number of parameters and their order depends on the type:</para>
+	/// <para>You can use <c>EnumerateTypeParameters</c> if the CorElementType value returned by <see cref="ICorDebugType.TryGetType">ICorDebugType::GetType</see> is ELEMENT_TYPE_CLASS, ELEMENT_TYPE_VALUETYPE, ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, ELEMENT_TYPE_PTR, or ELEMENT_TYPE_FNPTR. The number of parameters and their order depends on the type:</para>
 	/// <list type="bullet">
 	/// <item><description><para>ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE: The number of type parameters contained in the <c>ICorDebugTypeEnum</c> that this method returns, will depend on the number of formal type parameters for the corresponding class. For example, if the type is <c>class Dict&lt;String,int32&gt;</c>, then <c>EnumerateTypeParameters</c> will return an <c>ICorDebugTypeEnum</c> that contains objects representing <c>String</c> and <c>int32</c> in sequence.</para>
 	/// </description></item>
@@ -74,7 +74,7 @@ public partial interface ICorDebugType
 	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the first parameter.</para>
 	/// </param>
 	/// <remarks>
-	/// <para><c>GetFirstTypeParameter</c> can be called in cases where the additional information about the type involves, at most, one type parameter. In particular, it can be used if the type is an ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, or ELEMENT_TYPE_PTR, as indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> method.</para>
+	/// <para><c>GetFirstTypeParameter</c> can be called in cases where the additional information about the type involves, at most, one type parameter. In particular, it can be used if the type is an ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, or ELEMENT_TYPE_PTR, as indicated by the <see cref="ICorDebugType.TryGetType">ICorDebugType::GetType</see> method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getfirsttypeparameter-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -106,8 +106,8 @@ public partial interface ICorDebugType
 	/// <para>A pointer to the address of an <c>ICorDebugValue</c> that contains the value of the static field.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>GetStaticFieldValue</c> method may be used only if the type is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, as indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> method.</para>
-	/// <para>For non-generic types, the operation performed by <c>GetStaticFieldValue</c> is identical to calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-getstaticfieldvalue-method">ICorDebugClass::GetStaticFieldValue</see> on the ICorDebugClass object that is returned by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">ICorDebugType::GetClass</see>.</para>
+	/// <para>The <c>GetStaticFieldValue</c> method may be used only if the type is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, as indicated by the <see cref="ICorDebugType.TryGetType">ICorDebugType::GetType</see> method.</para>
+	/// <para>For non-generic types, the operation performed by <c>GetStaticFieldValue</c> is identical to calling <see cref="ICorDebugClass.TryGetStaticFieldValue">ICorDebugClass::GetStaticFieldValue</see> on the ICorDebugClass object that is returned by <see cref="ICorDebugType.TryGetClass">ICorDebugType::GetClass</see>.</para>
 	/// <para>For generic types, a static field value will be relative to a particular instantiation. Also, if the static field could possibly be relative to a thread, a context, or an application domain, then the stack frame will help the debugger determine the proper value.</para>
 	/// <para><c>GetStaticFieldValue</c> can be used only when a call to <c>ICorDebugType::GetType</c> returns a value of ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getstaticfieldvalue-method">Microsoft Learn</see>.</para>

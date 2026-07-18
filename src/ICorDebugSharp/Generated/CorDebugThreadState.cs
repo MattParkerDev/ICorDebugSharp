@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Specifies the state of a thread for debugging.</para>
 /// </summary>
 /// <remarks>
-/// <para>The debugger uses the <c>CorDebugThreadState</c> enumeration to control a thread&#39;s execution. The state of a thread can be set by using the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-setdebugstate-method">ICorDebugThread::SetDebugState</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-setallthreadsdebugstate-method">ICorDebugController::SetAllThreadsDebugState</see> method.</para>
+/// <para>The debugger uses the <c>CorDebugThreadState</c> enumeration to control a thread&#39;s execution. The state of a thread can be set by using the <see cref="ICorDebugThread.TrySetDebugState">ICorDebugThread::SetDebugState</see> or <see cref="ICorDebugController.TrySetAllThreadsDebugState">ICorDebugController::SetAllThreadsDebugState</see> method.</para>
 /// <para>A callback provided to the <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/index">hosting API</see> enables message pumping, so an interrupted state is not needed.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugthreadstate-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>

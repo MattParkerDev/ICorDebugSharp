@@ -7,10 +7,10 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface to support mutable data targets.</para>
+/// <para>Extends the <see cref="ICorDebugDataTarget">ICorDebugDataTarget</see> interface to support mutable data targets.</para>
 /// </summary>
 /// <remarks>
-/// <para>This extension to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface can be implemented by debugging tools that wish to modify the target process (for example, to perform live invasive debugging).</para>
+/// <para>This extension to the <see cref="ICorDebugDataTarget">ICorDebugDataTarget</see> interface can be implemented by debugging tools that wish to modify the target process (for example, to perform live invasive debugging).</para>
 /// <para>All of these methods are optional in the sense that no core inspection-based debugging functionality is lost by not implementing this interface or by the failure of calls to these methods.  Any failure <c>HRESULT</c> from these methods will propagate out as the <c>HRESULT</c> from the ICorDebug method call.</para>
 /// <para>Note that a single ICorDebug method call may result in multiple mutations, and that there is no mechanism for ensuring related mutations are applied transactionally (all-or-none).  This means that if a mutation fails after others (for the same ICorDebug call) have succeeded, the target process may be left in an inconsistent state and debugging may become unreliable.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-interface">Microsoft Learn</see>.</para>
@@ -55,7 +55,7 @@ public partial interface ICorDebugMutableDataTarget : ICorDebugDataTarget
 	/// <para>A pointer to the bytes to be written.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>SetThreadContext</c> method updates the current context for the thread specified by the operating system-defined <c>dwThreadID</c> argument. The format of the context record is determined by the platform indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method. On Windows, this is a <see href="https://learn.microsoft.com/windows/win32/api/winnt/ns-winnt-arm64_nt_context">CONTEXT</see> structure.</para>
+	/// <para>The <c>SetThreadContext</c> method updates the current context for the thread specified by the operating system-defined <c>dwThreadID</c> argument. The format of the context record is determined by the platform indicated by the <see cref="ICorDebugDataTarget.TryGetPlatform">ICorDebugDataTarget::GetPlatform</see> method. On Windows, this is a <see href="https://learn.microsoft.com/windows/win32/api/winnt/ns-winnt-arm64_nt_context">CONTEXT</see> structure.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-setthreadcontext-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -71,7 +71,7 @@ public partial interface ICorDebugMutableDataTarget : ICorDebugDataTarget
 	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">COREDB_CONTINUE_STATUS</see> value that represents the new requested continuation status.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The debugger calls the <c>ContinueStatusChanged</c> method when it calls an ICorDebug method that requires the current debug event to be handled in a way that is potentially different from the way in which it normally would be handled. For example, if there is an outstanding exception, and the debugger requests an operation that would cancel the exception (such as <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">ICorDebugILFrame::SetIP</see> or <c>FuncEval</c>), this API is used to request that the exception be cancelled.</para>
+	/// <para>The debugger calls the <c>ContinueStatusChanged</c> method when it calls an ICorDebug method that requires the current debug event to be handled in a way that is potentially different from the way in which it normally would be handled. For example, if there is an outstanding exception, and the debugger requests an operation that would cancel the exception (such as <see cref="ICorDebugILFrame.TrySetIP">ICorDebugILFrame::SetIP</see> or <c>FuncEval</c>), this API is used to request that the exception be cancelled.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-continuestatuschanged-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

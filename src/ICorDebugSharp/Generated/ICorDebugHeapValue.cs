@@ -26,7 +26,7 @@ public partial interface ICorDebugHeapValue : ICorDebugValue
 	/// </param>
 	/// <remarks>
 	/// <para>The value is invalid if it has been reclaimed by the garbage collector.</para>
-	/// <para>This method has been deprecated. All values are valid until <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> is called, at which time the values are invalidated.</para>
+	/// <para>This method has been deprecated. All values are valid until <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> is called, at which time the values are invalidated.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue-isvalid-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

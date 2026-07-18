@@ -9,7 +9,7 @@ namespace ICorDebugSharp;
 /// <para>Provides information about the layout of an object in memory.</para>
 /// </summary>
 /// <remarks>
-/// <para>If <c>numFields</c> is greater than zero, you can call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypefields-method">ICorDebugProcess5::GetTypeFields</see> method to obtain information about the fields in this type. If <c>type</c> is <c>ELEMENT_TYPE_STRING</c>, <c>ELEMENT_TYPE_ARRAY</c>, or <c>ELEMENT_TYPE_SZARRAY</c>, the size of objects of this type is variable, and you can pass the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> structure to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getarraylayout-method">ICorDebugProcess5::GetArrayLayout</see> method.</para>
+/// <para>If <c>numFields</c> is greater than zero, you can call the <see cref="ICorDebugProcess5.TryGetTypeFields">ICorDebugProcess5::GetTypeFields</see> method to obtain information about the fields in this type. If <c>type</c> is <c>ELEMENT_TYPE_STRING</c>, <c>ELEMENT_TYPE_ARRAY</c>, or <c>ELEMENT_TYPE_SZARRAY</c>, the size of objects of this type is variable, and you can pass the <see cref="COR_TYPEID">COR_TYPEID</see> structure to the <see cref="ICorDebugProcess5.TryGetArrayLayout">ICorDebugProcess5::GetArrayLayout</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-type-layout-structure">Microsoft Learn</see>.</para>
 /// </remarks>
 [StructLayout(LayoutKind.Sequential)]

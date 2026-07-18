@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Provides a callback method that indicates that an enabled custom debugger notification has been raised.</para>
 /// </summary>
 /// <remarks>
-/// <para>This interface is a logical extension of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">ICorDebugManagedCallback</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see> interfaces.</para>
+/// <para>This interface is a logical extension of the <see cref="ICorDebugManagedCallback">ICorDebugManagedCallback</see> and <see cref="ICorDebugManagedCallback2">ICorDebugManagedCallback2</see> interfaces.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback3-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -36,8 +36,8 @@ public partial interface ICorDebugManagedCallback3
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>A subsequent call to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread4-getcurrentcustomdebuggernotification-method">ICorDebugThread4::GetCurrentCustomDebuggerNotification</see> method retrieves the thread object that was passed to the  method. The thread object&#39;s type must have been previously enabled by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess3-setenablecustomnotification-method">ICorDebugProcess3::SetEnableCustomNotification</see> method. The debugger can read type-specific parameters from the fields of the thread object, and can store responses into fields.</para>
-	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> interface imposes no policy on the types of notifications or their contents, and the semantics of the notifications are strictly a contract between debuggers, applications, and .NET.</para>
+	/// <para>A subsequent call to the <see cref="ICorDebugThread4.TryGetCurrentCustomDebuggerNotification">ICorDebugThread4::GetCurrentCustomDebuggerNotification</see> method retrieves the thread object that was passed to the  method. The thread object&#39;s type must have been previously enabled by calling the <see cref="ICorDebugProcess3.TrySetEnableCustomNotification">ICorDebugProcess3::SetEnableCustomNotification</see> method. The debugger can read type-specific parameters from the fields of the thread object, and can store responses into fields.</para>
+	/// <para>The <see cref="ICorDebug">ICorDebug</see> interface imposes no policy on the types of notifications or their contents, and the semantics of the notifications are strictly a contract between debuggers, applications, and .NET.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback3-customnotification-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

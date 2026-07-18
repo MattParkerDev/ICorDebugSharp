@@ -9,8 +9,8 @@ namespace ICorDebugSharp;
 /// <para>Provides general information about the garbage collection heap, including whether it is enumerable.</para>
 /// </summary>
 /// <remarks>
-/// <para>An instance of the <c>COR_HEAPINFO</c> structure is returned by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
-/// <para>Before enumerating objects on the garbage collection heap, you must always check the <c>areGCStructuresValid</c> field to ensure that the heap is in an enumerable state. For more information, see the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
+/// <para>An instance of the <c>COR_HEAPINFO</c> structure is returned by calling the <see cref="ICorDebugProcess5.TryGetGCHeapInformation">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
+/// <para>Before enumerating objects on the garbage collection heap, you must always check the <c>areGCStructuresValid</c> field to ensure that the heap is in an enumerable state. For more information, see the <see cref="ICorDebugProcess5.TryGetGCHeapInformation">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapinfo-structure">Microsoft Learn</see>.</para>
 /// </remarks>
 [StructLayout(LayoutKind.Sequential)]
@@ -37,7 +37,7 @@ public struct COR_HEAPINFO
 	public int concurrent;
 
 	/// <summary>
-	/// <para>A member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuggctype-enumeration">CorDebugGCType</see> enumeration that indicates whether the garbage collector is running on a workstation or a server.</para>
+	/// <para>A member of the <see cref="CorDebugGCType">CorDebugGCType</see> enumeration that indicates whether the garbage collector is running on a workstation or a server.</para>
 	/// </summary>
 	public CorDebugGCType gcType;
 }

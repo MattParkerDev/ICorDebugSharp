@@ -7,11 +7,11 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Provides methods to support debugger exception handling and managed debugging assistants (MDAs). <c>ICorDebugManagedCallback2</c> is a logical extension of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">ICorDebugManagedCallback</see> interface.</para>
+/// <para>Provides methods to support debugger exception handling and managed debugging assistants (MDAs). <c>ICorDebugManagedCallback2</c> is a logical extension of the <see cref="ICorDebugManagedCallback">ICorDebugManagedCallback</see> interface.</para>
 /// </summary>
 /// <remarks>
 /// <para>The <c>ICorDebugManagedCallback2</c> interface extends the <c>ICorDebugManagedCallback</c> interface to handle new debug events introduced in .NET Framework 2.0.</para>
-/// <para>A debugger must implement <c>ICorDebugManagedCallback2</c>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setmanagedhandler-method">ICorDebug::SetManagedHandler</see>.</para>
+/// <para>A debugger must implement <c>ICorDebugManagedCallback2</c>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see cref="ICorDebug.TrySetManagedHandler">ICorDebug::SetManagedHandler</see>.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -39,7 +39,7 @@ public partial interface ICorDebugManagedCallback2
 	/// <para>The common intermediate language (CIL) offset of the instruction pointer in the old version of the function.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>This callback gives the debugger an opportunity to remap the instruction pointer to its proper place in the new version of the specified function by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-remapfunction-method">ICorDebugILFrame2::RemapFunction</see> method. If the debugger does not call <c>RemapFunction</c> before calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> method, the runtime will continue to execute the old code and will fire another <c>FunctionRemapOpportunity</c> callback at the next sequence point.</para>
+	/// <para>This callback gives the debugger an opportunity to remap the instruction pointer to its proper place in the new version of the specified function by calling the <see cref="ICorDebugILFrame2.TryRemapFunction">ICorDebugILFrame2::RemapFunction</see> method. If the debugger does not call <c>RemapFunction</c> before calling the <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> method, the runtime will continue to execute the old code and will fire another <c>FunctionRemapOpportunity</c> callback at the next sequence point.</para>
 	/// <para>This callback will be invoked for every frame that is executing an older version of the given function until the debugger returns S_OK.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-functionremapopportunity-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -61,7 +61,7 @@ public partial interface ICorDebugManagedCallback2
 	/// <remarks>
 	/// <para>A <c>CreateConnection</c> callback will be fired in either of the following cases:</para>
 	/// <list type="bullet">
-	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <c>CreateConnection</c> event and a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-changeconnection-method">ICorDebugManagedCallback2::ChangeConnection</see> event for each connection in the process.</para>
+	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <c>CreateConnection</c> event and a <see cref="ICorDebugManagedCallback2.TryChangeConnection">ICorDebugManagedCallback2::ChangeConnection</see> event for each connection in the process.</para>
 	/// </description></item>
 	/// <item><description><para>When a host calls <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrdebugmanager-beginconnection-method">ICLRDebugManager::BeginConnection</see> in the hosting API.</para>
 	/// </description></item>
@@ -83,7 +83,7 @@ public partial interface ICorDebugManagedCallback2
 	/// <remarks>
 	/// <para>A <c>ChangeConnection</c> callback will be fired in either of the following cases:</para>
 	/// <list type="bullet">
-	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-createconnection-method">ICorDebugManagedCallback2::CreateConnection</see> event and a <c>ChangeConnection</c> event for each connection in the process. A <c>ChangeConnection</c> event is generated for every existing connection, regardless of whether that connection’s set of tasks has been changed since its creation.</para>
+	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <see cref="ICorDebugManagedCallback2.TryCreateConnection">ICorDebugManagedCallback2::CreateConnection</see> event and a <c>ChangeConnection</c> event for each connection in the process. A <c>ChangeConnection</c> event is generated for every existing connection, regardless of whether that connection’s set of tasks has been changed since its creation.</para>
 	/// </description></item>
 	/// <item><description><para>When a host calls <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrdebugmanager-setconnectiontasks-method">ICLRDebugManager::SetConnectionTasks</see> in the hosting API.</para>
 	/// </description></item>
@@ -129,7 +129,7 @@ public partial interface ICorDebugManagedCallback2
 	/// <para>A value of the CorDebugExceptionCallbackType enumeration that specifies the type of this exception callback.</para>
 	/// </param>
 	/// <param name="dwFlags">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception</para>
+	/// <para>A value of the <see cref="CorDebugExceptionFlags">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception</para>
 	/// </param>
 	/// <remarks>
 	/// <para>The <c>Exception</c> callback is called at various points during the search phase of the exception-handling process. That is, it can be called more than once while unwinding an exception.</para>
@@ -160,7 +160,7 @@ public partial interface ICorDebugManagedCallback2
 	/// <para>A value of the CorDebugExceptionUnwindCallbackType enumeration that specifies the event that is being signaled by the callback during the unwind phase.</para>
 	/// </param>
 	/// <param name="dwFlags">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception.</para>
+	/// <para>A value of the <see cref="CorDebugExceptionFlags">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><c>ExceptionUnwind</c> is called at various points during the unwind phase of the exception-handling process. <c>ExceptionUnwind</c> can be called more than once while unwinding a single exception.</para>
@@ -202,10 +202,10 @@ public partial interface ICorDebugManagedCallback2
 	/// <para>You must get the operating system (OS) thread ID from the MDA object itself.</para>
 	/// </param>
 	/// <param name="pMDA">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see> interface that exposes the MDA information.</para>
+	/// <para>A pointer to an <see cref="ICorDebugMDA">ICorDebugMDA</see> interface that exposes the MDA information.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>An MDA is a heuristic warning and does not require any explicit debugger action except for calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> to resume execution of the application that is being debugged.</para>
+	/// <para>An MDA is a heuristic warning and does not require any explicit debugger action except for calling <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> to resume execution of the application that is being debugged.</para>
 	/// <para>The common language runtime (CLR) can determine which MDAs are fired and which data is in any given MDA at any point. Therefore, debuggers should not build any functionality requiring specific MDA patterns.</para>
 	/// <para>MDAs may be queued and fired shortly after the MDA is encountered. This could happen if the runtime needs to wait until it reaches a safe point for firing the MDA, instead of firing the MDA when it encounters it. It also means that the runtime may fire a number of MDAs in a single set of queued callbacks (similar to an &quot;attach&quot; event operation).</para>
 	/// <para>A debugger should release the reference to an <c>ICorDebugMDA</c> instance immediately after returning from the <c>MDANotification</c> callback, to allow the CLR to recycle the memory consumed by an MDA. Releasing the instance may improve performance if many MDAs are firing.</para>

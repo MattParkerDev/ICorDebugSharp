@@ -35,7 +35,7 @@ public partial interface ICorDebugNativeFrame2
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>The <c>IsChild</c> method returns <c>true</c> if the frame object on which you call the method is a child of another frame. If this is the case, use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-ismatchingparentframe-method">IsMatchingParentFrame</see> method to check whether a frame is its parent.</para>
+	/// <para>The <c>IsChild</c> method returns <c>true</c> if the frame object on which you call the method is a child of another frame. If this is the case, use the <see cref="ICorDebugNativeFrame2.TryIsMatchingParentFrame">IsMatchingParentFrame</see> method to check whether a frame is its parent.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-ischild-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -83,7 +83,7 @@ public partial interface ICorDebugNativeFrame2
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> methods do not adjust the stack pointer for parameters that are pushed on the stack. Instead, you can use the value returned by <c>GetStackParameterSize</c> to adjust the stack pointer to seed a native unwinder, which does adjust for the parameters.</para>
+	/// <para>The <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> methods do not adjust the stack pointer for parameters that are pushed on the stack. Instead, you can use the value returned by <c>GetStackParameterSize</c> to adjust the stack pointer to seed a native unwinder, which does adjust for the parameters.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-getstackparametersize-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

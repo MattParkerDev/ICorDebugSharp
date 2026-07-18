@@ -91,7 +91,7 @@ public partial interface ICorDebugModule
 	int TryEnableJITDebugging([MarshalAs(UnmanagedType.Bool)] bool bTrackJITInfo, [MarshalAs(UnmanagedType.Bool)] bool bAllowJitOpts);
 
 	/// <summary>
-	/// <para>Controls whether the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">ICorDebugManagedCallback::LoadClass</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadclass-method">ICorDebugManagedCallback::UnloadClass</see> callbacks are called for this module.</para>
+	/// <para>Controls whether the <see cref="ICorDebugManagedCallback.TryLoadClass">ICorDebugManagedCallback::LoadClass</see> and <see cref="ICorDebugManagedCallback.TryUnloadClass">ICorDebugManagedCallback::UnloadClass</see> callbacks are called for this module.</para>
 	/// </summary>
 	/// <param name="bClassLoadCallbacks">
 	/// <para>Set this value to <c>true</c> to enable the common language runtime (CLR) to call the <c>ICorDebugManagedCallback::LoadClass</c> and <c>ICorDebugManagedCallback::UnloadClass</c> methods when their associated events occur.</para>
@@ -185,7 +185,7 @@ public partial interface ICorDebugModule
 	/// <para>A pointer to the <c>mdModule</c> token that references the module&#39;s metadata.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The token can be passed to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see>, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-interface">IMetaDataImport2</see>, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-interface">IMetaDataAssemblyImport</see> metadata import interfaces.</para>
+	/// <para>The token can be passed to the <see cref="IMetaDataImport">IMetaDataImport</see>, <see cref="IMetaDataImport2">IMetaDataImport2</see>, and <see cref="IMetaDataAssemblyImport">IMetaDataAssemblyImport</see> metadata import interfaces.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-gettoken-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -198,7 +198,7 @@ public partial interface ICorDebugModule
 	/// <para><c>true</c> if this module is dynamic; otherwise, <c>false</c>.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>A dynamic module can add new classes and delete existing classes even after the module has been loaded. The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">ICorDebugManagedCallback::LoadClass</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadclass-method">ICorDebugManagedCallback::UnloadClass</see> callbacks inform the debugger when a class has been added or deleted.</para>
+	/// <para>A dynamic module can add new classes and delete existing classes even after the module has been loaded. The <see cref="ICorDebugManagedCallback.TryLoadClass">ICorDebugManagedCallback::LoadClass</see> and <see cref="ICorDebugManagedCallback.TryUnloadClass">ICorDebugManagedCallback::UnloadClass</see> callbacks inform the debugger when a class has been added or deleted.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-isdynamic-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

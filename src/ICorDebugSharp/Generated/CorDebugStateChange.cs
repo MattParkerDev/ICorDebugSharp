@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Describes the amount of cached data that must be discarded based on changes to the process.</para>
 /// </summary>
 /// <remarks>
-/// <para>A member of the <c>CorDebugStateChange</c> enumeration is provided as an argument when the debugger calls the <c>ProcessStateChanged</c> method either with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess4-processstatechanged-method">ICorDebugProcess4::ProcessStateChanged</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-processstatechanged-method">ICorDebugProcess6::ProcessStateChanged</see>.</para>
+/// <para>A member of the <c>CorDebugStateChange</c> enumeration is provided as an argument when the debugger calls the <c>ProcessStateChanged</c> method either with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess4-processstatechanged-method">ICorDebugProcess4::ProcessStateChanged</see> or <see cref="ICorDebugProcess6.TryProcessStateChanged">ICorDebugProcess6::ProcessStateChanged</see>.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugstatechange-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugStateChange

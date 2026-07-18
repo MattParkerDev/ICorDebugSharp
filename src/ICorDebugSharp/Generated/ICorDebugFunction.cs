@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Represents a managed function or method.</para>
 /// </summary>
 /// <remarks>
-/// <para>The <c>ICorDebugFunction</c> interface does not represent a function with generic type parameters. For example, an <c>ICorDebugFunction</c> instance would represent <c>Func&lt;T&gt;</c> but not <c>Func&lt;string&gt;</c>. Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-enumeratetypeparameters-method">ICorDebugILFrame2::EnumerateTypeParameters</see> to get the generic type parameters.</para>
+/// <para>The <c>ICorDebugFunction</c> interface does not represent a function with generic type parameters. For example, an <c>ICorDebugFunction</c> instance would represent <c>Func&lt;T&gt;</c> but not <c>Func&lt;string&gt;</c>. Call <see cref="ICorDebugILFrame2.TryEnumerateTypeParameters">ICorDebugILFrame2::EnumerateTypeParameters</see> to get the generic type parameters.</para>
 /// <para>The relationship between a method&#39;s metadata token, <c>mdMethodDef</c>, and a method&#39;s <c>ICorDebugFunction</c> object is dependent upon whether Edit and Continue is allowed on the function:</para>
 /// <list type="bullet">
 /// <item><description><para>If Edit and Continue is not allowed on the function, a one-to-one relationship exists between the <c>ICorDebugFunction</c> object and the <c>mdMethodDef</c> token. That is, the function has one <c>ICorDebugFunction</c> object and one <c>mdMethodDef</c> token.</para>
@@ -119,7 +119,7 @@ public partial interface ICorDebugFunction
 	/// <para>A pointer to an integer value that is the version number of the latest edit made to this function.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The version number of the latest edit made to this function may be greater than the version number of the function itself. Use either the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-getversionnumber-method">ICorDebugFunction2::GetVersionNumber</see> method or the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getversionnumber-method">ICorDebugCode::GetVersionNumber</see> method to retrieve the version number of the function.</para>
+	/// <para>The version number of the latest edit made to this function may be greater than the version number of the function itself. Use either the <see cref="ICorDebugFunction2.TryGetVersionNumber">ICorDebugFunction2::GetVersionNumber</see> method or the <see cref="ICorDebugCode.TryGetVersionNumber">ICorDebugCode::GetVersionNumber</see> method to retrieve the version number of the function.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getcurrentversionnumber-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

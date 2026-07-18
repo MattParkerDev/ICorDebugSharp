@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Specifies the type of unmapped code that can trigger a halt in code execution by the stepper.</para>
 /// </summary>
 /// <remarks>
-/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setunmappedstopmask-method">ICorDebugStepper::SetUnmappedStopMask</see> method to set the flags that specify the unmapped code in which the stepper will stop.</para>
+/// <para>Use the <see cref="ICorDebugStepper.TrySetUnmappedStopMask">ICorDebugStepper::SetUnmappedStopMask</see> method to set the flags that specify the unmapped code in which the stepper will stop.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugunmappedstop-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugUnmappedStop

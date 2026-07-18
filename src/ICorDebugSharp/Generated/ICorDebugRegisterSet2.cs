@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Extends the capabilities of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> interface for hardware platforms that have more than 64 registers.</para>
+/// <para>Extends the capabilities of the <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> interface for hardware platforms that have more than 64 registers.</para>
 /// </summary>
 /// <remarks>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
@@ -61,7 +61,7 @@ public partial interface ICorDebugRegisterSet2
 	/// <para>The <c>GetRegisters</c> method returns an array of values from the registers that are specified by the mask. The array does not contain values of registers whose mask bit is not set. Thus, the size of the <c>regBuffer</c> array must be equal to the number of 1&#39;s in the mask. If the value of <c>regCount</c> is too small for the number of registers indicated by the mask, the values of the higher numbered registers will be truncated from the set. If <c>regCount</c> is too large, the unused <c>regBuffer</c> elements will be unmodified.</para>
 	/// <para>If an unavailable register is indicated by the mask, an indeterminate value will be returned for that register.</para>
 	/// <para>The <c>ICorDebugRegisterSet2::GetRegisters</c> method is necessary for platforms that have more than 64 registers. For example, IA64 has 128 general purpose registers and 128 floating-point registers, so you need more than 64 bits in the bit mask.</para>
-	/// <para>If you don&#39;t have more than 64 registers, as is the case on platforms such as x86, the <c>GetRegisters</c> method just translates the bytes in the <c>mask</c> byte array into a <c>ULONG64</c> and then calls the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-getregisters-method">ICorDebugRegisterSet::GetRegisters</see> method, which takes the <c>ULONG64</c> mask.</para>
+	/// <para>If you don&#39;t have more than 64 registers, as is the case on platforms such as x86, the <c>GetRegisters</c> method just translates the bytes in the <c>mask</c> byte array into a <c>ULONG64</c> and then calls the <see cref="ICorDebugRegisterSet.TryGetRegisters">ICorDebugRegisterSet::GetRegisters</see> method, which takes the <c>ULONG64</c> mask.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-getregisters-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

@@ -115,7 +115,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>The context specifies the architecture of the processor on which the thread is executing.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The debugger should call this method rather than the Win32 <c>GetThreadContext</c> method, because the thread may actually be in a &quot;hijacked&quot; state, in which its context has been temporarily changed. This method should be used only when a thread is in native code. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> for threads in managed code.</para>
+	/// <para>The debugger should call this method rather than the Win32 <c>GetThreadContext</c> method, because the thread may actually be in a &quot;hijacked&quot; state, in which its context has been temporarily changed. This method should be used only when a thread is in native code. Use <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> for threads in managed code.</para>
 	/// <para>The data returned is a context structure for the current platform. Just as with the Win32 <c>GetThreadContext</c> method, the caller should initialize the <c>context</c> parameter before calling this method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-getthreadcontext-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -136,7 +136,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>The context specifies the architecture of the processor on which the thread is executing.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The debugger should call this method rather than the Win32 <c>SetThreadContext</c> function, because the thread may actually be in a &quot;hijacked&quot; state, in which its context has been temporarily changed. This method should be used only when a thread is in native code. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> for threads in managed code. You should never need to modify the context of a thread during an out-of-band (OOB) debug event.</para>
+	/// <para>The debugger should call this method rather than the Win32 <c>SetThreadContext</c> function, because the thread may actually be in a &quot;hijacked&quot; state, in which its context has been temporarily changed. This method should be used only when a thread is in native code. Use <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> for threads in managed code. You should never need to modify the context of a thread during an out-of-band (OOB) debug event.</para>
 	/// <para>The data passed must be a context structure for the current platform.</para>
 	/// <para>This method can corrupt the runtime if used improperly.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-setthreadcontext-method">Microsoft Learn</see>.</para>
@@ -161,7 +161,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// </param>
 	/// <remarks>
 	/// <para>The <c>ReadMemory</c> method is primarily intended to be used by interop debugging to inspect memory regions that are being used by the unmanaged portion of the debuggee. This method can also be used to read common intermediate language (CIL) code and native JIT-compiled code.</para>
-	/// <para>Any managed breakpoints will be removed from the data that is returned in the <c>buffer</c> parameter. No adjustments will be made for native breakpoints set by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">ICorDebugProcess2::SetUnmanagedBreakpoint</see>.</para>
+	/// <para>Any managed breakpoints will be removed from the data that is returned in the <c>buffer</c> parameter. No adjustments will be made for native breakpoints set by <see cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint">ICorDebugProcess2::SetUnmanagedBreakpoint</see>.</para>
 	/// <para>No caching of process memory is performed.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-readmemory-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -184,7 +184,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>A pointer to a variable that receives the number of bytes written to the memory area in this process. If <c>written</c> is NULL, this parameter is ignored.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Data is automatically written behind any breakpoints. Native debuggers should not use this method to inject breakpoints into the instruction stream. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">ICorDebugProcess2::SetUnmanagedBreakpoint</see> instead.</para>
+	/// <para>Data is automatically written behind any breakpoints. Native debuggers should not use this method to inject breakpoints into the instruction stream. Use <see cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint">ICorDebugProcess2::SetUnmanagedBreakpoint</see> instead.</para>
 	/// <para>The <c>WriteMemory</c> method should be used only outside of managed code. This method can corrupt the runtime if used improperly.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-writememory-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -198,8 +198,8 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>The ID of the thread on which the current unmanaged exception will be cleared.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Call this method before calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> when a thread has reported an unmanaged exception that should be ignored by the debuggee. This will clear both the outstanding in-band (IB) and out-of-band (OOB) events on the given thread. All OOB breakpoints and single-step exceptions are automatically cleared.</para>
-	/// <para>Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-interceptcurrentexception-method">ICorDebugThread2::InterceptCurrentException</see> to intercept the current managed exception on a thread.</para>
+	/// <para>Call this method before calling <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see> when a thread has reported an unmanaged exception that should be ignored by the debuggee. This will clear both the outstanding in-band (IB) and out-of-band (OOB) events on the given thread. All OOB breakpoints and single-step exceptions are automatically cleared.</para>
+	/// <para>Use <see cref="ICorDebugThread2.TryInterceptCurrentException">ICorDebugThread2::InterceptCurrentException</see> to intercept the current managed exception on a thread.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-clearcurrentexception-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -212,7 +212,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para><c>true</c> enables the transmission of log messages; <c>false</c> disables the transmission.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>This method is valid only after the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback occurs.</para>
+	/// <para>This method is valid only after the <see cref="ICorDebugManagedCallback.TryCreateProcess">ICorDebugManagedCallback::CreateProcess</see> callback occurs.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-enablelogmessages-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -228,7 +228,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>The severity level to be set for the specified log switch.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>This method is valid only after the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback has occurred.</para>
+	/// <para>This method is valid only after the <see cref="ICorDebugManagedCallback.TryCreateProcess">ICorDebugManagedCallback::CreateProcess</see> callback has occurred.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-modifylogswitch-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -238,10 +238,10 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <para>Enumerates all the application domains in this process.</para>
 	/// </summary>
 	/// <param name="ppAppDomains">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomainenum-interface">ICorDebugAppDomainEnum</see> that is an enumerator for the application domains in this process.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugAppDomainEnum">ICorDebugAppDomainEnum</see> that is an enumerator for the application domains in this process.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>This method can be used before the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback.</para>
+	/// <para>This method can be used before the <see cref="ICorDebugManagedCallback.TryCreateProcess">ICorDebugManagedCallback::CreateProcess</see> callback.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-enumerateappdomains-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -274,7 +274,7 @@ public partial interface ICorDebugProcess : ICorDebugController
 	/// <remarks>
 	/// <para>During managed and unmanaged debugging, it is the debugger&#39;s responsibility to ensure that the thread with the specified ID remains running if it hits a breakpoint placed by the debugger. A debugger may also wish to hide this thread from the user. If no helper thread exists in the process yet, the <c>GetHelperThreadID</c> method returns zero in *<c>pThreadID</c>.</para>
 	/// <para>You cannot cache the thread ID of the helper thread, because it might change over time. You must re-query the thread ID at every stopping event.</para>
-	/// <para>The thread ID of the debugger&#39;s helper thread will be correct on every unmanaged <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createthread-method">ICorDebugManagedCallback::CreateThread</see> event, thus allowing a debugger to determine the thread ID of its helper thread and hide it from the user. A thread that is identified as a helper thread during an unmanaged <c>ICorDebugManagedCallback::CreateThread</c> event will never run managed user code.</para>
+	/// <para>The thread ID of the debugger&#39;s helper thread will be correct on every unmanaged <see cref="ICorDebugManagedCallback.TryCreateThread">ICorDebugManagedCallback::CreateThread</see> event, thus allowing a debugger to determine the thread ID of its helper thread and hide it from the user. A thread that is identified as a helper thread during an unmanaged <c>ICorDebugManagedCallback::CreateThread</c> event will never run managed user code.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-gethelperthreadid-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

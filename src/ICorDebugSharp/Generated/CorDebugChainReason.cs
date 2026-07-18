@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Indicates the reason or reasons for the initiation of a call chain.</para>
 /// </summary>
 /// <remarks>
-/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getreason-method">ICorDebugChain::GetReason</see> method to ascertain the reasons for the initiation of a call chain.</para>
+/// <para>Use the <see cref="ICorDebugChain.TryGetReason">ICorDebugChain::GetReason</see> method to ascertain the reasons for the initiation of a call chain.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugchainreason-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugChainReason

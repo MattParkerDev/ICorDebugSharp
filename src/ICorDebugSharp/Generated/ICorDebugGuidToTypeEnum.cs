@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Provides an enumerator that defines the mapping between a set of GUIDs and their corresponding types, which are represented by ICorDebugType instances. This interface inherits the methods from the ICorDebugEnum interface.</para>
 /// </summary>
 /// <remarks>
-/// <para>An <c>ICorDebugGuidToTypeEnum</c> interface object can be retrieved by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-getcachedwinrttypes-method">ICorDebugAppDomain3::GetCachedWinRTTypes</see> method. A debugger can call this interface&#39;s <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-next-method">Next</see> method to retrieve <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugguidtotypemapping-structure">CorDebugGuidToTypeMapping</see> objects that represent mappings of managed representations of Windows Runtime types loaded in the application domain used for the call to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-getcachedwinrttypes-method">ICorDebugAppDomain3::GetCachedWinRTTypes</see> method.</para>
+/// <para>An <c>ICorDebugGuidToTypeEnum</c> interface object can be retrieved by calling the <see cref="ICorDebugAppDomain3.TryGetCachedWinRTTypes">ICorDebugAppDomain3::GetCachedWinRTTypes</see> method. A debugger can call this interface&#39;s <see cref="ICorDebugGuidToTypeEnum.TryNext">Next</see> method to retrieve <see cref="CorDebugGuidToTypeMapping">CorDebugGuidToTypeMapping</see> objects that represent mappings of managed representations of Windows Runtime types loaded in the application domain used for the call to the <see cref="ICorDebugAppDomain3.TryGetCachedWinRTTypes">ICorDebugAppDomain3::GetCachedWinRTTypes</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-interface">Microsoft Learn</see>.</para>
 /// </remarks>
 [GeneratedComInterface]
@@ -19,16 +19,16 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugGuidToTypeEnum : ICorDebugEnum
 {
 	/// <summary>
-	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugguidtotypemapping-structure">CorDebugGuidToTypeMapping</see> instances that map GUIDs to type information.</para>
+	/// <para>Gets the specified number of <see cref="CorDebugGuidToTypeMapping">CorDebugGuidToTypeMapping</see> instances that map GUIDs to type information.</para>
 	/// </summary>
 	/// <param name="celt">
 	/// <para>The number of GUID-to-type mapping objects to be retrieved.</para>
 	/// </param>
 	/// <param name="values">
-	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugguidtotypemapping-structure">CorDebugGuidToTypeMapping</see> object that maps a Windows Runtime GUID to its corresponding ICorDebugType object.</para>
+	/// <para>An array of pointers, each of which points to a <see cref="CorDebugGuidToTypeMapping">CorDebugGuidToTypeMapping</see> object that maps a Windows Runtime GUID to its corresponding ICorDebugType object.</para>
 	/// </param>
 	/// <param name="pceltFetched">
-	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugguidtotypemapping-structure">CorDebugGuidToTypeMapping</see> objects actually returned in <c>values</c>.</para>
+	/// <para>A pointer to the number of <see cref="CorDebugGuidToTypeMapping">CorDebugGuidToTypeMapping</see> objects actually returned in <c>values</c>.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-next-method">Microsoft Learn</see>.</para>

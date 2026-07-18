@@ -38,7 +38,7 @@ public partial interface ICorDebugVirtualUnwinder
 	/// <para>Any failing HRESULT value received by mscordbi is considered fatal and will cause ICorDebug APIs to return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
 	/// </returns>
 	/// <remarks>
-	/// <para>You set the initial value of the <c>contextBuf</c> argument to the context buffer returned by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">ICorDebugStackWalk::GetContext</see> method.</para>
+	/// <para>You set the initial value of the <c>contextBuf</c> argument to the context buffer returned by calling the <see cref="ICorDebugStackWalk.TryGetContext">ICorDebugStackWalk::GetContext</see> method.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
 	/// <para>Because unwinding may only restore a subset of the registers, such as the non-volatile registers only, the context may not exactly match the register state at the time of the actual method call.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvirtualunwinder-getcontext-method">Microsoft Learn</see>.</para>

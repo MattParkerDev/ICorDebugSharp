@@ -85,7 +85,7 @@ public partial interface ICorDebugThread2
 	/// <para>A pointer to an ICorDebugFrame that represents the active stack frame.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>InterceptCurrentException</c> method can be called between an exception callback (<see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exception-method">ICorDebugManagedCallback::Exception</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-exception-method">ICorDebugManagedCallback2::Exception</see>) and the associated call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>.</para>
+	/// <para>The <c>InterceptCurrentException</c> method can be called between an exception callback (<see cref="ICorDebugManagedCallback.TryException">ICorDebugManagedCallback::Exception</see> or <see cref="ICorDebugManagedCallback2.TryException">ICorDebugManagedCallback2::Exception</see>) and the associated call to <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-interceptcurrentexception-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

@@ -47,7 +47,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <para>A pointer to an ASSEMBLYMETADATA structure that contains the assembly metadata.</para>
 	/// </param>
 	/// <param name="pdwAssemblyFlags">
-	/// <para>Flags that describe the metadata applied to an assembly. This value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corassemblyflags-enumeration">CorAssemblyFlags</see> values.</para>
+	/// <para>Flags that describe the metadata applied to an assembly. This value is a combination of one or more <see cref="CorAssemblyFlags">CorAssemblyFlags</see> values.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getassemblyprops-method">Microsoft Learn</see>.</para>
@@ -86,7 +86,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <para>The number of wide chars in the returned hash value.</para>
 	/// </param>
 	/// <param name="pdwAssemblyRefFlags">
-	/// <para>A pointer to flags that describe the metadata applied to an assembly. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corassemblyflags-enumeration">CorAssemblyFlags</see> values.</para>
+	/// <para>A pointer to flags that describe the metadata applied to an assembly. The flags value is a combination of one or more <see cref="CorAssemblyFlags">CorAssemblyFlags</see> values.</para>
 	/// </param>
 	/// <returns>
 	/// <para>This method returns S_OK if it succeeds; otherwise, it returns one of the error codes defined in the Winerror.h header file.</para>
@@ -119,7 +119,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <para>The number of wide chars in the returned hash value.</para>
 	/// </param>
 	/// <param name="pdwFileFlags">
-	/// <para>A pointer to the flags that describe the metadata applied to a file. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corfileflags-enumeration">CorFileFlags</see> values.</para>
+	/// <para>A pointer to the flags that describe the metadata applied to a file. The flags value is a combination of one or more <see cref="CorFileFlags">CorFileFlags</see> values.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getfileprops-method">Microsoft Learn</see>.</para>
@@ -149,7 +149,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <para>A pointer to an <c>mdTypeDef</c> token that represents a type in the file.</para>
 	/// </param>
 	/// <param name="pdwExportedTypeFlags">
-	/// <para>A pointer to the flags that describe the metadata applied to the exported type. The flags value can be one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cortypeattr-enumeration">CorTypeAttr</see> values.</para>
+	/// <para>A pointer to the flags that describe the metadata applied to the exported type. The flags value can be one or more <see cref="CorTypeAttr">CorTypeAttr</see> values.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getexportedtypeprops-method">Microsoft Learn</see>.</para>
@@ -179,7 +179,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <para>A pointer to a value that specifies the offset to the beginning of the resource within the file.</para>
 	/// </param>
 	/// <param name="pdwResourceFlags">
-	/// <para>A pointer to flags that describe the metadata applied to a resource. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormanifestresourceflags-enumeration">CorManifestResourceFlags</see> values.</para>
+	/// <para>A pointer to flags that describe the metadata applied to a resource. The flags value is a combination of one or more <see cref="CorManifestResourceFlags">CorManifestResourceFlags</see> values.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getmanifestresourceprops-method">Microsoft Learn</see>.</para>
@@ -389,7 +389,7 @@ public unsafe partial interface IMetaDataAssemblyImport
 	/// <remarks>
 	/// <para>Given an assembly name, the <c>FindAssembliesByName</c> method finds the assembly by following the standard rules for resolving assembly references. (For more information, see <see href="https://learn.microsoft.com/dotnet/framework/deployment/how-the-runtime-locates-assemblies">How the Runtime Locates Assemblies</see>.) <c>FindAssembliesByName</c> allows the caller to configure various aspects of the assembly resolver context, such as application base and private search path.</para>
 	/// <para>The <c>FindAssembliesByName</c> method requires the CLR to be initialized in the process in order to invoke the assembly resolution logic. Therefore, you must call <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/coinitializeee-function">CoInitializeEE</see> (passing COINITEE_DEFAULT) before calling <c>FindAssembliesByName</c>, and then follow with a call to <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/couninitializecor-function">CoUninitializeCor</see>.</para>
-	/// <para><c>FindAssembliesByName</c> returns an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see> pointer to the file containing the assembly manifest for the assembly name that is passed in. If the given assembly name is not fully specified (for example, if it does not include a version), multiple assemblies might be returned.</para>
+	/// <para><c>FindAssembliesByName</c> returns an <see cref="IMetaDataImport">IMetaDataImport</see> pointer to the file containing the assembly manifest for the assembly name that is passed in. If the given assembly name is not fully specified (for example, if it does not include a version), multiple assemblies might be returned.</para>
 	/// <para><c>FindAssembliesByName</c> is commonly used by a compiler that attempts to find a referenced assembly at compile time.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-findassembliesbyname-method">Microsoft Learn</see>.</para>
 	/// </remarks>

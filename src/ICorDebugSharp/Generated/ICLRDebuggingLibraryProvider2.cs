@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Includes the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider2-providelibrary2-method">ProvideLibrary2</see> method, which allows the debugger to provide a path to a version-specific debugging library.</para>
+/// <para>Includes the <see cref="ICLRDebuggingLibraryProvider2.TryProvideLibrary2">ProvideLibrary2</see> method, which allows the debugger to provide a path to a version-specific debugging library.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider2-interface">Microsoft Learn</see>.</para>

@@ -70,12 +70,12 @@ public partial interface ICorDebugModule2
 	/// <para>Sets the flags that control the just-in-time (JIT) compilation of this ICorDebugModule2.</para>
 	/// </summary>
 	/// <param name="dwFlags">
-	/// <para>A bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration values.</para>
+	/// <para>A bitwise combination of the <see cref="CorDebugJITCompilerFlags">CorDebugJITCompilerFlags</see> enumeration values.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>If the <c>dwFlags</c> value is invalid, the <c>SetJITCompilerFlags</c> method will fail.</para>
-	/// <para>The <c>SetJITCompilerFlags</c> method can be called only from within the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadmodule-method">ICorDebugManagedCallback::LoadModule</see> callback for this module. Attempts to call it after the <c>ICorDebugManagedCallback::LoadModule</c> callback has been delivered will fail.</para>
-	/// <para>Edit and Continue is not supported on 64-bit or Win9x platforms. Therefore, if you call the <c>SetJITCompilerFlags</c> method on either of these two platforms with the CORDEBUG_JIT_ENABLE_ENC flag set in <c>dwFlags</c>, the <c>SetJITCompilerFlags</c> method and all methods specific to Edit and Continue, such as <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-applychanges-method">ICorDebugModule2::ApplyChanges</see>, will fail.</para>
+	/// <para>The <c>SetJITCompilerFlags</c> method can be called only from within the <see cref="ICorDebugManagedCallback.TryLoadModule">ICorDebugManagedCallback::LoadModule</see> callback for this module. Attempts to call it after the <c>ICorDebugManagedCallback::LoadModule</c> callback has been delivered will fail.</para>
+	/// <para>Edit and Continue is not supported on 64-bit or Win9x platforms. Therefore, if you call the <c>SetJITCompilerFlags</c> method on either of these two platforms with the CORDEBUG_JIT_ENABLE_ENC flag set in <c>dwFlags</c>, the <c>SetJITCompilerFlags</c> method and all methods specific to Edit and Continue, such as <see cref="ICorDebugModule2.TryApplyChanges">ICorDebugModule2::ApplyChanges</see>, will fail.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-setjitcompilerflags-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -85,7 +85,7 @@ public partial interface ICorDebugModule2
 	/// <para>Gets the flags that control the just-in-time (JIT) compilation of this ICorDebugModule2.</para>
 	/// </summary>
 	/// <param name="pdwFlags">
-	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that controls the JIT compilation.</para>
+	/// <para>A pointer to a value of the <see cref="CorDebugJITCompilerFlags">CorDebugJITCompilerFlags</see> enumeration that controls the JIT compilation.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-getjitcompilerflags-method">Microsoft Learn</see>.</para>

@@ -39,7 +39,7 @@ public partial interface ICorDebugNativeFrame : ICorDebugFrame
 	/// </param>
 	/// <remarks>
 	/// <para>Calls to <c>SetIP</c> immediately invalidate all frames and chains for the current thread. If the debugger needs frame information after a call to <c>SetIP</c>, it must perform a new stack trace.</para>
-	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, as far as the runtime is concerned, there still may be problems, such as uninitialized local variables, and so on. The caller is responsible for insuring coherency of the running program.</para>
+	/// <para><see cref="ICorDebug">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, as far as the runtime is concerned, there still may be problems, such as uninitialized local variables, and so on. The caller is responsible for insuring coherency of the running program.</para>
 	/// <para>On 64-bit platforms, the instruction pointer cannot be moved out of a <c>catch</c> or <c>finally</c> block. If <c>SetIP</c> is called to make such a move on a 64-bit platform, it will return an HRESULT indicating failure.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-setip-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -50,7 +50,7 @@ public partial interface ICorDebugNativeFrame : ICorDebugFrame
 	/// <para>Gets the register set for this stack frame.</para>
 	/// </summary>
 	/// <param name="ppRegisters">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> object that represents the register set for this stack frame.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> object that represents the register set for this stack frame.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getregisterset-method">Microsoft Learn</see>.</para>
@@ -181,7 +181,7 @@ public partial interface ICorDebugNativeFrame : ICorDebugFrame
 	/// <para>The desired setting for the instruction pointer.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Use the <c>CanSetIP</c> method prior to calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-setip-method">ICorDebugNativeFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugNativeFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
+	/// <para>Use the <c>CanSetIP</c> method prior to calling the <see cref="ICorDebugNativeFrame.TrySetIP">ICorDebugNativeFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugNativeFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-cansetip-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

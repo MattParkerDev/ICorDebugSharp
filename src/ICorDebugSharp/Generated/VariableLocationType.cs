@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Indicates the native location type of a variable.</para>
 /// </summary>
 /// <remarks>
-/// <para>A member of the <c>VariableLocationType</c> enumeration is returned by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-getlocationtype-method">ICorDebugVariableHome::GetLocationType</see> method.</para>
+/// <para>A member of the <c>VariableLocationType</c> enumeration is returned by the <see cref="ICorDebugVariableHome.TryGetLocationType">ICorDebugVariableHome::GetLocationType</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/variablelocationtype-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum VariableLocationType

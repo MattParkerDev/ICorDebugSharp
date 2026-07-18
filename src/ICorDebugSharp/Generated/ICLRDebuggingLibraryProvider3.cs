@@ -27,7 +27,7 @@ public partial interface ICLRDebuggingLibraryProvider3
 	/// <para>The runtime or single-file module path.</para>
 	/// </param>
 	/// <param name="indexType">
-	/// <para>The type of index information (dwTimestamp/dwSizeOfImage) provided. See <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/libraryproviderindextype-enumeration">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
+	/// <para>The type of index information (dwTimestamp/dwSizeOfImage) provided. See <see cref="LIBRARY_PROVIDER_INDEX_TYPE">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
 	/// </param>
 	/// <param name="dwTimestamp">
 	/// <para>The date time stamp stored in the COFF file header of PE files.</para>
@@ -64,7 +64,7 @@ public partial interface ICLRDebuggingLibraryProvider3
 	/// <para>The runtime or single-file module path.</para>
 	/// </param>
 	/// <param name="indexType">
-	/// <para>The type of index information (pBuildId) provided. See <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/libraryproviderindextype-enumeration">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
+	/// <para>The type of index information (pBuildId) provided. See <see cref="LIBRARY_PROVIDER_INDEX_TYPE">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
 	/// </param>
 	/// <param name="pbBuildId">
 	/// <para>The Linux or macOS module build id. Can be null if something went wrong retrieving the build id.</para>

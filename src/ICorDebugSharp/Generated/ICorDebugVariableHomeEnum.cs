@@ -11,7 +11,7 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>The <c>ICorDebugVariableHomeEnum</c> interface implements the ICorDebugEnum interface.</para>
-/// <para>An <c>ICorDebugVariableHomeEnum</c> instance is populated with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> instances by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode4-enumeratevariablehomes-method">ICorDebugCode4::EnumerateVariableHomes</see> method. Each <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> instance in the collection represents a local variable or argument in a function. The  <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> objects in the collection can be enumerated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-next-method">ICorDebugVariableHomeEnum::Next</see> method.</para>
+/// <para>An <c>ICorDebugVariableHomeEnum</c> instance is populated with <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> instances by calling the <see cref="ICorDebugCode4.TryEnumerateVariableHomes">ICorDebugCode4::EnumerateVariableHomes</see> method. Each <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> instance in the collection represents a local variable or argument in a function. The  <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> objects in the collection can be enumerated by calling the <see cref="ICorDebugVariableHomeEnum.TryNext">ICorDebugVariableHomeEnum::Next</see> method.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-interface">Microsoft Learn</see>.</para>
 /// </remarks>
 [GeneratedComInterface]
@@ -20,13 +20,13 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVariableHomeEnum : ICorDebugEnum
 {
 	/// <summary>
-	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> instances that contain information about the local variables and arguments in a function.</para>
+	/// <para>Gets the specified number of <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> instances that contain information about the local variables and arguments in a function.</para>
 	/// </summary>
 	/// <param name="celt">
 	/// <para>The number of objects to be retrieved.</para>
 	/// </param>
 	/// <param name="homes">
-	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> object that provides information about  a local variable or argument of a function.</para>
+	/// <para>An array of pointers, each of which points to a <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> object that provides information about  a local variable or argument of a function.</para>
 	/// </param>
 	/// <param name="pceltFetched">
 	/// <para>The number of instances actually returned in objects.</para>
@@ -40,7 +40,7 @@ public partial interface ICorDebugVariableHomeEnum : ICorDebugEnum
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-next-method">ICorDebugVariableHomeEnum::Next</see> method retrieves a maximum of  <c>celt</c> objects starting at the current position of the enumerator. When the method returns, <c>pceltFetched</c> contains the actual number of objects retrieved.</para>
+	/// <para>The <see cref="ICorDebugVariableHomeEnum.TryNext">ICorDebugVariableHomeEnum::Next</see> method retrieves a maximum of  <c>celt</c> objects starting at the current position of the enumerator. When the method returns, <c>pceltFetched</c> contains the actual number of objects retrieved.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-next-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

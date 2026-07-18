@@ -39,7 +39,7 @@ public partial interface ICorDebugMetaDataLocator
 	/// </param>
 	/// <param name="wszPathBuffer">
 	/// <para>Pointer to a buffer into which the debugger will copy the full path of the file that contains the requested metadata.</para>
-	/// <para>The <c>ofReadOnly</c> flag from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/coropenflags-enumeration">CorOpenFlags</see> enumeration is used to request read-only access to the metadata in this file.</para>
+	/// <para>The <c>ofReadOnly</c> flag from the <see cref="CorOpenFlags">CorOpenFlags</see> enumeration is used to request read-only access to the metadata in this file.</para>
 	/// </param>
 	/// <returns>
 	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure. All other failure HRESULTs indicate that the file is not retrievable.</para>

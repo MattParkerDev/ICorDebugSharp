@@ -21,7 +21,7 @@ public partial interface ICorDebugProcess7
 	/// <para>Configures how the debugger handles in-memory updates to metadata within the target process.</para>
 	/// </summary>
 	/// <param name="flags">
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/writeablemetadataupdatemode-enumeration">WriteableMetadataUpdateMode</see> enumeration value that specifies whether in-memory updates to metadata in the target process are visible (<c>WriteableMetadataUpdateMode::AlwaysShowUpdates</c>) or not visible (<c>WriteableMetadataUpdateMode::LegacyCompatPolicy</c>) to the debugger.</para>
+	/// <para>A <see cref="WriteableMetadataUpdateMode">WriteableMetadataUpdateMode</see> enumeration value that specifies whether in-memory updates to metadata in the target process are visible (<c>WriteableMetadataUpdateMode::AlwaysShowUpdates</c>) or not visible (<c>WriteableMetadataUpdateMode::LegacyCompatPolicy</c>) to the debugger.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Updates to the metadata of the target process can come from Edit and Continue, a profiler, or .</para>

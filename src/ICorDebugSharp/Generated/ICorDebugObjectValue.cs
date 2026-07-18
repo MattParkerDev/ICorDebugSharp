@@ -26,7 +26,7 @@ public partial interface ICorDebugObjectValue : ICorDebugValue
 	/// <para>A pointer to the address of an &quot;ICorDebugClass&quot; object that represents the class of the object value represented by this &quot;ICorDebugObjectValue&quot; object.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>GetClass</c> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-gettype-method">ICorDebugValue::GetType</see> methods each return information about the type of a value; they are both superseded by the generics-aware <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue2-getexacttype-method">ICorDebugValue2::GetExactType</see>.</para>
+	/// <para>The <c>GetClass</c> and <see cref="ICorDebugValue.TryGetType">ICorDebugValue::GetType</see> methods each return information about the type of a value; they are both superseded by the generics-aware <see cref="ICorDebugValue2.TryGetExactType">ICorDebugValue2::GetExactType</see>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getclass-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

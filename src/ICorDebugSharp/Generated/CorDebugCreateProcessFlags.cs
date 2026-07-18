@@ -4,7 +4,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Provides additional debugging options that can be used in a call to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-createprocess-method">ICorDebug::CreateProcess</see> method.</para>
+/// <para>Provides additional debugging options that can be used in a call to the <see cref="ICorDebug.TryCreateProcess">ICorDebug::CreateProcess</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugcreateprocessflags-enumeration">Microsoft Learn</see>.</para>

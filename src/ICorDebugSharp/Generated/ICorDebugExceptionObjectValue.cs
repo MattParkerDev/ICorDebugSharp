@@ -22,11 +22,11 @@ public partial interface ICorDebugExceptionObjectValue
 	/// <para>Gets an enumerator to the call stack embedded in an exception object.</para>
 	/// </summary>
 	/// <param name="ppCallStackEnum">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> interface object that is a stack trace enumerator for a managed exception object.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugExceptionObjectCallStackEnum">ICorDebugExceptionObjectCallStackEnum</see> interface object that is a stack trace enumerator for a managed exception object.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>If no call stack information is available, the method returns <c>S_OK</c>, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> is a valid enumerator with a length of 0. If the method is unable to retrieve stack trace information, the return value is <c>E_FAIL</c> and no enumerator is returned.</para>
-	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> object is responsible for decoding the stack trace data from the <c>_stackTrace</c> field of the exception object.</para>
+	/// <para>If no call stack information is available, the method returns <c>S_OK</c>, and <see cref="ICorDebugExceptionObjectCallStackEnum">ICorDebugExceptionObjectCallStackEnum</see> is a valid enumerator with a length of 0. If the method is unable to retrieve stack trace information, the return value is <c>E_FAIL</c> and no enumerator is returned.</para>
+	/// <para>The <see cref="ICorDebugExceptionObjectCallStackEnum">ICorDebugExceptionObjectCallStackEnum</see> object is responsible for decoding the stack trace data from the <c>_stackTrace</c> field of the exception object.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectvalue-enumerateexceptioncallstack-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

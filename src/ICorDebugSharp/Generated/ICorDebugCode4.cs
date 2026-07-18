@@ -22,10 +22,10 @@ public partial interface ICorDebugCode4
 	/// <para>Gets an enumerator to the local variables and arguments in a function.</para>
 	/// </summary>
 	/// <param name="ppEnum">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-interface">ICorDebugVariableHomeEnum</see> interface object that is an enumerator for the local variables and arguments in a function.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugVariableHomeEnum">ICorDebugVariableHomeEnum</see> interface object that is an enumerator for the local variables and arguments in a function.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-interface">ICorDebugVariableHomeEnum</see> interface object is a standard enumerator derived from the &quot;ICorDebugEnum&quot; interface that allows you to enumerate <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> objects. The collection may include multiple <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> objects for the same slot or      argument index if they have different homes at different points in the      function.</para>
+	/// <para>The <see cref="ICorDebugVariableHomeEnum">ICorDebugVariableHomeEnum</see> interface object is a standard enumerator derived from the &quot;ICorDebugEnum&quot; interface that allows you to enumerate <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> objects. The collection may include multiple <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> objects for the same slot or      argument index if they have different homes at different points in the      function.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode4-enumeratevariablehomes-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

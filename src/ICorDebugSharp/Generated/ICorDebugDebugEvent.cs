@@ -12,9 +12,9 @@ namespace ICorDebugSharp;
 /// <remarks>
 /// <para>The following interfaces are derived from the <c>ICorDebugDebugEvent</c> interface:</para>
 /// <list type="bullet">
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-interface">ICorDebugExceptionDebugEvent</see></para>
+/// <item><description><para><see cref="ICorDebugExceptionDebugEvent">ICorDebugExceptionDebugEvent</see></para>
 /// </description></item>
-/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduledebugevent-interface">ICorDebugModuleDebugEvent</see></para>
+/// <item><description><para><see cref="ICorDebugModuleDebugEvent">ICorDebugModuleDebugEvent</see></para>
 /// </description></item>
 /// </list>
 /// <para><b>Note:</b> The interface is available with .NET Native only. Attempting to call  QueryInterface  to retrieve an interface pointer returns  E_NOINTERFACE  for ICorDebug scenarios outside of .NET Native.</para>
@@ -29,7 +29,7 @@ public partial interface ICorDebugDebugEvent
 	/// <para>Indicates what kind of event this <c>ICorDebugDebugEvent</c> object represents.</para>
 	/// </summary>
 	/// <param name="pDebugEventKind">
-	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdebugeventkind-enumeration">CorDebugDebugEventKind</see> enumeration member that indicates the type of event.</para>
+	/// <para>A pointer to a <see cref="CorDebugDebugEventKind">CorDebugDebugEventKind</see> enumeration member that indicates the type of event.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Based on the value of <c>pDebugEventKind</c>, you can call <c>QueryInterface</c> to get a more precise debug event interface that has additional data.</para>

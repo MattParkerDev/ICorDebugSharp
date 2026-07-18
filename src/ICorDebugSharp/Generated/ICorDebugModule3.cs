@@ -35,9 +35,9 @@ public partial interface ICorDebugModule3
 	/// <para><c>E_FAIL</c> (or other <c>E_</c> return codes)<br/>Unable to create the reader.</para>
 	/// </returns>
 	/// <remarks>
-	/// <para>This method can also be used to create a symbol reader object for in-memory (non-dynamic) modules, but only after the symbols are first available (indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-updatemodulesymbols-method">UpdateModuleSymbols Method</see> callback).</para>
-	/// <para>This method returns a new reader instance every time it is called (like <see href="https://learn.microsoft.com/cpp/atl/reference/ccomptrbase-class#cocreateinstance">CComPtrBase::CoCreateInstance</see>). Therefore, the debugger should cache the result and request a new instance only when the underlying data may have changed (that is, when a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">LoadClass Method</see> callback is received).</para>
-	/// <para>Dynamic modules do not have any symbols available until the first type has been loaded (as indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">LoadClass Method</see> callback).</para>
+	/// <para>This method can also be used to create a symbol reader object for in-memory (non-dynamic) modules, but only after the symbols are first available (indicated by the <see cref="ICorDebugManagedCallback.TryUpdateModuleSymbols">UpdateModuleSymbols Method</see> callback).</para>
+	/// <para>This method returns a new reader instance every time it is called (like <see href="https://learn.microsoft.com/cpp/atl/reference/ccomptrbase-class#cocreateinstance">CComPtrBase::CoCreateInstance</see>). Therefore, the debugger should cache the result and request a new instance only when the underlying data may have changed (that is, when a <see cref="ICorDebugManagedCallback.TryLoadClass">LoadClass Method</see> callback is received).</para>
+	/// <para>Dynamic modules do not have any symbols available until the first type has been loaded (as indicated by the <see cref="ICorDebugManagedCallback.TryLoadClass">LoadClass Method</see> callback).</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule3-createreaderforinmemorysymbols-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

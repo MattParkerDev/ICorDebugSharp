@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Describes the format of the data in a byte array that contains information about a native exception debug event.</para>
 /// </summary>
 /// <remarks>
-/// <para>A member of the <c>CorDebugRecordFormat</c> enumeration is passed to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-decodeevent-method">DecodeEvent</see> method to indicate the format of the byte array in its <c>pRecord</c> argument.</para>
+/// <para>A member of the <c>CorDebugRecordFormat</c> enumeration is passed to the <see cref="ICorDebugProcess6.TryDecodeEvent">DecodeEvent</see> method to indicate the format of the byte array in its <c>pRecord</c> argument.</para>
 /// <para><b>Note:</b> This enumeration is intended for use in .NET Native debugging scenarios only.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>

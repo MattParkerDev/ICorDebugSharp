@@ -18,10 +18,10 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugVariableHome
 {
 	/// <summary>
-	/// <para>Gets the &quot;ICorDebugCode&quot; instance that contains this <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> object.</para>
+	/// <para>Gets the &quot;ICorDebugCode&quot; instance that contains this <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> object.</para>
 	/// </summary>
 	/// <param name="ppCode">
-	/// <para>A pointer to the address of the &quot;ICorDebugCode&quot; instance that contains this <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> object.</para>
+	/// <para>A pointer to the address of the &quot;ICorDebugCode&quot; instance that contains this <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> object.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-getcode-method">Microsoft Learn</see>.</para>
@@ -40,7 +40,7 @@ public partial interface ICorDebugVariableHome
 	/// <list type="table">
 	/// <listheader><term>Value</term><description>Description</description></listheader>
 	/// <item><term><c>S_OK</c></term><description>The method call returned a slot-index value in <c>pSlotIndex</c>.</description></item>
-	/// <item><term><c>E_FAIL</c></term><description>The current <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> instance represents a function argument.</description></item>
+	/// <item><term><c>E_FAIL</c></term><description>The current <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> instance represents a function argument.</description></item>
 	/// </list>
 	/// </returns>
 	/// <remarks>
@@ -61,7 +61,7 @@ public partial interface ICorDebugVariableHome
 	/// <list type="table">
 	/// <listheader><term>Value</term><description>Description</description></listheader>
 	/// <item><term><c>S_OK</c></term><description>The method call returned a valid argument index.</description></item>
-	/// <item><term><c>E_FAIL</c></term><description>The current <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehome-interface">ICorDebugVariableHome</see> instance represents a local variable.</description></item>
+	/// <item><term><c>E_FAIL</c></term><description>The current <see cref="ICorDebugVariableHome">ICorDebugVariableHome</see> instance represents a local variable.</description></item>
 	/// </list>
 	/// </returns>
 	/// <remarks>
@@ -102,7 +102,7 @@ public partial interface ICorDebugVariableHome
 	/// <para>Gets the register that contains a variable with a location type of <c>VLT_REGISTER</c>, and the base register for a variable with a location type of <c>VLT_REGISTER_RELATIVE</c>.</para>
 	/// </summary>
 	/// <param name="pRegister">
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugregister-enumeration">CorDebugRegister</see> enumeration value that indicates the register for a variable with a location type of <c>VLT_REGISTER</c>, and the base register for a variable with a location type of <c>VLT_REGISTER_RELATIVE</c>.</para>
+	/// <para>A <see cref="CorDebugRegister">CorDebugRegister</see> enumeration value that indicates the register for a variable with a location type of <c>VLT_REGISTER</c>, and the base register for a variable with a location type of <c>VLT_REGISTER_RELATIVE</c>.</para>
 	/// </param>
 	/// <returns>
 	/// <para>The method returns the following values:</para>

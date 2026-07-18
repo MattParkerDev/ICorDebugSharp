@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Provides thread blocking information.</para>
 /// </summary>
 /// <remarks>
-/// <para>This interface is a logical extension of the ICorDebugThread, ICorDebugThread2, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-interface">ICorDebugThread3</see> interfaces.</para>
+/// <para>This interface is a logical extension of the ICorDebugThread, ICorDebugThread2, and <see cref="ICorDebugThread3">ICorDebugThread3</see> interfaces.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread4-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -31,17 +31,17 @@ public partial interface ICorDebugThread4
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para>This method indicates whether the thread has ever had an unhandled exception. By the time the unhandled exception callback is triggered or native JIT-attach is initiated, this method is guaranteed to return S_OK. There is no guarantee that the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getcurrentexception-method">ICorDebugThread.GetCurrentException</see> method will return the unhandled exception; however, it will if the process has not yet been continued after getting the unhandled exception callback or upon native JIT-attach. Furthermore, it is possible (although unlikely) to have more than one thread with an unhandled exception at the time native JIT-attach is triggered. In such a case there is no way to determine which exception triggered the JIT-attach.</para>
+	/// <para>This method indicates whether the thread has ever had an unhandled exception. By the time the unhandled exception callback is triggered or native JIT-attach is initiated, this method is guaranteed to return S_OK. There is no guarantee that the <see cref="ICorDebugThread.TryGetCurrentException">ICorDebugThread.GetCurrentException</see> method will return the unhandled exception; however, it will if the process has not yet been continued after getting the unhandled exception callback or upon native JIT-attach. Furthermore, it is possible (although unlikely) to have more than one thread with an unhandled exception at the time native JIT-attach is triggered. In such a case there is no way to determine which exception triggered the JIT-attach.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread4-hadunhandledexception-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
 	int TryHasUnhandledException();
 
 	/// <summary>
-	/// <para>Provides an ordered enumeration of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> structures that provide thread blocking information.</para>
+	/// <para>Provides an ordered enumeration of <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> structures that provide thread blocking information.</para>
 	/// </summary>
 	/// <param name="ppBlockingObjectEnum">
-	/// <para>A pointer to an ordered enumeration of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> structures.</para>
+	/// <para>A pointer to an ordered enumeration of <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> structures.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>The first element in the returned enumeration corresponds to the first structure that is blocking the thread. The second element corresponds to a blocking item that is encountered while running an asynchronous procedure call (APC) when blocked on the first, and so on.</para>
@@ -55,7 +55,7 @@ public partial interface ICorDebugThread4
 	int TryGetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum);
 
 	/// <summary>
-	/// <para>Gets the current <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback3-customnotification-method">ICorDebugManagedCallback3::CustomNotification</see> object on the current thread.</para>
+	/// <para>Gets the current <see cref="ICorDebugManagedCallback3.TryCustomNotification">ICorDebugManagedCallback3::CustomNotification</see> object on the current thread.</para>
 	/// </summary>
 	/// <param name="ppNotificationObject">
 	/// <para>A pointer to the current <c>ICorDebugManagedCallback3::CustomNotification</c> object on the current thread.</para>

@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see>interface.</para>
+/// <para>Logically extends the <see cref="ICorDebugDataTarget">ICorDebugDataTarget</see>interface.</para>
 /// </summary>
 /// <remarks>
 /// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
@@ -66,7 +66,7 @@ public partial interface ICorDebugDataTarget2
 	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">CORDB_ADDRESS</see> value that represents the base address of a module.</para>
 	/// </param>
 	/// <param name="ppSymProvider">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-interface">ICorDebugSymbolProvider</see> object.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugSymbolProvider">ICorDebugSymbolProvider</see> object.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -113,7 +113,7 @@ public partial interface ICorDebugDataTarget2
 	/// <para>A pointer to the address of an ICorDebugVirtualUnwinder interface object.</para>
 	/// </param>
 	/// <returns>
-	/// <para><c>S_OK</c> if successful. Any other <c>HRESULT</c> indicates failure. Any failing <c>HRESULT</c> received by mscordbi is considered fatal and causes <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> methods to return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
+	/// <para><c>S_OK</c> if successful. Any other <c>HRESULT</c> indicates failure. Any failing <c>HRESULT</c> received by mscordbi is considered fatal and causes <see cref="ICorDebug">ICorDebug</see> methods to return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
 	/// </returns>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>

@@ -9,9 +9,9 @@ namespace ICorDebugSharp;
 /// <remarks>
 /// <para>The <c>CorGCReferenceType</c> enumeration is used as follows:</para>
 /// <list type="bullet">
-/// <item><description><para>As the value of the <c>type</c> field of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> structure, it indicates the source of a reference or handle.</para>
+/// <item><description><para>As the value of the <c>type</c> field of the <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> structure, it indicates the source of a reference or handle.</para>
 /// </description></item>
-/// <item><description><para>As the <c>types</c> argument to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method, it specifies the types of handles to include in the enumeration.</para>
+/// <item><description><para>As the <c>types</c> argument to the <see cref="ICorDebugProcess5.TryEnumerateHandles">ICorDebugProcess5::EnumerateHandles</see> method, it specifies the types of handles to include in the enumeration.</para>
 /// </description></item>
 /// </list>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">Microsoft Learn</see>.</para>
@@ -65,15 +65,15 @@ public enum CorGCReferenceType
 	/// </summary>
 	CorReferenceFinalizer = 80000002,
 	/// <summary>
-	/// <para>Return only strong references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// <para>Return only strong references from the handle table. This value is used by the <see cref="ICorDebugProcess5.TryEnumerateHandles">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
 	/// </summary>
 	CorHandleStrongOnly = 0x1E3,
 	/// <summary>
-	/// <para>Return only weak references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// <para>Return only weak references from the handle table. This value is used by the <see cref="ICorDebugProcess5.TryEnumerateHandles">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
 	/// </summary>
 	CorHandleWeakOnly = 0x21C,
 	/// <summary>
-	/// <para>Return all references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// <para>Return all references from the handle table. This value is used by the <see cref="ICorDebugProcess5.TryEnumerateHandles">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
 	/// </summary>
 	CorHandleAll = 0x7FFFFFFF,
 }

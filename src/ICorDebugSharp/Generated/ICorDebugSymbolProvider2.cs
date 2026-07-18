@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-interface">ICorDebugSymbolProvider</see> interface to retrieve additional debug symbol information.</para>
+/// <para>Logically extends the <see cref="ICorDebugSymbolProvider">ICorDebugSymbolProvider</see> interface to retrieve additional debug symbol information.</para>
 /// </summary>
 /// <remarks>
 /// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
@@ -22,7 +22,7 @@ public partial interface ICorDebugSymbolProvider2
 	/// <para>Retrieves a generic dictionary map.</para>
 	/// </summary>
 	/// <param name="ppMemoryBuffer">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmemorybuffer-interface">ICorDebugMemoryBuffer</see> object containing the generic dictionary map. See the Remarks section for more information.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugMemoryBuffer">ICorDebugMemoryBuffer</see> object containing the generic dictionary map. See the Remarks section for more information.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>

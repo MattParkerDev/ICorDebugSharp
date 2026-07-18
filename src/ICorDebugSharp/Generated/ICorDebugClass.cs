@@ -58,7 +58,7 @@ public partial interface ICorDebugClass
 	/// <para>A pointer to the address of an ICorDebugValue object that represents the value of the static field.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>For parameterized types, the value of a static field is relative to the particular instantiation. Therefore, if the class constructor takes parameters of type , call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getstaticfieldvalue-method">ICorDebugType::GetStaticFieldValue</see> instead of <c>ICorDebugClass::GetStaticFieldValue</c>.</para>
+	/// <para>For parameterized types, the value of a static field is relative to the particular instantiation. Therefore, if the class constructor takes parameters of type , call <see cref="ICorDebugType.TryGetStaticFieldValue">ICorDebugType::GetStaticFieldValue</see> instead of <c>ICorDebugClass::GetStaticFieldValue</c>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-getstaticfieldvalue-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

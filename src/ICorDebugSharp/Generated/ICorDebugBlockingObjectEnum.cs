@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Provides an enumerator for a list of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> structures. This interface is a subclass of the ICorDebugEnum interface.</para>
+/// <para>Provides an enumerator for a list of <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> structures. This interface is a subclass of the ICorDebugEnum interface.</para>
 /// </summary>
 /// <remarks>
 /// <para>Each <c>CorDebugBlockingObject</c> structure represents an object that is blocking a thread.</para>
@@ -20,13 +20,13 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugBlockingObjectEnum : ICorDebugEnum
 {
 	/// <summary>
-	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> objects from the enumeration, starting at the current position.</para>
+	/// <para>Gets the specified number of <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> objects from the enumeration, starting at the current position.</para>
 	/// </summary>
 	/// <param name="celt">
 	/// <para>The number of objects to retrieve.</para>
 	/// </param>
 	/// <param name="values">
-	/// <para>An array of pointers to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> objects.</para>
+	/// <para>An array of pointers to <see cref="CorDebugBlockingObject">CorDebugBlockingObject</see> objects.</para>
 	/// </param>
 	/// <param name="pceltFetched">
 	/// <para>A pointer to the number of objects that were retrieved.</para>

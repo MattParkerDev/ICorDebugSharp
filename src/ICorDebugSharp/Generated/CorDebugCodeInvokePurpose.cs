@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Describes why an exported function calls managed code.</para>
 /// </summary>
 /// <remarks>
-/// <para>This enumeration is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-getexportstepinfo-method">ICorDebugProcess6::GetExportStepInfo</see> method to provide information about stepping through managed code.</para>
+/// <para>This enumeration is used by the <see cref="ICorDebugProcess6.TryGetExportStepInfo">ICorDebugProcess6::GetExportStepInfo</see> method to provide information about stepping through managed code.</para>
 /// <para><b>Note:</b> This enumeration is intended for use in .NET Native debugging scenarios only.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugcodeinvokepurpose-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>

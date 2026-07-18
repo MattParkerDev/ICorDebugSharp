@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Provides the details of how the value of the instruction pointer (IP) was obtained.</para>
 /// </summary>
 /// <remarks>
-/// <para>You can use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getip-method">ICorDebugILFrame::GetIP</see> method to obtain the value of the instruction pointer.</para>
+/// <para>You can use the <see cref="ICorDebugILFrame.TryGetIP">ICorDebugILFrame::GetIP</see> method to obtain the value of the instruction pointer.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugmappingresult-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugMappingResult

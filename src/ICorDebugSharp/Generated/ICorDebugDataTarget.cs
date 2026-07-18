@@ -34,11 +34,11 @@ public partial interface ICorDebugDataTarget
 	/// <para>Provides information about the platform, including processor architecture and operating system, on which the target process is running.</para>
 	/// </summary>
 	/// <param name="pTargetPlatform">
-	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">CorDebugPlatformEnum</see> enumeration that describes the target platform.</para>
+	/// <para>A pointer to a <see cref="CorDebugPlatform">CorDebugPlatformEnum</see> enumeration that describes the target platform.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>CorDebugPlatformEnum</c> enumeration return value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> interface to determine details of the target process such as its pointer size, address space layout, register set, instruction format, context layout, and calling conventions.</para>
-	/// <para>The <c>pTargetPlatform</c> value may refer to a platform that is being emulated for the target instead of specifying the actual hardware in use. For example, a process that is running in the Windows on Windows (WOW) environment on a 64-bit edition of the Windows operating system should use the <c>CORDB_PLATFORM_WINDOWS_X86</c> value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">CorDebugPlatformEnum</see> enumeration.</para>
+	/// <para>The <c>CorDebugPlatformEnum</c> enumeration return value is used by the <see cref="ICorDebug">ICorDebug</see> interface to determine details of the target process such as its pointer size, address space layout, register set, instruction format, context layout, and calling conventions.</para>
+	/// <para>The <c>pTargetPlatform</c> value may refer to a platform that is being emulated for the target instead of specifying the actual hardware in use. For example, a process that is running in the Windows on Windows (WOW) environment on a 64-bit edition of the Windows operating system should use the <c>CORDB_PLATFORM_WINDOWS_X86</c> value of the <see cref="CorDebugPlatform">CorDebugPlatformEnum</see> enumeration.</para>
 	/// <para>This method must succeed. If it fails, the target platform is unusable. The method may fail for the following reasons:</para>
 	/// <list type="bullet">
 	/// <item><description><para>The platform that is being emulated for the target is unusable.</para>
@@ -89,7 +89,7 @@ public partial interface ICorDebugDataTarget
 	/// <para>The buffer where the thread context will be stored.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>On Windows platforms, <c>pContext</c> must be a <c>CONTEXT</c> structure (defined in WinNT.h) that is appropriate for the machine type specified by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method. <c>contextFlags</c> must have the same values as the <c>ContextFlags</c> field of the <c>CONTEXT</c> structure. The <c>CONTEXT</c> structure is processor-specific; refer to the WinNT.h file for details.</para>
+	/// <para>On Windows platforms, <c>pContext</c> must be a <c>CONTEXT</c> structure (defined in WinNT.h) that is appropriate for the machine type specified by the <see cref="ICorDebugDataTarget.TryGetPlatform">ICorDebugDataTarget::GetPlatform</see> method. <c>contextFlags</c> must have the same values as the <c>ContextFlags</c> field of the <c>CONTEXT</c> structure. The <c>CONTEXT</c> structure is processor-specific; refer to the WinNT.h file for details.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getthreadcontext-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

@@ -37,7 +37,7 @@ public partial interface ICorDebugEval2
 	/// <para>An array of pointers, each of which points to an ICorDebugValue object that represents a value passed in a function argument.</para>
 	/// </param>
 	/// <remarks>
-	/// <para><c>CallParameterizedFunction</c> is like <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-callfunction-method">ICorDebugEval::CallFunction</see> except that the function may be inside a class with type parameters, may itself take type parameters, or both. The type arguments should be given first for the class, and then for the function.</para>
+	/// <para><c>CallParameterizedFunction</c> is like <see cref="ICorDebugEval.TryCallFunction">ICorDebugEval::CallFunction</see> except that the function may be inside a class with type parameters, may itself take type parameters, or both. The type arguments should be given first for the class, and then for the function.</para>
 	/// <para>If the function is in a different application domain, a transition will occur. However, all type and value arguments must be in the target application domain.</para>
 	/// <para>Function evaluation can be performed only in limited scenarios. If <c>CallParameterizedFunction</c> or <c>ICorDebugEval::CallFunction</c> fails, the returned HRESULT will indicate the most general possible reason for failure.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-callparameterizedfunction-method">Microsoft Learn</see>.</para>
@@ -55,7 +55,7 @@ public partial interface ICorDebugEval2
 	/// <para>Pointer to the address of an <c>ICorDebugValue</c> object that represents the value.</para>
 	/// </param>
 	/// <remarks>
-	/// <para><c>CreateValueForType</c> generalizes <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-createvalue-method">ICorDebugEval::CreateValue</see> by allowing you to specify an arbitrary object type, including constructed types such as <c>List&lt;int&gt;</c>. The only purpose of this method is to generate a value that can be passed to a function evaluation.</para>
+	/// <para><c>CreateValueForType</c> generalizes <see cref="ICorDebugEval.TryCreateValue">ICorDebugEval::CreateValue</see> by allowing you to specify an arbitrary object type, including constructed types such as <c>List&lt;int&gt;</c>. The only purpose of this method is to generate a value that can be passed to a function evaluation.</para>
 	/// <para>The type must be a class or a value type. You cannot use this method to create array values or string values.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-createvaluefortype-method">Microsoft Learn</see>.</para>
 	/// </remarks>

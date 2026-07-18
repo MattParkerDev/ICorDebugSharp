@@ -44,7 +44,7 @@ public partial interface ICorDebugILFrame : ICorDebugFrame
 	/// </param>
 	/// <remarks>
 	/// <para>Calls to <c>SetIP</c> immediately invalidate all frames and chains for the current thread. If the debugger needs frame information after a call to <c>SetIP</c>, it must perform a new stack trace.</para>
-	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, there still may be problems such as uninitialized local variables. The caller is responsible for ensuring the coherency of the running program.</para>
+	/// <para><see cref="ICorDebug">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, there still may be problems such as uninitialized local variables. The caller is responsible for ensuring the coherency of the running program.</para>
 	/// <para>On 64-bit platforms, the instruction pointer cannot be moved out of a <c>catch</c> or <c>finally</c> block. If <c>SetIP</c> is called to make such a move on a 64-bit platform, it will return an HRESULT indicating failure.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -134,7 +134,7 @@ public partial interface ICorDebugILFrame : ICorDebugFrame
 	/// <para>The desired setting for the instruction pointer.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Use the <c>CanSetIP</c> method before calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">ICorDebugILFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugILFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
+	/// <para>Use the <c>CanSetIP</c> method before calling the <see cref="ICorDebugILFrame.TrySetIP">ICorDebugILFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugILFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-cansetip-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

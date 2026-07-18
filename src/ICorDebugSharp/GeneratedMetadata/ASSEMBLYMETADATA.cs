@@ -54,7 +54,7 @@ public unsafe partial struct ASSEMBLYMETADATA
     public uint ulProcessor;
 
     /// <summary>
-    /// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/structures/osinfo-structure">OSINFO</see> instances specifying the operating systems that are supported by the referenced assembly. A NULL value indicates operating-system independence.</para>
+    /// <para>An array of <see cref="OSINFO">OSINFO</see> instances specifying the operating systems that are supported by the referenced assembly. A NULL value indicates operating-system independence.</para>
     /// </summary>
     public OSINFO* rOS;
 

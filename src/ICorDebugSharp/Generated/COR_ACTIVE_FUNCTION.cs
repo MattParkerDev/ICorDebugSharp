@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Contains information about the functions that are currently active in a thread&#39;s frames. This structure is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-getactivefunctions-method">ICorDebugThread2::GetActiveFunctions</see> method.</para>
+/// <para>Contains information about the functions that are currently active in a thread&#39;s frames. This structure is used by the <see cref="ICorDebugThread2.TryGetActiveFunctions">ICorDebugThread2::GetActiveFunctions</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-active-function-structure">Microsoft Learn</see>.</para>

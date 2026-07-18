@@ -8,7 +8,7 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>The user state of a thread is the state that the thread has when the debugger examines it. A thread may have a combination of user states.</para>
-/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getuserstate-method">ICorDebugThread::GetUserState</see> method to retrieve a thread&#39;s user state.</para>
+/// <para>Use the <see cref="ICorDebugThread.TryGetUserState">ICorDebugThread::GetUserState</see> method to retrieve a thread&#39;s user state.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuguserstate-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugUserState

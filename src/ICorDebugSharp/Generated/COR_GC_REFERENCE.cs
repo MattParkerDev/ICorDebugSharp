@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Contains information about an object that is to be garbage-collected.</para>
 /// </summary>
 /// <remarks>
-/// <para>The <c>type</c> field is a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> enumeration value that indicates where the reference came from. A particular <c>COR_GC_REFERENCE</c> value can reflect any of the following kinds of managed objects:</para>
+/// <para>The <c>type</c> field is a <see cref="CorGCReferenceType">CorGCReferenceType</see> enumeration value that indicates where the reference came from. A particular <c>COR_GC_REFERENCE</c> value can reflect any of the following kinds of managed objects:</para>
 /// <list type="bullet">
 /// <item><description><para>Objects from all managed stacks (<c>CorGCReferenceType.CorReferenceStack</c>). This includes live references in managed code, as well as objects created by the common language runtime.</para>
 /// </description></item>
@@ -44,7 +44,7 @@ public struct COR_GC_REFERENCE
 	public ICorDebugValue Location;
 
 	/// <summary>
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> enumeration value that indicates where the root came from. For more information, see the Remarks section.</para>
+	/// <para>A <see cref="CorGCReferenceType">CorGCReferenceType</see> enumeration value that indicates where the root came from. For more information, see the Remarks section.</para>
 	/// </summary>
 	public CorGCReferenceType Type;
 

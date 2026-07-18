@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Represents a generic class or a class with a method parameter of type . This interface extends <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">ICorDebugClass</see>.</para>
+/// <para>Represents a generic class or a class with a method parameter of type . This interface extends <see cref="ICorDebugClass">ICorDebugClass</see>.</para>
 /// </summary>
 /// <remarks>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>

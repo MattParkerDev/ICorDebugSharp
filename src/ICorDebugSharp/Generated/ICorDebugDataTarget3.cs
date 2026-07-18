@@ -7,7 +7,7 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface to provide information about loaded modules.</para>
+/// <para>Logically extends the <see cref="ICorDebugDataTarget">ICorDebugDataTarget</see> interface to provide information about loaded modules.</para>
 /// </summary>
 /// <remarks>
 /// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
@@ -28,7 +28,7 @@ public partial interface ICorDebugDataTarget3
 	/// <para>A pointer to the number of modules about which information was returned.</para>
 	/// </param>
 	/// <param name="pLoadedModules">
-	/// <para>A pointer to an array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-interface">ICorDebugLoadedModule</see> objects that provide information about loaded modules.</para>
+	/// <para>A pointer to an array of <see cref="ICorDebugLoadedModule">ICorDebugLoadedModule</see> objects that provide information about loaded modules.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>

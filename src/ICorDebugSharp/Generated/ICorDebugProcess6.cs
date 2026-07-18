@@ -28,16 +28,16 @@ public partial interface ICorDebugProcess6
 	/// <para>The number of elements in the <c>pRecord</c> byte array.</para>
 	/// </param>
 	/// <param name="format">
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugrecordformat-enumeration">CorDebugRecordFormat</see> enumeration member that specifies the format of the unmanaged debug event.</para>
+	/// <para>A <see cref="CorDebugRecordFormat">CorDebugRecordFormat</see> enumeration member that specifies the format of the unmanaged debug event.</para>
 	/// </param>
 	/// <param name="dwFlags">
-	/// <para>A bit field that depends on the target architecture and that specifies additional information about the debug event. For Windows systems, it can be a member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdecodeeventflagswindows-enumeration">CorDebugDecodeEventFlagsWindows</see> enumeration.</para>
+	/// <para>A bit field that depends on the target architecture and that specifies additional information about the debug event. For Windows systems, it can be a member of the <see cref="CorDebugDecodeEventFlagsWindows">CorDebugDecodeEventFlagsWindows</see> enumeration.</para>
 	/// </param>
 	/// <param name="dwThreadId">
 	/// <para>The operating system identifier of the thread on which the exception was thrown.</para>
 	/// </param>
 	/// <param name="ppEvent">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-interface">ICorDebugDebugEvent</see> object that represents a decoded managed debug event.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugDebugEvent">ICorDebugDebugEvent</see> object that represents a decoded managed debug event.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -47,13 +47,13 @@ public partial interface ICorDebugProcess6
 	int TryDecodeEvent([MarshalUsing(CountElementName = nameof(countBytes))][In] byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId, out ICorDebugDebugEvent ppEvent);
 
 	/// <summary>
-	/// <para>Notifies <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> that the process is running.</para>
+	/// <para>Notifies <see cref="ICorDebug">ICorDebug</see> that the process is running.</para>
 	/// </summary>
 	/// <param name="change">
-	/// <para>A member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-processstatechanged-method">ProcessStateChanged</see> enumeration</para>
+	/// <para>A member of the <see cref="ICorDebugProcess6.TryProcessStateChanged">ProcessStateChanged</see> enumeration</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The debugger calls this method to notify <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> that the process is running.</para>
+	/// <para>The debugger calls this method to notify <see cref="ICorDebug">ICorDebug</see> that the process is running.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-processstatechanged-method">Microsoft Learn</see>.</para>
 	/// </remarks>
@@ -83,9 +83,9 @@ public partial interface ICorDebugProcess6
 	/// <para><c>true</c> to enable virtual module splitting; <c>false</c> to disable it.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Virtual module splitting causes <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> to recognize modules that were merged together during the build process and present them as a group of separate modules rather than a single large module. Doing this changes the behavior of various <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> methods described below.</para>
+	/// <para>Virtual module splitting causes <see cref="ICorDebug">ICorDebug</see> to recognize modules that were merged together during the build process and present them as a group of separate modules rather than a single large module. Doing this changes the behavior of various <see cref="ICorDebug">ICorDebug</see> methods described below.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
-	/// <para>This method can be called and the value of <c>enableSplitting</c> can be changed at any time. It does not cause any stateful functional changes in an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> object, other than altering the behavior of the methods listed in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-enablevirtualmodulesplitting-method#APIs">Virtual module splitting and the unmanaged debugging APIs</see> section at the time they are called. Using virtual modules does incur a performance penalty when calling those methods. In addition, significant in-memory caching of the virtualized metadata may be required to correctly implement the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see> APIs, and these caches may be retained even after virtual module splitting has been turned off.</para>
+	/// <para>This method can be called and the value of <c>enableSplitting</c> can be changed at any time. It does not cause any stateful functional changes in an <see cref="ICorDebug">ICorDebug</see> object, other than altering the behavior of the methods listed in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-enablevirtualmodulesplitting-method#APIs">Virtual module splitting and the unmanaged debugging APIs</see> section at the time they are called. Using virtual modules does incur a performance penalty when calling those methods. In addition, significant in-memory caching of the virtualized metadata may be required to correctly implement the <see cref="IMetaDataImport">IMetaDataImport</see> APIs, and these caches may be retained even after virtual module splitting has been turned off.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-enablevirtualmodulesplitting-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -120,10 +120,10 @@ public partial interface ICorDebugProcess6
 	/// <para>The name of a runtime export function as written in the PE export table.</para>
 	/// </param>
 	/// <param name="pInvokeKind">
-	/// <para>A pointer to a member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugcodeinvokekind-enumeration">CorDebugCodeInvokeKind</see> enumeration that describes how the exported function will invoke managed code.</para>
+	/// <para>A pointer to a member of the <see cref="CorDebugCodeInvokeKind">CorDebugCodeInvokeKind</see> enumeration that describes how the exported function will invoke managed code.</para>
 	/// </param>
 	/// <param name="pInvokePurpose">
-	/// <para>A pointer to a member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugcodeinvokepurpose-enumeration">CorDebugCodeInvokePurpose</see> enumeration that describes why the exported function will call managed code.</para>
+	/// <para>A pointer to a member of the <see cref="CorDebugCodeInvokePurpose">CorDebugCodeInvokePurpose</see> enumeration that describes why the exported function will call managed code.</para>
 	/// </param>
 	/// <returns>
 	/// <para>The method can return the values listed in the following table.</para>

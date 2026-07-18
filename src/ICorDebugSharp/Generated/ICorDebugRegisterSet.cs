@@ -10,7 +10,7 @@ namespace ICorDebugSharp;
 /// <para>Represents the set of registers available on the computer that is currently executing code.</para>
 /// </summary>
 /// <remarks>
-/// <para>The <c>ICorDebugRegisterSet</c> interface supports only 32-bit registers. Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-interface">ICorDebugRegisterSet2</see> interface on platforms such as IA-64 that require additional registers.</para>
+/// <para>The <c>ICorDebugRegisterSet</c> interface supports only 32-bit registers. Use the <see cref="ICorDebugRegisterSet2">ICorDebugRegisterSet2</see> interface on platforms such as IA-64 that require additional registers.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -20,7 +20,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugRegisterSet
 {
 	/// <summary>
-	/// <para>Gets a bit mask indicating which registers in this <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> are currently available.</para>
+	/// <para>Gets a bit mask indicating which registers in this <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> are currently available.</para>
 	/// </summary>
 	/// <param name="pAvailable">
 	/// <para>A bit mask that indicates which registers are currently available.</para>
@@ -74,7 +74,7 @@ public partial interface ICorDebugRegisterSet
 	/// </param>
 	/// <remarks>
 	/// <para>The debugger should call this function instead of the Win32 <c>GetThreadContext</c> function, because the thread may be in a &quot;hijacked&quot; state where its context has been temporarily changed. The data returned is a Win32 <c>CONTEXT</c> structure for the current platform.</para>
-	/// <para>For non-leaf frames, clients should check which registers are valid by using <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-getregistersavailable-method">ICorDebugRegisterSet::GetRegistersAvailable</see>.</para>
+	/// <para>For non-leaf frames, clients should check which registers are valid by using <see cref="ICorDebugRegisterSet.TryGetRegistersAvailable">ICorDebugRegisterSet::GetRegistersAvailable</see>.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-getthreadcontext-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

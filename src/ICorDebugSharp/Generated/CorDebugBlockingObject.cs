@@ -16,7 +16,7 @@ namespace ICorDebugSharp;
 public struct CorDebugBlockingObject
 {
 	/// <summary>
-	/// <para>The object on which the thread is blocking. This object is valid only for the duration of the current synchronized state. If two threads are blocking on the same object within the same synchronized state, you may expect the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-getaddress-method">ICorDebugValue::GetAddress</see> method to return the same value. However, the interfaces may or may not be pointer equivalent.</para>
+	/// <para>The object on which the thread is blocking. This object is valid only for the duration of the current synchronized state. If two threads are blocking on the same object within the same synchronized state, you may expect the <see cref="ICorDebugValue.TryGetAddress">ICorDebugValue::GetAddress</see> method to return the same value. However, the interfaces may or may not be pointer equivalent.</para>
 	/// </summary>
 	public ICorDebugValue pBlockingObject;
 

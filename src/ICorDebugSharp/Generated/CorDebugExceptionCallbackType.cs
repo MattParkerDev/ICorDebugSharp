@@ -4,7 +4,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Indicates the type of callback that is made from an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-exception-method">ICorDebugManagedCallback2::Exception</see> event.</para>
+/// <para>Indicates the type of callback that is made from an <see cref="ICorDebugManagedCallback2.TryException">ICorDebugManagedCallback2::Exception</see> event.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptioncallbacktype-enumeration">Microsoft Learn</see>.</para>

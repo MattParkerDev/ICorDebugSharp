@@ -34,7 +34,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>A pointer to the number of symbols retrieved by the method.</para>
 	/// </param>
 	/// <param name="pSymbols">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstaticfieldsymbol-interface">ICorDebugStaticFieldSymbol</see> array that contains the requested static field symbols.</para>
+	/// <para>A pointer to an <see cref="ICorDebugStaticFieldSymbol">ICorDebugStaticFieldSymbol</see> array that contains the requested static field symbols.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -59,7 +59,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>A pointer to the number of symbols retrieved by the method.</para>
 	/// </param>
 	/// <param name="pSymbols">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstaticfieldsymbol-interface">ICorDebugStaticFieldSymbol</see> array that contains the requested instance field symbols.</para>
+	/// <para>A pointer to an <see cref="ICorDebugStaticFieldSymbol">ICorDebugStaticFieldSymbol</see> array that contains the requested instance field symbols.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -81,7 +81,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>A pointer to the number of symbols retrieved by the method.</para>
 	/// </param>
 	/// <param name="pSymbols">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-interface">ICorDebugVariableSymbol</see> array that contains the method&#39;s local symbols.</para>
+	/// <para>A pointer to an <see cref="ICorDebugVariableSymbol">ICorDebugVariableSymbol</see> array that contains the method&#39;s local symbols.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -103,7 +103,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>A pointer to the number of symbols retrieved by the method.</para>
 	/// </param>
 	/// <param name="pSymbols">
-	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-interface">ICorDebugVariableSymbol</see> array that contains the method&#39;s parameter symbols.</para>
+	/// <para>A pointer to an <see cref="ICorDebugVariableSymbol">ICorDebugVariableSymbol</see> array that contains the method&#39;s parameter symbols.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -122,7 +122,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>A pointer to the number of symbol records retrieved by the method.</para>
 	/// </param>
 	/// <param name="pRecords">
-	/// <para>A pointer to an array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-interface">ICorDebugMergedAssemblyRecord</see> objects.</para>
+	/// <para>A pointer to an array of <see cref="ICorDebugMergedAssemblyRecord">ICorDebugMergedAssemblyRecord</see> objects.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -212,7 +212,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>The number of bytes to read from the merged assembly.</para>
 	/// </param>
 	/// <param name="ppMemoryBuffer">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmemorybuffer-interface">ICorDebugMemoryBuffer</see> object that contains information about the memory buffer with merged assembly metadata.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugMemoryBuffer">ICorDebugMemoryBuffer</see> object that contains information about the memory buffer with merged assembly metadata.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
@@ -244,7 +244,7 @@ public partial interface ICorDebugSymbolProvider
 	/// <para>Returns the metadata from a merged assembly.</para>
 	/// </summary>
 	/// <param name="ppMemoryBuffer">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmemorybuffer-interface">ICorDebugMemoryBuffer</see> object that contains information about the size and address of the merged assembly&#39;s metadata.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugMemoryBuffer">ICorDebugMemoryBuffer</see> object that contains information about the size and address of the merged assembly&#39;s metadata.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>

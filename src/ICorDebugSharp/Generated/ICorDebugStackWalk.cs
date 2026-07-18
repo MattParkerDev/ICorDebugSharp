@@ -19,7 +19,7 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugStackWalk
 {
 	/// <summary>
-	/// <para>Returns the context for the current frame in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object.</para>
+	/// <para>Returns the context for the current frame in the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object.</para>
 	/// </summary>
 	/// <param name="contextFlags">
 	/// <para>Flags that indicate the requested contents of the context buffer (defined in WinNT.h).</para>
@@ -51,10 +51,10 @@ public partial interface ICorDebugStackWalk
 	int TryGetContext(uint contextFlags, uint contextBufSize, out uint contextSize, [MarshalUsing(CountElementName = nameof(contextBufSize))][Out] byte[] contextBuf);
 
 	/// <summary>
-	/// <para>Sets the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object’s current context to a valid context for the thread.</para>
+	/// <para>Sets the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object’s current context to a valid context for the thread.</para>
 	/// </summary>
 	/// <param name="flag">
-	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugsetcontextflag-enumeration">CorDebugSetContextFlag</see> flag that indicates whether the context is from the active frame on the stack, or a context obtained by unwinding the stack.</para>
+	/// <para>A <see cref="CorDebugSetContextFlag">CorDebugSetContextFlag</see> flag that indicates whether the context is from the active frame on the stack, or a context obtained by unwinding the stack.</para>
 	/// </param>
 	/// <param name="contextSize">
 	/// <para>The allocated size of the <c>CONTEXT</c> buffer.</para>
@@ -75,14 +75,14 @@ public partial interface ICorDebugStackWalk
 	/// <remarks>
 	/// <para>This method does not alter the current context of the thread.</para>
 	/// <para>Setting the current context to an invalid context may cause unpredictable results from the stack walker.</para>
-	/// <para>You can retrieve an exact bitwise copy of this context by immediately calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">ICorDebugStackWalk::GetContext</see> method.</para>
+	/// <para>You can retrieve an exact bitwise copy of this context by immediately calling the <see cref="ICorDebugStackWalk.TryGetContext">ICorDebugStackWalk::GetContext</see> method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-setcontext-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
 	int TrySetContext(CorDebugSetContextFlag flag, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 
 	/// <summary>
-	/// <para>Moves the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object to the next frame.</para>
+	/// <para>Moves the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object to the next frame.</para>
 	/// </summary>
 	/// <returns>
 	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
@@ -102,7 +102,7 @@ public partial interface ICorDebugStackWalk
 	int TryNext();
 
 	/// <summary>
-	/// <para>Gets the current frame in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object.</para>
+	/// <para>Gets the current frame in the <see cref="ICorDebugStackWalk">ICorDebugStackWalk</see> object.</para>
 	/// </summary>
 	/// <param name="pFrame">
 	/// <para>A pointer to the address of the created frame object that represents the current frame in the stack.</para>
@@ -119,7 +119,7 @@ public partial interface ICorDebugStackWalk
 	/// </list>
 	/// </returns>
 	/// <remarks>
-	/// <para><c>ICorDebugStackWalk</c> returns only actual stack frames. Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">ICorDebugThread3::GetActiveInternalFrames</see> method to return internal frames. (Internal frames are data structures pushed onto the stack by the runtime to store temporary data.)</para>
+	/// <para><c>ICorDebugStackWalk</c> returns only actual stack frames. Use the <see cref="ICorDebugThread3.TryGetActiveInternalFrames">ICorDebugThread3::GetActiveInternalFrames</see> method to return internal frames. (Internal frames are data structures pushed onto the stack by the runtime to store temporary data.)</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getframe-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]

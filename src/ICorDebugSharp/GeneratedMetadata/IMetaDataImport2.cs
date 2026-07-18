@@ -9,7 +9,7 @@ using ICorDebugSharp;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see> interface to provide the capability of working with generic types.</para>
+/// <para>Extends the <see cref="IMetaDataImport">IMetaDataImport</see> interface to provide the capability of working with generic types.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-interface">Microsoft Learn</see>.</para>
@@ -60,7 +60,7 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	/// <para>The ordinal position of the <c>Type</c> parameter in the parent constructor or method.</para>
 	/// </param>
 	/// <param name="pdwParamFlags">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corgenericparamattr-enumeration">CorGenericParamAttr</see> enumeration that describes the <c>Type</c> for the generic parameter.</para>
+	/// <para>A value of the <see cref="CorGenericParamAttr">CorGenericParamAttr</see> enumeration that describes the <c>Type</c> for the generic parameter.</para>
 	/// </param>
 	/// <param name="ptOwner">
 	/// <para>A TypeDef or MethodDef token that represents the owner of the parameter.</para>
@@ -157,7 +157,7 @@ public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 	/// <para>Gets a value identifying the nature of the code in the portable executable (PE) file, typically a DLL or EXE file, that is defined in the current metadata scope.</para>
 	/// </summary>
 	/// <param name="pdwPEKind">
-	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpekind-enumeration">CorPEKind</see> enumeration that describes the PE file.</para>
+	/// <para>A pointer to a value of the <see cref="CorPEKind">CorPEKind</see> enumeration that describes the PE file.</para>
 	/// </param>
 	/// <param name="pdwMAchine">
 	/// <para>A pointer to a value that identifies the architecture of the machine. See the next section for possible values.</para>

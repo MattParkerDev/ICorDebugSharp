@@ -11,9 +11,9 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>An <c>ICorDebugEval</c> object is created in the context of a specific thread that is used to perform the evaluations. All objects and types used in a given evaluation must reside within the same application domain. That application domain need not be the same as the current application domain of the thread. Evaluations can be nested.</para>
-/// <para>The evaluation&#39;s operations do not complete until the debugger calls <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>, and then receives an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-evalcomplete-method">ICorDebugManagedCallback::EvalComplete</see> callback. If you need to use the evaluation functionality without allowing other threads to run, suspend the threads by using either <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-setallthreadsdebugstate-method">ICorDebugController::SetAllThreadsDebugState</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-stop-method">ICorDebugController::Stop</see> before calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>.</para>
-/// <para>Because user code is running when the evaluation is in progress, any debug events can occur, including class loads and breakpoints. The debugger will receive callbacks, as normal, for these events. The state of the evaluation will be seen as part of the inspection of the normal program state. The stack chain will be a <c>CHAIN_FUNC_EVAL</c> chain (see the &quot;CorDebugStepReason&quot; enumeration and the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getreason-method">ICorDebugChain::GetReason</see> method). The full debugger API will continue to operate as normal.</para>
-/// <para>If a deadlocked or infinite looping situation arises, the user code may never complete. In such a case, you must call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-abort-method">ICorDebugEval::Abort</see> before resuming the program.</para>
+/// <para>The evaluation&#39;s operations do not complete until the debugger calls <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see>, and then receives an <see cref="ICorDebugManagedCallback.TryEvalComplete">ICorDebugManagedCallback::EvalComplete</see> callback. If you need to use the evaluation functionality without allowing other threads to run, suspend the threads by using either <see cref="ICorDebugController.TrySetAllThreadsDebugState">ICorDebugController::SetAllThreadsDebugState</see> or <see cref="ICorDebugController.TryStop">ICorDebugController::Stop</see> before calling <see cref="ICorDebugController.TryContinue">ICorDebugController::Continue</see>.</para>
+/// <para>Because user code is running when the evaluation is in progress, any debug events can occur, including class loads and breakpoints. The debugger will receive callbacks, as normal, for these events. The state of the evaluation will be seen as part of the inspection of the normal program state. The stack chain will be a <c>CHAIN_FUNC_EVAL</c> chain (see the &quot;CorDebugStepReason&quot; enumeration and the <see cref="ICorDebugChain.TryGetReason">ICorDebugChain::GetReason</see> method). The full debugger API will continue to operate as normal.</para>
+/// <para>If a deadlocked or infinite looping situation arises, the user code may never complete. In such a case, you must call <see cref="ICorDebugEval.TryAbort">ICorDebugEval::Abort</see> before resuming the program.</para>
 /// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -24,7 +24,7 @@ public partial interface ICorDebugEval
 {
 	/// <summary>
 	/// <para>Sets up a call to the specified function.</para>
-	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-callparameterizedfunction-method">ICorDebugEval2::CallParameterizedFunction</see> instead.</para>
+	/// <para>This method is obsolete. Use <see cref="ICorDebugEval2.TryCallParameterizedFunction">ICorDebugEval2::CallParameterizedFunction</see> instead.</para>
 	/// </summary>
 	/// <param name="pFunction">
 	/// <para>Pointer to an ICorDebugFunction object that specifies the function to be called.</para>
@@ -44,7 +44,7 @@ public partial interface ICorDebugEval
 
 	/// <summary>
 	/// <para>Allocates a new object instance and calls the specified constructor method.</para>
-	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobject-method">ICorDebugEval2::NewParameterizedObject</see> instead.</para>
+	/// <para>This method is obsolete. Use <see cref="ICorDebugEval2.TryNewParameterizedObject">ICorDebugEval2::NewParameterizedObject</see> instead.</para>
 	/// </summary>
 	/// <param name="pConstructor">
 	/// <para>The constructor to be called.</para>
@@ -63,7 +63,7 @@ public partial interface ICorDebugEval
 
 	/// <summary>
 	/// <para>Allocates a new object instance of the specified type, without attempting to call a constructor method.</para>
-	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobjectnoconstructor-method">ICorDebugEval2::NewParameterizedObjectNoConstructor</see> instead.</para>
+	/// <para>This method is obsolete. Use <see cref="ICorDebugEval2.TryNewParameterizedObjectNoConstructor">ICorDebugEval2::NewParameterizedObjectNoConstructor</see> instead.</para>
 	/// </summary>
 	/// <param name="pClass">
 	/// <para>Pointer to an ICorDebugClass object that represents the type of object to be instantiated.</para>
@@ -89,7 +89,7 @@ public partial interface ICorDebugEval
 
 	/// <summary>
 	/// <para>Allocates a new array of the specified element type and dimensions.</para>
-	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedarray-method">ICorDebugEval2::NewParameterizedArray</see> instead.</para>
+	/// <para>This method is obsolete. Use <see cref="ICorDebugEval2.TryNewParameterizedArray">ICorDebugEval2::NewParameterizedArray</see> instead.</para>
 	/// </summary>
 	/// <param name="elementType">
 	/// <para>A value of the CorElementType enumeration that specifies the element type of the array.</para>
@@ -163,20 +163,20 @@ public partial interface ICorDebugEval
 
 	/// <summary>
 	/// <para>Creates a value of the specified type, with an initial value of zero or null.</para>
-	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-createvaluefortype-method">ICorDebugEval2::CreateValueForType</see> instead.</para>
+	/// <para>This method is obsolete. Use <see cref="ICorDebugEval2.TryCreateValueForType">ICorDebugEval2::CreateValueForType</see> instead.</para>
 	/// </summary>
 	/// <param name="elementType">
-	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corelementtype-enumeration">CorElementType</see> enumeration that specifies the type of the value.</para>
+	/// <para>A value of the <see cref="CorElementType">CorElementType</see> enumeration that specifies the type of the value.</para>
 	/// </param>
 	/// <param name="pElementClass">
-	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">ICorDebugClass</see> object that specifies the class of the value, if the type is not a primitive type.</para>
+	/// <para>Pointer to an <see cref="ICorDebugClass">ICorDebugClass</see> object that specifies the class of the value, if the type is not a primitive type.</para>
 	/// </param>
 	/// <param name="ppValue">
 	/// <para>Pointer to the address of an &quot;ICorDebugValue&quot; object that represents the value.</para>
 	/// </param>
 	/// <remarks>
 	/// <para><c>CreateValue</c> creates an <c>ICorDebugValue</c> object of the given type for the sole purpose of using it in a function evaluation. This value object can be used to pass user constants as parameters.</para>
-	/// <para>If the type of the value is a primitive type, its initial value is zero or null. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggenericvalue-setvalue-method">ICorDebugGenericValue::SetValue</see> to set the value of a primitive type.</para>
+	/// <para>If the type of the value is a primitive type, its initial value is zero or null. Use <see cref="ICorDebugGenericValue.TrySetValue">ICorDebugGenericValue::SetValue</see> to set the value of a primitive type.</para>
 	/// <para>If the value of <c>elementType</c> is ELEMENT_TYPE_CLASS, you get an &quot;ICorDebugReferenceValue&quot; (returned in <c>ppValue</c>) representing the null object reference. You can use this object to pass null to a function evaluation that has object reference parameters. You cannot set the <c>ICorDebugValue</c> to anything; it always remains null.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-createvalue-method">Microsoft Learn</see>.</para>
 	/// </remarks>

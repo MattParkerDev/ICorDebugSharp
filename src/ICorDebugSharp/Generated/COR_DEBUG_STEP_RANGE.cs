@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 
 /// <summary>
 /// <para>Contains the offset information for a range of code.</para>
-/// <para>This structure is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-steprange-method">ICorDebugStepper::StepRange</see> method.</para>
+/// <para>This structure is used by the <see cref="ICorDebugStepper.TryStepRange">ICorDebugStepper::StepRange</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-debug-step-range-structure">Microsoft Learn</see>.</para>

@@ -2,7 +2,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Contains values that describe a portable executable (PE) file, as returned from a call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getpekind-method">IMetaDataImport2::GetPEKind</see>.</para>
+/// <para>Contains values that describe a portable executable (PE) file, as returned from a call to <see cref="IMetaDataImport2.TryGetPEKind">IMetaDataImport2::GetPEKind</see>.</para>
 /// </summary>
 /// <remarks>
 /// <para>These values can be used in bitwise combinations.</para>

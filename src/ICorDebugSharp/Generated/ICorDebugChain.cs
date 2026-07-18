@@ -151,7 +151,7 @@ public partial interface ICorDebugChain
 	/// <para>Gets the register set for the active part of this chain.</para>
 	/// </summary>
 	/// <param name="ppRegisters">
-	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> object that represents the register set for the active part of this chain.</para>
+	/// <para>A pointer to the address of an <see cref="ICorDebugRegisterSet">ICorDebugRegisterSet</see> object that represents the register set for the active part of this chain.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getregisterset-method">Microsoft Learn</see>.</para>

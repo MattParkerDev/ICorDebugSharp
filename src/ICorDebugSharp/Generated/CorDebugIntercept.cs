@@ -7,7 +7,7 @@ namespace ICorDebugSharp;
 /// <para>Indicates the types of code that can be intercepted (that is, stepped into).</para>
 /// </summary>
 /// <remarks>
-/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setinterceptmask-method">ICorDebugStepper::SetInterceptMask</see> method to establish the types of code that can be intercepted.</para>
+/// <para>Use the <see cref="ICorDebugStepper.TrySetInterceptMask">ICorDebugStepper::SetInterceptMask</see> method to establish the types of code that can be intercepted.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugintercept-enumeration">Microsoft Learn</see>.</para>
 /// </remarks>
 public enum CorDebugIntercept

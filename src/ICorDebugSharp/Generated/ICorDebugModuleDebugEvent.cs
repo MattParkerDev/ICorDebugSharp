@@ -7,10 +7,10 @@ using System.Runtime.InteropServices.Marshalling;
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-interface">ICorDebugDebugEvent</see> interface to support module-level events.</para>
+/// <para>Extends the <see cref="ICorDebugDebugEvent">ICorDebugDebugEvent</see> interface to support module-level events.</para>
 /// </summary>
 /// <remarks>
-/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdebugeventkind-enumeration">MODULE_LOADED</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdebugeventkind-enumeration">MODULE_UNLOADED</see> event types implement this interface.</para>
+/// <para>The <see cref="CorDebugDebugEventKind">MODULE_LOADED</see> and <see cref="CorDebugDebugEventKind">MODULE_UNLOADED</see> event types implement this interface.</para>
 /// <para><b>Note:</b> The interface is available with .NET Native only. Attempting to call  QueryInterface  to retrieve an interface pointer returns  E_NOINTERFACE  for ICorDebug scenarios outside of .NET Native.</para>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduledebugevent-interface">Microsoft Learn</see>.</para>
 /// </remarks>
@@ -26,7 +26,7 @@ public partial interface ICorDebugModuleDebugEvent : ICorDebugDebugEvent
 	/// <para>A pointer to the address of an ICorDebugModule object that represents the merged module that was just loaded or unloaded.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>You can call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-geteventkind-method">GetEventKind</see> method to determine whether the module was loaded or unloaded.</para>
+	/// <para>You can call the <see cref="ICorDebugDebugEvent.TryGetEventKind">GetEventKind</see> method to determine whether the module was loaded or unloaded.</para>
 	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduledebugevent-getmodule-method">Microsoft Learn</see>.</para>
 	/// </remarks>

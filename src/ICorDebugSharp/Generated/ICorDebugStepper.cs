@@ -36,7 +36,7 @@ public partial interface ICorDebugStepper
 	/// <para>Returns <c>true</c> if the stepper is currently executing a step; otherwise, returns <c>false</c>.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>Any step action remains active until the debugger receives a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-stepcomplete-method">ICorDebugManagedCallback::StepComplete</see> call, which automatically deactivates the stepper. A stepper may also be deactivated prematurely by calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-deactivate-method">ICorDebugStepper::Deactivate</see> before the callback condition is reached.</para>
+	/// <para>Any step action remains active until the debugger receives a <see cref="ICorDebugManagedCallback.TryStepComplete">ICorDebugManagedCallback::StepComplete</see> call, which automatically deactivates the stepper. A stepper may also be deactivated prematurely by calling <see cref="ICorDebugStepper.TryDeactivate">ICorDebugStepper::Deactivate</see> before the callback condition is reached.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-isactive-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -60,7 +60,7 @@ public partial interface ICorDebugStepper
 	/// </param>
 	/// <remarks>
 	/// <para>If the bit for an interceptor is set, the stepper will complete when the given type of intercepting code is encountered. If the bit is cleared, the intercepting code will be skipped.</para>
-	/// <para>The <c>SetInterceptMask</c> method may have unforeseen interactions with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setunmappedstopmask-method">ICorDebugStepper::SetUnmappedStopMask</see> (from the user&#39;s point of view). For example, if the only visible (that is, non-internal) portion of class initialization code lacks mapping information and STOP_NO_MAPPING_INFO isn&#39;t set (see the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setunmappedstopmask-method">ICorDebugStepper::SetUnmappedStopMask</see> method and the CorDebugUnmappedStop enumeration), the stepper will step over the class initialization. By default, only the INTERCEPT_NONE value of the <c>CorDebugIntercept</c> enumeration will be used.</para>
+	/// <para>The <c>SetInterceptMask</c> method may have unforeseen interactions with <see cref="ICorDebugStepper.TrySetUnmappedStopMask">ICorDebugStepper::SetUnmappedStopMask</see> (from the user&#39;s point of view). For example, if the only visible (that is, non-internal) portion of class initialization code lacks mapping information and STOP_NO_MAPPING_INFO isn&#39;t set (see the <see cref="ICorDebugStepper.TrySetUnmappedStopMask">ICorDebugStepper::SetUnmappedStopMask</see> method and the CorDebugUnmappedStop enumeration), the stepper will step over the class initialization. By default, only the INTERCEPT_NONE value of the <c>CorDebugIntercept</c> enumeration will be used.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setinterceptmask-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -107,9 +107,9 @@ public partial interface ICorDebugStepper
 	/// <para>The size of the <c>ranges</c> array.</para>
 	/// </param>
 	/// <remarks>
-	/// <para>The <c>StepRange</c> method works like the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-step-method">ICorDebugStepper::Step</see> method, except that it does not complete until code outside the given range is reached.</para>
+	/// <para>The <c>StepRange</c> method works like the <see cref="ICorDebugStepper.TryStep">ICorDebugStepper::Step</see> method, except that it does not complete until code outside the given range is reached.</para>
 	/// <para>This can be more efficient than stepping one instruction at a time. Ranges are specified as a list of offset pairs from the start of the stepper&#39;s frame.</para>
-	/// <para>Ranges are relative to the common intermediate language (CIL) code of a method. Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setrangeil-method">ICorDebugStepper::SetRangeIL</see> with <c>false</c> to make the ranges relative to the native code of a method.</para>
+	/// <para>Ranges are relative to the common intermediate language (CIL) code of a method. Call <see cref="ICorDebugStepper.TrySetRangeIL">ICorDebugStepper::SetRangeIL</see> with <c>false</c> to make the ranges relative to the native code of a method.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-steprange-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
@@ -121,14 +121,14 @@ public partial interface ICorDebugStepper
 	/// <remarks>
 	/// <para>A <c>StepOut</c> operation will complete after returning normally from the current frame to the calling frame.</para>
 	/// <para>If <c>StepOut</c> is called when in unmanaged code, the step will complete when the current frame returns to the managed code that called it.</para>
-	/// <para>Do not use <c>StepOut</c> with the <c>STOP_UNMANAGED</c> flag set because it will fail. (Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setunmappedstopmask-method">ICorDebugStepper::SetUnmappedStopMask</see> to set flags for stepping.) Interop debuggers must step out to native code themselves.</para>
+	/// <para>Do not use <c>StepOut</c> with the <c>STOP_UNMANAGED</c> flag set because it will fail. (Use <see cref="ICorDebugStepper.TrySetUnmappedStopMask">ICorDebugStepper::SetUnmappedStopMask</see> to set flags for stepping.) Interop debuggers must step out to native code themselves.</para>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-stepout-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
 	int TryStepOut();
 
 	/// <summary>
-	/// <para>Sets a value that specifies whether calls to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-steprange-method">ICorDebugStepper::StepRange</see> pass argument values that are relative to the native code or relative to common intermediate language (CIL) code of the method that is being stepped through.</para>
+	/// <para>Sets a value that specifies whether calls to <see cref="ICorDebugStepper.TryStepRange">ICorDebugStepper::StepRange</see> pass argument values that are relative to the native code or relative to common intermediate language (CIL) code of the method that is being stepped through.</para>
 	/// </summary>
 	/// <param name="bIL">
 	/// <para>Set to <c>true</c> to specify that the ranges are relative to the CIL code. Set to <c>false</c> to specify that the ranges are relative to the native code. The default value is <c>true</c>.</para>

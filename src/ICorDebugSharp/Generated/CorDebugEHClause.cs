@@ -9,7 +9,7 @@ namespace ICorDebugSharp;
 /// <para>Represents an exception handling (EH) clause for a given piece of intermediate language (IL) code.</para>
 /// </summary>
 /// <remarks>
-/// <para>An array of <c>CoreDebugEHClause</c> values is returned by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-getehclauses-method">GetEHClauses</see> method.</para>
+/// <para>An array of <c>CoreDebugEHClause</c> values is returned by the <see cref="ICorDebugILCode.TryGetEHClauses">GetEHClauses</see> method.</para>
 /// <para>The EH clause information is defined by the CLI specification. For more information, see <see href="https://www.ecma-international.org/publications-and-standards/standards/ecma-335/">Standard ECMA-355: Common Language Infrastructure (CLI), 6th Edition</see>.</para>
 /// <para>The <c>flags</c> field can contain the following flags. Note that they are not defined in CorDebug.idl or CorDebug.h.</para>
 /// <list type="table">

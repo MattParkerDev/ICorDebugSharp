@@ -11,8 +11,8 @@ namespace ICorDebugSharp;
 /// </summary>
 /// <remarks>
 /// <para>The <c>ICorDebugGCReferenceEnum</c> interface implements the &quot;ICorDebugEnum&quot; interface.</para>
-/// <para>An <c>ICorDebugGCReferenceEnum</c> instance is populated with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> instances by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerategcreferences-method">ICorDebugProcess5::EnumerateGCReferences</see> method. <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> objects can be enumerated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-next-method">ICorDebugGCReference::Next</see> method.</para>
-/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> objects in the collection populated by this method represent three kinds of objects:</para>
+/// <para>An <c>ICorDebugGCReferenceEnum</c> instance is populated with <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> instances by calling the <see cref="ICorDebugProcess5.TryEnumerateGCReferences">ICorDebugProcess5::EnumerateGCReferences</see> method. <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> objects can be enumerated by calling the <see cref="ICorDebugGCReferenceEnum.TryNext">ICorDebugGCReference::Next</see> method.</para>
+/// <para>The <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> objects in the collection populated by this method represent three kinds of objects:</para>
 /// <list type="bullet">
 /// <item><description><para>Objects from all managed stacks. This includes live references in managed code as well as objects created by the common language runtime.</para>
 /// </description></item>
@@ -29,16 +29,16 @@ namespace ICorDebugSharp;
 public partial interface ICorDebugGCReferenceEnum : ICorDebugEnum
 {
 	/// <summary>
-	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> instances that contain information about objects that will be garbage-collected.</para>
+	/// <para>Gets the specified number of <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> instances that contain information about objects that will be garbage-collected.</para>
 	/// </summary>
 	/// <param name="celt">
 	/// <para>The number of roots to be retrieved.</para>
 	/// </param>
 	/// <param name="roots">
-	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> object that represents the root of an object to be garbage-collected.</para>
+	/// <para>An array of pointers, each of which points to a <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> object that represents the root of an object to be garbage-collected.</para>
 	/// </param>
 	/// <param name="pceltFetched">
-	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> objects actually returned in <c>roots</c>. This value may be <c>null</c> if <c>celt</c> is 1.</para>
+	/// <para>A pointer to the number of <see cref="COR_GC_REFERENCE">COR_GC_REFERENCE</see> objects actually returned in <c>roots</c>. This value may be <c>null</c> if <c>celt</c> is 1.</para>
 	/// </param>
 	/// <remarks>
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-next-method">Microsoft Learn</see>.</para>
