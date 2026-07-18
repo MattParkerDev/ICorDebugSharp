@@ -6,38 +6,180 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to enable the debugger to execute code within the context of the code being debugged.</para>
+/// </summary>
+/// <remarks>
+/// <para>An <c>ICorDebugEval</c> object is created in the context of a specific thread that is used to perform the evaluations. All objects and types used in a given evaluation must reside within the same application domain. That application domain need not be the same as the current application domain of the thread. Evaluations can be nested.</para>
+/// <para>The evaluation&#39;s operations do not complete until the debugger calls <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>, and then receives an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-evalcomplete-method">ICorDebugManagedCallback::EvalComplete</see> callback. If you need to use the evaluation functionality without allowing other threads to run, suspend the threads by using either <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-setallthreadsdebugstate-method">ICorDebugController::SetAllThreadsDebugState</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-stop-method">ICorDebugController::Stop</see> before calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>.</para>
+/// <para>Because user code is running when the evaluation is in progress, any debug events can occur, including class loads and breakpoints. The debugger will receive callbacks, as normal, for these events. The state of the evaluation will be seen as part of the inspection of the normal program state. The stack chain will be a <c>CHAIN_FUNC_EVAL</c> chain (see the &quot;CorDebugStepReason&quot; enumeration and the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getreason-method">ICorDebugChain::GetReason</see> method). The full debugger API will continue to operate as normal.</para>
+/// <para>If a deadlocked or infinite looping situation arises, the user code may never complete. In such a case, you must call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-abort-method">ICorDebugEval::Abort</see> before resuming the program.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAF6-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugEval
 {
+	/// <summary>
+	/// <para>Sets up a call to the specified function.</para>
+	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-callparameterizedfunction-method">ICorDebugEval2::CallParameterizedFunction</see> instead.</para>
+	/// </summary>
+	/// <param name="pFunction">
+	/// <para>Pointer to an ICorDebugFunction object that specifies the function to be called.</para>
+	/// </param>
+	/// <param name="nArgs">
+	/// <para>The number of arguments for the function.</para>
+	/// </param>
+	/// <param name="ppArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugValue object that specifies an argument to be passed to the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the function is virtual, <c>CallFunction</c> will perform virtual dispatch. If the function is in a different application domain, a transition will occur as long as all arguments are also in that application domain.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-callfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCallFunction(ICorDebugFunction pFunction, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
+	/// <summary>
+	/// <para>Allocates a new object instance and calls the specified constructor method.</para>
+	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobject-method">ICorDebugEval2::NewParameterizedObject</see> instead.</para>
+	/// </summary>
+	/// <param name="pConstructor">
+	/// <para>The constructor to be called.</para>
+	/// </param>
+	/// <param name="nArgs">
+	/// <para>The size of the <c>ppArgs</c> array.</para>
+	/// </param>
+	/// <param name="ppArgs">
+	/// <para>An array of ICorDebugValue objects, each of which represents an argument to be passed to the constructor.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-newobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewObject(ICorDebugFunction pConstructor, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
+	/// <summary>
+	/// <para>Allocates a new object instance of the specified type, without attempting to call a constructor method.</para>
+	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobjectnoconstructor-method">ICorDebugEval2::NewParameterizedObjectNoConstructor</see> instead.</para>
+	/// </summary>
+	/// <param name="pClass">
+	/// <para>Pointer to an ICorDebugClass object that represents the type of object to be instantiated.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-newobjectnoconstructor-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewObjectNoConstructor(ICorDebugClass pClass);
 
+	/// <summary>
+	/// <para>Allocates a new string instance with the specified contents.</para>
+	/// </summary>
+	/// <param name="string">
+	/// <para>Pointer to the contents for the string.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The string is always created in the application domain in which the thread is currently executing.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-newstring-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewString(string @string);
 
+	/// <summary>
+	/// <para>Allocates a new array of the specified element type and dimensions.</para>
+	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedarray-method">ICorDebugEval2::NewParameterizedArray</see> instead.</para>
+	/// </summary>
+	/// <param name="elementType">
+	/// <para>A value of the CorElementType enumeration that specifies the element type of the array.</para>
+	/// </param>
+	/// <param name="pElementClass">
+	/// <para>A pointer to a ICorDebugClass object that specifies the class of the element. This value may be null if the element type is a primitive type.</para>
+	/// </param>
+	/// <param name="rank">
+	/// <para>The number of dimensions of the array. This value must be 1.</para>
+	/// </param>
+	/// <param name="dims">
+	/// <para>The size, in bytes, of each dimension of the array.</para>
+	/// </param>
+	/// <param name="lowBounds">
+	/// <para>Optional. The lower bound of each dimension of the array. If this value is omitted, a lower bound of zero is assumed for each dimension.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The array is always created in the application domain in which the thread is currently executing.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-newarray-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewArray(CorElementType elementType, ICorDebugClass pElementClass, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this ICorDebugEval object is currently executing.</para>
+	/// </summary>
+	/// <param name="pbActive">
+	/// <para>Pointer to a value that indicates whether this evaluation is active.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-isactive-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 
+	/// <summary>
+	/// <para>Aborts the computation this ICorDebugEval object is currently performing.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>If the evaluation is nested and it is not the most recent one, the <c>Abort</c> method may fail.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-abort-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryAbort();
 
+	/// <summary>
+	/// <para>Gets the results of this evaluation.</para>
+	/// </summary>
+	/// <param name="ppResult">
+	/// <para>Pointer to the address of an ICorDebugValue object that represents the results of this evaluation, if the evaluation completes normally.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetResult</c> method is valid only after the evaluation is completed.</para>
+	/// <para>If the evaluation completes normally, <c>ppResult</c> specifies the results. If it terminates with an exception, the result is the exception thrown. If the evaluation was for a new object, the result is the reference to the new object.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-getresult-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetResult(out ICorDebugValue ppResult);
 
+	/// <summary>
+	/// <para>Gets the thread in which this evaluation is executing or will execute.</para>
+	/// </summary>
+	/// <param name="ppThread">
+	/// <para>A pointer to the address of an ICorDebugThread object that represents the thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-getthread-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThread(out ICorDebugThread ppThread);
 
+	/// <summary>
+	/// <para>Creates a value of the specified type, with an initial value of zero or null.</para>
+	/// <para>This method is obsolete. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-createvaluefortype-method">ICorDebugEval2::CreateValueForType</see> instead.</para>
+	/// </summary>
+	/// <param name="elementType">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corelementtype-enumeration">CorElementType</see> enumeration that specifies the type of the value.</para>
+	/// </param>
+	/// <param name="pElementClass">
+	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">ICorDebugClass</see> object that specifies the class of the value, if the type is not a primitive type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>Pointer to the address of an &quot;ICorDebugValue&quot; object that represents the value.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>CreateValue</c> creates an <c>ICorDebugValue</c> object of the given type for the sole purpose of using it in a function evaluation. This value object can be used to pass user constants as parameters.</para>
+	/// <para>If the type of the value is a primitive type, its initial value is zero or null. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggenericvalue-setvalue-method">ICorDebugGenericValue::SetValue</see> to set the value of a primitive type.</para>
+	/// <para>If the value of <c>elementType</c> is ELEMENT_TYPE_CLASS, you get an &quot;ICorDebugReferenceValue&quot; (returned in <c>ppValue</c>) representing the null object reference. You can use this object to pass null to a function evaluation that has object reference parameters. You cannot set the <c>ICorDebugValue</c> to anything; it always remains null.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-createvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateValue(CorElementType elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
 }

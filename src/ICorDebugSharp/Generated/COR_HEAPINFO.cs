@@ -5,16 +5,39 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides general information about the garbage collection heap, including whether it is enumerable.</para>
+/// </summary>
+/// <remarks>
+/// <para>An instance of the <c>COR_HEAPINFO</c> structure is returned by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
+/// <para>Before enumerating objects on the garbage collection heap, you must always check the <c>areGCStructuresValid</c> field to ensure that the heap is in an enumerable state. For more information, see the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapinfo-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_HEAPINFO
 {
+	/// <summary>
+	/// <para><c>true</c> if garbage collection structures are valid and the heap can be enumerated; otherwise, <c>false</c>.</para>
+	/// </summary>
 	public int areGCStructuresValid;
 
+	/// <summary>
+	/// <para>The size, in bytes, of pointers on the target architecture.</para>
+	/// </summary>
 	public uint pointerSize;
 
+	/// <summary>
+	/// <para>The number of logical garbage collection heaps in the process.</para>
+	/// </summary>
 	public uint numHeaps;
 
+	/// <summary>
+	/// <para><c>true</c> if concurrent (background) garbage collection is enabled; otherwise, <c>false</c>.</para>
+	/// </summary>
 	public int concurrent;
 
+	/// <summary>
+	/// <para>A member of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuggctype-enumeration">CorDebugGCType</see> enumeration that indicates whether the garbage collector is running on a workstation or a server.</para>
+	/// </summary>
 	public CorDebugGCType gcType;
 }

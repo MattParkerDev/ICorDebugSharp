@@ -6,14 +6,49 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the ICorDebugAssembly interface to provide support for container assemblies and their contained assemblies.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> The interface is available with .NET Native only. Attempting to call  QueryInterface  to retrieve an interface pointer returns  E_NOINTERFACE  for ICorDebug scenarios outside of .NET Native.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("76361AB2-8C86-4FE9-96F2-F73D8843570A")]
 public partial interface ICorDebugAssembly3
 {
+	/// <summary>
+	/// <para>Returns the container assembly of this <c>ICorDebugAssembly3</c> object.</para>
+	/// </summary>
+	/// <param name="ppAssembly">
+	/// <para>A pointer to the address of an ICorDebugAssembly object that represents the container assembly, or <b>null</b> if the method call fails.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c> if the method call succeeds; otherwise, <c>S_FALSE</c>, and <c>ppAssembly</c> is <b>null</b>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>If this assembly has been merged with others inside a single container assembly, this method returns the container assembly. For more information and terminology, see the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-enablevirtualmodulesplitting-method">ICorDebugProcess6::EnableVirtualModuleSplitting</see> topic.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly3-getcontainerassembly-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the assemblies contained in this assembly.</para>
+	/// </summary>
+	/// <param name="ppAssemblies">
+	/// <para>A pointer to the address of an ICorDebugAssemblyEnum interface object that is the enumerator.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c> if this <c>ICorDebugAssembly3</c> object is a container; otherwise, <c>S_FALSE</c>, and the enumeration is empty.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Symbols are needed to enumerate the contained assemblies. If they aren&#39;t present, the method returns <c>S_FALSE</c>, and no valid enumerator is provided.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly3-enumeratecontainedassemblies-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 }

@@ -3,19 +3,65 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the severity level of a descriptive message that is written to the event log when a managed thread logs an event.</para>
+/// </summary>
+/// <remarks>
+/// <para>The common language runtime (CLR) calls the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-logmessage-method">ICorDebugManagedCallback::LogMessage</see> method to notify the debugger that a managed thread has logged an event. The CLR passes a value of the <c>LoggingLevelEnum</c> enumeration to indicate the severity level of the message that the managed thread wrote to the event log.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logginglevelenum-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum LoggingLevelEnum
 {
+	/// <summary>
+	/// <para>The message is a trace level 0.</para>
+	/// </summary>
 	LTraceLevel0 = 0,
+	/// <summary>
+	/// <para>The message is a trace level 1.</para>
+	/// </summary>
 	LTraceLevel1,
+	/// <summary>
+	/// <para>The message is a trace level 2.</para>
+	/// </summary>
 	LTraceLevel2,
+	/// <summary>
+	/// <para>The message is a trace level 3.</para>
+	/// </summary>
 	LTraceLevel3,
+	/// <summary>
+	/// <para>The message is a trace level 4.</para>
+	/// </summary>
 	LTraceLevel4,
+	/// <summary>
+	/// <para>The message is a status level 0.</para>
+	/// </summary>
 	LStatusLevel0 = 20,
+	/// <summary>
+	/// <para>The message is a status level 1.</para>
+	/// </summary>
 	LStatusLevel1,
+	/// <summary>
+	/// <para>The message is a status level 2.</para>
+	/// </summary>
 	LStatusLevel2,
+	/// <summary>
+	/// <para>The message is a status level 3.</para>
+	/// </summary>
 	LStatusLevel3,
+	/// <summary>
+	/// <para>The message is a status level 4.</para>
+	/// </summary>
 	LStatusLevel4,
+	/// <summary>
+	/// <para>The message is a warning level.</para>
+	/// </summary>
 	LWarningLevel = 40,
+	/// <summary>
+	/// <para>The message is an error level.</para>
+	/// </summary>
 	LErrorLevel = 50,
+	/// <summary>
+	/// <para>The message is a panic level.</para>
+	/// </summary>
 	LPanicLevel = 100,
 }

@@ -3,9 +3,26 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Describes how an exported function invokes managed code.</para>
+/// </summary>
+/// <remarks>
+/// <para>This enumeration is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-getexportstepinfo-method">ICorDebugProcess6::GetExportStepInfo</see> method to provide information about stepping through managed code.</para>
+/// <para><b>Note:</b> This enumeration is intended for use in .NET Native debugging scenarios only.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugcodeinvokekind-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugCodeInvokeKind
 {
+	/// <summary>
+	/// <para>If any managed code is invoked by this method, it will have to be located by explicit events or breakpoints later.<br/><br/> --or--<br/><br/> We may just miss some of the managed code this method calls because there is no easy way to stop on it.<br/><br/> --or--<br/><br/> The method may never invoke managed code.</para>
+	/// </summary>
 	CODE_INVOKE_KIND_NONE,
+	/// <summary>
+	/// <para>This method will invoke managed code via a return instruction. Stepping out should arrive at the next managed code.</para>
+	/// </summary>
 	CODE_INVOKE_KIND_RETURN,
+	/// <summary>
+	/// <para>This method will invoke managed code via a tail-call. Single-stepping and stepping over any call instructions should arrive at managed code.</para>
+	/// </summary>
 	CODE_INVOKE_KIND_TAILCALL,
 }

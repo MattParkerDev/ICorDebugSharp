@@ -6,38 +6,150 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a scope, either a  or an , in which code execution context can be controlled.</para>
+/// </summary>
+/// <remarks>
+/// <para>If <c>ICorDebugController</c> is controlling a process, the scope includes all threads of the process. If <c>ICorDebugController</c> is controlling an application domain, the scope includes only the threads of that particular application domain.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("3D6F5F62-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugController
 {
+	/// <summary>
+	/// <para>Performs a cooperative stop on all threads that are running managed code in the process.</para>
+	/// </summary>
+	/// <param name="dwTimeoutIgnored">
+	/// <para>Not used.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>Stop</c> performs a cooperative stop on all threads running managed code in the process. During a managed-only debugging session, unmanaged threads may continue to run (but will be blocked when trying to call managed code). During an interop debugging session, unmanaged threads will also be stopped. The <c>dwTimeoutIgnored</c> value is currently ignored and treated as INFINITE (-1). If the cooperative stop fails due to a deadlock, all threads are suspended and E_TIMEOUT is returned.</para>
+	/// <para><b>Note:</b> Stop  is the only synchronous method in the debugging API. When  Stop  returns S_OK, the process is stopped. No callback is given to notify listeners of the stop. The debugger must call  ICorDebugController :: Continue  to allow the process to resume.</para>
+	/// <para>The debugger maintains a stop counter. When the counter goes to zero, the controller is resumed. Each call to <c>Stop</c> or each dispatched callback increments the counter. Each call to <c>ICorDebugController::Continue</c> decrements the counter.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-stop-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryStop(uint dwTimeoutIgnored);
 
+	/// <summary>
+	/// <para>Resumes execution of managed threads after a call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-stop-method">Stop Method</see>.</para>
+	/// </summary>
+	/// <param name="fIsOutOfBand">
+	/// <para>Set to <c>true</c> if continuing from an out-of-band event; otherwise, set to <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>Continue</c> continues the process after a call to the <c>ICorDebugController::Stop</c> method.</para>
+	/// <para>When doing mixed-mode debugging, do not call <c>Continue</c> on the Win32 event thread unless you are continuing from an out-of-band event.</para>
+	/// <para>An <i>in-band event</i> is either a managed event or a normal unmanaged event during which the debugger supports interaction with the managed state of the process. In this case, the debugger receives the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugunmanagedcallback-debugevent-method">ICorDebugUnmanagedCallback::DebugEvent</see> callback with its <c>fOutOfBand</c> parameter set to <c>false</c>.</para>
+	/// <para>An <i>out-of-band event</i> is an unmanaged event during which interaction with the managed state of the process is impossible while the process is stopped due to the event. In this case, the debugger receives the <c>ICorDebugUnmanagedCallback::DebugEvent</c> callback with its <c>fOutOfBand</c> parameter set to <c>true</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryContinue([MarshalAs(UnmanagedType.Bool)] bool fIsOutOfBand);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether the threads in the process are currently running freely.</para>
+	/// </summary>
+	/// <param name="pbRunning">
+	/// <para>A pointer to a value that is <c>true</c> if the threads in the process are running freely; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-isrunning-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsRunning([MarshalAs(UnmanagedType.Bool)] out bool pbRunning);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether any managed callbacks are currently queued for the specified thread.</para>
+	/// </summary>
+	/// <param name="pThread">
+	/// <para>A pointer to an &quot;ICorDebugThread&quot; object that represents the thread.</para>
+	/// </param>
+	/// <param name="pbQueued">
+	/// <para>A pointer to a value that is <c>true</c> if any managed callbacks are currently queued for the specified thread; otherwise, <c>false</c>.</para>
+	/// <para>If null is specified for the <c>pThread</c> parameter, <c>HasQueuedCallbacks</c> will return <c>true</c> if there are currently managed callbacks queued for any thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Callbacks will be dispatched one at a time, each time <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> is called. The debugger can check this flag if it wants to report multiple debugging events that occur simultaneously.</para>
+	/// <para>When debugging events are queued, they have already occurred, so the debugger must drain the entire queue to be sure of the state of the debuggee. (Call <c>ICorDebugController::Continue</c> to drain the queue.) For example, if the queue contains two debugging events on thread <i>X</i>, and the debugger suspends thread <i>X</i> after the first debugging event and then calls <c>ICorDebugController::Continue</c>, the second debugging event for thread <i>X</i> will be dispatched although the thread has been suspended.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-hasqueuedcallbacks-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryHasQueuedCallbacks(ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] out bool pbQueued);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the active managed threads in the process.</para>
+	/// </summary>
+	/// <param name="ppThreads">
+	/// <para>A pointer to the address of an &quot;ICorDebugThreadEnum&quot; object that represents an enumerator for all managed threads that are active in the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A thread is considered active after the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createthread-method">ICorDebugManagedCallback::CreateThread</see> callback has been dispatched and before the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitthread-method">ICorDebugManagedCallback::ExitThread</see> callback has been dispatched. A managed thread may not necessarily have any managed frames on its stack. Threads can be enumerated even before the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback. The enumeration will naturally be empty.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-enumeratethreads-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateThreads(out ICorDebugThreadEnum ppThreads);
 
+	/// <summary>
+	/// <para>Sets the debug state of all managed threads in the process.</para>
+	/// </summary>
+	/// <param name="state">
+	/// <para>A value of the &quot;CorDebugThreadState&quot; enumeration that specifies the state of the thread for debugging.</para>
+	/// </param>
+	/// <param name="pExceptThisThread">
+	/// <para>A pointer to an &quot;ICorDebugThread&quot; object that represents a thread to be exempted from the debug state setting. If this value is null, no thread is exempted.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>SetAllThreadsDebugState</c> method may affect threads that are not visible via <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-enumeratethreads-method">EnumerateThreads Method</see>, so threads that were suspended with the <c>SetAllThreadsDebugState</c> method will need to be resumed with the <c>SetAllThreadsDebugState</c> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-setallthreadsdebugstate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread);
 
+	/// <summary>
+	/// <para>Detaches the debugger from the process or application domain.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>The process or application domain continues execution normally, but the <c>ICorDebugProcess</c> or <c>ICorDebugAppDomain</c> object is no longer valid and no further callbacks will occur.</para>
+	/// <para>If unmanaged debugging is enabled, this method will fail due to operating system limitations.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-detach-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDetach();
 
+	/// <summary>
+	/// <para>Terminates the process with the specified exit code.</para>
+	/// <para><b>Note:</b> This method is a wrapper for the Win32  TerminateProcess  function. Thus,  Terminate  uses the exit code in the same way that the Win32  TerminateProcess  function uses it.</para>
+	/// </summary>
+	/// <param name="exitCode">
+	/// <para>A numeric value that is the exit code. The valid numeric values are defined in Winbase.h.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the process is stopped when <c>Terminate</c> is called, the process should be continued by using the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> method so that the debugger receives confirmation of the termination through the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitprocess-method">ICorDebugManagedCallback::ExitProcess</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitappdomain-method">ICorDebugManagedCallback::ExitAppDomain</see> callback.</para>
+	/// <para><b>Note:</b> This method is not implemented by an application domain. That is, it is not implemented at the   level.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-terminate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryTerminate(uint exitCode);
 
+	/// <summary>
+	/// <para><c>CanCommitChanges</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-cancommitchanges-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCanCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 
+	/// <summary>
+	/// <para><c>CommitChanges</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-commitchanges-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCommitChanges(uint cSnapshots, [MarshalUsing(CountElementName = nameof(cSnapshots))][In] ICorDebugEditAndContinueSnapshot[] pSnapshots, out ICorDebugErrorInfoEnum pError);
 }

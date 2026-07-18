@@ -6,20 +6,122 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods for getting the managed methods, or frames, on a thread’s stack.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("A0647DE9-55DE-4816-929C-385271C64CF7")]
 public partial interface ICorDebugStackWalk
 {
+	/// <summary>
+	/// <para>Returns the context for the current frame in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object.</para>
+	/// </summary>
+	/// <param name="contextFlags">
+	/// <para>Flags that indicate the requested contents of the context buffer (defined in WinNT.h).</para>
+	/// </param>
+	/// <param name="contextBufSize">
+	/// <para>The allocated size of the context buffer.</para>
+	/// </param>
+	/// <param name="contextSize">
+	/// <para>The actual size of the context. This value must be less than or equal to the size of the context buffer.</para>
+	/// </param>
+	/// <param name="contextBuf">
+	/// <para>The context buffer.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The context for the current frame was successfully returned.</description></item>
+	/// <item><term>E_FAIL</term><description>The context could not be returned.</description></item>
+	/// <item><term>HRESULT_FROM_WIN32(ERROR_INSUFFICIENT BUFFER)</term><description>The context buffer is too small.</description></item>
+	/// <item><term>CORDBG_E_PAST_END_OF_STACK</term><description>The frame pointer is already at the end of the stack; therefore, no additional frames can be accessed.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Because unwinding restores only a subset of the registers, such as non-volatile registers, the context may not exactly match the register state at the time of the call.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetContext(uint contextFlags, uint contextBufSize, out uint contextSize, [MarshalUsing(CountElementName = nameof(contextBufSize))][Out] byte[] contextBuf);
 
+	/// <summary>
+	/// <para>Sets the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object’s current context to a valid context for the thread.</para>
+	/// </summary>
+	/// <param name="flag">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugsetcontextflag-enumeration">CorDebugSetContextFlag</see> flag that indicates whether the context is from the active frame on the stack, or a context obtained by unwinding the stack.</para>
+	/// </param>
+	/// <param name="contextSize">
+	/// <para>The allocated size of the <c>CONTEXT</c> buffer.</para>
+	/// </param>
+	/// <param name="context">
+	/// <para>The <c>CONTEXT</c> buffer.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The <c>ICorDebugStackWalk</c> object&#39;s context was successfully set.</description></item>
+	/// <item><term>E_FAIL</term><description>The <c>ICorDebugStackWalk</c> object&#39;s context was not set.</description></item>
+	/// <item><term>E_INVALIDARG</term><description>The context is null.</description></item>
+	/// <item><term>HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)</term><description>The context buffer is too small.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method does not alter the current context of the thread.</para>
+	/// <para>Setting the current context to an invalid context may cause unpredictable results from the stack walker.</para>
+	/// <para>You can retrieve an exact bitwise copy of this context by immediately calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">ICorDebugStackWalk::GetContext</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-setcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetContext(CorDebugSetContextFlag flag, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] context);
 
+	/// <summary>
+	/// <para>Moves the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object to the next frame.</para>
+	/// </summary>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The runtime successfully unwound to the next frame (see Remarks).</description></item>
+	/// <item><term>E_FAIL</term><description>The <c>ICorDebugStackWalk</c> object could not be advanced.</description></item>
+	/// <item><term>CORDBG_S_AT_END_OF_STACK</term><description>The end of the stack was reached as a result of this unwind.</description></item>
+	/// <item><term>CORDBG_E_PAST_END_OF_STACK</term><description>The frame pointer is already at the end of the stack; therefore, no additional frames can be accessed.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The <c>Next</c> method advances the <c>ICorDebugStackWalk</c> object to the calling frame only if the runtime can unwind the current frame. Otherwise, the object advances to the next frame that the runtime is able to unwind.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext();
 
+	/// <summary>
+	/// <para>Gets the current frame in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object.</para>
+	/// </summary>
+	/// <param name="pFrame">
+	/// <para>A pointer to the address of the created frame object that represents the current frame in the stack.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The runtime successfully returned the current frame.</description></item>
+	/// <item><term>E_FAIL</term><description>The current frame was not returned.</description></item>
+	/// <item><term>S_FALSE</term><description>The current frame is a native stack frame.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pFrame</c> is null.</description></item>
+	/// <item><term>CORDBG_E_PAST_END_OF_STACK</term><description>The frame pointer is already at the end of the stack; therefore, no additional frames can be accessed.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>ICorDebugStackWalk</c> returns only actual stack frames. Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">ICorDebugThread3::GetActiveInternalFrames</see> method to return internal frames. (Internal frames are data structures pushed onto the stack by the runtime to store temporary data.)</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getframe-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFrame(out ICorDebugFrame pFrame);
 }

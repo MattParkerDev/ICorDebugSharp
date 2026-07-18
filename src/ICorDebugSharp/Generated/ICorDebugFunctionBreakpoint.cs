@@ -6,14 +6,39 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the ICorDebugBreakpoint interface to support breakpoints within functions.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunctionbreakpoint-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAE9-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugFunctionBreakpoint : ICorDebugBreakpoint
 {
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugFunction that references the function in which the breakpoint is set.</para>
+	/// </summary>
+	/// <param name="ppFunction">
+	/// <para>A pointer to the address of the function in which the breakpoint is set.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunctionbreakpoint-getfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunction(out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para>Gets the offset of the breakpoint within the function.</para>
+	/// </summary>
+	/// <param name="pnOffset">
+	/// <para>A pointer to the offset of the breakpoint.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunctionbreakpoint-getoffset-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetOffset(out uint pnOffset);
 }

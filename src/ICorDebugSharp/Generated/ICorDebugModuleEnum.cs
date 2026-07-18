@@ -6,11 +6,33 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Implements ICorDebugEnum methods, and enumerates ICorDebugModule arrays.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduleenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCB09-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugModuleEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the number of &quot;ICorDebugModule&quot; instances specified by <c>celt</c> from the enumeration, starting at the current position.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of <c>ICorDebugModule</c> instances to be retrieved.</para>
+	/// </param>
+	/// <param name="modules">
+	/// <para>An array of pointers, each of which points to an <c>ICorDebugModule</c> object.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>Pointer to the number of <c>ICorDebugModule</c> instances actually returned. This value may be null if <c>celt</c> is one.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduleenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugModule[] modules, out uint pceltFetched);
 }

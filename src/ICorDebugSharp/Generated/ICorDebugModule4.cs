@@ -6,11 +6,33 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides a method that determines whether the module is loaded into memory in mapped/hydrated format.</para>
+/// </summary>
+/// <remarks>
+/// <para>This interface logically extends the &#39;ICorDebugModule&#39;, &#39;ICorDebugModule2&#39;, and &#39;ICoreDebugModule3&#39; interfaces.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule4-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FF8B8EAF-25CD-4316-8859-84416DE4402E")]
 public partial interface ICorDebugModule4
 {
+	/// <summary>
+	/// <para>Determines whether a module is loaded into memory in mapped/hydrated format.</para>
+	/// </summary>
+	/// <param name="pIsMapped">
+	/// <para>Pointer to a BOOL to store mapping information. TRUE represents mapped format while FALSE represents flat format.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c><br/>Successfully created the reader.</para>
+	/// <para><c>S_FALSE</c><br/>The layout couldn&#39;t be determined.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>The <c>pIsMapped</c> value should only be interpreted as valid when this function returns <c>S_OK</c>. All other return values (including<br/><c>S_FALSE</c>) indicate that the layout couldn&#39;t be determined and <c>pIsMapped</c> should be ignored.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule4-ismappedlayout-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsMappedLayout([MarshalAs(UnmanagedType.Bool)] out bool pIsMapped);
 }

@@ -6,11 +6,27 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides support for just my code (JMC) debugging.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper2-interface1">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("C5B6E9C3-E7D1-4A8E-873B-7F047F0706F7")]
 public partial interface ICorDebugStepper2
 {
+	/// <summary>
+	/// <para>Sets a value that specifies whether this ICorDebugStepper steps only through code that is authored by an application&#39;s developer. This process is also known as just my code (JMC) debugging.</para>
+	/// </summary>
+	/// <param name="fIsJMCStepper">
+	/// <para>Set to <c>true</c> to step only through code that is authored by an application&#39;s developer; otherwise, set to <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper2-setjmc-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetJMC([MarshalAs(UnmanagedType.Bool)] bool fIsJMCStepper);
 }

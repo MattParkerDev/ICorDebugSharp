@@ -6,41 +6,250 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that can be used to retrieve debug symbol information.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("3948A999-FD8A-4C38-A708-8A71E9B04DBB")]
 public partial interface ICorDebugSymbolProvider
 {
+	/// <summary>
+	/// <para>Gets the static field symbols that correspond to a typespec signature.</para>
+	/// </summary>
+	/// <param name="cbSignature">
+	/// <para>The number of bytes in the <c>typeSig</c> array.</para>
+	/// </param>
+	/// <param name="typeSig">
+	/// <para>A byte array that contains the <c>typespec</c> signature.</para>
+	/// </param>
+	/// <param name="cRequestedSymbols">
+	/// <para>The number of symbols requested.</para>
+	/// </param>
+	/// <param name="pcFetchedSymbols">
+	/// <para>A pointer to the number of symbols retrieved by the method.</para>
+	/// </param>
+	/// <param name="pSymbols">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstaticfieldsymbol-interface">ICorDebugStaticFieldSymbol</see> array that contains the requested static field symbols.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getstaticfieldsymbols-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStaticFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugStaticFieldSymbol[] pSymbols);
 
+	/// <summary>
+	/// <para>Gets the instance field symbols that correspond to a typespec signature.</para>
+	/// </summary>
+	/// <param name="cbSignature">
+	/// <para>The number of bytes in the <c>typeSig</c> array.</para>
+	/// </param>
+	/// <param name="typeSig">
+	/// <para>A byte array that contains the <c>typespec</c> signature.</para>
+	/// </param>
+	/// <param name="cRequestedSymbols">
+	/// <para>The number of symbols requested.</para>
+	/// </param>
+	/// <param name="pcFetchedSymbols">
+	/// <para>A pointer to the number of symbols retrieved by the method.</para>
+	/// </param>
+	/// <param name="pSymbols">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstaticfieldsymbol-interface">ICorDebugStaticFieldSymbol</see> array that contains the requested instance field symbols.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getinstancefieldsymbols-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetInstanceFieldSymbols(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugInstanceFieldSymbol[] pSymbols);
 
+	/// <summary>
+	/// <para>Gets a method&#39;s local symbols given the relative virtual address (RVA) of that method.</para>
+	/// </summary>
+	/// <param name="nativeRVA">
+	/// <para>The native relative virtual address of the method.</para>
+	/// </param>
+	/// <param name="cRequestedSymbols">
+	/// <para>The number of local symbols requested.</para>
+	/// </param>
+	/// <param name="pcFetchedSymbols">
+	/// <para>A pointer to the number of symbols retrieved by the method.</para>
+	/// </param>
+	/// <param name="pSymbols">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-interface">ICorDebugVariableSymbol</see> array that contains the method&#39;s local symbols.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getmethodlocalsymbols-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodLocalSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
+	/// <summary>
+	/// <para>Gets a method&#39;s parameter symbols given the relative virtual address (RVA) of that method.</para>
+	/// </summary>
+	/// <param name="nativeRVA">
+	/// <para>The native relative virtual address of the method.</para>
+	/// </param>
+	/// <param name="cRequestedSymbols">
+	/// <para>The number of local symbols requested.</para>
+	/// </param>
+	/// <param name="pcFetchedSymbols">
+	/// <para>A pointer to the number of symbols retrieved by the method.</para>
+	/// </param>
+	/// <param name="pSymbols">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-interface">ICorDebugVariableSymbol</see> array that contains the method&#39;s parameter symbols.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getmethodparametersymbols-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodParameterSymbols(uint nativeRVA, uint cRequestedSymbols, out uint pcFetchedSymbols, [MarshalUsing(CountElementName = nameof(cRequestedSymbols))][Out] ICorDebugVariableSymbol[] pSymbols);
 
+	/// <summary>
+	/// <para>Gets the symbol records for all the merged assemblies.</para>
+	/// </summary>
+	/// <param name="cRequestedRecords">
+	/// <para>The number of symbol records requested.</para>
+	/// </param>
+	/// <param name="pcFetchedRecords">
+	/// <para>A pointer to the number of symbol records retrieved by the method.</para>
+	/// </param>
+	/// <param name="pRecords">
+	/// <para>A pointer to an array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-interface">ICorDebugMergedAssemblyRecord</see> objects.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getmergedassemblyrecords-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMergedAssemblyRecords(uint cRequestedRecords, out uint pcFetchedRecords, [MarshalUsing(CountElementName = nameof(cRequestedRecords))][Out] ICorDebugMergedAssemblyRecord[] pRecords);
 
+	/// <summary>
+	/// <para>Returns information about method properties, such as the method&#39;s metadata token and information about its generic parameters, given a relative virtual address (RVA) in that method.</para>
+	/// </summary>
+	/// <param name="codeRva">
+	/// <para>A relative virtual address in the method about which information is to be retrieved.</para>
+	/// </param>
+	/// <param name="pMethodToken">
+	/// <para>A pointer to the method&#39;s metadata token.</para>
+	/// </param>
+	/// <param name="pcGenericParams">
+	/// <para>A pointer to the number of generic parameters associated with this method.</para>
+	/// </param>
+	/// <param name="cbSignature">
+	/// <para>The size of the <c>signature</c> array. See the Remarks section.</para>
+	/// </param>
+	/// <param name="pcbSignature">
+	/// <para>A pointer to the size of the returned <c>signature</c> array.</para>
+	/// </param>
+	/// <param name="signature">
+	/// <para>A buffer that holds the typespec signatures of all generic parameters.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>To get the required size of the method&#39;s <c>signature</c> array, set the <c>cbSignature</c> argument to 0 and <c>signature</c> to <b>null</b>. When the method returns, <c>pcbSignature</c> will contain the number of bytes required for the <c>signature</c> array.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getmethodprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodProps(uint codeRva, out mdToken pMethodToken, out uint pcGenericParams, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
+	/// <summary>
+	/// <para>Returns information about a type&#39;s properties, such as the number of signature of its generic parameters, given a relative virtual address (RVA) in a vtable.</para>
+	/// </summary>
+	/// <param name="vtableRva">
+	/// <para>A relative virtual address (RVA) in a vtable.</para>
+	/// </param>
+	/// <param name="cbSignature">
+	/// <para>The size of the <c>signature</c> array. See the Remarks section.</para>
+	/// </param>
+	/// <param name="pcbSignature">
+	/// <para>[out] A pointer to the size of the returned <c>signature</c> array.</para>
+	/// </param>
+	/// <param name="signature">
+	/// <para>A buffer that holds the typespec signatures of all generic parameters.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>To get the required size of the type&#39;s <c>signature</c> array, set the <c>cbSignature</c> argument to 0 and <c>signature</c> to <b>null</b>. When the method returns, <c>pcbSignature</c> will contain the number of bytes required for the <c>signature</c> array.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-gettypeprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeProps(uint vtableRva, uint cbSignature, out uint pcbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][Out] byte[] signature);
 
+	/// <summary>
+	/// <para>Gets the method start address and size given a relative virtual address (RVA) in a method.</para>
+	/// </summary>
+	/// <param name="codeRva">
+	/// <para>The relative virtual address (RVA) in a method.</para>
+	/// </param>
+	/// <param name="pCodeStartAddress">
+	/// <para>A pointer to the starting address of the method.</para>
+	/// </param>
+	/// <param name="pCodeSize">
+	/// <para>A pointer to the method code size (the number of bytes of the method&#39;s code).</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getcoderange-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCodeRange(uint codeRva, out uint pCodeStartAddress, out uint pCodeSize);
 
+	/// <summary>
+	/// <para>Reads data from a merged assembly given a relative virtual address (RVA) in the merged assembly.</para>
+	/// </summary>
+	/// <param name="rva">
+	/// <para>A relative virtual address (RVA) in a merged assembly.</para>
+	/// </param>
+	/// <param name="length">
+	/// <para>The number of bytes to read from the merged assembly.</para>
+	/// </param>
+	/// <param name="ppMemoryBuffer">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmemorybuffer-interface">ICorDebugMemoryBuffer</see> object that contains information about the memory buffer with merged assembly metadata.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getassemblyimagebytes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssemblyImageBytes(CORDB_ADDRESS rva, uint length, out ICorDebugMemoryBuffer ppMemoryBuffer);
 
+	/// <summary>
+	/// <para>Returns the object size for an object based on its typespec signature.</para>
+	/// </summary>
+	/// <param name="cbSignature">
+	/// <para>The number of bytes in the typespec signature.</para>
+	/// </param>
+	/// <param name="typeSig">
+	/// <para>The typespec signature.</para>
+	/// </param>
+	/// <param name="pObjectSize">
+	/// <para>A pointer to the size of the object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getobjectsize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObjectSize(uint cbSignature, [MarshalUsing(CountElementName = nameof(cbSignature))][In] byte[] typeSig, out uint pObjectSize);
 
+	/// <summary>
+	/// <para>Returns the metadata from a merged assembly.</para>
+	/// </summary>
+	/// <param name="ppMemoryBuffer">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmemorybuffer-interface">ICorDebugMemoryBuffer</see> object that contains information about the size and address of the merged assembly&#39;s metadata.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-getassemblyimagemetadata-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssemblyImageMetadata(out ICorDebugMemoryBuffer ppMemoryBuffer);
 }

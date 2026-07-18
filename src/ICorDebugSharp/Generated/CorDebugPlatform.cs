@@ -3,14 +3,41 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides target platform values that are used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugPlatform
 {
+	/// <summary>
+	/// <para>The target platform is Windows running on Intel x86 hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_WINDOWS_X86,
+	/// <summary>
+	/// <para>The target platform is 64 bit Windows running on AMD64 or Intel EM64T hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_WINDOWS_AMD64,
+	/// <summary>
+	/// <para>The target platform is 32 bit Windows running on Intel IA-64 hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_WINDOWS_IA64,
+	/// <summary>
+	/// <para>The target platform is the Macintosh operating system running on PowerPC hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_MAC_PPC,
+	/// <summary>
+	/// <para>The target platform is the Macintosh operating system running on Intel x86 hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_MAC_X86,
+	/// <summary>
+	/// <para>The target platform is the Macintosh operating system running on Windows ARM hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_WINDOWS_ARM,
+	/// <summary>
+	/// <para>The target platform is the Macintosh operating system running on AMD64 hardware.</para>
+	/// </summary>
 	CORDB_PLATFORM_MAC_AMD64,
 	CORDB_PLATFORM_WINDOWS_ARM64,
 	CORDB_PLATFORM_POSIX_AMD64,

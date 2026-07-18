@@ -6,14 +6,58 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to help in stack unwinding.</para>
+/// </summary>
+/// <remarks>
+/// <para>The members of the <c>ICorDebugVirtualUnwinder</c> interface are implemented by the debugger to help in stack unwinding.</para>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvirtualunwinder-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("F69126B7-C787-4F6B-AE96-A569786FC670")]
 public partial interface ICorDebugVirtualUnwinder
 {
+	/// <summary>
+	/// <para>Gets the current context of this unwinder.</para>
+	/// </summary>
+	/// <param name="contextFlags">
+	/// <para>Flags that specify which parts of the context to return (defined in WinNT.h).</para>
+	/// </param>
+	/// <param name="cbContextBuf">
+	/// <para>The number of bytes in <c>contextBuf</c>.</para>
+	/// </param>
+	/// <param name="contextSize">
+	/// <para>A pointer to the number of bytes actually written to <c>contextBuf</c>.</para>
+	/// </param>
+	/// <param name="contextBuf">
+	/// <para>A byte array that contains the current context of this unwinder.</para>
+	/// </param>
+	/// <returns>
+	/// <para>Any failing HRESULT value received by mscordbi is considered fatal and will cause ICorDebug APIs to return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>You set the initial value of the <c>contextBuf</c> argument to the context buffer returned by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">ICorDebugStackWalk::GetContext</see> method.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Because unwinding may only restore a subset of the registers, such as the non-volatile registers only, the context may not exactly match the register state at the time of the actual method call.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvirtualunwinder-getcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetContext(uint contextFlags, uint cbContextBuf, out uint contextSize, [MarshalUsing(CountElementName = nameof(cbContextBuf))][Out] byte[] contextBuf);
 
+	/// <summary>
+	/// <para>Advances to the caller&#39;s context.</para>
+	/// </summary>
+	/// <returns>
+	/// <para><c>S_OK</c> if the unwind occurred successfully, or <c>CORDBG_S_AT_END_OF_STACK</c> if the unwind cannot be completed because there are no more frames.</para>
+	/// <para>If a failing HRESULT is returned, ICorDebug APIs will return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>The stack walker should ensure that it makes forward progress, so that eventually a call to <c>Next</c> will return a failing HRESULT or <c>CORDBG_S_AT_END_OF_STACK</c>. Returning <c>S_OK</c> indefinitely may cause an infinite loop.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvirtualunwinder-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext();
 }

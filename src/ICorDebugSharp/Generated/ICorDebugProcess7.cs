@@ -6,11 +6,27 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides a method that configures the debugger to handle in-memory metadata updates in the target process.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess7-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("9B2C54E4-119F-4D6F-B402-527603266D69")]
 public partial interface ICorDebugProcess7
 {
+	/// <summary>
+	/// <para>Configures how the debugger handles in-memory updates to metadata within the target process.</para>
+	/// </summary>
+	/// <param name="flags">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/writeablemetadataupdatemode-enumeration">WriteableMetadataUpdateMode</see> enumeration value that specifies whether in-memory updates to metadata in the target process are visible (<c>WriteableMetadataUpdateMode::AlwaysShowUpdates</c>) or not visible (<c>WriteableMetadataUpdateMode::LegacyCompatPolicy</c>) to the debugger.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Updates to the metadata of the target process can come from Edit and Continue, a profiler, or .</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess7-setwriteablemetadataupdatemode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags);
 }

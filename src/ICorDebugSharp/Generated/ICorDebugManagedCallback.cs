@@ -6,86 +6,473 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to process debugger callbacks.</para>
+/// </summary>
+/// <remarks>
+/// <para>All callbacks are serialized, called in the same thread, and called with the process in the synchronized state.</para>
+/// <para>Each callback implementation must call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> to resume execution. If <c>ICorDebugController::Continue</c> is not called before the callback returns, the process will remain stopped and no more event callbacks will occur until <c>ICorDebugController::Continue</c> is called.</para>
+/// <para>A debugger must implement <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setmanagedhandler-method">ICorDebug::SetManagedHandler</see>.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("3D6F5F60-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugManagedCallback
 {
+	/// <summary>
+	/// <para>Notifies the debugger when a breakpoint is encountered.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contains the breakpoint.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread that contains the breakpoint.</para>
+	/// </param>
+	/// <param name="pBreakpoint">
+	/// <para>A pointer to an ICorDebugBreakpoint object that represents the breakpoint.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-breakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryBreakpoint(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a step has completed.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the thread in which the step has completed.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread in which the step has completed.</para>
+	/// </param>
+	/// <param name="pStepper">
+	/// <para>A pointer to an ICorDebugStepper object that represents the step in code execution.</para>
+	/// </param>
+	/// <param name="reason">
+	/// <para>A value of the CorDebugStepReason enumeration that indicates the outcome of an individual step.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The stepper may be used to continue stepping if desired, unless the debugging is terminated.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-stepcomplete-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryStepComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugStepper pStepper, CorDebugStepReason reason);
 
+	/// <summary>
+	/// <para>Notifies the debugger when a  instruction in the code stream is executed.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contains the break instruction.</para>
+	/// </param>
+	/// <param name="thread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread that contains the break instruction.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-break-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryBreak(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an exception has been thrown from managed code.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain in which the exception was thrown.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread in which the exception was thrown.</para>
+	/// </param>
+	/// <param name="unhandled">
+	/// <para>If this value is <c>false</c>, the exception has not yet been processed by the application; otherwise, the exception is unhandled and will terminate the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The specific exception can be retrieved from the thread object.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, [MarshalAs(UnmanagedType.Bool)] bool unhandled);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an evaluation has been completed.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain in which the evaluation was performed.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread in which the evaluation was performed.</para>
+	/// </param>
+	/// <param name="pEval">
+	/// <para>A pointer to an ICorDebugEval object that represents the code that performed the evaluation.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-evalcomplete-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an evaluation has terminated with an unhandled exception.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain in which the evaluation terminated.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread in which the evaluation terminated.</para>
+	/// </param>
+	/// <param name="pEval">
+	/// <para>A pointer to an ICorDebugEval object that represents the code that performed the evaluation.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-evalexception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEvalException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval);
 
+	/// <summary>
+	/// <para>Notifies the debugger when a process has been attached or started for the first time.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process that has been attached or started.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This method is not called until the common language runtime is initialized. Most of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> methods will return CORDBG_E_NOTREADY before the <c>CreateProcess</c> callback.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateProcess(ICorDebugProcess pProcess);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a process has exited.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You cannot continue from an <c>ExitProcess</c> event. This event may fire asynchronously to other events while the process appears to be stopped. This can occur if the process terminates while stopped, usually due to some external force.</para>
+	/// <para>If the common language runtime (CLR) is already dispatching a managed callback, this event will be delayed until after that callback has returned.</para>
+	/// <para>The <c>ExitProcess</c> event is the only exit/unload event that is guaranteed to get called on shutdown.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryExitProcess(ICorDebugProcess pProcess);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a thread has started executing managed code.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contains the thread.</para>
+	/// </param>
+	/// <param name="thread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The thread will be positioned at the first managed code instruction to be executed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createthread-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a thread that was executing managed code has exited.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the managed thread.</para>
+	/// </param>
+	/// <param name="thread">
+	/// <para>A pointer to an ICorDebugThread object that represents the managed thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Once the <c>ExitThread</c> callback is fired, the thread will no longer appear in thread enumerations.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitthread-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryExitThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime (CLR) module has been successfully loaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain into which the module has been loaded.</para>
+	/// </param>
+	/// <param name="pModule">
+	/// <para>A pointer to an ICorDebugModule object that represents the CLR module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>LoadModule</c> callback provides an appropriate time to examine metadata for the module, set just-in-time (JIT) compiler flags, or enable or disable class loading callbacks for the module.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadmodule-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryLoadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime module (DLL) has been unloaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contained the module.</para>
+	/// </param>
+	/// <param name="pModule">
+	/// <para>A pointer to an ICorDebugModule object that represents the module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The module should not be used after this call.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadmodule-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryUnloadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a class has been loaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain into which the class has been loaded.</para>
+	/// </param>
+	/// <param name="c">
+	/// <para>A pointer to an ICorDebugClass object that represents the class.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This callback occurs only if class loading has been enabled for the module that contains the class. Class loading is always enabled for dynamic modules.</para>
+	/// <para>The <c>LoadClass</c> callback provides an appropriate time to bind breakpoints to newly generated classes in dynamic modules.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryLoadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a class is being unloaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the class.</para>
+	/// </param>
+	/// <param name="c">
+	/// <para>A pointer to an ICorDebugClass object that represents the class.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The class should not be referenced after this call.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryUnloadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an error has occurred while attempting to handle an event from the common language runtime (CLR).</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an &quot;ICorDebugProcess&quot; object that represents the process in which the event occurred.</para>
+	/// </param>
+	/// <param name="errorHR">
+	/// <para>The HRESULT value that was returned from the event handler.</para>
+	/// </param>
+	/// <param name="errorCode">
+	/// <para>An integer that specifies the CLR error.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The process may be placed into pass-through mode, depending on the nature of the error.</para>
+	/// <para>The <c>DebugError</c> callback indicates that debugging services have been disabled due to an error, so debuggers should make the error message available to the user. <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-getid-method">ICorDebugProcess::GetID</see> will be safe to call, but all other methods, including <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-terminate-method">ICorDebug::Terminate</see>, should not be called. The debugger should use operating-system facilities for terminating processes.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-debuggererror-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDebuggerError(ICorDebugProcess pProcess, int errorHR, uint errorCode);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime (CLR) managed thread has called a method in the  class to log an event.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the managed thread that logged the event.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the managed thread.</para>
+	/// </param>
+	/// <param name="lLevel">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logginglevelenum-enumeration">LoggingLevelEnum</see> enumeration that indicates the severity level of the descriptive message that was written to the event log.</para>
+	/// </param>
+	/// <param name="pLogSwitchName">
+	/// <para>A pointer to the name of the tracing switch.</para>
+	/// </param>
+	/// <param name="pMessage">
+	/// <para>A pointer to the message that was written to the event log.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-logmessage-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryLogMessage(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, string pLogSwitchName, string pMessage);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime (CLR) managed thread has called a method in the  class to create, modify, or delete a debugging/tracing switch.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the managed thread that created, modified, or deleted a debugging/tracing switch.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the managed thread.</para>
+	/// </param>
+	/// <param name="lLevel">
+	/// <para>A value that indicates the severity level of the descriptive message that was written to the event log.</para>
+	/// </param>
+	/// <param name="ulReason">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logswitchcallreason-enumeration">LogSwitchCallReason</see> enumeration that indicates the operation performed on the debugging/tracing switch.</para>
+	/// </param>
+	/// <param name="pLogSwitchName">
+	/// <para>A pointer to the name of the debugging/tracing switch.</para>
+	/// </param>
+	/// <param name="pParentName">
+	/// <para>A pointer to the name of the parent of the debugging/tracing switch.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-logswitch-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryLogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, uint ulReason, string pLogSwitchName, string pParentName);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an application domain has been created.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process in which the application domain was created.</para>
+	/// </param>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that has been created.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createappdomain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
 
+	/// <summary>
+	/// <para>Notifies the debugger that an application domain has exited.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process that contains the given application domain.</para>
+	/// </param>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that has exited.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitappdomain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryExitAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime (CLR) assembly has been successfully loaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain into which the assembly has been loaded.</para>
+	/// </param>
+	/// <param name="pAssembly">
+	/// <para>A pointer to an ICorDebugAssembly object that represents the assembly.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadassembly-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryLoadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a common language runtime assembly has been unloaded.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contained the assembly.</para>
+	/// </param>
+	/// <param name="pAssembly">
+	/// <para>A pointer to an ICorDebugAssembly object that represents the assembly.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The assembly should not be used after this callback.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadassembly-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryUnloadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a CTRL+C is trapped in the process that is being debugged.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process in which the CTRL+C is trapped.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The debugger will handle the CTRL+C trap.</description></item>
+	/// <item><term>S_FALSE</term><description>The debugger will not handle the CTRL+C trap.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>All application domains within the process are stopped for this callback.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-controlctrap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryControlCTrap(ICorDebugProcess pProcess);
 
+	/// <summary>
+	/// <para>Notifies the debugger that the name of either an application domain or a thread has changed.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that either had a name change or that contains the thread that had a name change.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread that had a name change.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-namechange-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNameChange(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread);
 
+	/// <summary>
+	/// <para>Notifies the debugger that the symbols for a common language runtime module have changed.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the module in which the symbols have changed.</para>
+	/// </param>
+	/// <param name="pModule">
+	/// <para>A pointer to an ICorDebugModule object that represents the module in which the symbols have changed.</para>
+	/// </param>
+	/// <param name="pSymbolStream">
+	/// <para>A pointer to a Win32 COM <c>IStream</c> object that contains the modified symbols.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This method provides an opportunity to update the debugger&#39;s view of a module&#39;s symbols by calling <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/diagnostics/isymunmanagedreader-updatesymbolstore-method">ISymUnmanagedReader::UpdateSymbolStore</see> or <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/diagnostics/isymunmanagedreader-replacesymbolstore-method">ISymUnmanagedReader::ReplaceSymbolStore</see>.</para>
+	/// <para>This callback can occur multiple times for the same module.</para>
+	/// <para>A debugger should try to bind unbound source-level breakpoints.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-updatemodulesymbols-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryUpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream);
 
+	/// <summary>
+	/// <para>This method has been deprecated. It notifies the debugger that a remap event has been sent to the integrated development environment (IDE).</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>The <c>EditAndContinueRemap</c> method is called when the execution of the code in an old version of an updated function has been attempted. The common language runtime calls the <c>EditAndContinueRemap</c> method to send a remap event to the IDE.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-editandcontinueremap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, [MarshalAs(UnmanagedType.Bool)] bool fAccurate);
 
+	/// <summary>
+	/// <para>Notifies the debugger that the common language runtime was unable to accurately bind a breakpoint that was set before a function was just-in-time (JIT) compiled.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain that contains the unbound breakpoint.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread that contains the unbound breakpoint.</para>
+	/// </param>
+	/// <param name="pBreakpoint">
+	/// <para>A pointer to an ICorDebugBreakpoint object that represents the unbound breakpoint.</para>
+	/// </param>
+	/// <param name="dwError">
+	/// <para>An integer that indicates the error.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The given breakpoint will never be hit. The debugger should deactivate and rebind it.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-breakpointseterror-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryBreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, uint dwError);
 }

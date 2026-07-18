@@ -6,11 +6,31 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the ICorDebugProcess interface to enable or disable certain types of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see> exception callbacks.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess8-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("2E6F28C1-85EB-4141-80AD-0A90944B9639")]
 public partial interface ICorDebugProcess8
 {
+	/// <summary>
+	/// <para>Enables or disables certain types of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see> exception callbacks.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>If the value of <c>enableExceptionsOutsideOfJMC</c> is <c>false</c>:</para>
+	/// <list type="bullet">
+	/// <item><description><para>A DEBUG_EXCEPTION_FIRST_CHANCE exception will not result in a callback to the debugger.</para>
+	/// </description></item>
+	/// <item><description><para>A DEBUG_EXCEPTION_CATCH_HANDLER_FOUND exception will not result in a callback to the debugger if the exception never escapes into user code (that is, the path from an exception origin to an exception handler has no methods marked as JustMyCode, or JMC).</para>
+	/// </description></item>
+	/// </list>
+	/// <para>The default value of <c>enableExceptionsOutsideOfJMC</c> is <c>true</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess8-enableexceptioncallbacksoutsideofmycode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnableExceptionCallbacksOutsideOfMyCode([MarshalAs(UnmanagedType.Bool)] bool enableExceptionsOutsideOfJMC);
 }

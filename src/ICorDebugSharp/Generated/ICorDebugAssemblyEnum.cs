@@ -6,11 +6,33 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Implements ICorDebugEnum methods and enumerates ICorDebugAssembly arrays.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassemblyenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("4A2A1EC9-85EC-4BFB-9F15-A89FDFE0FE83")]
 public partial interface ICorDebugAssemblyEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the specified number of assemblies from the collection, starting at the current cursor position.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of assemblies to be retrieved.</para>
+	/// </param>
+	/// <param name="values">
+	/// <para>An array of pointers, each of which points to an ICorDebugAssembly object that represents an assembly.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>A pointer to the number of assemblies actually returned. This value may be null if <c>celt</c> is one.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassemblyenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugAssembly[] values, out uint pceltFetched);
 }

@@ -6,17 +6,74 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the capabilities of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> interface for hardware platforms that have more than 64 registers.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("6DC7BA3F-89BA-4459-9EC1-9D60937B468D")]
 public partial interface ICorDebugRegisterSet2
 {
+	/// <summary>
+	/// <para>Gets an array of bytes that provides a bitmap of the available registers.</para>
+	/// </summary>
+	/// <param name="numChunks">
+	/// <para>The size of the <c>availableRegChunks</c> array.</para>
+	/// </param>
+	/// <param name="availableRegChunks">
+	/// <para>An array of bytes, each bit of which corresponds to a register. If a register is available, the register&#39;s corresponding bit is set.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The values of the CorDebugRegister enumeration specify the registers of different microprocessors. The upper five bits of each value are the index into the <c>availableRegChunks</c> array of bytes. The lower three bits of each value identify the bit position within the indexed byte. Given a <c>CorDebugRegister</c> value that specifies a particular register, the register&#39;s position in the mask is determined as follows:</para>
+	/// <list type="number">
+	/// <item><description><para>Extract the index needed to access the correct byte in the <c>availableRegChunks</c> array:</para>
+	/// <para><c>CorDebugRegister</c> value &gt;&gt; 3</para>
+	/// </description></item>
+	/// <item><description><para>Extract the bit position within the indexed byte, where bit zero is the least significant bit:</para>
+	/// <para><c>CorDebugRegister</c> value &amp; 7</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-getregistersavailable-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRegistersAvailable(uint numChunks, [MarshalUsing(CountElementName = nameof(numChunks))][Out] byte[] availableRegChunks);
 
+	/// <summary>
+	/// <para>Gets the value of each register (for the platform on which code is currently executing) that is specified by the given bit mask.</para>
+	/// </summary>
+	/// <param name="maskCount">
+	/// <para>The size, in bytes, of the <c>mask</c> array.</para>
+	/// </param>
+	/// <param name="mask">
+	/// <para>An array of bytes, each bit of which corresponds to a register. If the bit is 1, the corresponding register&#39;s value will be retrieved.</para>
+	/// </param>
+	/// <param name="regCount">
+	/// <para>The number of register values to be retrieved.</para>
+	/// </param>
+	/// <param name="regBuffer">
+	/// <para>An array of <c>CORDB_REGISTER</c> objects, each of which receives the value of a register.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetRegisters</c> method returns an array of values from the registers that are specified by the mask. The array does not contain values of registers whose mask bit is not set. Thus, the size of the <c>regBuffer</c> array must be equal to the number of 1&#39;s in the mask. If the value of <c>regCount</c> is too small for the number of registers indicated by the mask, the values of the higher numbered registers will be truncated from the set. If <c>regCount</c> is too large, the unused <c>regBuffer</c> elements will be unmodified.</para>
+	/// <para>If an unavailable register is indicated by the mask, an indeterminate value will be returned for that register.</para>
+	/// <para>The <c>ICorDebugRegisterSet2::GetRegisters</c> method is necessary for platforms that have more than 64 registers. For example, IA64 has 128 general purpose registers and 128 floating-point registers, so you need more than 64 bits in the bit mask.</para>
+	/// <para>If you don&#39;t have more than 64 registers, as is the case on platforms such as x86, the <c>GetRegisters</c> method just translates the bytes in the <c>mask</c> byte array into a <c>ULONG64</c> and then calls the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-getregisters-method">ICorDebugRegisterSet::GetRegisters</see> method, which takes the <c>ULONG64</c> mask.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-getregisters-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][Out] ulong[] regBuffer);
 
+	/// <summary>
+	/// <para><c>SetRegisters</c> is not implemented.</para>
+	/// <para><b>Note:</b> Use the higher-level operations such as  ICorDebugILFrame :: SetIP  or  ICorDebugNativeFrame :: SetIP .</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-setregisters-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetRegisters(uint maskCount, [MarshalUsing(CountElementName = nameof(maskCount))][In] byte[] mask, uint regCount, [MarshalUsing(CountElementName = nameof(regCount))][In] ulong[] regBuffer);
 }

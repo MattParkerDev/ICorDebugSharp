@@ -6,11 +6,28 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a runtime-internal frame on the stack. This interface is a subclass of the ICorDebugFrame interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("B92CC7F7-9D2D-45C4-BC2B-621FCC9DFBF4")]
 public partial interface ICorDebugInternalFrame : ICorDebugFrame
 {
+	/// <summary>
+	/// <para>Gets the type of this internal frame.</para>
+	/// </summary>
+	/// <param name="pType">
+	/// <para>A pointer to a value of the CorDebugInternalFrameType enumeration that indicates the type of internal frame represented by this <c>ICorDebugInternalFrame</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The internal frame type will never be STUBFRAME_NONE. Debuggers should gracefully ignore unrecognized internal frame types.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe-getframetype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFrameType(out CorDebugInternalFrameType pType);
 }

@@ -6,11 +6,29 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the &quot;ICorDebugObjectValue&quot; interface to provide stack trace information from a managed exception object.</para>
+/// </summary>
+/// <remarks>
+/// <para>The call to <c>QueryInterface</c> will succeed for managed objects that derive from .</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("AE4CA65D-59DD-42A2-83A5-57E8A08D8719")]
 public partial interface ICorDebugExceptionObjectValue
 {
+	/// <summary>
+	/// <para>Gets an enumerator to the call stack embedded in an exception object.</para>
+	/// </summary>
+	/// <param name="ppCallStackEnum">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> interface object that is a stack trace enumerator for a managed exception object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If no call stack information is available, the method returns <c>S_OK</c>, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> is a valid enumerator with a length of 0. If the method is unable to retrieve stack trace information, the return value is <c>E_FAIL</c> and no enumerator is returned.</para>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see> object is responsible for decoding the stack trace data from the <c>_stackTrace</c> field of the exception object.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectvalue-enumerateexceptioncallstack-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateExceptionCallStack(out ICorDebugExceptionObjectCallStackEnum ppCallStackEnum);
 }

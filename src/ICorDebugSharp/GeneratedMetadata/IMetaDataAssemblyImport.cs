@@ -8,50 +8,391 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to access and examine the contents of an assembly manifest.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("EE62470B-E94B-424E-9B7C-2F00C9249F93")]
 public unsafe partial interface IMetaDataAssemblyImport
 {
+	/// <summary>
+	/// <para>Gets the set of properties for the assembly with the specified metadata signature.</para>
+	/// </summary>
+	/// <param name="mda">
+	/// <para>. The <c>mdAssembly</c> metadata token that represents the assembly for which to get the properties.</para>
+	/// </param>
+	/// <param name="ppbPublicKey">
+	/// <para>A pointer to the public key or the metadata token.</para>
+	/// </param>
+	/// <param name="pcbPublicKey">
+	/// <para>The number of bytes in the returned public key.</para>
+	/// </param>
+	/// <param name="pulHashAlgId">
+	/// <para>A pointer to the algorithm used to hash the files in the assembly.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The simple name of the assembly.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size, in wide chars, of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The number of wide chars actually returned in <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pMetaData">
+	/// <para>A pointer to an ASSEMBLYMETADATA structure that contains the assembly metadata.</para>
+	/// </param>
+	/// <param name="pdwAssemblyFlags">
+	/// <para>Flags that describe the metadata applied to an assembly. This value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corassemblyflags-enumeration">CorAssemblyFlags</see> values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getassemblyprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssemblyProps(mdAssembly mda, out nint ppbPublicKey, out uint pcbPublicKey, out uint pulHashAlgId, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 5)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out CorAssemblyFlags pdwAssemblyFlags);
 
+	/// <summary>
+	/// <para>Gets the set of properties for the assembly reference with the specified metadata signature.</para>
+	/// </summary>
+	/// <param name="mdar">
+	/// <para>The <c>mdAssemblyRef</c> metadata token that represents the assembly reference for which to get the properties.</para>
+	/// </param>
+	/// <param name="ppbPublicKeyOrToken">
+	/// <para>A pointer to the public key or the metadata token.</para>
+	/// </param>
+	/// <param name="pcbPublicKeyOrToken">
+	/// <para>The number of bytes in the returned public key or token.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The simple name of the assembly.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size, in wide chars, of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>A pointer to the number of wide chars actually returned in <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pMetaData">
+	/// <para>A pointer to an ASSEMBLYMETADATA structure that contains the assembly metadata.</para>
+	/// </param>
+	/// <param name="ppbHashValue">
+	/// <para>A pointer to the hash value. This is the hash, using the SHA-1 algorithm, of the <c>PublicKey</c> property of the assembly being referenced.</para>
+	/// </param>
+	/// <param name="pcbHashValue">
+	/// <para>The number of wide chars in the returned hash value.</para>
+	/// </param>
+	/// <param name="pdwAssemblyRefFlags">
+	/// <para>A pointer to flags that describe the metadata applied to an assembly. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corassemblyflags-enumeration">CorAssemblyFlags</see> values.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns S_OK if it succeeds; otherwise, it returns one of the error codes defined in the Winerror.h header file.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getassemblyrefprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssemblyRefProps(mdAssemblyRef mdar, out nint ppbPublicKeyOrToken, out uint pcbPublicKeyOrToken, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out ASSEMBLYMETADATA pMetaData, out nint ppbHashValue, out uint pcbHashValue, out CorAssemblyFlags pdwAssemblyRefFlags);
 
+	/// <summary>
+	/// <para>Gets the properties of the file with the specified metadata signature.</para>
+	/// </summary>
+	/// <param name="mdf">
+	/// <para>The <c>mdFile</c> metadata token that represents the file for which to get the properties.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The simple name of the file.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size, in wide chars, of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The number of wide chars actually returned in <c>szName</c>.</para>
+	/// </param>
+	/// <param name="ppbHashValue">
+	/// <para>A pointer to the hash value. This is the hash, using the SHA-1 algorithm, of the file.</para>
+	/// </param>
+	/// <param name="pcbHashValue">
+	/// <para>The number of wide chars in the returned hash value.</para>
+	/// </param>
+	/// <param name="pdwFileFlags">
+	/// <para>A pointer to the flags that describe the metadata applied to a file. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corfileflags-enumeration">CorFileFlags</see> values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getfileprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFileProps(mdFile mdf, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out nint ppbHashValue, out uint pcbHashValue, out CorFileFlags pdwFileFlags);
 
+	/// <summary>
+	/// <para>Gets the set of properties of the exported type with the specified metadata signature.</para>
+	/// </summary>
+	/// <param name="mdct">
+	/// <para>An <c>mdExportedType</c> metadata token that represents the exported type.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the exported type.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size, in wide characters, of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The number of wide characters actually returned in <c>szName</c></para>
+	/// </param>
+	/// <param name="ptkImplementation">
+	/// <para>An <c>mdFile</c>, <c>mdAssemblyRef</c>, or <c>mdExportedType</c> metadata token that contains or allows access to the properties of the exported type.</para>
+	/// </param>
+	/// <param name="ptkTypeDef">
+	/// <para>A pointer to an <c>mdTypeDef</c> token that represents a type in the file.</para>
+	/// </param>
+	/// <param name="pdwExportedTypeFlags">
+	/// <para>A pointer to the flags that describe the metadata applied to the exported type. The flags value can be one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cortypeattr-enumeration">CorTypeAttr</see> values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getexportedtypeprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetExportedTypeProps(mdExportedType mdct, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out mdToken ptkImplementation, out mdTypeDef ptkTypeDef, out CorTypeAttr pdwExportedTypeFlags);
 
+	/// <summary>
+	/// <para>Gets the set of properties of the manifest resource with the specified metadata signature.</para>
+	/// </summary>
+	/// <param name="mdmr">
+	/// <para>An <c>mdManifestResource</c> token that represents the resource for which to get the properties.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the resource.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size, in wide chars, of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>A pointer to the number of wide chars actually returned in <c>szName</c>.</para>
+	/// </param>
+	/// <param name="ptkImplementation">
+	/// <para>A pointer to an <c>mdFile</c> token or an <c>mdAssemblyRef</c> token that represents the file or assembly, respectively, that contains the resource.</para>
+	/// </param>
+	/// <param name="pdwOffset">
+	/// <para>A pointer to a value that specifies the offset to the beginning of the resource within the file.</para>
+	/// </param>
+	/// <param name="pdwResourceFlags">
+	/// <para>A pointer to flags that describe the metadata applied to a resource. The flags value is a combination of one or more <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormanifestresourceflags-enumeration">CorManifestResourceFlags</see> values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getmanifestresourceprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetManifestResourceProps(mdManifestResource mdmr, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName, out mdToken ptkImplementation, out uint pdwOffset, out CorManifestResourceFlags pdwResourceFlags);
 
+	/// <summary>
+	/// <para>Enumerates the <c>mdAssemblyRef</c> instances that are defined in the assembly manifest.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be a null value when the <c>EnumAssemblyRefs</c> method is called for the first time.</para>
+	/// </param>
+	/// <param name="rAssemblyRefs">
+	/// <para>The enumeration of <c>mdAssemblyRef</c> metadata tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum number of tokens that can be placed in the <c>rAssemblyRefs</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of tokens actually placed in <c>rAssemblyRefs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumAssemblyRefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In this case, <c>pcTokens</c> is set to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-enumassemblyrefs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumAssemblyRefs(ref HCorEnum phEnum, out mdAssemblyRef rAssemblyRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates the files referenced in the current assembly manifest.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be a null value for the first call of this method.</para>
+	/// </param>
+	/// <param name="rFiles">
+	/// <para>The array used to store the <c>mdFile</c> metadata tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum number of <c>mdFile</c> tokens that can be placed in <c>rFiles</c>.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of <c>mdFile</c> tokens actually placed in <c>rFiles</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumFiles</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In this case, <c>pcTokens</c> is set to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-enumfiles-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumFiles(ref HCorEnum phEnum, out mdFile rFiles, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates the exported types referenced in the assembly manifest in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be a null value when the <c>EnumExportedTypes</c> method is called for the first time.</para>
+	/// </param>
+	/// <param name="rExportedTypes">
+	/// <para>The enumeration of <c>mdExportedType</c> metadata tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum number of <c>mdExportedType</c> tokens that can be placed in the <c>rExportedTypes</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of <c>mdExportedType</c> tokens actually placed in <c>rExportedTypes</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumExportedTypes</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In this case, <c>pcTokens</c> is set to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-enumexportedtypes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumExportedTypes(ref HCorEnum phEnum, out mdExportedType rExportedTypes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Gets a pointer to an enumerator for the resources referenced in the current assembly manifest.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be a null value when the <c>EnumManifestResources</c> method is called for the first time.</para>
+	/// </param>
+	/// <param name="rManifestResources">
+	/// <para>The array used to store the <c>mdManifestResource</c> metadata tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum number of <c>mdManifestResource</c> tokens that can be placed in <c>rManifestResources</c>.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of <c>mdManifestResource</c> tokens actually placed in <c>rManifestResources</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumManifestResources</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In this case, <c>pcTokens</c> is set to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-enummanifestresources-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumManifestResources(ref HCorEnum phEnum, out mdManifestResource rManifestResources, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Gets a pointer to the assembly in the current scope.</para>
+	/// </summary>
+	/// <param name="ptkAssembly">
+	/// <para>A pointer to the retrieved <c>mdAssembly</c> token that identifies the assembly.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-getassemblyfromscope-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssemblyFromScope(out mdAssembly ptkAssembly);
 
+	/// <summary>
+	/// <para>Gets a pointer to an exported type, given its name and enclosing type.</para>
+	/// </summary>
+	/// <param name="szName">
+	/// <para>The name of the exported type.</para>
+	/// </param>
+	/// <param name="mdtExportedType">
+	/// <para>The metadata token for the enclosing class of the exported type. This value is <c>mdExportedTypeNil</c> if the requested exported type is not a nested type.</para>
+	/// </param>
+	/// <param name="ptkExportedType">
+	/// <para>A pointer to the <c>mdExportedType</c> token that represents the exported type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>FindExportedTypeByName</c> method uses the standard rules employed by the common language runtime for resolving references.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-findexportedtypebyname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindExportedTypeByName([MarshalAs(UnmanagedType.LPWStr)] string szName, mdToken mdtExportedType, out mdExportedType ptkExportedType);
 
+	/// <summary>
+	/// <para>Gets a pointer to the manifest resource with the specified name.</para>
+	/// </summary>
+	/// <param name="szName">
+	/// <para>The name of the resource.</para>
+	/// </param>
+	/// <param name="ptkManifestResource">
+	/// <para>The array used to store the <c>mdManifestResource</c> metadata tokens, each of which represents a manifest resource.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>FindManifestResourceByName</c> method uses the standard rules employed by the common language runtime for resolving references.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-findmanifestresourcebyname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindManifestResourceByName([MarshalAs(UnmanagedType.LPWStr)] string szName, out mdManifestResource ptkManifestResource);
 
+	/// <summary>
+	/// <para>Releases a reference to the specified enumeration instance.</para>
+	/// </summary>
+	/// <param name="hEnum">
+	/// <para>The enumeration instance to be closed.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-closeenum-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	void TryCloseEnum(HCorEnum hEnum);
 
+	/// <summary>
+	/// <para>Gets an array of assemblies with the specified <c>szAssemblyName</c> parameter, using the standard rules employed by the common language runtime (CLR) for resolving references.</para>
+	/// </summary>
+	/// <param name="szAppBase">
+	/// <para>The root directory in which to search for the given assembly. If this value is set to <c>null</c>, <c>FindAssembliesByName</c> will look only in the global assembly cache for the assembly.</para>
+	/// </param>
+	/// <param name="szPrivateBin">
+	/// <para>A list of semicolon-delimited subdirectories (for example, &quot;bin;bin2&quot;), under the root directory, in which to search for the assembly. These directories are probed in addition to those specified in the default probing rules.</para>
+	/// </param>
+	/// <param name="szAssemblyName">
+	/// <para>The name of the assembly to find. The format of this string is defined in the class reference page for .</para>
+	/// </param>
+	/// <param name="ppIUnk">
+	/// <para>An array that holds the <c>IMetadataAssemblyImport</c> interface pointers.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum number of interface pointers to place in <c>ppIUnk</c>.</para>
+	/// </param>
+	/// <param name="pcAssemblies">
+	/// <para>The number of interface pointers returnedthat is, the number of interface pointers actually placed in <c>ppIUnk</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>FindAssembliesByName</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no assemblies.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Given an assembly name, the <c>FindAssembliesByName</c> method finds the assembly by following the standard rules for resolving assembly references. (For more information, see <see href="https://learn.microsoft.com/dotnet/framework/deployment/how-the-runtime-locates-assemblies">How the Runtime Locates Assemblies</see>.) <c>FindAssembliesByName</c> allows the caller to configure various aspects of the assembly resolver context, such as application base and private search path.</para>
+	/// <para>The <c>FindAssembliesByName</c> method requires the CLR to be initialized in the process in order to invoke the assembly resolution logic. Therefore, you must call <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/coinitializeee-function">CoInitializeEE</see> (passing COINITEE_DEFAULT) before calling <c>FindAssembliesByName</c>, and then follow with a call to <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/couninitializecor-function">CoUninitializeCor</see>.</para>
+	/// <para><c>FindAssembliesByName</c> returns an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see> pointer to the file containing the assembly manifest for the assembly name that is passed in. If the given assembly name is not fully specified (for example, if it does not include a version), multiple assemblies might be returned.</para>
+	/// <para><c>FindAssembliesByName</c> is commonly used by a compiler that attempts to find a referenced assembly at compile time.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-findassembliesbyname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindAssembliesByName([MarshalAs(UnmanagedType.LPWStr)] string szAppBase, [MarshalAs(UnmanagedType.LPWStr)] string szPrivateBin, [MarshalAs(UnmanagedType.LPWStr)] string szAssemblyName, out nint ppIUnk, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcAssemblies);
 }

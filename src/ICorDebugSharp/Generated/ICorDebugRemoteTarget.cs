@@ -6,11 +6,38 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that enable developers to debug Silverlight-based applications in the common language runtime (CLR) environment.</para>
+/// </summary>
+/// <remarks>
+/// <para>Mixed-mode (that is, managed and native code) debugging is not supported on non-x86 platforms (such as IA-64 and AMD64).</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("C3ED8383-5A49-4CF5-B4B7-01864D9E582D")]
 public partial interface ICorDebugRemoteTarget
 {
+	/// <summary>
+	/// <para>Returns the fully qualified domain name or IPv4 address of the remote debugging target machine. IPV6 is not supported at this time.</para>
+	/// </summary>
+	/// <param name="cchHostName">
+	/// <para>The size, in characters, of the <c>szHostName</c> buffer. If this parameter is 0 (zero), <c>szHostName</c> must be null.</para>
+	/// </param>
+	/// <param name="pcchHostName">
+	/// <para>The number of characters, including a null terminator, in the host name or IP address. This parameter can be null.</para>
+	/// </param>
+	/// <param name="szHostName">
+	/// <para>Buffer that contains the host name or IP address.</para>
+	/// </param>
+	/// <returns>
+	/// <para>S_OK<br/>The host name or IP address was successfully returned.</para>
+	/// <para>E_FAIL (or other E_ return codes)<br/>Unable to return the host name or IP address.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method is implemented by the debugger writer. It must follow the multiple call paradigm: On the first call, the caller passes null to both <c>cchHostName</c> and <c>szHostName</c>, and <c>pcchHostName</c> returns the size of the required buffer. On the second call, the size that was previously returned is passed in <c>cchHostName</c>, and an appropriately sized buffer is passed in <c>szHostName</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-gethostname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetHostName(uint cchHostName, out uint pcchHostName, [MarshalUsing(CountElementName = nameof(cchHostName))][Out] char[]? szHostName);
 }

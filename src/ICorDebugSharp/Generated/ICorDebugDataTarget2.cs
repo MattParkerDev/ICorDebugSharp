@@ -6,23 +6,119 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see>interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("2EB364DA-605B-4E8D-B333-3394C4828D41")]
 public partial interface ICorDebugDataTarget2
 {
+	/// <summary>
+	/// <para>Returns the module base address and size from an address in that module.</para>
+	/// </summary>
+	/// <param name="addr">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">CORDB_ADDRESS</see> value that represents an address in a module.</para>
+	/// </param>
+	/// <param name="pImageBase">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">CORDB_ADDRESS</see> value that represents the module&#39;s base address.</para>
+	/// </param>
+	/// <param name="pSize">
+	/// <para>A pointer to the module size.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-getimagefrompointer-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetImageFromPointer(CORDB_ADDRESS addr, out CORDB_ADDRESS pImageBase, out uint pSize);
 
+	/// <summary>
+	/// <para>Returns the path of a module from the module&#39;s base address.</para>
+	/// </summary>
+	/// <param name="baseAddress">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">CORDB_ADDRESS</see> value that represents the module&#39;s base address.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The number of characters in the buffer that is to receive the module path.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the number of characters written to the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The path of the module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-getimagelocation-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetImageLocation(CORDB_ADDRESS baseAddress, uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Returns the symbol-provider for a module from the base address of that module.</para>
+	/// </summary>
+	/// <param name="imageBaseAddress">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">CORDB_ADDRESS</see> value that represents the base address of a module.</para>
+	/// </param>
+	/// <param name="ppSymProvider">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugsymbolprovider-interface">ICorDebugSymbolProvider</see> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-getsymbolproviderforimage-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress, out ICorDebugSymbolProvider ppSymProvider);
 
+	/// <summary>
+	/// <para>Returns a list of active thread IDs.</para>
+	/// </summary>
+	/// <param name="cThreadIds">
+	/// <para>The maximum number of threads whose IDs can be returned.</para>
+	/// </param>
+	/// <param name="pcThreadIds">
+	/// <para>A pointer to a <c>ULONG32</c> that indicates the actual number of thread IDs written to the <c>pThreadIds</c> array.</para>
+	/// </param>
+	/// <param name="pThreadIds">
+	/// <para>An array of thread identifiers.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-enumeratethreadids-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateThreadIDs(uint cThreadIds, out uint pcThreadIds, [MarshalUsing(CountElementName = nameof(cThreadIds))][Out] uint[] pThreadIds);
 
+	/// <summary>
+	/// <para>Creates a new stack unwinder that starts unwinding from an initial context (which isn&#39;t necessarily the leaf of a thread).</para>
+	/// </summary>
+	/// <param name="nativeThreadID">
+	/// <para>The native thread ID of the thread whose stack is to be unwound.</para>
+	/// </param>
+	/// <param name="contextFlags">
+	/// <para>Flags that specify which parts of the context are defined in <c>initialContext</c>.</para>
+	/// </param>
+	/// <param name="cbContext">
+	/// <para>The size of <c>initialContext</c>.</para>
+	/// </param>
+	/// <param name="initialContext">
+	/// <para>The data in the context.</para>
+	/// </param>
+	/// <param name="ppUnwinder">
+	/// <para>A pointer to the address of an ICorDebugVirtualUnwinder interface object.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c> if successful. Any other <c>HRESULT</c> indicates failure. Any failing <c>HRESULT</c> received by mscordbi is considered fatal and causes <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> methods to return <c>CORDBG_E_DATA_TARGET_ERROR</c>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget2-createvirtualunwinder-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateVirtualUnwinder(uint nativeThreadID, uint contextFlags, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] initialContext, out ICorDebugVirtualUnwinder ppUnwinder);
 }

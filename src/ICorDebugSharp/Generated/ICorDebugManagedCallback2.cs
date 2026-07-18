@@ -6,32 +6,211 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to support debugger exception handling and managed debugging assistants (MDAs). <c>ICorDebugManagedCallback2</c> is a logical extension of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">ICorDebugManagedCallback</see> interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugManagedCallback2</c> interface extends the <c>ICorDebugManagedCallback</c> interface to handle new debug events introduced in .NET Framework 2.0.</para>
+/// <para>A debugger must implement <c>ICorDebugManagedCallback2</c>. An instance of <c>ICorDebugManagedCallback</c> or <c>ICorDebugManagedCallback2</c> is passed as the callback object to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setmanagedhandler-method">ICorDebug::SetManagedHandler</see>.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("250E5EEA-DB5C-4C76-B6F3-8C46F12E3203")]
 public partial interface ICorDebugManagedCallback2
 {
+	/// <summary>
+	/// <para>Notifies the debugger that code execution has reached a sequence point in an older version of an edited function.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the edited function.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread on which the remap breakpoint was encountered.</para>
+	/// </param>
+	/// <param name="pOldFunction">
+	/// <para>A pointer to an ICorDebugFunction object that represents the version of the function that is currently running on the thread.</para>
+	/// </param>
+	/// <param name="pNewFunction">
+	/// <para>A pointer to an ICorDebugFunction object that represents the latest version of the function.</para>
+	/// </param>
+	/// <param name="oldILOffset">
+	/// <para>The common intermediate language (CIL) offset of the instruction pointer in the old version of the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This callback gives the debugger an opportunity to remap the instruction pointer to its proper place in the new version of the specified function by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-remapfunction-method">ICorDebugILFrame2::RemapFunction</see> method. If the debugger does not call <c>RemapFunction</c> before calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> method, the runtime will continue to execute the old code and will fire another <c>FunctionRemapOpportunity</c> callback at the next sequence point.</para>
+	/// <para>This callback will be invoked for every frame that is executing an older version of the given function until the debugger returns S_OK.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-functionremapopportunity-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, uint oldILOffset);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a new connection has been created.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an &quot;ICorDebugProcess&quot; object that represents the process in which the connection was created</para>
+	/// </param>
+	/// <param name="dwConnectionId">
+	/// <para>The ID of the new connection.</para>
+	/// </param>
+	/// <param name="pConnName">
+	/// <para>A pointer to the name of the new connection.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A <c>CreateConnection</c> callback will be fired in either of the following cases:</para>
+	/// <list type="bullet">
+	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <c>CreateConnection</c> event and a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-changeconnection-method">ICorDebugManagedCallback2::ChangeConnection</see> event for each connection in the process.</para>
+	/// </description></item>
+	/// <item><description><para>When a host calls <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrdebugmanager-beginconnection-method">ICLRDebugManager::BeginConnection</see> in the hosting API.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-createconnection-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateConnection(ICorDebugProcess pProcess, uint dwConnectionId, string pConnName);
 
+	/// <summary>
+	/// <para>Notifies the debugger that the set of tasks associated with the specified connection has changed.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an &quot;ICorDebugProcess&quot; object that represents the process containing the connection that changed.</para>
+	/// </param>
+	/// <param name="dwConnectionId">
+	/// <para>The ID of the connection that changed.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A <c>ChangeConnection</c> callback will be fired in either of the following cases:</para>
+	/// <list type="bullet">
+	/// <item><description><para>When a debugger attaches to a process that contains connections. In this case, the runtime will generate and dispatch a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-createconnection-method">ICorDebugManagedCallback2::CreateConnection</see> event and a <c>ChangeConnection</c> event for each connection in the process. A <c>ChangeConnection</c> event is generated for every existing connection, regardless of whether that connection’s set of tasks has been changed since its creation.</para>
+	/// </description></item>
+	/// <item><description><para>When a host calls <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrdebugmanager-setconnectiontasks-method">ICLRDebugManager::SetConnectionTasks</see> in the hosting API.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>The debugger should scan all threads in the process to pick up the new changes.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-changeconnection-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryChangeConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
+	/// <summary>
+	/// <para>Notifies the debugger that the specified connection has been terminated.</para>
+	/// </summary>
+	/// <param name="pProcess">
+	/// <para>A pointer to an ICorDebugProcess object that represents the process containing the connection that was destroyed.</para>
+	/// </param>
+	/// <param name="dwConnectionId">
+	/// <para>The ID of the connection that was destroyed.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A <c>DestroyConnection</c> callback will be fired when a host calls <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrdebugmanager-endconnection-method">ICLRDebugManager::EndConnection</see> in the hosting API.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-destroyconnection-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDestroyConnection(ICorDebugProcess pProcess, uint dwConnectionId);
 
+	/// <summary>
+	/// <para>Notifies the debugger that a search for an exception handler has started.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the thread on which the exception was thrown.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread on which the exception was thrown.</para>
+	/// </param>
+	/// <param name="pFrame">
+	/// <para>A pointer to an ICorDebugFrame object that represents a frame, as determined by the <c>dwEventType</c> parameter. For more information, see the table in the Remarks section.</para>
+	/// </param>
+	/// <param name="nOffset">
+	/// <para>An integer that specifies an offset, as determined by the <c>dwEventType</c> parameter. For more information, see the table in the Remarks section.</para>
+	/// </param>
+	/// <param name="dwEventType">
+	/// <para>A value of the CorDebugExceptionCallbackType enumeration that specifies the type of this exception callback.</para>
+	/// </param>
+	/// <param name="dwFlags">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>Exception</c> callback is called at various points during the search phase of the exception-handling process. That is, it can be called more than once while unwinding an exception.</para>
+	/// <para>The exception being processed can be retrieved from the ICorDebugThread object referenced by the <c>pThread</c> parameter.</para>
+	/// <para>The particular frame and offset are determined by the <c>dwEventType</c> parameter as follows:</para>
+	/// <list type="table">
+	/// <listheader><term>Value of <c>dwEventType</c></term><description>Value of <c>pFrame</c></description><description>Value of <c>nOffset</c></description></listheader>
+	/// <item><term>DEBUG_EXCEPTION_FIRST_CHANCE</term><description>The frame that threw the exception.</description><description>The instruction pointer in the frame.</description></item>
+	/// <item><term>DEBUG_EXCEPTION_USER_FIRST_CHANCE</term><description>The user-code frame closest to the point of the thrown exception.</description><description>The instruction pointer in the frame.</description></item>
+	/// <item><term>DEBUG_EXCEPTION_CATCH_HANDLER_FOUND</term><description>The frame that contains the catch handler.</description><description>The common intermediate language (CIL) offset of the beginning of the catch handler.</description></item>
+	/// <item><term>DEBUG_EXCEPTION_UNHANDLED</term><description>NULL</description><description>Undefined.</description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-exception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, uint nOffset, CorDebugExceptionCallbackType dwEventType, uint dwFlags);
 
+	/// <summary>
+	/// <para>Provides a status notification during the exception unwinding process.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the thread on which the exception was thrown.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread on which the exception was thrown.</para>
+	/// </param>
+	/// <param name="dwEventType">
+	/// <para>A value of the CorDebugExceptionUnwindCallbackType enumeration that specifies the event that is being signaled by the callback during the unwind phase.</para>
+	/// </param>
+	/// <param name="dwFlags">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">CorDebugExceptionFlags</see> enumeration that specifies additional information about the exception.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>ExceptionUnwind</c> is called at various points during the unwind phase of the exception-handling process. <c>ExceptionUnwind</c> can be called more than once while unwinding a single exception.</para>
+	/// <para>If <c>dwEventType</c> = DEBUG_EXCEPTION_INTERCEPTED, the instruction pointer will be in the leaf frame of the thread, at the sequence point before (this may be several instructions before) the instruction that led to the exception.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-exceptionunwind-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, uint dwFlags);
 
+	/// <summary>
+	/// <para>Notifies the debugger that code execution has switched to a new version of an edited function.</para>
+	/// </summary>
+	/// <param name="pAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain containing the edited function.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the thread on which the remap breakpoint was encountered.</para>
+	/// </param>
+	/// <param name="pFunction">
+	/// <para>A pointer to an ICorDebugFunction object that represents the version of the function currently running on the thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This callback gives the debugger an opportunity to recreate any steppers that previously existed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-functionremapcomplete-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction);
 
+	/// <summary>
+	/// <para>Provides notification that code execution has encountered a managed debugging assistant (MDA) in the application that is being debugged.</para>
+	/// </summary>
+	/// <param name="pController">
+	/// <para>A pointer to an ICorDebugController interface that exposes the process or application domain in which the MDA occurred.</para>
+	/// <para>A debugger should not make any assumptions about whether the controller is a process or an application domain, although it can always query the interface to make a determination.</para>
+	/// </param>
+	/// <param name="pThread">
+	/// <para>A pointer to an ICorDebugThread interface that exposes the managed thread on which the debug event occurred.</para>
+	/// <para>If the MDA occurred on an unmanaged thread, the value of <c>pThread</c> will be null.</para>
+	/// <para>You must get the operating system (OS) thread ID from the MDA object itself.</para>
+	/// </param>
+	/// <param name="pMDA">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see> interface that exposes the MDA information.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>An MDA is a heuristic warning and does not require any explicit debugger action except for calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see> to resume execution of the application that is being debugged.</para>
+	/// <para>The common language runtime (CLR) can determine which MDAs are fired and which data is in any given MDA at any point. Therefore, debuggers should not build any functionality requiring specific MDA patterns.</para>
+	/// <para>MDAs may be queued and fired shortly after the MDA is encountered. This could happen if the runtime needs to wait until it reaches a safe point for firing the MDA, instead of firing the MDA when it encounters it. It also means that the runtime may fire a number of MDAs in a single set of queued callbacks (similar to an &quot;attach&quot; event operation).</para>
+	/// <para>A debugger should release the reference to an <c>ICorDebugMDA</c> instance immediately after returning from the <c>MDANotification</c> callback, to allow the CLR to recycle the memory consumed by an MDA. Releasing the instance may improve performance if many MDAs are firing.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-mdanotification-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryMDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA);
 }

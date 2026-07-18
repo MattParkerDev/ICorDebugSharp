@@ -6,17 +6,74 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface to support mutable data targets.</para>
+/// </summary>
+/// <remarks>
+/// <para>This extension to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface can be implemented by debugging tools that wish to modify the target process (for example, to perform live invasive debugging).</para>
+/// <para>All of these methods are optional in the sense that no core inspection-based debugging functionality is lost by not implementing this interface or by the failure of calls to these methods.  Any failure <c>HRESULT</c> from these methods will propagate out as the <c>HRESULT</c> from the ICorDebug method call.</para>
+/// <para>Note that a single ICorDebug method call may result in multiple mutations, and that there is no mechanism for ensuring related mutations are applied transactionally (all-or-none).  This means that if a mutation fails after others (for the same ICorDebug call) have succeeded, the target process may be left in an inconsistent state and debugging may become unreliable.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("A1B8A756-3CB6-4CCB-979F-3DF999673A59")]
 public partial interface ICorDebugMutableDataTarget : ICorDebugDataTarget
 {
+	/// <summary>
+	/// <para>Writes memory into the target process address space.</para>
+	/// </summary>
+	/// <param name="address">
+	/// <para>The address at which to write the contents of <c>pBuffer</c>.</para>
+	/// </param>
+	/// <param name="pBuffer">
+	/// <para>A pointer to a byte array that contains the bytes to be written.</para>
+	/// </param>
+	/// <param name="bytesRequested">
+	/// <para>The number of bytes in <c>pBuffer</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c> on success, or any other <c>HRESULT</c> on failure.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>If any bytes cannot be written, the method call fails without changing any bytes in the target address space. (Otherwise, the target would be in an inconsistent state that makes further debugging unreliable.)</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-writevirtual-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryWriteVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][In] byte[] pBuffer, uint bytesRequested);
 
+	/// <summary>
+	/// <para>Sets the context (register values) for a thread.</para>
+	/// </summary>
+	/// <param name="dwThreadID">
+	/// <para>The operating system-defined thread identifier.</para>
+	/// </param>
+	/// <param name="contextSize">
+	/// <para>The size of the <c>pContext</c> buffer to be written.</para>
+	/// </param>
+	/// <param name="pContext">
+	/// <para>A pointer to the bytes to be written.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>SetThreadContext</c> method updates the current context for the thread specified by the operating system-defined <c>dwThreadID</c> argument. The format of the context record is determined by the platform indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method. On Windows, this is a <see href="https://learn.microsoft.com/windows/win32/api/winnt/ns-winnt-arm64_nt_context">CONTEXT</see> structure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-setthreadcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetThreadContext(uint dwThreadID, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][In] byte[] pContext);
 
+	/// <summary>
+	/// <para>Changes the continuation status for the outstanding debug event on the specified thread.</para>
+	/// </summary>
+	/// <param name="dwThreadId">
+	/// <para>The operating system-defined thread identifier.</para>
+	/// </param>
+	/// <param name="continueStatus">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/common-data-types-unmanaged-api-reference">COREDB_CONTINUE_STATUS</see> value that represents the new requested continuation status.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The debugger calls the <c>ContinueStatusChanged</c> method when it calls an ICorDebug method that requires the current debug event to be handled in a way that is potentially different from the way in which it normally would be handled. For example, if there is an outstanding exception, and the debugger requests an operation that would cancel the exception (such as <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">ICorDebugILFrame::SetIP</see> or <c>FuncEval</c>), this API is used to request that the exception be cancelled.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmutabledatatarget-continuestatuschanged-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryContinueStatusChanged(uint dwThreadId, uint continueStatus);
 }

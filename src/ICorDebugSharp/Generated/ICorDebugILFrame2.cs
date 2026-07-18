@@ -6,14 +6,52 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A logical extension of the ICorDebugILFrame interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("5D88A994-6C30-479B-890F-BCEF88B129A5")]
 public partial interface ICorDebugILFrame2
 {
+	/// <summary>
+	/// <para>Remaps an edited function by specifying the new common intermediate language (CIL) offset</para>
+	/// </summary>
+	/// <param name="newILOffset">
+	/// <para>The stack frame&#39;s new CIL offset at which the instruction pointer should be placed. This value must be a sequence point.</para>
+	/// <para>It is the caller’s responsibility to ensure the validity of this value. For example, the CIL offset is not valid if it is outside the bounds of the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>When a frame’s function has been edited, the debugger can call the <c>RemapFunction</c> method to swap in the latest version of the frame&#39;s function so it can be executed. The code execution will begin at the given CIL offset.</para>
+	/// <para><b>Note:</b> Calling  RemapFunction , like calling  ICorDebugILFrame :: SetIP , will immediately invalidate all debugging interfaces that are related to generating a stack trace for the thread. These interfaces include  ICorDebugChain , ICorDebugILFrame, ICorDebugInternalFrame, and ICorDebugNativeFrame.</para>
+	/// <para>The <c>RemapFunction</c> method can be called only in the context of the current frame, and only in one of the following cases:</para>
+	/// <list type="bullet">
+	/// <item><description><para>After receipt of a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-functionremapopportunity-method">ICorDebugManagedCallback2::FunctionRemapOpportunity</see> callback that has not yet been continued.</para>
+	/// </description></item>
+	/// <item><description><para>While code execution is stopped because of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-editandcontinueremap-method">ICorDebugManagedCallback::EditAndContinueRemap</see> event for this frame.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-remapfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryRemapFunction(uint newILOffset);
 
+	/// <summary>
+	/// <para>Gets an ICorDebugTypeEnum object that contains the  parameters in this frame.</para>
+	/// </summary>
+	/// <param name="ppTyParEnum">
+	/// <para>A pointer to the address of a ICorDebugTypeEnum interface object that allows enumeration of type parameters.</para>
+	/// <para>The list of type parameters include the class type parameters (if any) followed by the method type parameters (if any).</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-enumgenericparams-method">IMetaDataImport2::EnumGenericParams</see> method to determine how many class type parameters and method type parameters this list contains.</para>
+	/// <para>The type parameters are not always available.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-enumeratetypeparameters-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
 }

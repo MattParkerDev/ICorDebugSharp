@@ -6,14 +6,94 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides the ability to launch or attach a managed debugger to a remote target process.</para>
+/// </summary>
+/// <remarks>
+/// <para>Currently, this functionality is supported only for debugging a Silverlight-based application target that is running on a remote Macintosh machine.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremote-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("D5EBB8E2-7BBE-4C1D-98A6-A3C04CBDEF64")]
 public partial interface ICorDebugRemote
 {
+	/// <summary>
+	/// <para>Launches a process on a remote machine under the debugger.</para>
+	/// </summary>
+	/// <param name="pRemoteTarget">
+	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-interface">ICorDebugRemoteTarget Interface</see>. Used to determine the remote machine on which the process will be launched.</para>
+	/// </param>
+	/// <param name="lpApplicationName">
+	/// <para>Pointer to a null-terminated string that specifies the module to be executed by the launched process. The module is executed in the security context of the calling process.</para>
+	/// </param>
+	/// <param name="lpCommandLine">
+	/// <para>Pointer to a null-terminated string that specifies the command line to be executed by the launched process.</para>
+	/// </param>
+	/// <param name="lpProcessAttributes">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="lpThreadAttributes">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="bInheritHandles">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="dwCreationFlags">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="lpEnvironment">
+	/// <para>Pointer to an environment block for the new process.</para>
+	/// </param>
+	/// <param name="lpCurrentDirectory">
+	/// <para>Pointer to a null-terminated string that specifies the full path to the current directory for the process. If this parameter is null, the new process will have the same current drive and directory as the calling process.</para>
+	/// </param>
+	/// <param name="lpStartupInfo">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="lpProcessInformation">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="debuggingFlags">
+	/// <para>Unused for remote debugging.</para>
+	/// </param>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of a&quot;ICorDebugProcess Interface&quot; object that represents the process.</para>
+	/// </param>
+	/// <returns>
+	/// <para>S_OK<br/>Successfully launched the process on the remote machine and returned an &quot;ICorDebugProcess Interface&quot; for debugging.</para>
+	/// <para>E_FAIL (or other E_ return codes)<br/>Unable to launch the process on the remote machine and return an &quot;ICorDebugProcess Interface&quot; for debugging.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Mixed-mode debugging is not supported in Silverlight.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremote-createprocessex-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateProcessEx(ICorDebugRemoteTarget pRemoteTarget, string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Launches a process on a remote machine under the debugger.</para>
+	/// </summary>
+	/// <param name="pRemoteTarget">
+	/// <para>Pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremotetarget-interface">ICorDebugRemoteTarget Interface</see>. This parameter is used to determine the machine on which the process is running.</para>
+	/// </param>
+	/// <param name="dwProcessId">
+	/// <para>The ID of the process to which the debugger is to be attached.</para>
+	/// </param>
+	/// <param name="fWin32Attach">
+	/// <para><c>true</c> if the debugger should behave as the Win32 debugger for the process and dispatch the unmanaged callbacks; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an &quot;ICorDebugProcess&quot; object that represents the process to which the debugger has been attached.</para>
+	/// </param>
+	/// <returns>
+	/// <para>S_OK<br/>Successfully attached to the process on the remote machine.</para>
+	/// <para>E_FAIL (or other E_ return codes)<br/>Unable to attach to the process on the remote machine.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Mixed-mode debugging is not supported in Silverlight.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugremote-debugactiveprocessex-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDebugActiveProcessEx(ICorDebugRemoteTarget pRemoteTarget, uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool fWin32Attach, out ICorDebugProcess ppProcess);
 }

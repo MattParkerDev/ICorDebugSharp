@@ -6,29 +6,77 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para><c>ICorDebugEditAndContinueSnapshot</c> is obsolete. Do not use this interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("6DC3FA01-D7CB-11D2-8A95-0080C792E5D8")]
 public partial interface ICorDebugEditAndContinueSnapshot
 {
+	/// <summary>
+	/// <para><c>CopyMetaData</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-copymetadata-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCopyMetaData(nint pIStream, out Guid pMvid);
 
+	/// <summary>
+	/// <para><c>GetMvid</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-getmvid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMvid(out Guid pMvid);
 
+	/// <summary>
+	/// <para><c>GetRoDataRVA</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-getrodatarva-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRoDataRVA(out uint pRoDataRVA);
 
+	/// <summary>
+	/// <para><c>GetRwDataRVA</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-getrwdatarva-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRwDataRVA(out uint pRwDataRVA);
 
+	/// <summary>
+	/// <para><c>SetPEBytes</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-setpebytes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetPEBytes(nint pIStream);
 
+	/// <summary>
+	/// <para><c>SetILMap</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-setilmap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetILMap(mdToken mdFunction, uint cMapSize, [MarshalUsing(CountElementName = nameof(cMapSize))][In] COR_IL_MAP[] map);
 
+	/// <summary>
+	/// <para><c>SetPESymbolBytes</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-setpesymbolbytes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetPESymbolBytes(nint pIStream);
 }

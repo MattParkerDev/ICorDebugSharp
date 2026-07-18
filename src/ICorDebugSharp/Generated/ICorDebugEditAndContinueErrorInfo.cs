@@ -6,20 +6,50 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para><c>ICorDebugEditAndContinueErrorInfo</c> is obsolete. Do not use this interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("8D600D41-F4F6-4CB3-B7EC-7BD164944036")]
 public partial interface ICorDebugEditAndContinueErrorInfo
 {
+	/// <summary>
+	/// <para><c>GetModule</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-getmodule-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModule(out ICorDebugModule ppModule);
 
+	/// <summary>
+	/// <para><c>GetToken</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-gettoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetToken(out mdToken pToken);
 
+	/// <summary>
+	/// <para><c>GetErrorCode</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-geterrorcode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetErrorCode(out int pHr);
 
+	/// <summary>
+	/// <para><c>GetString</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-getstring-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
 }

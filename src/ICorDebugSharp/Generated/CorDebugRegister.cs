@@ -3,79 +3,309 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Specifies the registers associated with a given processor architecture.</para>
+/// </summary>
+/// <remarks>
+/// <para>There are 128 general-purpose data registers and 128 floating-point data registers on the IA-64 processor, but only values <c>REGISTER_IA64_R0</c> and <c>REGISTER_IA64_F0</c> are provided. The other values can be determined as follows:</para>
+/// <list type="bullet">
+/// <item><description><para>Add the register number to <c>REGISTER_IA64_R0</c> for values <c>REGISTER_IA64_R1</c> through <c>REGISTER_IA64_R127</c>, which correspond to the #1 data register through the #127 data register on the IA-64 processor.</para>
+/// </description></item>
+/// <item><description><para>Add the register number to <c>REGISTER_IA64_F0</c> for values <c>REGISTER_IA64_F1</c> through <c>REGISTER_IA64_F127</c>, which correspond to the #1 FP data register through the #127 FP data register on the IA-64 processor.</para>
+/// </description></item>
+/// </list>
+/// <para>For example, if you need to specify the #83 data register on the IA-64 processor, use <c>REGISTER_IA64_R0</c> + 83.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugregister-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugRegister
 {
+	/// <summary>
+	/// <para>An instruction pointer register on any processor.</para>
+	/// </summary>
 	REGISTER_INSTRUCTION_POINTER = 0,
+	/// <summary>
+	/// <para>A stack pointer register on any processor.</para>
+	/// </summary>
 	REGISTER_STACK_POINTER,
+	/// <summary>
+	/// <para>A frame pointer register on any processor.</para>
+	/// </summary>
 	REGISTER_FRAME_POINTER,
+	/// <summary>
+	/// <para>The instruction pointer register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EIP = 0,
+	/// <summary>
+	/// <para>The stack pointer register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_ESP,
+	/// <summary>
+	/// <para>The base pointer register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EBP,
+	/// <summary>
+	/// <para>The A data register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EAX,
+	/// <summary>
+	/// <para>The C data register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_ECX,
+	/// <summary>
+	/// <para>The D data register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EDX,
+	/// <summary>
+	/// <para>The B data register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EBX,
+	/// <summary>
+	/// <para>The source index register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_ESI,
+	/// <summary>
+	/// <para>The destination index register on the x86 processor.</para>
+	/// </summary>
 	REGISTER_X86_EDI,
+	/// <summary>
+	/// <para>The stack register 0 on the x86 floating-point (FP) processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_0,
+	/// <summary>
+	/// <para>The #1 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_1,
+	/// <summary>
+	/// <para>The #2 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_2,
+	/// <summary>
+	/// <para>The #3 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_3,
+	/// <summary>
+	/// <para>The #4 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_4,
+	/// <summary>
+	/// <para>The #5 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_5,
+	/// <summary>
+	/// <para>The #6 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_6,
+	/// <summary>
+	/// <para>The #7 stack register on the x86 FP processor.</para>
+	/// </summary>
 	REGISTER_X86_FPSTACK_7,
+	/// <summary>
+	/// <para>The instruction pointer register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RIP = 0,
+	/// <summary>
+	/// <para>The stack pointer register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RSP,
+	/// <summary>
+	/// <para>The base pointer register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RBP,
+	/// <summary>
+	/// <para>The A data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RAX,
+	/// <summary>
+	/// <para>The C data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RCX,
+	/// <summary>
+	/// <para>The D data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RDX,
+	/// <summary>
+	/// <para>The B data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RBX,
+	/// <summary>
+	/// <para>The source index register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RSI,
+	/// <summary>
+	/// <para>The destination index register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_RDI,
+	/// <summary>
+	/// <para>The #8 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R8,
+	/// <summary>
+	/// <para>The #9 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R9,
+	/// <summary>
+	/// <para>The #10 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R10,
+	/// <summary>
+	/// <para>The #11 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R11,
+	/// <summary>
+	/// <para>The #12 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R12,
+	/// <summary>
+	/// <para>The #13 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R13,
+	/// <summary>
+	/// <para>The #14 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R14,
+	/// <summary>
+	/// <para>The #15 data register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_R15,
+	/// <summary>
+	/// <para>The #0 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM0,
+	/// <summary>
+	/// <para>The #1 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM1,
+	/// <summary>
+	/// <para>The #2 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM2,
+	/// <summary>
+	/// <para>The #3 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM3,
+	/// <summary>
+	/// <para>The #4 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM4,
+	/// <summary>
+	/// <para>The #5 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM5,
+	/// <summary>
+	/// <para>The #6 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM6,
+	/// <summary>
+	/// <para>The #7 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM7,
+	/// <summary>
+	/// <para>The #8 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM8,
+	/// <summary>
+	/// <para>The #9 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM9,
+	/// <summary>
+	/// <para>The #10 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM10,
+	/// <summary>
+	/// <para>The #11 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM11,
+	/// <summary>
+	/// <para>The #12 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM12,
+	/// <summary>
+	/// <para>The #13 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM13,
+	/// <summary>
+	/// <para>The #14 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM14,
+	/// <summary>
+	/// <para>The #15 multimedia register on the AMD64 processor.</para>
+	/// </summary>
 	REGISTER_AMD64_XMM15,
+	/// <summary>
+	/// <para>The stack pointer register on the IA-64 processor.</para>
+	/// </summary>
 	REGISTER_IA64_BSP = REGISTER_FRAME_POINTER,
+	/// <summary>
+	/// <para>The #0 data register on the IA-64 processor.</para>
+	/// </summary>
 	REGISTER_IA64_R0 = REGISTER_IA64_BSP + 1,
+	/// <summary>
+	/// <para>The #0 FP data register on the IA-64 processor.</para>
+	/// </summary>
 	REGISTER_IA64_F0 = REGISTER_IA64_R0 + 128,
+	/// <summary>
+	/// <para>The program counter register (R15) on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_PC = 0,
+	/// <summary>
+	/// <para>The stack pointer register (R13) on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_SP,
+	/// <summary>
+	/// <para>Data register R0 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R0,
+	/// <summary>
+	/// <para>Data register R1 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R1,
+	/// <summary>
+	/// <para>Data register R2 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R2,
+	/// <summary>
+	/// <para>Data register R3 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R3,
+	/// <summary>
+	/// <para>Register R4 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R4,
+	/// <summary>
+	/// <para>Register R5 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R5,
+	/// <summary>
+	/// <para>Register R6 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R6,
+	/// <summary>
+	/// <para>Register R7 (the THUMB frame pointer) on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R7,
+	/// <summary>
+	/// <para>Register R8 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R8,
+	/// <summary>
+	/// <para>Register R9 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R9,
+	/// <summary>
+	/// <para>Register R10 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R10,
+	/// <summary>
+	/// <para>The frame pointer on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R11,
+	/// <summary>
+	/// <para>Register R12 on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_R12,
+	/// <summary>
+	/// <para>The link register (R14) on the ARM processor.</para>
+	/// </summary>
 	REGISTER_ARM_LR,
 	REGISTER_ARM_D0,
 	REGISTER_ARM_D1,

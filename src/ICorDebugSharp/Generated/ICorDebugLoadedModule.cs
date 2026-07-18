@@ -6,17 +6,61 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about a loaded module.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugLoadedModule</c> interface is implemented by a debugger and is used by the CLR debugging interfaces to get information about the loaded module from the debugger.</para>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("817F343A-6630-4578-96C5-D11BC0EC5EE2")]
 public partial interface ICorDebugLoadedModule
 {
+	/// <summary>
+	/// <para>Gets the base address of the loaded module.</para>
+	/// </summary>
+	/// <param name="pAddress">
+	/// <para>A pointer to the base address of the loaded module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-getbaseaddress-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetBaseAddress(out CORDB_ADDRESS pAddress);
 
+	/// <summary>
+	/// <para>Gets the name of the loaded module.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The number of characters in the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the number of characters actually written to the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array of characters that contain the name of the loaded module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the size in bytes of the loaded module.</para>
+	/// </summary>
+	/// <param name="pcBytes">
+	/// <para>A pointer to the number of bytes in the loaded module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-getsize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSize(out uint pcBytes);
 }

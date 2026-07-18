@@ -3,9 +3,21 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the handle type.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebughandletype-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugHandleType
 {
+	/// <summary>
+	/// <para>The handle is strong, which prevents an object from being reclaimed by garbage collection.</para>
+	/// </summary>
 	HANDLE_STRONG = 1,
+	/// <summary>
+	/// <para>The handle is weak, which does not prevent an object from being reclaimed by garbage collection.<br/><br/> The handle becomes invalid when the object is collected.</para>
+	/// </summary>
 	HANDLE_WEAK_TRACK_RESURRECTION = 2,
 	HANDLE_PINNED = 3,
 }

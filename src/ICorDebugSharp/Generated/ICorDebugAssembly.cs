@@ -6,23 +6,80 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents an assembly.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("DF59507C-D47A-459E-BCE2-6427EAC8FD06")]
 public partial interface ICorDebugAssembly
 {
+	/// <summary>
+	/// <para>Gets an interface pointer to the process in which this ICorDebugAssembly instance is running.</para>
+	/// </summary>
+	/// <param name="ppProcess">
+	/// <para>A pointer to an ICorDebugProcess interface that represents the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-getprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetProcess(out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the application domain that contains this <c>ICorDebugAssembly</c> instance.</para>
+	/// </summary>
+	/// <param name="ppAppDomain">
+	/// <para>A pointer to the address of an ICorDebugAppDomain interface that represents the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If this assembly is the system assembly, <c>GetAppDomain</c> returns null.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-getappdomain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAppDomain(out ICorDebugAppDomain ppAppDomain);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the modules contained in the <c>ICorDebugAssembly</c>.</para>
+	/// </summary>
+	/// <param name="ppModules">
+	/// <para>A pointer to the address of the ICorDebugModuleEnum interface that is the enumerator.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-enumeratemodules-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateModules(out ICorDebugModuleEnum ppModules);
 
+	/// <summary>
+	/// <para>This method is not implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-getcodebase-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCodeBase(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the name of the assembly that this <c>ICorDebugAssembly</c> instance represents.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the <c>szName</c> array.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to an integer that specifies the actual length of the name.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array that stores the name.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetName</c> method returns the full path and file name of the assembly.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 }

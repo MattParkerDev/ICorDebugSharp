@@ -3,91 +3,347 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Specifies an interface, a version of .NET, or a version of .NET in which an interface was introduced.</para>
+/// </summary>
+/// <remarks>
+/// <para>A debugger can use the <c>CorDebugInterfaceVersion</c> enumeration in the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/createdebugginginterfacefromversion-function">CreateDebuggingInterfaceFromVersion</see> function to specify the highest version of .NET that the debugger supports.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuginterfaceversion-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugInterfaceVersion
 {
+	/// <summary>
+	/// <para>The version of .NET Framework is invalid.</para>
+	/// </summary>
 	CorDebugInvalidVersion = 0,
+	/// <summary>
+	/// <para>The version of .NET Framework, including all its service packs, is 1.0.</para>
+	/// </summary>
 	CorDebugVersion_1_0 = CorDebugInvalidVersion + 1,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">ICorDebugManagedCallback</see></para>
+	/// </summary>
 	ver_ICorDebugManagedCallback = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugunmanagedcallback-interface">ICorDebugUnmanagedCallback</see></para>
+	/// </summary>
 	ver_ICorDebugUnmanagedCallback = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see></para>
+	/// </summary>
 	ver_ICorDebug = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-interface">ICorDebugController</see></para>
+	/// </summary>
 	ver_ICorDebugController = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-interface">ICorDebugAppDomain</see></para>
+	/// </summary>
 	ver_ICorDebugAppDomain = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly-interface">ICorDebugAssembly</see></para>
+	/// </summary>
 	ver_ICorDebugAssembly = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-interface">ICorDebugProcess</see></para>
+	/// </summary>
 	ver_ICorDebugProcess = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugbreakpoint-interface">ICorDebugBreakpoint</see></para>
+	/// </summary>
 	ver_ICorDebugBreakpoint = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunctionbreakpoint-interface">ICorDebugFunctionBreakpoint</see></para>
+	/// </summary>
 	ver_ICorDebugFunctionBreakpoint = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodulebreakpoint-interface">ICorDebugModuleBreakpoint</see></para>
+	/// </summary>
 	ver_ICorDebugModuleBreakpoint = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvaluebreakpoint-interface">ICorDebugValueBreakpoint</see></para>
+	/// </summary>
 	ver_ICorDebugValueBreakpoint = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-interface">ICorDebugStepper</see></para>
+	/// </summary>
 	ver_ICorDebugStepper = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see></para>
+	/// </summary>
 	ver_ICorDebugRegisterSet = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-interface">ICorDebugThread</see></para>
+	/// </summary>
 	ver_ICorDebugThread = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-interface">ICorDebugChain</see></para>
+	/// </summary>
 	ver_ICorDebugChain = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-interface">ICorDebugFrame</see></para>
+	/// </summary>
 	ver_ICorDebugFrame = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-interface">ICorDebugILFrame</see></para>
+	/// </summary>
 	ver_ICorDebugILFrame = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-interface">ICorDebugNativeFrame</see></para>
+	/// </summary>
 	ver_ICorDebugNativeFrame = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-interface">ICorDebugModule</see></para>
+	/// </summary>
 	ver_ICorDebugModule = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-interface1">ICorDebugFunction</see></para>
+	/// </summary>
 	ver_ICorDebugFunction = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-interface1">ICorDebugCode</see></para>
+	/// </summary>
 	ver_ICorDebugCode = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">ICorDebugClass</see></para>
+	/// </summary>
 	ver_ICorDebugClass = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-interface">ICorDebugEval</see></para>
+	/// </summary>
 	ver_ICorDebugEval = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-interface">ICorDebugValue</see></para>
+	/// </summary>
 	ver_ICorDebugValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggenericvalue-interface">ICorDebugGenericValue</see></para>
+	/// </summary>
 	ver_ICorDebugGenericValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-interface">ICorDebugReferenceValue</see></para>
+	/// </summary>
 	ver_ICorDebugReferenceValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue-interface">ICorDebugHeapValue</see></para>
+	/// </summary>
 	ver_ICorDebugHeapValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-interface">ICorDebugObjectValue</see></para>
+	/// </summary>
 	ver_ICorDebugObjectValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugboxvalue-interface">ICorDebugBoxValue</see></para>
+	/// </summary>
 	ver_ICorDebugBoxValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstringvalue-interface">ICorDebugStringValue</see></para>
+	/// </summary>
 	ver_ICorDebugStringValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-interface">ICorDebugArrayValue</see></para>
+	/// </summary>
 	ver_ICorDebugArrayValue = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontext-interface">ICorDebugContext</see></para>
+	/// </summary>
 	ver_ICorDebugContext = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-interface1">ICorDebugEnum</see></para>
+	/// </summary>
 	ver_ICorDebugEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectenum-interface">ICorDebugObjectEnum</see></para>
+	/// </summary>
 	ver_ICorDebugObjectEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugbreakpointenum-interface">ICorDebugBreakpointEnum</see></para>
+	/// </summary>
 	ver_ICorDebugBreakpointEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepperenum-interface">ICorDebugStepperEnum</see></para>
+	/// </summary>
 	ver_ICorDebugStepperEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocessenum-interface">ICorDebugProcessEnum</see></para>
+	/// </summary>
 	ver_ICorDebugProcessEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthreadenum-interface1">ICorDebugThreadEnum</see></para>
+	/// </summary>
 	ver_ICorDebugThreadEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframeenum-interface">ICorDebugFrameEnum</see></para>
+	/// </summary>
 	ver_ICorDebugFrameEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchainenum-interface">ICorDebugChainEnum</see></para>
+	/// </summary>
 	ver_ICorDebugChainEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduleenum-interface">ICorDebugModuleEnum</see></para>
+	/// </summary>
 	ver_ICorDebugModuleEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalueenum-interface">ICorDebugValueEnum</see></para>
+	/// </summary>
 	ver_ICorDebugValueEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcodeenum-interface">ICorDebugCodeEnum</see></para>
+	/// </summary>
 	ver_ICorDebugCodeEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtypeenum-interface">ICorDebugTypeEnum</see></para>
+	/// </summary>
 	ver_ICorDebugTypeEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugerrorinfoenum-interface">ICorDebugErrorInfoEnum</see></para>
+	/// </summary>
 	ver_ICorDebugErrorInfoEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomainenum-interface">ICorDebugAppDomainEnum</see></para>
+	/// </summary>
 	ver_ICorDebugAppDomainEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassemblyenum-interface">ICorDebugAssemblyEnum</see></para>
+	/// </summary>
 	ver_ICorDebugAssemblyEnum = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinueerrorinfo-interface">ICorDebugEditAndContinueErrorInfo</see></para>
+	/// </summary>
 	ver_ICorDebugEditAndContinueErrorInfo = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeditandcontinuesnapshot-interface">ICorDebugEditAndContinueSnapshot</see></para>
+	/// </summary>
 	ver_ICorDebugEditAndContinueSnapshot = CorDebugVersion_1_0,
+	/// <summary>
+	/// <para>The version of .NET Framework, including all service packs, is 1.1.</para>
+	/// </summary>
 	CorDebugVersion_1_1 = CorDebugVersion_1_0 + 1,
+	/// <summary>
+	/// <para>The version of .NET Framework, including all service packs, is 2.0.</para>
+	/// </summary>
 	CorDebugVersion_2_0 = CorDebugVersion_1_1 + 1,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-interface">ICorDebugManagedCallback2</see></para>
+	/// </summary>
 	ver_ICorDebugManagedCallback2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain2-interface">ICorDebugAppDomain2</see></para>
+	/// </summary>
 	ver_ICorDebugAppDomain2 = CorDebugVersion_2_0,
 	ver_ICorDebugAssembly2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-interface1">ICorDebugProcess2</see></para>
+	/// </summary>
 	ver_ICorDebugProcess2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper2-interface1">ICorDebugStepper2</see></para>
+	/// </summary>
 	ver_ICorDebugStepper2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset2-interface">ICorDebugRegisterSet2</see></para>
+	/// </summary>
 	ver_ICorDebugRegisterSet2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-interface">ICorDebugThread2</see></para>
+	/// </summary>
 	ver_ICorDebugThread2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-interface">ICorDebugILFrame2</see></para>
+	/// </summary>
 	ver_ICorDebugILFrame2 = CorDebugVersion_2_0,
 	ver_ICorDebugInternalFrame = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-interface">ICorDebugModule2</see></para>
+	/// </summary>
 	ver_ICorDebugModule2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-interface">ICorDebugFunction2</see></para>
+	/// </summary>
 	ver_ICorDebugFunction2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-interface">ICorDebugCode2</see></para>
+	/// </summary>
 	ver_ICorDebugCode2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para>&quot;ICorDebugClass2&quot;</para>
+	/// </summary>
 	ver_ICorDebugClass2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para>&quot;ICorDebugValue2&quot;</para>
+	/// </summary>
 	ver_ICorDebugValue2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para>The &quot;ICorDebugEval2&quot;.</para>
+	/// </summary>
 	ver_ICorDebugEval2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para>&quot;ICorDebugObjectValue2&quot;</para>
+	/// </summary>
 	ver_ICorDebugObjectValue2 = CorDebugVersion_2_0,
+	/// <summary>
+	/// <para>The version of .NET Framework, including all service packs, is 4.</para>
+	/// </summary>
 	CorDebugVersion_4_0 = CorDebugVersion_2_0 + 1,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-interface">ICorDebugThread3</see></para>
+	/// </summary>
 	ver_ICorDebugThread3 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread4-interface">ICorDebugThread4</see></para>
+	/// </summary>
 	ver_ICorDebugThread4 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see></para>
+	/// </summary>
 	ver_ICorDebugStackWalk = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-interface">ICorDebugNativeFrame2</see></para>
+	/// </summary>
 	ver_ICorDebugNativeFrame2 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">ICorDebugInternalFrame2</see></para>
+	/// </summary>
 	ver_ICorDebugInternalFrame2 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugruntimeunwindableframe-interface">ICorDebugRuntimeUnwindableFrame</see></para>
+	/// </summary>
 	ver_ICorDebugRuntimeUnwindableFrame = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue3-interface">ICorDebugHeapValue3 Interface</see></para>
+	/// </summary>
 	ver_ICorDebugHeapValue3 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugblockingobjectenum-interface">ICorDebugBlockingObjectEnum Interface</see></para>
+	/// </summary>
 	ver_ICorDebugBlockingObjectEnum = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue3-interface">ICorDebugValue3</see></para>
+	/// </summary>
 	ver_ICorDebugValue3 = CorDebugVersion_4_0,
+	/// <summary>
+	/// <para>The version of .NET Framework, including all service packs, is 4.5.</para>
+	/// </summary>
 	CorDebugVersion_4_5 = CorDebugVersion_4_0 + 1,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcomobjectvalue-interface">ICorDebugComObjectValue</see></para>
+	/// </summary>
 	ver_ICorDebugComObjectValue = CorDebugVersion_4_5,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-interface">ICorDebugAppDomain3</see></para>
+	/// </summary>
 	ver_ICorDebugAppDomain3 = CorDebugVersion_4_5,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode3-interface">ICorDebugCode3</see></para>
+	/// </summary>
 	ver_ICorDebugCode3 = CorDebugVersion_4_5,
+	/// <summary>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe3-interface">ICorDebugILFrame3</see></para>
+	/// </summary>
 	ver_ICorDebugILFrame3 = CorDebugVersion_4_5,
+	/// <summary>
+	/// <para>The version of .NET is the latest version.</para>
+	/// </summary>
 	CorDebugLatestVersion = CorDebugVersion_4_5,
 }

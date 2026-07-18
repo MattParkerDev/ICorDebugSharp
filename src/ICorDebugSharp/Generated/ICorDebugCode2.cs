@@ -6,14 +6,46 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that extend the capabilities of &quot;ICorDebugCode&quot;.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("5F696509-452F-4436-A3FE-4D11FE7E2347")]
 public partial interface ICorDebugCode2
 {
+	/// <summary>
+	/// <para>Gets the chunks of code that this code object is composed of.</para>
+	/// </summary>
+	/// <param name="cbufSize">
+	/// <para>Size of the <c>chunks</c> array.</para>
+	/// </param>
+	/// <param name="pcnumChunks">
+	/// <para>The number of chunks returned in the <c>chunks</c> array.</para>
+	/// </param>
+	/// <param name="chunks">
+	/// <para>An array of &quot;CodeChunkInfo&quot; structures, each of which represents a single chunk of code. If the value of <c>cbufSize</c> is 0, this parameter can be null.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The code chunks will never overlap, and they will follow the order in which they would have been concatenated by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getcode-method">ICorDebugCode::GetCode</see>. A common intermediate language (CIL) code object comprises a single code chunk.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcodechunks-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCodeChunks(uint cbufSize, out uint pcnumChunks, [MarshalUsing(CountElementName = nameof(cbufSize))][Out] CodeChunkInfo[]? chunks);
 
+	/// <summary>
+	/// <para>Gets the flags that specify the conditions under which this code object was either just-in-time (JIT) compiled or generated using the native image generator (Ngen.exe).</para>
+	/// </summary>
+	/// <param name="pdwFlags">
+	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that specifies the behavior of the JIT compiler or the native image generator.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcompilerflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCompilerFlags(out uint pdwFlags);
 }

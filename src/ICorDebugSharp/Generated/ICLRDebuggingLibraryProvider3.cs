@@ -6,14 +6,88 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Includes callback methods that allow common language runtime version-specific debugging libraries to be located and loaded on demand for .NET Core regular and single-file applications. This interface is required by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/registerforruntimestartup3-function">RegisterForRuntimeStartup3</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/createdebugginginterfacefromversion3-function">CreateDebuggingInterfaceFromVersion3</see> methods. It is supported by the <c>ICLRDebugging::OpenVirtualProcess</c> method acquired with dbgshim&#39;s <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/clrcreateinstance-function">CLRCreateInstance</see> API.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("DE3AAB18-46A0-48B4-BF0D-2C336E69EA1B")]
 public partial interface ICLRDebuggingLibraryProvider3
 {
+	/// <summary>
+	/// <para>Gets a library provider callback interface that allows common language runtime (CLR) version-specific debugging libraries to be located and loaded on demand.</para>
+	/// </summary>
+	/// <param name="pwszFileName">
+	/// <para>The name of the module being requested.</para>
+	/// </param>
+	/// <param name="pwszRuntimeModule">
+	/// <para>The runtime or single-file module path.</para>
+	/// </param>
+	/// <param name="indexType">
+	/// <para>The type of index information (dwTimestamp/dwSizeOfImage) provided. See <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/libraryproviderindextype-enumeration">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
+	/// </param>
+	/// <param name="dwTimestamp">
+	/// <para>The date time stamp stored in the COFF file header of PE files.</para>
+	/// </param>
+	/// <param name="dwSizeOfImage">
+	/// <para>The <c>SizeOfImage</c> field stored in the COFF optional file header of PE files.</para>
+	/// </param>
+	/// <param name="ppResolvedModulePath">
+	/// <para>This is a null terminated path to the module dll. On Windows it should be allocated with CoTaskMemAlloc. On Unix it should be allocated with malloc. Failure leaves it untouched. See security note below!</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULT as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description>The method completed successfully.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>ProvideWindowsLibrary</c> allows the debugger to provide modules that are needed for debugging specific CLR files such as mscordbi.dll and mscordacwks.dll.</para>
+	/// <para>The debugger may use any available means to locate or procure the debugging module.</para>
+	/// <para><b>Note:</b> This feature allows the API caller to provide modules that contain executable, and possibly malicious, code. As a security precaution, the caller should not use  ProvideWindowsLibrary  to distribute any code that it is not willing to execute itself. If a serious security issue is discovered in an already released library, such as mscordbi.dll or mscordacwks.dll, the shim can be patched to recognize the bad versions of the files. The shim can then issue requests for the patched versions of the files and reject the bad versions if they are provided in response to any request. This can occur only if the user has patched to a new version of the shim. Unpatched versions will remain vulnerable.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider3-providewindowslibrary-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryProvideWindowsLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, uint dwTimestamp, uint dwSizeOfImage, out nint ppResolvedModulePath);
 
+	/// <summary>
+	/// <para>Allows the debugger to provide a path to a version-specific common language runtime (CLR) debugging library on macOS and Linux.</para>
+	/// </summary>
+	/// <param name="pwszFileName">
+	/// <para>The name of the module being requested.</para>
+	/// </param>
+	/// <param name="pwszRuntimeModule">
+	/// <para>The runtime or single-file module path.</para>
+	/// </param>
+	/// <param name="indexType">
+	/// <para>The type of index information (pBuildId) provided. See <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/libraryproviderindextype-enumeration">LIBRARY_PROVIDER_INDEX_TYPE</see> enum.</para>
+	/// </param>
+	/// <param name="pbBuildId">
+	/// <para>The Linux or macOS module build id. Can be null if something went wrong retrieving the build id.</para>
+	/// </param>
+	/// <param name="iBuildIdSize">
+	/// <para>The number of bytes in the pbBuildId array. Can be 0 if something went wrong retrieving the build id.</para>
+	/// </param>
+	/// <param name="ppResolvedModulePath">
+	/// <para>This is a null terminated path to the module dll. On Unix it should be allocated with CoTaskMemAlloc. On Unix it should be allocated with malloc. Failure leaves it untouched. See security note below!</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULT as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description>The method completed successfully.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>ProvideUnixLibrary</c> allows the debugger to provide modules that are needed for debugging specific CLR files such as mscordbi.dll and mscordacwks.dll.</para>
+	/// <para>The debugger may use any available means to locate or procure the debugging module.</para>
+	/// <para><b>Note:</b> This feature allows the API caller to provide modules that contain executable, and possibly malicious, code. As a security precaution, the caller should not use  ProvideUnixLibrary  to distribute any code that it is not willing to execute itself. If a serious security issue is discovered in an already released library, such as mscordbi.dll or mscordacwks.dll, the shim can be patched to recognize the bad versions of the files. The shim can then issue requests for the patched versions of the files and reject the bad versions if they are provided in response to any request. This can occur only if the user has patched to a new version of the shim. Unpatched versions will remain vulnerable.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider3-provideunixlibrary-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryProvideUnixLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, ref byte pbBuildId, int iBuildIdSize, out nint ppResolvedModulePath);
 }

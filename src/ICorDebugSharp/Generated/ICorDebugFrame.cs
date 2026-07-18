@@ -6,32 +6,117 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a frame on the current stack.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAEF-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugFrame
 {
+	/// <summary>
+	/// <para>Gets a pointer to the chain this frame is a part of.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the chain containing this frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getchain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetChain(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets a pointer to the code associated with this stack frame.</para>
+	/// </summary>
+	/// <param name="ppCode">
+	/// <para>A pointer to the address of an ICorDebugCode object that represents the code associated with this frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getcode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCode(out ICorDebugCode ppCode);
 
+	/// <summary>
+	/// <para>Gets the function that contains the code associated with this stack frame.</para>
+	/// </summary>
+	/// <param name="ppFunction">
+	/// <para>A pointer to the address of an ICorDebugFunction object that represents the function containing the code associated with this stack frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetFunction</c> method may fail if the frame is not associated with any particular function.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunction(out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para>Gets the metadata token for the function that contains the code associated with this stack frame.</para>
+	/// </summary>
+	/// <param name="pToken">
+	/// <para>A pointer to an <c>mdMethodDef</c> token that references the metadata for the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getfunctiontoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunctionToken(out mdMethodDef pToken);
 
+	/// <summary>
+	/// <para>Gets the absolute address range of this stack frame.</para>
+	/// </summary>
+	/// <param name="pStart">
+	/// <para>A pointer to a <c>CORDB_ADDRESS</c> that specifies the starting address of the stack frame represented by this <c>ICorDebugFrame</c> object.</para>
+	/// </param>
+	/// <param name="pEnd">
+	/// <para>A pointer to a <c>CORDB_ADDRESS</c> that specifies the ending address of the stack frame represented by this <c>ICorDebugFrame</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The address range of the stack is useful for piecing together interleaved stack traces gathered from multiple debugging engines. The numeric range provides no information about the contents of the stack frame. It is meaningful only for comparison of stack frame locations.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getstackrange-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
+	/// <summary>
+	/// <para>Gets a pointer to the ICorDebugFrame object in the current chain that called this frame.</para>
+	/// </summary>
+	/// <param name="ppFrame">
+	/// <para>A pointer to the address of an <c>ICorDebugFrame</c> object that represents the calling frame. This value is null if the called frame is the outermost frame in the current chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getcaller-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCaller(out ICorDebugFrame ppFrame);
 
+	/// <summary>
+	/// <para>Gets a pointer to the ICorDebugFrame object in the current chain that this frame called.</para>
+	/// </summary>
+	/// <param name="ppFrame">
+	/// <para>A pointer to the address of an <c>ICorDebugFrame</c> object that represents the called frame. This value is null if the calling frame is the innermost frame in the current chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-getcallee-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCallee(out ICorDebugFrame ppFrame);
 
+	/// <summary>
+	/// <para>Gets a stepper that allows the debugger to perform stepping operations relative to this ICorDebugFrame.</para>
+	/// </summary>
+	/// <param name="ppStepper">
+	/// <para>A pointer to the address of an ICorDebugStepper object that allows the debugger to perform stepping operations relative to the current frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the frame is not active, the stepper object will typically have to return to the frame before the step is completed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugframe-createstepper-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateStepper(out ICorDebugStepper ppStepper);
 }

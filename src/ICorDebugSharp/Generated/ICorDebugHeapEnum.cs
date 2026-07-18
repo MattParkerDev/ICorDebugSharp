@@ -6,11 +6,35 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides an enumerator for objects on the managed heap. This interface is a subclass of the ICorDebugEnum interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugHeapEnum</c> interface implements the ICorDebugEnum interface.</para>
+/// <para>An <c>ICorDebugHeapEnum</c> instance is populated with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> instances by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerateheap-method">ICorDebugProcess5::EnumerateHeap</see> method. Each <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> instance in the collection represents either a live object on the heap or an object that is not rooted by any object but has not yet been collected by the garbage collector. The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> objects in the collection can be enumerated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-next-method">ICorDebugHeapEnum::Next</see> method.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("76D7DAB8-D044-11DF-9A15-7E29DFD72085")]
 public partial interface ICorDebugHeapEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> instances that contain information about objects on the managed heap.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of objects to be retrieved.</para>
+	/// </param>
+	/// <param name="objects">
+	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> object that provides information about an object on the managed heap.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> objects actually returned in <c>objects</c>. This value may be <c>null</c> if <c>celt</c> is 1.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>COR_HEAPOBJECT.type</c> field is the identifier of a nested reference-counted COM interface. This reference must be released by the caller of <c>ICorDebugHeapEnum::Next</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_HEAPOBJECT[] objects, out uint pceltFetched);
 }

@@ -6,14 +6,64 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to work with arrays, pointers, function pointers, and reference types. This interface is an extension of the ICorDebugAppDomain interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("096E81D5-ECDA-4202-83F5-C65980A9EF75")]
 public partial interface ICorDebugAppDomain2
 {
+	/// <summary>
+	/// <para>Gets an array of the specified type, or a pointer or reference to the specified type.</para>
+	/// </summary>
+	/// <param name="elementType">
+	/// <para>A value of the CorElementType enumeration that specifies the underlying native type (an array, pointer, or reference) to be created.</para>
+	/// </param>
+	/// <param name="nRank">
+	/// <para>The rank (that is, number of dimensions) of the array. This value must be 0 if <c>elementType</c> specifies a pointer or reference type.</para>
+	/// </param>
+	/// <param name="pTypeArg">
+	/// <para>A pointer to an ICorDebugType object that represents the type of array, pointer, or reference to be created.</para>
+	/// </param>
+	/// <param name="ppType">
+	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the constructed array, pointer type, or reference type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The value of <i>elementType</i> must be one of the following:</para>
+	/// <list type="bullet">
+	/// <item><description><para>ELEMENT_TYPE_PTR</para>
+	/// </description></item>
+	/// <item><description><para>ELEMENT_TYPE_BYREF</para>
+	/// </description></item>
+	/// <item><description><para>ELEMENT_TYPE_ARRAY or ELEMENT_TYPE_SZARRAY</para>
+	/// </description></item>
+	/// </list>
+	/// <para>If the value of <i>elementType</i> is ELEMENT_TYPE_PTR or ELEMENT_TYPE_BYREF, <i>nRank</i> must be zero.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain2-getarrayorpointertype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType);
 
+	/// <summary>
+	/// <para>Gets a pointer to a function that has a given signature.</para>
+	/// </summary>
+	/// <param name="nTypeArgs">
+	/// <para>The number of type arguments for the function.</para>
+	/// </param>
+	/// <param name="ppTypeArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugType object that represents a type argument of the function. The first element is the return type; each of the other elements is a parameter type.</para>
+	/// </param>
+	/// <param name="ppType">
+	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the pointer to the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain2-getfunctionpointertype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunctionPointerType(uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 }

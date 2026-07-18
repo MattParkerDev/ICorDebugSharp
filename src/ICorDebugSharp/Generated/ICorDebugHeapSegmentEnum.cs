@@ -6,11 +6,35 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides an enumerator for the memory regions of the managed heap. This interface is a subclass of the ICorDebugEnum interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugHeapSegmentEnum</c> interface implements the ICorDebugEnum interface.</para>
+/// <para>An <c>ICorDebugHeapSegmentEnum</c> instance is populated with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> instances by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerateheapregions-method">ICorDebugProcess5::EnumerateHeapRegions</see> method. The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> objects in the collection can be enumerated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-next-method">ICorDebugHeapSegmentEnum::Next</see> method.</para>
+/// <para>An <c>ICorDebugHeapSegmentEnum</c> collection object enumerates all memory regions that may contain managed objects, but it does not guarantee that managed objects actually reside in those regions. It may include information about empty or reserved memory regions.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("A2FA0F8E-D045-11DF-AC8E-CE2ADFD72085")]
 public partial interface ICorDebugHeapSegmentEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> instances that contain information about memory regions of the managed heap.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of segments to be retrieved.</para>
+	/// </param>
+	/// <param name="segments">
+	/// <para>An array of pointers, each of which points to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> object that provides information about a region of memory in the managed heap.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> objects actually returned in <c>segments</c>. This value may be <c>null</c> if <c>celt</c> is 1.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_SEGMENT[] segments, out uint pceltFetched);
 }

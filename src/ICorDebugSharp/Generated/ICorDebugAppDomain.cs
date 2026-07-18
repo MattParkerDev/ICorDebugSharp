@@ -6,38 +6,150 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods for debugging application domains. This interface is a subclass of ICorDebugController.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("3D6F5F63-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebugAppDomain : ICorDebugController
 {
+	/// <summary>
+	/// <para>Gets the process containing the application domain.</para>
+	/// </summary>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an ICorDebugProcess object that represents the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-getprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetProcess(out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the assemblies in the application domain.</para>
+	/// </summary>
+	/// <param name="ppAssemblies">
+	/// <para>A pointer to the address of an ICorDebugAssemblyEnum object that is the enumerator for the assemblies in the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-enumerateassemblies-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateAssemblies(out ICorDebugAssemblyEnum ppAssemblies);
 
+	/// <summary>
+	/// <para>Gets the module that corresponds to the given metadata interface.</para>
+	/// </summary>
+	/// <param name="pIMetaData">
+	/// <para>A pointer to an object that is one of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/metadata-interfaces">Metadata interfaces</see>.</para>
+	/// </param>
+	/// <param name="ppModule">
+	/// <para>A pointer to the address of an ICorDebugModule object that represents the module corresponding to the given metadata interface.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-getmodulefrommetadatainterface-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModuleFromMetaDataInterface(nint pIMetaData, out ICorDebugModule ppModule);
 
+	/// <summary>
+	/// <para>Gets an enumerator for all active breakpoints in the application domain.</para>
+	/// </summary>
+	/// <param name="ppBreakpoints">
+	/// <para>A pointer to the address of an ICorDebugBreakpointEnum object that is the enumerator for all active breakpoints in the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The enumerator includes all types of breakpoints, including function breakpoints and data breakpoints.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-enumeratebreakpoints-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateBreakpoints(out ICorDebugBreakpointEnum ppBreakpoints);
 
+	/// <summary>
+	/// <para>Gets an enumerator for all active steppers in the application domain.</para>
+	/// </summary>
+	/// <param name="ppSteppers">
+	/// <para>A pointer to the address of an ICorDebugStepperEnum object that is the enumerator for all active steppers in the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-enumeratesteppers-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateSteppers(out ICorDebugStepperEnum ppSteppers);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether the debugger is attached to the application domain.</para>
+	/// </summary>
+	/// <param name="pbAttached">
+	/// <para><c>true</c> if the debugger is attached to the application domain; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The ICorDebugController methods cannot be used until the debugger attaches to the application domain.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-isattached-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsAttached([MarshalAs(UnmanagedType.Bool)] out bool pbAttached);
 
+	/// <summary>
+	/// <para>Gets the name of the application domain.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the <c>szName</c> array. Set this value to zero to put this method in query mode.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the size of the name or the number of characters actually returned in <c>szName</c>. In query mode, this value lets the caller know how large a buffer to allocate for the name.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array that stores the name of the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A debugger calls the <c>GetName</c> method once to get the size of a buffer needed for the name. The debugger allocates the buffer, and then calls the method a second time to fill the buffer. The first call, to get the size of the name, is referred to as <i>query mode</i>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the common language runtime (CLR) application domain.</para>
+	/// </summary>
+	/// <param name="ppObject">
+	/// <para>A pointer to the address of an ICorDebugValue interface object that represents the CLR application domain.</para>
+	/// </param>
+	/// <returns>
+	/// <para>If a managed  object hasn&#39;t been constructed for this application domain, the method returns <c>S_FALSE</c> and places <c>NULL</c> in <c>*ppObject</c>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Each application domain in a process may have a managed  object in the runtime that represents it. This function gets an ICorDebugValue interface object that corresponds to this managed  object.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-getobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObject(out ICorDebugValue ppObject);
 
+	/// <summary>
+	/// <para>Attaches the debugger to the application domain.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>The debugger must be attached to the application domain to receive events and to enable debugging of the application domain.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-attach-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryAttach();
 
+	/// <summary>
+	/// <para>Gets the unique identifier of the application domain.</para>
+	/// </summary>
+	/// <param name="pId">
+	/// <para>The unique identifier of the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The identifier for the application domain is unique within the containing process.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain-getid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetID(out uint pId);
 }

@@ -6,35 +6,137 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a stack frame of common intermediate language (CIL) code. This interface is a subclass of the ICorDebugFrame interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugILFrame</c> interface is a specialized ICorDebugFrame interface. It is used either for CIL code frames or for just-in-time (JIT) compiled frames. The JIT-compiled frames implement both the <c>ICorDebugILFrame</c> interface and the ICorDebugNativeFrame interface.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("03E26311-4F76-11D3-88C6-006097945418")]
 public partial interface ICorDebugILFrame : ICorDebugFrame
 {
+	/// <summary>
+	/// <para>Gets the value of the instruction pointer and a bitwise combination value that describes how the value of the instruction pointer was obtained.</para>
+	/// </summary>
+	/// <param name="pnOffset">
+	/// <para>The value of the instruction pointer.</para>
+	/// </param>
+	/// <param name="pMappingResult">
+	/// <para>A pointer to a bitwise combination of the CorDebugMappingResult enumeration values that describe how the value of the instruction pointer was obtained.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The value of the instruction pointer is the stack frame&#39;s offset into the function&#39;s common intermediate language (CIL) code. If the stack frame is active, this address is the next instruction to execute. If the stack frame is not active, this address is the next instruction to execute when the stack frame is reactivated.</para>
+	/// <para>If this frame is a just-in-time (JIT) compiled frame, the value of the instruction pointer will be determined by mapping backwards from the actual native instruction pointer, so the value may be only approximate.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetIP(out uint pnOffset, out CorDebugMappingResult pMappingResult);
 
+	/// <summary>
+	/// <para>Sets the instruction pointer to the specified offset location in the common intermediate language (CIL) code.</para>
+	/// </summary>
+	/// <param name="nOffset">
+	/// <para>The offset location in the CIL code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Calls to <c>SetIP</c> immediately invalidate all frames and chains for the current thread. If the debugger needs frame information after a call to <c>SetIP</c>, it must perform a new stack trace.</para>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, there still may be problems such as uninitialized local variables. The caller is responsible for ensuring the coherency of the running program.</para>
+	/// <para>On 64-bit platforms, the instruction pointer cannot be moved out of a <c>catch</c> or <c>finally</c> block. If <c>SetIP</c> is called to make such a move on a 64-bit platform, it will return an HRESULT indicating failure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetIP(uint nOffset);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the local variables in this frame.</para>
+	/// </summary>
+	/// <param name="ppValueEnum">
+	/// <para>A pointer to the address of an ICorDebugValueEnum object that is the enumerator for the local variables in this frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>EnumerateLocalVariables</c> gets an enumerator that can list the local variables available in the call frame that is represented by this ICorDebugILFrame object. The list may not include all of the local variables in the running function, because some of them may not be active.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-enumeratelocalvariables-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateLocalVariables(out ICorDebugValueEnum ppValueEnum);
 
+	/// <summary>
+	/// <para>Gets the value of the specified local variable in this common intermediate language (CIL) stack frame.</para>
+	/// </summary>
+	/// <param name="dwIndex">
+	/// <para>The index of the local variable in this CIL stack frame.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the retrieved value.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetLocalVariable</c> method can be used either in an CIL stack frame or in a just-in-time (JIT) compiled frame.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getlocalvariable-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalVariable(uint dwIndex, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the arguments in this frame.</para>
+	/// </summary>
+	/// <param name="ppValueEnum">
+	/// <para>A pointer to the address of an ICorDebugValueEnum object that is the enumerator for the arguments in this frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>EnumerateArguments</c> gets an enumerator that can list the arguments available in the call frame that is represented by this ICorDebugILFrame object. The list will include arguments that are <see href="https://learn.microsoft.com/cpp/windows/vararg">vararg</see> (that is, a variable number of arguments) as well as arguments that are not <c>vararg</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-enumeratearguments-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateArguments(out ICorDebugValueEnum ppValueEnum);
 
+	/// <summary>
+	/// <para>Gets the value of the specified argument in this common intermediate language (CIL) stack frame.</para>
+	/// </summary>
+	/// <param name="dwIndex">
+	/// <para>The index of the argument in this CIL stack frame.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the retrieved value.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetArgument</c> method can be used either in an CIL stack frame or in a just-in-time (JIT) compiled frame.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getargument-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetArgument(uint dwIndex, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>This method has not been implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getstackdepth-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStackDepth(out uint pDepth);
 
+	/// <summary>
+	/// <para>This method has not been implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-getstackvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStackValue(uint dwIndex, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets an HRESULT that indicates whether it is safe to set the instruction pointer to the specified offset location in common intermediate language (CIL) code.</para>
+	/// </summary>
+	/// <param name="nOffset">
+	/// <para>The desired setting for the instruction pointer.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Use the <c>CanSetIP</c> method before calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-setip-method">ICorDebugILFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugILFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe-cansetip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCanSetIP(uint nOffset);
 }

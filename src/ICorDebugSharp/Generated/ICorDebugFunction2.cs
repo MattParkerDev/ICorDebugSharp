@@ -6,20 +6,74 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the ICorDebugFunction interface to provide support for Just My Code step-through debugging, which skips non-user code.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("EF0C490B-94C3-4E4D-B629-DDC134C532D8")]
 public partial interface ICorDebugFunction2
 {
+	/// <summary>
+	/// <para>Marks the function represented by this ICorDebugFunction2 for Just My Code stepping.</para>
+	/// </summary>
+	/// <param name="bIsJustMyCode">
+	/// <para>Set to <c>true</c> to mark the function as user code; otherwise, set to <c>false</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description>The function was successfully marked.</description></item>
+	/// <item><term><c>CORDBG_E_FUNCTION_NOT_DEBUGGABLE</c></term><description>The function could not be marked as user code because it cannot be debugged.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>A Just My Code stepper will skip non-user code. User code must be a subset of debuggable code.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-setjmcstatus-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether the function that is represented by this ICorDebugFunction2 object is marked as user code.</para>
+	/// </summary>
+	/// <param name="pbIsJustMyCode">
+	/// <para>A pointer to a Boolean value that is <c>true</c>, if this function is marked as user code; otherwise, the value is <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the function represented by this <c>ICorDebugFunction2</c> cannot be debugged, <c>pbIsJustMyCode</c> will always be <c>false</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-getjmcstatus-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetJMCStatus([MarshalAs(UnmanagedType.Bool)] out bool pbIsJustMyCode);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugCodeEnum object that contains the native code statements in the function referenced by this ICorDebugFunction2 object.</para>
+	/// <para><b>Note:</b> EnumerateNativeCode  is not implemented in the current version of the .NET Framework.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-enumeratenativecode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum);
 
+	/// <summary>
+	/// <para>Gets the Edit and Continue version of this function.</para>
+	/// </summary>
+	/// <param name="pnVersion">
+	/// <para>A pointer to an integer that is the version number of the function that is represented by this ICorDebugFunction2 object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The runtime keeps track of the number of edits that have taken place to each module during a debug session. The version number of a function is one more than the number of the edit that introduced the function. The function&#39;s original version is version 1. The number is incremented for a module every time <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-applychanges-method">ICorDebugModule2::ApplyChanges</see> is called on that module. Thus, if a function’s body was replaced in the first and third call to <c>ICorDebugModule2::ApplyChanges</c>, <c>GetVersionNumber</c> may return version 1, 2, or 4 for that function, but not version 3. (That function would have no version 3.)</para>
+	/// <para>The version number is tracked separately for each module. So, if you perform four edits on Module 1, and none on Module 2, your next edit on Module 1 will assign a version number of 6 to all the edited functions in Module 1. If the same edit touches Module 2, the functions in Module 2 will get a version number of 2.</para>
+	/// <para>The version number obtained by the <c>GetVersionNumber</c> method may be lower than that obtained by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getcurrentversionnumber-method">ICorDebugFunction::GetCurrentVersionNumber</see>.</para>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getversionnumber-method">ICorDebugCode::GetVersionNumber</see> method performs the same operation as <c>ICorDebugFunction2::GetVersionNumber</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-getversionnumber-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVersionNumber(out uint pnVersion);
 }

@@ -6,11 +6,25 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the &quot;ICorDebugObjectValue&quot; interface to support inheritance and overrides.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("49E4A320-4A9B-4ECA-B105-229FB7D5009F")]
 public partial interface ICorDebugObjectValue2
 {
+	/// <summary>
+	/// <para>This method is not yet implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Gets interface pointers to the &quot;ICorDebugFunction&quot; and &quot;ICorDebugType&quot; instances that represent the most derived method and type for the specified member reference.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue2-getvirtualmethodandtype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType);
 }

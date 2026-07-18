@@ -6,14 +6,73 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Exposes the monitor lock properties of objects. This interface extends the ICorDebugHeapValue and ICorDebugHeapValue2 interfaces.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("A69ACAD8-2374-46E9-9FF8-B1F14120D296")]
 public partial interface ICorDebugHeapValue3
 {
+	/// <summary>
+	/// <para>Returns the managed thread that owns the monitor lock on this object.</para>
+	/// </summary>
+	/// <param name="ppThread">
+	/// <para>The managed thread that owns the monitor lock on this object.</para>
+	/// </param>
+	/// <param name="pAcquisitionCount">
+	/// <para>The number of times this thread would have to release the lock before it returns to being unowned.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The method completed successfully.</description></item>
+	/// <item><term>S_FALSE</term><description>No managed thread owns the monitor lock on this object.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>If a managed thread owns the monitor lock on this object:</para>
+	/// <list type="bullet">
+	/// <item><description><para>The method returns S_OK.</para>
+	/// </description></item>
+	/// <item><description><para>The thread object is valid until the thread exits.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>If no managed thread owns the monitor lock on this object, <c>ppThread</c> and <c>pAcquisitionCount</c> are unchanged, and the method returns S_FALSE.</para>
+	/// <para>If <c>ppThread</c> or <c>pAcquisitionCount</c> is not a valid pointer, the result is undefined.</para>
+	/// <para>If an error occurs such that it cannot be determined which, if any, thread owns the monitor lock on this object, the method returns an HRESULT that indicates failure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue3-getthreadowningmonitorlock-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount);
 
+	/// <summary>
+	/// <para>Provides an ordered list of threads that are queued on the event that is associated with a monitor lock.</para>
+	/// </summary>
+	/// <param name="ppThreadEnum">
+	/// <para>The ICorDebugThreadEnum enumerator that provides the ordered list of threads.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The list is not empty.</description></item>
+	/// <item><term>S_FALSE</term><description>The list is empty.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The first thread in the list is the first thread that is released by the next call to . The next thread in the list is released on the following call, and so on.</para>
+	/// <para>If the list is not empty, this method returns S_OK. If the list is empty, the method returns S_FALSE; in this case, the enumeration is still valid, although it is empty.</para>
+	/// <para>In either case, the enumeration interface is usable only for the duration of the current synchronized state. However, the thread&#39;s interfaces dispensed from it are valid until the thread exits.</para>
+	/// <para>If <c>ppThreadEnum</c> is not a valid pointer, the result is undefined.</para>
+	/// <para>If an error occurs such that it cannot be determined which, if any, threads are waiting for the monitor, the method returns an HRESULT that indicates failure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapvalue3-getmonitoreventwaitlist-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum);
 }

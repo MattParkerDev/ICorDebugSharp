@@ -8,194 +8,1720 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods for importing and manipulating existing metadata from a portable executable (PE) file or other source, such as a type library or a stand-alone, runtime metadata binary.</para>
+/// </summary>
+/// <remarks>
+/// <para>The design of the <c>IMetaDataImport</c> interface is intended primarily to be used by tools and services that will be importing type information (for example, development tools) or managing deployed components (for example, resolution/activation services). The methods in <c>IMetaDataImport</c> fall into the following task categories:</para>
+/// <list type="bullet">
+/// <item><description><para>Enumerating collections of items in the metadata scope.</para>
+/// </description></item>
+/// <item><description><para>Finding an item that has a specific set of characteristics.</para>
+/// </description></item>
+/// <item><description><para>Getting properties of a specified item.</para>
+/// </description></item>
+/// <item><description><para>The Get methods are specifically designed to return single-valued properties of a metadata item. When the property is a reference to another item, a token for that item is returned. Any pointer input type can be NULL to indicate that the particular value is not being requested. To obtain properties that are essentially collection objects (for example, the collection of interfaces that a class implements), use the enumeration methods.</para>
+/// </description></item>
+/// </list>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("7DAC8207-D3AE-4C75-9B67-92801A497D44")]
 public unsafe partial interface IMetaDataImport
 {
+	/// <summary>
+	/// <para>Closes the enumerator that is identified by the specified handle.</para>
+	/// </summary>
+	/// <param name="hEnum">
+	/// <para>The handle for the enumerator to close.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypedefs-method">IMetaDataImport::EnumTypeDefs</see>).</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-closeenum-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	void TryCloseEnum(HCorEnum hEnum);
 
+	/// <summary>
+	/// <para>Gets the number of elements in the enumeration that was retrieved by the specified enumerator.</para>
+	/// </summary>
+	/// <param name="hEnum">
+	/// <para>The handle for the enumerator.</para>
+	/// </param>
+	/// <param name="pulCount">
+	/// <para>The number of elements enumerated.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The handle specified by <c>hEnum</c> is obtained from a previous <c>Enum</c><i>Name</i> call (for example, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypedefs-method">IMetaDataImport::EnumTypeDefs</see>).</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-countenum-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCountEnum(HCorEnum hEnum, out uint pulCount);
 
+	/// <summary>
+	/// <para>Resets the specified enumerator to the specified position.</para>
+	/// </summary>
+	/// <param name="hEnum">
+	/// <para>The enumerator to reset.</para>
+	/// </param>
+	/// <param name="ulPos">
+	/// <para>The new position at which to place the enumerator.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-resetenum-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryResetEnum(HCorEnum hEnum, uint ulPos);
 
+	/// <summary>
+	/// <para>Enumerates TypeDef tokens representing all types within the current scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the new enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rTypeDefs">
+	/// <para>The array used to store the TypeDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rTypeDefs</c> array.</para>
+	/// </param>
+	/// <param name="pcTypeDefs">
+	/// <para>The number of TypeDef tokens returned in <c>rTypeDefs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumTypeDefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTypeDefs</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The TypeDef token represents a type such as a class or an interface, as well as any type added via an extensibility mechanism.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypedefs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumTypeDefs(ref HCorEnum phEnum, out mdTypeDef rTypeDefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeDefs);
 
+	/// <summary>
+	/// <para>Enumerates all interfaces implemented by the specified <c>TypeDef</c>.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="td">
+	/// <para>The token of the TypeDef whose MethodDef tokens representing interface implementations are to be enumerated.</para>
+	/// </param>
+	/// <param name="rImpls">
+	/// <para>The array used to store the MethodDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum length of the <c>rImpls</c> array.</para>
+	/// </param>
+	/// <param name="pcImpls">
+	/// <para>The actual number of tokens returned in <c>rImpls</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumInterfaceImpls</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no MethodDef tokens to enumerate. In that case, <c>pcImpls</c> is set to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The enumeration returns a collection of <c>mdInterfaceImpl</c> tokens for each interface implemented by the specified <c>TypeDef</c>. Interface tokens are returned in the order the interfaces were specified (through <c>DefineTypeDef</c> or <c>SetTypeDefProps</c>). Properties of the returned <c>mdInterfaceImpl</c> tokens can be queried using <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getinterfaceimplprops-method">GetInterfaceImplProps</see>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enuminterfaceimpls-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td, out mdInterfaceImpl rImpls, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcImpls);
 
+	/// <summary>
+	/// <para>Enumerates TypeRef tokens defined in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rTypeRefs">
+	/// <para>The array used to store the TypeRef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rTypeRefs</c> array.</para>
+	/// </param>
+	/// <param name="pcTypeRefs">
+	/// <para>A pointer to the number of TypeRef tokens returned in <c>rTypeRefs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumTypeRefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTypeRefs</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>A TypeRef token represents a reference to a type.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtyperefs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumTypeRefs(ref HCorEnum phEnum, out mdTypeRef rTypeRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTypeRefs);
 
+	/// <summary>
+	/// <para>Gets a pointer to the TypeDef metadata token for the  with the specified name.</para>
+	/// </summary>
+	/// <param name="szTypeDef">
+	/// <para>The name of the type for which to get the TypeDef token.</para>
+	/// </param>
+	/// <param name="tkEnclosingClass">
+	/// <para>A TypeDef or TypeRef token representing the enclosing class. If the type to find is not a nested class, set this value to NULL.</para>
+	/// </param>
+	/// <param name="ptd">
+	/// <para>A pointer to the matching TypeDef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findtypedefbyname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindTypeDefByName([MarshalAs(UnmanagedType.LPWStr)] string szTypeDef, mdToken tkEnclosingClass, out mdTypeDef ptd);
 
+	/// <summary>
+	/// <para>Gets the name and optionally the version identifier of the assembly or module in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="szName">
+	/// <para>A buffer for the assembly or module name.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size in wide characters of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The number of wide characters returned in <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pmvid">
+	/// <para>A pointer to a GUID that uniquely identifies the version of the assembly or module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-setmoduleprops-method">IMetaDataEmit::SetModuleProps</see> method is used to set these properties.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getscopeprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetScopeProps([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? szName, uint cchName, out uint pchName, out Guid pmvid);
 
+	/// <summary>
+	/// <para>Gets a metadata token for the module referenced in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="pmd">
+	/// <para>A pointer to the token representing the module referenced in the current metadata scope.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmodulefromscope-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModuleFromScope(out mdModule pmd);
 
+	/// <summary>
+	/// <para>Returns metadata information for the  represented by the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The TypeDef token that represents the type to return metadata for.</para>
+	/// </param>
+	/// <param name="szTypeDef">
+	/// <para>A buffer containing the type name.</para>
+	/// </param>
+	/// <param name="cchTypeDef">
+	/// <para>The size in wide characters of <c>szTypeDef</c>.</para>
+	/// </param>
+	/// <param name="pchTypeDef">
+	/// <para>The number of wide characters returned in <c>szTypeDef</c>.</para>
+	/// </param>
+	/// <param name="pdwTypeDefFlags">
+	/// <para>A pointer to any flags that modify the type definition. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cortypeattr-enumeration">CorTypeAttr</see> enumeration.</para>
+	/// </param>
+	/// <param name="ptkExtends">
+	/// <para>A TypeDef or TypeRef metadata token that represents the base type of the requested type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-gettypedefprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeDefProps(mdTypeDef td, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szTypeDef, uint cchTypeDef, out uint pchTypeDef, out CorTypeAttr pdwTypeDefFlags, out mdToken ptkExtends);
 
+	/// <summary>
+	/// <para>Gets a pointer to the metadata tokens for the  that implements the specified method, and for the interface that declares that method.</para>
+	/// </summary>
+	/// <param name="iiImpl">
+	/// <para>The metadata token representing the method to return the class and interface tokens for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>The metadata token representing the class that implements the method.</para>
+	/// </param>
+	/// <param name="ptkIface">
+	/// <para>The metadata token representing the interface that defines the implemented method.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You obtain the value for <c>iImpl</c> by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enuminterfaceimpls-method">EnumInterfaceImpls</see> method.</para>
+	/// <para>For example, suppose that a class has an <c>mdTypeDef</c> token value of 0x02000007 and that it implements three<br/>interfaces whose types have tokens:</para>
+	/// <list type="bullet">
+	/// <item><description><para>0x02000003 (TypeDef)</para>
+	/// </description></item>
+	/// <item><description><para>0x0100000A (TypeRef)</para>
+	/// </description></item>
+	/// <item><description><para>0x0200001C (TypeDef)</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Conceptually, this information is stored into an interface implementation table as:</para>
+	/// <list type="table">
+	/// <listheader><term>Row number</term><description>Class token</description><description>Interface token</description></listheader>
+	/// <item><term>4</term><description></description><description></description></item>
+	/// <item><term>5</term><description>02000007</description><description>02000003</description></item>
+	/// <item><term>6</term><description>02000007</description><description>0100000A</description></item>
+	/// <item><term>7</term><description></description><description></description></item>
+	/// <item><term>8</term><description>02000007</description><description>0200001C</description></item>
+	/// </list>
+	/// <para>Recall, the token is a 4-byte value:</para>
+	/// <list type="bullet">
+	/// <item><description><para>The lower 3 bytes hold the row number, or RID.</para>
+	/// </description></item>
+	/// <item><description><para>The upper byte holds the token type – 0x09 for <c>mdtInterfaceImpl</c>.</para>
+	/// </description></item>
+	/// </list>
+	/// <para><c>GetInterfaceImplProps</c> returns the information held in the row whose token you provide in the <c>iImpl</c> argument.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getinterfaceimplprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetInterfaceImplProps(mdInterfaceImpl iiImpl, out mdTypeDef pClass, out mdToken ptkIface);
 
+	/// <summary>
+	/// <para>Gets the metadata associated with the  referenced by the specified TypeRef token.</para>
+	/// </summary>
+	/// <param name="tr">
+	/// <para>The TypeRef token that represents the type to return metadata for.</para>
+	/// </param>
+	/// <param name="ptkResolutionScope">
+	/// <para>A pointer to the scope in which the reference is made. This value is an AssemblyRef or ModuleRef token.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A buffer containing the type name.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The requested size in wide characters of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The returned size in wide characters of <c>szName</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-gettyperefprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeRefProps(mdTypeRef tr, out mdToken ptkResolutionScope, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szName, uint cchName, out uint pchName);
 
+	/// <summary>
+	/// <para>Resolves a  reference represented by the specified TypeRef token.</para>
+	/// </summary>
+	/// <param name="tr">
+	/// <para>The TypeRef metadata token to return the referenced type information for.</para>
+	/// </param>
+	/// <param name="riid">
+	/// <para>The IID of the interface to return in <c>ppIScope</c>. Typically, this would be IID_IMetaDataImport.</para>
+	/// </param>
+	/// <param name="ppIScope">
+	/// <para>An interface to the module scope in which the referenced type is defined.</para>
+	/// </param>
+	/// <param name="ptd">
+	/// <para>A pointer to a TypeDef token that represents the referenced type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> Do not use this method if multiple application domains are loaded. The method does not respect application domain boundaries. If multiple versions of an assembly are loaded, and they contain the same type with the same namespace, the method returns the module scope of the first type it finds.</para>
+	/// <para>The <c>ResolveTypeRef</c> method searches for the type definition in other modules. If the type definition is found, <c>ResolveTypeRef</c> returns an interface to that module scope as well as the TypeDef token for the type.</para>
+	/// <para>If the type reference to be resolved has a resolution scope of AssemblyRef, the <c>ResolveTypeRef</c> method searches for a match only in the metadata scopes that have already been opened with calls to either the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadatadispenser-openscope-method">IMetaDataDispenser::OpenScope</see> method or the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadatadispenser-openscopeonmemory-method">IMetaDataDispenser::OpenScopeOnMemory</see> method. This is because <c>ResolveTypeRef</c> cannot determine from only the AssemblyRef scope where on disk or in the global assembly cache the assembly is stored.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-resolvetyperef-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryResolveTypeRef(mdTypeRef tr, ref Guid riid, out nint ppIScope, out mdTypeDef ptd);
 
+	/// <summary>
+	/// <para>Enumerates MemberDef tokens representing members of the specified type.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>A TypeDef token representing the type whose members are to be enumerated.</para>
+	/// </param>
+	/// <param name="rMembers">
+	/// <para>The array used to hold the MemberDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMembers</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of MemberDef tokens returned in <c>rMembers</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMembers</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no MemberDef tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>When enumerating collections of members for a class, <c>EnumMembers</c> returns only members (fields and methods, but <b>not</b> properties or events) defined directly on the class. It does not return any members that the class inherits, even if the class provides an implementation for those inherited members. To enumerate inherited members, the caller must explicitly walk the inheritance chain. Note that the rules for the inheritance chain may vary depending on the language or compiler that emitted the original metadata.</para>
+	/// <para>Properties and events are not enumerated by <c>EnumMembers</c>. To enumerate those, use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumproperties-method">EnumProperties</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumevents-method">EnumEvents</see>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummembers-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMembers(ref HCorEnum phEnum, mdTypeDef cl, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates MemberDef tokens representing members of the specified type with the specified name.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>A TypeDef token representing the type with members to enumerate.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The member name that limits the scope of the enumerator.</para>
+	/// </param>
+	/// <param name="rMembers">
+	/// <para>The array used to store the MemberDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMembers</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of MemberDef tokens returned in <c>rMembers</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumTypeDefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no MemberDef tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummembers-method">IMetaDataImport::EnumMembers</see>, <c>EnumMembersWithName</c> discards all field and member tokens that do not have the specified name.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummemberswithname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdToken rMembers, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates MethodDef tokens representing methods of the specified type.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>A TypeDef token representing the type with the methods to enumerate.</para>
+	/// </param>
+	/// <param name="rMethods">
+	/// <para>The array to store the MethodDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the MethodDef <c>rMethods</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of MethodDef tokens returned in <c>rMethods</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMethods</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no MethodDef tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethods-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMethods(ref HCorEnum phEnum, mdTypeDef cl, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates methods that have the specified name and that are defined by the type referenced by the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>A TypeDef token representing the type whose methods to enumerate.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name that limits the scope of the enumeration.</para>
+	/// </param>
+	/// <param name="rMethods">
+	/// <para>The array used to store the MethodDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMethods</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of MethodDef tokens returned in <c>rMethods</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMethodsWithName</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method enumerates fields and methods, but not properties or events. Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethods-method">IMetaDataImport::EnumMethods</see>, <c>EnumMethodsWithName</c> discards all method tokens that do not have the specified name.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethodswithname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdMethodDef rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates FieldDef tokens for the type referenced by the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>The TypeDef token of the class whose fields are to be enumerated.</para>
+	/// </param>
+	/// <param name="rFields">
+	/// <para>The list of FieldDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rFields</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of FieldDef tokens returned in <c>rFields</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumFields</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no fields to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumfields-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumFields(ref HCorEnum phEnum, mdTypeDef cl, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates FieldDef tokens of the specified type with the specified name.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="cl">
+	/// <para>The token of the type whose fields are to be enumerated.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The field name that limits the scope of the enumeration.</para>
+	/// </param>
+	/// <param name="rFields">
+	/// <para>Array used to store the FieldDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rFields</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of FieldDef tokens returned in <c>rFields</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumFieldsWithName</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no fields to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Unlike <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumfields-method">IMetaDataImport::EnumFields</see>, <c>EnumFieldsWithName</c> discards all field tokens that do not have the specified name.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumfieldswithname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdFieldDef rFields, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates ParamDef tokens representing the parameters of the method referenced by the specified MethodDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="mb">
+	/// <para>A MethodDef token representing the method with the parameters to enumerate.</para>
+	/// </param>
+	/// <param name="rParams">
+	/// <para>The array used to store the ParamDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rParams</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of ParamDef tokens returned in <c>rParams</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumParams</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumparams-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumParams(ref HCorEnum phEnum, mdMethodDef mb, out mdParamDef rParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates MemberRef tokens representing members of the specified type.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="tkParent">
+	/// <para>A TypeDef, TypeRef, MethodDef, or ModuleRef token for the type whose members are to be enumerated.</para>
+	/// </param>
+	/// <param name="rMemberRefs">
+	/// <para>The array used to store MemberRef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMemberRefs</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of MemberRef tokens returned in <c>rMemberRefs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMemberRefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no MemberRef tokens to enumerate. In that case, <c>pcTokens</c> is to zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummemberrefs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent, out mdMemberRef rMemberRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates MethodBody and MethodDeclaration tokens representing methods of the specified type.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="td">
+	/// <para>A TypeDef token for the type whose method implementations to enumerate.</para>
+	/// </param>
+	/// <param name="rMethodBody">
+	/// <para>The array to store the MethodBody tokens.</para>
+	/// </param>
+	/// <param name="rMethodDecl">
+	/// <para>The array to store the MethodDeclaration tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMethodBody</c> and <c>rMethodDecl</c> arrays.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The actual number of methods returned in <c>rMethodBody</c> and <c>rMethodDecl</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMethodImpls</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no method tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethodimpls-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td, out mdToken rMethodBody, out mdToken rMethodDecl, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Enumerates permissions for the objects in a specified metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="tk">
+	/// <para>A metadata token that limits the scope of the search, or NULL to search the widest scope possible.</para>
+	/// </param>
+	/// <param name="dwActions">
+	/// <para>Flags representing the  values to include in <c>rPermission</c>, or zero to return all actions.</para>
+	/// </param>
+	/// <param name="rPermission">
+	/// <para>The array used to store the Permission tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rPermission</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of Permission tokens returned in <c>rPermission</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumPermissionSets</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumpermissionsets-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumPermissionSets(ref HCorEnum phEnum, mdToken tk, uint dwActions, out mdPermission rPermission, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Gets a pointer to the MemberDef token for field or method that is enclosed by the specified  and that has the specified name and metadata signature.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The TypeDef token for the class or interface that encloses the member to search for. If this value is <c>mdTokenNil</c>, the lookup is done for a global-variable or global-function.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the member to search for.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the member.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>The size in bytes of <c>pvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pmb">
+	/// <para>A pointer to the matching MemberDef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You specify the member using its enclosing class or interface (<c>td</c>), its name (<c>szName</c>), and optionally its signature (<c>pvSigBlob</c>). There might be multiple members with the same name in a class or interface. In that case, pass the member&#39;s signature to find the unique match.</para>
+	/// <para>The signature passed to <c>FindMember</c> must have been generated in the current scope, because signatures are bound to a particular scope. A signature can embed a token that identifies the enclosing class or value type. The token is an index into the local TypeDef table. You cannot build a runtime signature outside the context of the current scope and use that signature as input to input to <c>FindMember</c>.</para>
+	/// <para><c>FindMember</c> finds only members that were defined directly in the class or interface; it does not find inherited members.</para>
+	/// <para><b>Note:</b> FindMember  is a helper method. It calls  IMetaDataImport :: FindMethod ; if that call does not find a match,  FindMember  then calls  IMetaDataImport :: FindField .</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findmember-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindMember(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdToken pmb);
 
+	/// <summary>
+	/// <para>Gets a pointer to the MethodDef token for the method that is enclosed by the specified  and that has the specified name and metadata signature.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The <c>mdTypeDef</c> token for the type (a class or interface) that encloses the member to search for. If this value is <c>mdTokenNil</c>, then the lookup is done for a global function.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the method to search for.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the method.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>The size in bytes of <c>pvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pmb">
+	/// <para>A pointer to the matching MethodDef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You specify the method using its enclosing class or interface (<c>td</c>), its name (<c>szName</c>), and optionally its signature (<c>pvSigBlob</c>). There might be multiple methods with the same name in a class or interface. In that case, pass the method&#39;s signature to find the unique match.</para>
+	/// <para>The signature passed to <c>FindMethod</c> must have been generated in the current scope, because signatures are bound to a particular scope. A signature can embed a token that identifies the enclosing class or value type. The token is an index into the local TypeDef table. You cannot build a runtime signature outside the context of the current scope and use that signature as input to input to <c>FindMethod</c>.</para>
+	/// <para><c>FindMethod</c> finds only methods that were defined directly in the class or interface; it does not find inherited methods.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findmethod-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindMethod(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMethodDef pmb);
 
+	/// <summary>
+	/// <para>Gets a pointer to the FieldDef token for the field that is enclosed by the specified  and that has the specified name and metadata signature.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The TypeDef token for the class or interface that encloses the field to search for. If this value is <c>mdTokenNil</c>, the lookup is done for a global variable.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the field to search for.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the field.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>The size in bytes of <c>pvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pmb">
+	/// <para>A pointer to the matching FieldDef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You specify the field using its enclosing class or interface (<c>td</c>), its name (<c>szName</c>), and optionally its signature (<c>pvSigBlob</c>).</para>
+	/// <para>The signature passed to <c>FindField</c> must have been generated in the current scope, because signatures are bound to a particular scope. A signature can embed a token that identifies the enclosing class or value type. (The token is an index into the local TypeDef table). You cannot build a runtime signature outside the context of the current scope and use that signature as input to <c>FindField</c>.</para>
+	/// <para><c>FindField</c> finds only fields that were defined directly in the class or interface; it does not find inherited fields.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findfield-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindField(mdTypeDef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdFieldDef pmb);
 
+	/// <summary>
+	/// <para>Gets a pointer to the MemberRef token for the member reference that is enclosed by the specified  and that has the specified name and metadata signature.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The TypeRef token for the class or interface that encloses the member reference to search for. If this value is <c>mdTokenNil</c>, the lookup is done for a global variable or a global-function reference.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the member reference to search for.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the member reference.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>The size in bytes of <c>pvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pmr">
+	/// <para>A pointer to the matching MemberRef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You specify the member using its enclosing class or interface (<c>td</c>), its name (<c>szName</c>), and optionally its signature (<c>pvSigBlob</c>).</para>
+	/// <para>The signature passed to <c>FindMemberRef</c> must have been generated in the current scope, because signatures are bound to a particular scope. A signature can embed a token that identifies the enclosing class or value type. The token is an index into the local TypeDef table. You cannot build a runtime signature outside the context of the current scope and use that signature as input to <c>FindMemberRef</c>.</para>
+	/// <para><c>FindMemberRef</c> finds only member references that were defined directly in the class or interface; it does not find inherited member references.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findmemberref-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindMemberRef(mdTypeRef td, [MarshalAs(UnmanagedType.LPWStr)] string szName, byte* pvSigBlob, uint cbSigBlob, out mdMemberRef pmr);
 
+	/// <summary>
+	/// <para>Gets the metadata associated with the method referenced by the specified MethodDef token.</para>
+	/// </summary>
+	/// <param name="mb">
+	/// <para>The MethodDef token that represents the method to return metadata for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>A Pointer to a TypeDef token that represents the type that implements the method.</para>
+	/// </param>
+	/// <param name="szMethod">
+	/// <para>A Pointer to a buffer that has the method&#39;s name.</para>
+	/// </param>
+	/// <param name="cchMethod">
+	/// <para>The requested size of <c>szMethod</c>.</para>
+	/// </param>
+	/// <param name="pchMethod">
+	/// <para>A Pointer to the size in wide characters of <c>szMethod</c>, or in the case of truncation, the actual number of wide characters in the method name.</para>
+	/// </param>
+	/// <param name="pdwAttr">
+	/// <para>A pointer to any flags associated with the method.</para>
+	/// </param>
+	/// <param name="ppvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the method.</para>
+	/// </param>
+	/// <param name="pcbSigBlob">
+	/// <para>A Pointer to the size in bytes of <c>ppvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pulCodeRVA">
+	/// <para>A pointer to the relative virtual address of the method.</para>
+	/// </param>
+	/// <param name="pdwImplFlags">
+	/// <para>A pointer to any implementation flags for the method.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmethodprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodProps(mdMethodDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMethod, uint cchMethod, out uint pchMethod, out CorMethodAttr pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags);
 
+	/// <summary>
+	/// <para>Gets metadata associated with the member referenced by the specified token.</para>
+	/// </summary>
+	/// <param name="mr">
+	/// <para>The MemberRef token to return associated metadata for.</para>
+	/// </param>
+	/// <param name="ptk">
+	/// <para>A TypeDef or TypeRef, or TypeSpec token that represents the class that declares the member, or a ModuleRef token that represents the module class that declares the member, or a MethodDef that represents the member.</para>
+	/// </param>
+	/// <param name="szMember">
+	/// <para>A string buffer for the member&#39;s name.</para>
+	/// </param>
+	/// <param name="cchMember">
+	/// <para>The requested size in wide characters of <c>szMember</c>.</para>
+	/// </param>
+	/// <param name="pchMember">
+	/// <para>The returned size in wide characters of <c>szMember</c>.</para>
+	/// </param>
+	/// <param name="ppvSigBlob">
+	/// <para>A pointer to the binary metadata signature for the member.</para>
+	/// </param>
+	/// <param name="pbSig">
+	/// <para>The size in bytes of <c>ppvSigBlob</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmemberrefprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMemberRefProps(mdMemberRef mr, out mdToken ptk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out byte* ppvSigBlob, out uint pbSig);
 
+	/// <summary>
+	/// <para>Enumerates PropertyDef tokens representing the properties of the type referenced by the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="td">
+	/// <para>A TypeDef token representing the type with properties to enumerate.</para>
+	/// </param>
+	/// <param name="rProperties">
+	/// <para>The array used to store the PropertyDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rProperties</c> array.</para>
+	/// </param>
+	/// <param name="pcProperties">
+	/// <para>The number of PropertyDef tokens returned in <c>rProperties</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumProperties</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcProperties</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumproperties-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumProperties(ref HCorEnum phEnum, mdTypeDef td, out mdProperty rProperties, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcProperties);
 
+	/// <summary>
+	/// <para>Enumerates event definition tokens for the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="td">
+	/// <para>The TypeDef token whose event definitions are to be enumerated.</para>
+	/// </param>
+	/// <param name="rEvents">
+	/// <para>The array of returned events.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rEvents</c> array.</para>
+	/// </param>
+	/// <param name="pcEvents">
+	/// <para>The actual number of events returned in <c>rEvents</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumEvents</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no events to enumerate. In that case, <c>pcEvents</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumevents-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumEvents(ref HCorEnum phEnum, mdTypeDef td, out mdEvent rEvents, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEvents);
 
+	/// <summary>
+	/// <para>Gets metadata information for the event represented by the specified event token, including the declaring type, the add and remove methods for delegates, and any flags and other associated data.</para>
+	/// </summary>
+	/// <param name="ev">
+	/// <para>The event metadata token representing the event to get metadata for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>A pointer to the TypeDef token representing the class that declares the event.</para>
+	/// </param>
+	/// <param name="szEvent">
+	/// <para>The name of the event referenced by <c>ev</c>.</para>
+	/// </param>
+	/// <param name="cchEvent">
+	/// <para>The requested length in wide characters of <c>szEvent</c>.</para>
+	/// </param>
+	/// <param name="pchEvent">
+	/// <para>The returned length in wide characters of <c>szEvent</c>.</para>
+	/// </param>
+	/// <param name="pdwEventFlags">
+	/// <para>A pointer to flags that describe the event.</para>
+	/// </param>
+	/// <param name="ptkEventType">
+	/// <para>A pointer to a TypeRef or TypeDef metadata token representing the  type of the event.</para>
+	/// </param>
+	/// <param name="pmdAddOn">
+	/// <para>A pointer to the metadata token representing the method that adds handlers for the event.</para>
+	/// </param>
+	/// <param name="pmdRemoveOn">
+	/// <para>A pointer to the metadata token representing the method that removes handlers for the event.</para>
+	/// </param>
+	/// <param name="pmdFire">
+	/// <para>A pointer to the metadata token representing the method that raises the event.</para>
+	/// </param>
+	/// <param name="rmdOtherMethod">
+	/// <para>An array of token pointers to other methods associated with the event.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rmdOtherMethod</c> array.</para>
+	/// </param>
+	/// <param name="pcOtherMethod">
+	/// <para>The number of tokens returned in <c>rmdOtherMethod</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-geteventprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetEventProps(mdEvent ev, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szEvent, uint cchEvent, out uint pchEvent, out CorEventAttr pdwEventFlags, out mdToken ptkEventType, out mdMethodDef pmdAddOn, out mdMethodDef pmdRemoveOn, out mdMethodDef pmdFire, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
+	/// <summary>
+	/// <para>Enumerates the properties and the property-change events to which the specified method is related.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="mb">
+	/// <para>A MethodDef token that limits the scope of the enumeration.</para>
+	/// </param>
+	/// <param name="rEventProp">
+	/// <para>The array used to store the events or properties.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rEventProp</c> array.</para>
+	/// </param>
+	/// <param name="pcEventProp">
+	/// <para>The number of events or properties returned in <c>rEventProp</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMethodSemantics</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no events or properties to enumerate. In that case, <c>pcEventProp</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Many common language runtime types define <i>Property</i><c>Changed</c> events and <c>On</c><i>Property</i><c>Changed</c> methods related to their properties. For example, the  type defines a  property, a  event, and an  method. The set accessor method of the  property calls  method, which in turn raises the  event. You would call <c>EnumMethodSemantics</c> using the MethodDef for  to get references to the  property and the  event.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummethodsemantics-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb, out mdToken rEventProp, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcEventProp);
 
+	/// <summary>
+	/// <para>Gets flags indicating the relationship between the method referenced by the specified MethodDef token and the paired property and event referenced by the specified EventProp token.</para>
+	/// </summary>
+	/// <param name="mb">
+	/// <para>A MethodDef token representing the method to get the semantic role information for.</para>
+	/// </param>
+	/// <param name="tkEventProp">
+	/// <para>A token representing the paired property and event for which to get the method&#39;s role.</para>
+	/// </param>
+	/// <param name="pdwSemanticsFlags">
+	/// <para>A pointer to the associated semantics flags. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormethodsemanticsattr-enumeration">CorMethodSemanticsAttr</see> enumeration.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-defineproperty-method">IMetaDataEmit::DefineProperty</see> method sets a method&#39;s semantics flags.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmethodsemantics-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodSemantics(mdMethodDef mb, mdToken tkEventProp, out uint pdwSemanticsFlags);
 
+	/// <summary>
+	/// <para>Gets layout information for the class referenced by the specified TypeDef token.</para>
+	/// </summary>
+	/// <param name="td">
+	/// <para>The TypeDef token for the class with the layout to return.</para>
+	/// </param>
+	/// <param name="pdwPackSize">
+	/// <para>One of the values 1, 2, 4, 8, or 16, representing the pack size of the class.</para>
+	/// </param>
+	/// <param name="rFieldOffset">
+	/// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/structures/cor-field-offset-structure">COR_FIELD_OFFSET</see> values.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rFieldOffset</c> array.</para>
+	/// </param>
+	/// <param name="pcFieldOffset">
+	/// <para>The number of elements returned in <c>rFieldOffset</c>.</para>
+	/// </param>
+	/// <param name="pulClassSize">
+	/// <para>The size in bytes of the class represented by <c>td</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getclasslayout-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetClassLayout(mdTypeDef td, out uint pdwPackSize, out COR_FIELD_OFFSET rFieldOffset, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcFieldOffset, out uint pulClassSize);
 
+	/// <summary>
+	/// <para>Gets a pointer to the native, unmanaged type of the field represented by the specified field metadata token.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>The metadata token that represents the field to get interop marshalling information for.</para>
+	/// </param>
+	/// <param name="ppvNativeType">
+	/// <para>A pointer to the metadata signature of the field&#39;s native type.</para>
+	/// </param>
+	/// <param name="pcbNativeType">
+	/// <para>The size in bytes of <c>ppvNativeType</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getfieldmarshal-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFieldMarshal(mdToken tk, out byte* ppvNativeType, out uint pcbNativeType);
 
+	/// <summary>
+	/// <para>Gets the relative virtual address (RVA) and the implementation flags of the method or field represented by the specified token.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>A MethodDef or FieldDef metadata token that represents the code object to return the RVA for. If the token is a FieldDef, the field must be a global variable.</para>
+	/// </param>
+	/// <param name="pulCodeRVA">
+	/// <para>A pointer to the relative virtual address of the code object represented by the token.</para>
+	/// </param>
+	/// <param name="pdwImplFlags">
+	/// <para>A pointer to the implementation flags for the method. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/cormethodimpl-enumeration">CorMethodImpl</see> enumeration. The value of <c>pdwImplFlags</c> is valid only if <c>tk</c> is a MethodDef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getrva-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRVA(mdToken tk, out uint pulCodeRVA, out uint pdwImplFlags);
 
+	/// <summary>
+	/// <para>Gets the metadata associated with the  represented by the specified Permission token.</para>
+	/// </summary>
+	/// <param name="pm">
+	/// <para>The Permission metadata token that represents the permission set to get the metadata properties for.</para>
+	/// </param>
+	/// <param name="pdwAction">
+	/// <para>A pointer to the permission set.</para>
+	/// </param>
+	/// <param name="ppvPermission">
+	/// <para>A pointer to the binary metadata signature of the permission set.</para>
+	/// </param>
+	/// <param name="pcbPermission">
+	/// <para>The size in bytes of <c>ppvPermission</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getpermissionsetprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPermissionSetProps(mdPermission pm, out uint pdwAction, out nint ppvPermission, out uint pcbPermission);
 
+	/// <summary>
+	/// <para>Gets the binary metadata signature associated with the specified token.</para>
+	/// </summary>
+	/// <param name="mdSig">
+	/// <para>The token to return the binary metadata signature for.</para>
+	/// </param>
+	/// <param name="ppvSig">
+	/// <para>A pointer to the returned metadata signature.</para>
+	/// </param>
+	/// <param name="pcbSig">
+	/// <para>The size in bytes of the binary metadata signature.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getsigfromtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSigFromToken(mdSignature mdSig, out byte* ppvSig, out uint pcbSig);
 
+	/// <summary>
+	/// <para>Gets the name of the module referenced by the specified metadata token.</para>
+	/// </summary>
+	/// <param name="mur">
+	/// <para>The ModuleRef metadata token that references the module to get metadata information for.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A buffer to hold the module name.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The requested size of <c>szName</c> in wide characters.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The returned size of <c>szName</c> in wide characters.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmodulerefprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModuleRefProps(mdModuleRef mur, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szName, uint cchName, out uint pchName);
 
+	/// <summary>
+	/// <para>Enumerates ModuleRef tokens that represent imported modules.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rModuleRefs">
+	/// <para>The array used to store the ModuleRef tokens.</para>
+	/// </param>
+	/// <param name="cmax">
+	/// <para>The maximum size of the <c>rModuleRefs</c> array.</para>
+	/// </param>
+	/// <param name="pcModuleRefs">
+	/// <para>The number of ModuleRef tokens returned in <c>rModuleRefs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumModuleRefs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcModuleRefs</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enummodulerefs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumModuleRefs(ref HCorEnum phEnum, out mdModuleRef rModuleRefs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcModuleRefs);
 
+	/// <summary>
+	/// <para>Gets the binary metadata signature of the type specification represented by the specified token.</para>
+	/// </summary>
+	/// <param name="typespec">
+	/// <para>The TypeSpec token associated with the requested metadata signature.</para>
+	/// </param>
+	/// <param name="ppvSig">
+	/// <para>A pointer to the binary metadata signature.</para>
+	/// </param>
+	/// <param name="pcbSig">
+	/// <para>The size, in bytes, of the metadata signature.</para>
+	/// </param>
+	/// <returns>
+	/// <para>An HRESULT that indicates success or failure. Failures can be tested with the FAILED macro.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-gettypespecfromtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeSpecFromToken(mdTypeSpec typespec, out byte* ppvSig, out uint pcbSig);
 
+	/// <summary>
+	/// <para>Gets the UTF-8 name of the object referenced by the specified metadata token. This method is obsolete.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>The token representing the object to return the name for.</para>
+	/// </param>
+	/// <param name="pszUtf8NamePtr">
+	/// <para>A pointer to the UTF-8 object name in the heap.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>GetNameFromToken</c> is obsolete. As an alternative, call a method to get the properties of the particular type of token required, such as <c>GetFieldProps</c> for a field or <c>GetMethodProps</c> for a method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getnamefromtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetNameFromToken(mdToken tk, out sbyte* pszUtf8NamePtr);
 
+	/// <summary>
+	/// <para>Enumerates MemberDef tokens representing the unresolved methods in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rMethods">
+	/// <para>The array used to store the MemberDef tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rMethods</c> array.</para>
+	/// </param>
+	/// <param name="pcTokens">
+	/// <para>The number of MemberDef tokens returned in <c>rMethods</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumUnresolvedMethods</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTokens</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>An unresolved method is one that has been declared but not implemented. A method is included in the enumeration if the method is marked <c>miForwardRef</c> and either <c>mdPinvokeImpl</c> or <c>miRuntime</c> is set to zero. In other words, an unresolved method is a class method that is marked <c>miForwardRef</c> but which is not implemented in unmanaged code (reached via PInvoke) nor implemented internally by the runtime itself</para>
+	/// <para>The enumeration excludes all methods that are defined either at module scope (globals) or in interfaces or abstract classes.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumunresolvedmethods-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumUnresolvedMethods(ref HCorEnum phEnum, out mdToken rMethods, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcTokens);
 
+	/// <summary>
+	/// <para>Gets the literal string represented by the specified metadata token.</para>
+	/// </summary>
+	/// <param name="stk">
+	/// <para>The String token to return the associated string for.</para>
+	/// </param>
+	/// <param name="szString">
+	/// <para>A copy of the requested string.</para>
+	/// </param>
+	/// <param name="cchString">
+	/// <para>The maximum size in wide characters of the requested <c>szString</c>.</para>
+	/// </param>
+	/// <param name="pchString">
+	/// <para>The size in wide characters of the returned <c>szString</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getuserstring-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetUserString(mdString stk, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 2)] char[]? szString, uint cchString, out uint pchString);
 
+	/// <summary>
+	/// <para>Gets a ModuleRef token to represent the target assembly of a PInvoke call.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>A FieldDef or MethodDef token to get the PInvoke mapping metadata for.</para>
+	/// </param>
+	/// <param name="pdwMappingFlags">
+	/// <para>A pointer to flags used for mapping. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpinvokemap-enumeration">CorPinvokeMap</see> enumeration.</para>
+	/// </param>
+	/// <param name="szImportName">
+	/// <para>The name of the unmanaged target DLL.</para>
+	/// </param>
+	/// <param name="cchImportName">
+	/// <para>The size in wide characters of <c>szImportName</c>.</para>
+	/// </param>
+	/// <param name="pchImportName">
+	/// <para>The number of wide characters returned in <c>szImportName</c>.</para>
+	/// </param>
+	/// <param name="pmrImportDLL">
+	/// <para>A pointer to a ModuleRef token that represents the unmanaged target object library.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getpinvokemap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPinvokeMap(mdToken tk, out uint pdwMappingFlags, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szImportName, uint cchImportName, out uint pchImportName, out mdModuleRef pmrImportDLL);
 
+	/// <summary>
+	/// <para>Enumerates Signature tokens representing stand-alone signatures in the current scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rSignatures">
+	/// <para>The array used to store the Signature tokens.</para>
+	/// </param>
+	/// <param name="cmax">
+	/// <para>The maximum size of the <c>rSignatures</c> array.</para>
+	/// </param>
+	/// <param name="pcSignatures">
+	/// <para>The number of Signature tokens returned in <c>rSignatures</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumSignatures</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcSignatures</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The Signature tokens are created by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-gettokenfromsig-method">IMetaDataEmit::GetTokenFromSig</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumsignatures-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumSignatures(ref HCorEnum phEnum, out mdSignature rSignatures, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcSignatures);
 
+	/// <summary>
+	/// <para>Enumerates TypeSpec tokens defined in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This value must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rTypeSpecs">
+	/// <para>The array used to store the TypeSpec tokens.</para>
+	/// </param>
+	/// <param name="cmax">
+	/// <para>The maximum size of the <c>rTypeSpecs</c> array.</para>
+	/// </param>
+	/// <param name="pcTypeSpecs">
+	/// <para>The number of TypeSpec tokens returned in <c>rTypeSpecs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumTypeSpecs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcTypeSpecs</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The TypeSpec tokens are created by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-gettokenfromtypespec-method">IMetaDataEmit::GetTokenFromTypeSpec</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumtypespecs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumTypeSpecs(ref HCorEnum phEnum, out mdTypeSpec rTypeSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcTypeSpecs);
 
+	/// <summary>
+	/// <para>Enumerates String tokens representing hard-coded strings in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator. This must be NULL for the first call of this method.</para>
+	/// </param>
+	/// <param name="rStrings">
+	/// <para>The array used to store the String tokens.</para>
+	/// </param>
+	/// <param name="cmax">
+	/// <para>The maximum size of the <c>rStrings</c> array.</para>
+	/// </param>
+	/// <param name="pcStrings">
+	/// <para>The number of String tokens returned in <c>rStrings</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumUserStrings</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no tokens to enumerate. In that case, <c>pcStrings</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The String tokens are created by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-defineuserstring-method">IMetaDataEmit::DefineUserString</see> method. This method is designed to be used by a metadata browser rather than by a compiler.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumuserstrings-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumUserStrings(ref HCorEnum phEnum, out mdString rStrings, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cmax, out uint pcStrings);
 
+	/// <summary>
+	/// <para>Gets the token that represents a specified parameter of the method represented by the specified MethodDef token.</para>
+	/// </summary>
+	/// <param name="md">
+	/// <para>A token that represents the method to return the parameter token for.</para>
+	/// </param>
+	/// <param name="ulParamSeq">
+	/// <para>The ordinal position in the parameter list where the requested parameter occurs. Parameters are numbered starting from one, with the method&#39;s return value in position zero.</para>
+	/// </param>
+	/// <param name="ppd">
+	/// <para>A pointer to a ParamDef token that represents the requested parameter.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getparamformethodindex-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetParamForMethodIndex(mdMethodDef md, uint ulParamSeq, out mdParamDef ppd);
 
+	/// <summary>
+	/// <para>Enumerates custom attribute-definition tokens associated with the specified type or member.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the returned enumerator.</para>
+	/// </param>
+	/// <param name="tk">
+	/// <para>A token for the scope of the enumeration, or zero for all custom attributes.</para>
+	/// </param>
+	/// <param name="tkType">
+	/// <para>A token for the constructor of the type of the attributes to be enumerated, or <c>null</c> for all types.</para>
+	/// </param>
+	/// <param name="rCustomAttributes">
+	/// <para>An array of custom attribute tokens.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rCustomAttributes</c> array.</para>
+	/// </param>
+	/// <param name="pcCustomAttributes">
+	/// <para>The actual number of token values returned in <c>rCustomAttributes</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumCustomAttributes</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description>There are no custom attributes to enumerate. In that case, <c>pcCustomAttributes</c> is zero.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumcustomattributes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType, out mdCustomAttribute rCustomAttributes, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcCustomAttributes);
 
+	/// <summary>
+	/// <para>Gets the value of the custom attribute, given its metadata token.</para>
+	/// </summary>
+	/// <param name="cv">
+	/// <para>A metadata token that represents the custom attribute to be retrieved.</para>
+	/// </param>
+	/// <param name="ptkObj">
+	/// <para>A metadata token representing the object that the custom attribute modifies. This value can be any type of metadata token except <c>mdCustomAttribute</c>.</para>
+	/// </param>
+	/// <param name="ptkType">
+	/// <para>An <c>mdMethodDef</c> or <c>mdMemberRef</c> metadata token representing the  of the returned custom attribute.</para>
+	/// </param>
+	/// <param name="ppBlob">
+	/// <para>A pointer to an array of data that is the value of the custom attribute.</para>
+	/// </param>
+	/// <param name="pcbSize">
+	/// <para>The size in bytes of the data returned in *<c>ppBlob</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A custom attribute is stored as an array of data, the format which is understood by the metadata engine.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getcustomattributeprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCustomAttributeProps(mdCustomAttribute cv, out mdToken ptkObj, out mdToken ptkType, out nint ppBlob, out uint pcbSize);
 
+	/// <summary>
+	/// <para>Gets a pointer to the TypeRef token for the  reference that is in the specified scope and that has the specified name.</para>
+	/// </summary>
+	/// <param name="tkResolutionScope">
+	/// <para>A ModuleRef, AssemblyRef, or TypeRef token that specifies the module, assembly, or type, respectively, in which the type reference is defined.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the type reference to search for.</para>
+	/// </param>
+	/// <param name="ptr">
+	/// <para>A pointer to the matching TypeRef token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-findtyperef-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryFindTypeRef(mdToken tkResolutionScope, [MarshalAs(UnmanagedType.LPWStr)] string szName, out mdTypeRef ptr);
 
+	/// <summary>
+	/// <para>Gets information stored in the metadata for a specified member definition, including the name, binary signature, and relative virtual address, of the  member referenced by the specified metadata token. This is a simple helper method: if <i>mb</i> is a MethodDef, then <b>GetMethodProps</b> is called; if <i>mb</i> is a FieldDef, then <b>GetFieldProps</b> is called. See these other methods for details.</para>
+	/// </summary>
+	/// <param name="mb">
+	/// <para>The token that references the member to get the associated metadata for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>A pointer to the metadata token that represents the class of the member.</para>
+	/// </param>
+	/// <param name="szMember">
+	/// <para>The name of the member.</para>
+	/// </param>
+	/// <param name="cchMember">
+	/// <para>The size in wide characters of the <c>szMember</c> buffer.</para>
+	/// </param>
+	/// <param name="pchMember">
+	/// <para>The size in wide characters of the returned name.</para>
+	/// </param>
+	/// <param name="pdwAttr">
+	/// <para>Any flag values applied to the member.</para>
+	/// </param>
+	/// <param name="ppvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the member.</para>
+	/// </param>
+	/// <param name="pcbSigBlob">
+	/// <para>The size in bytes of <c>ppvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pulCodeRVA">
+	/// <para>A pointer to the relative virtual address of the member.</para>
+	/// </param>
+	/// <param name="pdwImplFlags">
+	/// <para>Any method implementation flags associated with the member.</para>
+	/// </param>
+	/// <param name="pdwCPlusTypeFlag">
+	/// <para>A flag that marks a . It is one of the <c>ELEMENT_TYPE_*</c> values.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A constant string value returned by this member.</para>
+	/// </param>
+	/// <param name="pcchValue">
+	/// <para>The size in characters of <c>ppValue</c>, or zero if <c>ppValue</c> does not hold a string.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getmemberprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMemberProps(mdToken mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szMember, uint cchMember, out uint pchMember, out uint pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out uint pulCodeRVA, out uint pdwImplFlags, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
+	/// <summary>
+	/// <para>Gets metadata associated with the field referenced by the specified FieldDef token.</para>
+	/// </summary>
+	/// <param name="mb">
+	/// <para>A FieldDef token that represents the field to get associated metadata for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>A pointer to a TypeDef token that represents the type of the class that the field belongs to.</para>
+	/// </param>
+	/// <param name="szField">
+	/// <para>The name of the field.</para>
+	/// </param>
+	/// <param name="cchField">
+	/// <para>The size in wide characters of the buffer for <i>szField</i>.</para>
+	/// </param>
+	/// <param name="pchField">
+	/// <para>The actual size of the returned buffer.</para>
+	/// </param>
+	/// <param name="pdwAttr">
+	/// <para>Flags associated with the field&#39;s metadata.</para>
+	/// </param>
+	/// <param name="ppvSigBlob">
+	/// <para>A pointer to the binary metadata value that describes the field.</para>
+	/// </param>
+	/// <param name="pcbSigBlob">
+	/// <para>The size in bytes of <c>ppvSigBlob</c>.</para>
+	/// </param>
+	/// <param name="pdwCPlusTypeFlag">
+	/// <para>A flag that specifies the value type of the field.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A constant value for the field.</para>
+	/// </param>
+	/// <param name="pcchValue">
+	/// <para>The size in chars of <c>ppValue</c>, or zero if no string exists.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getfieldprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFieldProps(mdFieldDef mb, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szField, uint cchField, out uint pchField, out CorFieldAttr pdwAttr, out byte* ppvSigBlob, out uint pcbSigBlob, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
+	/// <summary>
+	/// <para>Gets the metadata for the property represented by the specified token.</para>
+	/// </summary>
+	/// <param name="prop">
+	/// <para>A token that represents the property to return metadata for.</para>
+	/// </param>
+	/// <param name="pClass">
+	/// <para>A pointer to the TypeDef token that represents the type that implements the property.</para>
+	/// </param>
+	/// <param name="szProperty">
+	/// <para>A buffer to hold the property name.</para>
+	/// </param>
+	/// <param name="cchProperty">
+	/// <para>The size in wide characters of <c>szProperty</c>.</para>
+	/// </param>
+	/// <param name="pchProperty">
+	/// <para>The number of wide characters returned in <c>szProperty</c>.</para>
+	/// </param>
+	/// <param name="pdwPropFlags">
+	/// <para>A pointer to any attribute flags applied to the property. This value is a bitmask from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpropertyattr-enumeration">CorPropertyAttr</see> enumeration.</para>
+	/// </param>
+	/// <param name="ppvSig">
+	/// <para>A pointer to the metadata signature of the property.</para>
+	/// </param>
+	/// <param name="pbSig">
+	/// <para>The number of bytes returned in <c>ppvSig</c>.</para>
+	/// </param>
+	/// <param name="pdwCPlusTypeFlag">
+	/// <para>A flag specifying the type of the constant that is the default value of the property. This value is from the CorElementType enumeration.</para>
+	/// </param>
+	/// <param name="ppDefaultValue">
+	/// <para>A pointer to the bytes that store the default value for this property.</para>
+	/// </param>
+	/// <param name="pcchDefaultValue">
+	/// <para>The size in wide characters of <c>ppDefaultValue</c>, if <c>pdwCPlusTypeFlag</c> is ELEMENT_TYPE_STRING; otherwise, this value is not relevant. In that case, the length of <c>ppDefaultValue</c> is inferred from the type that is specified by <c>pdwCPlusTypeFlag</c>.</para>
+	/// </param>
+	/// <param name="pmdSetter">
+	/// <para>A pointer to the MethodDef token that represents the set accessor method for the property.</para>
+	/// </param>
+	/// <param name="pmdGetter">
+	/// <para>A pointer to the MethodDef token that represents the get accessor method for the property.</para>
+	/// </param>
+	/// <param name="rmdOtherMethod">
+	/// <para>An array of MethodDef tokens that represent other methods associated with the property.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The maximum size of the <c>rmdOtherMethod</c> array. If you do not provide an array large enough to hold all the methods, they are skipped without warning.</para>
+	/// </param>
+	/// <param name="pcOtherMethod">
+	/// <para>The number of MethodDef tokens returned in <c>rmdOtherMethod</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getpropertyprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPropertyProps(mdProperty prop, out mdTypeDef pClass, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 3)] char[]? szProperty, uint cchProperty, out uint pchProperty, out CorPropertyAttr pdwPropFlags, out byte* ppvSig, out uint pbSig, out CorElementType pdwCPlusTypeFlag, out nint ppDefaultValue, out uint pcchDefaultValue, out mdMethodDef pmdSetter, out mdMethodDef pmdGetter, out mdMethodDef rmdOtherMethod, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcOtherMethod);
 
+	/// <summary>
+	/// <para>Gets metadata values for the parameter referenced by the specified ParamDef token.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>A ParamDef token that represents the parameter to return metadata for.</para>
+	/// </param>
+	/// <param name="pmd">
+	/// <para>A pointer to a MethodDef token representing the method that takes the parameter.</para>
+	/// </param>
+	/// <param name="pulSequence">
+	/// <para>The ordinal position of the parameter in the method argument list.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A buffer to hold the name of the parameter.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The requested size in wide characters of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The returned size in wide characters of <c>szName</c>.</para>
+	/// </param>
+	/// <param name="pdwAttr">
+	/// <para>A pointer to any attribute flags associated with the parameter. This is a bitmask of <c>CorParamAttr</c> values.</para>
+	/// </param>
+	/// <param name="pdwCPlusTypeFlag">
+	/// <para>A pointer to a flag specifying that the parameter is a .</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to a constant string returned by the parameter.</para>
+	/// </param>
+	/// <param name="pcchValue">
+	/// <para>The size of <c>ppValue</c> in wide characters, or zero if <c>ppValue</c> does not hold a string.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The sequence values in <c>pulSequence</c> begin with 1 for parameters. A return value has a sequence number of 0.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getparamprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetParamProps(mdParamDef tk, out mdMethodDef pmd, out uint pulSequence, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 4)] char[]? szName, uint cchName, out uint pchName, out CorParamAttr pdwAttr, out CorElementType pdwCPlusTypeFlag, out nint ppValue, out uint pcchValue);
 
+	/// <summary>
+	/// <para>Gets the custom attribute, given its name and owner.</para>
+	/// </summary>
+	/// <param name="tkObj">
+	/// <para>A metadata token representing the object that owns the custom attribute.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>The name of the custom attribute.</para>
+	/// </param>
+	/// <param name="ppData">
+	/// <para>A pointer to an array of data that is the value of the custom attribute.</para>
+	/// </param>
+	/// <param name="pcbData">
+	/// <para>The size in bytes of the data returned in *<c>ppData</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>It is legal to define multiple custom attributes for the same owner; they may even have the same name. However, <c>GetCustomAttributeByName</c> returns only one instance. (<c>GetCustomAttributeByName</c> returns the first instance that it encounters.) To find all instances of a custom attribute, call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-enumcustomattributes-method">IMetaDataImport::EnumCustomAttributes</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getcustomattributebyname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCustomAttributeByName(mdToken tkObj, [MarshalAs(UnmanagedType.LPWStr)] string szName, out nint ppData, out uint pcbData);
 
+	/// <summary>
+	/// <para>Gets a value indicating whether the specified token holds a valid reference to a code object.</para>
+	/// </summary>
+	/// <param name="tk">
+	/// <para>The token to check the reference validity for.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>true</c> if <c>tk</c> is a valid metadata token within the current scope. Otherwise, <c>false</c>.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-isvalidtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsValidToken(mdToken tk);
 
+	/// <summary>
+	/// <para>Gets the TypeDef token for the parent  of the specified nested type.</para>
+	/// </summary>
+	/// <param name="tdNestedClass">
+	/// <para>A TypeDef token representing the  to return the parent class token for.</para>
+	/// </param>
+	/// <param name="ptdEnclosingClass">
+	/// <para>A pointer to the TypeDef token for the  that <c>tdNestedClass</c> is nested in.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getnestedclassprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetNestedClassProps(mdTypeDef tdNestedClass, out mdTypeDef ptdEnclosingClass);
 
+	/// <summary>
+	/// <para>Gets the native calling convention for the method that is represented by the specified signature pointer.</para>
+	/// </summary>
+	/// <param name="pvSig">
+	/// <para>A pointer to the metadata signature of the method to return the calling convention for.</para>
+	/// </param>
+	/// <param name="cbSig">
+	/// <para>The size in bytes of <c>pvSig</c>.</para>
+	/// </param>
+	/// <param name="pCallConv">
+	/// <para>A pointer to the native calling convention.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-getnativecallconvfromsig-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetNativeCallConvFromSig(nint pvSig, uint cbSig, out uint pCallConv);
 
+	/// <summary>
+	/// <para>Gets a value indicating whether the field, method, or type represented by the specified metadata token has global scope.</para>
+	/// </summary>
+	/// <param name="pd">
+	/// <para>A metadata token that represents a type, field, or method.</para>
+	/// </param>
+	/// <param name="pbGlobal">
+	/// <para>1 if the object has global scope; otherwise, 0 (zero).</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-isglobal-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsGlobal(mdToken pd, out int pbGlobal);
 }

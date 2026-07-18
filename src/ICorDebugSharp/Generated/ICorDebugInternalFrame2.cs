@@ -6,14 +6,63 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about internal frames, including stack address and position in relation to ICorDebugFrame objects.</para>
+/// </summary>
+/// <remarks>
+/// <para>This interface extends the ICorDebugInternalFrame interface.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("C0815BDC-CFAB-447E-A779-C116B454EB5B")]
 public partial interface ICorDebugInternalFrame2
 {
+	/// <summary>
+	/// <para>Returns the stack address of the internal frame.</para>
+	/// </summary>
+	/// <param name="pAddress">
+	/// <para>Pointer to the <c>CORDB_ADDRESS</c> for the internal frame.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The address of the internal frame was successfully returned.</description></item>
+	/// <item><term>E_FAIL</term><description>The address of the internal frame could not be returned.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pAddress</c> is <c>null</c>.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The value returned in <c>pAddress</c> can be used to determine the location of the internal frame relative to other frames on the stack. Even on IA-64-based computers, the internal frame lives on the stack only, and there is no corresponding pointer to a backing store.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-getframeaddress-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAddress(out CORDB_ADDRESS pAddress);
 
+	/// <summary>
+	/// <para>Checks whether the <c>this</c> internal frame is closer to the leaf than the specified ICorDebugFrame object.</para>
+	/// </summary>
+	/// <param name="pFrameToCompare">
+	/// <para>A pointer to the comparison <c>ICorDebugFrame</c> object.</para>
+	/// </param>
+	/// <param name="pIsCloser">
+	/// <para><c>true</c> if the <c>this</c> internal frame is closer to the leaf than the frame specified by <c>pFrameToCompare</c>; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The comparison was successfully performed.</description></item>
+	/// <item><term>E_FAIL</term><description>The comparison could not be performed.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pFrameToCompare</c> or <c>pIsCloser</c> is null.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>IsCloserToLeaf</c> can be used to implement a policy for interleaving internal frames with other frames on the stack.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-isclosertoleaf-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsCloserToLeaf(ICorDebugFrame pFrameToCompare, [MarshalAs(UnmanagedType.Bool)] out bool pIsCloser);
 }

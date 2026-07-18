@@ -6,29 +6,152 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends &quot;ICorDebugEval&quot; to provide support for generic types.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FB0D9CE7-BE66-4683-9D32-A42A04E2FD91")]
 public partial interface ICorDebugEval2
 {
+	/// <summary>
+	/// <para>Sets up a call to the specified ICorDebugFunction, which can be nested inside a class whose constructor takes  parameters, or can itself take  parameters.</para>
+	/// </summary>
+	/// <param name="pFunction">
+	/// <para>A pointer to an <c>ICorDebugFunction</c> object that represents the function to be called.</para>
+	/// </param>
+	/// <param name="nTypeArgs">
+	/// <para>The number of arguments that the function takes.</para>
+	/// </param>
+	/// <param name="ppTypeArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugType object that represents a function argument.</para>
+	/// </param>
+	/// <param name="nArgs">
+	/// <para>The number of values passed in the function.</para>
+	/// </param>
+	/// <param name="ppArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugValue object that represents a value passed in a function argument.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>CallParameterizedFunction</c> is like <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-callfunction-method">ICorDebugEval::CallFunction</see> except that the function may be inside a class with type parameters, may itself take type parameters, or both. The type arguments should be given first for the class, and then for the function.</para>
+	/// <para>If the function is in a different application domain, a transition will occur. However, all type and value arguments must be in the target application domain.</para>
+	/// <para>Function evaluation can be performed only in limited scenarios. If <c>CallParameterizedFunction</c> or <c>ICorDebugEval::CallFunction</c> fails, the returned HRESULT will indicate the most general possible reason for failure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-callparameterizedfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
+	/// <summary>
+	/// <para>Gets a pointer to a new ICorDebugValue of the specified type, with an initial value of zero or null.</para>
+	/// </summary>
+	/// <param name="pType">
+	/// <para>Pointer to an ICorDebugType object that represents the type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>Pointer to the address of an <c>ICorDebugValue</c> object that represents the value.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>CreateValueForType</c> generalizes <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-createvalue-method">ICorDebugEval::CreateValue</see> by allowing you to specify an arbitrary object type, including constructed types such as <c>List&lt;int&gt;</c>. The only purpose of this method is to generate a value that can be passed to a function evaluation.</para>
+	/// <para>The type must be a class or a value type. You cannot use this method to create array values or string values.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-createvaluefortype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Instantiates a new parameterized type object and calls the object&#39;s constructor method.</para>
+	/// </summary>
+	/// <param name="pConstructor">
+	/// <para>A pointer to an ICorDebugFunction object that represents the constructor of the object to be instantiated.</para>
+	/// </param>
+	/// <param name="nTypeArgs">
+	/// <para>The number of type arguments passed.</para>
+	/// </param>
+	/// <param name="ppTypeArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugType object that represents a type argument for the object that is being instantiated.</para>
+	/// </param>
+	/// <param name="nArgs">
+	/// <para>The number of arguments passed to the constructor.</para>
+	/// </param>
+	/// <param name="ppArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugValue object that represents an argument value that is passed to the constructor.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The object&#39;s constructor may take  parameters.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
+	/// <summary>
+	/// <para>Instantiates a new parameterized type object of the specified class without attempting to call a constructor method.</para>
+	/// </summary>
+	/// <param name="pClass">
+	/// <para>A pointer to an ICorDebugClass object that represents the class of the object to be instantiated.</para>
+	/// </param>
+	/// <param name="nTypeArgs">
+	/// <para>The number of type arguments passed.</para>
+	/// </param>
+	/// <param name="ppTypeArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugType object that represents a type argument for the object that is being instantiated.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>NewParameterizedObjectNoConstructor</c> method will fail if an incorrect number of type arguments or the wrong types of type arguments are passed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobjectnoconstructor-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
 
+	/// <summary>
+	/// <para>Allocates a new array of the specified element type and dimensions.</para>
+	/// </summary>
+	/// <param name="pElementType">
+	/// <para>A pointer to an ICorDebugType object that represents the type of element stored in the array.</para>
+	/// </param>
+	/// <param name="rank">
+	/// <para>The number of dimensions of the array.</para>
+	/// </param>
+	/// <param name="dims">
+	/// <para>The size, in bytes, of each dimension of the array.</para>
+	/// </param>
+	/// <param name="lowBounds">
+	/// <para>Optional. The lower bound of each dimension of the array. If this value is omitted, a lower bound of zero is assumed for each dimension.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The elements of the array may be instances of a generic type. The array is always created in the application domain in which the thread is currently running.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedarray-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewParameterizedArray(ICorDebugType pElementType, uint rank, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] dims, [MarshalUsing(CountElementName = nameof(rank))][In] uint[] lowBounds);
 
+	/// <summary>
+	/// <para>Creates a string of the specified length, with the specified contents.</para>
+	/// </summary>
+	/// <param name="string">
+	/// <para>A pointer to the string value.</para>
+	/// </param>
+	/// <param name="uiLength">
+	/// <para>Length of the string.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the string&#39;s trailing null character is expected to be in the managed string, the caller of the <c>NewStringWithLength</c> method must ensure that the string length includes the trailing null character.</para>
+	/// <para>The string is always created in the application domain in which the thread is currently executing.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newstringwithlength-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNewStringWithLength(string @string, uint uiLength);
 
+	/// <summary>
+	/// <para>Aborts the computation that this <c>ICorDebugEval2</c> is currently performing.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para><c>RudeAbort</c> does not release any locks that the evaluator holds, so it leaves the debugging session in an unsafe state. Call this method with extreme caution.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-rudeabort-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryRudeAbort();
 }

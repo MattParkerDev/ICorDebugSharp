@@ -6,23 +6,120 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Retrieves the debug symbol information for a variable.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("707E8932-1163-48D9-8A93-F5B1F480FBB7")]
 public partial interface ICorDebugVariableSymbol
 {
+	/// <summary>
+	/// <para>Gets the name of a variable.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The number of characters in the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the number of characters actually written to the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A pointer to a character array that contains the variable name.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the size of a variable in bytes.</para>
+	/// </summary>
+	/// <param name="pcbValue">
+	/// <para>A pointer to a 32-bit unsigned integer containing the size of the variable.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-getsize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSize(out uint pcbValue);
 
+	/// <summary>
+	/// <para>Gets the value of a variable as a byte array.</para>
+	/// </summary>
+	/// <param name="offset">
+	/// <para>The starting offset in the variable from which to read the value. This parameter is used when reading member fields in an object.</para>
+	/// </param>
+	/// <param name="cbContext">
+	/// <para>The size in bytes of the <c>context</c> argument.</para>
+	/// </param>
+	/// <param name="context">
+	/// <para>The thread context used to read the value.</para>
+	/// </param>
+	/// <param name="cbValue">
+	/// <para>The size in bytes of the <c>pValue</c> buffer.</para>
+	/// </param>
+	/// <param name="pcbValue">
+	/// <para>The number of bytes actually written to the <c>pValue</c> buffer.</para>
+	/// </param>
+	/// <param name="pValue">
+	/// <para>A byte array that contains the value of the variable.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-getvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetValue(uint offset, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, out uint pcbValue, [MarshalUsing(CountElementName = nameof(cbValue))][Out] byte[] pValue);
 
+	/// <summary>
+	/// <para>Assigns the value of a byte array to a variable.</para>
+	/// </summary>
+	/// <param name="offset">
+	/// <para>The starting offset in the variable at which to set the value. This parameter is used when writing to member fields in an object.</para>
+	/// </param>
+	/// <param name="threadID">
+	/// <para>The thread identifier of the thread whose context must be updated to reflect the new value.</para>
+	/// </param>
+	/// <param name="cbContext">
+	/// <para>The size in bytes of the thread context.</para>
+	/// </param>
+	/// <param name="context">
+	/// <para>The thread context used to write the value.</para>
+	/// </param>
+	/// <param name="cbValue">
+	/// <para>The size in bytes of the <c>pValue</c> buffer.</para>
+	/// </param>
+	/// <param name="pValue">
+	/// <para>The buffer that contains the value to set.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-setvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetValue(uint offset, uint threadID, uint cbContext, [MarshalUsing(CountElementName = nameof(cbContext))][In] byte[] context, uint cbValue, [MarshalUsing(CountElementName = nameof(cbValue))][In] byte[] pValue);
 
+	/// <summary>
+	/// <para>Gets the managed slot index of a local variable.</para>
+	/// </summary>
+	/// <param name="pSlotIndex">
+	/// <para>A pointer to the local variable&#39;s slot index.</para>
+	/// </param>
+	/// <returns>
+	/// <para><c>S_OK</c> if successful. <c>E_FAIL</c> if the variable is a function argument.</para>
+	/// </returns>
+	/// <remarks>
+	/// <para>The managed slot index of a local variable can be used to retrieve the variable&#39;s metadata information</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablesymbol-getslotindex-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSlotIndex(out uint pSlotIndex);
 }

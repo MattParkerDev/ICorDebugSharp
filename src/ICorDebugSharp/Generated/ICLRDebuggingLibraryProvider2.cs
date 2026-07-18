@@ -6,11 +6,45 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Includes the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider2-providelibrary2-method">ProvideLibrary2</see> method, which allows the debugger to provide a path to a version-specific debugging library.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("E04E2FF1-DCFD-45D5-BCD1-16FFF2FAF7BA")]
 public partial interface ICLRDebuggingLibraryProvider2
 {
+	/// <summary>
+	/// <para>Allows the debugger to provide a path to a version-specific common language runtime (CLR) debugging library.</para>
+	/// </summary>
+	/// <param name="pwszFileName">
+	/// <para>The name of the module being requested.</para>
+	/// </param>
+	/// <param name="dwTimestamp">
+	/// <para>The date time stamp stored in the COFF file header of PE files.</para>
+	/// </param>
+	/// <param name="dwSizeOfImage">
+	/// <para>The <c>SizeOfImage</c> field stored in the COFF optional file header of PE files.</para>
+	/// </param>
+	/// <param name="ppResolvedModulePath">
+	/// <para>This is a null terminated path to the module dll. On Windows it should be allocated with CoTaskMemAlloc. On Unix it should be allocated with malloc. Failure leaves it untouched. See security note below!</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULT as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description>The method completed successfully.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>ProvideLibrary2</c> allows the debugger to provide modules that are needed for debugging specific CLR files such as mscordbi.dll and mscordacwks.dll.</para>
+	/// <para>The debugger may use any available means to locate or procure the debugging module.</para>
+	/// <para><b>Note:</b> This feature allows the API caller to provide modules that contain executable, and possibly malicious, code. As a security precaution, the caller should not use  ProvideLibrary2  to distribute any code that it is not willing to execute itself. If a serious security issue is discovered in an already released library, such as mscordbi.dll or mscordacwks.dll, the shim can be patched to recognize the bad versions of the files. The shim can then issue requests for the patched versions of the files and reject the bad versions if they are provided in response to any request. This can occur only if the user has patched to a new version of the shim. Unpatched versions will remain vulnerable.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/iclrdebugginglibraryprovider2-providelibrary2-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryProvideLibrary2(string pwszFileName, uint dwTimestamp, uint dwSizeOfImage, out nint ppResolvedModulePath);
 }

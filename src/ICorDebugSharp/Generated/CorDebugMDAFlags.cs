@@ -3,7 +3,17 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Specifies the status of the thread on which the managed debugging assistant (MDA) is fired.</para>
+/// </summary>
+/// <remarks>
+/// <para>When the call stack no longer describes where the MDA was originally raised, the thread is considered to have <i>slipped</i>. This is an unusual circumstance brought about by the thread&#39;s execution of an invalid operation upon exiting.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugmdaflags-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugMDAFlags
 {
+	/// <summary>
+	/// <para>The thread on which the MDA was fired has slipped since the MDA was fired.</para>
+	/// </summary>
 	MDA_FLAG_SLIP = 0x2,
 }

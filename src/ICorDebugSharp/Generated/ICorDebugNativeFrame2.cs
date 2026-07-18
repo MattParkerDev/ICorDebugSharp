@@ -6,17 +6,86 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that test for child and parent frame relationships.</para>
+/// </summary>
+/// <remarks>
+/// <para>This interface logically extends the &quot;ICorDebugNativeFrame&quot; interface.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("35389FF1-3684-4C55-A2EE-210F26C60E5E")]
 public partial interface ICorDebugNativeFrame2
 {
+	/// <summary>
+	/// <para>Determines whether the current frame is a child frame.</para>
+	/// </summary>
+	/// <param name="pIsChild">
+	/// <para>A Boolean value that specifies whether the current frame is a child frame.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The child status was successfully returned.</description></item>
+	/// <item><term>E_FAIL</term><description>The child status could not be returned.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pIsChild</c> is null.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The <c>IsChild</c> method returns <c>true</c> if the frame object on which you call the method is a child of another frame. If this is the case, use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-ismatchingparentframe-method">IsMatchingParentFrame</see> method to check whether a frame is its parent.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-ischild-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsChild([MarshalAs(UnmanagedType.Bool)] out bool pIsChild);
 
+	/// <summary>
+	/// <para>Determines whether the specified frame is the parent of the current frame.</para>
+	/// </summary>
+	/// <param name="pPotentialParentFrame">
+	/// <para>A pointer to the frame object that you want to evaluate for parent status.</para>
+	/// </param>
+	/// <param name="pIsParent">
+	/// <para><c>true</c> if <c>pPotentialParentFrame</c> is the current frame’s parent; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The parent status was successfully returned.</description></item>
+	/// <item><term>E_FAIL</term><description>The parent status could not be returned.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pPotentialParentFrame</c> or <c>pIsParent</c> is null.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para><c>IsMatchingParentFrame</c> returns <c>true</c> if the frame object you pass to the method is the parent of the frame object on which the method was called. If you call the method on a frame that is not a child of the specified frame, it returns an error.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-ismatchingparentframe-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame, [MarshalAs(UnmanagedType.Bool)] out bool pIsParent);
 
+	/// <summary>
+	/// <para>Returns the cumulative size of the parameters on the stack on x86 operating systems.</para>
+	/// </summary>
+	/// <param name="pSize">
+	/// <para>A pointer to the cumulative size of the parameters on the stack.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The stack size was successfully returned.</description></item>
+	/// <item><term>S_FALSE</term><description><c>GetStackParameterSize</c> was called on a non-x86 platform.</description></item>
+	/// <item><term>E_FAIL</term><description><c>The size of the parameters could not be returned</c>.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>pSize</c> Is <c>null</c>.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> methods do not adjust the stack pointer for parameters that are pushed on the stack. Instead, you can use the value returned by <c>GetStackParameterSize</c> to adjust the stack pointer to seed a native unwinder, which does adjust for the parameters.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe2-getstackparametersize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStackParameterSize(out uint pSize);
 }

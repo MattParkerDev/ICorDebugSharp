@@ -8,32 +8,220 @@ using ICorDebugSharp;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see> interface to provide the capability of working with generic types.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FCE5EFA0-8BBA-4F8E-A036-8F2022B08466")]
 public unsafe partial interface IMetaDataImport2 : IMetaDataImport
 {
+	/// <summary>
+	/// <para>Gets an enumerator for an array of generic parameter tokens associated with the specified TypeDef or MethodDef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="tk">
+	/// <para>The TypeDef or MethodDef token whose generic parameters are to be enumerated.</para>
+	/// </param>
+	/// <param name="rGenericParams">
+	/// <para>The array of generic parameters to enumerate.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The requested maximum number of tokens to place in <c>rGenericParams</c>.</para>
+	/// </param>
+	/// <param name="pcGenericParams">
+	/// <para>The returned number of tokens placed in <c>rGenericParams</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumGenericParams</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description><c>phEnum</c> has no member elements. In this case, <c>pcGenericParams</c> is set to 0 (zero).</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-enumgenericparams-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumGenericParams(ref HCorEnum phEnum, mdToken tk, out mdGenericParam rGenericParams, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParams);
 
+	/// <summary>
+	/// <para>Gets the metadata associated with the generic parameter represented by the specified token.</para>
+	/// </summary>
+	/// <param name="gp">
+	/// <para>The token that represents the generic parameter for which to return metadata.</para>
+	/// </param>
+	/// <param name="pulParamSeq">
+	/// <para>The ordinal position of the <c>Type</c> parameter in the parent constructor or method.</para>
+	/// </param>
+	/// <param name="pdwParamFlags">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corgenericparamattr-enumeration">CorGenericParamAttr</see> enumeration that describes the <c>Type</c> for the generic parameter.</para>
+	/// </param>
+	/// <param name="ptOwner">
+	/// <para>A TypeDef or MethodDef token that represents the owner of the parameter.</para>
+	/// </param>
+	/// <param name="reserved">
+	/// <para>Reserved for future extensibility.</para>
+	/// </param>
+	/// <param name="wzname">
+	/// <para>The name of the generic parameter.</para>
+	/// </param>
+	/// <param name="cchName">
+	/// <para>The size of the <c>wzName</c> buffer.</para>
+	/// </param>
+	/// <param name="pchName">
+	/// <para>The returned size of the name, in wide characters.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getgenericparamprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetGenericParamProps(mdGenericParam gp, out uint pulParamSeq, out CorGenericParamAttr pdwParamFlags, out mdToken ptOwner, out uint reserved, [Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 6)] char[]? wzname, uint cchName, out uint pchName);
 
+	/// <summary>
+	/// <para>Gets the metadata signature of the method referenced by the specified MethodSpec token.</para>
+	/// </summary>
+	/// <param name="mi">
+	/// <para>A MethodSpec token that represents the instantiation of the method.</para>
+	/// </param>
+	/// <param name="tkParent">
+	/// <para>A pointer to the MethodDef or MethodRef token that represents the method definition.</para>
+	/// </param>
+	/// <param name="ppvSigBlob">
+	/// <para>A pointer to the binary metadata signature of the method.</para>
+	/// </param>
+	/// <param name="pcbSigBlob">
+	/// <para>The size, in bytes, of <c>ppvSigBlob</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getmethodspecprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMethodSpecProps(mdMethodSpec mi, out mdToken tkParent, out byte* ppvSigBlob, out uint pcbSigBlob);
 
+	/// <summary>
+	/// <para>Gets an enumerator for an array of generic parameter constraints associated with the generic parameter represented by the specified token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator.</para>
+	/// </param>
+	/// <param name="tk">
+	/// <para>A token that represents the generic parameter whose constraints are to be enumerated.</para>
+	/// </param>
+	/// <param name="rGenericParamConstraints">
+	/// <para>The array of generic parameter constraints to enumerate.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The requested maximum number of tokens to place in <c>rGenericParamConstraints</c>.</para>
+	/// </param>
+	/// <param name="pcGenericParamConstraints">
+	/// <para>A pointer to the number of tokens placed in <c>rGenericParamConstraints</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumGenericParameterConstraints</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description><c>phEnum</c> has no member elements. In this case, <c>pcGenericParameterConstraints</c> is set to 0 (zero).</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-enumgenericparamconstraints-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk, out mdGenericParamConstraint rGenericParamConstraints, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcGenericParamConstraints);
 
+	/// <summary>
+	/// <para>Gets the metadata associated with the generic parameter constraint represented by the specified constraint token.</para>
+	/// </summary>
+	/// <param name="gpc">
+	/// <para>The token to the generic parameter constraint for which to return the metadata.</para>
+	/// </param>
+	/// <param name="ptGenericParam">
+	/// <para>A pointer to the token that represents the generic parameter that is constrained.</para>
+	/// </param>
+	/// <param name="ptkConstraintType">
+	/// <para>A pointer to a TypeDef, TypeRef, or TypeSpec token that represents a constraint on <c>ptGenericParam</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getgenericparamconstraintprops-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetGenericParamConstraintProps(mdGenericParamConstraint gpc, out mdGenericParam ptGenericParam, out mdToken ptkConstraintType);
 
+	/// <summary>
+	/// <para>Gets a value identifying the nature of the code in the portable executable (PE) file, typically a DLL or EXE file, that is defined in the current metadata scope.</para>
+	/// </summary>
+	/// <param name="pdwPEKind">
+	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corpekind-enumeration">CorPEKind</see> enumeration that describes the PE file.</para>
+	/// </param>
+	/// <param name="pdwMAchine">
+	/// <para>A pointer to a value that identifies the architecture of the machine. See the next section for possible values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The value referenced by the <c>pdwMachine</c> parameter can be one of the following.</para>
+	/// <list type="table">
+	/// <listheader><term>Value</term><description>Machine architecture</description></listheader>
+	/// <item><term>IMAGE_FILE_MACHINE_I386<br/><br/> 0x014C</term><description>x86</description></item>
+	/// <item><term>IMAGE_FILE_MACHINE_IA64<br/><br/> 0x0200</term><description>Intel IPF</description></item>
+	/// <item><term>IMAGE_FILE_MACHINE_AMD64<br/><br/> 0x8664</term><description>x64</description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getpekind-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPEKind(out uint pdwPEKind, out uint pdwMAchine);
 
+	/// <summary>
+	/// <para>Gets the version number of the runtime that was used to build the assembly.</para>
+	/// </summary>
+	/// <param name="pwzBuf">
+	/// <para>An array to store the string that specifies the version.</para>
+	/// </param>
+	/// <param name="ccBufSize">
+	/// <para>The size, in wide characters, of the <c>pwzBuf</c> array.</para>
+	/// </param>
+	/// <param name="pccBufSize">
+	/// <para>The number of wide characters, including a null terminator, returned in the <c>pwzBuf</c> array.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetVersionString</c> method gets the built-for version of the current metadata scope. If the scope has never been saved, it will not have a built-for version, and an empty string will be returned.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-getversionstring-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVersionString([Out][MarshalAs(UnmanagedType.LPArray, SizeParamIndex = 1)] char[]? pwzBuf, uint ccBufSize, out uint pccBufSize);
 
+	/// <summary>
+	/// <para>Gets an enumerator for an array of MethodSpec tokens associated with the specified MethodDef or MemberRef token.</para>
+	/// </summary>
+	/// <param name="phEnum">
+	/// <para>A pointer to the enumerator for <c>rMethodSpecs</c>.</para>
+	/// </param>
+	/// <param name="tk">
+	/// <para>The MemberRef or MethodDef token that represents the method whose MethodSpec tokens are to be enumerated. If the value of <c>tk</c> is 0 (zero), all MethodSpec tokens in the scope will be enumerated.</para>
+	/// </param>
+	/// <param name="rMethodSpecs">
+	/// <para>The array of MethodSpec tokens to enumerate.</para>
+	/// </param>
+	/// <param name="cMax">
+	/// <para>The requested maximum number of tokens to place in <c>rMethodSpecs</c>.</para>
+	/// </param>
+	/// <param name="pcMethodSpecs">
+	/// <para>The returned number of tokens placed in <c>rMethodSpecs</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term><c>S_OK</c></term><description><c>EnumMethodSpecs</c> returned successfully.</description></item>
+	/// <item><term><c>S_FALSE</c></term><description><c>phEnum</c> has no member elements. In this case, <c>pcMethodSpecs</c> is set to 0 (zero).</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-enummethodspecs-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumMethodSpecs(ref HCorEnum phEnum, mdToken tk, out mdMethodSpec rMethodSpecs, [MarshalUsing(typeof(EnumeratorMax1Marshaller))] uint cMax, out uint pcMethodSpecs);
 }

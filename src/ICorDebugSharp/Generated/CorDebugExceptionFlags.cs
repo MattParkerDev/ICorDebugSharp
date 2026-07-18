@@ -3,8 +3,21 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides additional information about an exception.</para>
+/// </summary>
+/// <remarks>
+/// <para>New values may be added to this enumeration in later versions, so you should prepare code that uses <c>CorDebugExceptionFlags</c> for unexpected values.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionflags-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugExceptionFlags
 {
+	/// <summary>
+	/// <para>There is no exception.</para>
+	/// </summary>
 	DEBUG_EXCEPTION_NONE = 0,
+	/// <summary>
+	/// <para>The exception is interceptable.<br/><br/> The timing of the exception may still be such that the debugger cannot intercept it. For example, if there is no managed code below the current callback or the exception event resulted from a just-in-time (JIT) attachment, the exception cannot be intercepted.</para>
+	/// </summary>
 	DEBUG_EXCEPTION_CAN_BE_INTERCEPTED = 0x1,
 }

@@ -6,11 +6,33 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a segment of intermediate language (IL) code.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("598D46C2-C877-42A7-89D2-3D0C7F1C1264")]
 public partial interface ICorDebugILCode
 {
+	/// <summary>
+	/// <para>Returns a pointer to a list of exception handling (EH) clauses that are defined for this intermediate language (IL).</para>
+	/// </summary>
+	/// <param name="cClauses">
+	/// <para>The storage capacity of the <c>clauses</c> array. See the Remarks section for more information.</para>
+	/// </param>
+	/// <param name="pcClauses">
+	/// <para>The number of clauses about which information is written to the <c>clauses</c> array.</para>
+	/// </param>
+	/// <param name="clauses">
+	/// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugehclause-structure">CorDebugEHClause</see> objects that contain information on exception handling clauses defined for this IL.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If <c>cClauses</c> is 0 and <c>pcClauses</c> is non-<b>null</b>, <c>pcClauses</c> is set to the number of available exception handling clauses. If <c>cClauses</c> is non-zero, it represents the storage capacity of the <c>clauses</c> array. When the method returns, <c>clauses</c> contains a maximum of <c>cClauses</c> items, and <c>pcClauses</c> is set to the number of clauses actually written to the <c>clauses</c> array.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-getehclauses-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetEHClauses(uint cClauses, out uint pcClauses, [MarshalUsing(CountElementName = nameof(cClauses))][Out] CorDebugEHClause[]? clauses);
 }

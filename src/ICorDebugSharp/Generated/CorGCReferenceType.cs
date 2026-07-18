@@ -3,22 +3,77 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Identifies the source of an object to be garbage-collected.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>CorGCReferenceType</c> enumeration is used as follows:</para>
+/// <list type="bullet">
+/// <item><description><para>As the value of the <c>type</c> field of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">COR_GC_REFERENCE</see> structure, it indicates the source of a reference or handle.</para>
+/// </description></item>
+/// <item><description><para>As the <c>types</c> argument to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method, it specifies the types of handles to include in the enumeration.</para>
+/// </description></item>
+/// </list>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorGCReferenceType
 {
+	/// <summary>
+	/// <para>A handle to a strong reference from the object handle table.</para>
+	/// </summary>
 	CorHandleStrong = 1 << 0,
+	/// <summary>
+	/// <para>A handle to a pinned strong reference from the object handle table.</para>
+	/// </summary>
 	CorHandleStrongPinning = 1 << 1,
+	/// <summary>
+	/// <para>A handle to a weak reference from the object handle table.</para>
+	/// </summary>
 	CorHandleWeakShort = 1 << 2,
 	CorHandleWeakLong = 1 << 3,
+	/// <summary>
+	/// <para>A handle to a weak reference-counted object from the object handle table.</para>
+	/// </summary>
 	CorHandleWeakRefCount = 1 << 4,
+	/// <summary>
+	/// <para>A handle to a reference-counted object from the object handle table.</para>
+	/// </summary>
 	CorHandleStrongRefCount = 1 << 5,
+	/// <summary>
+	/// <para>A handle to a dependent object from the object handle table.</para>
+	/// </summary>
 	CorHandleStrongDependent = 1 << 6,
+	/// <summary>
+	/// <para>An asynchronous pinned object from the object handle table.</para>
+	/// </summary>
 	CorHandleStrongAsyncPinned = 1 << 7,
+	/// <summary>
+	/// <para>A strong handle that keeps an approximate size of the collective closure of all objects and object roots at garbage collection time.</para>
+	/// </summary>
 	CorHandleStrongSizedByref = 1 << 8,
 	CorHandleWeakNativeCom = 1 << 9,
+	/// <summary>
+	/// <para>A weak handle to a RCW (Runtime Callable Wrapper). An RCW is a managed object that proxies calls to an underlying COM object.</para>
+	/// </summary>
 	CorHandleWeakWinRT = CorHandleWeakNativeCom,
+	/// <summary>
+	/// <para>A reference from the managed stack.</para>
+	/// </summary>
 	CorReferenceStack = unchecked((int)0x80000001),
+	/// <summary>
+	/// <para>A reference from the finalizer queue.</para>
+	/// </summary>
 	CorReferenceFinalizer = 80000002,
+	/// <summary>
+	/// <para>Return only strong references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// </summary>
 	CorHandleStrongOnly = 0x1E3,
+	/// <summary>
+	/// <para>Return only weak references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// </summary>
 	CorHandleWeakOnly = 0x21C,
+	/// <summary>
+	/// <para>Return all references from the handle table. This value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">ICorDebugProcess5::EnumerateHandles</see> method only.</para>
+	/// </summary>
 	CorHandleAll = 0x7FFFFFFF,
 }

@@ -5,14 +5,33 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Stores the standard four-part version number of the common language runtime.</para>
+/// </summary>
+/// <remarks>
+/// <para>If the version number is 1.0.3705.288, 1 is the major version number, 0 is the minor version number, 3705 is the build number, and 288 is the sub-build number.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-version-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_VERSION
 {
+	/// <summary>
+	/// <para>The major version number.</para>
+	/// </summary>
 	public uint dwMajor;
 
+	/// <summary>
+	/// <para>The minor version number.</para>
+	/// </summary>
 	public uint dwMinor;
 
+	/// <summary>
+	/// <para>The build number.</para>
+	/// </summary>
 	public uint dwBuild;
 
+	/// <summary>
+	/// <para>The sub-build number.</para>
+	/// </summary>
 	public uint dwSubBuild;
 }

@@ -6,17 +6,92 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides a callback interface that provides access to a particular target process.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebugDataTarget</c> and its methods have the following characteristics:</para>
+/// <list type="bullet">
+/// <item><description><para>The debugging services call methods on this interface to access memory and other data in the target process.</para>
+/// </description></item>
+/// <item><description><para>The debugger client must implement this interface as appropriate for the particular target (for example, a live process or a memory dump).</para>
+/// </description></item>
+/// <item><description><para>The <c>ICorDebugDataTarget</c> methods can be invoked only from within methods implemented in other <c>ICorDebug*</c> interfaces. This ensures that the debugger client has control over which thread it is invoked on, and when.</para>
+/// </description></item>
+/// <item><description><para>The <c>ICorDebugDataTarget</c> implementation must always return up-to-date information about the target.</para>
+/// </description></item>
+/// </list>
+/// <para>The target process should be stopped and not changed in any way while <c>ICorDebug*</c> interfaces (and therefore <c>ICorDebugDataTarget</c> methods) are being called. If the target is a live process and its state changes, the <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/debugging/iclrdebugging-openvirtualprocess-method">ICLRDebugging::OpenVirtualProcess</see> method has to be called again to provide a replacement <c>ICorDebugProcess</c> instance.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FE06DC28-49FB-4636-A4A3-E80DB4AE116C")]
 public partial interface ICorDebugDataTarget
 {
+	/// <summary>
+	/// <para>Provides information about the platform, including processor architecture and operating system, on which the target process is running.</para>
+	/// </summary>
+	/// <param name="pTargetPlatform">
+	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">CorDebugPlatformEnum</see> enumeration that describes the target platform.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>CorDebugPlatformEnum</c> enumeration return value is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> interface to determine details of the target process such as its pointer size, address space layout, register set, instruction format, context layout, and calling conventions.</para>
+	/// <para>The <c>pTargetPlatform</c> value may refer to a platform that is being emulated for the target instead of specifying the actual hardware in use. For example, a process that is running in the Windows on Windows (WOW) environment on a 64-bit edition of the Windows operating system should use the <c>CORDB_PLATFORM_WINDOWS_X86</c> value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugplatform-enumeration">CorDebugPlatformEnum</see> enumeration.</para>
+	/// <para>This method must succeed. If it fails, the target platform is unusable. The method may fail for the following reasons:</para>
+	/// <list type="bullet">
+	/// <item><description><para>The platform that is being emulated for the target is unusable.</para>
+	/// </description></item>
+	/// <item><description><para>The actual hardware on the target platform is unusable.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPlatform(out CorDebugPlatform pTargetPlatform);
 
+	/// <summary>
+	/// <para>Gets a block of contiguous memory starting at the specified address, and returns it in the supplied buffer.</para>
+	/// </summary>
+	/// <param name="address">
+	/// <para>The start address of requested memory.</para>
+	/// </param>
+	/// <param name="pBuffer">
+	/// <para>The buffer where the memory will be stored.</para>
+	/// </param>
+	/// <param name="bytesRequested">
+	/// <para>The number of bytes to get from the target address.</para>
+	/// </param>
+	/// <param name="pBytesRead">
+	/// <para>The number of bytes actually read from the target address. This can be fewer than <c>bytesRequested</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the first byte (at the specified start address) can be read, the call should return success (to support efficient reading of data structures with self-describing length, like null-terminated strings).</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-readvirtual-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryReadVirtual(CORDB_ADDRESS address, [MarshalUsing(CountElementName = nameof(bytesRequested))][Out] byte[] pBuffer, uint bytesRequested, out uint pBytesRead);
 
+	/// <summary>
+	/// <para>Returns the current thread context for the specified thread.</para>
+	/// </summary>
+	/// <param name="dwThreadID">
+	/// <para>The identifier of the thread whose context is to be retrieved. The identifier is defined by the operating system.</para>
+	/// </param>
+	/// <param name="contextFlags">
+	/// <para>A bitwise combination of platform-dependent flags that indicate which portions of the context should be read.</para>
+	/// </param>
+	/// <param name="contextSize">
+	/// <para>The size of <c>pContext</c>.</para>
+	/// </param>
+	/// <param name="pContext">
+	/// <para>The buffer where the thread context will be stored.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>On Windows platforms, <c>pContext</c> must be a <c>CONTEXT</c> structure (defined in WinNT.h) that is appropriate for the machine type specified by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getplatform-method">ICorDebugDataTarget::GetPlatform</see> method. <c>contextFlags</c> must have the same values as the <c>ContextFlags</c> field of the <c>CONTEXT</c> structure. The <c>CONTEXT</c> structure is processor-specific; refer to the WinNT.h file for details.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-getthreadcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThreadContext(uint dwThreadID, uint contextFlags, uint contextSize, [MarshalUsing(CountElementName = nameof(contextSize))][Out] byte[] pContext);
 }

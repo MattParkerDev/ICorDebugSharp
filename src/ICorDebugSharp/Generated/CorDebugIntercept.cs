@@ -3,13 +3,41 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the types of code that can be intercepted (that is, stepped into).</para>
+/// </summary>
+/// <remarks>
+/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-setinterceptmask-method">ICorDebugStepper::SetInterceptMask</see> method to establish the types of code that can be intercepted.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugintercept-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugIntercept
 {
+	/// <summary>
+	/// <para>No code can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_NONE = 0x0,
+	/// <summary>
+	/// <para>A constructor can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_CLASS_INIT = 0x1,
+	/// <summary>
+	/// <para>An exception filter can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_EXCEPTION_FILTER = 0x2,
+	/// <summary>
+	/// <para>Code that enforces security can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_SECURITY = 0x4,
+	/// <summary>
+	/// <para>A context policy can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_CONTEXT_POLICY = 0x8,
+	/// <summary>
+	/// <para>Not used.</para>
+	/// </summary>
 	INTERCEPT_INTERCEPTION = 0x10,
+	/// <summary>
+	/// <para>All code can be intercepted.</para>
+	/// </summary>
 	INTERCEPT_ALL = 0xFFFF,
 }

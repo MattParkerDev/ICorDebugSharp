@@ -6,14 +6,51 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to retrieve information associated with a runtime callable wrapper (RCW).</para>
+/// </summary>
+/// <remarks>
+/// <para>To check whether an instance of an &quot;ICorDebugValue&quot; interface represents an RCW, a debugger calls <c>QueryInterface</c> on &quot;ICorDebugValue&quot; with <c>IID_ICorDebugComObjectValue</c>.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcomobjectvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("5F69C5E5-3E12-42DF-B371-F9D761D6EE24")]
 public partial interface ICorDebugComObjectValue
 {
+	/// <summary>
+	/// <para>Provides an enumerator for the interface types that the current object has been cast to or used as.</para>
+	/// </summary>
+	/// <param name="bIInspectableOnly">
+	/// <para>A value that indicates whether the method returns only Windows Runtime interfaces (<c>IInspectable</c> interfaces) or all COM interfaces cached by the runtime callable wrapper (RCW).</para>
+	/// </param>
+	/// <param name="ppInterfacesEnum">
+	/// <para>A pointer to the address of an ICorDebugTypeEnum enumerator that provides access to ICorDebugType objects that represent cached interface types filtered according to <c>bIInspectableOnly</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcomobjectvalue-getcachedinterfacetypes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCachedInterfaceTypes([MarshalAs(UnmanagedType.Bool)] bool bIInspectableOnly, out ICorDebugTypeEnum ppInterfacesEnum);
 
+	/// <summary>
+	/// <para>Gets the raw interface pointers cached on the current runtime callable wrapper (RCW).</para>
+	/// </summary>
+	/// <param name="bIInspectableOnly">
+	/// <para>A value that indicates whether the method will return only Windows Runtime interfaces (<c>IInspectable</c> interfaces) or all COM interfaces that are cached by the runtime callable wrapper (RCW).</para>
+	/// </param>
+	/// <param name="celt">
+	/// <para>The number of objects whose addresses are to be retrieved.</para>
+	/// </param>
+	/// <param name="pcEltFetched">
+	/// <para>A pointer to the number of <c>CORDB_ADDRESS</c> values actually returned in <c>ptrs</c>.</para>
+	/// </param>
+	/// <param name="ptrs">
+	/// <para>A pointer to the starting address of an array of <c>CORDB_ADDRESS</c> values that contain the addresses of cached interface objects.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcomobjectvalue-getcachedinterfacepointers-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCachedInterfacePointers([MarshalAs(UnmanagedType.Bool)] bool bIInspectableOnly, uint celt, out uint pcEltFetched, [MarshalUsing(CountElementName = nameof(celt))][Out] CORDB_ADDRESS[]? ptrs);
 }

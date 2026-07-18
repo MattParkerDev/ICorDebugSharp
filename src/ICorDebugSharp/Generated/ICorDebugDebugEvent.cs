@@ -6,14 +6,49 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Defines the base interface from which all <c>ICorDebug</c> debug events derive.</para>
+/// </summary>
+/// <remarks>
+/// <para>The following interfaces are derived from the <c>ICorDebugDebugEvent</c> interface:</para>
+/// <list type="bullet">
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptiondebugevent-interface">ICorDebugExceptionDebugEvent</see></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmoduledebugevent-interface">ICorDebugModuleDebugEvent</see></para>
+/// </description></item>
+/// </list>
+/// <para><b>Note:</b> The interface is available with .NET Native only. Attempting to call  QueryInterface  to retrieve an interface pointer returns  E_NOINTERFACE  for ICorDebug scenarios outside of .NET Native.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("41BD395D-DE99-48F1-BF7A-CC0F44A6D281")]
 public partial interface ICorDebugDebugEvent
 {
+	/// <summary>
+	/// <para>Indicates what kind of event this <c>ICorDebugDebugEvent</c> object represents.</para>
+	/// </summary>
+	/// <param name="pDebugEventKind">
+	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdebugeventkind-enumeration">CorDebugDebugEventKind</see> enumeration member that indicates the type of event.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Based on the value of <c>pDebugEventKind</c>, you can call <c>QueryInterface</c> to get a more precise debug event interface that has additional data.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-geteventkind-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetEventKind(out CorDebugDebugEventKind pDebugEventKind);
 
+	/// <summary>
+	/// <para>Gets the thread on which the event occurred.</para>
+	/// </summary>
+	/// <param name="ppThread">
+	/// <para>A pointer to the address of an ICorDebugThread object that represents the thread on which the event occurred.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdebugevent-getthread-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThread(out ICorDebugThread ppThread);
 }

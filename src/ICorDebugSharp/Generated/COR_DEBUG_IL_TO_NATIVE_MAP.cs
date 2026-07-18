@@ -5,12 +5,27 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Contains the offsets that are used to map common intermediate language (CIL) code to native code.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-debug-il-to-native-map-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_DEBUG_IL_TO_NATIVE_MAP
 {
+	/// <summary>
+	/// <para>The offset of the CIL code.</para>
+	/// </summary>
 	public uint ilOffset;
 
+	/// <summary>
+	/// <para>The offset of the start of the native code.</para>
+	/// </summary>
 	public uint nativeStartOffset;
 
+	/// <summary>
+	/// <para>The offset of the end of the native code.</para>
+	/// </summary>
 	public uint nativeEndOffset;
 }

@@ -3,11 +3,29 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Specifies the generation of a region of memory on the managed heap.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuggenerationtypes-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugGenerationTypes
 {
+	/// <summary>
+	/// <para>Generation 0.</para>
+	/// </summary>
 	CorDebug_Gen0 = 0,
+	/// <summary>
+	/// <para>Generation 1.</para>
+	/// </summary>
 	CorDebug_Gen1 = 1,
+	/// <summary>
+	/// <para>Generation 2.</para>
+	/// </summary>
 	CorDebug_Gen2 = 2,
+	/// <summary>
+	/// <para>The large object heap.</para>
+	/// </summary>
 	CorDebug_LOH = 3,
 	CorDebug_POH = 4,
 	CorDebug_NonGC = 0x7FFFFFFF,

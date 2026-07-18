@@ -6,26 +6,131 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about a merged assembly.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FAA8637B-3BBE-4671-8E26-3B59875B922A")]
 public partial interface ICorDebugMergedAssemblyRecord
 {
+	/// <summary>
+	/// <para>Gets the simple name of the assembly.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The number of characters in the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the number of characters actually written to the <c>szName</c> buffer.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A pointer to a character array.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This method retrieves the simple name of an assembly (such as &quot;System.Collections&quot;), without a file extension, version, culture, or public key token. It corresponds to the  property in managed code.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getsimplename-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSimpleName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the assembly&#39;s version information.</para>
+	/// </summary>
+	/// <param name="pMajor">
+	/// <para>A pointer to the major version number.</para>
+	/// </param>
+	/// <param name="pMinor">
+	/// <para>A pointer to the minor version number.</para>
+	/// </param>
+	/// <param name="pBuild">
+	/// <para>A pointer to the build number.</para>
+	/// </param>
+	/// <param name="pRevision">
+	/// <para>A pointer to the revision number.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>For information on assembly version numbers, see the  class topic.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getversion-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVersion(out ushort pMajor, out ushort pMinor, out ushort pBuild, out ushort pRevision);
 
+	/// <summary>
+	/// <para>Gets the culture name string of the assembly.</para>
+	/// </summary>
+	/// <param name="cchCulture">
+	/// <para>The number of characters in the <c>szCulture</c> buffer.</para>
+	/// </param>
+	/// <param name="pcchCulture">
+	/// <para>The number of characters actually written to the <c>szCulture</c> buffer.</para>
+	/// </param>
+	/// <param name="szCulture">
+	/// <para>A character array that contains the culture name.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The culture name is a unique string that identifies a culture, such as &quot;en-US&quot; (for the English (United States) culture), or &quot;neutral&quot; (for a neutral culture).</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getculture-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCulture(uint cchCulture, out uint pcchCulture, [MarshalUsing(CountElementName = nameof(cchCulture))][Out] char[]? szCulture);
 
+	/// <summary>
+	/// <para>Gets the assembly&#39;s public key.</para>
+	/// </summary>
+	/// <param name="cbPublicKey">
+	/// <para>The maximum number of bytes in the <c>pbPublicKey</c> array.</para>
+	/// </param>
+	/// <param name="pcbPublicKey">
+	/// <para>A pointer to the actual number of bytes written to the <c>pbPublicKey</c> array.</para>
+	/// </param>
+	/// <param name="pbPublicKey">
+	/// <para>A pointer to a byte array that contains the assembly&#39;s public key.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getpublickey-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPublicKey(uint cbPublicKey, out uint pcbPublicKey, [MarshalUsing(CountElementName = nameof(cbPublicKey))][Out] byte[] pbPublicKey);
 
+	/// <summary>
+	/// <para>Gets the assembly&#39;s public key token.</para>
+	/// </summary>
+	/// <param name="cbPublicKeyToken">
+	/// <para>The maximum number of bytes in the <c>pbPublicKeyToken</c> array.</para>
+	/// </param>
+	/// <param name="pcbPublicKeyToken">
+	/// <para>A pointer to the actual number of bytes written to the <c>pbPublicKeyToken</c> array.</para>
+	/// </param>
+	/// <param name="pbPublicKeyToken">
+	/// <para>A pointer to a byte array that contains the assembly&#39;s public key token.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>An assembly&#39;s public key token is the last eight bytes of a SHA1 hash of its public key.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getpublickeytoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPublicKeyToken(uint cbPublicKeyToken, out uint pcbPublicKeyToken, [MarshalUsing(CountElementName = nameof(cbPublicKeyToken))][Out] byte[] pbPublicKeyToken);
 
+	/// <summary>
+	/// <para>Gets the assembly&#39;s prefix index.</para>
+	/// </summary>
+	/// <param name="pIndex">
+	/// <para>A pointer to the prefix index.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The prefix index is used to prevent name collisions in the merged metadata type names.</para>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmergedassemblyrecord-getindex-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetIndex(out uint pIndex);
 }

@@ -3,8 +3,20 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the event that is being signaled by the callback during the unwind phase.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugexceptionunwindcallbacktype-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugExceptionUnwindCallbackType
 {
+	/// <summary>
+	/// <para>The beginning of the unwind process.</para>
+	/// </summary>
 	DEBUG_EXCEPTION_UNWIND_BEGIN = 1,
+	/// <summary>
+	/// <para>The exception was intercepted.</para>
+	/// </summary>
 	DEBUG_EXCEPTION_INTERCEPTED = 2,
 }

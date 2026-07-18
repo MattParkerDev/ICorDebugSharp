@@ -6,17 +6,61 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a type, which can be either basic or complex (that is, user-defined). If the type is generic, <c>ICorDebugClass</c> represents the uninstantiated generic type.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugClass</c> interface represents an uninstantiated generic type. The <c>ICorDebugType</c> interface represents an instantiated generic type. For example, <c>Hashtable&lt;K, V&gt;</c> would be represented by <c>ICorDebugClass</c>, whereas <c>Hashtable&lt;Int32, String&gt;</c> would be represented by <c>ICorDebugType</c>.</para>
+/// <para>Non-generic types are represented by both <c>ICorDebugClass</c> and <c>ICorDebugType</c>. The latter interface was introduced in .NET Framework 2.0 to deal with type instantiation.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAF5-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugClass
 {
+	/// <summary>
+	/// <para>Gets the module that defines this class.</para>
+	/// </summary>
+	/// <param name="pModule">
+	/// <para>A pointer to the address of an ICorDebugModule object that represents the module in which this class is defined.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-getmodule-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModule(out ICorDebugModule pModule);
 
+	/// <summary>
+	/// <para>Gets the <c>TypeDef</c> metadata token that references the definition of this class.</para>
+	/// </summary>
+	/// <param name="pTypeDef">
+	/// <para>A pointer to an <c>mdTypeDef</c> token that references the definition of this class.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-gettoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetToken(out mdTypeDef pTypeDef);
 
+	/// <summary>
+	/// <para>Gets the value of the specified static field.</para>
+	/// </summary>
+	/// <param name="fieldDef">
+	/// <para>A field <c>Def</c> token that references the field to be retrieved.</para>
+	/// </param>
+	/// <param name="pFrame">
+	/// <para>A pointer to an ICorDebugFrame object that represents the frame to be used to disambiguate among thread, context, or application domain statics.</para>
+	/// <para>If the static field is relative to a thread, a context, or an application domain, the frame will determine the proper value.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the value of the static field.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>For parameterized types, the value of a static field is relative to the particular instantiation. Therefore, if the class constructor takes parameters of type , call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getstaticfieldvalue-method">ICorDebugType::GetStaticFieldValue</see> instead of <c>ICorDebugClass::GetStaticFieldValue</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-getstaticfieldvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 }

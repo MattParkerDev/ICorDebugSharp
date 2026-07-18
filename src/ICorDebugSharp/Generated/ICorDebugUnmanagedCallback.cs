@@ -6,11 +6,34 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides notification of native events that are not directly related to the common language runtime (CLR).</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugunmanagedcallback-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("5263E909-8CB5-11D3-BD2F-0000F80849BD")]
 public partial interface ICorDebugUnmanagedCallback
 {
+	/// <summary>
+	/// <para>Notifies the debugger that a native event has been fired.</para>
+	/// </summary>
+	/// <param name="pDebugEvent">
+	/// <para>A pointer to the native event.</para>
+	/// </param>
+	/// <param name="fOutOfBand">
+	/// <para><c>true</c>, if interaction with the managed process state is impossible after an unmanaged event occurs, until the debugger calls <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the thread being debugged is a Win32 thread, do not use any members of the Win32 debugging interface. You can call <c>ICorDebugController::Continue</c> only on a Win32 thread and only when continuing past an out-of-band event.</para>
+	/// <para>The <c>DebugEvent</c> callback does not follow the standard rules for callbacks. When you call <c>DebugEvent</c>, the process will be in the raw, OS-debug stopped state. The process will not be synchronized. It will automatically enter the synchronized state when necessary to satisfy requests for information about managed code, which may result in other nested <c>DebugEvent</c> callbacks.</para>
+	/// <para>Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-clearcurrentexception-method">ICorDebugProcess::ClearCurrentException</see> on the process to ignore an exception event before continuing the process. Calling this method sends DBG_CONTINUE instead of DBG_EXCEPTION_NOT_HANDLED on the continue request, and automatically clears out-of-band breakpoints and single-step exceptions. Out-of-band events can come at any time, even when the application being debugged appears stopped and when an outstanding in-band event already exists.</para>
+	/// <para>The debugger should immediately continue past an out-of-band breakpoint event. The debugger should be using the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">ICorDebugProcess2::SetUnmanagedBreakpoint</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-clearunmanagedbreakpoint-method">ICorDebugProcess2::ClearUnmanagedBreakpoint</see> methods to add and remove breakpoints. These methods will skip over any out-of-band breakpoints automatically. Thus, the only out-of-band breakpoints that get dispatched should be raw breakpoints that are already in the instruction stream, such as a call to the Win32 <c>DebugBreak</c> function. Do not try to use <c>ICorDebugProcess::ClearCurrentException</c>, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-getthreadcontext-method">ICorDebugProcess::GetThreadContext</see>, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess-setthreadcontext-method">ICorDebugProcess::SetThreadContext</see>, or any other member of the debugging API.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugunmanagedcallback-debugevent-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDebugEvent(nint pDebugEvent, [MarshalAs(UnmanagedType.Bool)] bool fOutOfBand);
 }

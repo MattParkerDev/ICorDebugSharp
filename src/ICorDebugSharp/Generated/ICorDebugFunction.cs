@@ -6,32 +6,122 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a managed function or method.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>ICorDebugFunction</c> interface does not represent a function with generic type parameters. For example, an <c>ICorDebugFunction</c> instance would represent <c>Func&lt;T&gt;</c> but not <c>Func&lt;string&gt;</c>. Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe2-enumeratetypeparameters-method">ICorDebugILFrame2::EnumerateTypeParameters</see> to get the generic type parameters.</para>
+/// <para>The relationship between a method&#39;s metadata token, <c>mdMethodDef</c>, and a method&#39;s <c>ICorDebugFunction</c> object is dependent upon whether Edit and Continue is allowed on the function:</para>
+/// <list type="bullet">
+/// <item><description><para>If Edit and Continue is not allowed on the function, a one-to-one relationship exists between the <c>ICorDebugFunction</c> object and the <c>mdMethodDef</c> token. That is, the function has one <c>ICorDebugFunction</c> object and one <c>mdMethodDef</c> token.</para>
+/// </description></item>
+/// <item><description><para>If Edit and Continue is allowed on the function, a many-to-one relationship exists between the <c>ICorDebugFunction</c> object and the <c>mdMethodDef</c> token. That is, the function may have many instances of <c>ICorDebugFunction</c>, one for each version of the function, but only one <c>mdMethodDef</c> token.</para>
+/// </description></item>
+/// </list>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-interface1">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAF3-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugFunction
 {
+	/// <summary>
+	/// <para>Gets the module in which this function is defined.</para>
+	/// </summary>
+	/// <param name="ppModule">
+	/// <para>A pointer to the address of an ICorDebugModule object that represents the module in which this function is defined.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getmodule-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetModule(out ICorDebugModule ppModule);
 
+	/// <summary>
+	/// <para>Gets an ICorDebugClass object that represents the class this function is a member of.</para>
+	/// </summary>
+	/// <param name="ppClass">
+	/// <para>A pointer to the address of the <c>ICorDebugClass</c> object that represents the class, or null, if this function is not a member of a class.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetClass(out ICorDebugClass ppClass);
 
+	/// <summary>
+	/// <para>Gets the metadata token for this function.</para>
+	/// </summary>
+	/// <param name="pMethodDef">
+	/// <para>A pointer to an <c>mdMethodDef</c> token that references the metadata for this function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-gettoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetToken(out mdMethodDef pMethodDef);
 
+	/// <summary>
+	/// <para>Gets the ICorDebugCode instance that represents the common intermediate language (CIL) code associated with this ICorDebugFunction object.</para>
+	/// </summary>
+	/// <param name="ppCode">
+	/// <para>A pointer to the <c>ICorDebugCode</c> instance, or null, if the function was not compiled into CIL.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If Edit and Continue has been allowed on this function, the <c>GetILCode</c> method will get the CIL code corresponding to this function&#39;s edited version of the code in the common language runtime (CLR).</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getilcode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetILCode(out ICorDebugCode ppCode);
 
+	/// <summary>
+	/// <para>Gets the native code for the function that is represented by this ICorDebugFunction instance.</para>
+	/// </summary>
+	/// <param name="ppCode">
+	/// <para>A pointer to the ICorDebugCode instance that represents the native code for this function, or null, if this function is common intermediate language (CIL) code that has not been just-in-time (JIT) compiled.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the function that is represented by this <c>ICorDebugFunction</c> instance has been JIT-compiled more than once, as in the case of generic types, <c>GetNativeCode</c> returns a random native code object.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getnativecode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetNativeCode(out ICorDebugCode ppCode);
 
+	/// <summary>
+	/// <para>Creates a breakpoint at the beginning of this function.</para>
+	/// </summary>
+	/// <param name="ppBreakpoint">
+	/// <para>A pointer to the address of an ICorDebugFunctionBreakpoint object that represents the new breakpoint for the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-createbreakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint);
 
+	/// <summary>
+	/// <para>Gets the metadata token for the local variable signature of the function that is represented by this ICorDebugFunction instance.</para>
+	/// </summary>
+	/// <param name="pmdSig">
+	/// <para>A pointer to the <c>mdSignature</c> token for the local variable signature of this function, or <c>mdSignatureNil</c>, if this function has no local variables.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getlocalvarsigtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalVarSigToken(out mdSignature pmdSig);
 
+	/// <summary>
+	/// <para>Gets the version number of the latest edit made to the function represented by this ICorDebugFunction object.</para>
+	/// </summary>
+	/// <param name="pnCurrentVersion">
+	/// <para>A pointer to an integer value that is the version number of the latest edit made to this function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The version number of the latest edit made to this function may be greater than the version number of the function itself. Use either the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction2-getversionnumber-method">ICorDebugFunction2::GetVersionNumber</see> method or the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getversionnumber-method">ICorDebugCode::GetVersionNumber</see> method to retrieve the version number of the function.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugfunction-getcurrentversionnumber-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCurrentVersionNumber(out uint pnCurrentVersion);
 }

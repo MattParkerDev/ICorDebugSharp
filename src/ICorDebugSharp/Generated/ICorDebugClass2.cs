@@ -6,14 +6,52 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a generic class or a class with a method parameter of type . This interface extends <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-interface">ICorDebugClass</see>.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("B008EA8D-7AB1-43F7-BB20-FBB5A04038AE")]
 public partial interface ICorDebugClass2
 {
+	/// <summary>
+	/// <para>Gets the type declaration for this class.</para>
+	/// </summary>
+	/// <param name="elementType">
+	/// <para>A value of the CorElementType enumeration that specifies the element type for this class: Set this value to ELEMENT_TYPE_VALUETYPE if this ICorDebugClass2 represents a value type. Set this value to ELEMENT_TYPE_CLASS if this <c>ICorDebugClass2</c> represents a complex type.</para>
+	/// </param>
+	/// <param name="nTypeArgs">
+	/// <para>The number of type parameters, if the type is generic. The number of type parameters (if any) must match the number required by the class.</para>
+	/// </param>
+	/// <param name="ppTypeArgs">
+	/// <para>An array of pointers, each of which points to an ICorDebugType object that represents a type parameter. If the class is non-generic, this value is null.</para>
+	/// </param>
+	/// <param name="ppType">
+	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the type declaration. This object is equivalent to a  object in managed code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the class is non-generic, that is, if it has no type parameters, <c>GetParameterizedType</c> simply gets the runtime type object corresponding to the class. The <c>elementType</c> parameter should be set to the correct element type for the class: ELEMENT_TYPE_VALUETYPE if the class is a value type; otherwise, ELEMENT_TYPE_CLASS.</para>
+	/// <para>If the class accepts type parameters (for example, <c>ArrayList&lt;T&gt;</c>), you can use <c>GetParameterizedType</c> to construct a type object for an instantiated type such as <c>ArrayList&lt;int&gt;</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass2-getparameterizedtype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetParameterizedType(CorElementType elementType, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, out ICorDebugType ppType);
 
+	/// <summary>
+	/// <para>For each method of the class, sets a value that indicates whether the method is user-defined code.</para>
+	/// </summary>
+	/// <param name="bIsJustMyCode">
+	/// <para>Set to <c>true</c> to indicate that the method is user-defined code; otherwise, set to <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A just-my-code (JMC) stepper will skip non-user-defined code. User-defined code must be a subset of debuggable code.</para>
+	/// <para><c>SetJMCStatus</c> returns an HRESULT value of S_FALSE if it fails to set the value for any method, even if it successfully sets the value for all other methods.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass2-setjmcstatus-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode);
 }

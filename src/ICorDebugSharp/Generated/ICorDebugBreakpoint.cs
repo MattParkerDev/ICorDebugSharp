@@ -6,14 +6,41 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a breakpoint in a function, or a watch point on a value.</para>
+/// </summary>
+/// <remarks>
+/// <para>Breakpoints do not directly support conditional expressions. If such functionality is desired, a debugger must implement it on top of <c>ICorDebugBreakpoint</c>.</para>
+/// <para>The ICorDebugFunctionBreakpoint interface extends <c>ICorDebugBreakpoint</c> to support breakpoints within functions.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugbreakpoint-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAE8-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugBreakpoint
 {
+	/// <summary>
+	/// <para>Sets the active state of this <c>ICorDebugBreakpoint</c>.</para>
+	/// </summary>
+	/// <param name="bActive">
+	/// <para>Set this value to <c>true</c> to specify the state as active; otherwise, set this value to <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugbreakpoint-activate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryActivate([MarshalAs(UnmanagedType.Bool)] bool bActive);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this <c>ICorDebugBreakpoint</c> is active.</para>
+	/// </summary>
+	/// <param name="pbActive">
+	/// <para><c>true</c> if this breakpoint is active; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugbreakpoint-isactive-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsActive([MarshalAs(UnmanagedType.Bool)] out bool pbActive);
 }

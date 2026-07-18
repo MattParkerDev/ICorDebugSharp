@@ -6,14 +6,68 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides the entry point to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> and corresponding interfaces.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebugThread3</c> is a logical extension to the ICorDebugThread interface.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("F8544EC3-5E4E-46C7-8D3E-A52B8405B1F5")]
 public partial interface ICorDebugThread3
 {
+	/// <summary>
+	/// <para>Creates an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
+	/// </summary>
+	/// <param name="ppStackWalk">
+	/// <para>A pointer to address of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-interface">ICorDebugStackWalk</see> object for the thread whose stack you want to unwind.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The <c>ICorDebugStackWalk</c> object was successfully created.</description></item>
+	/// <item><term>E_FAIL</term><description>The <c>ICorDebugStackWalk</c> object was not created.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>If the <c>CreateStackWalk</c> method succeeds, the returned <c>ICorDebugStackWalk</c> object&#39;s context is set to the thread&#39;s current context.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-createstackwalk-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk);
 
+	/// <summary>
+	/// <para>Returns an array of internal frames (<see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">ICorDebugInternalFrame2</see> objects) on the stack.</para>
+	/// </summary>
+	/// <param name="cInternalFrames">
+	/// <para>The number of internal frames expected in <c>ppInternalFrames</c>.</para>
+	/// </param>
+	/// <param name="pcInternalFrames">
+	/// <para>A pointer to a <c>ULONG32</c> that contains the number of internal frames on the stack.</para>
+	/// </param>
+	/// <param name="ppInternalFrames">
+	/// <para>A pointer to the address of an array of internal frames on the stack.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuginternalframe2-interface">ICorDebugInternalFrame2</see> object was successfully created.</description></item>
+	/// <item><term>E_INVALIDARG</term><description><c>cInternalFrames</c> is not zero and <c>ppInternalFrames</c> is <c>null</c>, or <c>pcInternalFrames</c> is <c>null</c>.</description></item>
+	/// <item><term>HRESULT_FROM_WIN32(ERROR_INSUFFICIENT_BUFFER)</term><description><c>ppInternalFrames</c> is smaller than the count of internal frames.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>Internal frames are data structures pushed onto the stack by the runtime to store temporary data.</para>
+	/// <para>When you first call <c>GetActiveInternalFrames</c>, you should set the <c>cInternalFrames</c> parameter to 0 (zero), and the <c>ppInternalFrames</c> parameter to null. When <c>GetActiveInternalFrames</c> first returns, <c>pcInternalFrames</c> contains the count of the internal frames on the stack.</para>
+	/// <para><c>GetActiveInternalFrames</c> should then be called a second time. You should pass the proper count (<c>pcInternalFrames</c>) in the <c>cInternalFrames</c> parameter, and specify a pointer to an appropriately sized array in <c>ppInternalFrames</c>.</para>
+	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">ICorDebugStackWalk::GetFrame</see> method to return actual stack frames.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread3-getactiveinternalframes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, [MarshalUsing(CountElementName = nameof(cInternalFrames))][In][Out] ICorDebugInternalFrame2[] ppInternalFrames);
 }

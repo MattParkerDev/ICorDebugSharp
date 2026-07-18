@@ -6,14 +6,48 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods to retrieve information about the managed representations of Windows Runtime types currently loaded in an application domain. This interface is an extension of the ICorDebugAppDomain and ICorDebugAppDomain2 interfaces.</para>
+/// </summary>
+/// <remarks>
+/// <para>This interface is meant to be used by a debugger in conjunction with a function evaluation call to <c>M:System.Runtime.InteropServices.Marshal.GetInspectableIIDs(System.Object)</c>. When the method retrieves the interface identifiers supported by a Windows Runtime server object, the debugger may use the methods defined in this interface to map them to managed types that correspond to those interfaces.</para>
+/// <para>To retrieve an instance of this interface, run <c>QueryInterface</c> on an instance of the ICorDebugAppDomain or ICorDebugAppDomain2 interface.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("8CB96A16-B588-42E2-B71C-DD849FC2ECCC")]
 public partial interface ICorDebugAppDomain3
 {
+	/// <summary>
+	/// <para>Gets an enumerator for cached Windows Runtime types in an application domain based on their interface identifiers.</para>
+	/// </summary>
+	/// <param name="cReqTypes">
+	/// <para>The number of required types.</para>
+	/// </param>
+	/// <param name="iidsToResolve">
+	/// <para>A pointer to an array that contains the interface identifiers corresponding to the managed representations of the Windows Runtime types to be retrieved.</para>
+	/// </param>
+	/// <param name="ppTypesEnum">
+	/// <para>A pointer to the address of an &quot;ICorDebugTypeEnum&quot; interface object that allows enumeration of the cached managed representations of the Windows Runtime types retrieved, based on the interface identifiers in <c>iidsToResolve</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the method fails to retrieve information for a specific interface identifier, the corresponding entry in the &quot;ICorDebugTypeEnum&quot; collection will have a type of <c>ELEMENT_TYPE_END</c> for errors due to data retrieval issues, or <c>ELEMENT_TYPE_VOID</c> for unknown interface identifiers.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-getcachedwinrttypesforiids-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCachedWinRTTypesForIIDs(uint cReqTypes, [MarshalUsing(CountElementName = nameof(cReqTypes))][In] Guid[] iidsToResolve, out ICorDebugTypeEnum ppTypesEnum);
 
+	/// <summary>
+	/// <para>Gets an enumerator for all cached Windows Runtime types.</para>
+	/// </summary>
+	/// <param name="ppGuidToTypeEnum">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-interface">ICorDebugGuidToTypeEnum</see> interface object that can enumerate the managed representations of Windows Runtime types currently loaded in the application domain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain3-getcachedwinrttypes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCachedWinRTTypes(out ICorDebugGuidToTypeEnum ppGuidToTypeEnum);
 }

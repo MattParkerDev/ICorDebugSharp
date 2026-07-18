@@ -3,8 +3,20 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates whether the garbage collector is running on a workstation or a server.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebuggctype-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugGCType
 {
+	/// <summary>
+	/// <para>The garbage collector is running on a workstation.</para>
+	/// </summary>
 	CorDebugWorkstationGC,
+	/// <summary>
+	/// <para>The garbage collector is running on a server.</para>
+	/// </summary>
 	CorDebugServerGC,
 }

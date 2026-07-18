@@ -6,35 +6,149 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a segment of either common intermediate language (CIL) code or native code.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebugCode</c> can represent either CIL or native code. An &quot;ICorDebugFunction&quot; object that represents CIL code can have either zero or one <c>ICorDebugCode</c> objects associated with it. An &quot;ICorDebugFunction&quot; object that represents native code can have any number of <c>ICorDebugCode</c> objects associated with it.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-interface1">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAF4-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugCode
 {
+	/// <summary>
+	/// <para>Gets a value that indicates whether this &quot;ICorDebugCode&quot; represents code that was compiled in common intermediate language (CIL).</para>
+	/// </summary>
+	/// <param name="pbIL">
+	/// <para><c>true</c> if this <c>ICorDebugCode</c> represents code that was compiled in CIL; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-isil-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsIL([MarshalAs(UnmanagedType.Bool)] out bool pbIL);
 
+	/// <summary>
+	/// <para>Gets the &quot;ICorDebugFunction&quot; associated with this &quot;ICorDebugCode&quot;.</para>
+	/// </summary>
+	/// <param name="ppFunction">
+	/// <para>A pointer to the address of the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>ICorDebugCode</c> and <c>ICorDebugFunction</c> maintain a one-to-one relationship.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getfunction-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunction(out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para>Gets the relative virtual address (RVA) of the code segment that this &quot;ICorDebugCode&quot; interface represents.</para>
+	/// </summary>
+	/// <param name="pStart">
+	/// <para>A pointer to the RVA of the code segment.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getaddress-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAddress(out CORDB_ADDRESS pStart);
 
+	/// <summary>
+	/// <para>Gets the size, in bytes, of the binary code represented by this &quot;ICorDebugCode&quot;.</para>
+	/// </summary>
+	/// <param name="pcBytes">
+	/// <para>A pointer to the size, in bytes, of the binary code that this <c>ICorDebugCode</c> object represents.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getsize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSize(out uint pcBytes);
 
+	/// <summary>
+	/// <para>Creates a breakpoint in this code segment at the specified offset.</para>
+	/// </summary>
+	/// <param name="offset">
+	/// <para>The offset at which to create the breakpoint.</para>
+	/// </param>
+	/// <param name="ppBreakpoint">
+	/// <para>A pointer to the address of an &quot;ICorDebugFunctionBreakpoint&quot; object that represents the breakpoint.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Before the breakpoint is active, it must be added to the process object.</para>
+	/// <para>If this code is common intermediate language (CIL) code, and there is a just-in-time (JIT)-compiled, native version of the code, the breakpoint will be applied in the JIT-compiled code as well. (The same is true if the code is JIT-compiled later.)</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-createbreakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateBreakpoint(uint offset, out ICorDebugFunctionBreakpoint ppBreakpoint);
 
+	/// <summary>
+	/// <para>Gets all the code for the specified function, formatted for disassembly. This method is deprecated. Use <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode2-getcodechunks-method">ICorDebugCode2::GetCodeChunks</see> instead.</para>
+	/// </summary>
+	/// <param name="startOffset">
+	/// <para>The offset of the beginning of the function.</para>
+	/// </param>
+	/// <param name="endOffset">
+	/// <para>The offset of the end of the function.</para>
+	/// </param>
+	/// <param name="cBufferAlloc">
+	/// <para>The size of the <c>buffer</c> array into which the code will be returned.</para>
+	/// </param>
+	/// <param name="buffer">
+	/// <para>The array into which the code will be returned.</para>
+	/// </param>
+	/// <param name="pcBufferSize">
+	/// <para>The number of bytes returned.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the function&#39;s code has been divided into multiple chunks, they are concatenated in order of increasing native offset. Instruction boundaries are not checked.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getcode-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCode(uint startOffset, uint endOffset, uint cBufferAlloc, [MarshalUsing(CountElementName = nameof(cBufferAlloc))][Out] byte[] buffer, out uint pcBufferSize);
 
+	/// <summary>
+	/// <para>Gets the one-based number that identifies the version of the code that this &quot;ICorDebugCode&quot; represents.</para>
+	/// </summary>
+	/// <param name="nVersion">
+	/// <para>A pointer to the version number of the code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The version number is incremented each time an edit-and-continue (EnC) operation is performed on the code.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getversionnumber-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVersionNumber(out uint nVersion);
 
+	/// <summary>
+	/// <para>Gets an array of &quot;COR_DEBUG_IL_TO_NATIVE_MAP&quot; instances that represent mappings from common intermediate language (CIL) offsets to native offsets.</para>
+	/// </summary>
+	/// <param name="cMap">
+	/// <para>The size of the <c>map</c> array.</para>
+	/// </param>
+	/// <param name="pcMap">
+	/// <para>A pointer to the actual number of elements returned in the <c>map</c> array.</para>
+	/// </param>
+	/// <param name="map">
+	/// <para>An array of <c>COR_DEBUG_IL_TO_NATIVE_MAP</c> structures, each of which represents a mapping from a CIL offset to a native offset.</para>
+	/// <para>There is no ordering to the array of elements returned.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetILToNativeMapping</c> method returns meaningful results only if this &quot;ICorDebugCode&quot; instance represents native code that was just-in-time (JIT) compiled from CIL code.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getiltonativemapping-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetILToNativeMapping(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_DEBUG_IL_TO_NATIVE_MAP[]? map);
 
+	/// <summary>
+	/// <para>This method is not implemented in the current version of the .NET Framework.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcode-getencremapsequencepoints-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetEnCRemapSequencePoints(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] uint[] offsets);
 }

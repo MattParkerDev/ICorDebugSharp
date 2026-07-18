@@ -3,7 +3,18 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides additional information about debug events on the Windows platform.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess6-decodeevent-method">ICorDebugProcess6::DecodeEvent</see> method includes a <c>dwFlags</c> parameter that provides additional information about a debug event and whose value is dependent on the target architecture. The <c>CorDebugDecodeEventFlagsWindows</c> enumeration can be used with debug events on the Windows platform.</para>
+/// <para><b>Note:</b> This enumeration is intended for use in .NET Native debugging scenarios only.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugdecodeeventflagswindows-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugDecodeEventFlagsWindows
 {
+	/// <summary>
+	/// <para>Indicates that the debug event is a first-chance exception.</para>
+	/// </summary>
 	IS_FIRST_CHANCE = 1,
 }

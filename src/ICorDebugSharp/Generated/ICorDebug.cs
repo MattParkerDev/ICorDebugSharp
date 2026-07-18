@@ -6,35 +6,191 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that allow developers to debug applications in the common language runtime (CLR) environment.</para>
+/// <para><b>Note:</b> Mixed-mode (managed and native code) debugging is not supported on non-x86 platforms (such as IA64 and AMD64).</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebug</c> represents an event processing loop for a debugger process. The debugger must wait for the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exitprocess-method">ICorDebugManagedCallback::ExitProcess</see> callback from all processes being debugged before releasing this interface.</para>
+/// <para>The <c>ICorDebug</c> object must be created by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/createdebugginginterfacefromversion-function">CreateDebuggingInterfaceFromVersion function</see> function, which allows clients to get a specific implementation of <c>ICorDebug</c> that emulates a specific version of the debugging API.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("3D6F5F61-7538-11D3-8D5B-00104B35E7EF")]
 public partial interface ICorDebug
 {
+	/// <summary>
+	/// <para>Initializes the <c>ICorDebug</c> object.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>The debugger must call <c>Initialize</c> at creation time to initialize the debugging services. This method must be called before any other method on <c>ICorDebug</c> is called.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-initialize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryInitialize();
 
+	/// <summary>
+	/// <para>Terminates the <c>ICorDebug</c> object.</para>
+	/// <para><b>Note:</b> Terminate  should not be called until an  ICorDebugManagedCallback :: ExitProcess  callback has been received for all processes being debugged.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para><c>Terminate</c> must be called when the <c>ICorDebug</c> object is no longer needed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-terminate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryTerminate();
 
+	/// <summary>
+	/// <para>Specifies the event handler object for managed events.</para>
+	/// </summary>
+	/// <param name="pCallback">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-interface">ICorDebugManagedCallback</see> object, which is the event handler object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>SetManagedHandler</c> must be called at creation time.</para>
+	/// <para>If the <c>ICorDebugManagedCallback</c> implementation does not contain sufficient interfaces to handle debugging events for the application that is being debugged, <c>SetManagedHandler</c> returns an HRESULT of E_NOINTERFACE.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setmanagedhandler-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetManagedHandler(ICorDebugManagedCallback pCallback);
 
+	/// <summary>
+	/// <para>Specifies the event handler object for unmanaged events.</para>
+	/// </summary>
+	/// <param name="pCallback">
+	/// <para>A pointer to an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugunmanagedcallback-interface">ICorDebugUnmanagedCallback</see> object that represents the event handler for unmanaged events.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The event handler object for unmanaged events must be set after a call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-initialize-method">ICorDebug::Initialize</see> and before any calls to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-createprocess-method">ICorDebug::CreateProcess</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-debugactiveprocess-method">ICorDebug::DebugActiveProcess</see>. However, for legacy purposes, you are not required to set the event handler object for unmanaged events until the first native debug event is raised. Specifically, if <c>ICorDebug::CreateProcess</c> has set the CREATE_SUSPENDED flag, native debug events cannot be dispatched until the main thread is resumed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-setunmanagedhandler-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback);
 
+	/// <summary>
+	/// <para>Launches a process and its primary thread under the control of the debugger.</para>
+	/// </summary>
+	/// <param name="lpApplicationName">
+	/// <para>Pointer to a null-terminated string that specifies the module to be executed by the launched process. The module is executed in the security context of the calling process.</para>
+	/// </param>
+	/// <param name="lpCommandLine">
+	/// <para>Pointer to a null-terminated string that specifies the command line to be executed by the launched process. The application name (for example, &quot;SomeApp.exe&quot;) must be the first argument.</para>
+	/// </param>
+	/// <param name="lpProcessAttributes">
+	/// <para>Pointer to a Win32 <c>SECURITY_ATTRIBUTES</c> structure that specifies the security descriptor for the process. If <c>lpProcessAttributes</c> is null, the process gets a default security descriptor.</para>
+	/// </param>
+	/// <param name="lpThreadAttributes">
+	/// <para>Pointer to a Win32 <c>SECURITY_ATTRIBUTES</c> structure that specifies the security descriptor for the primary thread of the process. If <c>lpThreadAttributes</c> is null, the thread gets a default security descriptor.</para>
+	/// </param>
+	/// <param name="bInheritHandles">
+	/// <para>Set to <c>true</c> to indicate that each inheritable handle in the calling process is inherited by the launched process, or <c>false</c> to indicate that the handles are not inherited. The inherited handles have the same value and access rights as the original handles.</para>
+	/// </param>
+	/// <param name="dwCreationFlags">
+	/// <para>A bitwise combination of the <see href="https://learn.microsoft.com/windows/win32/procthread/process-creation-flags">Win32 Process Creation Flags</see> that control the priority class and the behavior of the launched process.</para>
+	/// </param>
+	/// <param name="lpEnvironment">
+	/// <para>Pointer to an environment block for the new process.</para>
+	/// </param>
+	/// <param name="lpCurrentDirectory">
+	/// <para>Pointer to a null-terminated string that specifies the full path to the current directory for the process. If this parameter is null, the new process will have the same current drive and directory as the calling process.</para>
+	/// </param>
+	/// <param name="lpStartupInfo">
+	/// <para>Pointer to a Win32 <c>STARTUPINFOW</c> structure that specifies the window station, desktop, standard handles, and appearance of the main window for the launched process.</para>
+	/// </param>
+	/// <param name="lpProcessInformation">
+	/// <para>Pointer to a Win32 <c>PROCESS_INFORMATION</c> structure that specifies the identification information about the process to be launched.</para>
+	/// </param>
+	/// <param name="debuggingFlags">
+	/// <para>A value of the CorDebugCreateProcessFlags enumeration that specifies the debugging options.</para>
+	/// </param>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of a ICorDebugProcess object that represents the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The parameters of this method are the same as those of the Win32 <c>CreateProcess</c> method.</para>
+	/// <para>To enable unmanaged mixed-mode debugging, set <c>dwCreationFlags</c> to DEBUG_PROCESS  DEBUG_ONLY_THIS_PROCESS. If you want to use only managed debugging, do not set these flags.</para>
+	/// <para>If the debugger and the process to be debugged (the attached process) share a single console, and if interop debugging is used, it is possible for the attached process to hold console locks and stop at a debug event. The debugger will then block any attempt to use the console. To avoid this problem, set the CREATE_NEW_CONSOLE flag in the <c>dwCreationFlags</c> parameter.</para>
+	/// <para>Interop debugging is not supported on Win9x and non-x86 platforms such as IA-64-based and AMD64-based platforms.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-createprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, [MarshalAs(UnmanagedType.Bool)] bool bInheritHandles, uint dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags, out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Attaches the debugger to an existing process.</para>
+	/// </summary>
+	/// <param name="id">
+	/// <para>The ID of the process to which the debugger is to be attached.</para>
+	/// </param>
+	/// <param name="win32Attach">
+	/// <para>Boolean value that is set to <c>true</c> if the debugger should behave as the Win32 debugger for the process and dispatch the unmanaged callbacks; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an &quot;ICorDebugProcess&quot; object that represents the process to which the debugger has been attached.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Interop debugging is not supported on Win9x and non-x86 platforms, such as IA-64-based and AMD64-based platforms.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-debugactiveprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDebugActiveProcess(uint id, [MarshalAs(UnmanagedType.Bool)] bool win32Attach, out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the processes that are being debugged.</para>
+	/// </summary>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an ICorDebugProcessEnum object that is the enumerator for the processes being debugged.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-enumerateprocesses-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateProcesses(out ICorDebugProcessEnum ppProcess);
 
+	/// <summary>
+	/// <para>Gets a pointer to the &quot;ICorDebugProcess&quot; instance for the specified process.</para>
+	/// </summary>
+	/// <param name="dwProcessId">
+	/// <para>The ID of the process.</para>
+	/// </param>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of a <c>ICorDebugProcess</c> instance for the specified process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-getprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetProcess(uint dwProcessId, out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Returns an HRESULT that indicates whether launching a new process or attaching to the specified existing process is possible within the context of the current machine and runtime configuration.</para>
+	/// </summary>
+	/// <param name="dwProcessId">
+	/// <para>The ID of an existing process.</para>
+	/// </param>
+	/// <param name="win32DebuggingEnabled">
+	/// <para>Pass in <c>true</c> if you plan to launch with Win32 debugging enabled, or to attach with Win32 debugging enabled; otherwise, pass <c>false</c>.</para>
+	/// </param>
+	/// <returns>
+	/// <para>S_OK if the debugging services determine that launching a new process or attaching to the given process is possible, given the information about the current machine and runtime configuration. Possible HRESULT values are:</para>
+	/// <list type="bullet">
+	/// <item><description><para>S_OK</para>
+	/// </description></item>
+	/// <item><description><para>CORDBG_E_DEBUGGING_NOT_POSSIBLE</para>
+	/// </description></item>
+	/// <item><description><para>CORDBG_E_KERNEL_DEBUGGER_PRESENT</para>
+	/// </description></item>
+	/// <item><description><para>CORDBG_E_KERNEL_DEBUGGER_ENABLED</para>
+	/// </description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method is purely informational. The interface will not stop you from launching or attaching to a process, regardless of the value returned by <c>CanLaunchOrAttach</c>.</para>
+	/// <para>If you plan to launch with Win32 debugging enabled or attach with Win32 debugging enabled, pass <c>true</c> for <c>win32DebuggingEnabled</c>. The HRESULT returned by <c>CanLaunchOrAttach</c> might differ if you use this option.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-canlaunchorattach-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCanLaunchOrAttach(uint dwProcessId, [MarshalAs(UnmanagedType.Bool)] bool win32DebuggingEnabled);
 }

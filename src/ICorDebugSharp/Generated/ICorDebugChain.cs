@@ -6,44 +6,168 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a segment of a physical or logical call stack.</para>
+/// </summary>
+/// <remarks>
+/// <para>The stack frames in a chain occupy contiguous stack space and share the same thread and context. A chain may represent either managed or unmanaged code chains. An empty <c>ICorDebugChain</c> instance represents an unmanaged code chain.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAEE-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugChain
 {
+	/// <summary>
+	/// <para>Gets the physical thread this call chain is part of.</para>
+	/// </summary>
+	/// <param name="ppThread">
+	/// <para>A pointer to an ICorDebugThread object that represents the physical thread this call chain is part of.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getthread-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThread(out ICorDebugThread ppThread);
 
+	/// <summary>
+	/// <para>Gets the address range of the stack segment for this chain.</para>
+	/// </summary>
+	/// <param name="pStart">
+	/// <para>A pointer to a <c>CORDB_ADDRESS</c> value that is the starting address of the stack segment.</para>
+	/// </param>
+	/// <param name="pEnd">
+	/// <para>A pointer to a <c>CORDB_ADDRESS</c> value that is the ending address of the stack segment.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The numeric range is meaningful only for comparison of stack frame locations. You cannot make any assumptions about what is actually stored on the stack.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getstackrange-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStackRange(out CORDB_ADDRESS pStart, out CORDB_ADDRESS pEnd);
 
+	/// <summary>
+	/// <para>This method is not implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetContext(out ICorDebugContext ppContext);
 
+	/// <summary>
+	/// <para>Gets the chain that called this chain.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the calling chain.</para>
+	/// <para>If this chain was spontaneously called (as would be the case if this chain or the debugger initialized the call stack), <c>ppChain</c> will be null.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The calling chain may be on a different thread, if the call was marshalled across threads.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getcaller-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCaller(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets the chain that was called by this chain.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the called chain. If this chain is currently executing (that is, if this chain is not waiting for a called chain to return), <c>ppChain</c> will be null.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This chain will wait for the called chain to return before it resumes execution. The called chain may be on another thread in the case of cross-thread marshalled calls.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getcallee-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCallee(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets the previous chain of frames for the thread.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the previous chain of frames for this thread. If this chain is the first chain, <c>ppChain</c> is null.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getprevious-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetPrevious(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets the next chain of frames for the thread.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the next chain of frames for the thread. If this chain is the last chain, <c>ppChain</c> is null.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getnext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetNext(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this chain is running managed code.</para>
+	/// </summary>
+	/// <param name="pManaged">
+	/// <para><c>true</c> if this chain is running managed code; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-ismanaged-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsManaged([MarshalAs(UnmanagedType.Bool)] out bool pManaged);
 
+	/// <summary>
+	/// <para>Gets an enumerator that contains all the managed stack frames in the chain, starting with the most recent frame.</para>
+	/// </summary>
+	/// <param name="ppFrames">
+	/// <para>A pointer to the address of an ICorDebugFrameEnum object that is the enumerator for the stack frames.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The chain represents the physical call stack for the thread.</para>
+	/// <para>The <c>EnumerateFrames</c> method should be called only for managed chains. The debugging API does not provide methods for obtaining frames contained in unmanaged chains. The debugger must use other means to obtain this information.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-enumerateframes-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateFrames(out ICorDebugFrameEnum ppFrames);
 
+	/// <summary>
+	/// <para>Gets the active (that is, most recent) frame on the chain.</para>
+	/// </summary>
+	/// <param name="ppFrame">
+	/// <para>A pointer to the address of an ICorDebugFrame object that represents the active (that is, most recent) frame on the chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If no managed stack frame is available, <c>ppFrame</c> is set to null.</para>
+	/// <para>If the active frame is not available, the call will succeed and <c>ppFrame</c> will be null. Active frames will not be available for chains initiated due to CHAIN_ENTER_UNMANAGED, and for some chains initiated due to CHAIN_CLASS_INIT. See the CorDebugChainReason enumeration.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getactiveframe-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetActiveFrame(out ICorDebugFrame ppFrame);
 
+	/// <summary>
+	/// <para>Gets the register set for the active part of this chain.</para>
+	/// </summary>
+	/// <param name="ppRegisters">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> object that represents the register set for the active part of this chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getregisterset-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
+	/// <summary>
+	/// <para>Gets the reason for the genesis of this calling chain.</para>
+	/// </summary>
+	/// <param name="pReason">
+	/// <para>A pointer to a value (a bitwise combination) of the CorDebugChainReason enumeration that indicates the reason for the genesis of this calling chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getreason-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetReason(out CorDebugChainReason pReason);
 }

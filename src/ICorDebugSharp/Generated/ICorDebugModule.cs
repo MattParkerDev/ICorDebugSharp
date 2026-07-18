@@ -6,59 +6,242 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a common language runtime (CLR) module, which is either an executable file or a dynamic-link library (DLL).</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("DBA2D8C1-E5C5-4069-8C13-10A7C6ABF43D")]
 public partial interface ICorDebugModule
 {
+	/// <summary>
+	/// <para>Gets the containing process of this module.</para>
+	/// </summary>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an ICorDebugProcess object that represents the process containing this module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetProcess(out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Gets the base address of the module.</para>
+	/// </summary>
+	/// <param name="pAddress">
+	/// <para>A <c>CORDB_ADDRESS</c> that specifies the base address of the module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the module is a native image (that is, if the module was produced by the native image generator, NGen.exe), its base address will be zero.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getbaseaddress-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetBaseAddress(out CORDB_ADDRESS pAddress);
 
+	/// <summary>
+	/// <para>Gets the containing assembly for this module.</para>
+	/// </summary>
+	/// <param name="ppAssembly">
+	/// <para>A pointer to an ICorDebugAssembly object that represents the assembly containing this module.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getassembly-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAssembly(out ICorDebugAssembly ppAssembly);
 
+	/// <summary>
+	/// <para>Gets the file name of the module.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the <c>szName</c> array.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the length of the returned name.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array that stores the returned name.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetName</c> method returns an S_OK HRESULT if the module&#39;s file name matches the name on disk. <c>GetName</c> returns an S_FALSE HRESULT if the name is fabricated, such as for a dynamic or in-memory module.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Controls whether the just-in-time (JIT) compiler preserves debugging information for methods within this module.</para>
+	/// </summary>
+	/// <param name="bTrackJITInfo">
+	/// <para>Set this value to <c>true</c> to enable the JIT compiler to preserve mapping information between the common intermediate language (CIL) version and the JIT-compiled version of each method in this module.</para>
+	/// </param>
+	/// <param name="bAllowJitOpts">
+	/// <para>Set this value to <c>true</c> to enable the JIT compiler to generate code with certain JIT-specific optimizations for debugging.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>JIT debugging is enabled by default for all modules that are loaded when the debugger is active. Programmatically enabling or disabling the settings overrides global settings.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-enablejitdebugging-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnableJITDebugging([MarshalAs(UnmanagedType.Bool)] bool bTrackJITInfo, [MarshalAs(UnmanagedType.Bool)] bool bAllowJitOpts);
 
+	/// <summary>
+	/// <para>Controls whether the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">ICorDebugManagedCallback::LoadClass</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadclass-method">ICorDebugManagedCallback::UnloadClass</see> callbacks are called for this module.</para>
+	/// </summary>
+	/// <param name="bClassLoadCallbacks">
+	/// <para>Set this value to <c>true</c> to enable the common language runtime (CLR) to call the <c>ICorDebugManagedCallback::LoadClass</c> and <c>ICorDebugManagedCallback::UnloadClass</c> methods when their associated events occur.</para>
+	/// <para>The default value is <c>false</c> for non-dynamic modules. The value is always <c>true</c> for dynamic modules and cannot be changed.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ICorDebugManagedCallback::LoadClass</c> and <c>ICorDebugManagedCallback::UnloadClass</c> callbacks are always enabled for dynamic modules and cannot be disabled.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-enableclassloadcallbacks-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnableClassLoadCallbacks([MarshalAs(UnmanagedType.Bool)] bool bClassLoadCallbacks);
 
+	/// <summary>
+	/// <para>Gets the function that is specified by the metadata token.</para>
+	/// </summary>
+	/// <param name="methodDef">
+	/// <para>A <c>mdMethodDef</c> metadata token that references the function&#39;s metadata.</para>
+	/// </param>
+	/// <param name="ppFunction">
+	/// <para>A pointer to the address of a ICorDebugFunction interface object that represents the function.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetFunctionFromToken</c> method returns a CORDBG_E_FUNCTION_NOT_IL HRESULT if the value passed in <c>methodDef</c> does not refer to a common intermediate language (CIL) method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getfunctionfromtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunctionFromToken(mdMethodDef methodDef, out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para>This method has not been implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getfunctionfromrva-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFunctionFromRVA(CORDB_ADDRESS rva, out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para>Gets the class specified by the metadata token.</para>
+	/// </summary>
+	/// <param name="typeDef">
+	/// <para>An <c>mdTypeDef</c> metadata token that references the metadata of a class.</para>
+	/// </param>
+	/// <param name="ppClass">
+	/// <para>A pointer to the address of an ICorDebugClass object that represents the class.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getclassfromtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetClassFromToken(mdTypeDef typeDef, out ICorDebugClass ppClass);
 
+	/// <summary>
+	/// <para>This method has not been implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-createbreakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateBreakpoint(out ICorDebugModuleBreakpoint ppBreakpoint);
 
+	/// <summary>
+	/// <para>Deprecated.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-geteditandcontinuesnapshot-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetEditAndContinueSnapshot(out ICorDebugEditAndContinueSnapshot ppEditAndContinueSnapshot);
 
+	/// <summary>
+	/// <para>Gets a metadata interface object that can be used to examine the metadata for the module.</para>
+	/// </summary>
+	/// <param name="riid">
+	/// <para>The reference ID that specifies the metadata interface.</para>
+	/// </param>
+	/// <param name="ppObj">
+	/// <para>A pointer to the address of an <c>T:IUnknown</c> object that is one of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/metadata-interfaces">metadata interfaces</see>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The debugger can use the <c>GetMetaDataInterface</c> method to make a copy of the original metadata for a module, which it must do in order to edit that module. The debugger calls <c>GetMetaDataInterface</c> to get an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-interface">IMetaDataEmit</see> interface object for the module, then calls <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-savetomemory-method">IMetaDataEmit::SaveToMemory</see> to save a copy of the module&#39;s metadata to memory.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getmetadatainterface-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMetaDataInterface(ref Guid riid, [MarshalUsing(typeof(UniqueComInterfaceMarshaller<object>))] out object? ppObj);
 
+	/// <summary>
+	/// <para>Gets the token for the table entry for this module.</para>
+	/// </summary>
+	/// <param name="pToken">
+	/// <para>A pointer to the <c>mdModule</c> token that references the module&#39;s metadata.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The token can be passed to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport-interface">IMetaDataImport</see>, <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataimport2-interface">IMetaDataImport2</see>, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataassemblyimport-interface">IMetaDataAssemblyImport</see> metadata import interfaces.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-gettoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetToken(out mdModule pToken);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this module is dynamic.</para>
+	/// </summary>
+	/// <param name="pDynamic">
+	/// <para><c>true</c> if this module is dynamic; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A dynamic module can add new classes and delete existing classes even after the module has been loaded. The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadclass-method">ICorDebugManagedCallback::LoadClass</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-unloadclass-method">ICorDebugManagedCallback::UnloadClass</see> callbacks inform the debugger when a class has been added or deleted.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-isdynamic-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsDynamic([MarshalAs(UnmanagedType.Bool)] out bool pDynamic);
 
+	/// <summary>
+	/// <para>Gets the value of the specified global variable.</para>
+	/// </summary>
+	/// <param name="fieldDef">
+	/// <para>An <c>mdFieldDef</c> token that references the metadata describing the global variable.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the value of the specified global variable.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getglobalvariablevalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetGlobalVariableValue(mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the size, in bytes, of the module.</para>
+	/// </summary>
+	/// <param name="pcBytes">
+	/// <para>The size of the module in bytes.</para>
+	/// <para>If the module was produced from the native image generator (NGen.exe), the size of the module will be zero.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-getsize-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetSize(out uint pcBytes);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this module exists only in memory.</para>
+	/// </summary>
+	/// <param name="pInMemory">
+	/// <para><c>true</c> if this module exists only in memory; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The common language runtime (CLR) supports the loading of modules from raw streams of bytes. Such modules are called <i>in-memory modules</i> and do not exist on disk.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule-isinmemory-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsInMemory([MarshalAs(UnmanagedType.Bool)] out bool pInMemory);
 }

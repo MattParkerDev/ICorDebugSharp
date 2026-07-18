@@ -5,14 +5,32 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about a field in an object.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-field-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_FIELD
 {
+	/// <summary>
+	/// <para>An <c>mdFieldDef</c> token that can be used to get field information.</para>
+	/// </summary>
 	public mdFieldDef token;
 
+	/// <summary>
+	/// <para>The offset, in bytes, to the field data in the object.</para>
+	/// </summary>
 	public uint offset;
 
+	/// <summary>
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> value that identifies the type of this field.</para>
+	/// </summary>
 	public COR_TYPEID id;
 
+	/// <summary>
+	/// <para>A CorElementType enumeration value that indicates the type of the field.</para>
+	/// </summary>
 	public CorElementType fieldType;
 }

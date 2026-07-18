@@ -6,56 +6,229 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a thread in a process. The lifetime of an <c>ICorDebugThread</c> instance is the same as the lifetime of the thread it represents.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("938C6D66-7FB6-4F69-B389-425B8987329B")]
 public partial interface ICorDebugThread
 {
+	/// <summary>
+	/// <para>Gets an interface pointer to the process of which this ICorDebugThread forms a part.</para>
+	/// </summary>
+	/// <param name="ppProcess">
+	/// <para>A pointer to the address of an ICorDebugProcess interface object that represents the process.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getprocess-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetProcess(out ICorDebugProcess ppProcess);
 
+	/// <summary>
+	/// <para>Gets the current operating system identifier of the active part of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="pdwThreadId">
+	/// <para>The identifier of the thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The operating system identifier can potentially change during execution of a process, and can be a different value for different parts of the thread.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetID(out uint pdwThreadId);
 
+	/// <summary>
+	/// <para>Gets the current handle for the active part of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="phThreadHandle">
+	/// <para>A pointer to an HTHREAD that is the handle of the active part of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The handle may change as the process executes, and may be different for different parts of the thread.</para>
+	/// <para>This handle is owned by the debugging API. The debugger should duplicate it before using it.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-gethandle-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetHandle(out nint phThreadHandle);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the application domain in which this ICorDebugThread is currently executing.</para>
+	/// </summary>
+	/// <param name="ppAppDomain">
+	/// <para>A pointer to an ICorDebugAppDomain object that represents the application domain in which this thread is currently executing.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getappdomain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetAppDomain(out ICorDebugAppDomain ppAppDomain);
 
+	/// <summary>
+	/// <para>Sets flags that describe the debugging state of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="state">
+	/// <para>A bitwise combination of CorDebugThreadState enumeration values that specify the debugging state of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>SetDebugState</c> sets the current debug state of the thread. (The &quot;current debug state&quot; represents the debug state if the process were to be continued, not the actual current state.) The normal value for this is THREAD_RUN. Only the debugger can affect the debug state of a thread. Debug states do last across continues, so if you want to keep a thread THREAD_SUSPENDed over multiple continues, you can set it once and thereafter not have to worry about it. Suspending threads and resuming the process can cause deadlocks, though it&#39;s usually unlikely. This is an intrinsic quality of threads and processes and is by-design. A debugger can asynchronously break and resume the threads to break the deadlock. If the thread&#39;s user state includes USER_UNSAFE_POINT, then the thread may block a garbage collection (GC). This means the suspended thread has a much higher chance of causing a deadlock. This may not affect debug events already queued. Thus a debugger should drain the entire event queue (by calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-hasqueuedcallbacks-method">ICorDebugController::HasQueuedCallbacks</see>) before suspending or resuming threads. Else it may get events on a thread that it believes it has already suspended.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-setdebugstate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetDebugState(CorDebugThreadState state);
 
+	/// <summary>
+	/// <para>Gets the current debug state of this ICorDebugThread object.</para>
+	/// </summary>
+	/// <param name="pState">
+	/// <para>A pointer to a bitwise combination of CorDebugThreadState enumeration values that describes the current debug state of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the process is currently stopped, <c>pState</c> represents the debug state that would exist for this thread if the process were to be continued, not the actual current state of this thread.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getdebugstate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetDebugState(out CorDebugThreadState pState);
 
+	/// <summary>
+	/// <para>Gets the current user state of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="pState">
+	/// <para>A pointer to a bitwise combination of CorDebugUserState enumeration values that describe the current user state of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The user state of the thread is the state of the thread when it is examined by the program that is being debugged. A thread may have multiple state bits set.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getuserstate-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetUserState(out CorDebugUserState pState);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugValue object that represents an exception that is currently being thrown by managed code.</para>
+	/// </summary>
+	/// <param name="ppExceptionObject">
+	/// <para>A pointer to the address of an <c>ICorDebugValue</c> object that represents the exception that is currently being thrown by managed code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The exception object will exist from the time the exception is thrown until the end of the <c>catch</c> block. A function evaluation, which is performed by the ICorDebugEval methods, will clear out the exception object on setup and restore it on completion.</para>
+	/// <para>Exceptions can be nested (for example, if an exception is thrown in a filter or in a function evaluation), so there may be multiple outstanding exceptions on a single thread. <c>GetCurrentException</c> returns the most current exception.</para>
+	/// <para>The exception object and type may change throughout the life of the exception. For example, after an exception of type x is thrown, the common language runtime (CLR) may run out of memory and promote it to an out-of-memory exception.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getcurrentexception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCurrentException(out ICorDebugValue ppExceptionObject);
 
+	/// <summary>
+	/// <para>This method is not implemented. Do not use it.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-clearcurrentexception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryClearCurrentException();
 
+	/// <summary>
+	/// <para>Creates an ICorDebugStepper object that allows stepping through the active frame of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="ppStepper">
+	/// <para>A pointer to the address of an <c>ICorDebugStepper</c> object that allows stepping through the active frame of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The active frame may be unmanaged code.</para>
+	/// <para>The <c>ICorDebugStepper</c> interface must be used to perform the actual stepping.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-createstepper-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateStepper(out ICorDebugStepper ppStepper);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugChainEnum enumerator that contains all the stack chains in this ICorDebugThread object.</para>
+	/// </summary>
+	/// <param name="ppChains">
+	/// <para>A pointer to the address of an <c>ICorDebugChainEnum</c> object that allows enumeration of all the stack chains in this thread, starting at the active (that is, the most recent) chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The stack chain represents the physical call stack for the thread. The following circumstances create a stack chain boundary:</para>
+	/// <list type="bullet">
+	/// <item><description><para>A managed-to-unmanaged or unmanaged-to-managed transition.</para>
+	/// </description></item>
+	/// <item><description><para>A context switch.</para>
+	/// </description></item>
+	/// <item><description><para>A debugger hijacking of a user thread.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>In the simple case for a thread that is running purely managed code in a single context, a one-to-one correspondence will exist between threads and stack chains.</para>
+	/// <para>A debugger may want to rearrange the physical call stacks of all threads into logical call stacks. This would involve sorting all the threads&#39; chains by their caller/callee relationships and regrouping them.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-enumeratechains-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateChains(out ICorDebugChainEnum ppChains);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the active (most recent) stack chain on this ICorDebugThread object.</para>
+	/// </summary>
+	/// <param name="ppChain">
+	/// <para>A pointer to the address of an ICorDebugChain object that represents the stack chain.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ppChain</c> parameter is null if no stack chain is currently active.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getactivechain-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetActiveChain(out ICorDebugChain ppChain);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the active (most recent) frame on this ICorDebugThread object.</para>
+	/// </summary>
+	/// <param name="ppFrame">
+	/// <para>A pointer to the address of an ICorDebugFrame interface object that represents a frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ppFrame</c> parameter is null if no frame is currently active.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getactiveframe-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetActiveFrame(out ICorDebugFrame ppFrame);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the register set that is associated with the active part of this ICorDebugThread object.</para>
+	/// </summary>
+	/// <param name="ppRegisters">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> interface object that represents the register set for the active part of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getregisterset-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
+	/// <summary>
+	/// <para>Creates an ICorDebugEval object that collects and exposes the functionality of this ICorDebugThread.</para>
+	/// </summary>
+	/// <param name="ppEval">
+	/// <para>A pointer to the address of an <c>ICorDebugEval</c> object that collects and exposes the functionality of this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The evaluation object will push a new chain on the thread before doing its computation. This interrupts the computation currently being performed on the thread until the evaluation completes.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-createeval-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCreateEval(out ICorDebugEval ppEval);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to the common language runtime (CLR) thread.</para>
+	/// </summary>
+	/// <param name="ppObject">
+	/// <para>A pointer to the address of an ICorDebugValue interface object that represents the CLR thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread-getobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObject(out ICorDebugValue ppObject);
 }

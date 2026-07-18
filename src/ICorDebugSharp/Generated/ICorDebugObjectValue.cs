@@ -6,29 +6,97 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A subclass of &quot;ICorDebugValue&quot; that represents a value that contains an object.</para>
+/// </summary>
+/// <remarks>
+/// <para>An <c>ICorDebugObjectValue</c> remains valid until the process being debugged is continued.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("18AD3D6E-B7D2-11D2-BD04-0000F80849BD")]
 public partial interface ICorDebugObjectValue : ICorDebugValue
 {
+	/// <summary>
+	/// <para>Gets the class of this object value.</para>
+	/// </summary>
+	/// <param name="ppClass">
+	/// <para>A pointer to the address of an &quot;ICorDebugClass&quot; object that represents the class of the object value represented by this &quot;ICorDebugObjectValue&quot; object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetClass</c> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue-gettype-method">ICorDebugValue::GetType</see> methods each return information about the type of a value; they are both superseded by the generics-aware <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvalue2-getexacttype-method">ICorDebugValue2::GetExactType</see>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetClass(out ICorDebugClass ppClass);
 
+	/// <summary>
+	/// <para>Gets the value of the specified field of the specified class for this object value.</para>
+	/// </summary>
+	/// <param name="pClass">
+	/// <para>A pointer to an &quot;ICorDebugClass&quot; object that represents the class for which to get the field value.</para>
+	/// </param>
+	/// <param name="fieldDef">
+	/// <para>An <c>mdFieldDef</c> token that references the metadata describing the field.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to an &quot;ICorDebugValue&quot; object that represents the value of the specified field.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The class, specified in the <c>pClass</c> parameter, must be in the hierarchy of the object value&#39;s class, and the field must be a field of that class.</para>
+	/// <para>The <c>GetFieldValue</c> method will still succeed for generic objects and generic classes. For example, if MyDictionary&lt;V&gt; inherits from Dictionary&lt;string,V&gt;, and the object value is of type MyDictionary&lt;int32&gt;, passing the <c>ICorDebugClass</c> object for Dictionary&lt;K,V&gt; will successfully get a field of Dictionary&lt;string,int32&gt;.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getfieldvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para><c>GetVirtualMethod</c> is not implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getvirtualmethod-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVirtualMethod(mdMemberRef memberRef, out ICorDebugFunction ppFunction);
 
+	/// <summary>
+	/// <para><c>GetContext</c> is not implemented.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getcontext-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetContext(out ICorDebugContext ppContext);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether this object value is a value type.</para>
+	/// </summary>
+	/// <param name="pbIsValueClass">
+	/// <para>A pointer to a Boolean value that is <c>true</c> if the object value, represented by this &quot;ICorDebugObjectValue&quot;, is a value type rather than a reference type; otherwise, <c>pbIsValueClass</c> is <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-isvalueclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsValueClass([MarshalAs(UnmanagedType.Bool)] out bool pbIsValueClass);
 
+	/// <summary>
+	/// <para><c>GetManagedCopy</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-getmanagedcopy-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetManagedCopy(out nint ppObject);
 
+	/// <summary>
+	/// <para><c>SetFromManagedCopy</c> is obsolete. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugobjectvalue-setfrommanagedcopy-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetFromManagedCopy(nint pObject);
 }

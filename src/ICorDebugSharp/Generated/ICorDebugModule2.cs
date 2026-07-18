@@ -6,23 +6,106 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Serves as a logical extension to the ICorDebugModule interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("7FCC5FB5-49C0-41DE-9938-3B88B5B9ADD7")]
 public partial interface ICorDebugModule2
 {
+	/// <summary>
+	/// <para>Sets the Just My Code (JMC) status of all methods of all the classes in this ICorDebugModule2 to the specified value, except those in the <c>pTokens</c> array, which it sets to the opposite value.</para>
+	/// </summary>
+	/// <param name="bIsJustMyCode">
+	/// <para>Set to <c>true</c> if the code is to be debugged; otherwise, set to <c>false</c>.</para>
+	/// </param>
+	/// <param name="cTokens">
+	/// <para>The size of the <c>pTokens</c> array.</para>
+	/// </param>
+	/// <param name="pTokens">
+	/// <para>An array of <c>mdToken</c> values, each of which refers to a method that will have its JMC status set to !<c>bIsJustMycode</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The JMC status of each method that is specified in the <c>pTokens</c> array is set to the opposite of the <c>bIsJustMycode</c> value. The status of all other methods in this module is set to the <c>bIsJustMycode</c> value.</para>
+	/// <para>The <c>SetJMCStatus</c> method erases all previous JMC settings in this module.</para>
+	/// <para>The <c>SetJMCStatus</c> method returns an S_OK HRESULT if all functions were set successfully. It returns a CORDBG_E_FUNCTION_NOT_DEBUGGABLE HRESULT if some functions that are marked <c>true</c> are not debuggable.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-setjmcstatus-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetJMCStatus([MarshalAs(UnmanagedType.Bool)] bool bIsJustMyCode, uint cTokens, [MarshalUsing(CountElementName = nameof(cTokens))][In] mdToken[] pTokens);
 
+	/// <summary>
+	/// <para>Applies the changes in the metadata and the changes in the common intermediate language (CIL) code to the running process.</para>
+	/// </summary>
+	/// <param name="cbMetadata">
+	/// <para>Size, in bytes, of the delta metadata.</para>
+	/// </param>
+	/// <param name="pbMetadata">
+	/// <para>Buffer that contains the delta metadata. The address of the buffer is returned from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit2-savedeltatomemory-method">IMetaDataEmit2::SaveDeltaToMemory</see> method.</para>
+	/// <para>The relative virtual addresses (RVAs) in the metadata should be relative to the start of the CIL code.</para>
+	/// </param>
+	/// <param name="cbIL">
+	/// <para>Size, in bytes, of the delta CIL code.</para>
+	/// </param>
+	/// <param name="pbIL">
+	/// <para>Buffer that contains the updated CIL code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>pbMetadata</c> parameter is in a special delta metadata format (as output by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit2-savedeltatomemory-method">IMetaDataEmit2::SaveDeltaToMemory</see>). <c>pbMetadata</c> takes previous metadata as a base and describes individual changes to apply to that base.</para>
+	/// <para>In contrast, the <c>pbIL[</c>] parameter contains the new CIL for the updated method, and is meant to completely replace the previous CIL for that method</para>
+	/// <para>When the delta CIL and the metadata have been created in the debugger’s memory, the debugger calls <c>ApplyChanges</c> to send the changes into the common language runtime (CLR). The runtime updates its metadata tables, places the new CIL into the process, and sets up a just-in-time (JIT) compilation of the new CIL. When the changes have been applied, the debugger should call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit2-resetenclog-method">IMetaDataEmit2::ResetENCLog</see> to prepare for the next editing session. The debugger may then continue the process.</para>
+	/// <para>Whenever the debugger calls <c>ApplyChanges</c> on a module that has delta metadata, it should also call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadataemit-applyeditandcontinue-method">IMetaDataEmit::ApplyEditAndContinue</see> with the same delta metadata on all of its copies of that module’s metadata except for the copy used to emit the changes. If a copy of the metadata somehow becomes out-of-sync with the actual metadata, the debugger can always throw away that copy and obtain a new copy.</para>
+	/// <para>If the <c>ApplyChanges</c> method fails, the debug session is in an invalid state and must be restarted.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-applychanges-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryApplyChanges(uint cbMetadata, [MarshalUsing(CountElementName = nameof(cbMetadata))][In] byte[] pbMetadata, uint cbIL, [MarshalUsing(CountElementName = nameof(cbIL))][In] byte[] pbIL);
 
+	/// <summary>
+	/// <para>Sets the flags that control the just-in-time (JIT) compilation of this ICorDebugModule2.</para>
+	/// </summary>
+	/// <param name="dwFlags">
+	/// <para>A bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration values.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the <c>dwFlags</c> value is invalid, the <c>SetJITCompilerFlags</c> method will fail.</para>
+	/// <para>The <c>SetJITCompilerFlags</c> method can be called only from within the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-loadmodule-method">ICorDebugManagedCallback::LoadModule</see> callback for this module. Attempts to call it after the <c>ICorDebugManagedCallback::LoadModule</c> callback has been delivered will fail.</para>
+	/// <para>Edit and Continue is not supported on 64-bit or Win9x platforms. Therefore, if you call the <c>SetJITCompilerFlags</c> method on either of these two platforms with the CORDEBUG_JIT_ENABLE_ENC flag set in <c>dwFlags</c>, the <c>SetJITCompilerFlags</c> method and all methods specific to Edit and Continue, such as <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-applychanges-method">ICorDebugModule2::ApplyChanges</see>, will fail.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-setjitcompilerflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetJITCompilerFlags(CorDebugJITCompilerFlags dwFlags);
 
+	/// <summary>
+	/// <para>Gets the flags that control the just-in-time (JIT) compilation of this ICorDebugModule2.</para>
+	/// </summary>
+	/// <param name="pdwFlags">
+	/// <para>A pointer to a value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that controls the JIT compilation.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-getjitcompilerflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags);
 
+	/// <summary>
+	/// <para>Resolves the assembly referenced by the specified metadata token.</para>
+	/// </summary>
+	/// <param name="tkAssemblyRef">
+	/// <para>An <c>mdToken</c> value that references the assembly.</para>
+	/// </param>
+	/// <param name="ppAssembly">
+	/// <para>A pointer to the address of an ICorDebugAssembly object that represents the assembly.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the assembly is not already loaded when <c>ResolveAssembly</c> is called, an HRESULT value of CORDBG_E_CANNOT_RESOLVE_ASSEMBLY is returned.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-resolveassembly-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly);
 }

@@ -6,11 +6,53 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides metadata information to the debugger.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmetadatalocator-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("7CEF8BA9-2EF7-42BF-973F-4171474F87D9")]
 public partial interface ICorDebugMetaDataLocator
 {
+	/// <summary>
+	/// <para>Asks the debugger to return the full path to a module whose metadata is needed to complete an operation the debugger requested.</para>
+	/// </summary>
+	/// <param name="wszImagePath">
+	/// <para>A null-terminated string that represents the full path to the file. If the full path is not available, the name and extension of the file (<i>filename</i>.<i>extension</i>).</para>
+	/// </param>
+	/// <param name="dwImageTimeStamp">
+	/// <para>The time stamp from the image&#39;s PE file headers. This parameter can potentially be used for a symbol server (<see href="https://learn.microsoft.com/windows/desktop/debug/using-symsrv">SymSrv</see>) lookup.</para>
+	/// </param>
+	/// <param name="dwImageSize">
+	/// <para>The image size from PE file headers. This parameter can potentially be used for a SymSrv lookup.</para>
+	/// </param>
+	/// <param name="cchPathBuffer">
+	/// <para>The character count in <c>wszPathBuffer</c>.</para>
+	/// </param>
+	/// <param name="pcchPathBuffer">
+	/// <para>The count of <c>WCHAR</c>s written to <c>wszPathBuffer</c>.</para>
+	/// <para>If the method returns E_NOT_SUFFICIENT_BUFFER, contains the count of <c>WCHAR</c>s needed to store the path.</para>
+	/// </param>
+	/// <param name="wszPathBuffer">
+	/// <para>Pointer to a buffer into which the debugger will copy the full path of the file that contains the requested metadata.</para>
+	/// <para>The <c>ofReadOnly</c> flag from the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/coropenflags-enumeration">CorOpenFlags</see> enumeration is used to request read-only access to the metadata in this file.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs as well as HRESULT errors that indicate method failure. All other failure HRESULTs indicate that the file is not retrievable.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The method completed successfully. <c>wszPathBuffer</c> contains the full path to the file and is null-terminated.</description></item>
+	/// <item><term>E_NOT_SUFFICIENT_BUFFER</term><description>The current size of <c>wszPathBuffer</c> is not sufficient to hold the full path. In this case, <c>pcchPathBuffer</c> contains the needed count of <c>WCHAR</c>s, including the terminating null character, and <c>GetMetaData</c> is called a second time with the requested buffer size.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>If <c>wszImagePath</c> contains a full path for a module from a dump, it specifies the path from the computer where the dump was collected. The file may not exist at this location, or an incorrect file with the same name may be stored on the path.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmetadatalocator-getmetadata-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetMetaData(string wszImagePath, uint dwImageTimeStamp, uint dwImageSize, uint cchPathBuffer, out uint pcchPathBuffer, [MarshalUsing(CountElementName = nameof(cchPathBuffer))][Out] char[] wszPathBuffer);
 }

@@ -5,12 +5,32 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about an object on the managed heap.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>COR_HEAPOBJECT</c> instances can be retrieved by enumerating an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see> interface object that is populated by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerateheap-method">ICorDebugProcess5::EnumerateHeap</see> method.</para>
+/// <para>A <c>COR_HEAPOBJECT</c> instance provides information either about a live object on the managed heap, or about an object that is not rooted by any object but has not yet been collected by the garbage collector.</para>
+/// <para>For better performance, the <c>COR_HEAPOBJECT.address</c> field is a <c>CORDB_ADDRESS</c> value rather than the ICorDebugValue interface value used in much of the debugging API. To obtain an ICorDebugValue object for a given object address, you can pass the <c>CORDB_ADDRESS</c> value to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getobject-method">ICorDebugProcess5::GetObject</see> method.</para>
+/// <para>For better performance, the <c>COR_HEAPOBJECT.type</c> field is a <c>COR_TYPEID</c> value rather than the ICorDebugType interface value used in much of the debugging API. To obtain an ICorDebugType object for a given type ID, you can pass the <c>COR_TYPEID</c> value to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypefortypeid-method">ICorDebugProcess5::GetTypeForTypeID</see> method.</para>
+/// <para>The <c>COR_HEAPOBJECT</c> structure includes a reference-counted COM interface. If you retrieve a <c>COR_HEAPOBJECT</c> instance from the enumerator by calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-next-method">ICorDebugHeapEnum::Next</see> method, you must subsequently release the reference.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_HEAPOBJECT
 {
+	/// <summary>
+	/// <para>The address of the object in memory.</para>
+	/// </summary>
 	public CORDB_ADDRESS address;
 
+	/// <summary>
+	/// <para>The total size of the object, in bytes.</para>
+	/// </summary>
 	public ulong size;
 
+	/// <summary>
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> token that represents the type of the object.</para>
+	/// </summary>
 	public COR_TYPEID type;
 }

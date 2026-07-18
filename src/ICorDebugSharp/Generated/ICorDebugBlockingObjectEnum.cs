@@ -6,11 +6,45 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides an enumerator for a list of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> structures. This interface is a subclass of the ICorDebugEnum interface.</para>
+/// </summary>
+/// <remarks>
+/// <para>Each <c>CorDebugBlockingObject</c> structure represents an object that is blocking a thread.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugblockingobjectenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("976A6278-134A-4A81-81A3-8F277943F4C3")]
 public partial interface ICorDebugBlockingObjectEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the specified number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> objects from the enumeration, starting at the current position.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of objects to retrieve.</para>
+	/// </param>
+	/// <param name="values">
+	/// <para>An array of pointers to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugblockingobject-structure">CorDebugBlockingObject</see> objects.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>A pointer to the number of objects that were retrieved.</para>
+	/// </param>
+	/// <returns>
+	/// <para>This method returns the following specific HRESULTs.</para>
+	/// <list type="table">
+	/// <listheader><term>HRESULT</term><description>Description</description></listheader>
+	/// <item><term>S_OK</term><description>The method completed successfully.</description></item>
+	/// <item><term>S_FALSE</term><description><c>pceltFetched</c> does not equal <c>celt</c>.</description></item>
+	/// </list>
+	/// </returns>
+	/// <remarks>
+	/// <para>This method functions like a typical COM enumerator.</para>
+	/// <para>The input array values must be at least of size <c>celt</c>. The array will be filled with either the next <c>celt</c> values in the enumeration or with all remaining values if fewer than <c>celt</c> remain. When this method returns, <c>pceltFetched</c> will be filled with the number of values that were retrieved. If <c>values</c> contains invalid pointers or points to a buffer that is smaller than <c>celt</c>, or if <c>pceltFetched</c> is an invalid pointer, the result is undefined.</para>
+	/// <para><b>Note:</b> Although the  CorDebugBlockingObject  structure does not need to be released, the &quot;ICorDebugValue&quot; interface inside of it does need to be released.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugblockingobjectenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] CorDebugBlockingObject[] values, out uint pceltFetched);
 }

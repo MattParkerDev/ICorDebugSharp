@@ -5,22 +5,54 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides information about the layout of an array object in memory.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>rankSize</c> field specifies the size of a rank in a multi-dimensional array. It is accurate for single-dimensional arrays as well.</para>
+/// <para>The value of <c>numRanks</c> is 1 for a single-dimensional array and <c>N</c> for a multi-dimensional array of <c>N</c> dimensions.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-array-layout-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_ARRAY_LAYOUT
 {
+	/// <summary>
+	/// <para>The identifier of the type of objects that the array contains.</para>
+	/// </summary>
 	public COR_TYPEID componentID;
 
+	/// <summary>
+	/// <para>A CorElementType enumeration value that indicates whether the component is a garbage collection reference, a value class, or a primitive.</para>
+	/// </summary>
 	public CorElementType componentType;
 
+	/// <summary>
+	/// <para>The offset to the first element in the array.</para>
+	/// </summary>
 	public uint firstElementOffset;
 
+	/// <summary>
+	/// <para>The size of each element.</para>
+	/// </summary>
 	public uint elementSize;
 
+	/// <summary>
+	/// <para>The offset to the number of elements in the array.</para>
+	/// </summary>
 	public uint countOffset;
 
+	/// <summary>
+	/// <para>The size of the rank, in bytes.</para>
+	/// </summary>
 	public uint rankSize;
 
+	/// <summary>
+	/// <para>The number of ranks in the array.</para>
+	/// </summary>
 	public uint numRanks;
 
+	/// <summary>
+	/// <para>The offset at which the ranks start.</para>
+	/// </summary>
 	public uint rankOffset;
 }

@@ -5,10 +5,23 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Contains the offset information for a range of code.</para>
+/// <para>This structure is used by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstepper-steprange-method">ICorDebugStepper::StepRange</see> method.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-debug-step-range-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_DEBUG_STEP_RANGE
 {
+	/// <summary>
+	/// <para>The offset of the beginning of the range.</para>
+	/// </summary>
 	public uint startOffset;
 
+	/// <summary>
+	/// <para>The offset of the end of the range.</para>
+	/// </summary>
 	public uint endOffset;
 }

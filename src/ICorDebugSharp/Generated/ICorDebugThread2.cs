@@ -6,23 +6,88 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Serves as a logical extension to the ICorDebugThread interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("2BD956D9-7B07-4BEF-8A98-12AA862417C5")]
 public partial interface ICorDebugThread2
 {
+	/// <summary>
+	/// <para>Gets information about the active function in each of this thread&#39;s frames.</para>
+	/// </summary>
+	/// <param name="cFunctions">
+	/// <para>The size of the <c>pFunctions</c> array.</para>
+	/// </param>
+	/// <param name="pcFunctions">
+	/// <para>A pointer to the number of objects returned in the <c>pFunctions</c> array. The number of objects returned will be equal to the number of managed frames on the stack.</para>
+	/// </param>
+	/// <param name="pFunctions">
+	/// <para>An array of COR_ACTIVE_FUNCTION objects, each of which contains information about the active functions in this thread&#39;s frames.</para>
+	/// <para>The first element will be used for the leaf frame, and so on back to the root of the stack.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If <c>pFunctions</c> is null on input, <c>GetActiveFunctions</c> returns only the number of functions that are on the stack. That is, If <c>pFunctions</c> is null on input, <c>GetActiveFunctions</c> returns a value only in <c>pcFunctions</c>.</para>
+	/// <para>The <c>GetActiveFunctions</c> method is intended as an optimization over getting the same information from frames in a stack trace, and includes only frames that would have had an ICorDebugILFrame object for them in the full stack trace.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-getactivefunctions-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, [MarshalUsing(CountElementName = nameof(cFunctions))][In][Out] COR_ACTIVE_FUNCTION[]? pFunctions);
 
+	/// <summary>
+	/// <para>Gets the connection identifier for this ICorDebugThread2 object.</para>
+	/// </summary>
+	/// <param name="pdwConnectionId">
+	/// <para>A <c>CONNID</c> that represents the connection identifier.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetConnectionID</c> method returns zero in the <c>pdwConnectionId</c> parameter, if this thread is not part of a connection.</para>
+	/// <para>If this thread is connected to an instance of Microsoft SQL Server 2005 Analysis Services (SSAS), the <c>CONNID</c> maps to a server process identifier (SPID).</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-getconnectionid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetConnectionID(out uint pdwConnectionId);
 
+	/// <summary>
+	/// <para>Gets the identifier of the task running on this thread.</para>
+	/// </summary>
+	/// <param name="pTaskId">
+	/// <para>A pointer to the identifier of the task running on the thread represented by this ICorDebugThread2 object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>A task can only be running on the thread if the thread is associated with a connection. <c>GetTaskID</c> returns zero in <c>pTaskId</c> if the thread is not associated with a connection.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-gettaskid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTaskID(out ulong pTaskId);
 
+	/// <summary>
+	/// <para>Gets the operating system thread identifier for this ICorDebugThread2.</para>
+	/// </summary>
+	/// <param name="pdwTid">
+	/// <para>The operating system thread identifier for this thread.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-getvolatileosthreadid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVolatileOSThreadID(out uint pdwTid);
 
+	/// <summary>
+	/// <para>Allows a debugger to intercept the current exception on this thread.</para>
+	/// </summary>
+	/// <param name="pFrame">
+	/// <para>A pointer to an ICorDebugFrame that represents the active stack frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>InterceptCurrentException</c> method can be called between an exception callback (<see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-exception-method">ICorDebugManagedCallback::Exception</see> or <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback2-exception-method">ICorDebugManagedCallback2::Exception</see>) and the associated call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugcontroller-continue-method">ICorDebugController::Continue</see>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugthread2-interceptcurrentexception-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryInterceptCurrentException(ICorDebugFrame pFrame);
 }

@@ -5,20 +5,57 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents an exception handling (EH) clause for a given piece of intermediate language (IL) code.</para>
+/// </summary>
+/// <remarks>
+/// <para>An array of <c>CoreDebugEHClause</c> values is returned by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-getehclauses-method">GetEHClauses</see> method.</para>
+/// <para>The EH clause information is defined by the CLI specification. For more information, see <see href="https://www.ecma-international.org/publications-and-standards/standards/ecma-335/">Standard ECMA-355: Common Language Infrastructure (CLI), 6th Edition</see>.</para>
+/// <para>The <c>flags</c> field can contain the following flags. Note that they are not defined in CorDebug.idl or CorDebug.h.</para>
+/// <list type="table">
+/// <listheader><term>Flag</term><description>Value</description><description>Description</description></listheader>
+/// <item><term><c>COR_ILEXCEPTION_CLAUSE_EXCEPTION</c></term><description>0x00000000</description><description>A typed exception clause.</description></item>
+/// <item><term><c>COR_ILEXCEPTION_CLAUSE_FILTER</c></term><description>0x00000001</description><description>An exception filter and handler clause.</description></item>
+/// <item><term><c>COR_ILEXCEPTION_CLAUSE_FINALLY</c></term><description>0x00000002</description><description>A <c>finally</c> clause.</description></item>
+/// <item><term><c>COR_ILEXCEPTION_CLAUSE_FAULT</c></term><description>0x00000004</description><description>A fault clause (a <c>finally</c> clause that is called only when an exception is thrown).</description></item>
+/// </list>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugehclause-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct CorDebugEHClause
 {
+	/// <summary>
+	/// <para>A bit field that describes the exception information in the EH clause. For more information, see the Remarks section.</para>
+	/// </summary>
 	public uint Flags;
 
+	/// <summary>
+	/// <para>The offset, in bytes, of the <c>try</c> block from the start of the method body.</para>
+	/// </summary>
 	public uint TryOffset;
 
+	/// <summary>
+	/// <para>The length, in bytes, of the <c>try</c> block.</para>
+	/// </summary>
 	public uint TryLength;
 
+	/// <summary>
+	/// <para>The location of the handler for this <c>try</c> block.</para>
+	/// </summary>
 	public uint HandlerOffset;
 
+	/// <summary>
+	/// <para>The size of the handler code in bytes.</para>
+	/// </summary>
 	public uint HandlerLength;
 
+	/// <summary>
+	/// <para>The metadata token for a type-based exception handler.</para>
+	/// </summary>
 	public uint ClassToken;
 
+	/// <summary>
+	/// <para>The offset, in bytes, from the start of the method body for a filter-based exception handler.</para>
+	/// </summary>
 	public uint FilterOffset;
 }

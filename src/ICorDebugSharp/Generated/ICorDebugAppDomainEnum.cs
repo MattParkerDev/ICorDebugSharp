@@ -6,11 +6,33 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides the <c>Next</c> method, which returns a specified number of <c>ICorDebugAppDomainEnum</c> values starting at the next location in the enumeration. This interface is a subclass of &quot;ICorDebugEnum&quot;.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomainenum-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("63CA1B24-4359-4883-BD57-13F815F58744")]
 public partial interface ICorDebugAppDomainEnum : ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Gets the specified number of application domains from the collection, starting at the current cursor position.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of application domains to be retrieved.</para>
+	/// </param>
+	/// <param name="values">
+	/// <para>An array of pointers, each of which points to an ICorDebugAppDomain object that represents an application domain.</para>
+	/// </param>
+	/// <param name="pceltFetched">
+	/// <para>A pointer to the number of application domains actually returned. This value may be null if <c>celt</c> is one.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomainenum-next-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryNext(uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] ICorDebugAppDomain[] values, out uint pceltFetched);
 }

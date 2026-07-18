@@ -6,11 +6,28 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents an assembly. This interface is an extension of the ICorDebugAssembly interface.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("426D1F9E-6DD4-44C8-AEC7-26CDBAF4E398")]
 public partial interface ICorDebugAssembly2
 {
+	/// <summary>
+	/// <para>Gets a value that indicates whether the assembly has been granted full trust by the runtime security system.</para>
+	/// </summary>
+	/// <param name="pbFullyTrusted">
+	/// <para><c>true</c> if the assembly has been granted full trust by the runtime security system; otherwise, <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This method returns an HRESULT of CORDBG_E_NOTREADY if the security policy for the assembly has not yet been resolved, that is, if no code in the assembly has been run yet.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugassembly2-isfullytrusted-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsFullyTrusted([MarshalAs(UnmanagedType.Bool)] out bool pbFullyTrusted);
 }

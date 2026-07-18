@@ -6,14 +6,47 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode-interface">ICorDebugILCode</see> interface to provide methods that return the token for a function&#39;s local variable signature, and that map a profiler&#39;s instrumented intermediate language (IL) offsets to original method IL offsets.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode2-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("46586093-D3F5-4DB6-ACDB-955BCE228C15")]
 public partial interface ICorDebugILCode2
 {
+	/// <summary>
+	/// <para>Gets the metadata token for the local variable signature for the function that is represented by this instance.</para>
+	/// </summary>
+	/// <param name="pmdSig">
+	/// <para>A pointer to the <c>mdSignature</c> token for the local variable signature for this function, or <c>mdSignatureNil</c> if there is no signature (that is, if the function doesn&#39;t have any local variables).</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode2-getlocalvarsigtoken-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalVarSigToken(out mdSignature pmdSig);
 
+	/// <summary>
+	/// <para>Returns a map from profiler-instrumented intermediate language (IL) offsets to original method IL offsets for this instance.</para>
+	/// </summary>
+	/// <param name="cMap">
+	/// <para>The storage capacity of the <c>map</c> array. See the Remarks section for more information.</para>
+	/// </param>
+	/// <param name="pcMap">
+	/// <para>The number of COR_IL_MAP values written to the map array.</para>
+	/// </param>
+	/// <param name="map">
+	/// <para>An array of COR_IL_MAP values that provide information on mappings from profiler-instrumented IL to the IL of the original method.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the profiler sets the mapping by calling the <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/profiling/icorprofilerinfo-setilinstrumentedcodemap-method">ICorProfilerInfo::SetILInstrumentedCodeMap</see> method, the debugger can call this method to retrieve the mapping and to use the mapping internally when calculating IL offsets for stack traces and variable lifetimes.</para>
+	/// <para>If <c>cMap</c> is 0 and <c>pcMap</c> is non-<b>null</b>, <c>pcMap</c> is set to the number of available COR_IL_MAP values. If <c>cMap</c> is non-zero, it represents the storage capacity of the <c>map</c> array. When the method returns, <c>map</c> contains a maximum of <c>cMap</c> items, and <c>pcMap</c> is set to the number of COR_IL_MAP values actually written to the <c>map</c> array.</para>
+	/// <para>If the IL hasn&#39;t been instrumented or the mapping wasn&#39;t provided by a profiler, this method returns <c>S_OK</c> and sets <c>pcMap</c> to 0.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilcode2-getinstrumentedilmap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetInstrumentedILMap(uint cMap, out uint pcMap, [MarshalUsing(CountElementName = nameof(cMap))][Out] COR_IL_MAP[]? map);
 }

@@ -6,32 +6,131 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A subclass of ICorDebugHeapValue that represents a single-dimensional or multi-dimensional array.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebugArrayValue</c> supports both single-dimensional and multi-dimensional arrays.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("0405B0DF-A660-11D2-BD02-0000F80849BD")]
 public partial interface ICorDebugArrayValue : ICorDebugHeapValue
 {
+	/// <summary>
+	/// <para>Gets a value that indicates the simple type of the elements in the array.</para>
+	/// </summary>
+	/// <param name="pType">
+	/// <para>A pointer to a value of the CorElementType enumeration that indicates the type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getelementtype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetElementType(out CorElementType pType);
 
+	/// <summary>
+	/// <para>Gets the number of dimensions in the array.</para>
+	/// </summary>
+	/// <param name="pnRank">
+	/// <para>A pointer to the number of dimensions in this <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getrank-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRank(out uint pnRank);
 
+	/// <summary>
+	/// <para>Gets the total number of elements in the array.</para>
+	/// </summary>
+	/// <param name="pnCount">
+	/// <para>A pointer to the total number of elements in the array.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getcount-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCount(out uint pnCount);
 
+	/// <summary>
+	/// <para>Gets the number of elements in each dimension of this array.</para>
+	/// </summary>
+	/// <param name="cdim">
+	/// <para>The number of dimensions of this ICorDebugArrayValue object.</para>
+	/// <para>This value is also the size of the <c>dims</c> array because its size is equal to the number of dimensions of the <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <param name="dims">
+	/// <para>An array of integers, each of which specifies the number of elements in a dimension in this <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getdimensions-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetDimensions(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] dims);
 
+	/// <summary>
+	/// <para>Gets a value that indicates whether any dimensions of this array have a base index of non-zero.</para>
+	/// </summary>
+	/// <param name="pbHasBaseIndicies">
+	/// <para>A pointer to a Boolean value that is <c>true</c> if one or more dimensions of this <c>ICorDebugArrayValue</c> object have a base index of non-zero; otherwise, the Boolean value is <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-hasbaseindicies-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryHasBaseIndicies([MarshalAs(UnmanagedType.Bool)] out bool pbHasBaseIndicies);
 
+	/// <summary>
+	/// <para>Gets the base index of each dimension in the array.</para>
+	/// </summary>
+	/// <param name="cdim">
+	/// <para>The number of dimensions of this <c>ICorDebugArrayValue</c> object. This value is also the size of the <c>indicies</c> array because its size is equal to the number of dimensions of the <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <param name="indices">
+	/// <para>An array of integers, each of which is the base index (that is, the starting index) of a dimension of this <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getbaseindicies-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetBaseIndicies(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][Out] uint[] indices);
 
+	/// <summary>
+	/// <para>Gets the value of the given array element.</para>
+	/// </summary>
+	/// <param name="cdim">
+	/// <para>The number of dimensions of this <c>ICorDebugArrayValue</c> object.</para>
+	/// <para>This value is also the size of the <c>indices</c> array because its size is equal to the number of dimensions of the <c>ICorDebugArrayValue</c> object.</para>
+	/// </param>
+	/// <param name="indices">
+	/// <para>An array of index values, each of which specifies a position within a dimension of the <c>ICorDebugArrayValue</c> object.</para>
+	/// <para>This value must not be null.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the value of the specified element.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getelement-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetElement(uint cdim, [MarshalUsing(CountElementName = nameof(cdim))][In] uint[] indices, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the element at the given position, treating the array as a zero-based, single-dimensional array.</para>
+	/// </summary>
+	/// <param name="nPosition">
+	/// <para>The position of the element to be retrieved.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue object that represents the value of the element.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The layout of a multi-dimension array follows the C++ style of array layout.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugarrayvalue-getelementatposition-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetElementAtPosition(uint nPosition, out ICorDebugValue ppValue);
 }

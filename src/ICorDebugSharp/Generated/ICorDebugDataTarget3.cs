@@ -6,11 +6,34 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget-interface">ICorDebugDataTarget</see> interface to provide information about loaded modules.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface is available with .NET Native only. If you implement this interface for ICorDebug scenarios outside of .NET Native, the common language runtime will ignore this interface.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget3-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("D05E60C3-848C-4E7D-894E-623320FF6AFA")]
 public partial interface ICorDebugDataTarget3
 {
+	/// <summary>
+	/// <para>Gets a list of the modules that have been loaded so far.</para>
+	/// </summary>
+	/// <param name="cRequestedModules">
+	/// <para>The number of modules for which information is requested.</para>
+	/// </param>
+	/// <param name="pcFetchedModules">
+	/// <para>A pointer to the number of modules about which information was returned.</para>
+	/// </param>
+	/// <param name="pLoadedModules">
+	/// <para>A pointer to an array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugloadedmodule-interface">ICorDebugLoadedModule</see> objects that provide information about loaded modules.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><b>Note:</b> This method is available with .NET Native only.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugdatatarget3-getloadedmodules-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLoadedModules(uint cRequestedModules, out uint pcFetchedModules, [MarshalUsing(CountElementName = nameof(cRequestedModules))][Out] ICorDebugLoadedModule[] pLoadedModules);
 }

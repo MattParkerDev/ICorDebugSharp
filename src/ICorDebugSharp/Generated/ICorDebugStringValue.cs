@@ -6,14 +6,45 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A subclass of ICorDebugHeapValue that applies to string values.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstringvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAFD-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugStringValue : ICorDebugHeapValue
 {
+	/// <summary>
+	/// <para>Gets the number of characters in the string referenced by this ICorDebugStringValue.</para>
+	/// </summary>
+	/// <param name="pcchString">
+	/// <para>A pointer to a value that specifies the length of the string referenced by this <c>ICorDebugStringValue</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstringvalue-getlength-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLength(out uint pcchString);
 
+	/// <summary>
+	/// <para>Gets the string referenced by this ICorDebugStringValue.</para>
+	/// </summary>
+	/// <param name="cchString">
+	/// <para>The size of the <c>szString</c> array.</para>
+	/// </param>
+	/// <param name="pcchString">
+	/// <para>A pointer to the number of characters returned in the <c>szString</c> array.</para>
+	/// </param>
+	/// <param name="szString">
+	/// <para>An array that stores the retrieved string.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstringvalue-getstring-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetString(uint cchString, out uint pcchString, [MarshalUsing(CountElementName = nameof(cchString))][Out] char[]? szString);
 }

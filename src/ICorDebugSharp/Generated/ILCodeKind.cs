@@ -3,8 +3,21 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides values that specify whether the debugger is able to access local variables or code added in profiler ReJIT instrumentation.</para>
+/// </summary>
+/// <remarks>
+/// <para>A member of the <c>ILCodeKind</c> enumeration can be passed to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe4-enumeratelocalvariablesex-method">EnumerateLocalVariablesEx</see> and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe4-getlocalvariableex-method">GetLocalVariableEx</see> methods to determine whether the debugger can access variables added in profiler ReJIT instrumentation, and to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugilframe4-getcodeex-method">GetCodeEx</see> method to determine whether the debugger can access instrumented IL.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/ilcodekind-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum ILCodeKind
 {
+	/// <summary>
+	/// <para>The debugger does not have access to information from ReJIT instrumentation.</para>
+	/// </summary>
 	ILCODE_ORIGINAL_IL = 0x1,
+	/// <summary>
+	/// <para>The debugger has access to information from ReJIT instrumentation.</para>
+	/// </summary>
 	ILCODE_REJIT_IL = 0x2,
 }

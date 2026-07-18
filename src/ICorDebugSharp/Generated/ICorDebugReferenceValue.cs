@@ -6,23 +6,75 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides methods that manage a value that is a reference to an object. (That is, this interface provides methods that manage a pointer.) This interface implements &quot;ICorDebugValue&quot;.</para>
+/// </summary>
+/// <remarks>
+/// <para>The common language runtime (CLR) may do a garbage collection on objects when the debugged process is continued. The garbage collection may move objects around in memory. An <c>ICorDebugReferenceValue</c> will either cooperate with the garbage collection so that its information is updated after the garbage collection, or it will be invalidated implicitly before the garbage collection.</para>
+/// <para>The <c>ICorDebugReferenceValue</c> object may be implicitly invalidated after the debugged process has been continued. The derived &quot;ICorDebugHandleValue&quot; is not invalidated until it is explicitly released or exposed.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAF9-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugReferenceValue : ICorDebugValue
 {
+	/// <summary>
+	/// <para>Gets a value that indicates whether this ICorDebugReferenceValue is a null value, in which case the <c>ICorDebugReferenceValue</c> does not point to an object.</para>
+	/// </summary>
+	/// <param name="pbNull">
+	/// <para>A pointer to a Boolean value that is <c>true</c> if this <c>ICorDebugReferenceValue</c> object is null; otherwise, <c>pbNull</c> is <c>false</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-isnull-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryIsNull([MarshalAs(UnmanagedType.Bool)] out bool pbNull);
 
+	/// <summary>
+	/// <para>Gets the current memory address of the referenced object.</para>
+	/// </summary>
+	/// <param name="pValue">
+	/// <para>A pointer to a <c>CORDB_ADDRESS</c> value that specifies the address of the object to which this ICorDebugReferenceValue object points.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-getvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetValue(out CORDB_ADDRESS pValue);
 
+	/// <summary>
+	/// <para>Sets the specified memory address. That is, this method sets this ICorDebugReferenceValue to point to an object.</para>
+	/// </summary>
+	/// <param name="value">
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the address of the object to which this <c>ICorDebugReferenceValue</c> points.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-setvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetValue(CORDB_ADDRESS value);
 
+	/// <summary>
+	/// <para>Gets the object that is referenced.</para>
+	/// </summary>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an ICorDebugValue that represents the object to which this ICorDebugReferenceValue object points.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ICorDebugValue</c> object is valid only while its reference has not yet been disabled.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-dereference-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDereference(out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para><c>DereferenceStrong</c> is not implemented. Do not call this method.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugreferencevalue-dereferencestrong-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryDereferenceStrong(out ICorDebugValue ppValue);
 }

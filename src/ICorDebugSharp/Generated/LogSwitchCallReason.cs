@@ -3,9 +3,24 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the operation that was performed on a debugging/tracing switch.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/logswitchcallreason-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum LogSwitchCallReason
 {
+	/// <summary>
+	/// <para>A debugging/tracing switch was created.</para>
+	/// </summary>
 	SWITCH_CREATE,
+	/// <summary>
+	/// <para>A debugging/tracing switch was modified.</para>
+	/// </summary>
 	SWITCH_MODIFY,
+	/// <summary>
+	/// <para>A debugging/tracing switch was deleted.</para>
+	/// </summary>
 	SWITCH_DELETE,
 }

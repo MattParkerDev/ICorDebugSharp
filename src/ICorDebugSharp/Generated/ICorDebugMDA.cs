@@ -6,23 +6,97 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a managed debugging assistant (MDA) message.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface(StringMarshalling = StringMarshalling.Utf16)]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC726F2F-1DB7-459B-B0EC-05F01D841B42")]
 public partial interface ICorDebugMDA
 {
+	/// <summary>
+	/// <para>Gets a string containing the name of the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the <c>szName</c> array.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the length of the name.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array in which to store the name.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>MDA names are unique values. The <c>GetName</c> method is a convenient performance alternative to getting the XML stream and extracting the name from the stream based on the schema.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getname-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetName(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets a string containing the description of the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the string buffer that will store the description.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the number of bytes returned in the string buffer.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>A string buffer containing the description of the MDA.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The string can be zero in length.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getdescription-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetDescription(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the full XML stream associated with the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// </summary>
+	/// <param name="cchName">
+	/// <para>The size of the <c>szName</c> array.</para>
+	/// </param>
+	/// <param name="pcchName">
+	/// <para>A pointer to the length of the XML stream.</para>
+	/// </param>
+	/// <param name="szName">
+	/// <para>An array in which to store the XML stream. The array may be empty.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetXML</c> method can potentially affect performance, depending on the size of the associated XML stream.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getxml-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetXML(uint cchName, out uint pcchName, [MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);
 
+	/// <summary>
+	/// <para>Gets the flags associated with the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see>.</para>
+	/// </summary>
+	/// <param name="pFlags">
+	/// <para>A bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugmdaflags-enumeration">CorDebugMDAFlags</see> enumeration values that specify the settings of the flags for this MDA.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFlags(ref CorDebugMDAFlags pFlags);
 
+	/// <summary>
+	/// <para>Gets the operating system (OS) thread identifier upon which the managed debugging assistant (MDA) represented by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-interface">ICorDebugMDA</see> is executing.</para>
+	/// </summary>
+	/// <param name="pOsTid">
+	/// <para>A pointer to the OS thread identifier.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The OS thread is used instead of an ICorDebugThread to allow for situations in which an MDA is fired either on a native thread or on a managed thread that has not yet entered managed code.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmda-getosthreadid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetOSThreadId(out uint pOsTid);
 }

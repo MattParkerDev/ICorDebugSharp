@@ -5,12 +5,64 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Specifies changes in the relative offset of a function.</para>
+/// </summary>
+/// <remarks>
+/// <para>The format of the map is as follows: The debugger will assume that <c>oldOffset</c> refers to an CIL offset within the original, unmodified CIL code. The <c>newOffset</c> parameter refers to the corresponding CIL offset within the new, instrumented code.</para>
+/// <para>For stepping to work properly, the following requirements should be met:</para>
+/// <list type="bullet">
+/// <item><description><para>The map should be sorted in ascending order.</para>
+/// </description></item>
+/// <item><description><para>Instrumented CIL code should not be reordered.</para>
+/// </description></item>
+/// <item><description><para>Original CIL code should not be removed.</para>
+/// </description></item>
+/// <item><description><para>The map should include entries to map all the sequence points from the program database (PDB) file.</para>
+/// </description></item>
+/// </list>
+/// <para>The map does not interpolate missing entries. The following example shows a map and its results.</para>
+/// <para>Map:</para>
+/// <list type="bullet">
+/// <item><description><para>0 old offset, 0 new offset</para>
+/// </description></item>
+/// <item><description><para>5 old offset, 10 new offset</para>
+/// </description></item>
+/// <item><description><para>9 old offset, 20 new offset</para>
+/// </description></item>
+/// </list>
+/// <para>Results:</para>
+/// <list type="bullet">
+/// <item><description><para>An old offset of 0, 1, 2, 3, or 4 will be mapped to a new offset of 0.</para>
+/// </description></item>
+/// <item><description><para>An old offset of 5, 6, 7, or 8 will be mapped to new offset 10.</para>
+/// </description></item>
+/// <item><description><para>An old offset of 9 or higher will be mapped to new offset 20.</para>
+/// </description></item>
+/// <item><description><para>A new offset of 0, 1, 2, 3, 4, 5, 6, 7, 8, or 9 will be mapped to old offset 0.</para>
+/// </description></item>
+/// <item><description><para>A new offset of 10, 11, 12, 13, 14, 15, 16, 17, 18, or 19 will be mapped to old offset 5.</para>
+/// </description></item>
+/// <item><description><para>A new offset of 20 or higher will be mapped to old offset 9.</para>
+/// </description></item>
+/// </list>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-il-map-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct COR_IL_MAP
 {
+	/// <summary>
+	/// <para>The old common intermediate language (CIL) offset relative to the beginning of the function.</para>
+	/// </summary>
 	public uint oldOffset;
 
+	/// <summary>
+	/// <para>The new CIL offset relative to the beginning of the function.</para>
+	/// </summary>
 	public uint newOffset;
 
+	/// <summary>
+	/// <para><c>true</c> if the mapping is known to be accurate; otherwise, <c>false</c>.</para>
+	/// </summary>
 	public int fAccurate;
 }

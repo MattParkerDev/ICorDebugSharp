@@ -5,10 +5,23 @@ using System.Runtime.InteropServices;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a single chunk of code in memory.</para>
+/// </summary>
+/// <remarks>
+/// <para>The single chunk of code is a region of native code that is part of a code object such as a function.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/codechunkinfo-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [StructLayout(LayoutKind.Sequential)]
 public struct CodeChunkInfo
 {
+	/// <summary>
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the starting address of the chunk.</para>
+	/// </summary>
 	public CORDB_ADDRESS startAddr;
 
+	/// <summary>
+	/// <para>The size, in bytes, of the chunk.</para>
+	/// </summary>
 	public uint length;
 }

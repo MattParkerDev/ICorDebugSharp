@@ -3,19 +3,65 @@
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Indicates the reason or reasons for the initiation of a call chain.</para>
+/// </summary>
+/// <remarks>
+/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugchain-getreason-method">ICorDebugChain::GetReason</see> method to ascertain the reasons for the initiation of a call chain.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugchainreason-enumeration">Microsoft Learn</see>.</para>
+/// </remarks>
 public enum CorDebugChainReason
 {
+	/// <summary>
+	/// <para>No call chain has been initiated.</para>
+	/// </summary>
 	CHAIN_NONE = 0x0,
+	/// <summary>
+	/// <para>The chain was initiated by a constructor.</para>
+	/// </summary>
 	CHAIN_CLASS_INIT = 0x1,
+	/// <summary>
+	/// <para>The chain was initiated by an exception filter.</para>
+	/// </summary>
 	CHAIN_EXCEPTION_FILTER = 0x2,
+	/// <summary>
+	/// <para>The chain was initiated by code that enforces security.</para>
+	/// </summary>
 	CHAIN_SECURITY = 0x4,
+	/// <summary>
+	/// <para>The chain was initiated by a context policy.</para>
+	/// </summary>
 	CHAIN_CONTEXT_POLICY = 0x8,
+	/// <summary>
+	/// <para>Not used.</para>
+	/// </summary>
 	CHAIN_INTERCEPTION = 0x10,
+	/// <summary>
+	/// <para>Not used.</para>
+	/// </summary>
 	CHAIN_PROCESS_START = 0x20,
+	/// <summary>
+	/// <para>The chain was initiated by the start of a thread execution.</para>
+	/// </summary>
 	CHAIN_THREAD_START = 0x40,
+	/// <summary>
+	/// <para>The chain was initiated by entry into managed code.</para>
+	/// </summary>
 	CHAIN_ENTER_MANAGED = 0x80,
+	/// <summary>
+	/// <para>The chain was initiated by entry into unmanaged code.</para>
+	/// </summary>
 	CHAIN_ENTER_UNMANAGED = 0x100,
+	/// <summary>
+	/// <para>Not used.</para>
+	/// </summary>
 	CHAIN_DEBUGGER_EVAL = 0x200,
+	/// <summary>
+	/// <para>Not used.</para>
+	/// </summary>
 	CHAIN_CONTEXT_SWITCH = 0x400,
+	/// <summary>
+	/// <para>The chain was initiated by a function evaluation.</para>
+	/// </summary>
 	CHAIN_FUNC_EVAL = 0x800,
 }

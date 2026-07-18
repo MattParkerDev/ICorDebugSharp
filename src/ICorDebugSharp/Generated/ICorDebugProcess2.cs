@@ -6,29 +6,127 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A logical extension of the ICorDebugProcess interface, which represents a process running managed code.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-interface1">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("AD1B3588-0EF0-4744-A496-AA09A9F80371")]
 public partial interface ICorDebugProcess2
 {
+	/// <summary>
+	/// <para>Gets the thread on which the task with the specified identifier is executing.</para>
+	/// </summary>
+	/// <param name="taskid">
+	/// <para>The identifier of the task.</para>
+	/// </param>
+	/// <param name="ppThread">
+	/// <para>A pointer to the address of an ICorDebugThread2 object that represents the thread to be retrieved.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The host can set the task identifier by using the <see href="https://learn.microsoft.com/dotnet/framework/unmanaged-api/hosting/iclrtask-settaskidentifier-method">ICLRTask::SetTaskIdentifier</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-getthreadfortaskid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread);
 
+	/// <summary>
+	/// <para>Gets the version number of the common language runtime (CLR) that is running in this process.</para>
+	/// </summary>
+	/// <param name="version">
+	/// <para>A pointer to a COR_VERSION structure that stores the version number of the runtime.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetVersion</c> method returns an error code if no runtime has been loaded in the process.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-getversion-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetVersion(out COR_VERSION version);
 
+	/// <summary>
+	/// <para>Sets an unmanaged breakpoint at the specified native image offset.</para>
+	/// </summary>
+	/// <param name="address">
+	/// <para>A <c>CORDB_ADDRESS</c> object that specifies the native image offset.</para>
+	/// </param>
+	/// <param name="bufsize">
+	/// <para>The size, in bytes, of the <c>buffer</c> array.</para>
+	/// </param>
+	/// <param name="buffer">
+	/// <para>An array that contains the opcode that is replaced by the breakpoint.</para>
+	/// </param>
+	/// <param name="bufLen">
+	/// <para>A pointer to the number of bytes returned in the <c>buffer</c> array.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the native image offset is within the common language runtime (CLR), the breakpoint will be ignored. This allows the CLR to avoid dispatching an out-of-band breakpoint, when the breakpoint is set by the debugger.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, [MarshalUsing(CountElementName = nameof(bufsize))][Out] byte[] buffer, out uint bufLen);
 
+	/// <summary>
+	/// <para>Removes a previously set breakpoint at the given address.</para>
+	/// </summary>
+	/// <param name="address">
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the address at which the breakpoint was set.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The specified breakpoint would have been previously set by an earlier call to <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setunmanagedbreakpoint-method">ICorDebugProcess2::SetUnmanagedBreakpoint</see>.</para>
+	/// <para>The <c>ClearUnmanagedBreakpoint</c> method can be called while the process being debugged is running.</para>
+	/// <para>The <c>ClearUnmanagedBreakpoint</c> method returns a failure code if the debugger is attached in managed-only mode or if no breakpoint exists at the specified address.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-clearunmanagedbreakpoint-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryClearUnmanagedBreakpoint(CORDB_ADDRESS address);
 
+	/// <summary>
+	/// <para>Sets the flags that must be embedded in a precompiled image in order for the runtime to load that image into the current process.</para>
+	/// </summary>
+	/// <param name="pdwFlags">
+	/// <para>A value of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration that specifies the compiler flags used to select the correct pre-compiled image.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method specifies the flags that must be embedded in a precompiled image so that the runtime will load that image into this process. The flags set by this method are used only to select the correct precompiled image. If no such image exists, the runtime will load the common intermediate language (CIL) image and the just-in-time (JIT) compiler instead. In that case, the debugger must still use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmodule2-setjitcompilerflags-method">ICorDebugModule2::SetJITCompilerFlags</see> method to set the flags as desired for the JIT compilation.</para>
+	/// <para>If an image is loaded, but some JIT compiling must take place for that image (which will be the case if the image contains generics), the compiler flags specified by the <c>SetDesiredNGENCompilerFlags</c> method will apply to the extra JIT compilation.</para>
+	/// <para>The <c>SetDesiredNGENCompilerFlags</c> method must be called during the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugmanagedcallback-createprocess-method">ICorDebugManagedCallback::CreateProcess</see> callback. Attempts to call the <c>SetDesiredNGENCompilerFlags</c> method afterwards will fail. Also, attempts to set flags that are either not defined in the <c>CorDebugJITCompilerFlags</c> enumeration or are not legal for the given process will fail.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setdesiredngencompilerflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetDesiredNGENCompilerFlags(uint pdwFlags);
 
+	/// <summary>
+	/// <para>Gets the current compiler flag settings that the common language runtime (CLR) uses to select the correct precompiled (that is, native) image to be loaded into this process.</para>
+	/// </summary>
+	/// <param name="pdwFlags">
+	/// <para>A pointer to a bitwise combination of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugjitcompilerflags-enumeration">CorDebugJITCompilerFlags</see> enumeration values that are used to select the correct precompiled image to be loaded.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-setdesiredngencompilerflags-method">ICorDebugProcess2::SetDesiredNGENCompilerFlags</see> method to set the flags that the CLR will use to select the correct pre-compiled image to load.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-getdesiredngencompilerflags-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetDesiredNGENCompilerFlags(out uint pdwFlags);
 
+	/// <summary>
+	/// <para>Gets a reference pointer to the specified managed object that has a garbage collection handle.</para>
+	/// </summary>
+	/// <param name="handle">
+	/// <para>A pointer to a managed object that has a garbage collection handle. This value is a  object and can be retrieved from the  for the managed object.</para>
+	/// </param>
+	/// <param name="pOutValue">
+	/// <para>A pointer to the address of an ICorDebugReferenceValue object that represents a reference to the specified managed object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Do not confuse the returned reference value with a garbage collection reference value.</para>
+	/// <para>The returned reference behaves like a normal reference. It is disabled when code execution continues after a breakpoint. The lifetime of the target object is not affected by the lifetime of the reference value.</para>
+	/// <para><b>Note:</b> The  GetReferenceValueFromGCHandle  method does not validate the handle. Therefore, the  GetReferenceValueFromGCHandle  method can potentially corrupt both the debugger and the code being debugged if an invalid handle is passed.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess2-getreferencevaluefromgchandle-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue);
 }

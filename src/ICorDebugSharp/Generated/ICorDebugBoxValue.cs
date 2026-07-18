@@ -6,11 +6,27 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A subclass of &quot;ICorDebugHeapValue&quot; that represents a boxed value class object.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugboxvalue-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCAFC-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugBoxValue : ICorDebugHeapValue
 {
+	/// <summary>
+	/// <para>Gets the boxed value.</para>
+	/// </summary>
+	/// <param name="ppObject">
+	/// <para>A pointer to the address of an ICorDebugObjectValue object that represents the boxed value.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugboxvalue-getobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObject(out ICorDebugObjectValue ppObject);
 }

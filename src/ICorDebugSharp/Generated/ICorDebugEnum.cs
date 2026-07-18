@@ -6,20 +6,105 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Serves as the abstract base interface for the enumerators that are used by a debugging application.</para>
+/// </summary>
+/// <remarks>
+/// <para>The following enumerators derive from <c>ICorDebugEnum</c>:</para>
+/// <list type="bullet">
+/// <item><description><para><c>ICorDebugAppDomainEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugAssemblyEnum</c></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugblockingobjectenum-interface">ICorDebugBlockingObjectEnum</see></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugBreakpointEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugChainEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugCodeEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugErrorInfoEnum</c></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugexceptionobjectcallstackenum-interface">ICorDebugExceptionObjectCallStackEnum</see></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugFrameEnum</c></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-interface">ICorDebugGCReferenceEnum</see></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugguidtotypeenum-interface">ICorDebugGuidToTypeEnum</see></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">ICorDebugHeapSegmentEnum</see></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugModuleEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugObjectEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugProcessEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugStepperEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugThreadEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugTypeEnum</c></para>
+/// </description></item>
+/// <item><description><para><c>ICorDebugValueEnum</c></para>
+/// </description></item>
+/// <item><description><para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugvariablehomeenum-interface">ICorDebugVariableHomeEnum</see></para>
+/// </description></item>
+/// </list>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-interface1">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("CC7BCB01-8A68-11D2-983C-0000F808342D")]
 public partial interface ICorDebugEnum
 {
+	/// <summary>
+	/// <para>Moves the cursor forward in the enumeration by the specified number of items.</para>
+	/// </summary>
+	/// <param name="celt">
+	/// <para>The number of items by which to move the cursor forward.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-skip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySkip(uint celt);
 
+	/// <summary>
+	/// <para>Moves the cursor to the beginning of the enumeration.</para>
+	/// </summary>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-reset-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryReset();
 
+	/// <summary>
+	/// <para>Creates a copy of this ICorDebugEnum object.</para>
+	/// </summary>
+	/// <param name="ppEnum">
+	/// <para>A pointer to the address of an <c>ICorDebugEnum</c> object that is a copy of this <c>ICorDebugEnum</c> object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-clone-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryClone(out ICorDebugEnum ppEnum);
 
+	/// <summary>
+	/// <para>Gets the number of items in the enumeration.</para>
+	/// </summary>
+	/// <param name="pcelt">
+	/// <para>A pointer to the number of items in the enumeration.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugenum-getcount-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetCount(out uint pcelt);
 }

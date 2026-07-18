@@ -6,35 +6,184 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>A specialized implementation of ICorDebugFrame used for native frames.</para>
+/// </summary>
+/// <remarks>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("03E26314-4F76-11D3-88C6-006097945418")]
 public partial interface ICorDebugNativeFrame : ICorDebugFrame
 {
+	/// <summary>
+	/// <para>Gets the native code offset location to which the instruction pointer is currently set.</para>
+	/// </summary>
+	/// <param name="pnOffset">
+	/// <para>A pointer to the offset location in the native code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the stack frame that is represented by this &quot;ICorDebugNativeFrame&quot; is active, the offset is the address of the next instruction to be executed. If this stack frame is not active, the offset is the address of the next instruction to be executed when the stack frame is reactivated.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetIP(out uint pnOffset);
 
+	/// <summary>
+	/// <para>Sets the instruction pointer to the specified offset location in native code.</para>
+	/// </summary>
+	/// <param name="nOffset">
+	/// <para>The offset location in the native code.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Calls to <c>SetIP</c> immediately invalidate all frames and chains for the current thread. If the debugger needs frame information after a call to <c>SetIP</c>, it must perform a new stack trace.</para>
+	/// <para><see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebug-interface">ICorDebug</see> will attempt to keep the stack frame in a valid state. However, even if the frame is in a valid state, as far as the runtime is concerned, there still may be problems, such as uninitialized local variables, and so on. The caller is responsible for insuring coherency of the running program.</para>
+	/// <para>On 64-bit platforms, the instruction pointer cannot be moved out of a <c>catch</c> or <c>finally</c> block. If <c>SetIP</c> is called to make such a move on a 64-bit platform, it will return an HRESULT indicating failure.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-setip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TrySetIP(uint nOffset);
 
+	/// <summary>
+	/// <para>Gets the register set for this stack frame.</para>
+	/// </summary>
+	/// <param name="ppRegisters">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugregisterset-interface">ICorDebugRegisterSet</see> object that represents the register set for this stack frame.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getregisterset-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRegisterSet(out ICorDebugRegisterSet ppRegisters);
 
+	/// <summary>
+	/// <para>Gets the value of an argument or local variable that is stored in the specified register for this native frame.</para>
+	/// </summary>
+	/// <param name="reg">
+	/// <para>A value of the &quot;CorDebugRegister&quot; enumeration that specifies the register containing the value.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>An integer that specifies the size of the binary metadata signature which is referenced by the <c>pvSigBlob</c> parameter.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A <c>PCCOR_SIGNATURE</c> value that points to the binary metadata signature of the value&#39;s type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object representing the retrieved value that is stored in the specified register.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetLocalRegisterValue</c> method can be used either in a native frame or a just-in-time (JIT)-compiled frame.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getlocalregistervalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalRegisterValue(CorDebugRegister reg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the value of an argument or local variable that is stored in the two specified registers for this native frame.</para>
+	/// </summary>
+	/// <param name="highWordReg">
+	/// <para>A value of the &quot;CorDebugRegister&quot; enumeration that specifies the register containing the high word of the value.</para>
+	/// </param>
+	/// <param name="lowWordReg">
+	/// <para>A value of the <c>CorDebugRegister</c> enumeration that specifies the register containing the low word of the value.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>An integer that specifies the size of the binary metadata signature which is referenced by the <c>pvSigBlob</c> parameter.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A <c>PCCOR_SIGNATURE</c> value that points to the binary metadata signature of the value&#39;s type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object representing the retrieved value that is stored in the specified registers.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetLocalDoubleRegisterValue</c> method can be used either in a native frame or a just-in-time (JIT)-compiled frame.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getlocaldoubleregistervalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the value of an argument or local variable that is stored in the specified memory location for this native frame.</para>
+	/// </summary>
+	/// <param name="address">
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the memory location containing the value.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>An integer that specifies the size of the binary metadata signature which is referenced by the <c>pvSigBlob</c> parameter.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A <c>PCCOR_SIGNATURE</c> value that points to the binary metadata signature of the value&#39;s type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object representing the retrieved value that is stored in the specified memory location.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getlocalmemoryvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalMemoryValue(CORDB_ADDRESS address, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the value of an argument or local variable, of which the low word and high word are stored in the memory location and specified register, respectively, for this native frame.</para>
+	/// </summary>
+	/// <param name="highWordReg">
+	/// <para>A value of the &quot;CorDebugRegister&quot; enumeration that specifies the register containing the high word of the value.</para>
+	/// </param>
+	/// <param name="lowWordAddress">
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the memory location containing the low word of the value.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>An integer that specifies the size of the binary metadata signature which is referenced by the <c>pvSigBlob</c> parameter.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A <c>PCCOR_SIGNATURE</c> value that points to the binary metadata signature of the value&#39;s type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object representing the retrieved value that is stored in the specified register and memory location.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getlocalregistermemoryvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the value of an argument or local variable, of which the low word and high word are stored in the specified register and memory location, respectively, for this native frame.</para>
+	/// </summary>
+	/// <param name="highWordAddress">
+	/// <para>A <c>CORDB_ADDRESS</c> value that specifies the memory location containing the high word of the value.</para>
+	/// </param>
+	/// <param name="lowWordRegister">
+	/// <para>A value of the &quot;CorDebugRegister&quot; enumeration that specifies the register containing the low word of the value.</para>
+	/// </param>
+	/// <param name="cbSigBlob">
+	/// <para>An integer that specifies the size of the binary metadata signature which is referenced by the <c>pvSigBlob</c> parameter.</para>
+	/// </param>
+	/// <param name="pvSigBlob">
+	/// <para>A <c>PCCOR_SIGNATURE</c> value that points to the binary metadata signature of the value&#39;s type.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object representing the retrieved value that is stored in the specified register and memory location.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-getlocalmemoryregistervalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, uint cbSigBlob, nuint pvSigBlob, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets an HRESULT that indicates whether it is safe to set the instruction pointer (IP) to the specified offset location in native code.</para>
+	/// </summary>
+	/// <param name="nOffset">
+	/// <para>The desired setting for the instruction pointer.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Use the <c>CanSetIP</c> method prior to calling the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-setip-method">ICorDebugNativeFrame::SetIP</see> method. If <c>CanSetIP</c> returns any HRESULT other than S_OK, you can still invoke <c>ICorDebugNativeFrame::SetIP</c>, but there is no guarantee that the debugger will continue the safe and correct execution of the code being debugged.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugnativeframe-cansetip-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryCanSetIP(uint nOffset);
 }

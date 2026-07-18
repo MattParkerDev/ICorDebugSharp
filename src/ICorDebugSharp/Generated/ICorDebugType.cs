@@ -6,29 +6,124 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Represents a type, either basic or complex (that is, user-defined). If the type is generic, <c>ICorDebugType</c> represents the instantiated generic type.</para>
+/// </summary>
+/// <remarks>
+/// <para>If the type is generic, <c>ICorDebugClass</c> represents the uninstantiated type. The <c>ICorDebugType</c> interface represents an instantiated generic type. For example, Hashtable&lt;K, V&gt; would be represented by <c>ICorDebugClass</c>, whereas Hashtable&lt;Int32, String&gt; would be represented by <c>ICorDebugType</c>.</para>
+/// <para>Non-generic types are represented by both <c>ICorDebugClass</c> and <c>ICorDebugType</c>. The latter interface was introduced in .NET Framework 2.0 to deal with type instantiation.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either cross-machine or cross-process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("D613F0BB-ACE1-4C19-BD72-E4C08D5DA7F5")]
 public partial interface ICorDebugType
 {
+	/// <summary>
+	/// <para>Gets a CorElementType value that describes the native type of the common language runtime (CLR)  represented by this ICorDebugType.</para>
+	/// </summary>
+	/// <param name="ty">
+	/// <para>A pointer to a value of the <c>CorElementType</c> enumeration that indicates the CLR  that this <c>ICorDebugType</c> represents.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the value of <c>ty</c> is either ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">ICorDebugType::GetClass</see> method may be called to get the uninstantiated type for a generic type; otherwise, do not call <c>ICorDebugType::GetClass</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetType(out CorElementType ty);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugClass that represents the uninstantiated generic type.</para>
+	/// </summary>
+	/// <param name="ppClass">
+	/// <para>A pointer to the address of an <c>ICorDebugClass</c> interface that represents the uninstantiated generic type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>GetClass</c> can be called only under certain conditions. Call <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> before calling <c>GetClass</c>. If <c>ICorDebugType::GetType</c> returns a CorElementType value that is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, <c>GetClass</c> can be called to get the uninstantiated type for a generic type.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetClass(out ICorDebugClass ppClass);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugTypeEnum that contains the  parameters of the class referenced by this ICorDebugType.</para>
+	/// </summary>
+	/// <param name="ppTyParEnum">
+	/// <para>A pointer to the address of an <c>ICorDebugTypeEnum</c> that contains the parameters of the type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>You can use <c>EnumerateTypeParameters</c> if the CorElementType value returned by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> is ELEMENT_TYPE_CLASS, ELEMENT_TYPE_VALUETYPE, ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, ELEMENT_TYPE_PTR, or ELEMENT_TYPE_FNPTR. The number of parameters and their order depends on the type:</para>
+	/// <list type="bullet">
+	/// <item><description><para>ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE: The number of type parameters contained in the <c>ICorDebugTypeEnum</c> that this method returns, will depend on the number of formal type parameters for the corresponding class. For example, if the type is <c>class Dict&lt;String,int32&gt;</c>, then <c>EnumerateTypeParameters</c> will return an <c>ICorDebugTypeEnum</c> that contains objects representing <c>String</c> and <c>int32</c> in sequence.</para>
+	/// </description></item>
+	/// <item><description><para>ELEMENT_TYPE_FNPTR: The number of type parameters contained in the <c>ICorDebugTypeEnum</c> will be one greater than the number of arguments accepted by the function. The first type parameter contained in the <c>ICorDebugTypeEnum</c> is the return type for the function, and the subsequent type parameters are the function&#39;s parameters.</para>
+	/// </description></item>
+	/// <item><description><para>ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, or ELEMENT_TYPE_PTR: One type parameter will be returned. For example, if the type is an array type such as <c>int32[]</c>, <c>EnumerateTypeParameters</c> will return an <c>ICorDebugTypeEnum</c> that contains an object representing <c>int32</c>.</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-enumeratetypeparameters-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugType that represents the first  parameter of the type represented by this <c>ICorDebugType</c>.</para>
+	/// </summary>
+	/// <param name="value">
+	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the first parameter.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>GetFirstTypeParameter</c> can be called in cases where the additional information about the type involves, at most, one type parameter. In particular, it can be used if the type is an ELEMENT_TYPE_ARRAY, ELEMENT_TYPE_SZARRAY, ELEMENT_TYPE_BYREF, or ELEMENT_TYPE_PTR, as indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getfirsttypeparameter-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetFirstTypeParameter(out ICorDebugType value);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugType that represents the base type, if one exists, of the type represented by this <c>ICorDebugType</c>.</para>
+	/// </summary>
+	/// <param name="pBase">
+	/// <para>A pointer to the address of an <c>ICorDebugType</c> object that represents the base type.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Looking up the base type for a type is useful to implement common debugger functionality, such as printing out all the fields of an object or its parent classes.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getbase-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetBase(out ICorDebugType pBase);
 
+	/// <summary>
+	/// <para>Gets an interface pointer to an ICorDebugValue object that contains the value of the static field referenced by the specified field token in the specified stack frame.</para>
+	/// </summary>
+	/// <param name="fieldDef">
+	/// <para>An <c>mdFieldDef</c> token that specifies the static field.</para>
+	/// </param>
+	/// <param name="pFrame">
+	/// <para>A pointer to an ICorDebugFrame that represents the stack frame.</para>
+	/// </param>
+	/// <param name="ppValue">
+	/// <para>A pointer to the address of an <c>ICorDebugValue</c> that contains the value of the static field.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>GetStaticFieldValue</c> method may be used only if the type is ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE, as indicated by the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-gettype-method">ICorDebugType::GetType</see> method.</para>
+	/// <para>For non-generic types, the operation performed by <c>GetStaticFieldValue</c> is identical to calling <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugclass-getstaticfieldvalue-method">ICorDebugClass::GetStaticFieldValue</see> on the ICorDebugClass object that is returned by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getclass-method">ICorDebugType::GetClass</see>.</para>
+	/// <para>For generic types, a static field value will be relative to a particular instantiation. Also, if the static field could possibly be relative to a thread, a context, or an application domain, then the stack frame will help the debugger determine the proper value.</para>
+	/// <para><c>GetStaticFieldValue</c> can be used only when a call to <c>ICorDebugType::GetType</c> returns a value of ELEMENT_TYPE_CLASS or ELEMENT_TYPE_VALUETYPE.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getstaticfieldvalue-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame, out ICorDebugValue ppValue);
 
+	/// <summary>
+	/// <para>Gets the number of dimensions in an array type.</para>
+	/// </summary>
+	/// <param name="pnRank">
+	/// <para>A pointer to the number of dimensions.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugtype-getrank-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetRank(out uint pnRank);
 }

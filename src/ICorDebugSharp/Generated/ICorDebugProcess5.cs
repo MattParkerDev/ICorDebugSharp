@@ -6,44 +6,213 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Extends the ICorDebugProcess interface to support access to the managed heap, to provide information about garbage collection of managed objects, and to determine whether a debugger loads images from the application local native image cache.</para>
+/// </summary>
+/// <remarks>
+/// <para>This interface logically extends the ICorDebugProcess, ICorDebugProcess2, and <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess3-interface">ICorDebugProcess3</see> interfaces.</para>
+/// <para><b>Note:</b> This interface does not support being called remotely, either from another machine or from another process.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("21E9D9C0-FCB8-11DF-8CFF-0800200C9A66")]
 public partial interface ICorDebugProcess5
 {
+	/// <summary>
+	/// <para>Provides general information about the garbage collection heap, including whether it is currently enumerable.</para>
+	/// </summary>
+	/// <param name="pHeapInfo">
+	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapinfo-structure">COR_HEAPINFO</see> value that provides general information about the garbage collection heap.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ICorDebugProcess5::GetGCHeapInformation</c> method must be called before enumerating the heap or individual heap regions to ensure that the garbage collection structures in the process are currently valid. The garbage collection heap cannot be walked while a collection is in progress. Otherwise, the enumeration may capture garbage collection structures that are invalid.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetGCHeapInformation(out COR_HEAPINFO pHeapInfo);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the objects on the managed heap.</para>
+	/// </summary>
+	/// <param name="ppObjects">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see> interface object that is an enumerator for the objects that reside on the managed heap.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Before calling the <c>ICorDebugProcess5::EnumerateHeap</c> method, you should call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method and examine the value of the <c>areGCStructuresValid</c> field of the returned <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapinfo-structure">COR_HEAPINFO</see> object to ensure that the garbage collection heap in its current state is enumerable. In addition, the <c>ICorDebugProcess5::EnumerateHeap</c> returns <c>E_FAIL</c> if you attach too early in the lifetime of the process, before memory for the managed heap is allocated.</para>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see> interface object is a standard enumerator derived from the ICorDebugEnum interface that allows you to enumerate <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> objects. This method populates the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapenum-interface">ICorDebugHeapEnum</see> collection object with <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> instances that provide information about all objects. The collection may also include <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapobject-structure">COR_HEAPOBJECT</see> instances that provide information about objects that are not rooted by any object but have not yet been collected by the garbage collector.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerateheap-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateHeap(out ICorDebugHeapEnum ppObjects);
 
+	/// <summary>
+	/// <para>Gets an enumerator for the memory ranges of the managed heap.</para>
+	/// </summary>
+	/// <param name="ppRegions">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">ICorDebugHeapSegmentEnum</see> interface object that is an enumerator for the ranges of memory in which objects reside in the managed heap.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Before calling the <c>ICorDebugProcess5::EnumerateHeapRegions</c> method, you should call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getgcheapinformation-method">ICorDebugProcess5::GetGCHeapInformation</see> method and examine the value of the <c>areGCStructuresValid</c> field of the returned <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-heapinfo-structure">COR_HEAPINFO</see> object to ensure that the garbage collection heap in its current state is enumerable. In addition, the <c>ICorDebugProcess5::EnumerateHeapRegions</c> method returns <c>E_FAIL</c> if you attach too early in the lifetime of the process, before memory regions are created.</para>
+	/// <para>This method is guaranteed to enumerate all memory regions that may contain managed objects, but it does not guarantee that managed objects actually reside in those regions. The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">ICorDebugHeapSegmentEnum</see> collection object may include empty or reserved memory regions.</para>
+	/// <para>The <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugheapsegmentenum-interface">ICorDebugHeapSegmentEnum</see> interface object is a standard enumerator derived from the ICorDebugEnum interface that allows you to enumerate <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> objects. Each <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-segment-structure">COR_SEGMENT</see> object provides information about the memory range of a particular segment, along with the generation of the objects in that segment.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerateheapregions-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions);
 
+	/// <summary>
+	/// <para>Converts an object address to an &quot;ICorDebugObjectValue&quot; object.</para>
+	/// </summary>
+	/// <param name="addr">
+	/// <para>The object address.</para>
+	/// </param>
+	/// <param name="pObject">
+	/// <para>A pointer to the address of an  &quot;ICorDebugObjectValue&quot; object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If <c>addr</c> does not point to a valid managed object, the <c>GetObject</c> method returns <c>E_FAIL</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getobject-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject);
 
+	/// <summary>
+	/// <para>Gets an enumerator for all objects that are to be garbage-collected in a process.</para>
+	/// </summary>
+	/// <param name="enumerateWeakReferences">
+	/// <para>A Boolean value that indicates whether weak references are also to be enumerated. If <c>enumerateWeakReferences</c> is <c>true</c>, the <c>ppEnum</c> enumerator includes both strong references and weak references. If <c>enumerateWeakReferences</c> is <c>false</c>, the enumerator includes only strong references.</para>
+	/// </param>
+	/// <param name="ppEnum">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-interface">ICorDebugGCReferenceEnum</see> that is an enumerator for the objects to be garbage-collected.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>This method provides a way to determine the full rooting chain for any managed object in a process and can be used to determine why an object is still alive.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerategcreferences-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateGCReferences([MarshalAs(UnmanagedType.Bool)] bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum);
 
+	/// <summary>
+	/// <para>Gets an enumerator for object handles in a process.</para>
+	/// </summary>
+	/// <param name="types">
+	/// <para>A bitwise combination of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> values that specifies the type of handles to include in the collection.</para>
+	/// </param>
+	/// <param name="ppEnum">
+	/// <para>A pointer to the address of an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-interface">ICorDebugGCReferenceEnum</see> that is an enumerator for the objects to be garbage-collected.</para>
+	/// </param>
+	/// <remarks>
+	/// <para><c>EnumerateHandles</c> is a helper function that supports inspection of the handle table. It is similar to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumerategcreferences-method">ICorDebugProcess5::EnumerateGCReferences</see> method, except that rather than populating an <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebuggcreferenceenum-interface">ICorDebugGCReferenceEnum</see> collection with all objects to be garbage-collected, it includes only objects that have handles from the handle table.</para>
+	/// <para>The <c>types</c> parameter specifies the handle types to include in the collection. <c>types</c> can be any of the following three members of the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> enumeration:</para>
+	/// <list type="bullet">
+	/// <item><description><para><c>CorHandleStrongOnly</c> (handles to strong references only).</para>
+	/// </description></item>
+	/// <item><description><para><c>CorHandleWeakOnly</c> (handles to weak references only).</para>
+	/// </description></item>
+	/// <item><description><para><c>CorHandleAll</c> (all handles).</para>
+	/// </description></item>
+	/// </list>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enumeratehandles-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum);
 
+	/// <summary>
+	/// <para>Converts an object address to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> identifier.</para>
+	/// </summary>
+	/// <param name="obj">
+	/// <para>The object address.</para>
+	/// </param>
+	/// <param name="pId">
+	/// <para>A pointer to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> value that identifies the object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypeid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId);
 
+	/// <summary>
+	/// <para>Converts a type identifier to an ICorDebugType value.</para>
+	/// </summary>
+	/// <param name="id">
+	/// <para>The type identifier.</para>
+	/// </param>
+	/// <param name="ppType">
+	/// <para>A pointer to the address of an ICorDebugType object.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>In some cases, methods that return a type identifier may return a null <c>COR_TYPEID</c> value. If this value is passed as the <c>id</c> argument, the <c>GetTypeForTypeID</c> method will fail and return <c>E_FAIL</c>.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypefortypeid-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType);
 
+	/// <summary>
+	/// <para>Provides information about the layout of array types.</para>
+	/// </summary>
+	/// <param name="id">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> token that specifies the array whose layout is desired.</para>
+	/// </param>
+	/// <param name="pLayout">
+	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-array-layout-structure">COR_ARRAY_LAYOUT</see> structure that contains information about the layout of the array in memory.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-getarraylayout-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout);
 
+	/// <summary>
+	/// <para>Gets information about the layout of an object in memory based on its type identifier.</para>
+	/// </summary>
+	/// <param name="id">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see> token that specifies the type whose layout is desired.</para>
+	/// </param>
+	/// <param name="pLayout">
+	/// <para>A pointer to a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-type-layout-structure">COR_TYPE_LAYOUT</see> structure that contains information about the layout of the object in memory.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>ICorDebugProcess5::GetTypeLayout</c> method provides information about an object based on its <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-typeid-structure">COR_TYPEID</see>, which is returned by a number of other <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-interface">ICorDebugProcess5</see> methods. The information is provided by a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-type-layout-structure">COR_TYPE_LAYOUT</see> structure that is populated by the method.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypelayout-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout);
 
+	/// <summary>
+	/// <para>Provides information about the fields that belong to a type.</para>
+	/// </summary>
+	/// <param name="id">
+	/// <para>The identifier of the type whose field information is retrieved.</para>
+	/// </param>
+	/// <param name="celt">
+	/// <para>The number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-field-structure">COR_FIELD</see> objects whose field information is to be retrieved.</para>
+	/// </param>
+	/// <param name="fields">
+	/// <para>An array of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-field-structure">COR_FIELD</see> objects that provide information about the fields that belong to the type.</para>
+	/// </param>
+	/// <param name="pceltNeeded">
+	/// <para>A pointer to the number of <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-field-structure">COR_FIELD</see> objects included in <c>fields</c>.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>The <c>celt</c> parameter, which specifies the number of fields whose field information the method uses to populate <c>fields</c>, should correspond to the value of the <c>COR_TYPE_LAYOUT::numFields</c> field.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-gettypefields-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetTypeFields(COR_TYPEID id, uint celt, [MarshalUsing(CountElementName = nameof(celt))][Out] COR_FIELD[]? fields, out uint pceltNeeded);
 
+	/// <summary>
+	/// <para>Sets a value that determines how an application loads native images while running under a managed debugger.</para>
+	/// </summary>
+	/// <param name="ePolicy">
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugngenpolicy-enumeration">CorDebugNGenPolicy</see> constant that determines how an application loads native images while running under a managed debugger.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>If the policy is set successfully, the method returns <c>S_OK</c>. If <c>ePolicy</c> is outside the range of the enumerated values defined by <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cordebugngenpolicy-enumeration">CorDebugNGenPolicy</see>, the method returns <c>E_INVALIDARG</c> and the method call has no effect. If the policy of the Native Image Generator (Ngen.exe) cannot be updated, the method returns <c>E_FAIL</c>.</para>
+	/// <para>The <c>ICorDebugProcess5::EnableNGenPolicy</c> method can be called at any time during the lifetime of the process. The policy is in effect for any modules that are loaded after the policy is set.</para>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugprocess5-enablengenpolicy-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryEnableNGENPolicy(CorDebugNGENPolicy ePolicy);
 }

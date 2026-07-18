@@ -6,6 +6,13 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Provides support for unmanaged methods that require the common language runtime (CLR) to unwind a frame.</para>
+/// </summary>
+/// <remarks>
+/// <para><c>ICorDebugRuntimeUnwindableFrame</c> is a specialized version of the ICorDebugFrame interface. It is used by unmanaged methods that require the runtime to unwind a frame on the current stack. Existing unwinding conventions do not work, because they do not use JIT-compiled code. When the debugger sees an unwindable frame, it should use the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-next-method">ICorDebugStackWalk::Next</see> method to unwind it, but it should perform inspection itself. When the debugger receives an <c>ICorDebugRuntimeUnwindableFrame</c>, it can call the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugstackwalk-getcontext-method">ICorDebugStackWalk::GetContext</see> method to retrieve the context of the frame.</para>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugruntimeunwindableframe-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("879CAC0A-4A53-4668-B8E3-CB8473CB187F")]

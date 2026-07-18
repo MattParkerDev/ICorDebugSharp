@@ -6,11 +6,29 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Logically extends the ICorDebugAppDomain interface to get a managed object from a COM callable wrapper.</para>
+/// </summary>
+/// <remarks>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain4-interface">Microsoft Learn</see>.</para>
+/// </remarks>
 [GeneratedComInterface]
 [InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
 [Guid("FB99CC40-83BE-4724-AB3B-768E796EBAC2")]
 public partial interface ICorDebugAppDomain4
 {
+	/// <summary>
+	/// <para>Gets a managed object from a COM callable wrapper (CCW) pointer.</para>
+	/// </summary>
+	/// <param name="ccwPointer">
+	/// <para>A COM callable wrapper (CCW) pointer.</para>
+	/// </param>
+	/// <param name="ppManagedObject">
+	/// <para>A pointer to the address of an &quot;ICorDebugValue&quot; object that represents the managed object that corresponds to the given CCW pointer.</para>
+	/// </param>
+	/// <remarks>
+	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugappdomain4-getobjectforccw-method">Microsoft Learn</see>.</para>
+	/// </remarks>
 	[PreserveSig]
 	int TryGetObjectForCCW(CORDB_ADDRESS ccwPointer, out ICorDebugValue ppManagedObject);
 }

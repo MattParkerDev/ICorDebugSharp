@@ -6,15 +6,51 @@ using System.Runtime.InteropServices.Marshalling;
 
 namespace ICorDebugSharp;
 
+/// <summary>
+/// <para>Contains information about an object that is to be garbage-collected.</para>
+/// </summary>
+/// <remarks>
+/// <para>The <c>type</c> field is a <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> enumeration value that indicates where the reference came from. A particular <c>COR_GC_REFERENCE</c> value can reflect any of the following kinds of managed objects:</para>
+/// <list type="bullet">
+/// <item><description><para>Objects from all managed stacks (<c>CorGCReferenceType.CorReferenceStack</c>). This includes live references in managed code, as well as objects created by the common language runtime.</para>
+/// </description></item>
+/// <item><description><para>Objects from the handle table (<c>CorGCReferenceType.CorHandle*</c>). This includes strong references (<c>HNDTYPE_STRONG</c> and <c>HNDTYPE_REFCOUNT</c>) and static variables in a module.</para>
+/// </description></item>
+/// <item><description><para>Objects from the finalizer queue (<c>CorGCReferenceType.CorReferenceFinalizer</c>). The finalizer queue roots objects until the finalizer has run.</para>
+/// </description></item>
+/// </list>
+/// <para>The <c>extraData</c> field contains extra data depending on the source (or type) of the reference. Possible values are:</para>
+/// <list type="bullet">
+/// <item><description><para><c>DependentSource</c>. If the <c>type</c> is <c>CorGCReferenceType.CorHandleStrongDependent</c>, this field is the object that, if alive, roots the object to be garbage-collected at <c>COR_GC_REFERENCE.Location</c>.</para>
+/// </description></item>
+/// <item><description><para><c>RefCount</c>. If the <c>type</c> is <c>CorGCReferenceType.CorHandleStrongRefCount</c>, this field is the reference count of the handle.</para>
+/// </description></item>
+/// <item><description><para><c>Size</c>. If the <c>type</c> is <c>CorGCReferenceType.CorHandleStrongSizedByref</c>, this field is the last size of the object tree for which the garbage collector calculated the object roots. Note that this calculation is not necessarily up to date.</para>
+/// </description></item>
+/// </list>
+/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/cor-gc-reference-structure">Microsoft Learn</see>.</para>
+/// </remarks>
 [NativeMarshalling(typeof(CorGcReferenceMarshaller))]
 public struct COR_GC_REFERENCE
 {
+	/// <summary>
+	/// <para>A pointer to the application domain to which the handle or object belongs. Its value may be <c>null</c>.</para>
+	/// </summary>
 	public ICorDebugAppDomain? Domain;
 
+	/// <summary>
+	/// <para>Either an ICorDebugValue or an ICorDebugReferenceValue interface that corresponds to the object to be garbage-collected.</para>
+	/// </summary>
 	public ICorDebugValue Location;
 
+	/// <summary>
+	/// <para>A <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/corgcreferencetype-enumeration">CorGCReferenceType</see> enumeration value that indicates where the root came from. For more information, see the Remarks section.</para>
+	/// </summary>
 	public CorGCReferenceType Type;
 
+	/// <summary>
+	/// <para>Additional data about the object to be garbage-collected. This information depends on the source of the object, as indicated by the <c>type</c> field. For more information, see the Remarks section.</para>
+	/// </summary>
 	public ulong ExtraData;
 }
 
