@@ -26,6 +26,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 	private string? RenderInterface(ManagedInterface @interface)
 	{
 		var queryBuffers = Recipes.QueryBuffers.Where(recipe => recipe.Interface == @interface.Name).ToArray();
+		var queryBufferMethods = queryBuffers.Select(recipe => recipe.Method).ToHashSet(StringComparer.Ordinal);
 		var enumerations = Recipes.Enumerations.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var metadataStrings = Recipes.MetadataStrings.Where(recipe => recipe.Interface == @interface.Name).ToArray();
 		var boolResults = Recipes.BoolResults.Where(recipe => recipe.Interface == @interface.Name).ToArray();
@@ -33,16 +34,16 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			.Where(IsComEnumeration)
 			.OrderBy(method => method.Name, StringComparer.Ordinal)
 			.ToArray();
-		var configuredStringMethods = queryBuffers.Select(recipe => recipe.Method)
+		var configuredStringMethods = queryBufferMethods
 			.Concat(metadataStrings.Select(recipe => recipe.Method)).ToHashSet(StringComparer.Ordinal);
 		var automaticStrings = @interface.Methods.Values
 			.Where(method => TryGetStringBuffer(method, out _) && !configuredStringMethods.Contains(method.Name))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var outputArrays = @interface.Methods.Values
-			.Where(method => TryGetOutputArrayBuffer(method, out _) && !configuredStringMethods.Contains(method.Name) && !comEnumerations.Contains(method))
+			.Where(method => TryGetOutputArrayBuffer(method, out _) && !queryBufferMethods.Contains(method.Name) && !comEnumerations.Contains(method))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var projected = @interface.Methods.Values
-			.Where(method => CanProjectOutputs(method) && !comEnumerations.Contains(method) && !outputArrays.Contains(method))
+			.Where(method => CanProjectOutputs(method) && !queryBufferMethods.Contains(method.Name) && !comEnumerations.Contains(method) && !outputArrays.Contains(method))
 			.OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var returnProperties = @interface.Methods.Values.Where(CanProjectReturn).OrderBy(method => method.Name, StringComparer.Ordinal).ToArray();
 		var boolResultMethods = boolResults.Select(recipe => catalog.GetMethod(recipe.Interface, recipe.Method)).ToHashSet();
@@ -106,7 +107,9 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			members.Add(RenderCapabilityTryMethod(method, capabilityName));
 			if (method.Name.StartsWith("Set", StringComparison.Ordinal) && capabilityInterface.Methods.TryGetValue("Get" + method.Name[3..], out var getter) && IsPropertySetter(getter, method))
 				continue;
-			members.Add(TryGetOutputArrayBuffer(method, out var outputBuffer) && !Recipes.QueryBuffers.Any(recipe => recipe.Interface == capabilityInterface.Name && recipe.Method == method.Name)
+			if (Recipes.QueryBuffers.Any(recipe => recipe.Interface == capabilityInterface.Name && recipe.Method == method.Name))
+				continue;
+			members.Add(TryGetOutputArrayBuffer(method, out var outputBuffer)
 				? RenderCapabilityOutputArrayMethod(method, capabilityName, outputBuffer)
 				: method.Parameters.Any(parameter => parameter.IsOut)
 				? (IsParameterlessGetter(method)
