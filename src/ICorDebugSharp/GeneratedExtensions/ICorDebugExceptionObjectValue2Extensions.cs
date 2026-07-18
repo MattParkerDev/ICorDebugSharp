@@ -13,6 +13,7 @@ public static unsafe class CorDebugExceptionObjectValue2Extensions
 {
 	extension(ICorDebugExceptionObjectValue2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue2.TryForceCatchHandlerFoundEvents"/>
 		public void ForceCatchHandlerFoundEvents(bool enableEvents)
 		{
 			var hr = instance.TryForceCatchHandlerFoundEvents(enableEvents);

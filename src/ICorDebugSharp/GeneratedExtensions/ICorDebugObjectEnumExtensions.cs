@@ -13,6 +13,7 @@ public static unsafe class CorDebugObjectEnumExtensions
 {
 	extension(ICorDebugObjectEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugObjectEnum.TryNext"/>
 		public (CORDB_ADDRESS[] objects, int pceltFetched) Next(int celt)
 		{
 			var objects = new CORDB_ADDRESS[checked((int)celt)];

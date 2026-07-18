@@ -13,19 +13,26 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 {
 	extension(ICorDebugFunction instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction2"/>
 		public bool SupportsFunction2 => instance is ICorDebugFunction2;
 
+		/// <inheritdoc cref="ICorDebugFunction2"/>
 		public ICorDebugFunction2 Function2 =>
 			instance as ICorDebugFunction2 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction2.");
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryEnumerateNativeCode"/>
 		public int TryEnumerateNativeCode(out ICorDebugCodeEnum ppCodeEnum) => instance.Function2.TryEnumerateNativeCode(out ppCodeEnum);
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryEnumerateNativeCode"/>
 		public IEnumerable<ICorDebugCode> EnumerateNativeCode() => instance.Function2.EnumerateNativeCode();
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryEnumerateNativeCode"/>
 		public ICorDebugCode[] NativeCode => instance.Function2.EnumerateNativeCode().ToArray();
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetJMCStatus"/>
 		public int TryGetJMCStatus(out bool pbIsJustMyCode) => instance.Function2.TryGetJMCStatus(out pbIsJustMyCode);
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetJMCStatus"/>
 		public bool JMCStatus
 		{
 			get
@@ -41,8 +48,10 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetVersionNumber"/>
 		public int TryGetVersionNumber(out uint pnVersion) => instance.Function2.TryGetVersionNumber(out pnVersion);
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetVersionNumber"/>
 		public int VersionNumber
 		{
 			get
@@ -53,6 +62,7 @@ public static unsafe class CorDebugFunctionFunction2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction2.TrySetJMCStatus"/>
 		public int TrySetJMCStatus(bool bIsJustMyCode) => instance.Function2.TrySetJMCStatus(bIsJustMyCode);
 	}
 }

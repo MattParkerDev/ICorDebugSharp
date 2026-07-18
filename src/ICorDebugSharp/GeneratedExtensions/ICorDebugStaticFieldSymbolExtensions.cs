@@ -13,6 +13,7 @@ public static unsafe class CorDebugStaticFieldSymbolExtensions
 {
 	extension(ICorDebugStaticFieldSymbol instance)
 	{
+		/// <inheritdoc cref="ICorDebugStaticFieldSymbol.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugStaticFieldSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugStaticFieldSymbol.TryGetAddress"/>
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -55,6 +57,7 @@ public static unsafe class CorDebugStaticFieldSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugStaticFieldSymbol.TryGetSize"/>
 		public int Size
 		{
 			get

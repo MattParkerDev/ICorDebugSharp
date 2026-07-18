@@ -13,12 +13,14 @@ public static unsafe class CorDebugGenericValueExtensions
 {
 	extension(ICorDebugGenericValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugGenericValue.TryGetValue"/>
 		public void GetValue(nint pTo)
 		{
 			var hr = instance.TryGetValue(pTo);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugGenericValue.TrySetValue"/>
 		public void SetValue(nint pFrom)
 		{
 			var hr = instance.TrySetValue(pFrom);

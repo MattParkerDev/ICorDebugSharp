@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess3Extensions
 {
 	extension(ICorDebugProcess3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess3.TrySetEnableCustomNotification"/>
 		public void SetEnableCustomNotification(ICorDebugClass pClass, bool fEnable)
 		{
 			var hr = instance.TrySetEnableCustomNotification(pClass, fEnable);

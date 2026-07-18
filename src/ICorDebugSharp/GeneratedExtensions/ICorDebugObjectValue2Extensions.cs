@@ -13,6 +13,7 @@ public static unsafe class CorDebugObjectValue2Extensions
 {
 	extension(ICorDebugObjectValue2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugObjectValue2.TryGetVirtualMethodAndType"/>
 		public (ICorDebugFunction ppFunction, ICorDebugType ppType) GetVirtualMethodAndType(mdMemberRef memberRef)
 		{
 			var hr = instance.TryGetVirtualMethodAndType(memberRef, out var ppFunction, out var ppType);

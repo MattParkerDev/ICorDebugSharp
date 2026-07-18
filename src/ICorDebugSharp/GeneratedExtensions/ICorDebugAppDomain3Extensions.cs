@@ -13,6 +13,7 @@ public static unsafe class CorDebugAppDomain3Extensions
 {
 	extension(ICorDebugAppDomain3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomain3.TryGetCachedWinRTTypes"/>
 		public IEnumerable<CorDebugGuidToTypeMapping> GetCachedWinRTTypes()
 		{
 			var hr = instance.TryGetCachedWinRTTypes(out var ppGuidToTypeEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugAppDomain3Extensions
 			return GetCachedWinRTTypesCore(ppGuidToTypeEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain3.TryGetCachedWinRTTypesForIIDs"/>
 		public IEnumerable<ICorDebugType> GetCachedWinRTTypesForIIDs(int cReqTypes, Guid[] iidsToResolve)
 		{
 			var hr = instance.TryGetCachedWinRTTypesForIIDs(checked((uint)cReqTypes), iidsToResolve, out var ppTypesEnum);

@@ -13,6 +13,7 @@ public static unsafe class CorDebugCodeExtensions
 {
 	extension(ICorDebugCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode.TryGetILToNativeMapping"/>
 		public COR_DEBUG_IL_TO_NATIVE_MAP[] ILToNativeMapping
 		{
 			get
@@ -44,6 +45,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetCode"/>
 		public (byte[] buffer, int pcBufferSize) GetCode(int startOffset, int endOffset, int cBufferAlloc)
 		{
 			var buffer = new byte[checked((int)cBufferAlloc)];
@@ -52,6 +54,7 @@ public static unsafe class CorDebugCodeExtensions
 			return (buffer, checked((int)pcBufferSize));
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetEnCRemapSequencePoints"/>
 		public (uint[] offsets, int pcMap) GetEnCRemapSequencePoints(int cMap)
 		{
 			var offsets = new uint[checked((int)cMap)];
@@ -60,6 +63,7 @@ public static unsafe class CorDebugCodeExtensions
 			return (offsets, checked((int)pcMap));
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryCreateBreakpoint"/>
 		public ICorDebugFunctionBreakpoint CreateBreakpoint(int offset)
 		{
 			var hr = instance.TryCreateBreakpoint(checked((uint)offset), out var ppBreakpoint);
@@ -67,6 +71,7 @@ public static unsafe class CorDebugCodeExtensions
 			return ppBreakpoint;
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetAddress"/>
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -77,6 +82,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetFunction"/>
 		public ICorDebugFunction Function
 		{
 			get
@@ -87,6 +93,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetSize"/>
 		public int Size
 		{
 			get
@@ -97,6 +104,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryGetVersionNumber"/>
 		public int VersionNumber
 		{
 			get
@@ -107,6 +115,7 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode.TryIsIL"/>
 		public bool IsIL
 		{
 			get

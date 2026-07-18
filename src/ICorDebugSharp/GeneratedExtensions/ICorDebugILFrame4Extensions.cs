@@ -13,6 +13,7 @@ public static unsafe class CorDebugILFrame4Extensions
 {
 	extension(ICorDebugILFrame4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame4.TryEnumerateLocalVariablesEx"/>
 		public IEnumerable<ICorDebugValue> EnumerateLocalVariablesEx(ILCodeKind flags)
 		{
 			var hr = instance.TryEnumerateLocalVariablesEx(flags, out var ppValueEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugILFrame4Extensions
 			return EnumerateLocalVariablesExCore(ppValueEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame4.TryGetCodeEx"/>
 		public ICorDebugCode GetCodeEx(ILCodeKind flags)
 		{
 			var hr = instance.TryGetCodeEx(flags, out var ppCode);
@@ -27,6 +29,7 @@ public static unsafe class CorDebugILFrame4Extensions
 			return ppCode;
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame4.TryGetLocalVariableEx"/>
 		public ICorDebugValue GetLocalVariableEx(ILCodeKind flags, int dwIndex)
 		{
 			var hr = instance.TryGetLocalVariableEx(flags, checked((uint)dwIndex), out var ppValue);

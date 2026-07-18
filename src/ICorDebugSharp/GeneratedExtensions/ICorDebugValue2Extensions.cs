@@ -13,6 +13,7 @@ public static unsafe class CorDebugValue2Extensions
 {
 	extension(ICorDebugValue2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugValue2.TryGetExactType"/>
 		public ICorDebugType ExactType
 		{
 			get

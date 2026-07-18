@@ -13,13 +13,17 @@ public static unsafe class CorDebugHeapValueHeapValue4Extensions
 {
 	extension(ICorDebugHeapValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapValue4"/>
 		public bool SupportsHeapValue4 => instance is ICorDebugHeapValue4;
 
+		/// <inheritdoc cref="ICorDebugHeapValue4"/>
 		public ICorDebugHeapValue4 HeapValue4 =>
 			instance as ICorDebugHeapValue4 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue4.");
 
+		/// <inheritdoc cref="ICorDebugHeapValue4.TryCreatePinnedHandle"/>
 		public int TryCreatePinnedHandle(out ICorDebugHandleValue ppHandle) => instance.HeapValue4.TryCreatePinnedHandle(out ppHandle);
 
+		/// <inheritdoc cref="ICorDebugHeapValue4.TryCreatePinnedHandle"/>
 		public ICorDebugHandleValue CreatePinnedHandle() => instance.HeapValue4.CreatePinnedHandle();
 	}
 }

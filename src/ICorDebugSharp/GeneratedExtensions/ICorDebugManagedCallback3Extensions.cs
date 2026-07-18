@@ -13,6 +13,7 @@ public static unsafe class CorDebugManagedCallback3Extensions
 {
 	extension(ICorDebugManagedCallback3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugManagedCallback3.TryCustomNotification"/>
 		public void CustomNotification(ICorDebugThread pThread, ICorDebugAppDomain pAppDomain)
 		{
 			var hr = instance.TryCustomNotification(pThread, pAppDomain);

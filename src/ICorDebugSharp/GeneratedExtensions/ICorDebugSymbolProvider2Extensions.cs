@@ -13,6 +13,7 @@ public static unsafe class CorDebugSymbolProvider2Extensions
 {
 	extension(ICorDebugSymbolProvider2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetFrameProps"/>
 		public (int pCodeStartRva, int pParentFrameStartRva) GetFrameProps(int codeRva)
 		{
 			var hr = instance.TryGetFrameProps(checked((uint)codeRva), out var pCodeStartRva, out var pParentFrameStartRva);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugSymbolProvider2Extensions
 			return (checked((int)pCodeStartRva), checked((int)pParentFrameStartRva));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetGenericDictionaryInfo"/>
 		public ICorDebugMemoryBuffer GenericDictionaryInfo
 		{
 			get

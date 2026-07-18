@@ -13,6 +13,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 {
 	extension(ICorDebugDataTarget2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugDataTarget2.TryGetImageLocation"/>
 		public string GetImageLocation(CORDB_ADDRESS baseAddress)
 		{
 			var hr = instance.TryGetImageLocation(baseAddress, 0, out var required, null!);
@@ -42,6 +43,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="ICorDebugDataTarget2.TryEnumerateThreadIDs"/>
 		public (uint[] pThreadIds, int pcThreadIds) EnumerateThreadIDs(int cThreadIds)
 		{
 			var pThreadIds = new uint[checked((int)cThreadIds)];
@@ -50,6 +52,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 			return (pThreadIds, checked((int)pcThreadIds));
 		}
 
+		/// <inheritdoc cref="ICorDebugDataTarget2.TryCreateVirtualUnwinder"/>
 		public ICorDebugVirtualUnwinder CreateVirtualUnwinder(int nativeThreadID, int contextFlags, int cbContext, byte[] initialContext)
 		{
 			var hr = instance.TryCreateVirtualUnwinder(checked((uint)nativeThreadID), checked((uint)contextFlags), checked((uint)cbContext), initialContext, out var ppUnwinder);
@@ -57,6 +60,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 			return ppUnwinder;
 		}
 
+		/// <inheritdoc cref="ICorDebugDataTarget2.TryGetImageFromPointer"/>
 		public (CORDB_ADDRESS pImageBase, int pSize) GetImageFromPointer(CORDB_ADDRESS addr)
 		{
 			var hr = instance.TryGetImageFromPointer(addr, out var pImageBase, out var pSize);
@@ -64,6 +68,7 @@ public static unsafe class CorDebugDataTarget2Extensions
 			return (pImageBase, checked((int)pSize));
 		}
 
+		/// <inheritdoc cref="ICorDebugDataTarget2.TryGetSymbolProviderForImage"/>
 		public ICorDebugSymbolProvider GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress)
 		{
 			var hr = instance.TryGetSymbolProviderForImage(imageBaseAddress, out var ppSymProvider);

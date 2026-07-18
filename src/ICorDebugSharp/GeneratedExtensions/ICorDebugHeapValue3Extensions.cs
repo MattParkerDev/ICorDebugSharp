@@ -13,6 +13,7 @@ public static unsafe class CorDebugHeapValue3Extensions
 {
 	extension(ICorDebugHeapValue3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetMonitorEventWaitList"/>
 		public IEnumerable<ICorDebugThread> GetMonitorEventWaitList()
 		{
 			var hr = instance.TryGetMonitorEventWaitList(out var ppThreadEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugHeapValue3Extensions
 			return GetMonitorEventWaitListCore(ppThreadEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetThreadOwningMonitorLock"/>
 		public (ICorDebugThread ppThread, int pAcquisitionCount) ThreadOwningMonitorLock
 		{
 			get

@@ -13,6 +13,7 @@ public static unsafe class CorDebugChainExtensions
 {
 	extension(ICorDebugChain instance)
 	{
+		/// <inheritdoc cref="ICorDebugChain.TryEnumerateFrames"/>
 		public IEnumerable<ICorDebugFrame> EnumerateFrames()
 		{
 			var hr = instance.TryEnumerateFrames(out var ppFrames);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugChainExtensions
 			return EnumerateFramesCore(ppFrames);
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryEnumerateFrames"/>
 		public ICorDebugFrame[] Frames => instance.EnumerateFrames().ToArray();
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetActiveFrame"/>
 		public ICorDebugFrame ActiveFrame
 		{
 			get
@@ -32,6 +35,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetCallee"/>
 		public ICorDebugChain Callee
 		{
 			get
@@ -42,6 +46,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetCaller"/>
 		public ICorDebugChain Caller
 		{
 			get
@@ -52,6 +57,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetContext"/>
 		public ICorDebugContext Context
 		{
 			get
@@ -62,6 +68,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetNext"/>
 		public ICorDebugChain Next
 		{
 			get
@@ -72,6 +79,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetPrevious"/>
 		public ICorDebugChain Previous
 		{
 			get
@@ -82,6 +90,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetReason"/>
 		public CorDebugChainReason Reason
 		{
 			get
@@ -92,6 +101,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetRegisterSet"/>
 		public ICorDebugRegisterSet RegisterSet
 		{
 			get
@@ -102,6 +112,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetStackRange"/>
 		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) StackRange
 		{
 			get
@@ -112,6 +123,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryGetThread"/>
 		public ICorDebugThread Thread
 		{
 			get
@@ -122,6 +134,7 @@ public static unsafe class CorDebugChainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugChain.TryIsManaged"/>
 		public bool IsManaged
 		{
 			get

@@ -13,18 +13,21 @@ public static unsafe class CorDebugManagedCallback4Extensions
 {
 	extension(ICorDebugManagedCallback4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugManagedCallback4.TryAfterGarbageCollection"/>
 		public void AfterGarbageCollection(ICorDebugProcess pProcess)
 		{
 			var hr = instance.TryAfterGarbageCollection(pProcess);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback4.TryBeforeGarbageCollection"/>
 		public void BeforeGarbageCollection(ICorDebugProcess pProcess)
 		{
 			var hr = instance.TryBeforeGarbageCollection(pProcess);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback4.TryDataBreakpoint"/>
 		public void DataBreakpoint(ICorDebugProcess pProcess, ICorDebugThread pThread, ref byte pContext, int contextSize)
 		{
 			var hr = instance.TryDataBreakpoint(pProcess, pThread, ref pContext, checked((uint)contextSize));

@@ -13,6 +13,7 @@ public static unsafe class CorDebugThread2Extensions
 {
 	extension(ICorDebugThread2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread2.TryGetActiveFunctions"/>
 		public COR_ACTIVE_FUNCTION[] ActiveFunctions
 		{
 			get
@@ -44,6 +45,7 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetConnectionID"/>
 		public int ConnectionID
 		{
 			get
@@ -54,6 +56,7 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetTaskID"/>
 		public ulong TaskID
 		{
 			get
@@ -64,6 +67,7 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetVolatileOSThreadID"/>
 		public int VolatileOSThreadID
 		{
 			get
@@ -74,6 +78,7 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryInterceptCurrentException"/>
 		public void InterceptCurrentException(ICorDebugFrame pFrame)
 		{
 			var hr = instance.TryInterceptCurrentException(pFrame);

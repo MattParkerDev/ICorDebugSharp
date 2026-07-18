@@ -13,6 +13,7 @@ public static unsafe class CorDebugBoxValueExtensions
 {
 	extension(ICorDebugBoxValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugBoxValue.TryGetObject"/>
 		public ICorDebugObjectValue Object
 		{
 			get

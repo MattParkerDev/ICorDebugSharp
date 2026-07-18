@@ -13,6 +13,7 @@ public static unsafe class CorDebugEnumExtensions
 {
 	extension(ICorDebugEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugEnum.TryClone"/>
 		public ICorDebugEnum Clone()
 		{
 			var hr = instance.TryClone(out var ppEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugEnumExtensions
 			return ppEnum;
 		}
 
+		/// <inheritdoc cref="ICorDebugEnum.TryGetCount"/>
 		public int Count
 		{
 			get
@@ -30,12 +32,14 @@ public static unsafe class CorDebugEnumExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEnum.TryReset"/>
 		public void Reset()
 		{
 			var hr = instance.TryReset();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEnum.TrySkip"/>
 		public void Skip(int celt)
 		{
 			var hr = instance.TrySkip(checked((uint)celt));

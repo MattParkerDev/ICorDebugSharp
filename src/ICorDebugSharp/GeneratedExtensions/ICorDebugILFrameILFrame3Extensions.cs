@@ -13,13 +13,17 @@ public static unsafe class CorDebugILFrameILFrame3Extensions
 {
 	extension(ICorDebugILFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame3"/>
 		public bool SupportsILFrame3 => instance is ICorDebugILFrame3;
 
+		/// <inheritdoc cref="ICorDebugILFrame3"/>
 		public ICorDebugILFrame3 ILFrame3 =>
 			instance as ICorDebugILFrame3 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame3.");
 
+		/// <inheritdoc cref="ICorDebugILFrame3.TryGetReturnValueForILOffset"/>
 		public int TryGetReturnValueForILOffset(uint ILoffset, out ICorDebugValue ppReturnValue) => instance.ILFrame3.TryGetReturnValueForILOffset(ILoffset, out ppReturnValue);
 
+		/// <inheritdoc cref="ICorDebugILFrame3.TryGetReturnValueForILOffset"/>
 		public ICorDebugValue GetReturnValueForILOffset(int ILoffset) => instance.ILFrame3.GetReturnValueForILOffset(ILoffset);
 	}
 }

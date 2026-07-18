@@ -13,13 +13,17 @@ public static unsafe class CorDebugTypeType2Extensions
 {
 	extension(ICorDebugType instance)
 	{
+		/// <inheritdoc cref="ICorDebugType2"/>
 		public bool SupportsType2 => instance is ICorDebugType2;
 
+		/// <inheritdoc cref="ICorDebugType2"/>
 		public ICorDebugType2 Type2 =>
 			instance as ICorDebugType2 ?? throw new NotSupportedException("ICorDebugType does not support ICorDebugType2.");
 
+		/// <inheritdoc cref="ICorDebugType2.TryGetTypeID"/>
 		public int TryGetTypeID(out COR_TYPEID id) => instance.Type2.TryGetTypeID(out id);
 
+		/// <inheritdoc cref="ICorDebugType2.TryGetTypeID"/>
 		public COR_TYPEID TypeID
 		{
 			get

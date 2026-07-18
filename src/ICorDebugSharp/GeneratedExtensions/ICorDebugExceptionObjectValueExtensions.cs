@@ -13,6 +13,7 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 {
 	extension(ICorDebugExceptionObjectValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue.TryEnumerateExceptionCallStack"/>
 		public IEnumerable<CorDebugExceptionObjectStackFrame> EnumerateExceptionCallStack()
 		{
 			var hr = instance.TryEnumerateExceptionCallStack(out var ppCallStackEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugExceptionObjectValueExtensions
 			return EnumerateExceptionCallStackCore(ppCallStackEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue.TryEnumerateExceptionCallStack"/>
 		public CorDebugExceptionObjectStackFrame[] ExceptionCallStack => instance.EnumerateExceptionCallStack().ToArray();
 	}
 

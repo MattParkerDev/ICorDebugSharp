@@ -13,6 +13,7 @@ public static unsafe class CorDebugInternalFrameExtensions
 {
 	extension(ICorDebugInternalFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugInternalFrame.TryGetFrameType"/>
 		public CorDebugInternalFrameType FrameType
 		{
 			get

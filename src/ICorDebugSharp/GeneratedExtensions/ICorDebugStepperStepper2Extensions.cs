@@ -13,13 +13,17 @@ public static unsafe class CorDebugStepperStepper2Extensions
 {
 	extension(ICorDebugStepper instance)
 	{
+		/// <inheritdoc cref="ICorDebugStepper2"/>
 		public bool SupportsStepper2 => instance is ICorDebugStepper2;
 
+		/// <inheritdoc cref="ICorDebugStepper2"/>
 		public ICorDebugStepper2 Stepper2 =>
 			instance as ICorDebugStepper2 ?? throw new NotSupportedException("ICorDebugStepper does not support ICorDebugStepper2.");
 
+		/// <inheritdoc cref="ICorDebugStepper2.TrySetJMC"/>
 		public int TrySetJMC(bool fIsJMCStepper) => instance.Stepper2.TrySetJMC(fIsJMCStepper);
 
+		/// <inheritdoc cref="ICorDebugStepper2.TrySetJMC"/>
 		public void SetJMC(bool fIsJMCStepper) => instance.Stepper2.SetJMC(fIsJMCStepper);
 	}
 }

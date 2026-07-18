@@ -13,17 +13,23 @@ public static unsafe class CorDebugThreadThread3Extensions
 {
 	extension(ICorDebugThread instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread3"/>
 		public bool SupportsThread3 => instance is ICorDebugThread3;
 
+		/// <inheritdoc cref="ICorDebugThread3"/>
 		public ICorDebugThread3 Thread3 =>
 			instance as ICorDebugThread3 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread3.");
 
+		/// <inheritdoc cref="ICorDebugThread3.TryCreateStackWalk"/>
 		public int TryCreateStackWalk(out ICorDebugStackWalk ppStackWalk) => instance.Thread3.TryCreateStackWalk(out ppStackWalk);
 
+		/// <inheritdoc cref="ICorDebugThread3.TryCreateStackWalk"/>
 		public ICorDebugStackWalk CreateStackWalk() => instance.Thread3.CreateStackWalk();
 
+		/// <inheritdoc cref="ICorDebugThread3.TryGetActiveInternalFrames"/>
 		public int TryGetActiveInternalFrames(uint cInternalFrames, out uint pcInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames) => instance.Thread3.TryGetActiveInternalFrames(cInternalFrames, out pcInternalFrames, ppInternalFrames);
 
+		/// <inheritdoc cref="ICorDebugThread3.TryGetActiveInternalFrames"/>
 		public int GetActiveInternalFrames(int cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames) => instance.Thread3.GetActiveInternalFrames(cInternalFrames, ppInternalFrames);
 	}
 }

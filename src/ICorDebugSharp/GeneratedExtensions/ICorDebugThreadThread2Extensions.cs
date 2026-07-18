@@ -13,15 +13,20 @@ public static unsafe class CorDebugThreadThread2Extensions
 {
 	extension(ICorDebugThread instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread2"/>
 		public bool SupportsThread2 => instance is ICorDebugThread2;
 
+		/// <inheritdoc cref="ICorDebugThread2"/>
 		public ICorDebugThread2 Thread2 =>
 			instance as ICorDebugThread2 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread2.");
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetActiveFunctions"/>
 		public int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.TryGetActiveFunctions(cFunctions, out pcFunctions, pFunctions);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetConnectionID"/>
 		public int TryGetConnectionID(out uint pdwConnectionId) => instance.Thread2.TryGetConnectionID(out pdwConnectionId);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetConnectionID"/>
 		public int ConnectionID
 		{
 			get
@@ -32,8 +37,10 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetTaskID"/>
 		public int TryGetTaskID(out ulong pTaskId) => instance.Thread2.TryGetTaskID(out pTaskId);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetTaskID"/>
 		public ulong TaskID
 		{
 			get
@@ -44,8 +51,10 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetVolatileOSThreadID"/>
 		public int TryGetVolatileOSThreadID(out uint pdwTid) => instance.Thread2.TryGetVolatileOSThreadID(out pdwTid);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetVolatileOSThreadID"/>
 		public int VolatileOSThreadID
 		{
 			get
@@ -56,10 +65,13 @@ public static unsafe class CorDebugThreadThread2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread2.TryInterceptCurrentException"/>
 		public int TryInterceptCurrentException(ICorDebugFrame pFrame) => instance.Thread2.TryInterceptCurrentException(pFrame);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryInterceptCurrentException"/>
 		public void InterceptCurrentException(ICorDebugFrame pFrame) => instance.Thread2.InterceptCurrentException(pFrame);
 
+		/// <inheritdoc cref="ICorDebugThread2.TryGetActiveFunctions"/>
 		public COR_ACTIVE_FUNCTION[] ActiveFunctions => instance.Thread2.ActiveFunctions;
 	}
 }

@@ -13,13 +13,17 @@ public static unsafe class CorDebugFunctionFunction4Extensions
 {
 	extension(ICorDebugFunction instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction4"/>
 		public bool SupportsFunction4 => instance is ICorDebugFunction4;
 
+		/// <inheritdoc cref="ICorDebugFunction4"/>
 		public ICorDebugFunction4 Function4 =>
 			instance as ICorDebugFunction4 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction4.");
 
+		/// <inheritdoc cref="ICorDebugFunction4.TryCreateNativeBreakpoint"/>
 		public int TryCreateNativeBreakpoint(out ICorDebugFunctionBreakpoint ppBreakpoint) => instance.Function4.TryCreateNativeBreakpoint(out ppBreakpoint);
 
+		/// <inheritdoc cref="ICorDebugFunction4.TryCreateNativeBreakpoint"/>
 		public ICorDebugFunctionBreakpoint CreateNativeBreakpoint() => instance.Function4.CreateNativeBreakpoint();
 	}
 }

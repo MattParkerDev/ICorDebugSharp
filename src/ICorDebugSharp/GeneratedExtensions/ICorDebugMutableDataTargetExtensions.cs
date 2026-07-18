@@ -13,18 +13,21 @@ public static unsafe class CorDebugMutableDataTargetExtensions
 {
 	extension(ICorDebugMutableDataTarget instance)
 	{
+		/// <inheritdoc cref="ICorDebugMutableDataTarget.TryContinueStatusChanged"/>
 		public void ContinueStatusChanged(int dwThreadId, int continueStatus)
 		{
 			var hr = instance.TryContinueStatusChanged(checked((uint)dwThreadId), checked((uint)continueStatus));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugMutableDataTarget.TrySetThreadContext"/>
 		public void SetThreadContext(int dwThreadID, int contextSize, byte[] pContext)
 		{
 			var hr = instance.TrySetThreadContext(checked((uint)dwThreadID), checked((uint)contextSize), pContext);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugMutableDataTarget.TryWriteVirtual"/>
 		public void WriteVirtual(CORDB_ADDRESS address, byte[] pBuffer, int bytesRequested)
 		{
 			var hr = instance.TryWriteVirtual(address, pBuffer, checked((uint)bytesRequested));

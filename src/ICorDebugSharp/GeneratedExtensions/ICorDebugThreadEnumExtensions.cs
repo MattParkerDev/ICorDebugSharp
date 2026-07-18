@@ -13,6 +13,7 @@ public static unsafe class CorDebugThreadEnumExtensions
 {
 	extension(ICorDebugThreadEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugThreadEnum.TryNext"/>
 		public (ICorDebugThread[] threads, int pceltFetched) Next(int celt)
 		{
 			var threads = new ICorDebugThread[checked((int)celt)];

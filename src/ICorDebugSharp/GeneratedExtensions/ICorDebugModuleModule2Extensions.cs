@@ -13,17 +13,23 @@ public static unsafe class CorDebugModuleModule2Extensions
 {
 	extension(ICorDebugModule instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule2"/>
 		public bool SupportsModule2 => instance is ICorDebugModule2;
 
+		/// <inheritdoc cref="ICorDebugModule2"/>
 		public ICorDebugModule2 Module2 =>
 			instance as ICorDebugModule2 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule2.");
 
+		/// <inheritdoc cref="ICorDebugModule2.TryApplyChanges"/>
 		public int TryApplyChanges(uint cbMetadata, byte[] pbMetadata, uint cbIL, byte[] pbIL) => instance.Module2.TryApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
 
+		/// <inheritdoc cref="ICorDebugModule2.TryApplyChanges"/>
 		public void ApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL) => instance.Module2.ApplyChanges(cbMetadata, pbMetadata, cbIL, pbIL);
 
+		/// <inheritdoc cref="ICorDebugModule2.TryGetJITCompilerFlags"/>
 		public int TryGetJITCompilerFlags(out CorDebugJITCompilerFlags pdwFlags) => instance.Module2.TryGetJITCompilerFlags(out pdwFlags);
 
+		/// <inheritdoc cref="ICorDebugModule2.TryGetJITCompilerFlags"/>
 		public CorDebugJITCompilerFlags JITCompilerFlags
 		{
 			get
@@ -39,14 +45,19 @@ public static unsafe class CorDebugModuleModule2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule2.TryResolveAssembly"/>
 		public int TryResolveAssembly(mdToken tkAssemblyRef, out ICorDebugAssembly ppAssembly) => instance.Module2.TryResolveAssembly(tkAssemblyRef, out ppAssembly);
 
+		/// <inheritdoc cref="ICorDebugModule2.TryResolveAssembly"/>
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef) => instance.Module2.ResolveAssembly(tkAssemblyRef);
 
+		/// <inheritdoc cref="ICorDebugModule2.TrySetJITCompilerFlags"/>
 		public int TrySetJITCompilerFlags(CorDebugJITCompilerFlags dwFlags) => instance.Module2.TrySetJITCompilerFlags(dwFlags);
 
+		/// <inheritdoc cref="ICorDebugModule2.TrySetJMCStatus"/>
 		public int TrySetJMCStatus(bool bIsJustMyCode, uint cTokens, mdToken[] pTokens) => instance.Module2.TrySetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 
+		/// <inheritdoc cref="ICorDebugModule2.TrySetJMCStatus"/>
 		public void SetJMCStatus(bool bIsJustMyCode, int cTokens, mdToken[] pTokens) => instance.Module2.SetJMCStatus(bIsJustMyCode, cTokens, pTokens);
 	}
 }

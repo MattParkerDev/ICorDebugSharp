@@ -13,6 +13,7 @@ public static unsafe class CorDebugThread4Extensions
 {
 	extension(ICorDebugThread4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread4.TryGetBlockingObjects"/>
 		public IEnumerable<CorDebugBlockingObject> GetBlockingObjects()
 		{
 			var hr = instance.TryGetBlockingObjects(out var ppBlockingObjectEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugThread4Extensions
 			return GetBlockingObjectsCore(ppBlockingObjectEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugThread4.TryGetCurrentCustomDebuggerNotification"/>
 		public ICorDebugValue CurrentCustomDebuggerNotification
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugThread4Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread4.TryHasUnhandledException"/>
 		public void HasUnhandledException()
 		{
 			var hr = instance.TryHasUnhandledException();

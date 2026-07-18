@@ -13,13 +13,17 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 {
 	extension(ICorDebugInternalFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugInternalFrame2"/>
 		public bool SupportsInternalFrame2 => instance is ICorDebugInternalFrame2;
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2"/>
 		public ICorDebugInternalFrame2 InternalFrame2 =>
 			instance as ICorDebugInternalFrame2 ?? throw new NotSupportedException("ICorDebugInternalFrame does not support ICorDebugInternalFrame2.");
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryGetAddress"/>
 		public int TryGetAddress(out CORDB_ADDRESS pAddress) => instance.InternalFrame2.TryGetAddress(out pAddress);
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryGetAddress"/>
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -30,8 +34,10 @@ public static unsafe class CorDebugInternalFrameInternalFrame2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryIsCloserToLeaf"/>
 		public int TryIsCloserToLeaf(ICorDebugFrame pFrameToCompare, out bool pIsCloser) => instance.InternalFrame2.TryIsCloserToLeaf(pFrameToCompare, out pIsCloser);
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryIsCloserToLeaf"/>
 		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare) => instance.InternalFrame2.IsCloserToLeaf(pFrameToCompare);
 	}
 }

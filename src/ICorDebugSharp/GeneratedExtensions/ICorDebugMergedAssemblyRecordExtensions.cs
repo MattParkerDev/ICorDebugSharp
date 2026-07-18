@@ -13,6 +13,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 {
 	extension(ICorDebugMergedAssemblyRecord instance)
 	{
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetSimpleName"/>
 		public string SimpleName
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetCulture"/>
 		public string Culture
 		{
 			get
@@ -77,6 +79,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetPublicKey"/>
 		public (byte[] pbPublicKey, int pcbPublicKey) GetPublicKey(int cbPublicKey)
 		{
 			var pbPublicKey = new byte[checked((int)cbPublicKey)];
@@ -85,6 +88,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			return (pbPublicKey, checked((int)pcbPublicKey));
 		}
 
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetPublicKeyToken"/>
 		public (byte[] pbPublicKeyToken, int pcbPublicKeyToken) GetPublicKeyToken(int cbPublicKeyToken)
 		{
 			var pbPublicKeyToken = new byte[checked((int)cbPublicKeyToken)];
@@ -93,6 +97,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			return (pbPublicKeyToken, checked((int)pcbPublicKeyToken));
 		}
 
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetIndex"/>
 		public int Index
 		{
 			get
@@ -103,6 +108,7 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMergedAssemblyRecord.TryGetVersion"/>
 		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) Version
 		{
 			get

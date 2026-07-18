@@ -13,14 +13,19 @@ public static unsafe class MetaDataImport2Extensions
 {
 	extension(IMetaDataImport2 instance)
 	{
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumGenericParams"/>
 		public IEnumerable<mdGenericParam> EnumGenericParams(mdToken tk) => EnumerateGenericParamsCore(instance, tk);
 
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumGenericParamConstraints"/>
 		public IEnumerable<mdGenericParamConstraint> EnumGenericParamConstraints(mdGenericParam tk) => EnumerateGenericParamConstraintsCore(instance, tk);
 
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumMethodSpecs"/>
 		public IEnumerable<mdMethodSpec> EnumMethodSpecs(mdToken tk) => EnumerateMethodSpecsCore(instance, tk);
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetVersionString"/>
 		public string VersionString => QueryGetVersionString(instance);
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetGenericParamProps"/>
 		public (string wzname, int pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, int reserved) GetGenericParamProps(mdGenericParam gp)
 		{
 			var hr = instance.TryGetGenericParamProps(gp, out var queryPulParamSeq, out var queryPdwParamFlags, out var queryPtOwner, out var queryReserved, null, 0, out var required);
@@ -46,6 +51,7 @@ public static unsafe class MetaDataImport2Extensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumGenericParamConstraints"/>
 		public (mdGenericParamConstraint rGenericParamConstraints, int pcGenericParamConstraints) EnumGenericParamConstraints(ref HCorEnum phEnum, mdGenericParam tk)
 		{
 			var hr = instance.TryEnumGenericParamConstraints(ref phEnum, tk, out var rGenericParamConstraints, 1, out var pcGenericParamConstraints);
@@ -53,6 +59,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (rGenericParamConstraints, checked((int)pcGenericParamConstraints));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumGenericParams"/>
 		public (mdGenericParam rGenericParams, int pcGenericParams) EnumGenericParams(ref HCorEnum phEnum, mdToken tk)
 		{
 			var hr = instance.TryEnumGenericParams(ref phEnum, tk, out var rGenericParams, 1, out var pcGenericParams);
@@ -60,6 +67,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (rGenericParams, checked((int)pcGenericParams));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryEnumMethodSpecs"/>
 		public (mdMethodSpec rMethodSpecs, int pcMethodSpecs) EnumMethodSpecs(ref HCorEnum phEnum, mdToken tk)
 		{
 			var hr = instance.TryEnumMethodSpecs(ref phEnum, tk, out var rMethodSpecs, 1, out var pcMethodSpecs);
@@ -67,6 +75,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (rMethodSpecs, checked((int)pcMethodSpecs));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetGenericParamConstraintProps"/>
 		public (mdGenericParam ptGenericParam, mdToken ptkConstraintType) GetGenericParamConstraintProps(mdGenericParamConstraint gpc)
 		{
 			var hr = instance.TryGetGenericParamConstraintProps(gpc, out var ptGenericParam, out var ptkConstraintType);
@@ -74,6 +83,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (ptGenericParam, ptkConstraintType);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetGenericParamProps"/>
 		public (int pulParamSeq, CorGenericParamAttr pdwParamFlags, mdToken ptOwner, int reserved, int pchName) GetGenericParamProps(mdGenericParam gp, char[]? wzname, int cchName)
 		{
 			var hr = instance.TryGetGenericParamProps(gp, out var pulParamSeq, out var pdwParamFlags, out var ptOwner, out var reserved, wzname, checked((uint)cchName), out var pchName);
@@ -81,6 +91,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (checked((int)pulParamSeq), pdwParamFlags, ptOwner, checked((int)reserved), checked((int)pchName));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetMethodSpecProps"/>
 		public (mdToken tkParent, nint ppvSigBlob, int pcbSigBlob) GetMethodSpecProps(mdMethodSpec mi)
 		{
 			var hr = instance.TryGetMethodSpecProps(mi, out var tkParent, out var ppvSigBlob, out var pcbSigBlob);
@@ -88,6 +99,7 @@ public static unsafe class MetaDataImport2Extensions
 			return (tkParent, (nint)ppvSigBlob, checked((int)pcbSigBlob));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetPEKind"/>
 		public (int pdwPEKind, int pdwMAchine) PEKind
 		{
 			get
@@ -98,6 +110,7 @@ public static unsafe class MetaDataImport2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="IMetaDataImport2.TryGetVersionString"/>
 		public int GetVersionString(char[]? pwzBuf, int ccBufSize)
 		{
 			var hr = instance.TryGetVersionString(pwzBuf, checked((uint)ccBufSize), out var pccBufSize);

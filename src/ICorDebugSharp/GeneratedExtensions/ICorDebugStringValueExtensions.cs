@@ -13,6 +13,7 @@ public static unsafe class CorDebugStringValueExtensions
 {
 	extension(ICorDebugStringValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugStringValue.TryGetString"/>
 		public string String
 		{
 			get
@@ -35,6 +36,7 @@ public static unsafe class CorDebugStringValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugStringValue.TryGetLength"/>
 		public int Length
 		{
 			get

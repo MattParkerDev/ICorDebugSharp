@@ -13,6 +13,7 @@ public static unsafe class CorDebugCode4Extensions
 {
 	extension(ICorDebugCode4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode4.TryEnumerateVariableHomes"/>
 		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes()
 		{
 			var hr = instance.TryEnumerateVariableHomes(out var ppEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugCode4Extensions
 			return EnumerateVariableHomesCore(ppEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugCode4.TryEnumerateVariableHomes"/>
 		public ICorDebugVariableHome[] VariableHomes => instance.EnumerateVariableHomes().ToArray();
 	}
 

@@ -13,6 +13,7 @@ public static unsafe class CorDebugClass2Extensions
 {
 	extension(ICorDebugClass2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugClass2.TryGetParameterizedType"/>
 		public ICorDebugType GetParameterizedType(CorElementType elementType, int nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
 			var hr = instance.TryGetParameterizedType(elementType, checked((uint)nTypeArgs), ppTypeArgs, out var ppType);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugClass2Extensions
 			return ppType;
 		}
 
+		/// <inheritdoc cref="ICorDebugClass2.TrySetJMCStatus"/>
 		public void SetJMCStatus(bool bIsJustMyCode)
 		{
 			var hr = instance.TrySetJMCStatus(bIsJustMyCode);

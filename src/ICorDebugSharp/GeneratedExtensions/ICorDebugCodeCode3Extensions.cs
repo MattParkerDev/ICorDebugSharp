@@ -13,13 +13,17 @@ public static unsafe class CorDebugCodeCode3Extensions
 {
 	extension(ICorDebugCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode3"/>
 		public bool SupportsCode3 => instance is ICorDebugCode3;
 
+		/// <inheritdoc cref="ICorDebugCode3"/>
 		public ICorDebugCode3 Code3 =>
 			instance as ICorDebugCode3 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode3.");
 
+		/// <inheritdoc cref="ICorDebugCode3.TryGetReturnValueLiveOffset"/>
 		public int TryGetReturnValueLiveOffset(uint ILoffset, uint bufferSize, out uint pFetched, uint[] pOffsets) => instance.Code3.TryGetReturnValueLiveOffset(ILoffset, bufferSize, out pFetched, pOffsets);
 
+		/// <inheritdoc cref="ICorDebugCode3.TryGetReturnValueLiveOffset"/>
 		public (uint[] pOffsets, int pFetched) GetReturnValueLiveOffset(int ILoffset, int bufferSize) => instance.Code3.GetReturnValueLiveOffset(ILoffset, bufferSize);
 	}
 }

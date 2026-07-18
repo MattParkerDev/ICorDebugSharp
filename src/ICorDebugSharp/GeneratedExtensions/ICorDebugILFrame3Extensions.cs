@@ -13,6 +13,7 @@ public static unsafe class CorDebugILFrame3Extensions
 {
 	extension(ICorDebugILFrame3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame3.TryGetReturnValueForILOffset"/>
 		public ICorDebugValue GetReturnValueForILOffset(int ILoffset)
 		{
 			var hr = instance.TryGetReturnValueForILOffset(checked((uint)ILoffset), out var ppReturnValue);

@@ -13,17 +13,23 @@ public static unsafe class CorDebugClassClass2Extensions
 {
 	extension(ICorDebugClass instance)
 	{
+		/// <inheritdoc cref="ICorDebugClass2"/>
 		public bool SupportsClass2 => instance is ICorDebugClass2;
 
+		/// <inheritdoc cref="ICorDebugClass2"/>
 		public ICorDebugClass2 Class2 =>
 			instance as ICorDebugClass2 ?? throw new NotSupportedException("ICorDebugClass does not support ICorDebugClass2.");
 
+		/// <inheritdoc cref="ICorDebugClass2.TryGetParameterizedType"/>
 		public int TryGetParameterizedType(CorElementType elementType, uint nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.Class2.TryGetParameterizedType(elementType, nTypeArgs, ppTypeArgs, out ppType);
 
+		/// <inheritdoc cref="ICorDebugClass2.TryGetParameterizedType"/>
 		public ICorDebugType GetParameterizedType(CorElementType elementType, int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Class2.GetParameterizedType(elementType, nTypeArgs, ppTypeArgs);
 
+		/// <inheritdoc cref="ICorDebugClass2.TrySetJMCStatus"/>
 		public int TrySetJMCStatus(bool bIsJustMyCode) => instance.Class2.TrySetJMCStatus(bIsJustMyCode);
 
+		/// <inheritdoc cref="ICorDebugClass2.TrySetJMCStatus"/>
 		public void SetJMCStatus(bool bIsJustMyCode) => instance.Class2.SetJMCStatus(bIsJustMyCode);
 	}
 }

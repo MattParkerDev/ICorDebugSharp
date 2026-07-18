@@ -13,6 +13,7 @@ public static unsafe class CorDebugHeapValue2Extensions
 {
 	extension(ICorDebugHeapValue2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapValue2.TryCreateHandle"/>
 		public ICorDebugHandleValue CreateHandle(CorDebugHandleType type)
 		{
 			var hr = instance.TryCreateHandle(type, out var ppHandle);

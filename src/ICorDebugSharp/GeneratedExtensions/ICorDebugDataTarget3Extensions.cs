@@ -13,6 +13,7 @@ public static unsafe class CorDebugDataTarget3Extensions
 {
 	extension(ICorDebugDataTarget3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugDataTarget3.TryGetLoadedModules"/>
 		public (ICorDebugLoadedModule[] pLoadedModules, int pcFetchedModules) GetLoadedModules(int cRequestedModules)
 		{
 			var pLoadedModules = new ICorDebugLoadedModule[checked((int)cRequestedModules)];

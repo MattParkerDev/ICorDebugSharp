@@ -13,6 +13,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 {
 	extension(ICorDebugVariableHome instance)
 	{
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetArgumentIndex"/>
 		public int ArgumentIndex
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetCode"/>
 		public ICorDebugCode Code
 		{
 			get
@@ -33,6 +35,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetLiveRange"/>
 		public (int pStartOffset, int pEndOffset) LiveRange
 		{
 			get
@@ -43,6 +46,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetLocationType"/>
 		public VariableLocationType LocationType
 		{
 			get
@@ -53,6 +57,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetOffset"/>
 		public int Offset
 		{
 			get
@@ -63,6 +68,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetRegister"/>
 		public CorDebugRegister Register
 		{
 			get
@@ -73,6 +79,7 @@ public static unsafe class CorDebugVariableHomeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableHome.TryGetSlotIndex"/>
 		public int SlotIndex
 		{
 			get

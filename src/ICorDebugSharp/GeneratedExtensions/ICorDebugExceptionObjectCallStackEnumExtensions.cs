@@ -13,6 +13,7 @@ public static unsafe class CorDebugExceptionObjectCallStackEnumExtensions
 {
 	extension(ICorDebugExceptionObjectCallStackEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugExceptionObjectCallStackEnum.TryNext"/>
 		public (CorDebugExceptionObjectStackFrame[] values, int pceltFetched) Next(int celt)
 		{
 			var values = new CorDebugExceptionObjectStackFrame[checked((int)celt)];

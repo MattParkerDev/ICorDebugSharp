@@ -13,6 +13,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 {
 	extension(ICorDebugNativeFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetIP"/>
 		public int IP
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetLocalDoubleRegisterValue"/>
 		public ICorDebugValue GetLocalDoubleRegisterValue(CorDebugRegister highWordReg, CorDebugRegister lowWordReg, int cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.TryGetLocalDoubleRegisterValue(highWordReg, lowWordReg, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
@@ -30,6 +32,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetLocalMemoryRegisterValue"/>
 		public ICorDebugValue GetLocalMemoryRegisterValue(CORDB_ADDRESS highWordAddress, CorDebugRegister lowWordRegister, int cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.TryGetLocalMemoryRegisterValue(highWordAddress, lowWordRegister, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
@@ -37,6 +40,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetLocalMemoryValue"/>
 		public ICorDebugValue GetLocalMemoryValue(CORDB_ADDRESS address, int cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.TryGetLocalMemoryValue(address, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
@@ -44,6 +48,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetLocalRegisterMemoryValue"/>
 		public ICorDebugValue GetLocalRegisterMemoryValue(CorDebugRegister highWordReg, CORDB_ADDRESS lowWordAddress, int cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.TryGetLocalRegisterMemoryValue(highWordReg, lowWordAddress, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
@@ -51,6 +56,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetLocalRegisterValue"/>
 		public ICorDebugValue GetLocalRegisterValue(CorDebugRegister reg, int cbSigBlob, nuint pvSigBlob)
 		{
 			var hr = instance.TryGetLocalRegisterValue(reg, checked((uint)cbSigBlob), pvSigBlob, out var ppValue);
@@ -58,6 +64,7 @@ public static unsafe class CorDebugNativeFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryGetRegisterSet"/>
 		public ICorDebugRegisterSet RegisterSet
 		{
 			get
@@ -68,12 +75,14 @@ public static unsafe class CorDebugNativeFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TryCanSetIP"/>
 		public void CanSetIP(int nOffset)
 		{
 			var hr = instance.TryCanSetIP(checked((uint)nOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame.TrySetIP"/>
 		public void SetIP(int nOffset)
 		{
 			var hr = instance.TrySetIP(checked((uint)nOffset));

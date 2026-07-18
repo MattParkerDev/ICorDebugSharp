@@ -13,13 +13,17 @@ public static unsafe class CorDebugThreadThread5Extensions
 {
 	extension(ICorDebugThread instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread5"/>
 		public bool SupportsThread5 => instance is ICorDebugThread5;
 
+		/// <inheritdoc cref="ICorDebugThread5"/>
 		public ICorDebugThread5 Thread5 =>
 			instance as ICorDebugThread5 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread5.");
 
+		/// <inheritdoc cref="ICorDebugThread5.TryGetBytesAllocated"/>
 		public int TryGetBytesAllocated(out ulong pSohAllocatedBytes, out ulong pUohAllocatedBytes) => instance.Thread5.TryGetBytesAllocated(out pSohAllocatedBytes, out pUohAllocatedBytes);
 
+		/// <inheritdoc cref="ICorDebugThread5.TryGetBytesAllocated"/>
 		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) BytesAllocated
 		{
 			get

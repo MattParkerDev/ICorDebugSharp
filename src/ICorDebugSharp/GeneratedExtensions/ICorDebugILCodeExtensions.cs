@@ -13,6 +13,7 @@ public static unsafe class CorDebugILCodeExtensions
 {
 	extension(ICorDebugILCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugILCode.TryGetEHClauses"/>
 		public CorDebugEHClause[] EHClauses
 		{
 			get

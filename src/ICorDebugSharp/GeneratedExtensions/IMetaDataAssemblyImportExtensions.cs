@@ -13,20 +13,28 @@ public static unsafe class MetaDataAssemblyImportExtensions
 {
 	extension(IMetaDataAssemblyImport instance)
 	{
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumAssemblyRefs"/>
 		public IEnumerable<mdAssemblyRef> EnumAssemblyRefs() => EnumerateAssemblyRefsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumFiles"/>
 		public IEnumerable<mdFile> EnumFiles() => EnumerateFilesCore(instance);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumExportedTypes"/>
 		public IEnumerable<mdExportedType> EnumExportedTypes() => EnumerateExportedTypesCore(instance);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumManifestResources"/>
 		public IEnumerable<mdManifestResource> EnumManifestResources() => EnumerateManifestResourcesCore(instance);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetFileProps"/>
 		public string GetFileProps(mdFile file) => QueryGetFileProps(instance, file);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetExportedTypeProps"/>
 		public string GetExportedTypeProps(mdExportedType exportedType) => QueryGetExportedTypeProps(instance, exportedType);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetManifestResourceProps"/>
 		public string GetManifestResourceProps(mdManifestResource resource) => QueryGetManifestResourceProps(instance, resource);
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetAssemblyProps"/>
 		public (string szName, nint ppbPublicKey, int pcbPublicKey, int pulHashAlgId, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda)
 		{
 			var hr = instance.TryGetAssemblyProps(mda, out var queryPpbPublicKey, out var queryPcbPublicKey, out var queryPulHashAlgId, null, 0, out var required, out var queryPMetaData, out var queryPdwAssemblyFlags);
@@ -52,6 +60,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetAssemblyRefProps"/>
 		public (string szName, nint ppbPublicKeyOrToken, int pcbPublicKeyOrToken, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, int pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar)
 		{
 			var hr = instance.TryGetAssemblyRefProps(mdar, out var queryPpbPublicKeyOrToken, out var queryPcbPublicKeyOrToken, null, 0, out var required, out var queryPMetaData, out var queryPpbHashValue, out var queryPcbHashValue, out var queryPdwAssemblyRefFlags);
@@ -77,6 +86,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumAssemblyRefs"/>
 		public (mdAssemblyRef rAssemblyRefs, int pcTokens) EnumAssemblyRefs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumAssemblyRefs(ref phEnum, out var rAssemblyRefs, 1, out var pcTokens);
@@ -84,6 +94,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (rAssemblyRefs, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumExportedTypes"/>
 		public (mdExportedType rExportedTypes, int pcTokens) EnumExportedTypes(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumExportedTypes(ref phEnum, out var rExportedTypes, 1, out var pcTokens);
@@ -91,6 +102,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (rExportedTypes, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumFiles"/>
 		public (mdFile rFiles, int pcTokens) EnumFiles(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumFiles(ref phEnum, out var rFiles, 1, out var pcTokens);
@@ -98,6 +110,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (rFiles, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryEnumManifestResources"/>
 		public (mdManifestResource rManifestResources, int pcTokens) EnumManifestResources(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumManifestResources(ref phEnum, out var rManifestResources, 1, out var pcTokens);
@@ -105,6 +118,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (rManifestResources, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryFindAssembliesByName"/>
 		public (nint ppIUnk, int pcAssemblies) FindAssembliesByName(string szAppBase, string szPrivateBin, string szAssemblyName)
 		{
 			var hr = instance.TryFindAssembliesByName(szAppBase, szPrivateBin, szAssemblyName, out var ppIUnk, 1, out var pcAssemblies);
@@ -112,6 +126,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (ppIUnk, checked((int)pcAssemblies));
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryFindExportedTypeByName"/>
 		public mdExportedType FindExportedTypeByName(string szName, mdToken mdtExportedType)
 		{
 			var hr = instance.TryFindExportedTypeByName(szName, mdtExportedType, out var ptkExportedType);
@@ -119,6 +134,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return ptkExportedType;
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryFindManifestResourceByName"/>
 		public mdManifestResource FindManifestResourceByName(string szName)
 		{
 			var hr = instance.TryFindManifestResourceByName(szName, out var ptkManifestResource);
@@ -126,6 +142,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return ptkManifestResource;
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetAssemblyFromScope"/>
 		public mdAssembly AssemblyFromScope
 		{
 			get
@@ -136,6 +153,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			}
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetAssemblyProps"/>
 		public (nint ppbPublicKey, int pcbPublicKey, int pulHashAlgId, int pchName, ASSEMBLYMETADATA pMetaData, CorAssemblyFlags pdwAssemblyFlags) GetAssemblyProps(mdAssembly mda, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetAssemblyProps(mda, out var ppbPublicKey, out var pcbPublicKey, out var pulHashAlgId, szName, checked((uint)cchName), out var pchName, out var pMetaData, out var pdwAssemblyFlags);
@@ -143,6 +161,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (ppbPublicKey, checked((int)pcbPublicKey), checked((int)pulHashAlgId), checked((int)pchName), pMetaData, pdwAssemblyFlags);
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetAssemblyRefProps"/>
 		public (nint ppbPublicKeyOrToken, int pcbPublicKeyOrToken, int pchName, ASSEMBLYMETADATA pMetaData, nint ppbHashValue, int pcbHashValue, CorAssemblyFlags pdwAssemblyRefFlags) GetAssemblyRefProps(mdAssemblyRef mdar, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetAssemblyRefProps(mdar, out var ppbPublicKeyOrToken, out var pcbPublicKeyOrToken, szName, checked((uint)cchName), out var pchName, out var pMetaData, out var ppbHashValue, out var pcbHashValue, out var pdwAssemblyRefFlags);
@@ -150,6 +169,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (ppbPublicKeyOrToken, checked((int)pcbPublicKeyOrToken), checked((int)pchName), pMetaData, ppbHashValue, checked((int)pcbHashValue), pdwAssemblyRefFlags);
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetExportedTypeProps"/>
 		public (int pchName, mdToken ptkImplementation, mdTypeDef ptkTypeDef, CorTypeAttr pdwExportedTypeFlags) GetExportedTypeProps(mdExportedType mdct, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetExportedTypeProps(mdct, szName, checked((uint)cchName), out var pchName, out var ptkImplementation, out var ptkTypeDef, out var pdwExportedTypeFlags);
@@ -157,6 +177,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (checked((int)pchName), ptkImplementation, ptkTypeDef, pdwExportedTypeFlags);
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetFileProps"/>
 		public (int pchName, nint ppbHashValue, int pcbHashValue, CorFileFlags pdwFileFlags) GetFileProps(mdFile mdf, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetFileProps(mdf, szName, checked((uint)cchName), out var pchName, out var ppbHashValue, out var pcbHashValue, out var pdwFileFlags);
@@ -164,6 +185,7 @@ public static unsafe class MetaDataAssemblyImportExtensions
 			return (checked((int)pchName), ppbHashValue, checked((int)pcbHashValue), pdwFileFlags);
 		}
 
+		/// <inheritdoc cref="IMetaDataAssemblyImport.TryGetManifestResourceProps"/>
 		public (int pchName, mdToken ptkImplementation, int pdwOffset, CorManifestResourceFlags pdwResourceFlags) GetManifestResourceProps(mdManifestResource mdmr, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetManifestResourceProps(mdmr, szName, checked((uint)cchName), out var pchName, out var ptkImplementation, out var pdwOffset, out var pdwResourceFlags);

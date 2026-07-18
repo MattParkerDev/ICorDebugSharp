@@ -13,6 +13,7 @@ public static unsafe class CLRDebuggingExtensions
 {
 	extension(ICLRDebugging instance)
 	{
+		/// <inheritdoc cref="ICLRDebugging.TryOpenVirtualProcess"/>
 		public (object? ppProcess, CLR_DEBUGGING_PROCESS_FLAGS pdwFlags) OpenVirtualProcess(ulong moduleBaseAddress, nint pDataTarget, ICLRDebuggingLibraryProvider pLibraryProvider, ref CLR_DEBUGGING_VERSION pMaxDebuggerSupportedVersion, ref Guid riidProcess, ref CLR_DEBUGGING_VERSION pVersion)
 		{
 			var hr = instance.TryOpenVirtualProcess(moduleBaseAddress, pDataTarget, pLibraryProvider, ref pMaxDebuggerSupportedVersion, ref riidProcess, out var ppProcess, ref pVersion, out var pdwFlags);
@@ -20,6 +21,7 @@ public static unsafe class CLRDebuggingExtensions
 			return (ppProcess, pdwFlags);
 		}
 
+		/// <inheritdoc cref="ICLRDebugging.TryCanUnloadNow"/>
 		public void CanUnloadNow(nint hModule)
 		{
 			var hr = instance.TryCanUnloadNow(hModule);

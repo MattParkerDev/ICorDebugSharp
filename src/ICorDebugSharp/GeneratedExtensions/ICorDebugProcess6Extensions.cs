@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess6Extensions
 {
 	extension(ICorDebugProcess6 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess6.TryDecodeEvent"/>
 		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, int countBytes, CorDebugRecordFormat format, int dwFlags, int dwThreadId)
 		{
 			var hr = instance.TryDecodeEvent(pRecord, checked((uint)countBytes), format, checked((uint)dwFlags), checked((uint)dwThreadId), out var ppEvent);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugProcess6Extensions
 			return ppEvent;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetCode"/>
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress)
 		{
 			var hr = instance.TryGetCode(codeAddress, out var ppCode);
@@ -27,6 +29,7 @@ public static unsafe class CorDebugProcess6Extensions
 			return ppCode;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetExportStepInfo"/>
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName)
 		{
 			var hr = instance.TryGetExportStepInfo(pszExportName, out var pInvokeKind, out var pInvokePurpose);
@@ -34,18 +37,21 @@ public static unsafe class CorDebugProcess6Extensions
 			return (pInvokeKind, pInvokePurpose);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryEnableVirtualModuleSplitting"/>
 		public void EnableVirtualModuleSplitting(bool enableSplitting)
 		{
 			var hr = instance.TryEnableVirtualModuleSplitting(enableSplitting);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryMarkDebuggerAttached"/>
 		public void MarkDebuggerAttached(bool fIsAttached)
 		{
 			var hr = instance.TryMarkDebuggerAttached(fIsAttached);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryProcessStateChanged"/>
 		public void ProcessStateChanged(CorDebugStateChange change)
 		{
 			var hr = instance.TryProcessStateChanged(change);

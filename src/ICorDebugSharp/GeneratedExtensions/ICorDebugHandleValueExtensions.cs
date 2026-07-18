@@ -13,6 +13,7 @@ public static unsafe class CorDebugHandleValueExtensions
 {
 	extension(ICorDebugHandleValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugHandleValue.TryGetHandleType"/>
 		public CorDebugHandleType HandleType
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugHandleValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugHandleValue.TryDispose"/>
 		public void Dispose()
 		{
 			var hr = instance.TryDispose();

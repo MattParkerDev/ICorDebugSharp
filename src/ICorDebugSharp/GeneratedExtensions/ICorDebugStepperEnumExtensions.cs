@@ -13,6 +13,7 @@ public static unsafe class CorDebugStepperEnumExtensions
 {
 	extension(ICorDebugStepperEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugStepperEnum.TryNext"/>
 		public (ICorDebugStepper[] steppers, int pceltFetched) Next(int celt)
 		{
 			var steppers = new ICorDebugStepper[checked((int)celt)];

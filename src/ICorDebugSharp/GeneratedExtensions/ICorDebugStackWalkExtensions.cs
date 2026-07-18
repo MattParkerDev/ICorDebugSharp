@@ -13,6 +13,7 @@ public static unsafe class CorDebugStackWalkExtensions
 {
 	extension(ICorDebugStackWalk instance)
 	{
+		/// <inheritdoc cref="ICorDebugStackWalk.TryGetContext"/>
 		public (byte[] contextBuf, int contextSize) GetContext(int contextFlags, int contextBufSize)
 		{
 			var contextBuf = new byte[checked((int)contextBufSize)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugStackWalkExtensions
 			return (contextBuf, checked((int)contextSize));
 		}
 
+		/// <inheritdoc cref="ICorDebugStackWalk.TryGetFrame"/>
 		public ICorDebugFrame Frame
 		{
 			get
@@ -31,12 +33,14 @@ public static unsafe class CorDebugStackWalkExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugStackWalk.TryNext"/>
 		public void Next()
 		{
 			var hr = instance.TryNext();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStackWalk.TrySetContext"/>
 		public void SetContext(CorDebugSetContextFlag flag, int contextSize, byte[] context)
 		{
 			var hr = instance.TrySetContext(flag, checked((uint)contextSize), context);

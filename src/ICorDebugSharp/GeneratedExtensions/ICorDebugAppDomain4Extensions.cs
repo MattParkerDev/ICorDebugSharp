@@ -13,6 +13,7 @@ public static unsafe class CorDebugAppDomain4Extensions
 {
 	extension(ICorDebugAppDomain4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomain4.TryGetObjectForCCW"/>
 		public ICorDebugValue GetObjectForCCW(CORDB_ADDRESS ccwPointer)
 		{
 			var hr = instance.TryGetObjectForCCW(ccwPointer, out var ppManagedObject);

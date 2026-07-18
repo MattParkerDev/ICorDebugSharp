@@ -13,6 +13,7 @@ public static unsafe class CorDebugType2Extensions
 {
 	extension(ICorDebugType2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugType2.TryGetTypeID"/>
 		public COR_TYPEID TypeID
 		{
 			get

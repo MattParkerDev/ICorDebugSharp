@@ -13,6 +13,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 {
 	extension(ICorDebugVariableSymbol instance)
 	{
+		/// <inheritdoc cref="ICorDebugVariableSymbol.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableSymbol.TryGetValue"/>
 		public (byte[] pValue, int pcbValue) GetValue(int offset, int cbContext, byte[] context, int cbValue)
 		{
 			var pValue = new byte[checked((int)cbValue)];
@@ -53,6 +55,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			return (pValue, checked((int)pcbValue));
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableSymbol.TryGetSize"/>
 		public int Size
 		{
 			get
@@ -63,6 +66,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableSymbol.TryGetSlotIndex"/>
 		public int SlotIndex
 		{
 			get
@@ -73,6 +77,7 @@ public static unsafe class CorDebugVariableSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugVariableSymbol.TrySetValue"/>
 		public void SetValue(int offset, int threadID, int cbContext, byte[] context, int cbValue, byte[] pValue)
 		{
 			var hr = instance.TrySetValue(checked((uint)offset), checked((uint)threadID), checked((uint)cbContext), context, checked((uint)cbValue), pValue);

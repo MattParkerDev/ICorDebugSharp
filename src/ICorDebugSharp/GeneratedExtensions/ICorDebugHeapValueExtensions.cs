@@ -13,6 +13,7 @@ public static unsafe class CorDebugHeapValueExtensions
 {
 	extension(ICorDebugHeapValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapValue.TryCreateRelocBreakpoint"/>
 		public ICorDebugValueBreakpoint CreateRelocBreakpoint()
 		{
 			var hr = instance.TryCreateRelocBreakpoint(out var ppBreakpoint);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugHeapValueExtensions
 			return ppBreakpoint;
 		}
 
+		/// <inheritdoc cref="ICorDebugHeapValue.TryIsValid"/>
 		public bool IsValid
 		{
 			get

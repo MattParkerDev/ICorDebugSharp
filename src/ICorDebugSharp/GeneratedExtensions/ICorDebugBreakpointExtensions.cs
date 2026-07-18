@@ -13,6 +13,7 @@ public static unsafe class CorDebugBreakpointExtensions
 {
 	extension(ICorDebugBreakpoint instance)
 	{
+		/// <inheritdoc cref="ICorDebugBreakpoint.TryIsActive"/>
 		public bool IsActive
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugBreakpointExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugBreakpoint.TryActivate"/>
 		public void Activate(bool bActive)
 		{
 			var hr = instance.TryActivate(bActive);

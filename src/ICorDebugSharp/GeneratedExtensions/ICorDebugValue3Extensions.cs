@@ -13,6 +13,7 @@ public static unsafe class CorDebugValue3Extensions
 {
 	extension(ICorDebugValue3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugValue3.TryGetSize64"/>
 		public ulong Size64
 		{
 			get

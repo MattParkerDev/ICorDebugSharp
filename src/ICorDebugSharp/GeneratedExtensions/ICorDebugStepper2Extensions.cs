@@ -13,6 +13,7 @@ public static unsafe class CorDebugStepper2Extensions
 {
 	extension(ICorDebugStepper2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugStepper2.TrySetJMC"/>
 		public void SetJMC(bool fIsJMCStepper)
 		{
 			var hr = instance.TrySetJMC(fIsJMCStepper);

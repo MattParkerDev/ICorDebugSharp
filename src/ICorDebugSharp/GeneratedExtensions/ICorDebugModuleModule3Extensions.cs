@@ -13,13 +13,17 @@ public static unsafe class CorDebugModuleModule3Extensions
 {
 	extension(ICorDebugModule instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule3"/>
 		public bool SupportsModule3 => instance is ICorDebugModule3;
 
+		/// <inheritdoc cref="ICorDebugModule3"/>
 		public ICorDebugModule3 Module3 =>
 			instance as ICorDebugModule3 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule3.");
 
+		/// <inheritdoc cref="ICorDebugModule3.TryCreateReaderForInMemorySymbols"/>
 		public int TryCreateReaderForInMemorySymbols(ref Guid riid, out object? ppObj) => instance.Module3.TryCreateReaderForInMemorySymbols(ref riid, out ppObj);
 
+		/// <inheritdoc cref="ICorDebugModule3.TryCreateReaderForInMemorySymbols"/>
 		public object? CreateReaderForInMemorySymbols(ref Guid riid) => instance.Module3.CreateReaderForInMemorySymbols(ref riid);
 	}
 }

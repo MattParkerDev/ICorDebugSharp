@@ -13,62 +13,91 @@ public static unsafe class MetaDataImportExtensions
 {
 	extension(IMetaDataImport instance)
 	{
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeDefs"/>
 		public IEnumerable<mdTypeDef> EnumTypeDefs() => EnumerateTypeDefsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumInterfaceImpls"/>
 		public IEnumerable<mdInterfaceImpl> EnumInterfaceImpls(mdTypeDef td) => EnumerateInterfaceImplsCore(instance, td);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeRefs"/>
 		public IEnumerable<mdTypeRef> EnumTypeRefs() => EnumerateTypeRefsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMembers"/>
 		public IEnumerable<mdToken> EnumMembers(mdTypeDef cl) => EnumerateMembersCore(instance, cl);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMembersWithName"/>
 		public IEnumerable<mdToken> EnumMembersWithName(mdTypeDef cl, string szName) => EnumerateMembersWithNameCore(instance, cl, szName);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethods"/>
 		public IEnumerable<mdMethodDef> EnumMethods(mdTypeDef cl) => EnumerateMethodsCore(instance, cl);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodsWithName"/>
 		public IEnumerable<mdMethodDef> EnumMethodsWithName(mdTypeDef cl, string szName) => EnumerateMethodsWithNameCore(instance, cl, szName);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumFields"/>
 		public IEnumerable<mdFieldDef> EnumFields(mdTypeDef cl) => EnumerateFieldsCore(instance, cl);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumFieldsWithName"/>
 		public IEnumerable<mdFieldDef> EnumFieldsWithName(mdTypeDef cl, string szName) => EnumerateFieldsWithNameCore(instance, cl, szName);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumParams"/>
 		public IEnumerable<mdParamDef> EnumParams(mdMethodDef mb) => EnumerateParamsCore(instance, mb);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMemberRefs"/>
 		public IEnumerable<mdMemberRef> EnumMemberRefs(mdToken tkParent) => EnumerateMemberRefsCore(instance, tkParent);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodImpls"/>
 		public IEnumerable<(mdToken MethodBody, mdToken MethodDeclaration)> EnumMethodImpls(mdTypeDef td) => EnumerateMethodImplsCore(instance, td);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumPermissionSets"/>
 		public IEnumerable<mdPermission> EnumPermissionSets(mdToken tk, int dwActions) => EnumeratePermissionSetsCore(instance, tk, dwActions);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumProperties"/>
 		public IEnumerable<mdProperty> EnumProperties(mdTypeDef td) => EnumeratePropertiesCore(instance, td);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumEvents"/>
 		public IEnumerable<mdEvent> EnumEvents(mdTypeDef td) => EnumerateEventsCore(instance, td);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodSemantics"/>
 		public IEnumerable<mdToken> EnumMethodSemantics(mdMethodDef mb) => EnumerateMethodSemanticsCore(instance, mb);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumModuleRefs"/>
 		public IEnumerable<mdModuleRef> EnumModuleRefs() => EnumerateModuleRefsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumUnresolvedMethods"/>
 		public IEnumerable<mdToken> EnumUnresolvedMethods() => EnumerateUnresolvedMethodsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumSignatures"/>
 		public IEnumerable<mdSignature> EnumSignatures() => EnumerateSignaturesCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeSpecs"/>
 		public IEnumerable<mdTypeSpec> EnumTypeSpecs() => EnumerateTypeSpecsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumUserStrings"/>
 		public IEnumerable<mdString> EnumUserStrings() => EnumerateUserStringsCore(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumCustomAttributes"/>
 		public IEnumerable<mdCustomAttribute> EnumCustomAttributes(mdToken tk, mdToken tkType) => EnumerateCustomAttributesCore(instance, tk, tkType);
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetScopeProps"/>
 		public (string szName, Guid pmvid) ScopeProps => QueryGetScopeProps(instance);
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetTypeDefProps"/>
 		public (string szTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef typeDefinition) => QueryGetTypeDefProps(instance, typeDefinition);
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetTypeRefProps"/>
 		public (mdToken ptkResolutionScope, string szName) GetTypeRefProps(mdTypeRef typeReference) => QueryGetTypeRefProps(instance, typeReference);
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetModuleRefProps"/>
 		public string GetModuleRefProps(mdModuleRef moduleReference) => QueryGetModuleRefProps(instance, moduleReference);
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetUserString"/>
 		public string GetUserString(mdString userString) => QueryGetUserString(instance, userString);
 
+		/// <inheritdoc cref="IMetaDataImport.TryIsValidToken"/>
 		public bool IsValidToken(mdToken tk) => instance.TryIsValidToken(tk) != 0;
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetEventProps"/>
 		public (string szEvent, mdTypeDef pClass, CorEventAttr pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetEventProps(mdEvent ev)
 		{
 			var hr = instance.TryGetEventProps(ev, out var queryPClass, null, 0, out var required, out var queryPdwEventFlags, out var queryPtkEventType, out var queryPmdAddOn, out var queryPmdRemoveOn, out var queryPmdFire, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
@@ -94,6 +123,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetFieldProps"/>
 		public (string szField, mdTypeDef pClass, CorFieldAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb)
 		{
 			var hr = instance.TryGetFieldProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
@@ -119,6 +149,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMemberProps"/>
 		public (string szMember, mdTypeDef pClass, int pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb)
 		{
 			var hr = instance.TryGetMemberProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
@@ -144,6 +175,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMemberRefProps"/>
 		public (string szMember, mdToken ptk, nint ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr)
 		{
 			var hr = instance.TryGetMemberRefProps(mr, out var queryPtk, null, 0, out var required, out var queryPpvSigBlob, out var queryPbSig);
@@ -169,6 +201,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMethodProps"/>
 		public (string szMethod, mdTypeDef pClass, CorMethodAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb)
 		{
 			var hr = instance.TryGetMethodProps(mb, out var queryPClass, null, 0, out var required, out var queryPdwAttr, out var queryPpvSigBlob, out var queryPcbSigBlob, out var queryPulCodeRVA, out var queryPdwImplFlags);
@@ -194,6 +227,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetParamProps"/>
 		public (string szName, mdMethodDef pmd, int pulSequence, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetParamProps(mdParamDef tk)
 		{
 			var hr = instance.TryGetParamProps(tk, out var queryPmd, out var queryPulSequence, null, 0, out var required, out var queryPdwAttr, out var queryPdwCPlusTypeFlag, out var queryPpValue, out var queryPcchValue);
@@ -219,6 +253,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetPinvokeMap"/>
 		public (string szImportName, int pdwMappingFlags, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk)
 		{
 			var hr = instance.TryGetPinvokeMap(tk, out var queryPdwMappingFlags, null, 0, out var required, out var queryPmrImportDLL);
@@ -244,6 +279,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetPropertyProps"/>
 		public (string szProperty, mdTypeDef pClass, CorPropertyAttr pdwPropFlags, nint ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop)
 		{
 			var hr = instance.TryGetPropertyProps(prop, out var queryPClass, null, 0, out var required, out var queryPdwPropFlags, out var queryPpvSig, out var queryPbSig, out var queryPdwCPlusTypeFlag, out var queryPpDefaultValue, out var queryPcchDefaultValue, out var queryPmdSetter, out var queryPmdGetter, out var queryRmdOtherMethod, 1, out var queryPcOtherMethod);
@@ -269,6 +305,7 @@ public static unsafe class MetaDataImportExtensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryCountEnum"/>
 		public int CountEnum(HCorEnum hEnum)
 		{
 			var hr = instance.TryCountEnum(hEnum, out var pulCount);
@@ -276,6 +313,7 @@ public static unsafe class MetaDataImportExtensions
 			return checked((int)pulCount);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumCustomAttributes"/>
 		public (mdCustomAttribute rCustomAttributes, int pcCustomAttributes) EnumCustomAttributes(ref HCorEnum phEnum, mdToken tk, mdToken tkType)
 		{
 			var hr = instance.TryEnumCustomAttributes(ref phEnum, tk, tkType, out var rCustomAttributes, 1, out var pcCustomAttributes);
@@ -283,6 +321,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rCustomAttributes, checked((int)pcCustomAttributes));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumEvents"/>
 		public (mdEvent rEvents, int pcEvents) EnumEvents(ref HCorEnum phEnum, mdTypeDef td)
 		{
 			var hr = instance.TryEnumEvents(ref phEnum, td, out var rEvents, 1, out var pcEvents);
@@ -290,6 +329,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rEvents, checked((int)pcEvents));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumFields"/>
 		public (mdFieldDef rFields, int pcTokens) EnumFields(ref HCorEnum phEnum, mdTypeDef cl)
 		{
 			var hr = instance.TryEnumFields(ref phEnum, cl, out var rFields, 1, out var pcTokens);
@@ -297,6 +337,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rFields, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumFieldsWithName"/>
 		public (mdFieldDef rFields, int pcTokens) EnumFieldsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
 			var hr = instance.TryEnumFieldsWithName(ref phEnum, cl, szName, out var rFields, 1, out var pcTokens);
@@ -304,6 +345,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rFields, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumInterfaceImpls"/>
 		public (mdInterfaceImpl rImpls, int pcImpls) EnumInterfaceImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
 			var hr = instance.TryEnumInterfaceImpls(ref phEnum, td, out var rImpls, 1, out var pcImpls);
@@ -311,6 +353,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rImpls, checked((int)pcImpls));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMemberRefs"/>
 		public (mdMemberRef rMemberRefs, int pcTokens) EnumMemberRefs(ref HCorEnum phEnum, mdToken tkParent)
 		{
 			var hr = instance.TryEnumMemberRefs(ref phEnum, tkParent, out var rMemberRefs, 1, out var pcTokens);
@@ -318,6 +361,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMemberRefs, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMembers"/>
 		public (mdToken rMembers, int pcTokens) EnumMembers(ref HCorEnum phEnum, mdTypeDef cl)
 		{
 			var hr = instance.TryEnumMembers(ref phEnum, cl, out var rMembers, 1, out var pcTokens);
@@ -325,6 +369,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMembers, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMembersWithName"/>
 		public (mdToken rMembers, int pcTokens) EnumMembersWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
 			var hr = instance.TryEnumMembersWithName(ref phEnum, cl, szName, out var rMembers, 1, out var pcTokens);
@@ -332,6 +377,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMembers, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodImpls"/>
 		public (mdToken rMethodBody, mdToken rMethodDecl, int pcTokens) EnumMethodImpls(ref HCorEnum phEnum, mdTypeDef td)
 		{
 			var hr = instance.TryEnumMethodImpls(ref phEnum, td, out var rMethodBody, out var rMethodDecl, 1, out var pcTokens);
@@ -339,6 +385,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMethodBody, rMethodDecl, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodSemantics"/>
 		public (mdToken rEventProp, int pcEventProp) EnumMethodSemantics(ref HCorEnum phEnum, mdMethodDef mb)
 		{
 			var hr = instance.TryEnumMethodSemantics(ref phEnum, mb, out var rEventProp, 1, out var pcEventProp);
@@ -346,6 +393,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rEventProp, checked((int)pcEventProp));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethods"/>
 		public (mdMethodDef rMethods, int pcTokens) EnumMethods(ref HCorEnum phEnum, mdTypeDef cl)
 		{
 			var hr = instance.TryEnumMethods(ref phEnum, cl, out var rMethods, 1, out var pcTokens);
@@ -353,6 +401,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMethods, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumMethodsWithName"/>
 		public (mdMethodDef rMethods, int pcTokens) EnumMethodsWithName(ref HCorEnum phEnum, mdTypeDef cl, string szName)
 		{
 			var hr = instance.TryEnumMethodsWithName(ref phEnum, cl, szName, out var rMethods, 1, out var pcTokens);
@@ -360,6 +409,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMethods, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumModuleRefs"/>
 		public (mdModuleRef rModuleRefs, int pcModuleRefs) EnumModuleRefs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumModuleRefs(ref phEnum, out var rModuleRefs, 1, out var pcModuleRefs);
@@ -367,6 +417,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rModuleRefs, checked((int)pcModuleRefs));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumParams"/>
 		public (mdParamDef rParams, int pcTokens) EnumParams(ref HCorEnum phEnum, mdMethodDef mb)
 		{
 			var hr = instance.TryEnumParams(ref phEnum, mb, out var rParams, 1, out var pcTokens);
@@ -374,6 +425,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rParams, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumPermissionSets"/>
 		public (mdPermission rPermission, int pcTokens) EnumPermissionSets(ref HCorEnum phEnum, mdToken tk, int dwActions)
 		{
 			var hr = instance.TryEnumPermissionSets(ref phEnum, tk, checked((uint)dwActions), out var rPermission, 1, out var pcTokens);
@@ -381,6 +433,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rPermission, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumProperties"/>
 		public (mdProperty rProperties, int pcProperties) EnumProperties(ref HCorEnum phEnum, mdTypeDef td)
 		{
 			var hr = instance.TryEnumProperties(ref phEnum, td, out var rProperties, 1, out var pcProperties);
@@ -388,6 +441,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rProperties, checked((int)pcProperties));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumSignatures"/>
 		public (mdSignature rSignatures, int pcSignatures) EnumSignatures(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumSignatures(ref phEnum, out var rSignatures, 1, out var pcSignatures);
@@ -395,6 +449,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rSignatures, checked((int)pcSignatures));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeDefs"/>
 		public (mdTypeDef rTypeDefs, int pcTypeDefs) EnumTypeDefs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumTypeDefs(ref phEnum, out var rTypeDefs, 1, out var pcTypeDefs);
@@ -402,6 +457,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rTypeDefs, checked((int)pcTypeDefs));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeRefs"/>
 		public (mdTypeRef rTypeRefs, int pcTypeRefs) EnumTypeRefs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumTypeRefs(ref phEnum, out var rTypeRefs, 1, out var pcTypeRefs);
@@ -409,6 +465,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rTypeRefs, checked((int)pcTypeRefs));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumTypeSpecs"/>
 		public (mdTypeSpec rTypeSpecs, int pcTypeSpecs) EnumTypeSpecs(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumTypeSpecs(ref phEnum, out var rTypeSpecs, 1, out var pcTypeSpecs);
@@ -416,6 +473,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rTypeSpecs, checked((int)pcTypeSpecs));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumUnresolvedMethods"/>
 		public (mdToken rMethods, int pcTokens) EnumUnresolvedMethods(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumUnresolvedMethods(ref phEnum, out var rMethods, 1, out var pcTokens);
@@ -423,6 +481,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rMethods, checked((int)pcTokens));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryEnumUserStrings"/>
 		public (mdString rStrings, int pcStrings) EnumUserStrings(ref HCorEnum phEnum)
 		{
 			var hr = instance.TryEnumUserStrings(ref phEnum, out var rStrings, 1, out var pcStrings);
@@ -430,6 +489,7 @@ public static unsafe class MetaDataImportExtensions
 			return (rStrings, checked((int)pcStrings));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindField"/>
 		public mdFieldDef FindField(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
 			var hr = instance.TryFindField(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
@@ -437,6 +497,7 @@ public static unsafe class MetaDataImportExtensions
 			return pmb;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindMember"/>
 		public mdToken FindMember(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
 			var hr = instance.TryFindMember(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
@@ -444,6 +505,7 @@ public static unsafe class MetaDataImportExtensions
 			return pmb;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindMemberRef"/>
 		public mdMemberRef FindMemberRef(mdTypeRef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
 			var hr = instance.TryFindMemberRef(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmr);
@@ -451,6 +513,7 @@ public static unsafe class MetaDataImportExtensions
 			return pmr;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindMethod"/>
 		public mdMethodDef FindMethod(mdTypeDef td, string szName, nint pvSigBlob, int cbSigBlob)
 		{
 			var hr = instance.TryFindMethod(td, szName, (byte*)pvSigBlob, checked((uint)cbSigBlob), out var pmb);
@@ -458,6 +521,7 @@ public static unsafe class MetaDataImportExtensions
 			return pmb;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindTypeDefByName"/>
 		public mdTypeDef FindTypeDefByName(string szTypeDef, mdToken tkEnclosingClass)
 		{
 			var hr = instance.TryFindTypeDefByName(szTypeDef, tkEnclosingClass, out var ptd);
@@ -465,6 +529,7 @@ public static unsafe class MetaDataImportExtensions
 			return ptd;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryFindTypeRef"/>
 		public mdTypeRef FindTypeRef(mdToken tkResolutionScope, string szName)
 		{
 			var hr = instance.TryFindTypeRef(tkResolutionScope, szName, out var ptr);
@@ -472,6 +537,7 @@ public static unsafe class MetaDataImportExtensions
 			return ptr;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetClassLayout"/>
 		public (int pdwPackSize, COR_FIELD_OFFSET rFieldOffset, int pcFieldOffset, int pulClassSize) GetClassLayout(mdTypeDef td)
 		{
 			var hr = instance.TryGetClassLayout(td, out var pdwPackSize, out var rFieldOffset, 1, out var pcFieldOffset, out var pulClassSize);
@@ -479,6 +545,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pdwPackSize), rFieldOffset, checked((int)pcFieldOffset), checked((int)pulClassSize));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetCustomAttributeByName"/>
 		public (nint ppData, int pcbData) GetCustomAttributeByName(mdToken tkObj, string szName)
 		{
 			var hr = instance.TryGetCustomAttributeByName(tkObj, szName, out var ppData, out var pcbData);
@@ -486,6 +553,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ppData, checked((int)pcbData));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetCustomAttributeProps"/>
 		public (mdToken ptkObj, mdToken ptkType, nint ppBlob, int pcbSize) GetCustomAttributeProps(mdCustomAttribute cv)
 		{
 			var hr = instance.TryGetCustomAttributeProps(cv, out var ptkObj, out var ptkType, out var ppBlob, out var pcbSize);
@@ -493,6 +561,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ptkObj, ptkType, ppBlob, checked((int)pcbSize));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetEventProps"/>
 		public (mdTypeDef pClass, int pchEvent, CorEventAttr pdwEventFlags, mdToken ptkEventType, mdMethodDef pmdAddOn, mdMethodDef pmdRemoveOn, mdMethodDef pmdFire, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetEventProps(mdEvent ev, char[]? szEvent, int cchEvent)
 		{
 			var hr = instance.TryGetEventProps(ev, out var pClass, szEvent, checked((uint)cchEvent), out var pchEvent, out var pdwEventFlags, out var ptkEventType, out var pmdAddOn, out var pmdRemoveOn, out var pmdFire, out var rmdOtherMethod, 1, out var pcOtherMethod);
@@ -500,6 +569,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchEvent), pdwEventFlags, ptkEventType, pmdAddOn, pmdRemoveOn, pmdFire, rmdOtherMethod, checked((int)pcOtherMethod));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetFieldMarshal"/>
 		public (nint ppvNativeType, int pcbNativeType) GetFieldMarshal(mdToken tk)
 		{
 			var hr = instance.TryGetFieldMarshal(tk, out var ppvNativeType, out var pcbNativeType);
@@ -507,6 +577,7 @@ public static unsafe class MetaDataImportExtensions
 			return ((nint)ppvNativeType, checked((int)pcbNativeType));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetFieldProps"/>
 		public (mdTypeDef pClass, int pchField, CorFieldAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetFieldProps(mdFieldDef mb, char[]? szField, int cchField)
 		{
 			var hr = instance.TryGetFieldProps(mb, out var pClass, szField, checked((uint)cchField), out var pchField, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
@@ -514,6 +585,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchField), pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetInterfaceImplProps"/>
 		public (mdTypeDef pClass, mdToken ptkIface) GetInterfaceImplProps(mdInterfaceImpl iiImpl)
 		{
 			var hr = instance.TryGetInterfaceImplProps(iiImpl, out var pClass, out var ptkIface);
@@ -521,6 +593,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, ptkIface);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMemberProps"/>
 		public (mdTypeDef pClass, int pchMember, int pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetMemberProps(mdToken mb, char[]? szMember, int cchMember)
 		{
 			var hr = instance.TryGetMemberProps(mb, out var pClass, szMember, checked((uint)cchMember), out var pchMember, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
@@ -528,6 +601,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchMember), checked((int)pdwAttr), (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags), pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMemberRefProps"/>
 		public (mdToken ptk, int pchMember, nint ppvSigBlob, int pbSig) GetMemberRefProps(mdMemberRef mr, char[]? szMember, int cchMember)
 		{
 			var hr = instance.TryGetMemberRefProps(mr, out var ptk, szMember, checked((uint)cchMember), out var pchMember, out var ppvSigBlob, out var pbSig);
@@ -535,6 +609,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ptk, checked((int)pchMember), (nint)ppvSigBlob, checked((int)pbSig));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMethodProps"/>
 		public (mdTypeDef pClass, int pchMethod, CorMethodAttr pdwAttr, nint ppvSigBlob, int pcbSigBlob, int pulCodeRVA, int pdwImplFlags) GetMethodProps(mdMethodDef mb, char[]? szMethod, int cchMethod)
 		{
 			var hr = instance.TryGetMethodProps(mb, out var pClass, szMethod, checked((uint)cchMethod), out var pchMethod, out var pdwAttr, out var ppvSigBlob, out var pcbSigBlob, out var pulCodeRVA, out var pdwImplFlags);
@@ -542,6 +617,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchMethod), pdwAttr, (nint)ppvSigBlob, checked((int)pcbSigBlob), checked((int)pulCodeRVA), checked((int)pdwImplFlags));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetMethodSemantics"/>
 		public int GetMethodSemantics(mdMethodDef mb, mdToken tkEventProp)
 		{
 			var hr = instance.TryGetMethodSemantics(mb, tkEventProp, out var pdwSemanticsFlags);
@@ -549,6 +625,7 @@ public static unsafe class MetaDataImportExtensions
 			return checked((int)pdwSemanticsFlags);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetModuleFromScope"/>
 		public mdModule ModuleFromScope
 		{
 			get
@@ -559,6 +636,7 @@ public static unsafe class MetaDataImportExtensions
 			}
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetModuleRefProps"/>
 		public int GetModuleRefProps(mdModuleRef mur, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetModuleRefProps(mur, szName, checked((uint)cchName), out var pchName);
@@ -566,6 +644,7 @@ public static unsafe class MetaDataImportExtensions
 			return checked((int)pchName);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetNameFromToken"/>
 		public sbyte* GetNameFromToken(mdToken tk)
 		{
 			var hr = instance.TryGetNameFromToken(tk, out var pszUtf8NamePtr);
@@ -573,6 +652,7 @@ public static unsafe class MetaDataImportExtensions
 			return pszUtf8NamePtr;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetNativeCallConvFromSig"/>
 		public int GetNativeCallConvFromSig(nint pvSig, int cbSig)
 		{
 			var hr = instance.TryGetNativeCallConvFromSig(pvSig, checked((uint)cbSig), out var pCallConv);
@@ -580,6 +660,7 @@ public static unsafe class MetaDataImportExtensions
 			return checked((int)pCallConv);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetNestedClassProps"/>
 		public mdTypeDef GetNestedClassProps(mdTypeDef tdNestedClass)
 		{
 			var hr = instance.TryGetNestedClassProps(tdNestedClass, out var ptdEnclosingClass);
@@ -587,6 +668,7 @@ public static unsafe class MetaDataImportExtensions
 			return ptdEnclosingClass;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetParamForMethodIndex"/>
 		public mdParamDef GetParamForMethodIndex(mdMethodDef md, int ulParamSeq)
 		{
 			var hr = instance.TryGetParamForMethodIndex(md, checked((uint)ulParamSeq), out var ppd);
@@ -594,6 +676,7 @@ public static unsafe class MetaDataImportExtensions
 			return ppd;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetParamProps"/>
 		public (mdMethodDef pmd, int pulSequence, int pchName, CorParamAttr pdwAttr, CorElementType pdwCPlusTypeFlag, nint ppValue, int pcchValue) GetParamProps(mdParamDef tk, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetParamProps(tk, out var pmd, out var pulSequence, szName, checked((uint)cchName), out var pchName, out var pdwAttr, out var pdwCPlusTypeFlag, out var ppValue, out var pcchValue);
@@ -601,6 +684,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pmd, checked((int)pulSequence), checked((int)pchName), pdwAttr, pdwCPlusTypeFlag, ppValue, checked((int)pcchValue));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetPermissionSetProps"/>
 		public (int pdwAction, nint ppvPermission, int pcbPermission) GetPermissionSetProps(mdPermission pm)
 		{
 			var hr = instance.TryGetPermissionSetProps(pm, out var pdwAction, out var ppvPermission, out var pcbPermission);
@@ -608,6 +692,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pdwAction), ppvPermission, checked((int)pcbPermission));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetPinvokeMap"/>
 		public (int pdwMappingFlags, int pchImportName, mdModuleRef pmrImportDLL) GetPinvokeMap(mdToken tk, char[]? szImportName, int cchImportName)
 		{
 			var hr = instance.TryGetPinvokeMap(tk, out var pdwMappingFlags, szImportName, checked((uint)cchImportName), out var pchImportName, out var pmrImportDLL);
@@ -615,6 +700,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pdwMappingFlags), checked((int)pchImportName), pmrImportDLL);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetPropertyProps"/>
 		public (mdTypeDef pClass, int pchProperty, CorPropertyAttr pdwPropFlags, nint ppvSig, int pbSig, CorElementType pdwCPlusTypeFlag, nint ppDefaultValue, int pcchDefaultValue, mdMethodDef pmdSetter, mdMethodDef pmdGetter, mdMethodDef rmdOtherMethod, int pcOtherMethod) GetPropertyProps(mdProperty prop, char[]? szProperty, int cchProperty)
 		{
 			var hr = instance.TryGetPropertyProps(prop, out var pClass, szProperty, checked((uint)cchProperty), out var pchProperty, out var pdwPropFlags, out var ppvSig, out var pbSig, out var pdwCPlusTypeFlag, out var ppDefaultValue, out var pcchDefaultValue, out var pmdSetter, out var pmdGetter, out var rmdOtherMethod, 1, out var pcOtherMethod);
@@ -622,6 +708,7 @@ public static unsafe class MetaDataImportExtensions
 			return (pClass, checked((int)pchProperty), pdwPropFlags, (nint)ppvSig, checked((int)pbSig), pdwCPlusTypeFlag, ppDefaultValue, checked((int)pcchDefaultValue), pmdSetter, pmdGetter, rmdOtherMethod, checked((int)pcOtherMethod));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetRVA"/>
 		public (int pulCodeRVA, int pdwImplFlags) GetRVA(mdToken tk)
 		{
 			var hr = instance.TryGetRVA(tk, out var pulCodeRVA, out var pdwImplFlags);
@@ -629,6 +716,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pulCodeRVA), checked((int)pdwImplFlags));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetScopeProps"/>
 		public (int pchName, Guid pmvid) GetScopeProps(char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetScopeProps(szName, checked((uint)cchName), out var pchName, out var pmvid);
@@ -636,6 +724,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pchName), pmvid);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetSigFromToken"/>
 		public (nint ppvSig, int pcbSig) GetSigFromToken(mdSignature mdSig)
 		{
 			var hr = instance.TryGetSigFromToken(mdSig, out var ppvSig, out var pcbSig);
@@ -643,6 +732,7 @@ public static unsafe class MetaDataImportExtensions
 			return ((nint)ppvSig, checked((int)pcbSig));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetTypeDefProps"/>
 		public (int pchTypeDef, CorTypeAttr pdwTypeDefFlags, mdToken ptkExtends) GetTypeDefProps(mdTypeDef td, char[]? szTypeDef, int cchTypeDef)
 		{
 			var hr = instance.TryGetTypeDefProps(td, szTypeDef, checked((uint)cchTypeDef), out var pchTypeDef, out var pdwTypeDefFlags, out var ptkExtends);
@@ -650,6 +740,7 @@ public static unsafe class MetaDataImportExtensions
 			return (checked((int)pchTypeDef), pdwTypeDefFlags, ptkExtends);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetTypeRefProps"/>
 		public (mdToken ptkResolutionScope, int pchName) GetTypeRefProps(mdTypeRef tr, char[]? szName, int cchName)
 		{
 			var hr = instance.TryGetTypeRefProps(tr, out var ptkResolutionScope, szName, checked((uint)cchName), out var pchName);
@@ -657,6 +748,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ptkResolutionScope, checked((int)pchName));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetTypeSpecFromToken"/>
 		public (nint ppvSig, int pcbSig) GetTypeSpecFromToken(mdTypeSpec typespec)
 		{
 			var hr = instance.TryGetTypeSpecFromToken(typespec, out var ppvSig, out var pcbSig);
@@ -664,6 +756,7 @@ public static unsafe class MetaDataImportExtensions
 			return ((nint)ppvSig, checked((int)pcbSig));
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryGetUserString"/>
 		public int GetUserString(mdString stk, char[]? szString, int cchString)
 		{
 			var hr = instance.TryGetUserString(stk, szString, checked((uint)cchString), out var pchString);
@@ -671,6 +764,7 @@ public static unsafe class MetaDataImportExtensions
 			return checked((int)pchString);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryIsGlobal"/>
 		public int IsGlobal(mdToken pd)
 		{
 			var hr = instance.TryIsGlobal(pd, out var pbGlobal);
@@ -678,6 +772,7 @@ public static unsafe class MetaDataImportExtensions
 			return pbGlobal;
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryResolveTypeRef"/>
 		public (nint ppIScope, mdTypeDef ptd) ResolveTypeRef(mdTypeRef tr, ref Guid riid)
 		{
 			var hr = instance.TryResolveTypeRef(tr, ref riid, out var ppIScope, out var ptd);
@@ -685,6 +780,7 @@ public static unsafe class MetaDataImportExtensions
 			return (ppIScope, ptd);
 		}
 
+		/// <inheritdoc cref="IMetaDataImport.TryResetEnum"/>
 		public void ResetEnum(HCorEnum hEnum, int ulPos)
 		{
 			var hr = instance.TryResetEnum(hEnum, checked((uint)ulPos));

@@ -13,6 +13,7 @@ public static unsafe class CorDebugVariableHomeEnumExtensions
 {
 	extension(ICorDebugVariableHomeEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugVariableHomeEnum.TryNext"/>
 		public (ICorDebugVariableHome[] homes, int pceltFetched) Next(int celt)
 		{
 			var homes = new ICorDebugVariableHome[checked((int)celt)];

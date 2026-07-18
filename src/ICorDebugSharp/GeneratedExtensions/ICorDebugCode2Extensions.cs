@@ -13,6 +13,7 @@ public static unsafe class CorDebugCode2Extensions
 {
 	extension(ICorDebugCode2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCodeChunks"/>
 		public CodeChunkInfo[] CodeChunks
 		{
 			get
@@ -44,6 +45,7 @@ public static unsafe class CorDebugCode2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCompilerFlags"/>
 		public int CompilerFlags
 		{
 			get

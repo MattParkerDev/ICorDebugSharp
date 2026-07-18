@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunction4Extensions
 {
 	extension(ICorDebugFunction4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction4.TryCreateNativeBreakpoint"/>
 		public ICorDebugFunctionBreakpoint CreateNativeBreakpoint()
 		{
 			var hr = instance.TryCreateNativeBreakpoint(out var ppBreakpoint);

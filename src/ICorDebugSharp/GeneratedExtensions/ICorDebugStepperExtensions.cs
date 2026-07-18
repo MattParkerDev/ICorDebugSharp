@@ -13,6 +13,7 @@ public static unsafe class CorDebugStepperExtensions
 {
 	extension(ICorDebugStepper instance)
 	{
+		/// <inheritdoc cref="ICorDebugStepper.TryIsActive"/>
 		public bool IsActive
 		{
 			get
@@ -23,42 +24,49 @@ public static unsafe class CorDebugStepperExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TryDeactivate"/>
 		public void Deactivate()
 		{
 			var hr = instance.TryDeactivate();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TrySetInterceptMask"/>
 		public void SetInterceptMask(CorDebugIntercept mask)
 		{
 			var hr = instance.TrySetInterceptMask(mask);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TrySetRangeIL"/>
 		public void SetRangeIL(bool bIL)
 		{
 			var hr = instance.TrySetRangeIL(bIL);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TrySetUnmappedStopMask"/>
 		public void SetUnmappedStopMask(CorDebugUnmappedStop mask)
 		{
 			var hr = instance.TrySetUnmappedStopMask(mask);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TryStep"/>
 		public void Step(bool bStepIn)
 		{
 			var hr = instance.TryStep(bStepIn);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TryStepOut"/>
 		public void StepOut()
 		{
 			var hr = instance.TryStepOut();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugStepper.TryStepRange"/>
 		public void StepRange(bool bStepIn, COR_DEBUG_STEP_RANGE[] ranges, int cRangeCount)
 		{
 			var hr = instance.TryStepRange(bStepIn, ranges, checked((uint)cRangeCount));

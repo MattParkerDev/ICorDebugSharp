@@ -13,156 +13,182 @@ public static unsafe class CorDebugManagedCallbackExtensions
 {
 	extension(ICorDebugManagedCallback instance)
 	{
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryBreak"/>
 		public void Break(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 		{
 			var hr = instance.TryBreak(pAppDomain, thread);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryBreakpoint"/>
 		public void Breakpoint(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint)
 		{
 			var hr = instance.TryBreakpoint(pAppDomain, pThread, pBreakpoint);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryBreakpointSetError"/>
 		public void BreakpointSetError(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugBreakpoint pBreakpoint, int dwError)
 		{
 			var hr = instance.TryBreakpointSetError(pAppDomain, pThread, pBreakpoint, checked((uint)dwError));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryControlCTrap"/>
 		public void ControlCTrap(ICorDebugProcess pProcess)
 		{
 			var hr = instance.TryControlCTrap(pProcess);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryCreateAppDomain"/>
 		public void CreateAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain)
 		{
 			var hr = instance.TryCreateAppDomain(pProcess, pAppDomain);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryCreateProcess"/>
 		public void CreateProcess(ICorDebugProcess pProcess)
 		{
 			var hr = instance.TryCreateProcess(pProcess);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryCreateThread"/>
 		public void CreateThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 		{
 			var hr = instance.TryCreateThread(pAppDomain, thread);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryDebuggerError"/>
 		public void DebuggerError(ICorDebugProcess pProcess, int errorHR, int errorCode)
 		{
 			var hr = instance.TryDebuggerError(pProcess, errorHR, checked((uint)errorCode));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryEditAndContinueRemap"/>
 		public void EditAndContinueRemap(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction, bool fAccurate)
 		{
 			var hr = instance.TryEditAndContinueRemap(pAppDomain, pThread, pFunction, fAccurate);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryEvalComplete"/>
 		public void EvalComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval)
 		{
 			var hr = instance.TryEvalComplete(pAppDomain, pThread, pEval);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryEvalException"/>
 		public void EvalException(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugEval pEval)
 		{
 			var hr = instance.TryEvalException(pAppDomain, pThread, pEval);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryException"/>
 		public void Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, bool unhandled)
 		{
 			var hr = instance.TryException(pAppDomain, pThread, unhandled);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryExitAppDomain"/>
 		public void ExitAppDomain(ICorDebugProcess pProcess, ICorDebugAppDomain pAppDomain)
 		{
 			var hr = instance.TryExitAppDomain(pProcess, pAppDomain);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryExitProcess"/>
 		public void ExitProcess(ICorDebugProcess pProcess)
 		{
 			var hr = instance.TryExitProcess(pProcess);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryExitThread"/>
 		public void ExitThread(ICorDebugAppDomain pAppDomain, ICorDebugThread thread)
 		{
 			var hr = instance.TryExitThread(pAppDomain, thread);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryLoadAssembly"/>
 		public void LoadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly)
 		{
 			var hr = instance.TryLoadAssembly(pAppDomain, pAssembly);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryLoadClass"/>
 		public void LoadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c)
 		{
 			var hr = instance.TryLoadClass(pAppDomain, c);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryLoadModule"/>
 		public void LoadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule)
 		{
 			var hr = instance.TryLoadModule(pAppDomain, pModule);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryLogMessage"/>
 		public void LogMessage(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, string pLogSwitchName, string pMessage)
 		{
 			var hr = instance.TryLogMessage(pAppDomain, pThread, lLevel, pLogSwitchName, pMessage);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryLogSwitch"/>
 		public void LogSwitch(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, int lLevel, int ulReason, string pLogSwitchName, string pParentName)
 		{
 			var hr = instance.TryLogSwitch(pAppDomain, pThread, lLevel, checked((uint)ulReason), pLogSwitchName, pParentName);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryNameChange"/>
 		public void NameChange(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread)
 		{
 			var hr = instance.TryNameChange(pAppDomain, pThread);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryStepComplete"/>
 		public void StepComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugStepper pStepper, CorDebugStepReason reason)
 		{
 			var hr = instance.TryStepComplete(pAppDomain, pThread, pStepper, reason);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryUnloadAssembly"/>
 		public void UnloadAssembly(ICorDebugAppDomain pAppDomain, ICorDebugAssembly pAssembly)
 		{
 			var hr = instance.TryUnloadAssembly(pAppDomain, pAssembly);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryUnloadClass"/>
 		public void UnloadClass(ICorDebugAppDomain pAppDomain, ICorDebugClass c)
 		{
 			var hr = instance.TryUnloadClass(pAppDomain, c);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryUnloadModule"/>
 		public void UnloadModule(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule)
 		{
 			var hr = instance.TryUnloadModule(pAppDomain, pModule);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback.TryUpdateModuleSymbols"/>
 		public void UpdateModuleSymbols(ICorDebugAppDomain pAppDomain, ICorDebugModule pModule, nint pSymbolStream)
 		{
 			var hr = instance.TryUpdateModuleSymbols(pAppDomain, pModule, pSymbolStream);

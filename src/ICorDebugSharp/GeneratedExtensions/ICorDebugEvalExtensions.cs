@@ -13,6 +13,7 @@ public static unsafe class CorDebugEvalExtensions
 {
 	extension(ICorDebugEval instance)
 	{
+		/// <inheritdoc cref="ICorDebugEval.TryCreateValue"/>
 		public ICorDebugValue CreateValue(CorElementType elementType, ICorDebugClass pElementClass)
 		{
 			var hr = instance.TryCreateValue(elementType, pElementClass, out var ppValue);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugEvalExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryGetResult"/>
 		public ICorDebugValue Result
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugEvalExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryGetThread"/>
 		public ICorDebugThread Thread
 		{
 			get
@@ -40,6 +43,7 @@ public static unsafe class CorDebugEvalExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryIsActive"/>
 		public bool IsActive
 		{
 			get
@@ -50,36 +54,42 @@ public static unsafe class CorDebugEvalExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryAbort"/>
 		public void Abort()
 		{
 			var hr = instance.TryAbort();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryCallFunction"/>
 		public void CallFunction(ICorDebugFunction pFunction, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryCallFunction(pFunction, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryNewArray"/>
 		public void NewArray(CorElementType elementType, ICorDebugClass pElementClass, int rank, uint[] dims, uint[] lowBounds)
 		{
 			var hr = instance.TryNewArray(elementType, pElementClass, checked((uint)rank), dims, lowBounds);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryNewObject"/>
 		public void NewObject(ICorDebugFunction pConstructor, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryNewObject(pConstructor, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryNewObjectNoConstructor"/>
 		public void NewObjectNoConstructor(ICorDebugClass pClass)
 		{
 			var hr = instance.TryNewObjectNoConstructor(pClass);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval.TryNewString"/>
 		public void NewString(string @string)
 		{
 			var hr = instance.TryNewString(@string);

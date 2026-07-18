@@ -13,13 +13,17 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 {
 	extension(ICorDebugHeapValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapValue3"/>
 		public bool SupportsHeapValue3 => instance is ICorDebugHeapValue3;
 
+		/// <inheritdoc cref="ICorDebugHeapValue3"/>
 		public ICorDebugHeapValue3 HeapValue3 =>
 			instance as ICorDebugHeapValue3 ?? throw new NotSupportedException("ICorDebugHeapValue does not support ICorDebugHeapValue3.");
 
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetMonitorEventWaitList"/>
 		public int TryGetMonitorEventWaitList(out ICorDebugThreadEnum ppThreadEnum) => instance.HeapValue3.TryGetMonitorEventWaitList(out ppThreadEnum);
 
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetMonitorEventWaitList"/>
 		public ICorDebugThreadEnum MonitorEventWaitList
 		{
 			get
@@ -30,8 +34,10 @@ public static unsafe class CorDebugHeapValueHeapValue3Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetThreadOwningMonitorLock"/>
 		public int TryGetThreadOwningMonitorLock(out ICorDebugThread ppThread, out uint pAcquisitionCount) => instance.HeapValue3.TryGetThreadOwningMonitorLock(out ppThread, out pAcquisitionCount);
 
+		/// <inheritdoc cref="ICorDebugHeapValue3.TryGetThreadOwningMonitorLock"/>
 		public (ICorDebugThread ppThread, int pAcquisitionCount) ThreadOwningMonitorLock
 		{
 			get

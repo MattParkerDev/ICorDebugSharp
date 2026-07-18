@@ -13,6 +13,7 @@ public static unsafe class CorDebugObjectValueExtensions
 {
 	extension(ICorDebugObjectValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugObjectValue.TryGetClass"/>
 		public ICorDebugClass Class
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TryGetContext"/>
 		public ICorDebugContext Context
 		{
 			get
@@ -33,6 +35,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TryGetFieldValue"/>
 		public ICorDebugValue GetFieldValue(ICorDebugClass pClass, mdFieldDef fieldDef)
 		{
 			var hr = instance.TryGetFieldValue(pClass, fieldDef, out var ppValue);
@@ -40,6 +43,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TryGetManagedCopy"/>
 		public nint ManagedCopy
 		{
 			get
@@ -50,6 +54,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TryGetVirtualMethod"/>
 		public ICorDebugFunction GetVirtualMethod(mdMemberRef memberRef)
 		{
 			var hr = instance.TryGetVirtualMethod(memberRef, out var ppFunction);
@@ -57,6 +62,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			return ppFunction;
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TryIsValueClass"/>
 		public bool IsValueClass
 		{
 			get
@@ -67,6 +73,7 @@ public static unsafe class CorDebugObjectValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugObjectValue.TrySetFromManagedCopy"/>
 		public void SetFromManagedCopy(nint pObject)
 		{
 			var hr = instance.TrySetFromManagedCopy(pObject);

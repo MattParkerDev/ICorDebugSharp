@@ -13,6 +13,7 @@ public static unsafe class CorDebugDelegateObjectValueExtensions
 {
 	extension(ICorDebugDelegateObjectValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugDelegateObjectValue.TryGetFunction"/>
 		public ICorDebugFunction Function
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugDelegateObjectValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugDelegateObjectValue.TryGetTarget"/>
 		public ICorDebugReferenceValue Target
 		{
 			get

@@ -13,13 +13,17 @@ public static unsafe class CorDebugValueValue2Extensions
 {
 	extension(ICorDebugValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugValue2"/>
 		public bool SupportsValue2 => instance is ICorDebugValue2;
 
+		/// <inheritdoc cref="ICorDebugValue2"/>
 		public ICorDebugValue2 Value2 =>
 			instance as ICorDebugValue2 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue2.");
 
+		/// <inheritdoc cref="ICorDebugValue2.TryGetExactType"/>
 		public int TryGetExactType(out ICorDebugType ppType) => instance.Value2.TryGetExactType(out ppType);
 
+		/// <inheritdoc cref="ICorDebugValue2.TryGetExactType"/>
 		public ICorDebugType ExactType
 		{
 			get

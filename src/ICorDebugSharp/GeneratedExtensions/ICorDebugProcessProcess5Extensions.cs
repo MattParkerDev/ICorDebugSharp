@@ -13,41 +13,59 @@ public static unsafe class CorDebugProcessProcess5Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess5"/>
 		public bool SupportsProcess5 => instance is ICorDebugProcess5;
 
+		/// <inheritdoc cref="ICorDebugProcess5"/>
 		public ICorDebugProcess5 Process5 =>
 			instance as ICorDebugProcess5 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess5.");
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnableNGENPolicy"/>
 		public int TryEnableNGENPolicy(CorDebugNGENPolicy ePolicy) => instance.Process5.TryEnableNGENPolicy(ePolicy);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnableNGENPolicy"/>
 		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy) => instance.Process5.EnableNGENPolicy(ePolicy);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateGCReferences"/>
 		public int TryEnumerateGCReferences(bool enumerateWeakReferences, out ICorDebugGCReferenceEnum ppEnum) => instance.Process5.TryEnumerateGCReferences(enumerateWeakReferences, out ppEnum);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateGCReferences"/>
 		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences) => instance.Process5.EnumerateGCReferences(enumerateWeakReferences);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHandles"/>
 		public int TryEnumerateHandles(CorGCReferenceType types, out ICorDebugGCReferenceEnum ppEnum) => instance.Process5.TryEnumerateHandles(types, out ppEnum);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHandles"/>
 		public IEnumerable<COR_GC_REFERENCE> EnumerateHandles(CorGCReferenceType types) => instance.Process5.EnumerateHandles(types);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeap"/>
 		public int TryEnumerateHeap(out ICorDebugHeapEnum ppObjects) => instance.Process5.TryEnumerateHeap(out ppObjects);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeap"/>
 		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap() => instance.Process5.EnumerateHeap();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeap"/>
 		public COR_HEAPOBJECT[] Heap => instance.Process5.EnumerateHeap().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeapRegions"/>
 		public int TryEnumerateHeapRegions(out ICorDebugHeapSegmentEnum ppRegions) => instance.Process5.TryEnumerateHeapRegions(out ppRegions);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeapRegions"/>
 		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions() => instance.Process5.EnumerateHeapRegions();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeapRegions"/>
 		public COR_SEGMENT[] HeapRegions => instance.Process5.EnumerateHeapRegions().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetArrayLayout"/>
 		public int TryGetArrayLayout(COR_TYPEID id, out COR_ARRAY_LAYOUT pLayout) => instance.Process5.TryGetArrayLayout(id, out pLayout);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetArrayLayout"/>
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id) => instance.Process5.GetArrayLayout(id);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetGCHeapInformation"/>
 		public int TryGetGCHeapInformation(out COR_HEAPINFO pHeapInfo) => instance.Process5.TryGetGCHeapInformation(out pHeapInfo);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetGCHeapInformation"/>
 		public COR_HEAPINFO GCHeapInformation
 		{
 			get
@@ -58,24 +76,34 @@ public static unsafe class CorDebugProcessProcess5Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetObject"/>
 		public int TryGetObject(CORDB_ADDRESS addr, out ICorDebugObjectValue pObject) => instance.Process5.TryGetObject(addr, out pObject);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetObject"/>
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr) => instance.Process5.GetObject(addr);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeFields"/>
 		public int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[]? fields, out uint pceltNeeded) => instance.Process5.TryGetTypeFields(id, celt, fields, out pceltNeeded);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeForTypeID"/>
 		public int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType) => instance.Process5.TryGetTypeForTypeID(id, out ppType);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeForTypeID"/>
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id) => instance.Process5.GetTypeForTypeID(id);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeID"/>
 		public int TryGetTypeID(CORDB_ADDRESS obj, out COR_TYPEID pId) => instance.Process5.TryGetTypeID(obj, out pId);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeID"/>
 		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj) => instance.Process5.GetTypeID(obj);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeLayout"/>
 		public int TryGetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout) => instance.Process5.TryGetTypeLayout(id, out pLayout);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeLayout"/>
 		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id) => instance.Process5.GetTypeLayout(id);
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeFields"/>
 		public COR_FIELD[] GetTypeFields(COR_TYPEID id)
 		{
 			var hr = instance.Process5.TryGetTypeFields(id, 0, null!, out var required);

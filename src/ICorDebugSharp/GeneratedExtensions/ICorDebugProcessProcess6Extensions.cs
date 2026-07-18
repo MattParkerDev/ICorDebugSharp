@@ -13,33 +13,47 @@ public static unsafe class CorDebugProcessProcess6Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess6"/>
 		public bool SupportsProcess6 => instance is ICorDebugProcess6;
 
+		/// <inheritdoc cref="ICorDebugProcess6"/>
 		public ICorDebugProcess6 Process6 =>
 			instance as ICorDebugProcess6 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess6.");
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryDecodeEvent"/>
 		public int TryDecodeEvent(byte[] pRecord, uint countBytes, CorDebugRecordFormat format, uint dwFlags, uint dwThreadId, out ICorDebugDebugEvent ppEvent) => instance.Process6.TryDecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId, out ppEvent);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryDecodeEvent"/>
 		public ICorDebugDebugEvent DecodeEvent(byte[] pRecord, int countBytes, CorDebugRecordFormat format, int dwFlags, int dwThreadId) => instance.Process6.DecodeEvent(pRecord, countBytes, format, dwFlags, dwThreadId);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryEnableVirtualModuleSplitting"/>
 		public int TryEnableVirtualModuleSplitting(bool enableSplitting) => instance.Process6.TryEnableVirtualModuleSplitting(enableSplitting);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryEnableVirtualModuleSplitting"/>
 		public void EnableVirtualModuleSplitting(bool enableSplitting) => instance.Process6.EnableVirtualModuleSplitting(enableSplitting);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetCode"/>
 		public int TryGetCode(CORDB_ADDRESS codeAddress, out ICorDebugCode ppCode) => instance.Process6.TryGetCode(codeAddress, out ppCode);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetCode"/>
 		public ICorDebugCode GetCode(CORDB_ADDRESS codeAddress) => instance.Process6.GetCode(codeAddress);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetExportStepInfo"/>
 		public int TryGetExportStepInfo(string pszExportName, out CorDebugCodeInvokeKind pInvokeKind, out CorDebugCodeInvokePurpose pInvokePurpose) => instance.Process6.TryGetExportStepInfo(pszExportName, out pInvokeKind, out pInvokePurpose);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryGetExportStepInfo"/>
 		public (CorDebugCodeInvokeKind pInvokeKind, CorDebugCodeInvokePurpose pInvokePurpose) GetExportStepInfo(string pszExportName) => instance.Process6.GetExportStepInfo(pszExportName);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryMarkDebuggerAttached"/>
 		public int TryMarkDebuggerAttached(bool fIsAttached) => instance.Process6.TryMarkDebuggerAttached(fIsAttached);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryMarkDebuggerAttached"/>
 		public void MarkDebuggerAttached(bool fIsAttached) => instance.Process6.MarkDebuggerAttached(fIsAttached);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryProcessStateChanged"/>
 		public int TryProcessStateChanged(CorDebugStateChange change) => instance.Process6.TryProcessStateChanged(change);
 
+		/// <inheritdoc cref="ICorDebugProcess6.TryProcessStateChanged"/>
 		public void ProcessStateChanged(CorDebugStateChange change) => instance.Process6.ProcessStateChanged(change);
 	}
 }

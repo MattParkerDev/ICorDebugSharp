@@ -13,6 +13,7 @@ public static unsafe class CorDebugRemoteTargetExtensions
 {
 	extension(ICorDebugRemoteTarget instance)
 	{
+		/// <inheritdoc cref="ICorDebugRemoteTarget.TryGetHostName"/>
 		public string HostName
 		{
 			get

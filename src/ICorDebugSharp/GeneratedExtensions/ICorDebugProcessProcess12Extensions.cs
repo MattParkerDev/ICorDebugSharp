@@ -13,13 +13,17 @@ public static unsafe class CorDebugProcessProcess12Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess12"/>
 		public bool SupportsProcess12 => instance is ICorDebugProcess12;
 
+		/// <inheritdoc cref="ICorDebugProcess12"/>
 		public ICorDebugProcess12 Process12 =>
 			instance as ICorDebugProcess12 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess12.");
 
+		/// <inheritdoc cref="ICorDebugProcess12.TryGetAsyncStack"/>
 		public int TryGetAsyncStack(CORDB_ADDRESS continuationAddress, out ICorDebugStackWalk ppStackWalk) => instance.Process12.TryGetAsyncStack(continuationAddress, out ppStackWalk);
 
+		/// <inheritdoc cref="ICorDebugProcess12.TryGetAsyncStack"/>
 		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress) => instance.Process12.GetAsyncStack(continuationAddress);
 	}
 }

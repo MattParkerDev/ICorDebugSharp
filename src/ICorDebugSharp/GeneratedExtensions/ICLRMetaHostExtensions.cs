@@ -13,6 +13,7 @@ public static unsafe class CLRMetaHostExtensions
 {
 	extension(ICLRMetaHost instance)
 	{
+		/// <inheritdoc cref="ICLRMetaHost.TryEnumerateInstalledRuntimes"/>
 		public nint EnumerateInstalledRuntimes()
 		{
 			var hr = instance.TryEnumerateInstalledRuntimes(out var ppEnumerator);
@@ -20,6 +21,7 @@ public static unsafe class CLRMetaHostExtensions
 			return ppEnumerator;
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryEnumerateLoadedRuntimes"/>
 		public nint EnumerateLoadedRuntimes(nint hndProcess)
 		{
 			var hr = instance.TryEnumerateLoadedRuntimes(hndProcess, out var ppEnumerator);
@@ -27,6 +29,7 @@ public static unsafe class CLRMetaHostExtensions
 			return ppEnumerator;
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryGetRuntime"/>
 		public object? GetRuntime(string pwzVersion, ref Guid riid)
 		{
 			var hr = instance.TryGetRuntime(pwzVersion, ref riid, out var ppRuntime);
@@ -34,6 +37,7 @@ public static unsafe class CLRMetaHostExtensions
 			return ppRuntime;
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryQueryLegacyV2RuntimeBinding"/>
 		public object? QueryLegacyV2RuntimeBinding(ref Guid riid)
 		{
 			var hr = instance.TryQueryLegacyV2RuntimeBinding(ref riid, out var ppUnk);
@@ -41,12 +45,14 @@ public static unsafe class CLRMetaHostExtensions
 			return ppUnk;
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryExitProcess"/>
 		public void ExitProcess(int iExitCode)
 		{
 			var hr = instance.TryExitProcess(iExitCode);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryGetVersionFromFile"/>
 		public void GetVersionFromFile(string pwzFilePath, string[] pwzBuffer, ref int pcchBuffer)
 		{
 			var pcchBufferNative = checked((uint)pcchBuffer);
@@ -55,6 +61,7 @@ public static unsafe class CLRMetaHostExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRMetaHost.TryRequestRuntimeLoadedNotification"/>
 		public void RequestRuntimeLoadedNotification(nint pCallbackFunction)
 		{
 			var hr = instance.TryRequestRuntimeLoadedNotification(pCallbackFunction);

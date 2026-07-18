@@ -13,6 +13,7 @@ public static unsafe class CorDebugModule3Extensions
 {
 	extension(ICorDebugModule3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule3.TryCreateReaderForInMemorySymbols"/>
 		public object? CreateReaderForInMemorySymbols(ref Guid riid)
 		{
 			var hr = instance.TryCreateReaderForInMemorySymbols(ref riid, out var ppObj);

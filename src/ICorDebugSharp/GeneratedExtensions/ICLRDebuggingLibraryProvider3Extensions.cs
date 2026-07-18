@@ -13,6 +13,7 @@ public static unsafe class CLRDebuggingLibraryProvider3Extensions
 {
 	extension(ICLRDebuggingLibraryProvider3 instance)
 	{
+		/// <inheritdoc cref="ICLRDebuggingLibraryProvider3.TryProvideUnixLibrary"/>
 		public nint ProvideUnixLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, ref byte pbBuildId, int iBuildIdSize)
 		{
 			var hr = instance.TryProvideUnixLibrary(pwszFileName, pwszRuntimeModule, indexType, ref pbBuildId, iBuildIdSize, out var ppResolvedModulePath);
@@ -20,6 +21,7 @@ public static unsafe class CLRDebuggingLibraryProvider3Extensions
 			return ppResolvedModulePath;
 		}
 
+		/// <inheritdoc cref="ICLRDebuggingLibraryProvider3.TryProvideWindowsLibrary"/>
 		public nint ProvideWindowsLibrary(string pwszFileName, string pwszRuntimeModule, LIBRARY_PROVIDER_INDEX_TYPE indexType, int dwTimestamp, int dwSizeOfImage)
 		{
 			var hr = instance.TryProvideWindowsLibrary(pwszFileName, pwszRuntimeModule, indexType, checked((uint)dwTimestamp), checked((uint)dwSizeOfImage), out var ppResolvedModulePath);

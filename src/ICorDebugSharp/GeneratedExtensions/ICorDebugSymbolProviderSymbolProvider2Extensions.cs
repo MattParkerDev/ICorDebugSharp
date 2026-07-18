@@ -13,17 +13,23 @@ public static unsafe class CorDebugSymbolProviderSymbolProvider2Extensions
 {
 	extension(ICorDebugSymbolProvider instance)
 	{
+		/// <inheritdoc cref="ICorDebugSymbolProvider2"/>
 		public bool SupportsSymbolProvider2 => instance is ICorDebugSymbolProvider2;
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2"/>
 		public ICorDebugSymbolProvider2 SymbolProvider2 =>
 			instance as ICorDebugSymbolProvider2 ?? throw new NotSupportedException("ICorDebugSymbolProvider does not support ICorDebugSymbolProvider2.");
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetFrameProps"/>
 		public int TryGetFrameProps(uint codeRva, out uint pCodeStartRva, out uint pParentFrameStartRva) => instance.SymbolProvider2.TryGetFrameProps(codeRva, out pCodeStartRva, out pParentFrameStartRva);
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetFrameProps"/>
 		public (int pCodeStartRva, int pParentFrameStartRva) GetFrameProps(int codeRva) => instance.SymbolProvider2.GetFrameProps(codeRva);
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetGenericDictionaryInfo"/>
 		public int TryGetGenericDictionaryInfo(out ICorDebugMemoryBuffer ppMemoryBuffer) => instance.SymbolProvider2.TryGetGenericDictionaryInfo(out ppMemoryBuffer);
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider2.TryGetGenericDictionaryInfo"/>
 		public ICorDebugMemoryBuffer GenericDictionaryInfo
 		{
 			get

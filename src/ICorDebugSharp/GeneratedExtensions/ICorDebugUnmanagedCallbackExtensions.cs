@@ -13,6 +13,7 @@ public static unsafe class CorDebugUnmanagedCallbackExtensions
 {
 	extension(ICorDebugUnmanagedCallback instance)
 	{
+		/// <inheritdoc cref="ICorDebugUnmanagedCallback.TryDebugEvent"/>
 		public void DebugEvent(nint pDebugEvent, bool fOutOfBand)
 		{
 			var hr = instance.TryDebugEvent(pDebugEvent, fOutOfBand);

@@ -13,6 +13,7 @@ public static unsafe class CorDebugGuidToTypeEnumExtensions
 {
 	extension(ICorDebugGuidToTypeEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugGuidToTypeEnum.TryNext"/>
 		public (CorDebugGuidToTypeMapping[] values, int pceltFetched) Next(int celt)
 		{
 			var values = new CorDebugGuidToTypeMapping[checked((int)celt)];

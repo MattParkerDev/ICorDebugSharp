@@ -13,6 +13,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 {
 	extension(ICorDebugEditAndContinueErrorInfo instance)
 	{
+		/// <inheritdoc cref="ICorDebugEditAndContinueErrorInfo.TryGetString"/>
 		public string String
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueErrorInfo.TryGetErrorCode"/>
 		public int ErrorCode
 		{
 			get
@@ -55,6 +57,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueErrorInfo.TryGetModule"/>
 		public ICorDebugModule Module
 		{
 			get
@@ -65,6 +68,7 @@ public static unsafe class CorDebugEditAndContinueErrorInfoExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueErrorInfo.TryGetToken"/>
 		public mdToken Token
 		{
 			get

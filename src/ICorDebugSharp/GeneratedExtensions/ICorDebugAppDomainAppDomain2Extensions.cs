@@ -13,17 +13,23 @@ public static unsafe class CorDebugAppDomainAppDomain2Extensions
 {
 	extension(ICorDebugAppDomain instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomain2"/>
 		public bool SupportsAppDomain2 => instance is ICorDebugAppDomain2;
 
+		/// <inheritdoc cref="ICorDebugAppDomain2"/>
 		public ICorDebugAppDomain2 AppDomain2 =>
 			instance as ICorDebugAppDomain2 ?? throw new NotSupportedException("ICorDebugAppDomain does not support ICorDebugAppDomain2.");
 
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetArrayOrPointerType"/>
 		public int TryGetArrayOrPointerType(CorElementType elementType, uint nRank, ICorDebugType pTypeArg, out ICorDebugType ppType) => instance.AppDomain2.TryGetArrayOrPointerType(elementType, nRank, pTypeArg, out ppType);
 
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetArrayOrPointerType"/>
 		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, int nRank, ICorDebugType pTypeArg) => instance.AppDomain2.GetArrayOrPointerType(elementType, nRank, pTypeArg);
 
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetFunctionPointerType"/>
 		public int TryGetFunctionPointerType(uint nTypeArgs, ICorDebugType[] ppTypeArgs, out ICorDebugType ppType) => instance.AppDomain2.TryGetFunctionPointerType(nTypeArgs, ppTypeArgs, out ppType);
 
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetFunctionPointerType"/>
 		public ICorDebugType GetFunctionPointerType(int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.AppDomain2.GetFunctionPointerType(nTypeArgs, ppTypeArgs);
 	}
 }

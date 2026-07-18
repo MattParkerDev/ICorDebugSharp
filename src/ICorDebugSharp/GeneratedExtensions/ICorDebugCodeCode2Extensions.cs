@@ -13,15 +13,20 @@ public static unsafe class CorDebugCodeCode2Extensions
 {
 	extension(ICorDebugCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode2"/>
 		public bool SupportsCode2 => instance is ICorDebugCode2;
 
+		/// <inheritdoc cref="ICorDebugCode2"/>
 		public ICorDebugCode2 Code2 =>
 			instance as ICorDebugCode2 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode2.");
 
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCodeChunks"/>
 		public int TryGetCodeChunks(uint cbufSize, out uint pcnumChunks, CodeChunkInfo[]? chunks) => instance.Code2.TryGetCodeChunks(cbufSize, out pcnumChunks, chunks);
 
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCompilerFlags"/>
 		public int TryGetCompilerFlags(out uint pdwFlags) => instance.Code2.TryGetCompilerFlags(out pdwFlags);
 
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCompilerFlags"/>
 		public int CompilerFlags
 		{
 			get
@@ -32,6 +37,7 @@ public static unsafe class CorDebugCodeCode2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugCode2.TryGetCodeChunks"/>
 		public CodeChunkInfo[] CodeChunks => instance.Code2.CodeChunks;
 	}
 }

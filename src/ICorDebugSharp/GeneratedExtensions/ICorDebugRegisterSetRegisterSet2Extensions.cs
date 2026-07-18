@@ -13,21 +13,29 @@ public static unsafe class CorDebugRegisterSetRegisterSet2Extensions
 {
 	extension(ICorDebugRegisterSet instance)
 	{
+		/// <inheritdoc cref="ICorDebugRegisterSet2"/>
 		public bool SupportsRegisterSet2 => instance is ICorDebugRegisterSet2;
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2"/>
 		public ICorDebugRegisterSet2 RegisterSet2 =>
 			instance as ICorDebugRegisterSet2 ?? throw new NotSupportedException("ICorDebugRegisterSet does not support ICorDebugRegisterSet2.");
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegisters"/>
 		public int TryGetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TryGetRegisters(maskCount, mask, regCount, regBuffer);
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegisters"/>
 		public ulong[] GetRegisters(int maskCount, byte[] mask, int regCount) => instance.RegisterSet2.GetRegisters(maskCount, mask, regCount);
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegistersAvailable"/>
 		public int TryGetRegistersAvailable(uint numChunks, byte[] availableRegChunks) => instance.RegisterSet2.TryGetRegistersAvailable(numChunks, availableRegChunks);
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegistersAvailable"/>
 		public byte[] GetRegistersAvailable(int numChunks) => instance.RegisterSet2.GetRegistersAvailable(numChunks);
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TrySetRegisters"/>
 		public int TrySetRegisters(uint maskCount, byte[] mask, uint regCount, ulong[] regBuffer) => instance.RegisterSet2.TrySetRegisters(maskCount, mask, regCount, regBuffer);
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TrySetRegisters"/>
 		public void SetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer) => instance.RegisterSet2.SetRegisters(maskCount, mask, regCount, regBuffer);
 	}
 }

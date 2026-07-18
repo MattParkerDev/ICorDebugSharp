@@ -13,6 +13,7 @@ public static unsafe class CorDebugAssembly3Extensions
 {
 	extension(ICorDebugAssembly3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugAssembly3.TryEnumerateContainedAssemblies"/>
 		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies()
 		{
 			var hr = instance.TryEnumerateContainedAssemblies(out var ppAssemblies);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugAssembly3Extensions
 			return EnumerateContainedAssembliesCore(ppAssemblies);
 		}
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryEnumerateContainedAssemblies"/>
 		public ICorDebugAssembly[] ContainedAssemblies => instance.EnumerateContainedAssemblies().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryGetContainerAssembly"/>
 		public ICorDebugAssembly ContainerAssembly
 		{
 			get

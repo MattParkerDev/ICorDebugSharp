@@ -13,13 +13,17 @@ public static unsafe class CorDebugProcessProcess3Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess3"/>
 		public bool SupportsProcess3 => instance is ICorDebugProcess3;
 
+		/// <inheritdoc cref="ICorDebugProcess3"/>
 		public ICorDebugProcess3 Process3 =>
 			instance as ICorDebugProcess3 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess3.");
 
+		/// <inheritdoc cref="ICorDebugProcess3.TrySetEnableCustomNotification"/>
 		public int TrySetEnableCustomNotification(ICorDebugClass pClass, bool fEnable) => instance.Process3.TrySetEnableCustomNotification(pClass, fEnable);
 
+		/// <inheritdoc cref="ICorDebugProcess3.TrySetEnableCustomNotification"/>
 		public void SetEnableCustomNotification(ICorDebugClass pClass, bool fEnable) => instance.Process3.SetEnableCustomNotification(pClass, fEnable);
 	}
 }

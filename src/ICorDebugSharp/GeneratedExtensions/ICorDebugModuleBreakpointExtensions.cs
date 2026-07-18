@@ -13,6 +13,7 @@ public static unsafe class CorDebugModuleBreakpointExtensions
 {
 	extension(ICorDebugModuleBreakpoint instance)
 	{
+		/// <inheritdoc cref="ICorDebugModuleBreakpoint.TryGetModule"/>
 		public ICorDebugModule Module
 		{
 			get

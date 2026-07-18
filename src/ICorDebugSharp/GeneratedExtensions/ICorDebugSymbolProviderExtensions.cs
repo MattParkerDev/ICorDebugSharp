@@ -13,6 +13,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 {
 	extension(ICorDebugSymbolProvider instance)
 	{
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetInstanceFieldSymbols"/>
 		public (ICorDebugInstanceFieldSymbol[] pSymbols, int pcFetchedSymbols) GetInstanceFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols)
 		{
 			var pSymbols = new ICorDebugInstanceFieldSymbol[checked((int)cRequestedSymbols)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (pSymbols, checked((int)pcFetchedSymbols));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetMergedAssemblyRecords"/>
 		public (ICorDebugMergedAssemblyRecord[] pRecords, int pcFetchedRecords) GetMergedAssemblyRecords(int cRequestedRecords)
 		{
 			var pRecords = new ICorDebugMergedAssemblyRecord[checked((int)cRequestedRecords)];
@@ -29,6 +31,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (pRecords, checked((int)pcFetchedRecords));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetMethodLocalSymbols"/>
 		public (ICorDebugVariableSymbol[] pSymbols, int pcFetchedSymbols) GetMethodLocalSymbols(int nativeRVA, int cRequestedSymbols)
 		{
 			var pSymbols = new ICorDebugVariableSymbol[checked((int)cRequestedSymbols)];
@@ -37,6 +40,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (pSymbols, checked((int)pcFetchedSymbols));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetMethodParameterSymbols"/>
 		public (ICorDebugVariableSymbol[] pSymbols, int pcFetchedSymbols) GetMethodParameterSymbols(int nativeRVA, int cRequestedSymbols)
 		{
 			var pSymbols = new ICorDebugVariableSymbol[checked((int)cRequestedSymbols)];
@@ -45,6 +49,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (pSymbols, checked((int)pcFetchedSymbols));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetMethodProps"/>
 		public (byte[] signature, mdToken pMethodToken, int pcGenericParams, int pcbSignature) GetMethodProps(int codeRva, int cbSignature)
 		{
 			var signature = new byte[checked((int)cbSignature)];
@@ -53,6 +58,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (signature, pMethodToken, checked((int)pcGenericParams), checked((int)pcbSignature));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetStaticFieldSymbols"/>
 		public (ICorDebugStaticFieldSymbol[] pSymbols, int pcFetchedSymbols) GetStaticFieldSymbols(int cbSignature, byte[] typeSig, int cRequestedSymbols)
 		{
 			var pSymbols = new ICorDebugStaticFieldSymbol[checked((int)cRequestedSymbols)];
@@ -61,6 +67,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (pSymbols, checked((int)pcFetchedSymbols));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetTypeProps"/>
 		public (byte[] signature, int pcbSignature) GetTypeProps(int vtableRva, int cbSignature)
 		{
 			var signature = new byte[checked((int)cbSignature)];
@@ -69,6 +76,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (signature, checked((int)pcbSignature));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetAssemblyImageBytes"/>
 		public ICorDebugMemoryBuffer GetAssemblyImageBytes(CORDB_ADDRESS rva, int length)
 		{
 			var hr = instance.TryGetAssemblyImageBytes(rva, checked((uint)length), out var ppMemoryBuffer);
@@ -76,6 +84,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return ppMemoryBuffer;
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetAssemblyImageMetadata"/>
 		public ICorDebugMemoryBuffer AssemblyImageMetadata
 		{
 			get
@@ -86,6 +95,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetCodeRange"/>
 		public (int pCodeStartAddress, int pCodeSize) GetCodeRange(int codeRva)
 		{
 			var hr = instance.TryGetCodeRange(checked((uint)codeRva), out var pCodeStartAddress, out var pCodeSize);
@@ -93,6 +103,7 @@ public static unsafe class CorDebugSymbolProviderExtensions
 			return (checked((int)pCodeStartAddress), checked((int)pCodeSize));
 		}
 
+		/// <inheritdoc cref="ICorDebugSymbolProvider.TryGetObjectSize"/>
 		public int GetObjectSize(int cbSignature, byte[] typeSig)
 		{
 			var hr = instance.TryGetObjectSize(checked((uint)cbSignature), typeSig, out var pObjectSize);

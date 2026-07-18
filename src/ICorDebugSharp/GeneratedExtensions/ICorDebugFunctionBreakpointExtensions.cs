@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunctionBreakpointExtensions
 {
 	extension(ICorDebugFunctionBreakpoint instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunctionBreakpoint.TryGetFunction"/>
 		public ICorDebugFunction Function
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugFunctionBreakpointExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunctionBreakpoint.TryGetOffset"/>
 		public int Offset
 		{
 			get

@@ -13,13 +13,17 @@ public static unsafe class CorDebugExceptionObjectValueExceptionObjectValue2Exte
 {
 	extension(ICorDebugExceptionObjectValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue2"/>
 		public bool SupportsExceptionObjectValue2 => instance is ICorDebugExceptionObjectValue2;
 
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue2"/>
 		public ICorDebugExceptionObjectValue2 ExceptionObjectValue2 =>
 			instance as ICorDebugExceptionObjectValue2 ?? throw new NotSupportedException("ICorDebugExceptionObjectValue does not support ICorDebugExceptionObjectValue2.");
 
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue2.TryForceCatchHandlerFoundEvents"/>
 		public int TryForceCatchHandlerFoundEvents(bool enableEvents) => instance.ExceptionObjectValue2.TryForceCatchHandlerFoundEvents(enableEvents);
 
+		/// <inheritdoc cref="ICorDebugExceptionObjectValue2.TryForceCatchHandlerFoundEvents"/>
 		public void ForceCatchHandlerFoundEvents(bool enableEvents) => instance.ExceptionObjectValue2.ForceCatchHandlerFoundEvents(enableEvents);
 	}
 }

@@ -13,6 +13,7 @@ public static unsafe class CorDebugGCReferenceEnumExtensions
 {
 	extension(ICorDebugGCReferenceEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugGCReferenceEnum.TryNext"/>
 		public (COR_GC_REFERENCE[] roots, int pceltFetched) Next(int celt)
 		{
 			var roots = new COR_GC_REFERENCE[checked((int)celt)];

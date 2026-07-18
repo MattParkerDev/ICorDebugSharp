@@ -13,6 +13,7 @@ public static unsafe class CorDebugClassExtensions
 {
 	extension(ICorDebugClass instance)
 	{
+		/// <inheritdoc cref="ICorDebugClass.TryGetModule"/>
 		public ICorDebugModule Module
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugClassExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugClass.TryGetStaticFieldValue"/>
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
 		{
 			var hr = instance.TryGetStaticFieldValue(fieldDef, pFrame, out var ppValue);
@@ -30,6 +32,7 @@ public static unsafe class CorDebugClassExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugClass.TryGetToken"/>
 		public mdTypeDef Token
 		{
 			get

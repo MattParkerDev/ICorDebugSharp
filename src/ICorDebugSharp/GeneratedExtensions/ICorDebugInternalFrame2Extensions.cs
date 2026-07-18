@@ -13,6 +13,7 @@ public static unsafe class CorDebugInternalFrame2Extensions
 {
 	extension(ICorDebugInternalFrame2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryGetAddress"/>
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugInternalFrame2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugInternalFrame2.TryIsCloserToLeaf"/>
 		public bool IsCloserToLeaf(ICorDebugFrame pFrameToCompare)
 		{
 			var hr = instance.TryIsCloserToLeaf(pFrameToCompare, out var pIsCloser);

@@ -13,6 +13,7 @@ public static unsafe class CorDebugRegisterSetExtensions
 {
 	extension(ICorDebugRegisterSet instance)
 	{
+		/// <inheritdoc cref="ICorDebugRegisterSet.TryGetRegisters"/>
 		public ulong[] GetRegisters(ulong mask, int regCount)
 		{
 			var regBuffer = new ulong[checked((int)regCount)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugRegisterSetExtensions
 			return regBuffer;
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet.TryGetRegistersAvailable"/>
 		public ulong RegistersAvailable
 		{
 			get
@@ -31,24 +33,28 @@ public static unsafe class CorDebugRegisterSetExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet.TryGetRegisters"/>
 		public void GetRegisters(ulong mask, int regCount, ulong[] regBuffer)
 		{
 			var hr = instance.TryGetRegisters(mask, checked((uint)regCount), regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet.TryGetThreadContext"/>
 		public void GetThreadContext(int contextSize, byte[] context)
 		{
 			var hr = instance.TryGetThreadContext(checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet.TrySetRegisters"/>
 		public void SetRegisters(ulong mask, int regCount, ulong[] regBuffer)
 		{
 			var hr = instance.TrySetRegisters(mask, checked((uint)regCount), regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet.TrySetThreadContext"/>
 		public void SetThreadContext(int contextSize, byte[] context)
 		{
 			var hr = instance.TrySetThreadContext(checked((uint)contextSize), context);

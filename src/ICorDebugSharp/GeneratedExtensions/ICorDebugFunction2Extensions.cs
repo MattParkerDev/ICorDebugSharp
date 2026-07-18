@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunction2Extensions
 {
 	extension(ICorDebugFunction2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction2.TryEnumerateNativeCode"/>
 		public IEnumerable<ICorDebugCode> EnumerateNativeCode()
 		{
 			var hr = instance.TryEnumerateNativeCode(out var ppCodeEnum);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugFunction2Extensions
 			return EnumerateNativeCodeCore(ppCodeEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryEnumerateNativeCode"/>
 		public ICorDebugCode[] NativeCode => instance.EnumerateNativeCode().ToArray();
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetJMCStatus"/>
 		public bool JMCStatus
 		{
 			get
@@ -37,6 +40,7 @@ public static unsafe class CorDebugFunction2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction2.TryGetVersionNumber"/>
 		public int VersionNumber
 		{
 			get

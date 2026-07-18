@@ -13,6 +13,7 @@ public static unsafe class CorDebugModuleDebugEventExtensions
 {
 	extension(ICorDebugModuleDebugEvent instance)
 	{
+		/// <inheritdoc cref="ICorDebugModuleDebugEvent.TryGetModule"/>
 		public ICorDebugModule Module
 		{
 			get

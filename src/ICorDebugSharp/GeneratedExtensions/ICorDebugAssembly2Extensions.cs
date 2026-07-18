@@ -13,6 +13,7 @@ public static unsafe class CorDebugAssembly2Extensions
 {
 	extension(ICorDebugAssembly2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugAssembly2.TryIsFullyTrusted"/>
 		public bool IsFullyTrusted
 		{
 			get

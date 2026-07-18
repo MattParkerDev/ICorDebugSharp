@@ -13,6 +13,7 @@ public static unsafe class CorDebugDebugEventExtensions
 {
 	extension(ICorDebugDebugEvent instance)
 	{
+		/// <inheritdoc cref="ICorDebugDebugEvent.TryGetEventKind"/>
 		public CorDebugDebugEventKind EventKind
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugDebugEventExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugDebugEvent.TryGetThread"/>
 		public ICorDebugThread Thread
 		{
 			get

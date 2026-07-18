@@ -13,6 +13,7 @@ public static unsafe class CorDebugNativeFrame2Extensions
 {
 	extension(ICorDebugNativeFrame2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugNativeFrame2.TryGetStackParameterSize"/>
 		public int StackParameterSize
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugNativeFrame2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame2.TryIsChild"/>
 		public bool IsChild
 		{
 			get
@@ -33,6 +35,7 @@ public static unsafe class CorDebugNativeFrame2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugNativeFrame2.TryIsMatchingParentFrame"/>
 		public bool IsMatchingParentFrame(ICorDebugNativeFrame2 pPotentialParentFrame)
 		{
 			var hr = instance.TryIsMatchingParentFrame(pPotentialParentFrame, out var pIsParent);

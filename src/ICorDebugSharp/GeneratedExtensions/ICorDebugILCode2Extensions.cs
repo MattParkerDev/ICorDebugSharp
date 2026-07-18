@@ -13,6 +13,7 @@ public static unsafe class CorDebugILCode2Extensions
 {
 	extension(ICorDebugILCode2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetInstrumentedILMap"/>
 		public COR_IL_MAP[] InstrumentedILMap
 		{
 			get
@@ -44,6 +45,7 @@ public static unsafe class CorDebugILCode2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetLocalVarSigToken"/>
 		public mdSignature LocalVarSigToken
 		{
 			get

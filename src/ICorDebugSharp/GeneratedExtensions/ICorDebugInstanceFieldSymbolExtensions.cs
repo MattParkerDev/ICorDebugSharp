@@ -13,6 +13,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 {
 	extension(ICorDebugInstanceFieldSymbol instance)
 	{
+		/// <inheritdoc cref="ICorDebugInstanceFieldSymbol.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugInstanceFieldSymbol.TryGetOffset"/>
 		public int Offset
 		{
 			get
@@ -55,6 +57,7 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugInstanceFieldSymbol.TryGetSize"/>
 		public int Size
 		{
 			get

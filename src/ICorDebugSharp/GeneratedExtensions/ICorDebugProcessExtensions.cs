@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcessExtensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess.TryEnumerateAppDomains"/>
 		public IEnumerable<ICorDebugAppDomain> EnumerateAppDomains()
 		{
 			var hr = instance.TryEnumerateAppDomains(out var ppAppDomains);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugProcessExtensions
 			return EnumerateAppDomainsCore(ppAppDomains);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryEnumerateObjects"/>
 		public IEnumerable<CORDB_ADDRESS> EnumerateObjects()
 		{
 			var hr = instance.TryEnumerateObjects(out var ppObjects);
@@ -27,10 +29,13 @@ public static unsafe class CorDebugProcessExtensions
 			return EnumerateObjectsCore(ppObjects);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryEnumerateAppDomains"/>
 		public ICorDebugAppDomain[] AppDomains => instance.EnumerateAppDomains().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess.TryEnumerateObjects"/>
 		public CORDB_ADDRESS[] Objects => instance.EnumerateObjects().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess.TryReadMemory"/>
 		public (byte[] buffer, nuint read) ReadMemory(CORDB_ADDRESS address, int size)
 		{
 			var buffer = new byte[checked((int)size)];
@@ -39,6 +44,7 @@ public static unsafe class CorDebugProcessExtensions
 			return (buffer, read);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetHandle"/>
 		public nint Handle
 		{
 			get
@@ -49,6 +55,7 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetHelperThreadID"/>
 		public int HelperThreadID
 		{
 			get
@@ -59,6 +66,7 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetID"/>
 		public int Id
 		{
 			get
@@ -69,6 +77,7 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetObject"/>
 		public ICorDebugValue Object
 		{
 			get
@@ -79,6 +88,7 @@ public static unsafe class CorDebugProcessExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetThread"/>
 		public ICorDebugThread GetThread(int dwThreadId)
 		{
 			var hr = instance.TryGetThread(checked((uint)dwThreadId), out var ppThread);
@@ -86,6 +96,7 @@ public static unsafe class CorDebugProcessExtensions
 			return ppThread;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryIsOSSuspended"/>
 		public bool IsOSSuspended(int threadID)
 		{
 			var hr = instance.TryIsOSSuspended(checked((uint)threadID), out var pbSuspended);
@@ -93,6 +104,7 @@ public static unsafe class CorDebugProcessExtensions
 			return pbSuspended;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryIsTransitionStub"/>
 		public bool IsTransitionStub(CORDB_ADDRESS address)
 		{
 			var hr = instance.TryIsTransitionStub(address, out var pbTransitionStub);
@@ -100,6 +112,7 @@ public static unsafe class CorDebugProcessExtensions
 			return pbTransitionStub;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryThreadForFiberCookie"/>
 		public ICorDebugThread ThreadForFiberCookie(int fiberCookie)
 		{
 			var hr = instance.TryThreadForFiberCookie(checked((uint)fiberCookie), out var ppThread);
@@ -107,6 +120,7 @@ public static unsafe class CorDebugProcessExtensions
 			return ppThread;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryWriteMemory"/>
 		public nuint WriteMemory(CORDB_ADDRESS address, int size, byte[] buffer)
 		{
 			var hr = instance.TryWriteMemory(address, checked((uint)size), buffer, out var written);
@@ -114,30 +128,35 @@ public static unsafe class CorDebugProcessExtensions
 			return written;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryClearCurrentException"/>
 		public void ClearCurrentException(int threadID)
 		{
 			var hr = instance.TryClearCurrentException(checked((uint)threadID));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryEnableLogMessages"/>
 		public void EnableLogMessages(bool fOnOff)
 		{
 			var hr = instance.TryEnableLogMessages(fOnOff);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryGetThreadContext"/>
 		public void GetThreadContext(int threadID, int contextSize, byte[] context)
 		{
 			var hr = instance.TryGetThreadContext(checked((uint)threadID), checked((uint)contextSize), context);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TryModifyLogSwitch"/>
 		public void ModifyLogSwitch(string pLogSwitchName, int lLevel)
 		{
 			var hr = instance.TryModifyLogSwitch(pLogSwitchName, lLevel);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess.TrySetThreadContext"/>
 		public void SetThreadContext(int threadID, int contextSize, byte[] context)
 		{
 			var hr = instance.TrySetThreadContext(checked((uint)threadID), checked((uint)contextSize), context);

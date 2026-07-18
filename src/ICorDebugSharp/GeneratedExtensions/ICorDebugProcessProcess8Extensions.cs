@@ -13,13 +13,17 @@ public static unsafe class CorDebugProcessProcess8Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess8"/>
 		public bool SupportsProcess8 => instance is ICorDebugProcess8;
 
+		/// <inheritdoc cref="ICorDebugProcess8"/>
 		public ICorDebugProcess8 Process8 =>
 			instance as ICorDebugProcess8 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess8.");
 
+		/// <inheritdoc cref="ICorDebugProcess8.TryEnableExceptionCallbacksOutsideOfMyCode"/>
 		public int TryEnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC) => instance.Process8.TryEnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
 
+		/// <inheritdoc cref="ICorDebugProcess8.TryEnableExceptionCallbacksOutsideOfMyCode"/>
 		public void EnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC) => instance.Process8.EnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);
 	}
 }

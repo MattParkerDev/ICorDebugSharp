@@ -13,6 +13,7 @@ public static unsafe class CorDebugValueExtensions
 {
 	extension(ICorDebugValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugValue.TryCreateBreakpoint"/>
 		public ICorDebugValueBreakpoint CreateBreakpoint()
 		{
 			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugValueExtensions
 			return ppBreakpoint;
 		}
 
+		/// <inheritdoc cref="ICorDebugValue.TryGetAddress"/>
 		public CORDB_ADDRESS Address
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugValue.TryGetSize"/>
 		public int Size
 		{
 			get
@@ -40,6 +43,7 @@ public static unsafe class CorDebugValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugValue.TryGetType"/>
 		public CorElementType Type
 		{
 			get

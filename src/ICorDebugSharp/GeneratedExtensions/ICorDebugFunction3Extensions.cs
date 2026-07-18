@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunction3Extensions
 {
 	extension(ICorDebugFunction3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction3.TryGetActiveReJitRequestILCode"/>
 		public ICorDebugILCode ActiveReJitRequestILCode
 		{
 			get

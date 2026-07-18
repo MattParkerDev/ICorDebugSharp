@@ -13,6 +13,7 @@ public static unsafe class CorDebugControllerExtensions
 {
 	extension(ICorDebugController instance)
 	{
+		/// <inheritdoc cref="ICorDebugController.TryCanCommitChanges"/>
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CanCommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.TryCanCommitChanges(checked((uint)cSnapshots), pSnapshots, out var pError);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugControllerExtensions
 			return CanCommitChangesCore(pError);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryCommitChanges"/>
 		public IEnumerable<ICorDebugEditAndContinueErrorInfo> CommitChanges(int cSnapshots, ICorDebugEditAndContinueSnapshot[] pSnapshots)
 		{
 			var hr = instance.TryCommitChanges(checked((uint)cSnapshots), pSnapshots, out var pError);
@@ -27,6 +29,7 @@ public static unsafe class CorDebugControllerExtensions
 			return CommitChangesCore(pError);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryEnumerateThreads"/>
 		public IEnumerable<ICorDebugThread> EnumerateThreads()
 		{
 			var hr = instance.TryEnumerateThreads(out var ppThreads);
@@ -34,8 +37,10 @@ public static unsafe class CorDebugControllerExtensions
 			return EnumerateThreadsCore(ppThreads);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryEnumerateThreads"/>
 		public ICorDebugThread[] Threads => instance.EnumerateThreads().ToArray();
 
+		/// <inheritdoc cref="ICorDebugController.TryHasQueuedCallbacks"/>
 		public bool HasQueuedCallbacks(ICorDebugThread pThread)
 		{
 			var hr = instance.TryHasQueuedCallbacks(pThread, out var pbQueued);
@@ -43,6 +48,7 @@ public static unsafe class CorDebugControllerExtensions
 			return pbQueued;
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryIsRunning"/>
 		public bool IsRunning
 		{
 			get
@@ -53,30 +59,35 @@ public static unsafe class CorDebugControllerExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryContinue"/>
 		public void Continue(bool fIsOutOfBand)
 		{
 			var hr = instance.TryContinue(fIsOutOfBand);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryDetach"/>
 		public void Detach()
 		{
 			var hr = instance.TryDetach();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TrySetAllThreadsDebugState"/>
 		public void SetAllThreadsDebugState(CorDebugThreadState state, ICorDebugThread pExceptThisThread)
 		{
 			var hr = instance.TrySetAllThreadsDebugState(state, pExceptThisThread);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryStop"/>
 		public void Stop(int dwTimeoutIgnored)
 		{
 			var hr = instance.TryStop(checked((uint)dwTimeoutIgnored));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugController.TryTerminate"/>
 		public void Terminate(int exitCode)
 		{
 			var hr = instance.TryTerminate(checked((uint)exitCode));

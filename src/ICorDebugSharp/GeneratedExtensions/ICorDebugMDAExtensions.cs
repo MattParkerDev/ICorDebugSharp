@@ -13,6 +13,7 @@ public static unsafe class CorDebugMDAExtensions
 {
 	extension(ICorDebugMDA instance)
 	{
+		/// <inheritdoc cref="ICorDebugMDA.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugMDAExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMDA.TryGetDescription"/>
 		public string Description
 		{
 			get
@@ -77,6 +79,7 @@ public static unsafe class CorDebugMDAExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMDA.TryGetXML"/>
 		public string XML
 		{
 			get
@@ -109,6 +112,7 @@ public static unsafe class CorDebugMDAExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMDA.TryGetOSThreadId"/>
 		public int OSThreadId
 		{
 			get
@@ -119,6 +123,7 @@ public static unsafe class CorDebugMDAExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMDA.TryGetFlags"/>
 		public void GetFlags(ref CorDebugMDAFlags pFlags)
 		{
 			var hr = instance.TryGetFlags(ref pFlags);

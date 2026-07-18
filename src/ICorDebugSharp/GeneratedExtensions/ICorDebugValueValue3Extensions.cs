@@ -13,13 +13,17 @@ public static unsafe class CorDebugValueValue3Extensions
 {
 	extension(ICorDebugValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugValue3"/>
 		public bool SupportsValue3 => instance is ICorDebugValue3;
 
+		/// <inheritdoc cref="ICorDebugValue3"/>
 		public ICorDebugValue3 Value3 =>
 			instance as ICorDebugValue3 ?? throw new NotSupportedException("ICorDebugValue does not support ICorDebugValue3.");
 
+		/// <inheritdoc cref="ICorDebugValue3.TryGetSize64"/>
 		public int TryGetSize64(out ulong pSize) => instance.Value3.TryGetSize64(out pSize);
 
+		/// <inheritdoc cref="ICorDebugValue3.TryGetSize64"/>
 		public ulong Size64
 		{
 			get

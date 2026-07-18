@@ -13,6 +13,7 @@ public static unsafe class CorDebugFrameEnumExtensions
 {
 	extension(ICorDebugFrameEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugFrameEnum.TryNext"/>
 		public (ICorDebugFrame[] frames, int pceltFetched) Next(int celt)
 		{
 			var frames = new ICorDebugFrame[checked((int)celt)];

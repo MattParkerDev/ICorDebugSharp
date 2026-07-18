@@ -13,13 +13,17 @@ public static unsafe class CorDebugObjectValueObjectValue2Extensions
 {
 	extension(ICorDebugObjectValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugObjectValue2"/>
 		public bool SupportsObjectValue2 => instance is ICorDebugObjectValue2;
 
+		/// <inheritdoc cref="ICorDebugObjectValue2"/>
 		public ICorDebugObjectValue2 ObjectValue2 =>
 			instance as ICorDebugObjectValue2 ?? throw new NotSupportedException("ICorDebugObjectValue does not support ICorDebugObjectValue2.");
 
+		/// <inheritdoc cref="ICorDebugObjectValue2.TryGetVirtualMethodAndType"/>
 		public int TryGetVirtualMethodAndType(mdMemberRef memberRef, out ICorDebugFunction ppFunction, out ICorDebugType ppType) => instance.ObjectValue2.TryGetVirtualMethodAndType(memberRef, out ppFunction, out ppType);
 
+		/// <inheritdoc cref="ICorDebugObjectValue2.TryGetVirtualMethodAndType"/>
 		public (ICorDebugFunction ppFunction, ICorDebugType ppType) GetVirtualMethodAndType(mdMemberRef memberRef) => instance.ObjectValue2.GetVirtualMethodAndType(memberRef);
 	}
 }

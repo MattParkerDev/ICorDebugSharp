@@ -13,6 +13,7 @@ public static unsafe class CorDebugCode3Extensions
 {
 	extension(ICorDebugCode3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode3.TryGetReturnValueLiveOffset"/>
 		public (uint[] pOffsets, int pFetched) GetReturnValueLiveOffset(int ILoffset, int bufferSize)
 		{
 			var pOffsets = new uint[checked((int)bufferSize)];

@@ -13,6 +13,7 @@ public static unsafe class CorDebugExtensions
 {
 	extension(ICorDebug instance)
 	{
+		/// <inheritdoc cref="ICorDebug.TryEnumerateProcesses"/>
 		public IEnumerable<ICorDebugProcess> EnumerateProcesses()
 		{
 			var hr = instance.TryEnumerateProcesses(out var ppProcess);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugExtensions
 			return EnumerateProcessesCore(ppProcess);
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryEnumerateProcesses"/>
 		public ICorDebugProcess[] Processes => instance.EnumerateProcesses().ToArray();
 
+		/// <inheritdoc cref="ICorDebug.TryCreateProcess"/>
 		public ICorDebugProcess CreateProcess(string lpApplicationName, string lpCommandLine, nint lpProcessAttributes, nint lpThreadAttributes, bool bInheritHandles, int dwCreationFlags, nint lpEnvironment, string lpCurrentDirectory, nint lpStartupInfo, nint lpProcessInformation, CorDebugCreateProcessFlags debuggingFlags)
 		{
 			var hr = instance.TryCreateProcess(lpApplicationName, lpCommandLine, lpProcessAttributes, lpThreadAttributes, bInheritHandles, checked((uint)dwCreationFlags), lpEnvironment, lpCurrentDirectory, lpStartupInfo, lpProcessInformation, debuggingFlags, out var ppProcess);
@@ -29,6 +32,7 @@ public static unsafe class CorDebugExtensions
 			return ppProcess;
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryDebugActiveProcess"/>
 		public ICorDebugProcess DebugActiveProcess(int id, bool win32Attach)
 		{
 			var hr = instance.TryDebugActiveProcess(checked((uint)id), win32Attach, out var ppProcess);
@@ -36,6 +40,7 @@ public static unsafe class CorDebugExtensions
 			return ppProcess;
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryGetProcess"/>
 		public ICorDebugProcess GetProcess(int dwProcessId)
 		{
 			var hr = instance.TryGetProcess(checked((uint)dwProcessId), out var ppProcess);
@@ -43,30 +48,35 @@ public static unsafe class CorDebugExtensions
 			return ppProcess;
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryCanLaunchOrAttach"/>
 		public void CanLaunchOrAttach(int dwProcessId, bool win32DebuggingEnabled)
 		{
 			var hr = instance.TryCanLaunchOrAttach(checked((uint)dwProcessId), win32DebuggingEnabled);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryInitialize"/>
 		public void Initialize()
 		{
 			var hr = instance.TryInitialize();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebug.TrySetManagedHandler"/>
 		public void SetManagedHandler(ICorDebugManagedCallback pCallback)
 		{
 			var hr = instance.TrySetManagedHandler(pCallback);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebug.TrySetUnmanagedHandler"/>
 		public void SetUnmanagedHandler(ICorDebugUnmanagedCallback pCallback)
 		{
 			var hr = instance.TrySetUnmanagedHandler(pCallback);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebug.TryTerminate"/>
 		public void Terminate()
 		{
 			var hr = instance.TryTerminate();

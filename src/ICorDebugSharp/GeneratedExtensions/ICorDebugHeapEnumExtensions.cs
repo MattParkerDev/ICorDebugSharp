@@ -13,6 +13,7 @@ public static unsafe class CorDebugHeapEnumExtensions
 {
 	extension(ICorDebugHeapEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapEnum.TryNext"/>
 		public (COR_HEAPOBJECT[] objects, int pceltFetched) Next(int celt)
 		{
 			var objects = new COR_HEAPOBJECT[checked((int)celt)];

@@ -13,6 +13,7 @@ public static unsafe class CorDebugDataTarget4Extensions
 {
 	extension(ICorDebugDataTarget4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugDataTarget4.TryVirtualUnwind"/>
 		public void VirtualUnwind(int threadId, int contextSize, byte[] context)
 		{
 			var hr = instance.TryVirtualUnwind(checked((uint)threadId), checked((uint)contextSize), context);

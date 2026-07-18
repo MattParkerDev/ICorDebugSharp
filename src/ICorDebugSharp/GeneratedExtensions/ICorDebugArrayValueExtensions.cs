@@ -13,6 +13,7 @@ public static unsafe class CorDebugArrayValueExtensions
 {
 	extension(ICorDebugArrayValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetBaseIndicies"/>
 		public uint[] GetBaseIndicies(int cdim)
 		{
 			var indices = new uint[checked((int)cdim)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			return indices;
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetDimensions"/>
 		public uint[] GetDimensions(int cdim)
 		{
 			var dims = new uint[checked((int)cdim)];
@@ -29,6 +31,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			return dims;
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetCount"/>
 		public int Count
 		{
 			get
@@ -39,6 +42,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetElement"/>
 		public ICorDebugValue GetElement(int cdim, uint[] indices)
 		{
 			var hr = instance.TryGetElement(checked((uint)cdim), indices, out var ppValue);
@@ -46,6 +50,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetElementAtPosition"/>
 		public ICorDebugValue GetElementAtPosition(int nPosition)
 		{
 			var hr = instance.TryGetElementAtPosition(checked((uint)nPosition), out var ppValue);
@@ -53,6 +58,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetElementType"/>
 		public CorElementType ElementType
 		{
 			get
@@ -63,6 +69,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetRank"/>
 		public int Rank
 		{
 			get
@@ -73,6 +80,7 @@ public static unsafe class CorDebugArrayValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryHasBaseIndicies"/>
 		public bool HasBaseIndicies()
 		{
 			var hr = instance.TryHasBaseIndicies(out var pbHasBaseIndicies);
@@ -80,12 +88,14 @@ public static unsafe class CorDebugArrayValueExtensions
 			return pbHasBaseIndicies;
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetBaseIndicies"/>
 		public void GetBaseIndicies(int cdim, uint[] indices)
 		{
 			var hr = instance.TryGetBaseIndicies(checked((uint)cdim), indices);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugArrayValue.TryGetDimensions"/>
 		public void GetDimensions(int cdim, uint[] dims)
 		{
 			var hr = instance.TryGetDimensions(checked((uint)cdim), dims);

@@ -13,6 +13,7 @@ public static unsafe class CorDebugModule2Extensions
 {
 	extension(ICorDebugModule2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule2.TryGetJITCompilerFlags"/>
 		public CorDebugJITCompilerFlags JITCompilerFlags
 		{
 			get
@@ -28,6 +29,7 @@ public static unsafe class CorDebugModule2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule2.TryResolveAssembly"/>
 		public ICorDebugAssembly ResolveAssembly(mdToken tkAssemblyRef)
 		{
 			var hr = instance.TryResolveAssembly(tkAssemblyRef, out var ppAssembly);
@@ -35,12 +37,14 @@ public static unsafe class CorDebugModule2Extensions
 			return ppAssembly;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule2.TryApplyChanges"/>
 		public void ApplyChanges(int cbMetadata, byte[] pbMetadata, int cbIL, byte[] pbIL)
 		{
 			var hr = instance.TryApplyChanges(checked((uint)cbMetadata), pbMetadata, checked((uint)cbIL), pbIL);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugModule2.TrySetJMCStatus"/>
 		public void SetJMCStatus(bool bIsJustMyCode, int cTokens, mdToken[] pTokens)
 		{
 			var hr = instance.TrySetJMCStatus(bIsJustMyCode, checked((uint)cTokens), pTokens);

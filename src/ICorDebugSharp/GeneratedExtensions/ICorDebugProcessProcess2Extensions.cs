@@ -13,17 +13,23 @@ public static unsafe class CorDebugProcessProcess2Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess2"/>
 		public bool SupportsProcess2 => instance is ICorDebugProcess2;
 
+		/// <inheritdoc cref="ICorDebugProcess2"/>
 		public ICorDebugProcess2 Process2 =>
 			instance as ICorDebugProcess2 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess2.");
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryClearUnmanagedBreakpoint"/>
 		public int TryClearUnmanagedBreakpoint(CORDB_ADDRESS address) => instance.Process2.TryClearUnmanagedBreakpoint(address);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryClearUnmanagedBreakpoint"/>
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address) => instance.Process2.ClearUnmanagedBreakpoint(address);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetDesiredNGENCompilerFlags"/>
 		public int TryGetDesiredNGENCompilerFlags(out uint pdwFlags) => instance.Process2.TryGetDesiredNGENCompilerFlags(out pdwFlags);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetDesiredNGENCompilerFlags"/>
 		public int DesiredNGENCompilerFlags
 		{
 			get
@@ -34,16 +40,22 @@ public static unsafe class CorDebugProcessProcess2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetReferenceValueFromGCHandle"/>
 		public int TryGetReferenceValueFromGCHandle(nuint handle, out ICorDebugReferenceValue pOutValue) => instance.Process2.TryGetReferenceValueFromGCHandle(handle, out pOutValue);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetReferenceValueFromGCHandle"/>
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle) => instance.Process2.GetReferenceValueFromGCHandle(handle);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetThreadForTaskID"/>
 		public int TryGetThreadForTaskID(ulong taskid, out ICorDebugThread2 ppThread) => instance.Process2.TryGetThreadForTaskID(taskid, out ppThread);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetThreadForTaskID"/>
 		public ICorDebugThread2 GetThreadForTaskID(ulong taskid) => instance.Process2.GetThreadForTaskID(taskid);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetVersion"/>
 		public int TryGetVersion(out COR_VERSION version) => instance.Process2.TryGetVersion(out version);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetVersion"/>
 		public COR_VERSION Version
 		{
 			get
@@ -54,12 +66,16 @@ public static unsafe class CorDebugProcessProcess2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetDesiredNGENCompilerFlags"/>
 		public int TrySetDesiredNGENCompilerFlags(uint pdwFlags) => instance.Process2.TrySetDesiredNGENCompilerFlags(pdwFlags);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetDesiredNGENCompilerFlags"/>
 		public void SetDesiredNGENCompilerFlags(int pdwFlags) => instance.Process2.SetDesiredNGENCompilerFlags(pdwFlags);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint"/>
 		public int TrySetUnmanagedBreakpoint(CORDB_ADDRESS address, uint bufsize, byte[] buffer, out uint bufLen) => instance.Process2.TrySetUnmanagedBreakpoint(address, bufsize, buffer, out bufLen);
 
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint"/>
 		public (byte[] buffer, int bufLen) SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize) => instance.Process2.SetUnmanagedBreakpoint(address, bufsize);
 	}
 }

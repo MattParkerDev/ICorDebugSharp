@@ -13,13 +13,17 @@ public static unsafe class CorDebugModuleModule4Extensions
 {
 	extension(ICorDebugModule instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule4"/>
 		public bool SupportsModule4 => instance is ICorDebugModule4;
 
+		/// <inheritdoc cref="ICorDebugModule4"/>
 		public ICorDebugModule4 Module4 =>
 			instance as ICorDebugModule4 ?? throw new NotSupportedException("ICorDebugModule does not support ICorDebugModule4.");
 
+		/// <inheritdoc cref="ICorDebugModule4.TryIsMappedLayout"/>
 		public int TryIsMappedLayout(out bool pIsMapped) => instance.Module4.TryIsMappedLayout(out pIsMapped);
 
+		/// <inheritdoc cref="ICorDebugModule4.TryIsMappedLayout"/>
 		public bool IsMappedLayout
 		{
 			get

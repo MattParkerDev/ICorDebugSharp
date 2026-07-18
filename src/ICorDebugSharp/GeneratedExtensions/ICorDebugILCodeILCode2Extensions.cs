@@ -13,15 +13,20 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 {
 	extension(ICorDebugILCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugILCode2"/>
 		public bool SupportsILCode2 => instance is ICorDebugILCode2;
 
+		/// <inheritdoc cref="ICorDebugILCode2"/>
 		public ICorDebugILCode2 ILCode2 =>
 			instance as ICorDebugILCode2 ?? throw new NotSupportedException("ICorDebugILCode does not support ICorDebugILCode2.");
 
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetInstrumentedILMap"/>
 		public int TryGetInstrumentedILMap(uint cMap, out uint pcMap, COR_IL_MAP[]? map) => instance.ILCode2.TryGetInstrumentedILMap(cMap, out pcMap, map);
 
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetLocalVarSigToken"/>
 		public int TryGetLocalVarSigToken(out mdSignature pmdSig) => instance.ILCode2.TryGetLocalVarSigToken(out pmdSig);
 
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetLocalVarSigToken"/>
 		public mdSignature LocalVarSigToken
 		{
 			get
@@ -32,6 +37,7 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugILCode2.TryGetInstrumentedILMap"/>
 		public COR_IL_MAP[] InstrumentedILMap => instance.ILCode2.InstrumentedILMap;
 	}
 }

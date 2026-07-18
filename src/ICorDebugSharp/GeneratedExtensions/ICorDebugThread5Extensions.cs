@@ -13,6 +13,7 @@ public static unsafe class CorDebugThread5Extensions
 {
 	extension(ICorDebugThread5 instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread5.TryGetBytesAllocated"/>
 		public (ulong pSohAllocatedBytes, ulong pUohAllocatedBytes) BytesAllocated
 		{
 			get

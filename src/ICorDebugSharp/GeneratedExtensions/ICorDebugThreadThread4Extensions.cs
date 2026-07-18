@@ -13,13 +13,17 @@ public static unsafe class CorDebugThreadThread4Extensions
 {
 	extension(ICorDebugThread instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread4"/>
 		public bool SupportsThread4 => instance is ICorDebugThread4;
 
+		/// <inheritdoc cref="ICorDebugThread4"/>
 		public ICorDebugThread4 Thread4 =>
 			instance as ICorDebugThread4 ?? throw new NotSupportedException("ICorDebugThread does not support ICorDebugThread4.");
 
+		/// <inheritdoc cref="ICorDebugThread4.TryGetBlockingObjects"/>
 		public int TryGetBlockingObjects(out ICorDebugBlockingObjectEnum ppBlockingObjectEnum) => instance.Thread4.TryGetBlockingObjects(out ppBlockingObjectEnum);
 
+		/// <inheritdoc cref="ICorDebugThread4.TryGetBlockingObjects"/>
 		public ICorDebugBlockingObjectEnum BlockingObjects
 		{
 			get
@@ -30,8 +34,10 @@ public static unsafe class CorDebugThreadThread4Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread4.TryGetCurrentCustomDebuggerNotification"/>
 		public int TryGetCurrentCustomDebuggerNotification(out ICorDebugValue ppNotificationObject) => instance.Thread4.TryGetCurrentCustomDebuggerNotification(out ppNotificationObject);
 
+		/// <inheritdoc cref="ICorDebugThread4.TryGetCurrentCustomDebuggerNotification"/>
 		public ICorDebugValue CurrentCustomDebuggerNotification
 		{
 			get
@@ -42,8 +48,10 @@ public static unsafe class CorDebugThreadThread4Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread4.TryHasUnhandledException"/>
 		public int TryHasUnhandledException() => instance.Thread4.TryHasUnhandledException();
 
+		/// <inheritdoc cref="ICorDebugThread4.TryHasUnhandledException"/>
 		public void HasUnhandledException() => instance.Thread4.HasUnhandledException();
 	}
 }

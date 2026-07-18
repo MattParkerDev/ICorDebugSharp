@@ -13,6 +13,7 @@ public static unsafe class CorDebugAppDomainExtensions
 {
 	extension(ICorDebugAppDomain instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomain.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateAssemblies"/>
 		public IEnumerable<ICorDebugAssembly> EnumerateAssemblies()
 		{
 			var hr = instance.TryEnumerateAssemblies(out var ppAssemblies);
@@ -52,6 +54,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			return EnumerateAssembliesCore(ppAssemblies);
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateBreakpoints"/>
 		public IEnumerable<ICorDebugBreakpoint> EnumerateBreakpoints()
 		{
 			var hr = instance.TryEnumerateBreakpoints(out var ppBreakpoints);
@@ -59,6 +62,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			return EnumerateBreakpointsCore(ppBreakpoints);
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateSteppers"/>
 		public IEnumerable<ICorDebugStepper> EnumerateSteppers()
 		{
 			var hr = instance.TryEnumerateSteppers(out var ppSteppers);
@@ -66,12 +70,16 @@ public static unsafe class CorDebugAppDomainExtensions
 			return EnumerateSteppersCore(ppSteppers);
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateAssemblies"/>
 		public ICorDebugAssembly[] Assemblies => instance.EnumerateAssemblies().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateBreakpoints"/>
 		public ICorDebugBreakpoint[] Breakpoints => instance.EnumerateBreakpoints().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryEnumerateSteppers"/>
 		public ICorDebugStepper[] Steppers => instance.EnumerateSteppers().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryGetID"/>
 		public int Id
 		{
 			get
@@ -82,6 +90,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryGetModuleFromMetaDataInterface"/>
 		public ICorDebugModule GetModuleFromMetaDataInterface(nint pIMetaData)
 		{
 			var hr = instance.TryGetModuleFromMetaDataInterface(pIMetaData, out var ppModule);
@@ -89,6 +98,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			return ppModule;
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryGetObject"/>
 		public ICorDebugValue Object
 		{
 			get
@@ -99,6 +109,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryGetProcess"/>
 		public ICorDebugProcess Process
 		{
 			get
@@ -109,6 +120,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryIsAttached"/>
 		public bool IsAttached
 		{
 			get
@@ -119,6 +131,7 @@ public static unsafe class CorDebugAppDomainExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain.TryAttach"/>
 		public void Attach()
 		{
 			var hr = instance.TryAttach();

@@ -13,6 +13,7 @@ public static unsafe class CorDebugRegisterSet2Extensions
 {
 	extension(ICorDebugRegisterSet2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegisters"/>
 		public ulong[] GetRegisters(int maskCount, byte[] mask, int regCount)
 		{
 			var regBuffer = new ulong[checked((int)regCount)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugRegisterSet2Extensions
 			return regBuffer;
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegistersAvailable"/>
 		public byte[] GetRegistersAvailable(int numChunks)
 		{
 			var availableRegChunks = new byte[checked((int)numChunks)];
@@ -29,18 +31,21 @@ public static unsafe class CorDebugRegisterSet2Extensions
 			return availableRegChunks;
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegisters"/>
 		public void GetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer)
 		{
 			var hr = instance.TryGetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TryGetRegistersAvailable"/>
 		public void GetRegistersAvailable(int numChunks, byte[] availableRegChunks)
 		{
 			var hr = instance.TryGetRegistersAvailable(checked((uint)numChunks), availableRegChunks);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugRegisterSet2.TrySetRegisters"/>
 		public void SetRegisters(int maskCount, byte[] mask, int regCount, ulong[] regBuffer)
 		{
 			var hr = instance.TrySetRegisters(checked((uint)maskCount), mask, checked((uint)regCount), regBuffer);

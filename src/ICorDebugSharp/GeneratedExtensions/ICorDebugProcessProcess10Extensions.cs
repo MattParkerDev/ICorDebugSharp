@@ -13,13 +13,17 @@ public static unsafe class CorDebugProcessProcess10Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess10"/>
 		public bool SupportsProcess10 => instance is ICorDebugProcess10;
 
+		/// <inheritdoc cref="ICorDebugProcess10"/>
 		public ICorDebugProcess10 Process10 =>
 			instance as ICorDebugProcess10 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess10.");
 
+		/// <inheritdoc cref="ICorDebugProcess10.TryEnableGCNotificationEvents"/>
 		public int TryEnableGCNotificationEvents(bool fEnable) => instance.Process10.TryEnableGCNotificationEvents(fEnable);
 
+		/// <inheritdoc cref="ICorDebugProcess10.TryEnableGCNotificationEvents"/>
 		public void EnableGCNotificationEvents(bool fEnable) => instance.Process10.EnableGCNotificationEvents(fEnable);
 	}
 }

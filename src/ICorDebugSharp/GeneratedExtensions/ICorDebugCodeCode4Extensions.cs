@@ -13,15 +13,20 @@ public static unsafe class CorDebugCodeCode4Extensions
 {
 	extension(ICorDebugCode instance)
 	{
+		/// <inheritdoc cref="ICorDebugCode4"/>
 		public bool SupportsCode4 => instance is ICorDebugCode4;
 
+		/// <inheritdoc cref="ICorDebugCode4"/>
 		public ICorDebugCode4 Code4 =>
 			instance as ICorDebugCode4 ?? throw new NotSupportedException("ICorDebugCode does not support ICorDebugCode4.");
 
+		/// <inheritdoc cref="ICorDebugCode4.TryEnumerateVariableHomes"/>
 		public int TryEnumerateVariableHomes(out ICorDebugVariableHomeEnum ppEnum) => instance.Code4.TryEnumerateVariableHomes(out ppEnum);
 
+		/// <inheritdoc cref="ICorDebugCode4.TryEnumerateVariableHomes"/>
 		public IEnumerable<ICorDebugVariableHome> EnumerateVariableHomes() => instance.Code4.EnumerateVariableHomes();
 
+		/// <inheritdoc cref="ICorDebugCode4.TryEnumerateVariableHomes"/>
 		public ICorDebugVariableHome[] VariableHomes => instance.Code4.EnumerateVariableHomes().ToArray();
 	}
 }

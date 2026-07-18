@@ -13,6 +13,7 @@ public static unsafe class CorDebugMemoryBufferExtensions
 {
 	extension(ICorDebugMemoryBuffer instance)
 	{
+		/// <inheritdoc cref="ICorDebugMemoryBuffer.TryGetSize"/>
 		public int Size
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugMemoryBufferExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugMemoryBuffer.TryGetStartAddress"/>
 		public nint StartAddress
 		{
 			get

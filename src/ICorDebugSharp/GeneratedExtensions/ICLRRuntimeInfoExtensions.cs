@@ -13,6 +13,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 {
 	extension(ICLRRuntimeInfo instance)
 	{
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryGetDefaultStartupFlags"/>
 		public int GetDefaultStartupFlags(string[]? pwzHostConfigFile, ref int pcchHostConfigFile)
 		{
 			var pcchHostConfigFileNative = checked((uint)pcchHostConfigFile);
@@ -22,6 +23,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			return checked((int)pdwStartupFlags);
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryGetInterface"/>
 		public object? GetInterface(ref Guid rclsid, ref Guid riid)
 		{
 			var hr = instance.TryGetInterface(ref rclsid, ref riid, out var ppUnk);
@@ -29,6 +31,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			return ppUnk;
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryGetProcAddress"/>
 		public nint GetProcAddress(string pszProcName)
 		{
 			var hr = instance.TryGetProcAddress(pszProcName, out var ppProc);
@@ -36,6 +39,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			return ppProc;
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryIsLoadable"/>
 		public bool IsLoadable
 		{
 			get
@@ -46,6 +50,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryIsLoaded"/>
 		public bool IsLoaded(nint hndProcess)
 		{
 			var hr = instance.TryIsLoaded(hndProcess, out var pbLoaded);
@@ -53,6 +58,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			return pbLoaded;
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryIsStarted"/>
 		public (bool pbStarted, int pdwStartupFlags) IsStarted
 		{
 			get
@@ -63,6 +69,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryLoadLibrary"/>
 		public nint LoadLibrary(string pwzDllName)
 		{
 			var hr = instance.TryLoadLibrary(pwzDllName, out var phndModule);
@@ -70,12 +77,14 @@ public static unsafe class CLRRuntimeInfoExtensions
 			return phndModule;
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryBindAsLegacyV2Runtime"/>
 		public void BindAsLegacyV2Runtime()
 		{
 			var hr = instance.TryBindAsLegacyV2Runtime();
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryGetRuntimeDirectory"/>
 		public void GetRuntimeDirectory(string[] pwzBuffer, ref int pcchBuffer)
 		{
 			var pcchBufferNative = checked((uint)pcchBuffer);
@@ -84,6 +93,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryGetVersionString"/>
 		public void GetVersionString(string[]? pwzBuffer, ref int pcchBuffer)
 		{
 			var pcchBufferNative = checked((uint)pcchBuffer);
@@ -92,6 +102,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TryLoadErrorString"/>
 		public void LoadErrorString(int iResourceID, string[] pwzBuffer, ref int pcchBuffer, int iLocaleID)
 		{
 			var pcchBufferNative = checked((uint)pcchBuffer);
@@ -100,6 +111,7 @@ public static unsafe class CLRRuntimeInfoExtensions
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICLRRuntimeInfo.TrySetDefaultStartupFlags"/>
 		public void SetDefaultStartupFlags(int dwStartupFlags, string pwzHostConfigFile)
 		{
 			var hr = instance.TrySetDefaultStartupFlags(checked((uint)dwStartupFlags), pwzHostConfigFile);

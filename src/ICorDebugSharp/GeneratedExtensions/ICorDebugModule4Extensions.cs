@@ -13,6 +13,7 @@ public static unsafe class CorDebugModule4Extensions
 {
 	extension(ICorDebugModule4 instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule4.TryIsMappedLayout"/>
 		public bool IsMappedLayout
 		{
 			get

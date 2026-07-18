@@ -13,6 +13,7 @@ public static unsafe class CorDebugEval2Extensions
 {
 	extension(ICorDebugEval2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugEval2.TryCreateValueForType"/>
 		public ICorDebugValue CreateValueForType(ICorDebugType pType)
 		{
 			var hr = instance.TryCreateValueForType(pType, out var ppValue);
@@ -20,36 +21,42 @@ public static unsafe class CorDebugEval2Extensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryCallParameterizedFunction"/>
 		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryCallParameterizedFunction(pFunction, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedArray"/>
 		public void NewParameterizedArray(ICorDebugType pElementType, int rank, uint[] dims, uint[] lowBounds)
 		{
 			var hr = instance.TryNewParameterizedArray(pElementType, checked((uint)rank), dims, lowBounds);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObject"/>
 		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryNewParameterizedObject(pConstructor, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObjectNoConstructor"/>
 		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
 			var hr = instance.TryNewParameterizedObjectNoConstructor(pClass, checked((uint)nTypeArgs), ppTypeArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryNewStringWithLength"/>
 		public void NewStringWithLength(string @string, int uiLength)
 		{
 			var hr = instance.TryNewStringWithLength(@string, checked((uint)uiLength));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEval2.TryRudeAbort"/>
 		public void RudeAbort()
 		{
 			var hr = instance.TryRudeAbort();

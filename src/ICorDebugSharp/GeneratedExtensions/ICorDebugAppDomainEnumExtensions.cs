@@ -13,6 +13,7 @@ public static unsafe class CorDebugAppDomainEnumExtensions
 {
 	extension(ICorDebugAppDomainEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomainEnum.TryNext"/>
 		public (ICorDebugAppDomain[] values, int pceltFetched) Next(int celt)
 		{
 			var values = new ICorDebugAppDomain[checked((int)celt)];

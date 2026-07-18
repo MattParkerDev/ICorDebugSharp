@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunction5Extensions
 {
 	extension(ICorDebugFunction5 instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction5.TryAreOptimizationsDisabled"/>
 		public bool AreOptimizationsDisabled()
 		{
 			var hr = instance.TryAreOptimizationsDisabled(out var pOptimizationsDisabled);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugFunction5Extensions
 			return pOptimizationsDisabled;
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction5.TryDisableOptimizations"/>
 		public void DisableOptimizations()
 		{
 			var hr = instance.TryDisableOptimizations();

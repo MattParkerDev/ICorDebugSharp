@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess10Extensions
 {
 	extension(ICorDebugProcess10 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess10.TryEnableGCNotificationEvents"/>
 		public void EnableGCNotificationEvents(bool fEnable)
 		{
 			var hr = instance.TryEnableGCNotificationEvents(fEnable);

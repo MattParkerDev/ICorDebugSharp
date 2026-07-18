@@ -13,6 +13,7 @@ public static unsafe class CorDebugThread3Extensions
 {
 	extension(ICorDebugThread3 instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread3.TryCreateStackWalk"/>
 		public ICorDebugStackWalk CreateStackWalk()
 		{
 			var hr = instance.TryCreateStackWalk(out var ppStackWalk);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugThread3Extensions
 			return ppStackWalk;
 		}
 
+		/// <inheritdoc cref="ICorDebugThread3.TryGetActiveInternalFrames"/>
 		public int GetActiveInternalFrames(int cInternalFrames, ICorDebugInternalFrame2[] ppInternalFrames)
 		{
 			var hr = instance.TryGetActiveInternalFrames(checked((uint)cInternalFrames), out var pcInternalFrames, ppInternalFrames);

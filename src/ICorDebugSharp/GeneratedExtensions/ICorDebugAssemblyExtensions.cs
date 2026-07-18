@@ -13,6 +13,7 @@ public static unsafe class CorDebugAssemblyExtensions
 {
 	extension(ICorDebugAssembly instance)
 	{
+		/// <inheritdoc cref="ICorDebugAssembly.TryGetCodeBase"/>
 		public string CodeBase
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugAssemblyExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAssembly.TryGetName"/>
 		public string Name
 		{
 			get
@@ -77,6 +79,7 @@ public static unsafe class CorDebugAssemblyExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAssembly.TryEnumerateModules"/>
 		public IEnumerable<ICorDebugModule> EnumerateModules()
 		{
 			var hr = instance.TryEnumerateModules(out var ppModules);
@@ -84,8 +87,10 @@ public static unsafe class CorDebugAssemblyExtensions
 			return EnumerateModulesCore(ppModules);
 		}
 
+		/// <inheritdoc cref="ICorDebugAssembly.TryEnumerateModules"/>
 		public ICorDebugModule[] Modules => instance.EnumerateModules().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAssembly.TryGetAppDomain"/>
 		public ICorDebugAppDomain AppDomain
 		{
 			get
@@ -96,6 +101,7 @@ public static unsafe class CorDebugAssemblyExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugAssembly.TryGetProcess"/>
 		public ICorDebugProcess Process
 		{
 			get

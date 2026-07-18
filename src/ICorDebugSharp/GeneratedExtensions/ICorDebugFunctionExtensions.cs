@@ -13,6 +13,7 @@ public static unsafe class CorDebugFunctionExtensions
 {
 	extension(ICorDebugFunction instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction.TryCreateBreakpoint"/>
 		public ICorDebugFunctionBreakpoint CreateBreakpoint()
 		{
 			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugFunctionExtensions
 			return ppBreakpoint;
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetClass"/>
 		public ICorDebugClass Class
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetCurrentVersionNumber"/>
 		public int CurrentVersionNumber
 		{
 			get
@@ -40,6 +43,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetILCode"/>
 		public ICorDebugCode ILCode
 		{
 			get
@@ -50,6 +54,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetLocalVarSigToken"/>
 		public mdSignature LocalVarSigToken
 		{
 			get
@@ -60,6 +65,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetModule"/>
 		public ICorDebugModule Module
 		{
 			get
@@ -70,6 +76,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetNativeCode"/>
 		public ICorDebugCode NativeCode
 		{
 			get
@@ -80,6 +87,7 @@ public static unsafe class CorDebugFunctionExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFunction.TryGetToken"/>
 		public mdMethodDef Token
 		{
 			get

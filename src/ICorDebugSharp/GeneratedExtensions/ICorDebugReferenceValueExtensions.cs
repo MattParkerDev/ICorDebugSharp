@@ -13,6 +13,7 @@ public static unsafe class CorDebugReferenceValueExtensions
 {
 	extension(ICorDebugReferenceValue instance)
 	{
+		/// <inheritdoc cref="ICorDebugReferenceValue.TryDereference"/>
 		public ICorDebugValue Dereference()
 		{
 			var hr = instance.TryDereference(out var ppValue);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugReferenceValueExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugReferenceValue.TryDereferenceStrong"/>
 		public ICorDebugValue DereferenceStrong()
 		{
 			var hr = instance.TryDereferenceStrong(out var ppValue);
@@ -27,6 +29,7 @@ public static unsafe class CorDebugReferenceValueExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugReferenceValue.TryGetValue"/>
 		public CORDB_ADDRESS Value
 		{
 			get
@@ -42,6 +45,7 @@ public static unsafe class CorDebugReferenceValueExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugReferenceValue.TryIsNull"/>
 		public bool IsNull
 		{
 			get

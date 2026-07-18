@@ -13,48 +13,56 @@ public static unsafe class CorDebugManagedCallback2Extensions
 {
 	extension(ICorDebugManagedCallback2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryChangeConnection"/>
 		public void ChangeConnection(ICorDebugProcess pProcess, int dwConnectionId)
 		{
 			var hr = instance.TryChangeConnection(pProcess, checked((uint)dwConnectionId));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryCreateConnection"/>
 		public void CreateConnection(ICorDebugProcess pProcess, int dwConnectionId, string pConnName)
 		{
 			var hr = instance.TryCreateConnection(pProcess, checked((uint)dwConnectionId), pConnName);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryDestroyConnection"/>
 		public void DestroyConnection(ICorDebugProcess pProcess, int dwConnectionId)
 		{
 			var hr = instance.TryDestroyConnection(pProcess, checked((uint)dwConnectionId));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryException"/>
 		public void Exception(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFrame pFrame, int nOffset, CorDebugExceptionCallbackType dwEventType, int dwFlags)
 		{
 			var hr = instance.TryException(pAppDomain, pThread, pFrame, checked((uint)nOffset), dwEventType, checked((uint)dwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryExceptionUnwind"/>
 		public void ExceptionUnwind(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, CorDebugExceptionUnwindCallbackType dwEventType, int dwFlags)
 		{
 			var hr = instance.TryExceptionUnwind(pAppDomain, pThread, dwEventType, checked((uint)dwFlags));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryFunctionRemapComplete"/>
 		public void FunctionRemapComplete(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pFunction)
 		{
 			var hr = instance.TryFunctionRemapComplete(pAppDomain, pThread, pFunction);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryFunctionRemapOpportunity"/>
 		public void FunctionRemapOpportunity(ICorDebugAppDomain pAppDomain, ICorDebugThread pThread, ICorDebugFunction pOldFunction, ICorDebugFunction pNewFunction, int oldILOffset)
 		{
 			var hr = instance.TryFunctionRemapOpportunity(pAppDomain, pThread, pOldFunction, pNewFunction, checked((uint)oldILOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugManagedCallback2.TryMDANotification"/>
 		public void MDANotification(ICorDebugController pController, ICorDebugThread pThread, ICorDebugMDA pMDA)
 		{
 			var hr = instance.TryMDANotification(pController, pThread, pMDA);

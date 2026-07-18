@@ -13,6 +13,7 @@ public static unsafe class CorDebugModuleExtensions
 {
 	extension(ICorDebugModule instance)
 	{
+		/// <inheritdoc cref="ICorDebugModule.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryCreateBreakpoint"/>
 		public ICorDebugModuleBreakpoint CreateBreakpoint()
 		{
 			var hr = instance.TryCreateBreakpoint(out var ppBreakpoint);
@@ -52,6 +54,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppBreakpoint;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetAssembly"/>
 		public ICorDebugAssembly Assembly
 		{
 			get
@@ -62,6 +65,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetBaseAddress"/>
 		public CORDB_ADDRESS BaseAddress
 		{
 			get
@@ -72,6 +76,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetClassFromToken"/>
 		public ICorDebugClass GetClassFromToken(mdTypeDef typeDef)
 		{
 			var hr = instance.TryGetClassFromToken(typeDef, out var ppClass);
@@ -79,6 +84,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppClass;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetEditAndContinueSnapshot"/>
 		public ICorDebugEditAndContinueSnapshot EditAndContinueSnapshot
 		{
 			get
@@ -89,6 +95,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetFunctionFromRVA"/>
 		public ICorDebugFunction GetFunctionFromRVA(CORDB_ADDRESS rva)
 		{
 			var hr = instance.TryGetFunctionFromRVA(rva, out var ppFunction);
@@ -96,6 +103,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppFunction;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetFunctionFromToken"/>
 		public ICorDebugFunction GetFunctionFromToken(mdMethodDef methodDef)
 		{
 			var hr = instance.TryGetFunctionFromToken(methodDef, out var ppFunction);
@@ -103,6 +111,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppFunction;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetGlobalVariableValue"/>
 		public ICorDebugValue GetGlobalVariableValue(mdFieldDef fieldDef)
 		{
 			var hr = instance.TryGetGlobalVariableValue(fieldDef, out var ppValue);
@@ -110,6 +119,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetMetaDataInterface"/>
 		public object? GetMetaDataInterface(ref Guid riid)
 		{
 			var hr = instance.TryGetMetaDataInterface(ref riid, out var ppObj);
@@ -117,6 +127,7 @@ public static unsafe class CorDebugModuleExtensions
 			return ppObj;
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetProcess"/>
 		public ICorDebugProcess Process
 		{
 			get
@@ -127,6 +138,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetSize"/>
 		public int Size
 		{
 			get
@@ -137,6 +149,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryGetToken"/>
 		public mdModule Token
 		{
 			get
@@ -147,6 +160,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryIsDynamic"/>
 		public bool IsDynamic
 		{
 			get
@@ -157,6 +171,7 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryIsInMemory"/>
 		public bool IsInMemory
 		{
 			get
@@ -167,12 +182,14 @@ public static unsafe class CorDebugModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryEnableClassLoadCallbacks"/>
 		public void EnableClassLoadCallbacks(bool bClassLoadCallbacks)
 		{
 			var hr = instance.TryEnableClassLoadCallbacks(bClassLoadCallbacks);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugModule.TryEnableJITDebugging"/>
 		public void EnableJITDebugging(bool bTrackJITInfo, bool bAllowJitOpts)
 		{
 			var hr = instance.TryEnableJITDebugging(bTrackJITInfo, bAllowJitOpts);

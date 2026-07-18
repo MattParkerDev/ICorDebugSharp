@@ -13,6 +13,7 @@ public static unsafe class CorDebugBreakpointEnumExtensions
 {
 	extension(ICorDebugBreakpointEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugBreakpointEnum.TryNext"/>
 		public (ICorDebugBreakpoint[] breakpoints, int pceltFetched) Next(int celt)
 		{
 			var breakpoints = new ICorDebugBreakpoint[checked((int)celt)];

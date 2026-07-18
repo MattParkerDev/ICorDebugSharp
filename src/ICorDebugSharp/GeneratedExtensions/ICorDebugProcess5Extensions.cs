@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess5Extensions
 {
 	extension(ICorDebugProcess5 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeFields"/>
 		public COR_FIELD[] GetTypeFields(COR_TYPEID id)
 		{
 			var hr = instance.TryGetTypeFields(id, 0, null!, out var required);
@@ -41,6 +42,7 @@ public static unsafe class CorDebugProcess5Extensions
 			throw new InvalidOperationException("Native buffer size did not stabilize.");
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateGCReferences"/>
 		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences)
 		{
 			var hr = instance.TryEnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
@@ -48,6 +50,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return EnumerateGCReferencesCore(ppEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHandles"/>
 		public IEnumerable<COR_GC_REFERENCE> EnumerateHandles(CorGCReferenceType types)
 		{
 			var hr = instance.TryEnumerateHandles(types, out var ppEnum);
@@ -55,6 +58,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return EnumerateHandlesCore(ppEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeap"/>
 		public IEnumerable<COR_HEAPOBJECT> EnumerateHeap()
 		{
 			var hr = instance.TryEnumerateHeap(out var ppObjects);
@@ -62,6 +66,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return EnumerateHeapCore(ppObjects);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeapRegions"/>
 		public IEnumerable<COR_SEGMENT> EnumerateHeapRegions()
 		{
 			var hr = instance.TryEnumerateHeapRegions(out var ppRegions);
@@ -69,10 +74,13 @@ public static unsafe class CorDebugProcess5Extensions
 			return EnumerateHeapRegionsCore(ppRegions);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeap"/>
 		public COR_HEAPOBJECT[] Heap => instance.EnumerateHeap().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnumerateHeapRegions"/>
 		public COR_SEGMENT[] HeapRegions => instance.EnumerateHeapRegions().ToArray();
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetArrayLayout"/>
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
 		{
 			var hr = instance.TryGetArrayLayout(id, out var pLayout);
@@ -80,6 +88,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return pLayout;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetGCHeapInformation"/>
 		public COR_HEAPINFO GCHeapInformation
 		{
 			get
@@ -90,6 +99,7 @@ public static unsafe class CorDebugProcess5Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetObject"/>
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr)
 		{
 			var hr = instance.TryGetObject(addr, out var pObject);
@@ -97,6 +107,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return pObject;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeForTypeID"/>
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)
 		{
 			var hr = instance.TryGetTypeForTypeID(id, out var ppType);
@@ -104,6 +115,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return ppType;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeID"/>
 		public COR_TYPEID GetTypeID(CORDB_ADDRESS obj)
 		{
 			var hr = instance.TryGetTypeID(obj, out var pId);
@@ -111,6 +123,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return pId;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryGetTypeLayout"/>
 		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id)
 		{
 			var hr = instance.TryGetTypeLayout(id, out var pLayout);
@@ -118,6 +131,7 @@ public static unsafe class CorDebugProcess5Extensions
 			return pLayout;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess5.TryEnableNGENPolicy"/>
 		public void EnableNGENPolicy(CorDebugNGENPolicy ePolicy)
 		{
 			var hr = instance.TryEnableNGENPolicy(ePolicy);

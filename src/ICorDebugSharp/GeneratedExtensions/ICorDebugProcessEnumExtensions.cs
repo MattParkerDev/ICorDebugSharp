@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcessEnumExtensions
 {
 	extension(ICorDebugProcessEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcessEnum.TryNext"/>
 		public (ICorDebugProcess[] processes, int pceltFetched) Next(int celt)
 		{
 			var processes = new ICorDebugProcess[checked((int)celt)];

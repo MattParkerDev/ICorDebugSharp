@@ -13,13 +13,17 @@ public static unsafe class CorDebugProcessProcess7Extensions
 {
 	extension(ICorDebugProcess instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess7"/>
 		public bool SupportsProcess7 => instance is ICorDebugProcess7;
 
+		/// <inheritdoc cref="ICorDebugProcess7"/>
 		public ICorDebugProcess7 Process7 =>
 			instance as ICorDebugProcess7 ?? throw new NotSupportedException("ICorDebugProcess does not support ICorDebugProcess7.");
 
+		/// <inheritdoc cref="ICorDebugProcess7.TrySetWriteableMetadataUpdateMode"/>
 		public int TrySetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags) => instance.Process7.TrySetWriteableMetadataUpdateMode(flags);
 
+		/// <inheritdoc cref="ICorDebugProcess7.TrySetWriteableMetadataUpdateMode"/>
 		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags) => instance.Process7.SetWriteableMetadataUpdateMode(flags);
 	}
 }

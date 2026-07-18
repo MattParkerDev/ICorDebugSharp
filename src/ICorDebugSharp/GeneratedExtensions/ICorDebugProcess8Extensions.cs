@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess8Extensions
 {
 	extension(ICorDebugProcess8 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess8.TryEnableExceptionCallbacksOutsideOfMyCode"/>
 		public void EnableExceptionCallbacksOutsideOfMyCode(bool enableExceptionsOutsideOfJMC)
 		{
 			var hr = instance.TryEnableExceptionCallbacksOutsideOfMyCode(enableExceptionsOutsideOfJMC);

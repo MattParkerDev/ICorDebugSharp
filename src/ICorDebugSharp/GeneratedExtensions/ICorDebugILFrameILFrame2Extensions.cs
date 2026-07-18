@@ -13,19 +13,26 @@ public static unsafe class CorDebugILFrameILFrame2Extensions
 {
 	extension(ICorDebugILFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame2"/>
 		public bool SupportsILFrame2 => instance is ICorDebugILFrame2;
 
+		/// <inheritdoc cref="ICorDebugILFrame2"/>
 		public ICorDebugILFrame2 ILFrame2 =>
 			instance as ICorDebugILFrame2 ?? throw new NotSupportedException("ICorDebugILFrame does not support ICorDebugILFrame2.");
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryEnumerateTypeParameters"/>
 		public int TryEnumerateTypeParameters(out ICorDebugTypeEnum ppTyParEnum) => instance.ILFrame2.TryEnumerateTypeParameters(out ppTyParEnum);
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryEnumerateTypeParameters"/>
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters() => instance.ILFrame2.EnumerateTypeParameters();
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryEnumerateTypeParameters"/>
 		public ICorDebugType[] TypeParameters => instance.ILFrame2.EnumerateTypeParameters().ToArray();
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryRemapFunction"/>
 		public int TryRemapFunction(uint newILOffset) => instance.ILFrame2.TryRemapFunction(newILOffset);
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryRemapFunction"/>
 		public void RemapFunction(int newILOffset) => instance.ILFrame2.RemapFunction(newILOffset);
 	}
 }

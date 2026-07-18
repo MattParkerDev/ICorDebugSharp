@@ -13,6 +13,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 {
 	extension(ICorDebugEditAndContinueSnapshot instance)
 	{
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TryCopyMetaData"/>
 		public Guid CopyMetaData(nint pIStream)
 		{
 			var hr = instance.TryCopyMetaData(pIStream, out var pMvid);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			return pMvid;
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TryGetMvid"/>
 		public Guid Mvid
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TryGetRoDataRVA"/>
 		public int RoDataRVA
 		{
 			get
@@ -40,6 +43,7 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TryGetRwDataRVA"/>
 		public int RwDataRVA
 		{
 			get
@@ -50,18 +54,21 @@ public static unsafe class CorDebugEditAndContinueSnapshotExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TrySetILMap"/>
 		public void SetILMap(mdToken mdFunction, int cMapSize, COR_IL_MAP[] map)
 		{
 			var hr = instance.TrySetILMap(mdFunction, checked((uint)cMapSize), map);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TrySetPEBytes"/>
 		public void SetPEBytes(nint pIStream)
 		{
 			var hr = instance.TrySetPEBytes(pIStream);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugEditAndContinueSnapshot.TrySetPESymbolBytes"/>
 		public void SetPESymbolBytes(nint pIStream)
 		{
 			var hr = instance.TrySetPESymbolBytes(pIStream);

@@ -13,6 +13,7 @@ public static unsafe class CorDebugBlockingObjectEnumExtensions
 {
 	extension(ICorDebugBlockingObjectEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugBlockingObjectEnum.TryNext"/>
 		public (CorDebugBlockingObject[] values, int pceltFetched) Next(int celt)
 		{
 			var values = new CorDebugBlockingObject[checked((int)celt)];

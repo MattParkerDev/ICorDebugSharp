@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess7Extensions
 {
 	extension(ICorDebugProcess7 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess7.TrySetWriteableMetadataUpdateMode"/>
 		public void SetWriteableMetadataUpdateMode(WriteableMetadataUpdateMode flags)
 		{
 			var hr = instance.TrySetWriteableMetadataUpdateMode(flags);

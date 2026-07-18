@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess2Extensions
 {
 	extension(ICorDebugProcess2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetUnmanagedBreakpoint"/>
 		public (byte[] buffer, int bufLen) SetUnmanagedBreakpoint(CORDB_ADDRESS address, int bufsize)
 		{
 			var buffer = new byte[checked((int)bufsize)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugProcess2Extensions
 			return (buffer, checked((int)bufLen));
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetDesiredNGENCompilerFlags"/>
 		public int DesiredNGENCompilerFlags
 		{
 			get
@@ -31,6 +33,7 @@ public static unsafe class CorDebugProcess2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetReferenceValueFromGCHandle"/>
 		public ICorDebugReferenceValue GetReferenceValueFromGCHandle(nuint handle)
 		{
 			var hr = instance.TryGetReferenceValueFromGCHandle(handle, out var pOutValue);
@@ -38,6 +41,7 @@ public static unsafe class CorDebugProcess2Extensions
 			return pOutValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetThreadForTaskID"/>
 		public ICorDebugThread2 GetThreadForTaskID(ulong taskid)
 		{
 			var hr = instance.TryGetThreadForTaskID(taskid, out var ppThread);
@@ -45,6 +49,7 @@ public static unsafe class CorDebugProcess2Extensions
 			return ppThread;
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryGetVersion"/>
 		public COR_VERSION Version
 		{
 			get
@@ -55,12 +60,14 @@ public static unsafe class CorDebugProcess2Extensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TryClearUnmanagedBreakpoint"/>
 		public void ClearUnmanagedBreakpoint(CORDB_ADDRESS address)
 		{
 			var hr = instance.TryClearUnmanagedBreakpoint(address);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugProcess2.TrySetDesiredNGENCompilerFlags"/>
 		public void SetDesiredNGENCompilerFlags(int pdwFlags)
 		{
 			var hr = instance.TrySetDesiredNGENCompilerFlags(checked((uint)pdwFlags));

@@ -13,6 +13,7 @@ public static unsafe class CorDebugFrameExtensions
 {
 	extension(ICorDebugFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugFrame.TryCreateStepper"/>
 		public ICorDebugStepper CreateStepper()
 		{
 			var hr = instance.TryCreateStepper(out var ppStepper);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugFrameExtensions
 			return ppStepper;
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetCallee"/>
 		public ICorDebugFrame Callee
 		{
 			get
@@ -30,6 +32,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetCaller"/>
 		public ICorDebugFrame Caller
 		{
 			get
@@ -40,6 +43,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetChain"/>
 		public ICorDebugChain Chain
 		{
 			get
@@ -50,6 +54,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetCode"/>
 		public ICorDebugCode Code
 		{
 			get
@@ -60,6 +65,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetFunction"/>
 		public ICorDebugFunction Function
 		{
 			get
@@ -70,6 +76,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetFunctionToken"/>
 		public mdMethodDef FunctionToken
 		{
 			get
@@ -80,6 +87,7 @@ public static unsafe class CorDebugFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugFrame.TryGetStackRange"/>
 		public (CORDB_ADDRESS pStart, CORDB_ADDRESS pEnd) StackRange
 		{
 			get

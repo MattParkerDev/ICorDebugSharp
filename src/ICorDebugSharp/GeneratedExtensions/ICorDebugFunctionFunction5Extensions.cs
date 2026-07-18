@@ -13,17 +13,23 @@ public static unsafe class CorDebugFunctionFunction5Extensions
 {
 	extension(ICorDebugFunction instance)
 	{
+		/// <inheritdoc cref="ICorDebugFunction5"/>
 		public bool SupportsFunction5 => instance is ICorDebugFunction5;
 
+		/// <inheritdoc cref="ICorDebugFunction5"/>
 		public ICorDebugFunction5 Function5 =>
 			instance as ICorDebugFunction5 ?? throw new NotSupportedException("ICorDebugFunction does not support ICorDebugFunction5.");
 
+		/// <inheritdoc cref="ICorDebugFunction5.TryAreOptimizationsDisabled"/>
 		public int TryAreOptimizationsDisabled(out bool pOptimizationsDisabled) => instance.Function5.TryAreOptimizationsDisabled(out pOptimizationsDisabled);
 
+		/// <inheritdoc cref="ICorDebugFunction5.TryAreOptimizationsDisabled"/>
 		public bool AreOptimizationsDisabled() => instance.Function5.AreOptimizationsDisabled();
 
+		/// <inheritdoc cref="ICorDebugFunction5.TryDisableOptimizations"/>
 		public int TryDisableOptimizations() => instance.Function5.TryDisableOptimizations();
 
+		/// <inheritdoc cref="ICorDebugFunction5.TryDisableOptimizations"/>
 		public void DisableOptimizations() => instance.Function5.DisableOptimizations();
 	}
 }

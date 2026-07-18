@@ -13,6 +13,7 @@ public static unsafe class CorDebugHeapSegmentEnumExtensions
 {
 	extension(ICorDebugHeapSegmentEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugHeapSegmentEnum.TryNext"/>
 		public (COR_SEGMENT[] segments, int pceltFetched) Next(int celt)
 		{
 			var segments = new COR_SEGMENT[checked((int)celt)];

@@ -13,6 +13,7 @@ public static unsafe class CorDebugThreadExtensions
 {
 	extension(ICorDebugThread instance)
 	{
+		/// <inheritdoc cref="ICorDebugThread.TryEnumerateChains"/>
 		public IEnumerable<ICorDebugChain> EnumerateChains()
 		{
 			var hr = instance.TryEnumerateChains(out var ppChains);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugThreadExtensions
 			return EnumerateChainsCore(ppChains);
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryEnumerateChains"/>
 		public ICorDebugChain[] Chains => instance.EnumerateChains().ToArray();
 
+		/// <inheritdoc cref="ICorDebugThread.TryCreateEval"/>
 		public ICorDebugEval CreateEval()
 		{
 			var hr = instance.TryCreateEval(out var ppEval);
@@ -29,6 +32,7 @@ public static unsafe class CorDebugThreadExtensions
 			return ppEval;
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryCreateStepper"/>
 		public ICorDebugStepper CreateStepper()
 		{
 			var hr = instance.TryCreateStepper(out var ppStepper);
@@ -36,6 +40,7 @@ public static unsafe class CorDebugThreadExtensions
 			return ppStepper;
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetActiveChain"/>
 		public ICorDebugChain ActiveChain
 		{
 			get
@@ -46,6 +51,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetActiveFrame"/>
 		public ICorDebugFrame ActiveFrame
 		{
 			get
@@ -56,6 +62,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetAppDomain"/>
 		public ICorDebugAppDomain AppDomain
 		{
 			get
@@ -66,6 +73,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetCurrentException"/>
 		public ICorDebugValue CurrentException
 		{
 			get
@@ -76,6 +84,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetDebugState"/>
 		public CorDebugThreadState DebugState
 		{
 			get
@@ -91,6 +100,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetHandle"/>
 		public nint Handle
 		{
 			get
@@ -101,6 +111,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetID"/>
 		public int Id
 		{
 			get
@@ -111,6 +122,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetObject"/>
 		public ICorDebugValue Object
 		{
 			get
@@ -121,6 +133,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetProcess"/>
 		public ICorDebugProcess Process
 		{
 			get
@@ -131,6 +144,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetRegisterSet"/>
 		public ICorDebugRegisterSet RegisterSet
 		{
 			get
@@ -141,6 +155,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryGetUserState"/>
 		public CorDebugUserState UserState
 		{
 			get
@@ -151,6 +166,7 @@ public static unsafe class CorDebugThreadExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugThread.TryClearCurrentException"/>
 		public void ClearCurrentException()
 		{
 			var hr = instance.TryClearCurrentException();

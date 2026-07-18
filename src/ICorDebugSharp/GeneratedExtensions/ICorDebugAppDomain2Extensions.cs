@@ -13,6 +13,7 @@ public static unsafe class CorDebugAppDomain2Extensions
 {
 	extension(ICorDebugAppDomain2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetArrayOrPointerType"/>
 		public ICorDebugType GetArrayOrPointerType(CorElementType elementType, int nRank, ICorDebugType pTypeArg)
 		{
 			var hr = instance.TryGetArrayOrPointerType(elementType, checked((uint)nRank), pTypeArg, out var ppType);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugAppDomain2Extensions
 			return ppType;
 		}
 
+		/// <inheritdoc cref="ICorDebugAppDomain2.TryGetFunctionPointerType"/>
 		public ICorDebugType GetFunctionPointerType(int nTypeArgs, ICorDebugType[] ppTypeArgs)
 		{
 			var hr = instance.TryGetFunctionPointerType(checked((uint)nTypeArgs), ppTypeArgs, out var ppType);

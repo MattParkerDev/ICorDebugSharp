@@ -13,6 +13,7 @@ public static unsafe class CorDebugILFrameExtensions
 {
 	extension(ICorDebugILFrame instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame.TryEnumerateArguments"/>
 		public IEnumerable<ICorDebugValue> EnumerateArguments()
 		{
 			var hr = instance.TryEnumerateArguments(out var ppValueEnum);
@@ -20,6 +21,7 @@ public static unsafe class CorDebugILFrameExtensions
 			return EnumerateArgumentsCore(ppValueEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryEnumerateLocalVariables"/>
 		public IEnumerable<ICorDebugValue> EnumerateLocalVariables()
 		{
 			var hr = instance.TryEnumerateLocalVariables(out var ppValueEnum);
@@ -27,10 +29,13 @@ public static unsafe class CorDebugILFrameExtensions
 			return EnumerateLocalVariablesCore(ppValueEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryEnumerateArguments"/>
 		public ICorDebugValue[] Arguments => instance.EnumerateArguments().ToArray();
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryEnumerateLocalVariables"/>
 		public ICorDebugValue[] LocalVariables => instance.EnumerateLocalVariables().ToArray();
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryGetArgument"/>
 		public ICorDebugValue GetArgument(int dwIndex)
 		{
 			var hr = instance.TryGetArgument(checked((uint)dwIndex), out var ppValue);
@@ -38,6 +43,7 @@ public static unsafe class CorDebugILFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryGetIP"/>
 		public (int pnOffset, CorDebugMappingResult pMappingResult) IP
 		{
 			get
@@ -48,6 +54,7 @@ public static unsafe class CorDebugILFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryGetLocalVariable"/>
 		public ICorDebugValue GetLocalVariable(int dwIndex)
 		{
 			var hr = instance.TryGetLocalVariable(checked((uint)dwIndex), out var ppValue);
@@ -55,6 +62,7 @@ public static unsafe class CorDebugILFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryGetStackDepth"/>
 		public int StackDepth
 		{
 			get
@@ -65,6 +73,7 @@ public static unsafe class CorDebugILFrameExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryGetStackValue"/>
 		public ICorDebugValue GetStackValue(int dwIndex)
 		{
 			var hr = instance.TryGetStackValue(checked((uint)dwIndex), out var ppValue);
@@ -72,12 +81,14 @@ public static unsafe class CorDebugILFrameExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TryCanSetIP"/>
 		public void CanSetIP(int nOffset)
 		{
 			var hr = instance.TryCanSetIP(checked((uint)nOffset));
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame.TrySetIP"/>
 		public void SetIP(int nOffset)
 		{
 			var hr = instance.TrySetIP(checked((uint)nOffset));

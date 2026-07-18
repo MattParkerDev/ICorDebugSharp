@@ -13,6 +13,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 {
 	extension(ICorDebugExceptionDebugEvent instance)
 	{
+		/// <inheritdoc cref="ICorDebugExceptionDebugEvent.TryGetFlags"/>
 		public CorDebugExceptionFlags Flags
 		{
 			get
@@ -23,6 +24,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugExceptionDebugEvent.TryGetNativeIP"/>
 		public CORDB_ADDRESS NativeIP
 		{
 			get
@@ -33,6 +35,7 @@ public static unsafe class CorDebugExceptionDebugEventExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugExceptionDebugEvent.TryGetStackPointer"/>
 		public CORDB_ADDRESS StackPointer
 		{
 			get

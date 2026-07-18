@@ -13,6 +13,7 @@ public static unsafe class CorDebugTypeExtensions
 {
 	extension(ICorDebugType instance)
 	{
+		/// <inheritdoc cref="ICorDebugType.TryEnumerateTypeParameters"/>
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters()
 		{
 			var hr = instance.TryEnumerateTypeParameters(out var ppTyParEnum);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugTypeExtensions
 			return EnumerateTypeParametersCore(ppTyParEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryEnumerateTypeParameters"/>
 		public ICorDebugType[] TypeParameters => instance.EnumerateTypeParameters().ToArray();
 
+		/// <inheritdoc cref="ICorDebugType.TryGetBase"/>
 		public ICorDebugType Base
 		{
 			get
@@ -32,6 +35,7 @@ public static unsafe class CorDebugTypeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryGetClass"/>
 		public ICorDebugClass Class
 		{
 			get
@@ -42,6 +46,7 @@ public static unsafe class CorDebugTypeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryGetFirstTypeParameter"/>
 		public ICorDebugType FirstTypeParameter
 		{
 			get
@@ -52,6 +57,7 @@ public static unsafe class CorDebugTypeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryGetRank"/>
 		public int Rank
 		{
 			get
@@ -62,6 +68,7 @@ public static unsafe class CorDebugTypeExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryGetStaticFieldValue"/>
 		public ICorDebugValue GetStaticFieldValue(mdFieldDef fieldDef, ICorDebugFrame pFrame)
 		{
 			var hr = instance.TryGetStaticFieldValue(fieldDef, pFrame, out var ppValue);
@@ -69,6 +76,7 @@ public static unsafe class CorDebugTypeExtensions
 			return ppValue;
 		}
 
+		/// <inheritdoc cref="ICorDebugType.TryGetType"/>
 		public CorElementType Type
 		{
 			get

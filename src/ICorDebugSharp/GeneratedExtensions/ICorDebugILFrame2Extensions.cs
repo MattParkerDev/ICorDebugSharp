@@ -13,6 +13,7 @@ public static unsafe class CorDebugILFrame2Extensions
 {
 	extension(ICorDebugILFrame2 instance)
 	{
+		/// <inheritdoc cref="ICorDebugILFrame2.TryEnumerateTypeParameters"/>
 		public IEnumerable<ICorDebugType> EnumerateTypeParameters()
 		{
 			var hr = instance.TryEnumerateTypeParameters(out var ppTyParEnum);
@@ -20,8 +21,10 @@ public static unsafe class CorDebugILFrame2Extensions
 			return EnumerateTypeParametersCore(ppTyParEnum);
 		}
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryEnumerateTypeParameters"/>
 		public ICorDebugType[] TypeParameters => instance.EnumerateTypeParameters().ToArray();
 
+		/// <inheritdoc cref="ICorDebugILFrame2.TryRemapFunction"/>
 		public void RemapFunction(int newILOffset)
 		{
 			var hr = instance.TryRemapFunction(checked((uint)newILOffset));

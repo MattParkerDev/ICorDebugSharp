@@ -13,6 +13,7 @@ public static unsafe class CorDebugVirtualUnwinderExtensions
 {
 	extension(ICorDebugVirtualUnwinder instance)
 	{
+		/// <inheritdoc cref="ICorDebugVirtualUnwinder.TryGetContext"/>
 		public (byte[] contextBuf, int contextSize) GetContext(int contextFlags, int cbContextBuf)
 		{
 			var contextBuf = new byte[checked((int)cbContextBuf)];
@@ -21,6 +22,7 @@ public static unsafe class CorDebugVirtualUnwinderExtensions
 			return (contextBuf, checked((int)contextSize));
 		}
 
+		/// <inheritdoc cref="ICorDebugVirtualUnwinder.TryNext"/>
 		public void Next()
 		{
 			var hr = instance.TryNext();

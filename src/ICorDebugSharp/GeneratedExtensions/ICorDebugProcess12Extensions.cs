@@ -13,6 +13,7 @@ public static unsafe class CorDebugProcess12Extensions
 {
 	extension(ICorDebugProcess12 instance)
 	{
+		/// <inheritdoc cref="ICorDebugProcess12.TryGetAsyncStack"/>
 		public ICorDebugStackWalk GetAsyncStack(CORDB_ADDRESS continuationAddress)
 		{
 			var hr = instance.TryGetAsyncStack(continuationAddress, out var ppStackWalk);

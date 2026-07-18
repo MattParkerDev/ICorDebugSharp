@@ -13,6 +13,7 @@ public static unsafe class CorDebugChainEnumExtensions
 {
 	extension(ICorDebugChainEnum instance)
 	{
+		/// <inheritdoc cref="ICorDebugChainEnum.TryNext"/>
 		public (ICorDebugChain[] chains, int pceltFetched) Next(int celt)
 		{
 			var chains = new ICorDebugChain[checked((int)celt)];

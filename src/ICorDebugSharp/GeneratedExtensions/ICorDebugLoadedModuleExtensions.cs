@@ -13,6 +13,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 {
 	extension(ICorDebugLoadedModule instance)
 	{
+		/// <inheritdoc cref="ICorDebugLoadedModule.TryGetName"/>
 		public string Name
 		{
 			get
@@ -45,6 +46,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugLoadedModule.TryGetBaseAddress"/>
 		public CORDB_ADDRESS BaseAddress
 		{
 			get
@@ -55,6 +57,7 @@ public static unsafe class CorDebugLoadedModuleExtensions
 			}
 		}
 
+		/// <inheritdoc cref="ICorDebugLoadedModule.TryGetSize"/>
 		public int Size
 		{
 			get

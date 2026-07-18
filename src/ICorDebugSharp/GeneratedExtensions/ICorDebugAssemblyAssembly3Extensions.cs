@@ -13,19 +13,26 @@ public static unsafe class CorDebugAssemblyAssembly3Extensions
 {
 	extension(ICorDebugAssembly instance)
 	{
+		/// <inheritdoc cref="ICorDebugAssembly3"/>
 		public bool SupportsAssembly3 => instance is ICorDebugAssembly3;
 
+		/// <inheritdoc cref="ICorDebugAssembly3"/>
 		public ICorDebugAssembly3 Assembly3 =>
 			instance as ICorDebugAssembly3 ?? throw new NotSupportedException("ICorDebugAssembly does not support ICorDebugAssembly3.");
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryEnumerateContainedAssemblies"/>
 		public int TryEnumerateContainedAssemblies(out ICorDebugAssemblyEnum ppAssemblies) => instance.Assembly3.TryEnumerateContainedAssemblies(out ppAssemblies);
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryEnumerateContainedAssemblies"/>
 		public IEnumerable<ICorDebugAssembly> EnumerateContainedAssemblies() => instance.Assembly3.EnumerateContainedAssemblies();
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryEnumerateContainedAssemblies"/>
 		public ICorDebugAssembly[] ContainedAssemblies => instance.Assembly3.EnumerateContainedAssemblies().ToArray();
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryGetContainerAssembly"/>
 		public int TryGetContainerAssembly(out ICorDebugAssembly ppAssembly) => instance.Assembly3.TryGetContainerAssembly(out ppAssembly);
 
+		/// <inheritdoc cref="ICorDebugAssembly3.TryGetContainerAssembly"/>
 		public ICorDebugAssembly ContainerAssembly
 		{
 			get

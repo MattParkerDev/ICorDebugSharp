@@ -13,6 +13,7 @@ public static unsafe class CLRDebuggingLibraryProviderExtensions
 {
 	extension(ICLRDebuggingLibraryProvider instance)
 	{
+		/// <inheritdoc cref="ICLRDebuggingLibraryProvider.TryProvideLibrary"/>
 		public nint ProvideLibrary(string pwszFileName, int dwTimestamp, int dwSizeOfImage)
 		{
 			var hr = instance.TryProvideLibrary(pwszFileName, checked((uint)dwTimestamp), checked((uint)dwSizeOfImage), out var phModule);

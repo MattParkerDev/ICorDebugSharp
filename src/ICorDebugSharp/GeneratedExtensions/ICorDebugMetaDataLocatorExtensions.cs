@@ -13,6 +13,7 @@ public static unsafe class CorDebugMetaDataLocatorExtensions
 {
 	extension(ICorDebugMetaDataLocator instance)
 	{
+		/// <inheritdoc cref="ICorDebugMetaDataLocator.TryGetMetaData"/>
 		public int GetMetaData(string wszImagePath, int dwImageTimeStamp, int dwImageSize, int cchPathBuffer, char[] wszPathBuffer)
 		{
 			var hr = instance.TryGetMetaData(wszImagePath, checked((uint)dwImageTimeStamp), checked((uint)dwImageSize), checked((uint)cchPathBuffer), out var pcchPathBuffer, wszPathBuffer);
