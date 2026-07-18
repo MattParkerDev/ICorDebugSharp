@@ -11,6 +11,6 @@
     <Project Path="src/DocsGenerator/DocsGenerator.csproj" />
     <Project Path="src/ExtensionGenerator/ExtensionGenerator.csproj" />
     <Project Path="src/ICorDebugSharp/ICorDebugSharp.csproj" />
-    <Project Path="src/MetadataGenerator/MetadataGenerator.csproj" />
+    <Project Path="src/ClangSharpMetadataGenerator/ClangSharpMetadataGenerator.csproj" />
   </Folder>
 </Solution>
