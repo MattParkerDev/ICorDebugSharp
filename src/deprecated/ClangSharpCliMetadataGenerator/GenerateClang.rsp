@@ -42,7 +42,7 @@ ICorDebugSharp
 --method-class-name
 Cor
 --output
-../ICorDebugSharp/GeneratedMetadata
+../../ICorDebugSharp/GeneratedMetadata
 --header-file
 Header.txt
 --remap
