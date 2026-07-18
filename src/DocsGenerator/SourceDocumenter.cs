@@ -31,25 +31,22 @@ internal static partial class SourceDocumenter
 			.SelectMany(directory => Directory.EnumerateFiles(directory, "*.cs", SearchOption.TopDirectoryOnly))
 			.Order(StringComparer.Ordinal)
 			.ToArray();
+		var sources = files.Select(ParseSource).ToArray();
+		var crefsByUrl = CreateCrefMap(catalog, sources);
 		var filesWritten = 0;
 		var totals = new RewriteStatistics();
 
-		foreach (var path in files)
+		foreach (var sourceFile in sources)
 		{
-			var source = File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal);
-			var tree = CSharpSyntaxTree.ParseText(source, path: path);
-			var errors = tree.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
-			if (errors.Length > 0)
-				throw new InvalidOperationException($"Cannot parse '{path}': {string.Join(Environment.NewLine, errors)}");
-
-			var rewriter = new DocumentationRewriter(catalog, totals);
-			var root = rewriter.Visit(tree.GetRoot()) ?? throw new InvalidOperationException($"Cannot rewrite '{path}'.");
+			var rewriter = new DocumentationRewriter(catalog, totals, crefsByUrl);
+			var root = rewriter.Visit(sourceFile.Root) ??
+				throw new InvalidOperationException($"Cannot rewrite '{sourceFile.Path}'.");
 			var rewritten = root.ToFullString().Replace("\r\n", "\n", StringComparison.Ordinal);
 			if (!rewritten.EndsWith('\n'))
 				rewritten += "\n";
-			if (source == rewritten)
+			if (sourceFile.Source == rewritten)
 				continue;
-			File.WriteAllText(path, rewritten);
+			File.WriteAllText(sourceFile.Path, rewritten);
 			filesWritten++;
 		}
 
@@ -66,10 +63,52 @@ internal static partial class SourceDocumenter
 			totals.UnmatchedParameters);
 	}
 
-	private sealed class DocumentationRewriter(DocumentationCatalog catalog, RewriteStatistics statistics)
+	private static SourceFile ParseSource(string path)
+	{
+		var source = File.ReadAllText(path).Replace("\r\n", "\n", StringComparison.Ordinal);
+		var tree = CSharpSyntaxTree.ParseText(source, path: path);
+		var errors = tree.GetDiagnostics().Where(diagnostic => diagnostic.Severity == DiagnosticSeverity.Error).ToArray();
+		if (errors.Length > 0)
+			throw new InvalidOperationException($"Cannot parse '{path}': {string.Join(Environment.NewLine, errors)}");
+		return new SourceFile(path, source, tree.GetRoot());
+	}
+
+	private static IReadOnlyDictionary<string, string> CreateCrefMap(
+		DocumentationCatalog catalog,
+		IEnumerable<SourceFile> sources)
+	{
+		var result = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+		foreach (var root in sources.Select(source => source.Root))
+		{
+			foreach (var type in root.DescendantNodes().OfType<BaseTypeDeclarationSyntax>().Where(IsTopLevel))
+			{
+				var typeName = type.Identifier.ValueText;
+				if (catalog.TryGetType(typeName, out var typePage))
+					result[typePage.SourceUrl] = typeName;
+
+				if (type is not InterfaceDeclarationSyntax @interface)
+					continue;
+				foreach (var method in @interface.Members.OfType<MethodDeclarationSyntax>())
+				{
+					var methodName = method.Identifier.ValueText;
+					if (catalog.TryGetMethod(typeName, methodName, out var methodPage))
+						result[methodPage.SourceUrl] = $"{typeName}.{methodName}";
+				}
+			}
+		}
+		return result;
+	}
+
+	private static bool IsTopLevel(MemberDeclarationSyntax declaration) =>
+		declaration.Parent is BaseNamespaceDeclarationSyntax or CompilationUnitSyntax;
+
+	private sealed class DocumentationRewriter(
+		DocumentationCatalog catalog,
+		RewriteStatistics statistics,
+		IReadOnlyDictionary<string, string> crefsByUrl)
 		: CSharpSyntaxRewriter
 	{
-		private readonly MarkdownXmlRenderer _renderer = new();
+		private readonly MarkdownXmlRenderer _renderer = new(crefsByUrl);
 		private static readonly IReadOnlyDictionary<string, string> ParameterAliases =
 			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
 			{
@@ -283,8 +322,6 @@ internal static partial class SourceDocumenter
 			return $"<{element}>\n{content}\n</{elementName}>";
 		}
 
-		private static bool IsTopLevel(MemberDeclarationSyntax declaration) =>
-			declaration.Parent is BaseNamespaceDeclarationSyntax or CompilationUnitSyntax;
 	}
 
 	private sealed class RewriteStatistics
@@ -298,6 +335,8 @@ internal static partial class SourceDocumenter
 		public HashSet<string> UnmatchedDeclarations { get; } = new(StringComparer.Ordinal);
 		public HashSet<string> UnmatchedParameters { get; } = new(StringComparer.Ordinal);
 	}
+
+	private sealed record SourceFile(string Path, string Source, SyntaxNode Root);
 
 	[GeneratedRegex(@"(?m)^[ \t]*///.*(?:\n|$)")]
 	private static partial Regex ExistingDocumentationRegex();

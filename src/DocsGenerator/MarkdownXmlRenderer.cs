@@ -11,6 +11,12 @@ namespace DocsGenerator;
 internal sealed partial class MarkdownXmlRenderer
 {
 	private readonly MarkdownPipeline _pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
+	private readonly IReadOnlyDictionary<string, string> _crefsByUrl;
+
+	public MarkdownXmlRenderer(IReadOnlyDictionary<string, string> crefsByUrl)
+	{
+		_crefsByUrl = crefsByUrl;
+	}
 
 	public string Render(string markdown, string sourceUrl)
 	{
@@ -125,7 +131,10 @@ internal sealed partial class MarkdownXmlRenderer
 					break;
 				case LinkInline link:
 					var url = ResolveUrl(link.Url, sourceUrl);
-					output.Append("<see href=\"").Append(WebUtility.HtmlEncode(url)).Append("\">");
+					if (_crefsByUrl.TryGetValue(url, out var cref))
+						output.Append("<see cref=\"").Append(WebUtility.HtmlEncode(cref)).Append("\">");
+					else
+						output.Append("<see href=\"").Append(WebUtility.HtmlEncode(url)).Append("\">");
 					RenderInlines(output, link, sourceUrl);
 					output.Append("</see>");
 					break;
