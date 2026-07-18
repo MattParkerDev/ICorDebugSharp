@@ -22,7 +22,7 @@ public static unsafe class CorDebugEval2Extensions
 		}
 
 		/// <inheritdoc cref="ICorDebugEval2.TryCallParameterizedFunction"/>
-		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[]? ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryCallParameterizedFunction(pFunction, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
@@ -36,14 +36,14 @@ public static unsafe class CorDebugEval2Extensions
 		}
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObject"/>
-		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[]? ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs)
 		{
 			var hr = instance.TryNewParameterizedObject(pConstructor, checked((uint)nTypeArgs), ppTypeArgs, checked((uint)nArgs), ppArgs);
 			Marshal.ThrowExceptionForHR(hr);
 		}
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObjectNoConstructor"/>
-		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs)
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[]? ppTypeArgs)
 		{
 			var hr = instance.TryNewParameterizedObjectNoConstructor(pClass, checked((uint)nTypeArgs), ppTypeArgs);
 			Marshal.ThrowExceptionForHR(hr);

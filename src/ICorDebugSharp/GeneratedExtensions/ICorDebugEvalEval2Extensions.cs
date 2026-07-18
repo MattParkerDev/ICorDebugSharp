@@ -21,10 +21,10 @@ public static unsafe class CorDebugEvalEval2Extensions
 			instance as ICorDebugEval2 ?? throw new NotSupportedException("ICorDebugEval does not support ICorDebugEval2.");
 
 		/// <inheritdoc cref="ICorDebugEval2.TryCallParameterizedFunction"/>
-		public int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, ICorDebugType[]? ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryCallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryCallParameterizedFunction"/>
-		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public void CallParameterizedFunction(ICorDebugFunction pFunction, int nTypeArgs, ICorDebugType[]? ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.CallParameterizedFunction(pFunction, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryCreateValueForType"/>
 		public int TryCreateValueForType(ICorDebugType pType, out ICorDebugValue ppValue) => instance.Eval2.TryCreateValueForType(pType, out ppValue);
@@ -39,16 +39,16 @@ public static unsafe class CorDebugEvalEval2Extensions
 		public void NewParameterizedArray(ICorDebugType pElementType, int rank, uint[] dims, uint[] lowBounds) => instance.Eval2.NewParameterizedArray(pElementType, rank, dims, lowBounds);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObject"/>
-		public int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[] ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, ICorDebugType[]? ppTypeArgs, uint nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.TryNewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObject"/>
-		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[] ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
+		public void NewParameterizedObject(ICorDebugFunction pConstructor, int nTypeArgs, ICorDebugType[]? ppTypeArgs, int nArgs, ICorDebugValue[] ppArgs) => instance.Eval2.NewParameterizedObject(pConstructor, nTypeArgs, ppTypeArgs, nArgs, ppArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObjectNoConstructor"/>
-		public int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+		public int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, ICorDebugType[]? ppTypeArgs) => instance.Eval2.TryNewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewParameterizedObjectNoConstructor"/>
-		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[] ppTypeArgs) => instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
+		public void NewParameterizedObjectNoConstructor(ICorDebugClass pClass, int nTypeArgs, ICorDebugType[]? ppTypeArgs) => instance.Eval2.NewParameterizedObjectNoConstructor(pClass, nTypeArgs, ppTypeArgs);
 
 		/// <inheritdoc cref="ICorDebugEval2.TryNewStringWithLength"/>
 		public int TryNewStringWithLength(string @string, uint uiLength) => instance.Eval2.TryNewStringWithLength(@string, uiLength);

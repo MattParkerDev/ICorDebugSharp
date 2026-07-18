@@ -159,6 +159,9 @@ METHOD_PARAMETER_TYPE_OVERRIDES = {
 # exceptions here so the generated nullable annotations remain accurate.
 NULLABLE_PARAMETERS = {
     ("ICorDebugEval", "CreateValue", "pElementClass"),
+    ("ICorDebugEval2", "CallParameterizedFunction", "ppTypeArgs"),
+    ("ICorDebugEval2", "NewParameterizedObject", "ppTypeArgs"),
+    ("ICorDebugEval2", "NewParameterizedObjectNoConstructor", "ppTypeArgs"),
 }
 
 IDENTIFIER_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")

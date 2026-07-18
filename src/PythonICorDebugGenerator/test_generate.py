@@ -230,14 +230,47 @@ class CSharpGeneratorTests(unittest.TestCase):
                     ICorDebugClass pElementClass,
                     [out] ICorDebugValue **ppValue);
             };
+            [object, uuid(00000000-0000-0000-0000-000000000002)]
+            interface ICorDebugEval2 : IUnknown
+            {
+                HRESULT CallParameterizedFunction(
+                    ICorDebugFunction pFunction,
+                    ULONG32 nTypeArgs,
+                    [in, size_is(nTypeArgs)] ICorDebugType *ppTypeArgs[]);
+                HRESULT NewParameterizedObject(
+                    ICorDebugFunction pConstructor,
+                    ULONG32 nTypeArgs,
+                    [in, size_is(nTypeArgs)] ICorDebugType *ppTypeArgs[]);
+                HRESULT NewParameterizedObjectNoConstructor(
+                    ICorDebugClass pClass,
+                    ULONG32 nTypeArgs,
+                    [in, size_is(nTypeArgs)] ICorDebugType *ppTypeArgs[]);
+            };
         """)
 
-        source = CSharpGenerator(midl).generate_interface(midl.interfaces[0])
+        generator = CSharpGenerator(midl)
+        source = generator.generate_interface(midl.interfaces[0])
+        eval2_source = generator.generate_interface(midl.interfaces[1])
 
         self.assertIn(
             "int TryCreateValue(CorElementType elementType, ICorDebugClass? pElementClass, "
             "out ICorDebugValue ppValue);",
             source,
+        )
+        self.assertIn(
+            "int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, "
+            "[MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs);",
+            eval2_source,
+        )
+        self.assertIn(
+            "int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, "
+            "[MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs);",
+            eval2_source,
+        )
+        self.assertIn(
+            "int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, "
+            "[MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs);",
+            eval2_source,
         )
 
     def test_generates_unique_marshalling_for_iid_selected_outputs(self) -> None:

@@ -43,7 +43,7 @@ public partial interface ICorDebugEval2
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-callparameterizedfunction-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
-	int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryCallParameterizedFunction(ICorDebugFunction pFunction, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	/// <summary>
 	/// <para>Gets a pointer to a new ICorDebugValue of the specified type, with an initial value of zero or null.</para>
@@ -85,7 +85,7 @@ public partial interface ICorDebugEval2
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobject-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
-	int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
+	int TryNewParameterizedObject(ICorDebugFunction pConstructor, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs, uint nArgs, [MarshalUsing(CountElementName = nameof(nArgs))][In] ICorDebugValue[] ppArgs);
 
 	/// <summary>
 	/// <para>Instantiates a new parameterized type object of the specified class without attempting to call a constructor method.</para>
@@ -104,7 +104,7 @@ public partial interface ICorDebugEval2
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval2-newparameterizedobjectnoconstructor-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
-	int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[] ppTypeArgs);
+	int TryNewParameterizedObjectNoConstructor(ICorDebugClass pClass, uint nTypeArgs, [MarshalUsing(CountElementName = nameof(nTypeArgs))][In] ICorDebugType[]? ppTypeArgs);
 
 	/// <summary>
 	/// <para>Allocates a new array of the specified element type and dimensions.</para>
