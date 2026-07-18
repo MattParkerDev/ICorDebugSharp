@@ -97,8 +97,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var capabilityName = capabilityInterface.Name["ICorDebug".Length..];
 		var members = new List<string>
 		{
-			$"\t\tpublic bool Supports{capabilityName} => instance is {capabilityInterface.Name};",
-			$"\t\tpublic {capabilityInterface.Name} {capabilityName} =>\n" +
+			$"{InheritDoc(capabilityInterface.Name)}\t\tpublic bool Supports{capabilityName} => instance is {capabilityInterface.Name};",
+			$"{InheritDoc(capabilityInterface.Name)}\t\tpublic {capabilityInterface.Name} {capabilityName} =>\n" +
 				$"\t\t\tinstance as {capabilityInterface.Name} ?? throw new NotSupportedException(\"{baseInterface.Name} does not support {capabilityInterface.Name}.\");",
 		};
 
@@ -140,7 +140,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsEnumeratorMaxOne
 			? "1"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
-		return $"\t\tpublic void {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
+		return $"{InheritDoc(method)}\t\tpublic void {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
 	private static string RenderCapabilityTryMethod(ManagedMethod method, string capabilityName)
@@ -149,7 +149,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
 			? $"out {Escape(parameter.Name)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
-		return $"\t\tpublic int Try{method.Name}({parameters}) => instance.{capabilityName}.{method.InvocationName}({arguments});";
+		return $"{InheritDoc(method)}\t\tpublic int Try{method.Name}({parameters}) => instance.{capabilityName}.{method.InvocationName}({arguments});";
 	}
 
 	private string RenderCapabilityProjectedMethod(ManagedMethod method, string capabilityName)
@@ -162,14 +162,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
 			var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
 			var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
-			return $"\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
+			return $"{InheritDoc(method)}\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
 		}
 
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
 		var returnType = outputs.Length == 1
 			? ProjectedOutputType(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
-		return $"\t\tpublic {returnType} {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
 	private string RenderCapabilityEnumerationArrayProperty(ManagedMethod method, string capabilityName)
@@ -177,7 +177,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
 		var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
 		var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
-		return $"\t\tpublic {ElementType(values.Type)}[] {PropertyName(method.Name["Enumerate".Length..])} => instance.{capabilityName}.{method.Name}().ToArray();";
+		return $"{InheritDoc(method)}\t\tpublic {ElementType(values.Type)}[] {PropertyName(method.Name["Enumerate".Length..])} => instance.{capabilityName}.{method.Name}().ToArray();";
 	}
 
 	private string RenderCapabilityQueryBuffer(QueryBufferRecipe recipe, string capabilityName)
@@ -194,10 +194,10 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "string"
 			: $"{elementType}[]";
 		if (retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal))
-			return $"\t\tpublic {returnType} {recipe.Method[3..]} => instance.{capabilityName}.{recipe.Method[3..]};";
+			return $"{InheritDoc(method)}\t\tpublic {returnType} {recipe.Method[3..]} => instance.{capabilityName}.{recipe.Method[3..]};";
 		var body = RenderQueryBody(method, recipe, retained, elementType, retained.Length == 0 ? 4 : 3)
 			.Replace("instance.", $"instance.{capabilityName}.", StringComparison.Ordinal);
-		return $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{body}\n\t\t}}";
 	}
 
 	private static string RenderCapabilityStringQuery(ManagedMethod method, string capabilityName)
@@ -210,7 +210,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var returnType = outputs.Length == 0
 			? "string"
 			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
-		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.InvocationName}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
 	}
 
@@ -243,7 +243,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? bufferType
 			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
 		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
-		return $"\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
@@ -268,7 +268,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
 			? $"out var {Escape(parameter.Name)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
-		return $"\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))})\n\t\t{{\n" +
+		return $"{InheritDoc(method)}\t\tpublic IEnumerable<{ElementType(values.Type)}> {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))})\n\t\t{{\n" +
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {method.Name}Core({Escape(enumerator.Name)});\n\t\t}}";
 	}
 
@@ -277,7 +277,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var enumerator = method.Parameters.Single(parameter => parameter.IsOut);
 		var next = catalog.GetMethod(enumerator.Type.TrimEnd('?'), "Next");
 		var values = next.Parameters.Single(parameter => parameter.Type.Contains("[]", StringComparison.Ordinal));
-		return $"\t\tpublic {ElementType(values.Type)}[] {PropertyName(method.Name["Enumerate".Length..])} => instance.{method.Name}().ToArray();";
+		return $"{InheritDoc(method)}\t\tpublic {ElementType(values.Type)}[] {PropertyName(method.Name["Enumerate".Length..])} => instance.{method.Name}().ToArray();";
 	}
 
 	private string RenderComEnumerationHelper(ManagedMethod method)
@@ -323,7 +323,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = outputs.Length == 1
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
-		return $"\t\tpublic {returnType} {publicName ?? method.Name}({parameters})\n\t\t{{\n" +
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {publicName ?? method.Name}({parameters})\n\t\t{{\n" +
 			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
 			$"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
@@ -347,7 +347,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = outputs.Length == 1
 			? Escape(buffer.Name)
 			: $"({string.Join(", ", outputs.Select(output => output == buffer ? Escape(output.Name) : ProjectedOutputValue(output)))})";
-		return $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar {Escape(buffer.Name)} = new {ElementType(buffer.Type)}[checked((int){Escape(buffer.CountElementName!)})];\n" +
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
 	}
@@ -362,7 +362,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var result = outputs.Count == 1
 			? ProjectedOutputValue(outputs[0])
 			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
-		return $"\t\tpublic {returnType} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
+		return $"{InheritDoc(method)}\t\tpublic {returnType} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
 			"\t\t\t}" +
 			(setter is null ? "" : $"\n\t\t\tset\n\t\t\t{{\n\t\t\t\tvar hr = {setterCall ?? $"instance.{setter.InvocationName}"}({RenderRawArgument(setter.Parameters[0], "value")});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t}}") +
@@ -384,14 +384,14 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		ProjectedOutputType(getter.Parameters[0]) == setter.Parameters[0].Type;
 
 	private static string RenderReturnProperty(ManagedMethod method) =>
-		$"\t\tpublic {PublicType(method.ReturnType)} {method.Name} => {ProjectValue(method.ReturnType, $"instance.{method.InvocationName}()")};";
+		$"{InheritDoc(method)}\t\tpublic {PublicType(method.ReturnType)} {method.Name} => {ProjectValue(method.ReturnType, $"instance.{method.InvocationName}()")};";
 
 	private string RenderBoolResult(BoolResultRecipe recipe)
 	{
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var parameters = string.Join(", ", method.Parameters.Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
-		return $"\t\tpublic bool {method.Name}({parameters}) => instance.{method.InvocationName}({arguments}) != 0;";
+		return $"{InheritDoc(method)}\t\tpublic bool {method.Name}({parameters}) => instance.{method.InvocationName}({arguments}) != 0;";
 	}
 
 	private static string RenderVoidMethod(ManagedMethod method)
@@ -403,7 +403,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			? "1"
 			: IsRefUInt(parameter) ? $"ref {RefUIntLocalName(parameter)}"
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
-		return $"\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
+		return $"{InheritDoc(method)}\t\tpublic void {method.Name}({parameters})\n\t\t{{\n" +
 			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
 			"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t}";
 	}
@@ -462,8 +462,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"\t\t\t\thr = instance.{method.InvocationName}({fillArguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\tif (actual > capacity)\n\t\t\t\t{{\n\t\t\t\t\trequired = actual;\n\t\t\t\t\tcontinue;\n\t\t\t\t}}\n\n" +
 			$"\t\t\t\treturn {result};\n\t\t\t}}\n\n\t\t\tthrow new InvalidOperationException(\"Native buffer size did not stabilize.\");\n\t\t}}";
 		return inputs.Length == 0 && method.Name.StartsWith("Get", StringComparison.Ordinal) && method.Name.Length > 3
-			? $"\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{Indent(body, "\t")}\n\t\t\t}}\n\t\t}}"
-			: $"\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n{body}";
+			? $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name[3..]}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{Indent(body, "\t")}\n\t\t\t}}\n\t\t}}"
+			: $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n{body}";
 	}
 
 	private static string RenderStringCallArguments(ManagedMethod method,
@@ -515,8 +515,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var elementType = buffer.Type.Replace("?", "", StringComparison.Ordinal).Replace("[]", "", StringComparison.Ordinal);
 		var returnType = recipe.Kind == BufferKind.String ? "string" : $"{elementType}[]";
 		var declaration = retained.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
-			? $"\t\tpublic {returnType} {PropertyName(recipe.Method[3..])}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 4)}\n\t\t\t}}\n\t\t}}"
-			: $"\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 3)}\n\t\t}}";
+			? $"{InheritDoc(method)}\t\tpublic {returnType} {PropertyName(recipe.Method[3..])}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 4)}\n\t\t\t}}\n\t\t}}"
+			: $"{InheritDoc(method)}\t\tpublic {returnType} {recipe.Method}({string.Join(", ", retained.Select(RenderInputParameter))})\n\t\t{{\n{RenderQueryBody(method, recipe, retained, elementType, 3)}\n\t\t}}";
 		return declaration;
 	}
 
@@ -572,7 +572,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var returnType = EnumerationReturnType(recipe);
 		var call = $"Enumerate{recipe.Method[4..]}Core(instance{string.Concat(recipe.Inputs.Select(input => $", {Escape(input.Name)}"))})";
-		return $"\t\tpublic IEnumerable<{returnType}> {recipe.Method}({string.Join(", ", recipe.Inputs.Select(input => $"{PublicType(method.GetParameter(input.Name).Type)} {Escape(input.Name)}"))}) => {call};";
+		return $"{InheritDoc(method)}\t\tpublic IEnumerable<{returnType}> {recipe.Method}({string.Join(", ", recipe.Inputs.Select(input => $"{PublicType(method.GetParameter(input.Name).Type)} {Escape(input.Name)}"))}) => {call};";
 	}
 
 	private string RenderEnumerationHelper(EnumerationRecipe recipe)
@@ -597,12 +597,13 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			$"\t\t\t\tyield return {result};\n\t\t\t}}\n\t\t}}\n\t\tfinally\n\t\t{{\n\t\t\tif (!handle.IsNull)\n\t\t\t\tinstance.TryCloseEnum(handle);\n\t\t}}\n\t}}";
 	}
 
-	private static string RenderStringMember(StringQueryRecipe recipe)
+	private string RenderStringMember(StringQueryRecipe recipe)
 	{
+		var method = catalog.GetMethod(recipe.Interface, recipe.Method);
 		var call = $"Query{recipe.Method}(instance{(recipe.Parameters.Length == 0 ? "" : ", " + string.Join(", ", recipe.Parameters.Split(", ").Select(parameter => parameter.Split(' ')[^1])))})";
 		return recipe.Parameters.Length == 0 && recipe.Method.StartsWith("Get", StringComparison.Ordinal)
-			? $"\t\tpublic {recipe.ReturnType} {recipe.Method[3..]} => {call};"
-			: $"\t\tpublic {recipe.ReturnType} {recipe.Method}({recipe.Parameters}) => {call};";
+			? $"{InheritDoc(method)}\t\tpublic {recipe.ReturnType} {recipe.Method[3..]} => {call};"
+			: $"{InheritDoc(method)}\t\tpublic {recipe.ReturnType} {recipe.Method}({recipe.Parameters}) => {call};";
 	}
 
 	private static string RenderStringHelper(StringQueryRecipe recipe) =>
@@ -700,6 +701,8 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		_ => value,
 	};
 	private static string PropertyName(string name) => name == "ID" ? "Id" : name;
+	private static string InheritDoc(ManagedMethod method) => InheritDoc($"{method.InterfaceName}.{method.InvocationName}");
+	private static string InheritDoc(string cref) => $"\t\t/// <inheritdoc cref=\"{cref}\"/>\n";
 	private static string Escape(string name) => name is "base" or "event" or "params" or "ref" or "string" ? $"@{name}" : name;
 	private static string Camel(string value) => char.ToLowerInvariant(value[0]) + value[1..];
 }

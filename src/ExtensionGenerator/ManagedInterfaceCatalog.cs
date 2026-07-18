@@ -27,7 +27,7 @@ internal sealed class ManagedInterfaceCatalog
 				var @namespace = declaration.Ancestors().OfType<BaseNamespaceDeclarationSyntax>().FirstOrDefault()?.Name.ToString()
 					?? throw new InvalidOperationException($"{path}: {declaration.Identifier.ValueText} has no namespace.");
 				var methods = declaration.Members.OfType<MethodDeclarationSyntax>()
-					.Select(ManagedMethod.Create)
+					.Select(method => ManagedMethod.Create(declaration.Identifier.ValueText, method))
 					.ToDictionary(method => method.Name, StringComparer.Ordinal);
 				var item = new ManagedInterface(declaration.Identifier.ValueText, @namespace, methods);
 				if (!interfaces.TryAdd(item.Name, item))
@@ -53,17 +53,19 @@ internal sealed class ManagedInterfaceCatalog
 internal sealed record ManagedInterface(string Name, string Namespace, IReadOnlyDictionary<string, ManagedMethod> Methods);
 
 internal sealed record ManagedMethod(
+	string InterfaceName,
 	string Name,
 	string InvocationName,
 	string ReturnType,
 	IReadOnlyList<ManagedParameter> Parameters)
 {
-	public static ManagedMethod Create(MethodDeclarationSyntax method)
+	public static ManagedMethod Create(string interfaceName, MethodDeclarationSyntax method)
 	{
 		var invocationName = method.Identifier.ValueText;
 		if (!invocationName.StartsWith("Try", StringComparison.Ordinal) || invocationName.Length == 3)
 			throw new InvalidOperationException($"Generated method {invocationName} must start with Try.");
 		return new(
+			interfaceName,
 			invocationName[3..],
 			invocationName,
 			method.ReturnType.ToString(),
