@@ -76,10 +76,36 @@ internal static partial class SourceDocumenter
 				["ICorDebugArrayValue.TryGetBaseIndicies.indices"] = "indicies",
 				["ICorDebugProcess5.TryEnumerateHeap.ppObjects"] = "ppObject",
 				["ICorDebugProcess5.TryGetObject.pObject"] = "ppObject",
+				["ICorDebugProcess6.TryGetExportStepInfo.pInvokeKind"] = "invokeKind",
+				["ICorDebugProcess6.TryGetExportStepInfo.pInvokePurpose"] = "invokePurpose",
 				["ICorDebugRemote.TryDebugActiveProcessEx.dwProcessId"] = "id",
 				["ICorDebugRemote.TryDebugActiveProcessEx.fWin32Attach"] = "win32Attach",
 				["ICorDebugSymbolProvider.TryGetTypeProps.vtableRva"] = "tableRva",
 				["IMetaDataImport.TryGetMemberRefProps.ppvSigBlob"] = "ppvSibBlob",
+			};
+		private static readonly IReadOnlyDictionary<string, string> ParameterOverrides =
+			new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
+			{
+				["ICorDebugMutableDataTarget.TryWriteVirtual.address"] =
+					"The address at which to write the contents of `pBuffer`.",
+				["ICorDebugMutableDataTarget.TryWriteVirtual.bytesRequested"] =
+					"The number of bytes in `pBuffer`.",
+				["ICorDebugSymbolProvider.TryGetMethodLocalSymbols.pcFetchedSymbols"] =
+					"A pointer to the number of symbols retrieved by the method.",
+				["ICorDebugSymbolProvider.TryGetMethodLocalSymbols.pSymbols"] =
+					"A pointer to an [ICorDebugVariableSymbol](icordebugvariablesymbol-interface.md) array that " +
+					"contains the method's local symbols.",
+				["ICorDebugSymbolProvider.TryGetMethodParameterSymbols.pcFetchedSymbols"] =
+					"A pointer to the number of symbols retrieved by the method.",
+				["ICorDebugSymbolProvider.TryGetMethodParameterSymbols.pSymbols"] =
+					"A pointer to an [ICorDebugVariableSymbol](icordebugvariablesymbol-interface.md) array that " +
+					"contains the method's parameter symbols.",
+				["IMetaDataImport.TryGetEventProps.cchEvent"] =
+					"The requested length in wide characters of `szEvent`.",
+				["IMetaDataImport.TryGetEventProps.pchEvent"] =
+					"The returned length in wide characters of `szEvent`.",
+				["IMetaDataImport.TryGetEventProps.pdwEventFlags"] =
+					"A pointer to flags that describe the event.",
 			};
 
 		public override SyntaxNode? VisitInterfaceDeclaration(InterfaceDeclarationSyntax node)
@@ -182,8 +208,10 @@ internal static partial class SourceDocumenter
 			foreach (var parameter in method.ParameterList.Parameters)
 			{
 				var name = parameter.Identifier.ValueText;
+				var parameterKey = $"{typeName}.{methodName}.{name}";
 				var documentationName = ParameterAliases.GetValueOrDefault($"{typeName}.{methodName}.{name}", name);
-				if (!page.Parameters.TryGetValue(documentationName, out var markdown))
+				if (!ParameterOverrides.TryGetValue(parameterKey, out var markdown) &&
+					!page.Parameters.TryGetValue(documentationName, out markdown))
 				{
 					if (page.Parameters.Count > 0)
 						statistics.UnmatchedParameters.Add($"{typeName}.{methodName}({name})");
