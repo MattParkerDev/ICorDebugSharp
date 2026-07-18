@@ -1,26 +1,11 @@
 using DocsGenerator;
 
-if (args.Length > 2)
-{
-	Console.Error.WriteLine("Usage: DocsGenerator <dotnet-docs-root> [repository-root]");
-	return 1;
-}
-
-var docsRootArgument = args.FirstOrDefault() ?? Environment.GetEnvironmentVariable("DOTNET_DOCS_ROOT");
-if (string.IsNullOrWhiteSpace(docsRootArgument))
-{
-	Console.Error.WriteLine(
-		"Specify the dotnet/docs repository root or set the DOTNET_DOCS_ROOT environment variable.");
-	return 1;
-}
+var dotnetDocsFolder = @"C:\Users\matth\Documents\Git\docs";
+if (!Directory.Exists(dotnetDocsFolder)) throw new DirectoryNotFoundException(dotnetDocsFolder);
 
 var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
-var repositoryRoot = args.Length > 1
-	? Path.GetFullPath(args[1])
-	: Path.GetFullPath(Path.Combine(projectDirectory, "../.."));
-var docsRoot = Path.GetFullPath(docsRootArgument);
-var libraryDirectory = Path.Combine(repositoryRoot, "src", "ICorDebugSharp");
-
+var docsRoot = Path.GetFullPath(dotnetDocsFolder);
+var libraryDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp"));
 try
 {
 	var catalog = DocumentationCatalog.Load(docsRoot);
