@@ -44,13 +44,6 @@ public static unsafe class CorDebugCode2Extensions
 			}
 		}
 
-		public int GetCodeChunks(int cbufSize, CodeChunkInfo[]? chunks)
-		{
-			var hr = instance.TryGetCodeChunks(checked((uint)cbufSize), out var pcnumChunks, chunks);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcnumChunks);
-		}
-
 		public int CompilerFlags
 		{
 			get

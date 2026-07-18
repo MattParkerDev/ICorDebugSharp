@@ -20,8 +20,6 @@ public static unsafe class CorDebugILCodeILCode2Extensions
 
 		public int TryGetInstrumentedILMap(uint cMap, out uint pcMap, COR_IL_MAP[]? map) => instance.ILCode2.TryGetInstrumentedILMap(cMap, out pcMap, map);
 
-		public int GetInstrumentedILMap(int cMap, COR_IL_MAP[]? map) => instance.ILCode2.GetInstrumentedILMap(cMap, map);
-
 		public int TryGetLocalVarSigToken(out mdSignature pmdSig) => instance.ILCode2.TryGetLocalVarSigToken(out pmdSig);
 
 		public mdSignature LocalVarSigToken

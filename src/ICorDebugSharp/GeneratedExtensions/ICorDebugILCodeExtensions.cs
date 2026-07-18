@@ -43,12 +43,5 @@ public static unsafe class CorDebugILCodeExtensions
 				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
 		}
-
-		public int GetEHClauses(int cClauses, CorDebugEHClause[]? clauses)
-		{
-			var hr = instance.TryGetEHClauses(checked((uint)cClauses), out var pcClauses, clauses);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcClauses);
-		}
 	}
 }

@@ -93,13 +93,6 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 			return (pbPublicKeyToken, checked((int)pcbPublicKeyToken));
 		}
 
-		public int GetCulture(int cchCulture, char[]? szCulture)
-		{
-			var hr = instance.TryGetCulture(checked((uint)cchCulture), out var pcchCulture, szCulture);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchCulture);
-		}
-
 		public int Index
 		{
 			get
@@ -108,13 +101,6 @@ public static unsafe class CorDebugMergedAssemblyRecordExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return checked((int)pIndex);
 			}
-		}
-
-		public int GetSimpleName(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetSimpleName(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
 		}
 
 		public (ushort pMajor, ushort pMinor, ushort pBuild, ushort pRevision) Version

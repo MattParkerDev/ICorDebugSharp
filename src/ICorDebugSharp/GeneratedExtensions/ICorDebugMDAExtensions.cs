@@ -109,20 +109,6 @@ public static unsafe class CorDebugMDAExtensions
 			}
 		}
 
-		public int GetDescription(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetDescription(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
-		}
-
-		public int GetName(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
-		}
-
 		public int OSThreadId
 		{
 			get
@@ -131,13 +117,6 @@ public static unsafe class CorDebugMDAExtensions
 				Marshal.ThrowExceptionForHR(hr);
 				return checked((int)pOsTid);
 			}
-		}
-
-		public int GetXML(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetXML(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
 		}
 
 		public void GetFlags(ref CorDebugMDAFlags pFlags)

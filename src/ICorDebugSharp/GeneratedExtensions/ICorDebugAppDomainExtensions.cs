@@ -89,13 +89,6 @@ public static unsafe class CorDebugAppDomainExtensions
 			return ppModule;
 		}
 
-		public int GetName(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
-		}
-
 		public ICorDebugValue Object
 		{
 			get

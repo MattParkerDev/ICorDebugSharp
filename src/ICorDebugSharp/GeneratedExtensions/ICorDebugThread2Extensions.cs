@@ -44,13 +44,6 @@ public static unsafe class CorDebugThread2Extensions
 			}
 		}
 
-		public int GetActiveFunctions(int cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions)
-		{
-			var hr = instance.TryGetActiveFunctions(checked((uint)cFunctions), out var pcFunctions, pFunctions);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcFunctions);
-		}
-
 		public int ConnectionID
 		{
 			get

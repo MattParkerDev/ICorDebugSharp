@@ -20,8 +20,6 @@ public static unsafe class CorDebugThreadThread2Extensions
 
 		public int TryGetActiveFunctions(uint cFunctions, out uint pcFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.TryGetActiveFunctions(cFunctions, out pcFunctions, pFunctions);
 
-		public int GetActiveFunctions(int cFunctions, COR_ACTIVE_FUNCTION[]? pFunctions) => instance.Thread2.GetActiveFunctions(cFunctions, pFunctions);
-
 		public int TryGetConnectionID(out uint pdwConnectionId) => instance.Thread2.TryGetConnectionID(out pdwConnectionId);
 
 		public int ConnectionID

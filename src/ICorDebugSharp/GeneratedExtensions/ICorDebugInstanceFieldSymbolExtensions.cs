@@ -45,13 +45,6 @@ public static unsafe class CorDebugInstanceFieldSymbolExtensions
 			}
 		}
 
-		public int GetName(int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetName(checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
-		}
-
 		public int Offset
 		{
 			get

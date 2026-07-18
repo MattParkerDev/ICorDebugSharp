@@ -87,13 +87,6 @@ public static unsafe class CorDebugCodeExtensions
 			}
 		}
 
-		public int GetILToNativeMapping(int cMap, COR_DEBUG_IL_TO_NATIVE_MAP[]? map)
-		{
-			var hr = instance.TryGetILToNativeMapping(checked((uint)cMap), out var pcMap, map);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcMap);
-		}
-
 		public int Size
 		{
 			get

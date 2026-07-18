@@ -64,13 +64,6 @@ public static unsafe class CorDebugDataTarget2Extensions
 			return (pImageBase, checked((int)pSize));
 		}
 
-		public int GetImageLocation(CORDB_ADDRESS baseAddress, int cchName, char[]? szName)
-		{
-			var hr = instance.TryGetImageLocation(baseAddress, checked((uint)cchName), out var pcchName, szName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchName);
-		}
-
 		public ICorDebugSymbolProvider GetSymbolProviderForImage(CORDB_ADDRESS imageBaseAddress)
 		{
 			var hr = instance.TryGetSymbolProviderForImage(imageBaseAddress, out var ppSymProvider);

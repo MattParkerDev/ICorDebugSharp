@@ -44,12 +44,5 @@ public static unsafe class CorDebugStringValueExtensions
 				return checked((int)pcchString);
 			}
 		}
-
-		public int GetString(int cchString, char[]? szString)
-		{
-			var hr = instance.TryGetString(checked((uint)cchString), out var pcchString, szString);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchString);
-		}
 	}
 }

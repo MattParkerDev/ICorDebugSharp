@@ -44,12 +44,5 @@ public static unsafe class CorDebugRemoteTargetExtensions
 				throw new InvalidOperationException("Native buffer size did not stabilize.");
 			}
 		}
-
-		public int GetHostName(int cchHostName, char[]? szHostName)
-		{
-			var hr = instance.TryGetHostName(checked((uint)cchHostName), out var pcchHostName, szHostName);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pcchHostName);
-		}
 	}
 }
