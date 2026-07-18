@@ -1,4 +1,12 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".gitattributes" />
+    <File Path=".gitignore" />
+    <File Path="generate-all.cs" />
+    <File Path="README.md" />
+    <File Path="THIRD-PARTY-NOTICES.md" />
+  </Folder>
   <Folder Name="/src/">
     <Project Path="src/DocsGenerator/DocsGenerator.csproj" />
     <Project Path="src/ExtensionGenerator/ExtensionGenerator.csproj" />
