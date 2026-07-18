@@ -3,15 +3,14 @@
 Run generator with:
 
 ```shell
-python generate.py "C:\src\dotnet\src\runtime\src\coreclr\inc\cordebug.idl" ../ICorDebugSharp/Generated
-python generate.py "C:\src\dotnet\src\runtime\src\coreclr\inc\metahost.idl" ../ICorDebugSharp/Generated
+dotnet generate-all.cs
 ```
 
-Add Microsoft Learn XML documentation to the generated declarations with:
+Ensure you have done `uv pip install -r requirements.txt` in `PythonICorDebugGenerator` first.
 
-```shell
-dotnet run --project src/DocsGenerator -- <path-to-dotnet-docs>
-```
+You will need some dotnet repos cloned, and update their paths in the various tools.
+* runtime
+* diagnostics
+* docs
 
-The documentation pass can also be enabled for `generate-all.cs` by passing the dotnet/docs repository path as its
-first argument or by setting `DOTNET_DOCS_ROOT`.
+Additionally, some headers from MSVC and the Windows 10 SDK are required for ClangSharp.
