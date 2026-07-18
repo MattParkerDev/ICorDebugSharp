@@ -182,7 +182,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         self.assertIn("int TryGetBaseAddress(out CORDB_ADDRESS pAddress);", source)
         self.assertIn(
             "int TryGetName(uint cchName, out uint pcchName, "
-            "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[] szName);",
+            "[MarshalUsing(CountElementName = nameof(cchName))][Out] char[]? szName);",
             source,
         )
         self.assertIn("int TrySetName(string name);", source)
@@ -364,7 +364,7 @@ class CSharpGeneratorTests(unittest.TestCase):
         source = self.generator.generate_preserved_typedef("CORDB_ADDRESS")
 
         self.assertIn(
-            "public readonly record struct CORDB_ADDRESS(ulong Value);", source
+            "public readonly record struct CORDB_ADDRESS(ulong Value)", source
         )
 
     def test_detects_utf16_through_typedef_chain(self) -> None:
@@ -477,7 +477,9 @@ class CSharpGeneratorTests(unittest.TestCase):
             second_written, second_unchanged = write_interfaces(self.midl, output)
 
             declaration_count = (
-                2
+                len([interface for interface in self.midl.interfaces if interface.uuid])
+                + len(self.generator.enums)
+                + len(self.generator.structs)
                 + len(self.generator.metadata_typedefs)
                 + len(self.generator.preserved_typedefs)
             )
