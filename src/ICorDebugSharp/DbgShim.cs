@@ -53,21 +53,21 @@ public static unsafe partial class DbgShim
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int CreateDebuggingInterfaceFromVersion(string szDebuggeeVersion, out nint ppCordb);
+    public static partial int CreateDebuggingInterfaceFromVersion(string szDebuggeeVersion, out ICorDebug ppCordb);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int CreateDebuggingInterfaceFromVersionEx(int iDebuggerVersion, string szDebuggeeVersion, out nint ppCordb);
+    public static partial int CreateDebuggingInterfaceFromVersionEx(int iDebuggerVersion, string szDebuggeeVersion, out ICorDebug ppCordb);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int CreateDebuggingInterfaceFromVersion2(int iDebuggerVersion, string szDebuggeeVersion, string? szApplicationGroupId, out nint ppCordb);
+    public static partial int CreateDebuggingInterfaceFromVersion2(int iDebuggerVersion, string szDebuggeeVersion, string? szApplicationGroupId, out ICorDebug ppCordb);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int CreateDebuggingInterfaceFromVersion3(int iDebuggerVersion, string szDebuggeeVersion, string? szApplicationGroupId, ICLRDebuggingLibraryProvider3 pLibraryProvider, out nint ppCordb);
+    public static partial int CreateDebuggingInterfaceFromVersion3(int iDebuggerVersion, string szDebuggeeVersion, string? szApplicationGroupId, ICLRDebuggingLibraryProvider3 pLibraryProvider, out ICorDebug ppCordb);
 
     [LibraryImport("dbgshim", StringMarshalling = StringMarshalling.Utf16)]
     [UnmanagedCallConv(CallConvs = [typeof(CallConvCdecl)])]
-    public static partial int RegisterForRuntimeStartupRemotePort(string szIp, uint dwPort, string szPlatform, [MarshalAs(UnmanagedType.Bool)] bool bIsServer, string szMscordbiPath, string szAssemblyBasePath, out nint ppCordb);
+    public static partial int RegisterForRuntimeStartupRemotePort(string szIp, uint dwPort, string szPlatform, [MarshalAs(UnmanagedType.Bool)] bool bIsServer, string szMscordbiPath, string szAssemblyBasePath, out ICorDebug ppCordb);
 }
