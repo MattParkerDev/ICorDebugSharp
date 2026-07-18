@@ -181,5 +181,5 @@ public partial interface ICorDebugEval
 	/// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/debugging/icordebug/icordebugeval-createvalue-method">Microsoft Learn</see>.</para>
 	/// </remarks>
 	[PreserveSig]
-	int TryCreateValue(CorElementType elementType, ICorDebugClass pElementClass, out ICorDebugValue ppValue);
+	int TryCreateValue(CorElementType elementType, ICorDebugClass? pElementClass, out ICorDebugValue ppValue);
 }
