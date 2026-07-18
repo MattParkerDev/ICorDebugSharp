@@ -1,5 +1,6 @@
 <Solution>
   <Folder Name="/src/">
+    <Project Path="src/DocsGenerator/DocsGenerator.csproj" />
     <Project Path="src/ExtensionGenerator/ExtensionGenerator.csproj" />
     <Project Path="src/ICorDebugSharp/ICorDebugSharp.csproj" />
     <Project Path="src/MetadataGenerator/MetadataGenerator.csproj" />
