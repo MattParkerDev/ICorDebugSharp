@@ -5,7 +5,7 @@ using MetadataGenerator;
 
 var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
 var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
-var generatedFileHeaderPath = Path.Combine(projectDirectory, "../ClangSharpCliMetadataGenerator", "Header.txt");
+var generatedFileHeaderPath = Path.Combine(projectDirectory, "Header.txt");
 var outputDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp/GeneratedMetadata"));
 var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
 {
