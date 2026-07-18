@@ -6,6 +6,8 @@ import uuid
 from pathlib import Path
 
 from midl_classic import (
+    Attribute,
+    AttributeName,
     BinaryOp,
     EnumDef,
     FloatLiteral,
@@ -55,6 +57,13 @@ QUERY_BUFFER_METHODS = {
     ("ICorDebugILCode2", "GetInstrumentedILMap"): ("array", "cMap", "pcMap", "map"),
     ("ICorDebugComObjectValue", "GetCachedInterfacePointers"): ("array", "celt", "pcEltFetched", "ptrs"),
     ("ICorDebugProcess5", "GetTypeFields"): ("array", "celt", "pceltNeeded", "fields"),
+}
+
+MISSING_PARAMETER_ATTRIBUTES = {
+    ("ICorDebugProcess5", "GetTypeFields", "fields"): (
+        (AttributeName.OUT, "out", None),
+        (AttributeName.SIZE_IS, "size_is", "celt"),
+    ),
 }
 
 # cor.h declares this typedef outside cordebug.idl. Preserve it rather than
@@ -206,6 +215,19 @@ def parse_midl_file(path: Path) -> MidlFile:
         raise GenerationError(
             "MIDL parser omitted interface definitions: " + ", ".join(missing)
         )
+
+    for interface in midl.interfaces:
+        for method in interface.methods:
+            for parameter in method.params:
+                attributes = MISSING_PARAMETER_ATTRIBUTES.get(
+                    (interface.name, method.name, parameter.name)
+                )
+                if attributes:
+                    parameter.attributes.extend(
+                        Attribute(name, raw_name, value)
+                        for name, raw_name, value in attributes
+                        if not any(attribute.name == name for attribute in parameter.attributes)
+                    )
 
     return midl
 
