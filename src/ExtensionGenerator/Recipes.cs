@@ -118,6 +118,7 @@ internal static class Recipes
 		new("ICorDebugILCode", "GetEHClauses", BufferKind.Array, "cClauses", "pcClauses", "clauses"),
 		new("ICorDebugILCode2", "GetInstrumentedILMap", BufferKind.Array, "cMap", "pcMap", "map"),
 		new("ICorDebugComObjectValue", "GetCachedInterfacePointers", BufferKind.Array, "celt", "pcEltFetched", "ptrs"),
+		new("ICorDebugProcess5", "GetTypeFields", BufferKind.Array, "celt", "pceltNeeded", "fields"),
 	];
 
 	private static EnumerationInput Input(string type, string name) => new(type, name);

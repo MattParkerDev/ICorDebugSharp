@@ -62,9 +62,7 @@ public static unsafe class CorDebugProcessProcess5Extensions
 
 		public ICorDebugObjectValue GetObject(CORDB_ADDRESS addr) => instance.Process5.GetObject(addr);
 
-		public int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded) => instance.Process5.TryGetTypeFields(id, celt, fields, out pceltNeeded);
-
-		public (COR_FIELD[] fields, int pceltNeeded) GetTypeFields(COR_TYPEID id, int celt) => instance.Process5.GetTypeFields(id, celt);
+		public int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[]? fields, out uint pceltNeeded) => instance.Process5.TryGetTypeFields(id, celt, fields, out pceltNeeded);
 
 		public int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType) => instance.Process5.TryGetTypeForTypeID(id, out ppType);
 
@@ -77,5 +75,33 @@ public static unsafe class CorDebugProcessProcess5Extensions
 		public int TryGetTypeLayout(COR_TYPEID id, out COR_TYPE_LAYOUT pLayout) => instance.Process5.TryGetTypeLayout(id, out pLayout);
 
 		public COR_TYPE_LAYOUT GetTypeLayout(COR_TYPEID id) => instance.Process5.GetTypeLayout(id);
+
+		public COR_FIELD[] GetTypeFields(COR_TYPEID id)
+		{
+			var hr = instance.Process5.TryGetTypeFields(id, 0, null!, out var required);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return [];
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new COR_FIELD[checked((int)capacity)];
+				hr = instance.Process5.TryGetTypeFields(id, capacity, buffer, out var actual);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				if (actual != capacity)
+					Array.Resize(ref buffer, checked((int)actual));
+
+				return buffer;
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
 	}
 }

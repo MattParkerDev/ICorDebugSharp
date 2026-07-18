@@ -13,6 +13,34 @@ public static unsafe class CorDebugProcess5Extensions
 {
 	extension(ICorDebugProcess5 instance)
 	{
+		public COR_FIELD[] GetTypeFields(COR_TYPEID id)
+		{
+			var hr = instance.TryGetTypeFields(id, 0, null!, out var required);
+			Marshal.ThrowExceptionForHR(hr);
+			if (required == 0)
+				return [];
+
+			for (var attempt = 0; attempt < 3; attempt++)
+			{
+				var capacity = required;
+				var buffer = new COR_FIELD[checked((int)capacity)];
+				hr = instance.TryGetTypeFields(id, capacity, buffer, out var actual);
+				Marshal.ThrowExceptionForHR(hr);
+				if (actual > capacity)
+				{
+					required = actual;
+					continue;
+				}
+
+				if (actual != capacity)
+					Array.Resize(ref buffer, checked((int)actual));
+
+				return buffer;
+			}
+
+			throw new InvalidOperationException("Native buffer size did not stabilize.");
+		}
+
 		public IEnumerable<COR_GC_REFERENCE> EnumerateGCReferences(bool enumerateWeakReferences)
 		{
 			var hr = instance.TryEnumerateGCReferences(enumerateWeakReferences, out var ppEnum);
@@ -44,14 +72,6 @@ public static unsafe class CorDebugProcess5Extensions
 		public COR_HEAPOBJECT[] Heap => instance.EnumerateHeap().ToArray();
 
 		public COR_SEGMENT[] HeapRegions => instance.EnumerateHeapRegions().ToArray();
-
-		public (COR_FIELD[] fields, int pceltNeeded) GetTypeFields(COR_TYPEID id, int celt)
-		{
-			var fields = new COR_FIELD[checked((int)celt)];
-			var hr = instance.TryGetTypeFields(id, checked((uint)celt), fields, out var pceltNeeded);
-			Marshal.ThrowExceptionForHR(hr);
-			return (fields, checked((int)pceltNeeded));
-		}
 
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
 		{

@@ -54,6 +54,7 @@ QUERY_BUFFER_METHODS = {
     ("ICorDebugILCode", "GetEHClauses"): ("array", "cClauses", "pcClauses", "clauses"),
     ("ICorDebugILCode2", "GetInstrumentedILMap"): ("array", "cMap", "pcMap", "map"),
     ("ICorDebugComObjectValue", "GetCachedInterfacePointers"): ("array", "celt", "pcEltFetched", "ptrs"),
+    ("ICorDebugProcess5", "GetTypeFields"): ("array", "celt", "pceltNeeded", "fields"),
 }
 
 # cor.h declares this typedef outside cordebug.idl. Preserve it rather than
