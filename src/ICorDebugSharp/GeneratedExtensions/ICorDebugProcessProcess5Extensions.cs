@@ -64,7 +64,7 @@ public static unsafe class CorDebugProcessProcess5Extensions
 
 		public int TryGetTypeFields(COR_TYPEID id, uint celt, COR_FIELD[] fields, out uint pceltNeeded) => instance.Process5.TryGetTypeFields(id, celt, fields, out pceltNeeded);
 
-		public int GetTypeFields(COR_TYPEID id, int celt, COR_FIELD[] fields) => instance.Process5.GetTypeFields(id, celt, fields);
+		public (COR_FIELD[] fields, int pceltNeeded) GetTypeFields(COR_TYPEID id, int celt) => instance.Process5.GetTypeFields(id, celt);
 
 		public int TryGetTypeForTypeID(COR_TYPEID id, out ICorDebugType ppType) => instance.Process5.TryGetTypeForTypeID(id, out ppType);
 

@@ -45,6 +45,14 @@ public static unsafe class CorDebugProcess5Extensions
 
 		public COR_SEGMENT[] HeapRegions => instance.EnumerateHeapRegions().ToArray();
 
+		public (COR_FIELD[] fields, int pceltNeeded) GetTypeFields(COR_TYPEID id, int celt)
+		{
+			var fields = new COR_FIELD[checked((int)celt)];
+			var hr = instance.TryGetTypeFields(id, checked((uint)celt), fields, out var pceltNeeded);
+			Marshal.ThrowExceptionForHR(hr);
+			return (fields, checked((int)pceltNeeded));
+		}
+
 		public COR_ARRAY_LAYOUT GetArrayLayout(COR_TYPEID id)
 		{
 			var hr = instance.TryGetArrayLayout(id, out var pLayout);
@@ -67,13 +75,6 @@ public static unsafe class CorDebugProcess5Extensions
 			var hr = instance.TryGetObject(addr, out var pObject);
 			Marshal.ThrowExceptionForHR(hr);
 			return pObject;
-		}
-
-		public int GetTypeFields(COR_TYPEID id, int celt, COR_FIELD[] fields)
-		{
-			var hr = instance.TryGetTypeFields(id, checked((uint)celt), fields, out var pceltNeeded);
-			Marshal.ThrowExceptionForHR(hr);
-			return checked((int)pceltNeeded);
 		}
 
 		public ICorDebugType GetTypeForTypeID(COR_TYPEID id)
