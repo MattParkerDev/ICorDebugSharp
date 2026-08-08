@@ -2,7 +2,7 @@
 namespace ICorDebugSharp;
 
 /// <summary>
-/// <para>Contains values that describe the type of file mapping that is returned from a call to the <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/interfaces/imetadatainfo-getfilemapping-method">IMetaDataInfo::GetFileMapping</see> method.</para>
+/// <para>Contains values that describe the type of file mapping that is returned from a call to the <see cref="IMetaDataInfo.TryGetFileMapping">IMetaDataInfo::GetFileMapping</see> method.</para>
 /// </summary>
 /// <remarks>
 /// <para>Documentation adapted from <see href="https://learn.microsoft.com/dotnet/core/unmanaged-api/metadata/enumerations/corfilemapping-enumeration">Microsoft Learn</see>.</para>
