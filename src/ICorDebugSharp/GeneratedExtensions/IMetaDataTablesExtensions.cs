@@ -33,11 +33,11 @@ public static unsafe class MetaDataTablesExtensions
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetCodedTokenInfo"/>
-		public (int pcTokens, uint* ppTokens, sbyte* ppName) GetCodedTokenInfo(int ixCdTkn)
+		public (int pcTokens, nint ppTokens, nint ppName) GetCodedTokenInfo(int ixCdTkn)
 		{
 			var hr = instance.TryGetCodedTokenInfo(checked((uint)ixCdTkn), out var pcTokens, out var ppTokens, out var ppName);
 			Marshal.ThrowExceptionForHR(hr);
-			return (checked((int)pcTokens), ppTokens, ppName);
+			return (checked((int)pcTokens), (nint)ppTokens, (nint)ppName);
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetColumn"/>
@@ -49,11 +49,11 @@ public static unsafe class MetaDataTablesExtensions
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetColumnInfo"/>
-		public (int poCol, int pcbCol, int pType, sbyte* ppName) GetColumnInfo(int ixTbl, int ixCol)
+		public (int poCol, int pcbCol, int pType, nint ppName) GetColumnInfo(int ixTbl, int ixCol)
 		{
 			var hr = instance.TryGetColumnInfo(checked((uint)ixTbl), checked((uint)ixCol), out var poCol, out var pcbCol, out var pType, out var ppName);
 			Marshal.ThrowExceptionForHR(hr);
-			return (checked((int)poCol), checked((int)pcbCol), checked((int)pType), ppName);
+			return (checked((int)poCol), checked((int)pcbCol), checked((int)pType), (nint)ppName);
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetGuid"/>
@@ -154,11 +154,11 @@ public static unsafe class MetaDataTablesExtensions
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetTableInfo"/>
-		public (int pcbRow, int pcRows, int pcCols, int piKey, sbyte* ppName) GetTableInfo(int ixTbl)
+		public (int pcbRow, int pcRows, int pcCols, int piKey, nint ppName) GetTableInfo(int ixTbl)
 		{
 			var hr = instance.TryGetTableInfo(checked((uint)ixTbl), out var pcbRow, out var pcRows, out var pcCols, out var piKey, out var ppName);
 			Marshal.ThrowExceptionForHR(hr);
-			return (checked((int)pcbRow), checked((int)pcRows), checked((int)pcCols), checked((int)piKey), ppName);
+			return (checked((int)pcbRow), checked((int)pcRows), checked((int)pcCols), checked((int)piKey), (nint)ppName);
 		}
 
 		/// <inheritdoc cref="IMetaDataTables.TryGetUserString"/>

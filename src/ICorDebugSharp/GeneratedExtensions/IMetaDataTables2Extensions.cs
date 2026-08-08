@@ -25,11 +25,11 @@ public static unsafe class MetaDataTables2Extensions
 		}
 
 		/// <inheritdoc cref="IMetaDataTables2.TryGetMetaDataStreamInfo"/>
-		public (sbyte* ppchName, nint ppv, int pcb) GetMetaDataStreamInfo(int ix)
+		public (nint ppchName, nint ppv, int pcb) GetMetaDataStreamInfo(int ix)
 		{
 			var hr = instance.TryGetMetaDataStreamInfo(checked((uint)ix), out var ppchName, out var ppv, out var pcb);
 			Marshal.ThrowExceptionForHR(hr);
-			return (ppchName, ppv, checked((int)pcb));
+			return ((nint)ppchName, ppv, checked((int)pcb));
 		}
 	}
 }

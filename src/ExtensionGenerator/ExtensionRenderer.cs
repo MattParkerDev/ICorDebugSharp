@@ -168,7 +168,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut).ToArray();
 		var returnType = outputs.Length == 1
 			? ProjectedOutputType(outputs[0])
-			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedTupleOutputType(output)} {Escape(output.Name)}"))})";
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({parameters}) => instance.{capabilityName}.{method.Name}({arguments});";
 	}
 
@@ -209,7 +209,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut && parameter.Name != stringBuffer.Count.Name).ToArray();
 		var returnType = outputs.Length == 0
 			? "string"
-			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedTupleOutputType(output)} {Escape(output.Name)}"))})";
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.InvocationName}({string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)))});";
 	}
@@ -241,7 +241,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var bufferType = buffer.Type.Replace("?", "", StringComparison.Ordinal);
 		var returnType = outputs.Length == 1
 			? bufferType
-			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
+			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedTupleOutputType(output))} {Escape(output.Name)}"))})";
 		var arguments = string.Join(", ", inputs.Select(parameter => parameter.IsRef ? $"ref {Escape(parameter.Name)}" : Escape(parameter.Name)));
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({string.Join(", ", inputs.Select(RenderProjectedInputParameter))}) => " +
 			$"instance.{capabilityName}.{method.Name}({arguments});";
@@ -313,7 +313,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var refUInts = inputs.Where(IsRefUInt).ToArray();
 		var returnType = outputs.Length == 1
 			? ProjectedOutputType(outputs[0])
-			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedTupleOutputType(output)} {Escape(output.Name)}"))})";
 		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter.IsOut
 			? $"out var {Escape(parameter.Name)}"
@@ -322,7 +322,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
 		var result = outputs.Length == 1
 			? ProjectedOutputValue(outputs[0])
-			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+			: $"({string.Join(", ", outputs.Select(output => ProjectedTupleOutputValue(output)))})";
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {publicName ?? method.Name}({parameters})\n\t\t{{\n" +
 			$"{RenderRefUIntLocals(refUInts, "\t\t\t")}\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n{RenderRefUIntAssignments(refUInts, "\t\t\t")}" +
 			$"\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
@@ -337,7 +337,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var bufferType = buffer.Type.Replace("?", "", StringComparison.Ordinal);
 		var returnType = outputs.Length == 1
 			? bufferType
-			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedOutputType(output))} {Escape(output.Name)}"))})";
+			: $"({string.Join(", ", outputs.Select(output => $"{(output == buffer ? bufferType : ProjectedTupleOutputType(output))} {Escape(output.Name)}"))})";
 		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var arguments = string.Join(", ", method.Parameters.Select(parameter => parameter == buffer
 			? Escape(buffer.Name)
@@ -346,7 +346,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 			: parameter.IsRef ? $"ref {Escape(parameter.Name)}" : RenderRawArgument(parameter)));
 		var result = outputs.Length == 1
 			? Escape(buffer.Name)
-			: $"({string.Join(", ", outputs.Select(output => output == buffer ? Escape(output.Name) : ProjectedOutputValue(output)))})";
+			: $"({string.Join(", ", outputs.Select(output => output == buffer ? Escape(output.Name) : ProjectedTupleOutputValue(output)))})";
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {method.Name}({parameters})\n\t\t{{\n" +
 			$"\t\t\tvar {Escape(buffer.Name)} = new {ElementType(buffer.Type)}[checked((int){Escape(buffer.CountElementName!)})];\n" +
 			$"\t\t\tvar hr = instance.{method.InvocationName}({arguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\treturn {result};\n\t\t}}";
@@ -357,11 +357,11 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var outputs = method.Parameters;
 		var returnType = outputs.Count == 1
 			? ProjectedOutputType(outputs[0])
-			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"({string.Join(", ", outputs.Select(output => $"{ProjectedTupleOutputType(output)} {Escape(output.Name)}"))})";
 		var arguments = string.Join(", ", outputs.Select(output => $"out var {Escape(output.Name)}"));
 		var result = outputs.Count == 1
 			? ProjectedOutputValue(outputs[0])
-			: $"({string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+			: $"({string.Join(", ", outputs.Select(output => ProjectedTupleOutputValue(output)))})";
 		return $"{InheritDoc(method)}\t\tpublic {returnType} {propertyName}\n\t\t{{\n\t\t\tget\n\t\t\t{{\n" +
 			$"\t\t\t\tvar hr = {call}({arguments});\n\t\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\t\treturn {result};\n" +
 			"\t\t\t}" +
@@ -446,16 +446,16 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		var outputs = method.Parameters.Where(parameter => parameter.IsOut && parameter.Name != stringBuffer.Count.Name).ToArray();
 		var returnType = outputs.Length == 0
 			? "string"
-			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedOutputType(output)} {Escape(output.Name)}"))})";
+			: $"(string {Escape(stringBuffer.Buffer.Name)}, {string.Join(", ", outputs.Select(output => $"{ProjectedTupleOutputType(output)} {Escape(output.Name)}"))})";
 		var parameters = string.Join(", ", inputs.Select(RenderProjectedInputParameter));
 		var queryArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, true);
 		var fillArguments = RenderStringCallArguments(method, stringBuffer, inputs, outputs, false);
 		var result = outputs.Length == 0
 			? "CreateString(buffer, actual, true)"
-			: $"(CreateString(buffer, actual, true), {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output)))})";
+			: $"(CreateString(buffer, actual, true), {string.Join(", ", outputs.Select(output => ProjectedTupleOutputValue(output)))})";
 		var emptyResult = outputs.Length == 0
 			? "string.Empty"
-			: $"(string.Empty, {string.Join(", ", outputs.Select(output => ProjectedOutputValue(output, "query")))})";
+			: $"(string.Empty, {string.Join(", ", outputs.Select(output => ProjectedTupleOutputValue(output, "query")))})";
 		var body =
 			$"\t\t\tvar hr = instance.{method.InvocationName}({queryArguments});\n\t\t\tMarshal.ThrowExceptionForHR(hr);\n\t\t\tif (required == 0)\n\t\t\t\treturn {emptyResult};\n\n" +
 			"\t\t\tfor (var attempt = 0; attempt < 3; attempt++)\n\t\t\t{\n\t\t\t\tvar capacity = required;\n\t\t\t\tvar buffer = new char[checked((int)capacity)];\n" +
@@ -501,6 +501,13 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		parameter.Type.Contains("Span<", StringComparison.Ordinal)
 			? $"{Escape(prefix + (prefix.Length == 0 ? parameter.Name : char.ToUpperInvariant(parameter.Name[0]) + parameter.Name[1..]))}.ToArray()"
 			: ProjectValue(parameter.Type, Escape(prefix + (prefix.Length == 0 ? parameter.Name : char.ToUpperInvariant(parameter.Name[0]) + parameter.Name[1..])));
+	private static string ProjectedTupleOutputType(ManagedParameter parameter) =>
+		IsPointer(parameter.Type) ? "nint" : ProjectedOutputType(parameter);
+	private static string ProjectedTupleOutputValue(ManagedParameter parameter, string prefix = "")
+	{
+		var value = Escape(prefix + (prefix.Length == 0 ? parameter.Name : char.ToUpperInvariant(parameter.Name[0]) + parameter.Name[1..]));
+		return IsPointer(parameter.Type) ? $"(nint){value}" : ProjectedOutputValue(parameter, prefix);
+	}
 
 	private string RenderQueryBuffer(QueryBufferRecipe recipe)
 	{
@@ -700,6 +707,7 @@ internal sealed class ExtensionRenderer(ManagedInterfaceCatalog catalog)
 		"byte*" => $"(nint){value}",
 		_ => value,
 	};
+	private static bool IsPointer(string type) => type.EndsWith('*');
 	private static string PropertyName(string name) => name == "ID" ? "Id" : name;
 	private static string InheritDoc(ManagedMethod method) => InheritDoc($"{method.InterfaceName}.{method.InvocationName}");
 	private static string InheritDoc(string cref) => $"\t\t/// <inheritdoc cref=\"{cref}\"/>\n";
