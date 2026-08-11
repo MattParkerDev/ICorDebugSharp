@@ -13,7 +13,7 @@
     <Authors>MattParkerDev</Authors>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageReadmeFile>readme.md</PackageReadmeFile>
-    <PackageVersion>0.1.6</PackageVersion>
+    <PackageVersion>0.1.7</PackageVersion>
     <PackageProjectUrl>https://github.com/MattParkerDev/ICorDebugSharp</PackageProjectUrl>
     <Description>A C# wrapper for the ICorDebug, IMetadataImport and DbgShim</Description>
     <PackageTags>Csharp Dotnet Debugging ICorDebug IMetadataImport DbgShim</PackageTags>
