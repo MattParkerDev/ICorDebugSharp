@@ -1,5 +1,5 @@
 #!/usr/bin/env -S dotnet --
-#:property UserSecretsId=ICorDebugSharp.Generators
+#:property UserSecretsId=22cafe66-901a-442d-851b-5025b0e268cc
 #:package Microsoft.Extensions.Configuration.UserSecrets@10.0.0
 
 using System.Diagnostics;
@@ -15,7 +15,7 @@ if (args.Length > 1 || (args.Length == 1 && args[0] != "--check"))
 
 try
 {
-    var configuration = new ConfigurationBuilder().AddUserSecrets("ICorDebugSharp.Generators").Build();
+    var configuration = new ConfigurationBuilder().AddUserSecrets(typeof(Program).Assembly).Build();
     var runtime = GetDirectory("Runtime");
     var diagnostics = GetDirectory("Diagnostics");
     var docs = GetDirectory("Docs");
