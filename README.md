@@ -41,6 +41,9 @@ dotnet run --file generate-all.cs
 `generate-all.cs` reads user secrets and passes paths as individual command-line
 arguments, including paths containing spaces. It supplies the Python requirements
 through `uv` and stops if any generator fails. Child generators do not read user secrets.
+Finally, the runner normalizes generated C# line endings to CRLF on Windows or LF
+on Unix, preserving blank lines, indentation, and existing UTF-8 BOMs. Only files
+with different line endings are rewritten.
 
 For individual runs, pass paths explicitly (from the repository root):
 

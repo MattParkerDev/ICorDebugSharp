@@ -3,6 +3,7 @@
 #:package Microsoft.Extensions.Configuration.UserSecrets@10.0.0
 
 using System.Diagnostics;
+using System.Text;
 using Microsoft.Extensions.Configuration;
 
 var repoDirectory = AppContext.GetData("EntryPointFileDirectoryPath") as string ?? throw new InvalidOperationException("Not running as a file-based app.");
@@ -50,6 +51,7 @@ try
     await Run("ClangSharpMetadataGenerator", "dotnet", "run", "--", runtime, windowsSdk, msvc);
     await Run("DocsGenerator", "dotnet", "run", "--", docs);
     await Run("ExtensionGenerator", "dotnet", "run");
+    NormalizeGeneratedLineEndings();
     return 0;
 
     string GetDirectory(string name)
@@ -69,6 +71,27 @@ catch (Exception exception)
 {
     Console.Error.WriteLine(exception.Message);
     return 1;
+}
+
+void NormalizeGeneratedLineEndings()
+{
+    var written = 0;
+    foreach (var directory in new[] { "Generated", "GeneratedMetadata", "GeneratedExtensions" })
+    {
+        var path = Path.Combine(repoDirectory, "src", "ICorDebugSharp", directory);
+        foreach (var file in Directory.EnumerateFiles(path, "*.cs", SearchOption.AllDirectories))
+        {
+            // Decode directly so an existing UTF-8 BOM remains part of the text.
+            var source = Encoding.UTF8.GetString(File.ReadAllBytes(file));
+            var normalized = source.Replace("\r\n", "\n").Replace("\r", "\n")
+                .Replace("\n", Environment.NewLine);
+            if (source == normalized) continue;
+            File.WriteAllText(file, normalized, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false));
+            written++;
+        }
+    }
+
+    Console.WriteLine($"Normalized line endings in {written} generated files.");
 }
 
 async Task Run(string project, string executable, params string[] arguments)
