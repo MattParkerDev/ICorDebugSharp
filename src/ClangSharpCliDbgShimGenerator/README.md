@@ -1,14 +1,14 @@
 
-# Metadata Generator
+# DbgShim Generator
 
-Install ClangSharp .NET Tool:
-
-```shell
-dotnet tool install --global ClangSharpPInvokeGenerator
-```
-
-Run with:
+Use the repository's [generator setup](../../README.md#generator-setup) to configure
+paths once in .NET user secrets, then run the pipeline from the repository root:
 
 ```shell
-clangSharpPInvokeGenerator "@GenerateClang.rsp"
+dotnet run --file generate-all.cs
 ```
+
+`GenerateClang.rsp` contains the portable generator options. The runner supplies
+`--include-directory`, `--file`, and `--traverse` from the configured paths when
+invoking ClangSharp through `dotnet dnx`. Running the response file alone requires
+supplying those options yourself.

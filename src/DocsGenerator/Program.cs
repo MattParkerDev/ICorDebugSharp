@@ -1,6 +1,11 @@
 using DocsGenerator;
 
-var dotnetDocsFolder = @"C:\Users\matth\Documents\Git\docs";
+if (args.Length != 1)
+{
+    Console.Error.WriteLine("Usage: dotnet run -- <dotnet-docs-root> (or use generate-all.cs from the repository root)");
+    return 1;
+}
+var dotnetDocsFolder = args[0];
 if (!Directory.Exists(dotnetDocsFolder)) throw new DirectoryNotFoundException(dotnetDocsFolder);
 
 var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));

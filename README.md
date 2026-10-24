@@ -1,16 +1,51 @@
 ## ICorDebugSharp
 
-Run generator with:
+### Generator setup
+
+Regeneration requires the .NET 11 SDK (the documentation generator targets .NET 11),
+[uv](https://docs.astral.sh/uv/), clones of `dotnet/runtime`, `dotnet/diagnostics`,
+and `dotnet/docs`, plus MSVC and Windows SDK headers.
+
+Set these five absolute paths once using .NET user secrets. Replace the example
+paths and installed toolchain versions with your own:
 
 ```shell
-dotnet generate-all.cs
+dotnet user-secrets set "Paths:Runtime" "C:/src/runtime" --id ICorDebugSharp.Generators
+dotnet user-secrets set "Paths:Diagnostics" "C:/src/diagnostics" --id ICorDebugSharp.Generators
+dotnet user-secrets set "Paths:Docs" "C:/src/docs" --id ICorDebugSharp.Generators
+dotnet user-secrets set "Paths:WindowsSdkInclude" "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0" --id ICorDebugSharp.Generators
+dotnet user-secrets set "Paths:MsvcInclude" "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include" --id ICorDebugSharp.Generators
 ```
 
-Ensure you have done `uv pip install -r requirements.txt` in `PythonICorDebugGenerator` first.
+The first three paths are repository roots. `WindowsSdkInclude` is the versioned
+include directory containing `um`, `shared`, `ucrt`, and `winrt`; `MsvcInclude`
+is the compiler's `include` directory.
 
-You will need some dotnet repos cloned, and update their paths in the various tools.
-* runtime
-* diagnostics
-* docs
+These settings are stored outside the repository, per user, under the shared ID
+`ICorDebugSharp.Generators`. All clones for that user use the same settings.
+To update a path, run its `set` command again.
 
-Additionally, some headers from MSVC and the Windows 10 SDK are required for ClangSharp.
+Validate the configured directories and required input headers without generating:
+
+```shell
+dotnet run --file generate-all.cs -- --check
+```
+
+Run all generators from the repository root:
+
+```shell
+dotnet run --file generate-all.cs
+```
+
+`generate-all.cs` reads user secrets and passes paths as individual command-line
+arguments, including paths containing spaces. It supplies the Python requirements
+through `uv` and stops if any generator fails. Child generators do not read user secrets.
+
+For individual runs, pass paths explicitly (from the repository root):
+
+```shell
+dotnet run --project src/ClangSharpMetadataGenerator -- "<runtime-root>" "<windows-sdk-version-include>" "<msvc-include>"
+dotnet run --project src/DocsGenerator -- "<docs-root>"
+```
+
+The archived tools under `src/deprecated` are not part of this pipeline.

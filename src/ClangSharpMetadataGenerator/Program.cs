@@ -3,7 +3,17 @@ using ClangSharp;
 using ClangSharp.Interop;
 using MetadataGenerator;
 
-var rootFilePath = "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h";
+if (args.Length != 3)
+{
+    Console.Error.WriteLine("Usage: dotnet run -- <dotnet-runtime-root> <windows-sdk-version-include> <msvc-include> (or use generate-all.cs from the repository root)");
+    Environment.ExitCode = 1;
+    return;
+}
+var runtimeInclude = Path.GetFullPath(Path.Combine(args[0], "src/coreclr/inc")).Replace('\\', '/');
+var runtimePrebuilt = Path.GetFullPath(Path.Combine(args[0], "src/coreclr/pal/prebuilt/inc")).Replace('\\', '/');
+var windowsSdkInclude = Path.GetFullPath(args[1]).Replace('\\', '/');
+var msvcInclude = Path.GetFullPath(args[2]).Replace('\\', '/');
+var rootFilePath = $"{runtimeInclude}/cor.h";
 var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
 var generatedFileHeaderPath = Path.Combine(projectDirectory, "Header.txt");
 var outputDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp/GeneratedMetadata"));
@@ -87,9 +97,9 @@ var config = new PInvokeGeneratorConfiguration
     },
     TraversalNames =
     [
-	    "C:/src/dotnet/src/runtime/src/coreclr/inc/corhdr.h",
-	    "C:/src/dotnet/src/runtime/src/coreclr/inc/cor.h",
-        "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc/corerror.h",
+	    $"{runtimeInclude}/corhdr.h",
+	    rootFilePath,
+        $"{runtimePrebuilt}/corerror.h",
     ],
     // WithTypes = new Dictionary<string, string>()
 	// {
@@ -138,13 +148,13 @@ Span<string> clangCommandLineArgs =
 	"--target=x86_64-pc-windows-msvc",
     "-Wno-pragma-once-outside-header",
 
-    "-I", "C:/src/dotnet/src/runtime/src/coreclr/inc/",
-    "-I", "C:/src/dotnet/src/runtime/src/coreclr/pal/prebuilt/inc",
-    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/um",
-    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/shared",
-    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/ucrt",
-    "-I", "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0/winrt",
-    "-I", "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include",
+    "-I", runtimeInclude,
+    "-I", runtimePrebuilt,
+    "-I", $"{windowsSdkInclude}/um",
+    "-I", $"{windowsSdkInclude}/shared",
+    "-I", $"{windowsSdkInclude}/ucrt",
+    "-I", $"{windowsSdkInclude}/winrt",
+    "-I", msvcInclude,
 ];
 
 foreach (string filePath in files)
