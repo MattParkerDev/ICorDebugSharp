@@ -10,19 +10,20 @@ Set these five absolute paths once using .NET user secrets. Replace the example
 paths and installed toolchain versions with your own:
 
 ```shell
-dotnet user-secrets set "Paths:Runtime" "C:/src/runtime" --id ICorDebugSharp.Generators
-dotnet user-secrets set "Paths:Diagnostics" "C:/src/diagnostics" --id ICorDebugSharp.Generators
-dotnet user-secrets set "Paths:Docs" "C:/src/docs" --id ICorDebugSharp.Generators
-dotnet user-secrets set "Paths:WindowsSdkInclude" "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0" --id ICorDebugSharp.Generators
-dotnet user-secrets set "Paths:MsvcInclude" "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include" --id ICorDebugSharp.Generators
+dotnet user-secrets set "Paths:Runtime" "C:/src/runtime" --file ./generate-all.cs
+dotnet user-secrets set "Paths:Diagnostics" "C:/src/diagnostics" --file ./generate-all.cs
+dotnet user-secrets set "Paths:Docs" "C:/src/docs" --file ./generate-all.cs
+dotnet user-secrets set "Paths:WindowsSdkInclude" "C:/Program Files (x86)/Windows Kits/10/Include/10.0.26100.0" --file ./generate-all.cs
+dotnet user-secrets set "Paths:MsvcInclude" "C:/Program Files/Microsoft Visual Studio/18/Enterprise/VC/Tools/MSVC/14.50.35717/include" --file ./generate-all.cs
 ```
 
 The first three paths are repository roots. `WindowsSdkInclude` is the versioned
 include directory containing `um`, `shared`, `ucrt`, and `winrt`; `MsvcInclude`
 is the compiler's `include` directory.
 
-These settings are stored outside the repository, per user, under the shared ID
-`ICorDebugSharp.Generators`. All clones for that user use the same settings.
+Run these commands from the repository root. These settings are stored outside
+the repository, per user, under the `UserSecretsId` declared in `generate-all.cs`.
+All clones for that user use the same settings.
 To update a path, run its `set` command again.
 
 Validate the configured directories and required input headers without generating:

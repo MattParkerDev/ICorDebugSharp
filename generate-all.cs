@@ -57,7 +57,7 @@ try
         var key = $"Paths:{name}";
         var value = configuration[key];
         if (string.IsNullOrWhiteSpace(value))
-            throw new InvalidOperationException($"Missing {key}. Set it with: dotnet user-secrets set \"{key}\" \"<absolute path>\" --id ICorDebugSharp.Generators");
+            throw new InvalidOperationException($"Missing {key}. From the repository root, set it with: dotnet user-secrets set \"{key}\" \"<absolute path>\" --file ./generate-all.cs");
         if (!Path.IsPathFullyQualified(value))
             throw new InvalidOperationException($"{key} must be an absolute path: {value}");
         var path = Path.GetFullPath(value);
