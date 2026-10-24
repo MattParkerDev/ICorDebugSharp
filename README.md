@@ -29,13 +29,13 @@ To update a path, run its `set` command again.
 Validate the configured directories and required input headers without generating:
 
 ```shell
-dotnet run --file generate-all.cs -- --check
+dotnet generate-all.cs -- --check
 ```
 
 Run all generators from the repository root:
 
 ```shell
-dotnet run --file generate-all.cs
+dotnet generate-all.cs
 ```
 
 `generate-all.cs` reads user secrets and passes paths as individual command-line
