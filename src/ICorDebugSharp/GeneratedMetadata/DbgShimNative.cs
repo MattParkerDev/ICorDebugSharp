@@ -68,4 +68,8 @@ public static unsafe partial class DbgShimNative
     [DllImport("dbgshim", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
     [return: NativeTypeName("HRESULT")]
     public static extern int RegisterForRuntimeStartupRemotePort([NativeTypeName("LPCWSTR")] char* szIp, [NativeTypeName("DWORD")] uint dwPort, [NativeTypeName("LPCWSTR")] char* szPlatform, [NativeTypeName("BOOL")] int bIsServer, [NativeTypeName("LPCWSTR")] char* szMscordbiPath, [NativeTypeName("LPCWSTR")] char* szAssemblyBasePath, IUnknown** ppCordb);
+
+    [DllImport("dbgshim", CallingConvention = CallingConvention.Cdecl, ExactSpelling = true)]
+    [return: NativeTypeName("HRESULT")]
+    public static extern int SetCDacLoadPolicy(CDacLoadPolicy policy);
 }
