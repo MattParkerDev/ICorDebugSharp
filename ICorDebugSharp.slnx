@@ -4,6 +4,7 @@
     <File Path=".gitattributes" />
     <File Path=".gitignore" />
     <File Path="generate-all.cs" />
+    <File Path="global.json" />
     <File Path="README.md" />
     <File Path="THIRD-PARTY-NOTICES.md" />
   </Folder>
