@@ -1,15 +1,13 @@
 // ReSharper disable InconsistentNaming
-using static ICorDebugSharp.CorUnmanagedCallingConvention;
-
 namespace ICorDebugSharp;
 
 public enum CorCallingConvention
 {
     DEFAULT = 0x0,
-    C = IMAGE_CEE_UNMANAGED_CALLCONV_C,
-    STDCALL = IMAGE_CEE_UNMANAGED_CALLCONV_STDCALL,
-    THISCALL = IMAGE_CEE_UNMANAGED_CALLCONV_THISCALL,
-    FASTCALL = IMAGE_CEE_UNMANAGED_CALLCONV_FASTCALL,
+    C = CorUnmanagedCallingConvention.C,
+    STDCALL = CorUnmanagedCallingConvention.STDCALL,
+    THISCALL = CorUnmanagedCallingConvention.THISCALL,
+    FASTCALL = CorUnmanagedCallingConvention.FASTCALL,
     VARARG = 0x5,
     FIELD = 0x6,
     LOCAL_SIG = 0x7,
