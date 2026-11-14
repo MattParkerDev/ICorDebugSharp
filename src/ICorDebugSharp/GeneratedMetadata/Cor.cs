@@ -1,6 +1,5 @@
 // ReSharper disable InconsistentNaming
 using System;
-using static ICorDebugSharp.CorCallingConvention;
 using static ICorDebugSharp.CorTokenType;
 
 namespace ICorDebugSharp;
@@ -1224,7 +1223,7 @@ public static partial class Cor
     public static ReadOnlySpan<byte> COR_VTABLEGAP_NAME_A => "_VtblGap"u8;
 
     [NativeTypeName("#define IMAGE_CEE_CS_CALLCONV_INSTANTIATION IMAGE_CEE_CS_CALLCONV_GENERICINST")]
-    public const CorCallingConvention IMAGE_CEE_CS_CALLCONV_INSTANTIATION = GENERICINST;
+    public const CorCallingConvention IMAGE_CEE_CS_CALLCONV_INSTANTIATION = CorCallingConvention.GENERICINST;
 
     [NativeTypeName("#define mdTokenNil ((mdToken)0)")]
     public const uint mdTokenNil = ((uint)(0));
@@ -1302,7 +1301,7 @@ public static partial class Cor
     public const uint mdStringNil = ((uint)(mdtString));
 
     [NativeTypeName("#define IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS (IMAGE_CEE_CS_CALLCONV_DEFAULT | IMAGE_CEE_CS_CALLCONV_HASTHIS)")]
-    public const int IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS = ((int)(DEFAULT) | (int)(HASTHIS));
+    public const int IMAGE_CEE_CS_CALLCONV_DEFAULT_HASTHIS = ((int)(CorCallingConvention.DEFAULT) | (int)(CorCallingConvention.HASTHIS));
 
     [NativeTypeName("#define INTEROP_DISPID_TYPE \"System.Runtime.InteropServices.DispIdAttribute\"")]
     public static ReadOnlySpan<byte> INTEROP_DISPID_TYPE => "System.Runtime.InteropServices.DispIdAttribute"u8;
