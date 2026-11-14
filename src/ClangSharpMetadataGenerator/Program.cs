@@ -109,8 +109,6 @@ var config = new PInvokeGeneratorConfiguration
     {
 	    ["*"] = "common-prefix",
 	    ["MergeFlags"] = "type-name",
-	    ["CorUnmanagedCallingConvention"] = "type-name",
-	    ["CorSerializationType"] = "type-name",
     },
     ExcludedNames =
     [
