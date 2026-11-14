@@ -9,11 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ClangSharp.PInvokeGenerator" Version="21.1.8.4" />
-    <PackageReference Include="libclang" Version="21.1.8" />
-    <PackageReference Include="libClangSharp" Version="21.1.8.2" />
-    <PackageReference Include="libclang.runtime.win-x64" Version="21.1.8" />
-    <PackageReference Include="libClangSharp.runtime.win-x64" Version="21.1.8.2" />
+    <PackageReference Include="ClangSharp.PInvokeGenerator" Version="23.1.5" />
+    <PackageReference Include="libclang" Version="23.1.5" />
+    <PackageReference Include="libClangSharp" Version="23.1.5" />
+    <PackageReference Include="libclang.runtime.win-x64" Version="23.1.5" />
+    <PackageReference Include="libClangSharp.runtime.win-x64" Version="23.1.5" />
   </ItemGroup>
 
   <PropertyGroup>

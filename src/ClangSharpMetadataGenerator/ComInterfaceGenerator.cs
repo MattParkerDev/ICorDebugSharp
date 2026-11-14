@@ -196,10 +196,9 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			type = type switch
 			{
 				AttributedType attributed => attributed.ModifiedType,
-				ElaboratedType elaborated => elaborated.NamedType,
 				_ => type,
 			};
-			if (type is not AttributedType and not ElaboratedType)
+			if (type is not AttributedType)
 				return type as ReferenceType;
 		}
 	}
@@ -215,11 +214,10 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			type = type switch
 			{
 				AttributedType attributed => attributed.ModifiedType,
-				ElaboratedType elaborated => elaborated.NamedType,
 				AdjustedType adjusted => adjusted.OriginalType,
 				_ => type,
 			};
-			if (type is not AttributedType and not ElaboratedType and not AdjustedType)
+			if (type is not AttributedType and not AdjustedType)
 				return (type as ArrayType)?.ElementType;
 		}
 	}
@@ -239,11 +237,10 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			type = type switch
 			{
 				AttributedType attributed => attributed.ModifiedType,
-				ElaboratedType elaborated => elaborated.NamedType,
 				AdjustedType adjusted => adjusted.GetAdjustedType,
 				_ => type,
 			};
-			if (type is not AttributedType and not ElaboratedType and not AdjustedType)
+			if (type is not AttributedType and not AdjustedType)
 				return type as PointerType;
 		}
 	}
@@ -255,10 +252,9 @@ internal sealed class ComInterfaceGenerator(ComInterfaceGeneratorConfiguration c
 			type = type switch
 			{
 				AttributedType attributed => attributed.ModifiedType,
-				ElaboratedType elaborated => elaborated.NamedType,
 				_ => type,
 			};
-			if (type is not AttributedType and not ElaboratedType)
+			if (type is not AttributedType)
 				return (type as TypedefType)?.Decl.Name;
 		}
 	}

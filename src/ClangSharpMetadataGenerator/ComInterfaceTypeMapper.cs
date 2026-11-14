@@ -20,7 +20,6 @@ internal sealed class ComInterfaceTypeMapper
 		return type switch
 		{
 			AttributedType attributed => Map(attributed.ModifiedType),
-			ElaboratedType elaborated => Map(elaborated.NamedType),
 			AdjustedType adjusted => Map(adjusted.GetAdjustedType),
 			TypedefType typedef => MapTypedef(typedef),
 			PointerType pointer => MapPointer(pointer.PointeeType),
@@ -79,11 +78,10 @@ internal sealed class ComInterfaceTypeMapper
 			type = type switch
 			{
 				AttributedType attributed => attributed.ModifiedType,
-				ElaboratedType elaborated => elaborated.NamedType,
 				TypedefType typedef => typedef.Decl.UnderlyingType,
 				_ => type,
 			};
-			if (type is not AttributedType and not ElaboratedType and not TypedefType)
+			if (type is not AttributedType and not TypedefType)
 				return type;
 		}
 	}
