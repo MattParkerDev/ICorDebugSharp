@@ -2,11 +2,16 @@
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".gitattributes" />
+    <File Path=".github/workflows/publish-nuget-package.yml" />
     <File Path=".gitignore" />
     <File Path="generate-all.cs" />
     <File Path="global.json" />
     <File Path="README.md" />
     <File Path="THIRD-PARTY-NOTICES.md" />
+  </Folder>
+  <Folder Name="/iac/">
+    <Project Path="iac/DetermineIfPublishNecessary/DetermineIfPublishNecessary.csproj" />
+    <Project Path="iac/PublishToNuget/PublishToNuget.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/DocsGenerator/DocsGenerator.csproj" />
