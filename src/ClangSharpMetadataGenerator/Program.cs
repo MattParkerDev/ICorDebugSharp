@@ -14,7 +14,7 @@ var runtimePrebuilt = Path.GetFullPath(Path.Combine(args[0], "src/coreclr/pal/pr
 var windowsSdkInclude = Path.GetFullPath(args[1]).Replace('\\', '/');
 var msvcInclude = Path.GetFullPath(args[2]).Replace('\\', '/');
 var rootFilePath = $"{runtimeInclude}/cor.h";
-var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
+var projectDirectory = GetProjectDirectory();
 var generatedFileHeaderPath = Path.Combine(projectDirectory, "Header.txt");
 var outputDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp/GeneratedMetadata"));
 var interfaceMethodCounts = new Dictionary<string, int>(StringComparer.Ordinal)
@@ -219,3 +219,5 @@ foreach (string filePath in files)
 }
 
 pinvokeGenerator.Dispose();
+
+static string GetProjectDirectory([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "") => Path.GetDirectoryName(sourceFilePath)!;

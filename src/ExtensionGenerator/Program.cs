@@ -1,6 +1,6 @@
 using ExtensionGenerator;
 
-var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
+var projectDirectory = GetProjectDirectory();
 var repositoryRoot = args.Length == 0
 	? Path.GetFullPath(Path.Combine(projectDirectory, "../.."))
 	: Path.GetFullPath(args[0]);
@@ -27,3 +27,5 @@ foreach (var (name, source) in files.OrderBy(item => item.Key, StringComparer.Or
 }
 
 Console.WriteLine($"Generated {files.Count} extension files ({written} written)." );
+
+static string GetProjectDirectory([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "") => Path.GetDirectoryName(sourceFilePath)!;

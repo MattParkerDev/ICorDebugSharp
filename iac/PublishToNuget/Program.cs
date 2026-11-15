@@ -11,7 +11,7 @@ var gitRootDirectory = GitRoot.GetGitRootPath();
 var publishFolderPath = Path.Combine(gitRootDirectory, "artifacts", "package", "release");
 
 var result = await Cli.Wrap("dotnet")
-	.WithArguments(["pack", "-c", "Release", "-o", publishFolderPath])
+	.WithArguments("pack -c Release")
 	.WithWorkingDirectory(Path.Combine(gitRootDirectory, "src", $"{nugetPackageId}"))
 	.ExecuteBufferedAsync();
 

@@ -8,7 +8,7 @@ if (args.Length != 1)
 var dotnetDocsFolder = args[0];
 if (!Directory.Exists(dotnetDocsFolder)) throw new DirectoryNotFoundException(dotnetDocsFolder);
 
-var projectDirectory = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "../../.."));
+var projectDirectory = GetProjectDirectory();
 var docsRoot = Path.GetFullPath(dotnetDocsFolder);
 var libraryDirectory = Path.GetFullPath(Path.Combine(projectDirectory, "../ICorDebugSharp"));
 try
@@ -47,3 +47,5 @@ catch (Exception exception)
 	Console.Error.WriteLine(exception.Message);
 	return 1;
 }
+
+static string GetProjectDirectory([System.Runtime.CompilerServices.CallerFilePath] string sourceFilePath = "") => Path.GetDirectoryName(sourceFilePath)!;
